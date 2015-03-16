@@ -1,0 +1,2938 @@
+Änderungsprotokoll:
+
+Legende: 
+TB = Änderungen von Tobias Breiner
+FS = Änderungen von Florian Schnell
+KE = Änderungen von Klaus Enzensperger
+MS = Änderungen von Matthias Sommer
+KW = Änderungen von Kim Werner
+BW = Änderungen von Benedikt Walser
+PF = Änderungen von Patrick Fleischmann
+MR = Änderungen von Michael Rücker
+
+02.03.2005 TB: 
+- erste Ideen
+- UML-Diagramm
+- Evaluation der Szenegrafen
+
+02.02.2007 TB: 
+- Erste Programierarbeiten
+- Versuche mit DirectX 9
+
+12.03.2009 TB: 
+- Versuche mit DirectX 11
+
+06.04.2009 TB: 
+- Polygon sichtbar
+
+20.04.2009 TB: 
+- Klassen für Szenegrafen: 
+	CRoot
+	CScene
+	CFrame
+	CViewport
+	CPlacement
+	CMaterial
+	CTexture
+	CPixImage
+	CGeo
+	CCamera
+
+28.04.2009 TB: 
+- Einführung von Pluralklassen 
+	CRoots
+	CScenes
+	CFrames
+	CViewports
+	CPlacements
+	CMaterials
+	CTextures
+	CPixImages
+	CGeos
+	CCameras
+
+02.05.2009 TB: 
+ Homogene Mathematik:
+	CHVector
+	CHMat
+
+09.05.2009 TB + FS: 
+- TriangleStrips & TriangleStripLists
+
+22.05.2009 TB
+- Ellipsoidenklasse CGeoEllipsoid
+
+27.06.2011 TB: 
+- Transparente Texturen mit Alpha Blending möglich (allerdings noch keine Objektsortierung nach Transparenz und z-Wert)
+- Kleinere optische Codeverbesserungen
+
+29.06.2011 TB: 
+- Bug bei Ellipsoidengenerierung beseitigt (Polygon in der Mitte des Ellipsoids taucht nicht mehr auf)  
+- Kleinere optische Codeverbesserungen
+
+30.06.2011 TB:
+- 2. Constant-Buffer für die Texturparameterübergabe des Pixelshaders eingeführt
+- Berechnungen im Pixelshader werden nur noch dann ausgeführt, wenn sie notwendig sind.
+- Ladezeit verbessert durch Vermeidung redundanter Texturladungen
+- Viele neue Material-Erzeugungsfunktionen, die ein schnelleres und effiziernteres Erzeugen von Texturen ermöglichen, u.A:
+	void SetTextureGlowWhite();
+	void SetTextureGlowBlack();
+	void SetTextureGlowAsImage();
+	void SetTextureGlowAsAmbient();
+	void SetTextureSpecularWhite();
+	void SetTextureSpecularBlack();
+	void SetTextureSpecularAsImage();
+- Viele neue Material-Erzeugungsfunktionen, die ein genaueres Erzeugen von Texturen mit Finetuning ermöglichen, u.A:
+	void SetColorAmbient(CColor color);
+	void SetBumpStrength(float fBumpStrength);
+	void SetSpecularSharpness(float fSpecularSharpness);
+	void SetDiffuseSharpness(float fDiffuseSharpness);
+- Komplett neue Struktur von LoadTextures 
+- Unnötige Normalenvektoren und Materialpointer bei der Klasse CFaces rausgeschmissen
+
+01.07.2011 TB:
+- Viele neue Material-Erzeugungsfunktionen, die ein ca. 3 Mal 
+schnelleres und einfacheres Erzeugen von Texturen ermöglichen, 
+durch Generierung einer gesamten Material-Texture-Image-Hierarchie auf einmal, u.A:
+	CPixImage * MakeTextureDiffuse(char * acPath);
+	CPixImage * MakeTextureGlow(char * acPath);
+	CPixImage * MakeTextureSpecular(char * acPath);
+	CPixImage * MakeTextureBump(char * acPath);
+
+03.07.2011 TB:
+- Unnutze und redundante Tick()-Aufrufe in der Szenengrafhierarchie entfernt => Beschleunigung
+- Die Methode void CPlacement::Init() wurde nun einheitlich mit anderen Init-Prozeduren
+- Herauswerfen von veralteten Kommentaren
+
+04.07.2011 TB:
+- Folgende Methoden in der Klasse CHMat implementiert und überprüft => funktionieren korrekt:
+	float Det() // berechnet Determinante
+	void Inverse(CHMat & m) // berechnet Inverse der homogenen 4*4-Matrix  m
+	void Transpose(CHMat & m) // berechnet Transponierte der homogenen 4*4-Matrix  m
+- Camera kann nun zu einem Placement hinzugefügt werden
+- View-Matrix wird nun korrekt berechnet 
+	=> Bei Positionierung der Camera verändert sich Bild entsprechend der Blickrichtung
+- Placement kann nun zu einem Placement hinzugefügt werden 
+	=> Komplexe Szenengrafhierarchie möglich
+
+05.07.2011 TB:
+- Zwei neue Material-Funktionen, um Shading an- und auszuschalten:
+	void SetShadingOn();
+	void SetShadingOff();
+- Herauswerfen von veralteten Kommentaren
+- "Zitterbug" entfernt (Wenn unter Cameraplacements weitere Placements gestzt wurden, 
+	so wurden diese mit dem letzten Frameinfos gerendert, was zum "Zittern" von Objekten bei Camerabewegungen führte 
+	=> komplett andere Aufrufstruktur notwendig) :
+- Herauswerfen von ungenutzten Parametern in den Tick-Methoden von CGeo,  SScene, CPlacement incl. Pluralformen => Beschleunigung 
+
+04.07.2011 TB:
+- Unnötige prenderapi-Parameteraufrufe in Tick()-Funktionen von CTriangleStrip und CTriangleStripIndexed entfernt 
+=> Beschleunigung
+- Klasse CInputX eingefügt, für Tastatureingaben
+- Testprogramm erweitert, Kamera kann jetzt mit Pfeiltasten oder WASD-Tasten und der Leertaste gesteuert werden.
+
+15.07.2011 TB:
+- Level of Details möglich
+- Dafür Methode SetLoD in Klasse CPlacement (schon getestet):
+	void SetLoD(float fDistNear, float fDistFar);
+- Möglichkeit, Placement-Branches komplett an- und auszuschalten, dafür folgende Methoden in CPlacement:
+	void SwitchOn();
+	void SwitchOff();
+- Neue Methode in CHMat, um Translationssubmatrix als Vektor auszuspucken (sehr pratisch, um Position der Placements schnell zu ermitteln):
+	CHVector CHMat::GetTranslation()  
+- Herauswerfen von veralteten Kommentaren
+
+16.07.2011 TB:
+- Billboards nun möglich (getestet, zumindest für eine einzige Kamera, bei mehreren Kameras gibts noch Probleme), 
+dafür folgende neue Methode in CPlacement:
+	void SetBillboard();
+und in CHMat:
+	void CopyRotation(CHMat & hmat);
+- Klassen CHMat und CGeo von ungenutzten Membervariablen und Parametern gesäubert => leichte Beschleunigung
+
+23.07.2011 TB:
+- Objekte werden der GPU jetzt automatisch in der richtigen Reihenfolge (abhängig von der Distanz zur Kamera übergeben) 
+=> Manko der Änderung vom 27.06.2011 wurde behoben, Achtung, noch ungetestet!
+=> Benutzer des Vektoria SDKs müssen bei transparenten Objekten nun nicht mehr auf die Reihenfolge achten
+=> Komplett andere Aufrufstruktur von Renderapi und DirectX notwendig & Sortierung der transparenten Objekte nach z-Buffer notwendig
+- Update der Schnittstellenbesschreibung
+- BackfaceCulling, Antialiasing und Wirframe-Modus kann nun per Setter-Methoden in der Klasse 
+  CViewport an- und Ausgeschaltet werden:
+	void SetBackfaceCullingOn();
+	void SetBackfaceCullingOff();
+	void SetAntialiasingOn();
+	void SetAntialiasingOff();
+	void SetWireframeOff();
+	void SetWireframeOn();
+
+23.07.2011 TB:
+- Ein Placement kann nun an mehrere verschiedene andere Placements angehängt werden 
+	(vorher galt n Sohnplacements auf 1 Vaterplacement, nun n Sohnplacements auf m Vaterplacements) 
+- Komplett neue Struktur der Pluralklasse CPlacements
+- Beschleunigung der Placement-Hierarchie durch Arrays statt verkettete Listen 
+	und intelligente blockweise Allokierung & Deallokierung nach Bedarf 
+- Neue Funktion Sub in CPlacements, um ein Placement wieder abzuhängen:
+	bool Sub(CPlacement *pplacement);
+- Bug in Methode Mergesort der Klasse CDirectX ausgebessert (Alphaobjekte wurden nicht richtig sortiert)
+- Alphasortierung getestet => positiv, funktioniert 
+- Variablennamen in VektoriaTest-Programm aussagekräftiger gemacht (z.B. nicht mehr m_materialTest3 sondern m_materialMoon, etc.) 
+
+26.07.2011 TB:
+- Neue Methoden in CPlacement, um Billboards um die Sichtachse mit einem Winkel fa herumzu drehen (getestet und funktioniert): 	
+	void SetBillboardAngle(float fa);
+	float GetBillboardAngle();
+- Neue Methoden in CMaterial, um ChromaKeying zu erlauben:
+	void SetChromaKeyingOn();
+	void SetChromaKeyingOff();
+- Shader verändert, um ChromaKeying anzuzeigen, da allerdings das bilineare Filtering 
+aus irgendeinem Grund nicht ausgeschaltet werden konnte, funktioniert ChromaKeying nicht richtig, 
+damit trotzdem ein nützlicher Effekt, wurde gesagt Schwarztöne = Transparent (führt allerdings zu Artefakten an den Rändern)
+- 100 verschidene Billboard-Nebel und 500 verschiedene ChromaKeying-Asteroiden in die Test-Szene integriert, 
+um Geschwindigkeit und Funktion von vielen transparenten und halbtransparenten Objekten zu testen.
+
+27.07.2011 TB:
+- Vereinfachung und Beschleunigung der Initialisierung für den SDK-Anwender, 
+	da Init-Routinen ohne Parametrisierung in den Konstruktor verlagert wurden 
+		=> keine doppelten Initialisierungen mehr
+		=> User braucht nicht explizit Init-Methoden aufrufen 
+		=> weniger Fehleranfälligkeit des Codes
+- Frame Rate Messungs-Anzeige in Testprogramm integriert (unter Menü->Messungen->Frame Rate)
+- Konsequente Verwendung von Call by Reference statt Call by Value bei der Parameterübergabe von Matrizen 
+	=> Erhöhung der Frame Rate in der Testumgebung um satte 83%!
+
+28.07.2011 TB:
+- Bugfix in Schnelloperator Matrix *= Vektor in CHMat => getestet, funktioniert nun korrekt
+- Schnelloperator Vektor *= Matrix aus CHMat herausgenommen (ist in CHMat sinnlos) 
+- Klassen CBillboard und CBillboards aus Projekt herausgenommen (Billboards wurden ja nun innerhalb von CPlacement eleganter gelöst) 
+- Konsequente Verwendung von Call by Reference statt Call by Value bei der Parameterübergabe von Placements 
+	=> Erhöhung der Frame Rate in der Testumgebung um 1%
+- Konsequente Verwendung von Call by Reference statt Call by Value bei der Parameterübergabe bei allen Tick-Methoden 
+	=> Erhöhung der Frame Rate in der Testumgebung um 19%
+- Herauswerfen veralteter Komentare
+
+31.07.2011 TB:
+- Umbenennung von CTriangleStrip in CTriangleList (Name war missverständlich)
+- Bugfix in Plus und Minusoperator von CHVector (Addition und Subtraktion veränderte vorher auch Operanten)
+- Bugfix in CGeo (Memberpointer wurden nicht auf NULL gesetzt => Absturz)
+- Bugfix in CTriangleList (Normalen- und Binormalen- und Tangentenvektoren wurden nicht richtig übergeben)
+- Neue Klasse CGeoIkosaeder, um eine Ikosaeder-Primitivengeometrie zu erzeugen (getestet, funktioniert)
+
+01.08.2011 TB:
+- Verschiedene Methoden, um SkyBoxes, SkyDomes etc. zu erzeugen 
+(nach reiflicher Überlegung habe ich mich für eine andere Vorgehensweise als bei allen herkömmlichen Szenegrafen entschieden: 
+es gibt keine eigenen Sky-Klassen, sondern Sky ist eine optionale Eigenschaft der Klasse Placement: 
+=> schneller und mehr Variationen möglich)
+Die Methoden sind:
+	void CopyTranslation(CHMat & hmat); // in CHMat
+	void SetSky(); // in CPlacement
+
+
+02.08.2011 TB:
+- Bugfix in CTriangleList und CTriangleStripIndexed (Bei Übergabe einer Geometrie ohne Material gab es einen Absturz)
+- Arrays statt verkettete Listen in  CTriangleList => Übergabe mehrerer gleicher Vertices möglich 
+- Bugfix in CGeoCube => getestet, funktioniert nun
+- Methode Flip in CGeo, um Vorderseite und Rückseiten zu vertauschen (funktioniert bisher nur bei TriangleLists)
+- CGeoCube::Init-Methode um zwei optionale Paramerer erweitert (iTextureRepeat für das TextureClamping und bFlip zur
+Vertauschung von Innen- und Außenseite) 
+- Herauswerfen veralteter Komentare
+- Bugfix in Methode void CopyTranslation(CHMat & hmat); => getestet, funktioniert nun
+- SkyBox in das Testprogramm eingebaut   
+
+03.08.2011 TB:
+- Bugfixes in CGeoTetraeder (UV-Mapping wird nun ausgeführt, Kanten scharf, Binormalen fürs Bumpmapping werden richtig ausgerechnet)
+- CGeoTetraeder::Init-Methode um optionalen Paramerer erweitert (bFlip zur Vertauschung von Innen- und Außenseite) 
+- Testprogramm erkennt automatisch aktuelle Bildschirmgröße und wird maximiert gestartet
+- Verbesserte WASD-Steuerung im Testprogramm (Pfeiltasten = Orientierung, R= hoch, D = runter)
+
+05.08.2011 TB:
+- ACHTUNG!!! Umstellung auf Visual Studio C++ 2010, da es bessere Möglichkeit für 64 bit-release + Library-Erzeugung bietet!!! 
+=> Größere irreversible Änderungen in den Projektdateien
+
+07.08.2011 TB:
+- 3D Raumklang nun möglich, mit folgenden neuen Methoden in Klasse CAudio:
+	bool Init(char *stringWavFile, HWND hwnd);  // Initialisiert einen Klang ohne 3D-Sound, dieser kann nicht in den Szenengraf eingebaut werden, die Funktion gibt true aus, falls die Initailisierung erfolgreich war, ansonsten false 
+	bool Init3D(char *stringWavFile, HWND hwnd, float fRadius); // Initialisiert einen Klang mit 3D-Sound, die Funktion gibt true aus, falls die Initailisierung erfolgreich war, ansonsten false
+	void Tick(CHMat & mSound, float fTimeDelta); //Updated einen Klang mit 3D-Sound, muss bei jeden Frame aufgerufen werden, mSound ist die globale Matrix der Klangquelle, fTimeDelta ist die verstrichene Zeit seit dem letzten Tick 
+	void Fini(); // Finalisiert einen Klang, egal ob mit oder ohne 3D-Sound
+	void Listen(CHMat & mListener); // Positioniert den Zuhörer beim 3D-Sound mittels der globalen Matrix mListener
+	void Start();	// Startet einen Klang, spielt ihn einmal ab
+	void Loop();	// Startet einen Klang, spielt ihn immer wieder ab
+	void Stop();	// Beendet einen gestarten Klang 
+	void SetVolume(float frVolume); // Modifiziert die Lautstärke (0.0F=aus 1.0F= volles Rohr) 
+	void SetRadius(float fRadius); // Modifiziert den Wirkradius in Units eines 3D-Klanges 
+	bool Is3D(); // Gibt true aus, wenn 3D-Sound, ansonsten false 
+- Sinnfällige Komentare in allen Header-Dateien, die als SDK-Interface dienen
+- Veraltete Klasse CGeoSphere gelöscht
+
+08.08.2011 TB:
+- Doppler-Effekt in 3D Raumklang implementiert, dafür folgende Methode:
+	void SetDoppler(float fFactor); // fFactor=1.0: physikalisch richtiger Doppler-Effekt, fFactor=0.0: kein Doppler-Effekt; Default = 1.0F, 
+
+10.08.2011 TB:
+- in CMaterial ist die Transparenz nun getrennt vom Alpha-Kanal einstellbar, dafür folgende neue Methode:
+	void SetTransparency(float frTransparency);
+- Framerate des Testprpgrammes wurde leicht beschleunigt (ca. 0,3%) durch effizientere Materialübergabe zwischen CMaterial und CDirectX
+- Texturenanzahl nicht mehr auf max. 1024 begrenzt, dank dynamischer Allokierung 
+
+12.08.2011 TB:
+- Bugfix in CPlacement: n zu m -Zuorddnung funktionierte nur für die ersten Placements => getetstet, funktioniert nun
+
+15.08.2011 TB:
+-Bugfix in CPlacement: LODs funktionierten nicht bei n zu m -Zuorddnung => getetstet, funktioniert nun
+
+13.10.2011 TB:
+- Folgende neue Pluralklassen mit Smart Allocation (Vorteile sind weniger Speicherplatzverbrauch, leichter Geschwindigkeitsvorteil und Mehrfachreferenzierung):
+	CLights, 
+	CPlacements,
+	CHardwares,
+	CCameras,
+	CColors
+- Einfachere Methode für automatische WASD-Steuerung in CInputX (PlaceWASD)
+- Veraltete Faces und Vertices-Strukturen aus CGeo inklusive ihrer Methoden gelöscht 	  
+
+15.10.2011 TB:
+- CTriangleStripIndexed in CTriangleStrip umbenannt (wegen Konsistenz)
+- Folgende neue Pluralklassen mit Smart Allocation (Vorteile sind weniger Speicherplatzverbrauch, leichter Geschwindigkeitsvorteil und Mehrfachreferenzierung):
+	CVertices
+	CTriangleStrips (neu)
+	CTriangleLists (neu)
+- Material und Farbe aus Klasse CVertex gelöscht (inklusive entsprechende Parameteraufrufe) da mit CTriangleStrip- und CTriangleList-Strunktur nicht mehr gebraucht
+
+16.10.2011 TB:
+- Komplett neue Struktur der Geometrie-Klassen (eleganter und konsistenter):
+	CTriangleStrip
+	CTriangleList
+	CGeo
+	CGeoQuad
+	CGeoEllipsoid
+	CGeoCube
+	CGeoTetraeder
+	CGeoIkosaeder
+- CTriangleStrip und CTriangleList sind nun jeweils von CGeo abgeleitet 
+- CGeoQuad, CGeoEllipsoid sind nun jeweils von CTriangleStrip anggeleitet 
+- CGeoCube, CGeoTetraeder und CGeoIkosaeder sind nun jeweils von CTriangleList abgeleitet
+
+18.10.2011 TB:
+- Vereinheitlichung der Parameter der Init-Methoden von CGeoEllipsoid, CGeoCube, CGeoTetraeder und CGeoIkosaeder
+ (nun immer erst:  void Init(CHVector vSize, CMaterial * pmaterial, CApiRender *prenderapi,  ...)
+- 1. Nebeneffekt: Es sind mit CGeoCube::Init nicht nur Würfel, sondern auch Quader erzeugbar
+- 2. Nebeneffekt: Es sind mitCGeoTetrader::Init  nun auch "verzerrte" Tetraeder erzeugbar 
+- Viele veraltete Komentare herausgenommen
+- Bug in CGeo beseitigt:  Programm stürzt nun nicht mehr ab, wenn überhaupt kein Material erzeugt wurde 
+- Halb-Bug in Testprogramm beseitigt: Läuft nun auch auf Rechnern mit veralterter MFC-Version 
+- Version VektoriaV3 erstellt 
+
+20.10.2011 TB:
+- Umstellung der Matrizen-Pluralklasse CHMats auf Smart Allocation 
+- Beseitigung eines Bugs (TriangleStrips und TriangleLists mussten mit S_GEOELLIPSOID vorinitalisiert werden, um angezeigt zu werden) => behoben
+- Fertigstellung VektoriaV3
+
+20.10.2011 (rev. 109) MS:
+- Util.h für "Helfermethoden" und "Helfermarcos" eingefuehrt.
+    - Rad2Deg
+    - Deg2Rad
+        -> Um Grad in Bogenmaß und wieder zurück zu rechnen.
+- CInputX um einfache Mauseingabe erweitert.                    (untested!!!!!!!!!)
+    - Zusätzlicher Konstruktor mit HWND: void Init(HINSTANCE hinst, HWND hwnd);
+    - Methode: void GetMouseLocation(int& r_mouseX, int& r_mouseY); sollte die aktuelle Position der Maus zurückgeben.
+    - Methode: void Fini(); gibt Maus und Tastatur wieder frei.
+
+21.10.2011 (rev. 110) MS:
+- CInputX Maus-Input erweitert (Hinweis: untested!!! -> untested Code wird erst bei Verwendung des neuen Konstruktors verwendet.)
+    - System-Maus mit bis zu 8 Tasten -> (DataFormat &c_dfDIMouse2)
+    - Maus Invertierbar und die Sensitivity kann angepasst werden.
+        - void SetAttributes(bool a_bInvert,float a_fSensitivity);
+    - Relativ und Absolute X/Y Position kann abgefragt werden.
+        - float GetRelativeX(void);
+        - float GetRelativeY(void);
+        - float GetRelativeZ(void);
+        - float GetAbsoluteX(void);
+        - float GetAbsoluteY(void);
+    - Mausbutton kann abgefragt werden.
+        - bool MouseButtonDown(int);
+
+24.10.2011 TB:
+- Konsistenz mit MS-Version hergestellt, uns beiden scheint zur gleichen Zeit der selbe Bug bei CInputX::Tick aufgefallen zu sein ;-)
+
+24.10.2011 (rev. 112) MS:
+- CInputX -> Mit Mausrad kann nun in der Testanwendung herraus- und hineingezoomt werden. (Trotzdem noch sehr experimentell)
+    - m_fSensitivity = 0.0005f; für "fast" stufenloses Scrollen! -> kann mit CInputX::SetAttributes(bool a_bInvert,float a_fSensitivity) angepasst werden.
+- TODO: 
+    - Beim Wechseln des Fensters wird der Input verloren... und es kann nichtsmehr eingegeben werden.
+    - Manchmal fährt beim Start das Bild einfach weg!
+
+Hinweis: Wenn Probleme auftreten einfach den alten Konstruktor (CInputX::Init(HINSTANCE hinst)) verwenden.
+
+24.10.2011 (rev. 113) MS:
+- CInputX 
+    - CInputX grob getestet.
+        - Mausrad = Zoom
+        - Mit gedrückter Maustaste = Camera verschieben
+
+            m_fTransZ += m_inputx.GetRelativeZ();
+            if(m_inputx.MouseButtonDown(DIMOUSE_LEFTBUTTON))
+            {
+                m_fTransX += m_inputx.GetRelativeX();
+                m_fTransY += m_inputx.GetRelativeY();
+            }
+            mTranslateCamera.Translate(CHVector( m_fTransX, m_fTransY, m_fTransZ,0));
+            m_placementCamera.SetMat(m_placementCamera.m_mLocal * mTranslateCamera);
+        
+    - Bugfix Fensterwechsel fängt nun Maus und Tastatur ein.
+        - if((DIERR_NOTACQUIRED == hr) || (DIERR_INPUTLOST == hr)) { m_lpDIMouseDevice->Acquire(); } hat problem gelöst.
+    - Startproblem wurde auch behoben.
+        - Initialisierung der DIMOUSESTATE2 Struktur hat Problem gelöst.
+- VektoriaTestView.cpp
+    - Debug-Console mit umgeleitetem stdout -> Mit printf kann für Testzecke auf Console geschrieben werden.
+        - Falls die Console stört einfach #define DEBUG_CONSOLE oben auskommentieren.
+  Hinweis: Console blockiert beim Fensterwechsel das Main-Fenster beim Maus und Tastatur einfangen.
+
+26.10.2011 TB:
+- Neue Getter und Setter-Methoden in Klasse CCamera, gestestet und funktionieren:
+	void SetFov(float faMat);
+	void SetNearClipping(float fNearClipping);
+	void SetFarClipping(float fFarClipping);
+	float GetFov();
+	float GetNearClipping();
+	float GetFarClipping();
+- Bugfix bei der Copy-Methode von CCamera (Cameras wurden nicht vollständig kopiert)
+- Vernünftige Defaultwerte bei CCamera::Init und im Konstruktor eingesetzt => Kamera funktioniert nun notfalls auch ohne expliziten Init-Aufruf
+- Durch Smart Allocation sinnlos gewordene Pointer in CCamera (m_pcameraNext, m_pcameraPrev) gelöscht
+- Komentare für die Intellisense hinter jede wichtige Methode von CCamera eingesetzt
+- Neue Methode in CHMat:
+	void Rotate(CHVector & v, float fa); // Generiert beliebige Rotationsmatrix um die Drehachse v mit Winkel fa
+
+27.10.2011 TB:
+- Neue Methode Normal() in Klasse CHVector, die einen Normalenvektor aus den aktuellen Werten erzeugt, getestet und funktioniert
+- Neue Getter- und Setter-Methoden in Klasse CHVector:
+	void SetX(float f); // setzt X-Wert
+	void SetY(float f); // setzt Y-Wert
+	void SetZ(float f); // setzt Z-Wert
+	void SetW(float f); // setzt homogenen Wert
+	float GetX(); // gibt aktuellen X-Wert aus
+	float GetY(); // gibt aktuellen Y-Wert aus
+	float GetZ(); // gibt aktuellen Z-Wert aus
+	float GetW(); // gibt homogenen Wert aus
+- Umstellung der Pluralklasse CHVectors auf Smart Allocation
+- Durch Smart Allocation sinnlos gewordene Pointer in CHVector (m_phvectorNext, m_phvectorPrev) gelöscht
+- Beschleunigung der Tetraedererzeugung durch Verwendung von Normal()-Methode
+Löschen der durch die CTriangleStrip und CTriangleList-Klassen sinnlos gewordenen Klassen CMesh und CMeshes
+- Neue Methode in Klasse CInputX:
+	bool KeyPressed(int iKey); // true, falls Taste iKey (Tastaturnummer gemäß DirectX-Tastencode) gedrückt wurde, ansonsten false
+- Nicht mehr benötigte Methoden in CInputX gelöscht
+- Zoom in Testprogram eingebaut (Plus-Taste für hereinzoomen, Minus für  herauszoomen), sieht ziemlich warpig und spacy aus ;-)
+- Neue Methode in CHMat:
+	void Rotate(CHVector & vTo, CHVector & vFrom); // erzeugt eine Rotationsmatrix, die Richtungsvektor vFrom genau in die Richtung des Richtungsvektors vTo rotiert
+- Directionale Placements eingebaut, dafür folgende neue Methoden:
+	void SetPointing(CHVector * pvectorPointing); // macht, dass das Placement automatisch sich in Richtung des Raumpunkts orientiert, der durch pvectorPointing gegeben ist (u.a. wichitig für Kameras, die auf ein Punkt schauen sollen)
+	void SetPointing(CPlacement * pplacementPointing); // macht, dass das Placement automatisch sich in Richtung des Placements orientiert, der durch pplacement gegeben ist (ua.a. wichitig für Kameras, die auf ein objekt schauen sollen)
+	void SetPointingOff();
+- Directionale Placements im Testprogramm anhand Kamersteuerung getestet: 
+	M-Taste (M=Moon) => Kamera zeigt auf Mond
+	B-Taste (B=Base) => Kamera zeigt auf Erde
+	N-Taste (N=No Fixation) => Kamera ist wieder frei steuerbar
+- Da Direktionalität nun wesentlich effizienter in Placements eingebaut ist, wurde alle diesbezüglichen Variablen und Parameter in CCamera und CCameras gelöscht
+
+27.10.2011 (rev. 119 + 120 + 121) MS:
+- Klasse CInputX:
+    - Init Methoden public
+        void Init(HINSTANCE a_hinst, HWND a_hwnd, DWORD a_dwWidth, DWORD a_dwHeight); // Initalisiert Maus und Tastatur
+        void InitKeyboard(HINSTANCE a_hinst, HWND a_hwnd); // Initialisiert nur die Tastatur
+        void InitMouse(HINSTANCE a_hinst, HWND a_hwnd, DWORD a_dwWidth, DWORD a_dwHeight); // Initialisiert nur die Maus
+    - Init Methoden private
+        bool InitDirectInput(void);                 /* initialize the main direct input interface */
+        bool InitKeyboard(void);                    /* initialize the direct input interface; Set the data format; Set the cooperative level to share with other programs; Acquire the keyboard */
+        bool InitMouse(void);                       /* initialize the direct input interface; Set the data format; Set the cooperative level to share with other programs; Acquire the mouse */
+    - Getter und Setter für Sensitivity und Invert:
+        void SetSensitivity(float a_fSensitivity=0.0005f);
+        float GetSensitivity(void);
+        void InvertMouse(bool a_bInvert);
+    - Methoden entfernt:
+        void SetAttributes(float a_fSensitivity, bool a_bInvert);
+    - Destruktor ruft nun Fini() auf und gibt alle direct inputs devices wieder frei
+    - Komentare für die Intellisense hinter jede wichtige Methode von CInputX eingesetzt
+
+    - Bugfix Keyborad->Aquire() hat i-wie wieder gefehlt!
+
+
+28.10.2011 TB:
+- Neue (nicht unbedingt notwendige aber praktische) Methoden in CHMatimplementiert, damit lassen sich inkrementelle Änderungen von Matrizen mit nur einem Befehl beschreiben:
+	void RotateXDelta(float fa);		// Generiert eine neue Rotationsmatrix um die X-Achse mit dem Winkel fa und multipliziert diese mit der aktuellen Rotationsmatrix auf 
+	void RotateYDelta(float fa);		// Generiert eine neue Rotationsmatrix um die Y-Achse mit dem Winkel fa und multipliziert diese mit der aktuellen Rotationsmatrix auf 
+	void RotateZDelta(float fa);		// Generiert eine neue Rotationsmatrix um die Z-Achse mit dem Winkel fa und multipliziert diese mit der aktuellen Rotationsmatrix auf
+	void RotateDelta(float fx, float fy, float fz, float fa); // Generiert beliebige Rotationsmatrix um die Drehachse fx, fy, fz mit Winkel fa und multipliziert diese mit der Rotationsmatrix 
+	void RotateDelta(CHVector & v, float fa); // Generiert beliebige Rotationsmatrix um die Drehachse v mit Winkel fa und multipliziert diese mit der Rotationsmatrix 
+	void ScaleDelta(float fx, float fy, float fz);// Generiert Skalierungsmatrix mit drei verschiedenen Skalierungswerten und multipliziert diese mit der Rotationsmatrix 
+	void ScaleDelta(float f);		// Generiert uniforme Skalierungsmatrix und multipliziert diese mit der Rotationsmatrix 
+	void TranslateDelta(CHVector & v); // Generiert Verschiebungsmatrix und multipliziert diese mit der Rotationsmatrix 
+- Läschen unsinniger oder nicht mehr benötigter Membervariablen in CHMat 
+- Neue (nicht unbedingt notwendige aber praktische) Methoden in CPlacement implementiert, dadurch lässt sich direkt die Bewegung, Position, Rotation oder Skalierung eines Placements ändern, ohne vorher eine Matrix zu generieren und diese mit SetMat dem Placement zuweisen:
+	void Unit();				// Generiert Einheitsmatrix für das Placement => Placement wird wieder auf Ursprungsposition transformiert 
+	void RotateX(float fa);		// Generiert Rotationsmatrix um x-Achse mit Winkel fa für das Placement
+	void RotateY(float fa);		// Generiert Rotationsmatrix um y-Achse mit Winkel fa für das Placement
+	void RotateZ(float fa);		// Generiert Rotationsmatrix um z-Achse mit Winkel fa für das Placement
+	void Rotate(float fx, float fy, float fz, float fa); // Generiert beliebige Rotationsmatrix um die Drehachse fx, fy, fz mit Winkel fa für das Placement
+	void Rotate(CHVector & v, float fa); // Generiert beliebige Rotationsmatrix um die Drehachse v mit Winkel fa für das Placement
+	void Rotate(CHVector & vTo, CHVector & vFrom); // erzeugt eine Rotationsmatrix, die Richtungsvektor vFrom genau in die Richtung des Richtungsvektors vTo rotiert für das Placement
+	void Scale(float fx, float fy, float fz);// Generiert Skalierungsmatrix mit drei verschiedenen Skalierungswerten für das Placement
+	void Scale(float f);		// Generiert uniforme Skalierungsmatrix für das Placement
+	void Translate(CHVector & v); // Generiert Verschiebungsmatrix für das Placement
+	void RotateXDelta(float fa);		// Generiert Rotationsmatrix um x-Achse mit Winkel fa und multipliziert diese mit der Rotationsmatrix des Placements => Placement wird um Winkel fa um die X-Achse weitergedreht 
+	void RotateYDelta(float fa);		// Generiert Rotationsmatrix um y-Achse mit Winkel fa und multipliziert diese mit der Rotationsmatrix des Placements => Placement wird um Winkel fa um die Y-Achse weitergedreht 
+	void RotateZDelta(float fa);		// Generiert Rotationsmatrix um z-Achse mit Winkel fa und multipliziert diese mit der Rotationsmatrix des Placements => Placement wird um Winkel fa um die Z-Achse weitergedreht 
+	void RotateDelta(float fx, float fy, float fz, float fa); // Generiert beliebige Rotationsmatrix um die Drehachse fx, fy, fz mit Winkel fa und multipliziert diese mit der Rotationsmatrix des Placements => Placement wird um Winkel fa um die DrehachseAchse weitergedreht 
+	void RotateDelta(CHVector & v, float fa); // Generiert beliebige Rotationsmatrix um die Drehachse v mit Winkel fa und multipliziert diese mit der Rotationsmatrix des Placements => Placement wird um Winkel fa um die DrehachseAchse weitergedreht 
+	void ScaleDelta(float fx, float fy, float fz);// Generiert Skalierungsmatrix mit drei verschiedenen Skalierungswerten und multipliziert diese mit der Rotationsmatrix des Placements => Placement wird um fx,fy un fz größer
+	void ScaleDelta(float f);		// Generiert uniforme Skalierungsmatrix und multipliziert diese mit der Rotationsmatrix des Placements => Placement wird um Fakto f größer
+	void TranslateDelta(CHVector & v); // Generiert Verschiebungsmatrix für das Placement => Placement wandert um v weiter
+- Viele nicht notwendige Warnmeldungen beim Compilieren eliminiert
+
+30.10.2011 TB:
+- Viele neue Utility-Makros in Utils.h eingefügt:
+		// Einfache Matehemakros:
+		#define UMAbs(f)(f<0? -(f):(f))
+		#define UMHeavyside(f) (f<0? 0:1)
+		#define UMSign(f) (f<0? -1:1)
+		#define UMThreshold01(f,fThreshold) (f<fThreshold? 0:1)
+		#define UMThresholdLinear(f,fThreshold) (f<fThreshold? 0:(f-Threshold))
+		#define UMBlob(f) ((f)<1.0F? (1.0F-((f)*(f))*((0.444444444F*(f)*(f)-1.888888888F)*(f)*(f)+2.444444444F)): 0.0F)	// See An Efficient and Controllable Blob Function (Baranoski,Gladimir + Rokne,Jon)
+		#define UMTunableBlob(r,f,d) {if(f<1.0F) {float ff=f*f;float ff1=ff-1.0F;r=(ff1*ff1)/(1.0F+d*ff);}else{r=0.0F;};};	// See An Efficient and Controllable Blob Function (Baranoski,Gladimir + Rokne,Jon)
+		#define UMQuickBlob(r,f) {if(f<1.0F) {float ff1=f*f-1.0F;r=ff1*ff1;}else{r=0.0F;};};	// See An Efficient and Controllable Blob Function (Baranoski,Gladimir + Rokne,Jon)
+		#define UMSquareBlob(r,ff) {if(ff<1.0F) {float ff1=ff-1.0F;r=ff1*ff1;}else{r=0.0F;};};	// See An Efficient and Controllable Blob Function (Baranoski,Gladimir + Rokne,Jon)
+
+		// Vergleichsmakros:
+		#define	UMIsZero(f)	((f>= -QUASI_ZERO)&&(f<= QUASI_ZERO))
+		#define	UMIsNotZero(f) ((f< -QUASI_ZERO)||(f> QUASI_ZERO))
+		#define	UMIsSimilar(f1,f2) ((f2-f1>= -QUASI_ZERO)&&(f2-f1<= QUASI_ZERO))
+		#define	UMIsInOrb(f1,f2,fOrb) ((f2-f1>= -fOrb)&&(f2-f1<= fOrb))
+
+		// Wertebereichsmakros:   Range = [Min .. Max] 
+		#define	UMSetRange(f,fMin,fMax) {if(*f<fMin){*f = fMin;}; if(*f >fMax){*f = fMax;};}
+		#define UMIsRange(f,fMin,fMax) ((f>=fMin)&&(f<=fMax))
+		#define UMIsNotRange(f,fMin,fMax) ((f<fMin)||(f>fMax))
+		#define	UMSetRangeFr(fr) {if(fr<0.0F){fr = 0.0F;}; if(fr >1.0F){fr = 1.0F;};}
+
+		// Makris für zyklische Wertebereiche:   Span = [Min .. Max) 
+		#define	UMRotSpan(pi,iMin,iMax)	{while(*pi < iMin){*pi += (iMax-iMin);}; while(*pi >= iMax){*pi -= (iMax-iMin);};}
+		#define	UMSetSpan(pf,fMin,fMax) {if(*pf<fMin){*pf = fMin;}; if(*pf >=fMax){*pf = fMax-1;};}
+		#define	UMSet0Span(pf,fMax) {if(*pf<0){*pf = 0;}; if(*pf >=fMax){*pf = fMax-1;};}
+		#define UMIsSpan(f,fMin,fMax) ((f>=fMin)&&(f<fMax))
+		#define UMIsNotSpan(f,fMin,fMax) ((f<fMin)||(f>=fMax))
+		#define	UMPush0Span(pi,iMax)	{if(*pi<0){*pi += iMax;}; if(*pi>=iMax){*pi -= iMax;};}
+		#define	UMRotSpanFa(fa)	{while(fa<0.0F){fa += ZWOPI;}; while(fa>=ZWOPI){fa -= ZWOPI;};}
+
+		// Zufallsmakros: 
+		#define	UMRandomContext(l1,l2,l3) UMAbs((float)(l1*UM_PRIM1*(3-l2)*(7-l3)+(11-l1) * UM_PRIM6 + l2*UM_PRIM4*(3-l1)*(7+l3)+(11+l2) * UM_PRIM7 + l3* UM_PRIM3*(17+l1)*(7-l2)) % UM_PRIM5)/UM_FPRIM5)
+		#define	UMRandomize(iClock) {um_last = iClock%UM_PRIM4+UM_PRIM4}
+		#define	UMRandomLinear(fRandom,iRandom) {iRandom = ((iRandom*UM_PRIM1+iRandom*UM_PRIM3+UM_PRIM5)%UM_PRIM4); fRandom = ((float)(iRandom)/(float)UM_FPRIM4);}
+		#define	UMRandomLinearPN(fRandom,iRandom) {iRandom = ((iRandom*UM_PRIM1+iRandom*UM_PRIM3+UM_PRIM5)%UM_PRIM4); fRandom = ((float)(iRandom)/(float)UM_FPRIM4)*2.0F-1.0F;}
+		#define	UMRandomRadial(fRandom,iRandom) {UMRandomLinear(fRandom,iRandom);fRandom *= fRandom;}
+		#define	UMRandomRadialPN(fRandom,iRandom) {UMRandomLinearPN(fRandom,iRandom);fRandom<0? fRandom *= -fRandom:fRandom *= fRandom;}
+
+01.11.2011 (rev. 125) MS:
+- CInputX: Joystick/Gamepad vorläufig eingebaut und auch schon kurz getestet
+    - EnumDevsCallback wird für jedes angesteckte Joystick-Device aufgerufen (auch Gamepad usw...)
+        - Bis jetzt wird nur das zuletzt gefundene device verwendet. -> sollte noch weiter ausgebaut werden und eine Liste aller devices führen.
+    - float GetRelativeJoystickX() bzw. float GetRelativeJoystickY() gibt die relative bewgung des joysticks zurück. (getestet und läuft, muss aber noch konfiguriert werden)
+
+03.11.2011 (rev. 126, 127) MS:
+- CDIDevice:            Als Basisklasse für alle Direct Input Devices
+    - Vererbt wichtige Methoden wie:
+        void SetHWND(HWND hwnd); // The the HWND to which the game controller will be attached
+	    void SetHINSTANCE(HINSTANCE hinst);
+	    void SetDirectInput(LPDIRECTINPUT8 lpDI);
+        void SetDIDeviceInfo(LPCDIDEVICEINSTANCE lpDIDeviceInfo);
+        bool IsDeviceInitialized(void);
+- CDIKeyboard:          Klasse repräsentiert das System-Keyboard und erbt von CDIDevice
+- CDIMouse:             Klasse repräsentiert die System-Maus und erbt von CDIDevice
+- CDIGameController:    Klasse repräsentiert alle restlichen Game Controller mit und ohne Force Feedback (Joystick, Lenkrad, Gamepad, etc.) und erbt von CDIDevice
+    - Bereits angelegt und teilweise implementiert, aber noch nicht fertig
+- CInputX:              Auf neue Klassenstruktur umgerüstet
+    - Aufruf der Keyboard- und Maus-Methoden über:
+        inputx.GetKeyboard()->KeyPressed(DIK_M);
+        inputx.GetMouse()->GetRelativeZ();
+
+04.11.2011 (rev. 128) MS:
+- Endlich das Absturtzproblem bei angestecktem Game-Controller behoben.
+
+11.11.2011 (rev. 129) MS:
+- BlenderImporter.h und BlenderImporter.cpp begonnen.
+	- bool ReadFile(const char* acPath, char** acFileData); -> Zum Lesen des .blend files in den Speicher.
+	- Diverse Strukturen fürs Parsen angelegt.
+
+17.11.2011 TB:
+		Chroma Keying funktioniert jetzt, Chroma Key ist linkes oberes Pixel
+		Chroma Keying mit intelliegentem Rand-Antialiasing
+		Einiger "Codemüll" in Klasse CThing gelöscht
+
+23.11.2011 (rev. 130) MS:
+- Util.h erweitert
+	Rad2Deg(X) // converts radians to degrees, M_PI is the value of pi and is defined in math.h library
+	Deg2Rad(X) // converts degrees to radians 
+
+	IRAND(a, e) // get integer random number in range a <= x <= e
+	PERCRAND(perc) // return true perc % of the time
+
+01.12.2011 (rev. 133) MS:
+- Util.h alles Macros groß geschrieben
+- BlenderImporter.h, BlenderImporter.cpp
+	- char* ReadFile(char* acPath, int* iLength); // Öffnet das .blend file und liest es.
+	- int ParseFileHeader(char* acData, FILEHEADER* fileHeader); // Parse file header and returns pos of the fist file block
+	- int ParseFileBlock(char* acData, FILEBLOCK* fileBlock, int pointerSize, int offset); // Parse file block and returns position of the next file block
+	Implementiert und getestet!
+
+01.12.2011 (rev. 134) MS:
+- Util.h zwei neue Macros
+	ALIGN_UP(addr, size) (((addr)+((size)-1))&(~((size)-1))) // align addr on a size boundary - adjust address up if needed
+	ALIGN_DOWN(addr, size) ((addr)&(~((size)-1))) /// align addr on a size boundary - adjust address down if needed
+- BlenderImporter.h, BlenderImporter.cpp
+	- Parser soweit fertig und getestet!!! juhu!!! Neue Funktion:
+		- int ParseDNAStructure(char* acData, DNA* dna); // Parse the 'DNA1' file-block containing all internal structures of the Blender release the file was created in. Structure DNA is stored in a file-block with code 'DNA1'. It can be just before the 'ENDB' file-block.>>>>>>> .r134
+
+02.12.2011 TB:
+		Erster rudimentärer Geometry-Importer für X3D ist integriert (funktioniert bis jetzt auch nur bei kleineren Geometrien, Hierarchien werden noch nicht richtig eingelesen)
+		(Achtung! Blender hat einen Fehler, das Modellierungsprogramm übermittelt weder die Normalenvektoren noch das UV-Mapping beim Exportieren in das X3D-File 
+		=> Prognoseprogramm für Normalenvektoren => Importierte Geometrien aus Blender sehen ziemlich daneben aus) 
+		X3D-Testfile (Aus Blender importierter gebevelter Würfel wird in die Testszene geladen)
+		Vektoria Logo-Icons in 9 verschiedenen Formaten erstellt, für die Verschönerung des Testprogramms und die Vektoria SDK Application
+
+02.12.2011 (rev. 140, 141, 142) MS:
+- Util.h aufgeräumt
+- Klasse CFileBlender angeleget: soll später wie CFileX3D funktionieren
+    - Parser für .blend files eingebaut und getestet
+        - Freigabe des allocierten speichres im destruktor
+        - Riesen Bugfix in ParseDNAStructure()
+        - .blend file zum testen hinzugefügt
+- dafür BlenderImporter.h und BlenderImporter.cpp gelöscht
+
+03.12.2011 TB:
+	Ein Bug in Geometry-Importer für X3D gefixt (erster Vertex wurde immer auf 0 gesetzt)
+	Folgende Methoden in CViewport können jetzt auch nach der Initialisierung des Viewports aufgerufen werden => Dadurch Umschalten während der Laufzeit möglich (z.B. auf Wireframe):
+		void SetBackfaceCullingOn();
+		void SetBackfaceCullingOff();
+		void SetAntialiasingOn();
+		void SetAntialiasingOff();
+		void SetWireframeOff();
+		void SetWireframeOn();
+	Testmethode für Wireframe in Testprogramm eingebaut (Taste X = Wireframe, Taste Y = Solid)
+
+04.12.2011 TB:
+	Geometry-Importer für X3D kann jetzt auch IndexedFaceSets laden
+	Monkey.x3d als Beispiel für IndexedFaceSets geladen
+	Bessere Prognose fürs UV-Mapping und Normalen (gibt ja Blender dummerweise nicht mit aus) 
+	78 Warnings ausgemerzt
+	Klasse CQuaternions auf Smart Allocation umgestellt => Bessere Speicherausnutzung bei gleichzeitiger Beschleunigung
+	Durch Smart Allocation sinnlos gewordene Pointer in CQuaternion (m_pquaternionNext, m_pquaternionPrev) gelöscht
+
+05.12.2011 (rev. 149, 150)  MS:
+    Weiße Punkte vom Icon entfernt.
+    Neues Projekt VektoriaApp angelegt. (Zum Ausprobieren einfach Rechtsklick auf das Projekt "VektoriaApp" und als "Startprojekt festlegen" auswählen)
+        Was gibt's darin tolles:
+        - Fullscreen mittels WINAPI realisiert. (Spart btw. auch die ganzen MFC View, Doc sachen)
+        - Das Fenster kann momentan nur mittels Alt + Tab wieder verlassen werden.
+        Demnächst werd ich noch einen Togglemodus für fullscreen/windowed einbauen.
+
+07.12.2011 (rev. 154) MS:
+	VektoriaApp -> ESC zum beenden des programms 
+	-> testweise fullscreen/windowed toggle modus (ALT + ENTER)
+
+07.12.2011 FS:
+	- StructuredBuffer angelegt und mit ResourceView auf programmierbare Shader gemappt.
+		- Dieser beinhaltet in Zukunft bis zu 100 dynamische und statische Lichtquellen.
+		- Später werde ich einen zweiten Buffer anlegen und zwischen dynamischen und statischen Lichtquellen unterscheiden um Bus zu entlasten.
+	- Pixelshader angepasst, Buffer aus register geladen und Berechnung für mehrere Lichter angepasst.
+	- CLight, CLights, CPointLight, CPointLights, CParallelLight, CParallelLights implementiert.
+	- Diverse Anpassungen der Architektur um mehrere Lichtquellen zu ermöglichen.
+
+08.12.2011 FS:
+	- ParallelLight in den Szenengraph integriert.
+	- Hinzufügen über Scene->AddParallelLight(...)
+	- ParallelLights: Add-Methode, zum Hinzufügen einzelnert Lichter, implementiert.
+	- Verbesserte Arbeitsteilung von Pixel- und Vertexshader für die Berechnung des Lichts.
+	- Punklichter erzeugen jetzt auch specular highlights.
+
+09.12.2011 FS:
+	- Objekte werden jetzt nur mit den Lichtquellen gerendert welche konfiguriert sind - dies soll später automatisch geschehen.
+	- Mond wird jetzt (siehe Objekt-Konfiguration in VektoriaTestView) beispielsweise nur von dynamischen Licht beeinflusst.
+	- Lichtquellen sind jetzt aus- und einschaltbar.
+	- Shader überarbeitet.
+	- Verantwortlichen für Performanceeinbußen gefunden, deaktivieren des Nebels gibt statt 15fps -> 32 fps.
+
+10.12.2011 TB: 
+	Quaternionenklasse jetzt fast fertig, folgende Methoden/Operanten implementiert:
+		CQuaternion(float fx, float fy, float fz, float fw);
+		CQuaternion operator=(CQuaternion quaternion);
+		void Copy(CQuaternion quaternion);
+		bool operator==(CHVector & hvector); // Vergleich zweier Quaternionen auf Gleichheit
+		bool operator!=(CHVector & hvector); // Vergleich zweier Quaternionen auf Ungleichheit
+		CQuaternion operator*(CQuaternion & q); // Quaternionenmultiplikation
+		CQuaternion operator+(CQuaternion & q); // Quaternionenaddition
+		CQuaternion operator-(CQuaternion & q); // Quaternionensubtraktion
+		void Init(float fx, float fy, float fz, float fw);
+		void Fini();
+		void Norm(); // normiert Quaternion
+		float Length(); // gibt den Betrag des Quaternions aus
+		void RotateX(float fa);		// Generiert Rotationsquaternion um x-Achse mit Winkel fa
+		void RotateY(float fa);		// Generiert Rotationsquaternion um y-Achse mit Winkel fa
+		void RotateZ(float fa);		// Generiert Rotationsquaternion um z-Achse mit Winkel fa
+		void Rotate(float fx, float fy, float fz, float fa); // Generiert beliebiges Rotationsquaternion um die Drehachse fx, fy, fz mit Winkel fa
+		void Rotate(CHVector & v, float fa); // Generiert beliebiges Rotationsquaternion um die Drehachse v mit Winkel fa
+		void Rotate(CHVector & vTo, CHVector & vFrom); // erzeugt ein Rotationsquaternion, die Richtungsvektor vFrom genau in die Richtung des Richtungsvektors vTo rotiert
+		void Lerp(CQuaternion qFrom, CQuaternion qTo, float fr);
+		void Slerp(CQuaternion qFrom, CQuaternion qTo, float fr);
+		CHVector GetVector(); // holt XYZ und schreibt ihn in den Vektor, der homogene Faktor wird auf 0 gesetzt
+		void SetVector(CHVector  & v); // Setzt XYZ des Quaternions auf die Werte des Vektors, w wird auf 0 gesetzt
+		void SetX(float f); // setzt X-Wert
+		void SetY(float f); // setzt Y-Wert
+		void SetZ(float f); // setzt Z-Wert
+		void SetW(float f); // setzt rationalen Wert
+		float GetX(); // gibt aktuellen X-Wert aus
+		float GetY(); // gibt aktuellen Y-Wert aus
+		float GetZ(); // gibt aktuellen Z-Wert aus
+		float GetW(); // gibt rationalen Wert aus
+	Klasse HVector etwas aufgeräumt, vor allem alte unbenutzte Variablen in Klasse gelöscht
+	Etwas herumprobiert wegen Geschwindigkeitsproblem von Flo, seltsam: Ausklammern von Billboard-Nebel bringt bei mir im Gegensatz zu Flo keine bzw. nur marginale Geschwindigkeitsbeschleunigung (101 fps auf 102 fps), seltsam
+	Bug in shaders.hlsl gefixt
+
+13.12.2011 FS:
+	- Shader debuggt, ca 30% Leistungseinbußen durch Unterstützung mehrerer Lichtquellen.
+	- Konnte keinen wirklichen Flaschenhals finden ... genaueres am Mittwoch.
+	- Es werden jetzt Lichtquellen-Referenzen, anstatt Indexe, zu jedem Objekt gespeichert.
+	- Implementierung eines Licht-Benchmarks.
+
+13.12.2011 TB:
+	- Zerschossene Icons wiederhergestellt und nachgemalt, hässliche weiße Punkte raus, Schatten verbessert
+	- Precompiler_Flags in Testprogramm eingefügt, um ganze Codeabschnitte schnell herauszunehmen:
+		- B_NEBULA	Hiermit kann man den Nebel ein- und ausschalten
+		- B_SUNS	Hiermit kann man die Testlichter von Tobi ein- und ausschalten (Testlichter koennen spaeter komplett raus) 
+		- B_X3D		Hiermit kann man die Einlese und die Anzeige des X3D-Affen ein- und ausschalten
+	- Bug in CDIKeyboard gefixt (Beim ersten Tick  gaben Methoden fälschlicherweise an, dass alle Tasten gedrückt wären)
+	- Kleinere Verbesserungen in  CDIKeyboard 
+	- Halb-Fullscreen-Mode integriert (durch Drücken der Taste 'O' wird's Halbfullscreen, mit 'I' wird Fenster wieder klein)
+
+15.12.2011 FS:
+	- Für jedes Objekt werden jetzt Distanzen zu den Lichtquellen berechnet und diese in absteigender Reihenfolge sortiert.
+	- Die ersten vier Lichter werden mit dem Objekt verknüpft und dann auf der Grafikkarte berechnet.
+	- Derzeit recht hohe Leistungseinbußen, können allerdings durch Octrees verringert werden.
+	TODO:	- Lichter werden derzeit nur nach Entfernung bzw ihrer Intensität bewertet.
+			- Zusätzlich sollten sie auch noch danach bewertet werden, wie viel der Betrachter von ihnen sieht.
+
+15.12.2011 TB:
+	- Einige Bugs aus HQuaternions gefixt
+	- Klasse Quaternionen hat folgende neue Methoden bzw. Operatoren:	 
+		void Conjugate(); // Konjugiert Quaternion
+		CQuaternion operator*=(CQuaternion & q); // Quaternionenmultiplikation -Schnelloperator
+		CQuaternion operator+=(CQuaternion & q); // Quaternionenaddition -Schnelloperator
+		CQuaternion operator-=(CQuaternion & q); // Quaternionensubtraktion -Schnelloperator
+		CQuaternion operator*(float f); // Skalarprodukt (Quaternionenskalierung durch Multiplikation, rechts)
+		CQuaternion operator/(float f); // Skalardivision (Quaternionenskalierung durch Division, rechts)
+		CQuaternion operator*=(float f); // Quaternionenskalierung durch Multiplikation -Schnelloperator
+		CQuaternion operator/=(float f); // Quaternionenskalierung durch Division -Schnelloperator
+		CHMat GetMatrix(); // Generiert Rotationsmatrix aus Quaternion und gibt sie aus
+		void SetMatrix(CHMat & m); // Generiert Quaternion aus der Raotationsmatrix m
+	- Fullscreen-Modus verbessert (zumindest erscheinen jetzt nicht mehr die Ränder, Taskleiste bleibt aber noch dummerweise sichtbar, werde es weiter versuchen)
+
+15.12.2011 TB:
+	- Vollbild-Modus funzt jetzt. :-)
+	- Bug in CHVector::Norm gefixt (Absturz bei Übergabe von HVector = 0,0,0,0)
+	- Bug in CHVector::Rotate(vFrom, vTo) gefixt (keine seltsamen Werte mehr bei (vFrom == vTo) 
+	- Bug in PlaceWASD (Kamerasteuerung) gefixt (Kamera rotiert jetzt überall richtig, auch hinter Erde)
+	- PlaceWASD vereinfacht und beschleunigt
+	- Neue Methoden in Klasse DIKeyboard:
+		void SetTranslationSensitivityWASD(float fTranslationSensitivity); // Setzt die Empfindlichkeit (Schnelligkeit) bei den WASD-Tasten in Einheiten / Sekunde für PlaceWASD 
+		void SetRotationSensitivityWASD(float fRotationSensitivity); // Setzt die Empfindlichkeit (Schnelligkeit) bei den Pfeil-Tasten in Bogenmaß / Sekunde für PlaceWASD
+		float GetTranslationSensitivityWASD();
+		float GetRotationSensitivityWASD();
+
+19.12.2011 (rev. 179) MS:
+	- VektoriaTest: Klasse CGame die nun die Vektoria-Objekte kapselt erstellt:
+		Game 	Init(...)
+			Tick(...)
+			Fini(...)
+			ResizeWindow(...)
+		Solle mehr Übersicht verschaffen und kann nun auch in anderen Anwendungen verwendet werden.
+
+	- TODO's
+		-> Mauseingabe will nicht mehr so richtig -> hängt vllt mit einer Änderung in Keyborad oder PlaceWASD zusammen??? (TODO)
+		-> Funktioniert CalcFR() noch richtig??? (TODO)
+
+	(Zum Vollbildmodus: Das Fentser einfach so zu vergrößern könnte evtl. noch Probleme verursachen, 
+		da bei meinem System (mehrere Monitore) auf dem zweiten Monitor der Rand des Fensters zu sehen ist)
+
+22.12.2011 TB:
+	- Makronamen in Util.h gemäß unserem vorletzten Mittwochabendgespäch vereinheitlicht und groß gemacht
+	- Lange ausgetestet, ob esoterischer Mörderbug (Erde-weg) tatsächlich verschwunden ist, schein so zu sein. Danke Matthias! :-)
+	- Angefangen, Game.h, Game.cpp, VektoriaTestView.h, VektoriaTestView.cpp, MainFrame.h und MainFrame.cpp aufzuräumen, wird aber noch länger dauern
+	- Aussehen der Asteroiden verbessert
+
+22.12.2011 FS:
+	- Astereoiden werden komisch beleuchtet, rührt daher, dass nur fünf Geometrien erstellt werden.
+	  Lichter werden allerdings zu den Geometrien gespeichert -> Konzept überdenken?!
+	- Warnungen aus der Bibliothek entfernt sowie die Connection-Klasse, diese liegt selbstverständlich noch im SVN.
+	- Compiler Einstellungen korrigiert und stdafx aktualisiert.
+
+05.01.2011 FS:
+	- Shader werden jetzt auf Shader Model v4.1 kompiliert. 4.0 Unterstützt nur 16 Output-Parameter, während .1 bis zu 32 benutzt.
+	  Musste ich aufgrund der Weitergabe der Lichtquellen (von VS zu PS) erhöhen.
+	  TODO: Alternative finden.
+	- Lichter können jetzt in verschiedenen Farben leuchten.
+	- Testprogramm mit Compilerflag geschrieben um die korrekte Funktionsweise der Lichter zu untersuchen.
+
+06.01.2012 TB:
+	- Klasse Game weiter aufgeräumt (unbenutzte Variablen gelöscht, bessere Benennung der verbliebenen Variablen, Schnelloperatoren beim Erdplacement)
+	- Neue Methode in Klasse CQuaternion:
+		CHVector ApplyRotation(CHVector & v); // Rotiert Punkt v mit Hilfe des Rotationsquaterions v und gibt Ergebnis als Returnwert aus
+
+09.01.2012 MS:
+    - CFileBlender kann nun die Vertieces richtig auslesen. Die Erzeugung der Geometrie fehlt noch.
+    - Probleme beim Lesen von 64-Bit Files: Bis jetzt können nur 32-Bit Files gelesen werden.
+    - Precompiler-Flag B_BLENDER: mit diesem Flag kann man den Blender-Würfel komplett ein- und ausschalten. (Wichtig nicht zusammen mit Affen verwenden!)
+
+10.01.2012 TB:
+	- Vektoria-Logo im Testprogramm erscheint jetzt auch in linker oberer Ecke
+	- Bug nach Vollbild-Modus entfernt (Fenster war nicht mehr resizeable)
+	- Neue SDK-Version etrstellt (VektoriaV4)
+	- Neues Template erstellt (VektoriaV4App)
+
+12.01.2012 (rev. 200, 201, 202, 203) MS:
+    - CFileBlender funktioniert nun testweise: 
+        - Import von einzelnen Meshes möglich!
+            - Keine unterstützung von 64-Bit files
+            - UV Mapping wird noch nicht richtig unterstützt (TODO)
+            - Tangentenvektoren für evtl. Bumpmapping werden noch nicht berechnet
+    - Neuen Ordner "imports" für files zum importieren angelegt
+    - .blend Testfiles hinzugefügt: monkey_x86.blend, cube_x86.blend, untitled.blend (32- / 64-Bit version), cube_uv.blend
+
+13.01.2012 FS:
+	- Precompiler-Flags für Directx Debugging.
+	- Lichter werden jetzt auch für mehrfach im Szenengraph verlinkte Geometrien richtig berechnet.
+	TODO:	- Im Shader muss die Eye-direction noch berechnet werden.
+			- Szenengraph prepass um Shadow-Map zu berechnen.
+			- Performanceeinbruch durch neuen Shader untersuchen.
+	- Shader überarbeitet:
+		- Vertexshader verwendet weniger output-register.
+		- Licht verwendet jetzt gängige Berechnung für Reichweite (konstante-, lineare- und quadratische Schwächung).
+	- Lichttest überarbeitet, es werden keine Lichter mehr in die Erde gesetzt.
+	  Farbe und Position werden korrekt und zufällig bestimmt.
+
+22.02.2012 FS:
+	- Beginne mit dem Erstellen des Lichttyps "Spotlight" und der Pluralklassen.
+
+23.02.2012 FS:
+	- Erste Programmieransätze des Shadowmappings.
+	  Erstellen des Depth Stencil, schreiben eines einfachen Shaders (für Punktlichter).
+	  Diverse Anpassungen.
+	- Vollständige Integrierung des Lichttyps "Spotlight".
+	- Testfall B_SPOT_LIGHTS kann benutzt werden um die Implementierung zu testen.
+	TODO:	- Shader auf Performance optimieren.
+			- Decay Exponent des Spotlights verwenden.
+			- Shadowmapping für Spotlights ermöglichen.
+
+23.03.2012 TB:
+	- Eye-Vektor wird jetzt korrekt berechnet => Highlights funktionieren nun korrekt
+	- Licht funktioniert nun auch im Testprogramm 
+	- Spotlichter funktionieren nun auch für variable Viewport-Auflösungen
+
+24.03.2012 TB:
+	- Schatten funktionieren nun auch im Testprogramm
+	- Variable Auflösungen funktionieren jetzt auch mit Schatten
+
+25.03.2012 TB:
+	- Einige kleine Änderungen zur Polnischen Datentypennotation in CLight, CPointLight, 
+
+29.03.2012 TB:
+- Folgende neue Pluralklassen mit Smart Allocation (Vorteile sind weniger Speicherplatzverbrauch, leichter Geschwindigkeitsvorteil und Mehrfachreferenzierung):
+	CViewports, 
+	CScenes
+- Veraltete Kommentare in Klasse CDirect gelöscht 
+- Neue Struktur der Klasse CViewport (Viewport kann jetzt innerhalb eines Fensters positioniert werden
+- Unnötige Initialisierungsaufrufe im Testprogramm gelöscht
+- Resizing funktioniert nun (auch für Schatten)
+- Einige Variablen in CDirectX gemäß polnischer Datentypennotation umbenannt
+- Description-Variablen als Membervariablen gemacht => müssen nicht mehr neu gesetzt werden => leichte Beschleunigung 
+- Maus-Bug im Testprogramm ausgesetzt
+
+30.03.2012 TB:
+- Anfang von großem Komplettumbau der Klasse CDirectX (bisherige Struktur ist nicht geeignet, mehrere Viewports gleichzeitig zu betreiben)
+
+31.03.2012 TB:
+- Mehrere Viewports in einem Fenster nun möglich (z.B. für SplitScreen, In-Screens o.ä.)
+  dafür ist Komplettumbau der Klasse CDirectX im vollen Gange (bisherige Struktur war nicht geeignet, mehere Viewports gleichzeitig zu betreiben)
+	Halbwegs lauffähige Zwischenversion hochgeladen (Frame Rate lässt noch zu wünschen übrig)
+- Neue Klassen:
+	CFrame
+	CFrames (mit Smart Allocation)
+- Neue Methoden in CViewport:
+	void InitFull(CCamera * pcamera); // Initialisiert Viewport, so dass er das gaze Frame ausfüllt
+	void Init(CCamera * pcamera, float frx, float fry, float frWidth, float frHeight); // Initialisiert Viewport mit relativen Maßen zum Frame
+	void ReSize(float frx, float fry, float frWidth, float frHeight); // Verändert relative Größe des Viewports zum Frame
+	void ReSize(); // Verändert Größe des Viewports bei Veränderung der Größe des Frames
+	void CalcSize(); // Berechnet absolute Ausmaße des Viewports
+- Bug beim Windows-Resizing gefixt (bei einer Fensterhöhe von Null schmierte Programm ab)
+	 
+
+03.04.2012 TB:
+- Klasse DirectX aufgeräumt 
+	- sinnfälligere Methodennamen gegeben, 
+	- Variablen konsequent in polnische Notation umgewandelt 
+	- unbenutzte Variablen gelöscht
+	- Veraltete Komentare gelöscht 
+	- einige redundante Aufrufe gelöscht => leichte Beschleunigung
+- Bugfix: SetBackfaceCulling() hatte sich nicht mehr aufs Rendering ausgewirkt
+- Dynamische Allokierung der Viewports => beliebig viele Viewports möglich  
+- Folgende neue Methoden in Klasse CViewport eingefügt (getestet, funktioniert):
+	void SetShadowRenderingOn(); // Schaltet Schatten für den Viewport an (Default: an) 
+	void SetShadowRenderingOff(); // Schaltet Schatten für den Viewport aus (Default: an) 
+	void SetPointLightRenderingOn(); // Schaltet Punktlichter für den Viewport an (Default: an) 
+	void SetPointLightRenderingOff(); // Schaltet Punktlichter für den Viewport aus (Default: an) 
+	void SetParallelLightRenderingOn(); // Schaltet Parallellichter für den Viewport an (Default: an) 
+	void SetParallelLightRenderingOff(); // Schaltet Parallellichter für den Viewport aus (Default: an) 
+	void SetSpotLightRenderingOn(); // Schaltet Schweinwerferlichter für den Viewport an (Default: an) 
+	void SetSpotLightRenderingOff(); // Schaltet Scheinwerferlichter für den Viewport aus (Default: an) 
+
+04.04.2012 TB:
+- Stereoskopische Kameras einfach möglich durch neue Methode in CPlacement:
+	void MakeStereoscopicCameras(CCamera *pcameraLeftEye, CCamera *pcameraRightEye, float fEyeDistance, float fFocusDistance, float faFov=2.0F, float fNearClipping=0.1F, float fFarClipping=1000.0F); //Erzeugt eine komplexe Struktur aus drei Placements und zwei Kameras für Stereoskopie
+- Stereoskopisches Schielbild zum Testen in VektoriaTest eingebaut (schielen bis Bilder miteinander verschmelzen, mitteres Bild ist stereoskopisch, Effekt besonders gut, wenn man auf M gedrückt hat)
+- Einige veraltete Komentare im Testprogramm gelöscht 
+- Starke Beschleunigung des Testprogramms (FR erhöhte sich bei mir um ca. 50%) durch Verschiebung der Initialisierungsmethode von DirectInput in die Init-Methode, wo sie auch hingehört
+- Pointing-Attribut eines Placements wirkt sich nun auch auf die darunterliegenden stereokopischen Placements aus => Bessere Fokussierung eines Objekts 
+
+05.04.2012 TB:
+- Neue Methoden in CPlacement eingefügt:
+	bool SubGeo(); // Hängt die Geometrie wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
+	bool SubSound(); // Hängt den 3D Sound wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
+	bool SubCamera(); // Hängt die Kamera wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
+	bool SubPlacement(CPlacement * pplacement); // Hängt das Unterplacement wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
+	void KillStereoscopicCameras(); // Eleminiert die aufgebaute Struktur für stereoskopische Kameras 
+	void SetStereoscopicParameters(float fEyeDistance, float fFocusDistance); // Verändert die Parameter der stereoskopischen Struktur, wenn vorhanden
+	bool GetStereoscopicParameters(float & fEyeDistance, float & fFocusDistance); // Gibt die Parameter der stereoskopischen Struktur zurück, gibt true aus wenn vorhanden
+- Veränderung des stereoskopischen Augenabstandes in das Testprogram eingefügt (Taste Z macht Augenabstand größer, Taste U macht Augenabstand kleiner)
+- Sinnlose bzw. veraltete Methoden und Variablen in Klasse CColor und CColors gelöscht, neue Komentare für die Intellisense eingefügt 
+- Sinnlose bzw. veraltete Methoden und Variablen in Klasse CVertex und CVertexs gelöscht
+- Pluralklasse CTextures in SmartAllocation umgewandelt
+- Methode CTexture aufgeräumt (sinnlose veraltete Methoden und Variablen gelöscht)
+- Neue Methoden in Pluralklasse CTextures:
+	bool Sub(CTexture * ptexture); // Hängt Textur von Hierarchie ab
+	bool Kill(CTexture * ptexture); // Vernichtet Textur
+- Man kann nun an zwei verschiedene Materialien ein und dieselbe Textur dranhängen (ging vorher nicht) 
+
+06.04.2012 TB:
+- NullRenderer eingefügt
+- FAQ-Dokument angefangen
+- Veraltetete Image-Links aktualisiert
+- Bugfix: Seltsame Artefakte bei In-Screens sind nun Vergangenheit
+- Bugfix: kenne verzerrt dargestellten Bilder bei einigen Auflösungen mehr 
+
+
+09.04.2012 TB:
+- Bugfix: Long Avg. Frame Rate im Testprogramm wird jetzt richtig berechnet
+
+
+19.04.2012 TB:
+- Erweiterung der Klasse CViewport um Stile (aktuelle Projektgruppe braucht Cartoon-Shading für ihr Spiel, daher dieser Prio3-Task vorgezogen), dafür folgende Methoden implementiert:
+	void CViewport::SetStyle(int eStyle); // Schaltet bestimmten Rendering-Stil an, die Stile sind kombinierbar 
+	void CViewport::SetStyleTheshold(float frStyleThreshold); // Gibt den fraktionalen Grenzwert für den Renderingstil an, Default = 0.5
+	void CViewport::SetColor(CColor & color); // Setzt eine Farbe, zur Parametrisierung eines Renderingstiles	
+	void CColor::CopyWithoutAlpha(CColor & color); // Kopiert eine Farbe, belässt aber den Alpha-Wert
+- Bis jetzt parametrisiertes Colorizing-, Toon- und Edge-Shading implementiert (Stile sind kombinierbar)
+- Umwandlung der Copierparameter in CColor und CVertex in Referenzparameter (zur Beschleunigung)
+
+21.04.2012 TB:
+- Komplett überarbeitete Struktur für den Aufruf von TriangleLists und TriangleStrips
+- Möglichkeit für mehrere Frames (für mehrere seperate Windows oder für zukünftige Erweiterungen, z.B.  z.B. für OpenGL und DirectX gleichzeitig), 
+	bis jetzt sind maximal 4 gleichzeitige Frames ausführbar (mir fällt sowieso keine vernünftige Anwendung ein, wo mehr gebraucht werden)
+- Einfachere und logischere Initialisierung von CTriangleList, CTriangleStrip, CGeoEllipsoid, CGeoQuad, CGeoCube, CGeoIkosaeder und CGeoTetraeder 
+	(ApiRender-Pointer muss nicht mehr übergeben werden, damit wird Objektstruktur vollkommen unabhängig von technischen Gegebenheiten => Voraussetzung für zukünftiges Verteiltes Rendering)
+
+22.04.2012 TB:
+- Nicht verwendeter Parameter prenderapi aus folgenden Klassen herausgenommen:
+	CLight, CLights, CPointLight, CPointLights, CParallelLight, CParallelLights, CSpotLight, CSpotLights
+	(ApiRender-Pointer muss nicht mehr übergeben werden, damit wird Objektstruktur vollkommen unabhängig von technischen Gegebenheiten => Voraussetzung für zukünftiges Verteiltes Rendering)
+
+24.04.2012 TB:
+Einfacherer Aufruf von häufig verwendeten Stilen, dazu folgende neue Methoden in CViewport:
+	void StylePopArt(); // Schaltet auf Pop-Style-Anmutung
+	void StyleCartoon(); // Schaltet auf Cartoon-Anmutung
+	void StyleOutlining(); // Schaltet Konturierung an
+	void StyleMonochrome(CColor c); // Schaltet Monochrome-Anmutung an, c gibt die Färbung an
+	void StyleSepia(); // Schaltet Sepia-Anmutung an
+	void StylePurpleHaze(); // Schaltet auf PurpleHaze-Anmutung
+	void StyleBlueDream(); // Schaltet BlueDream-Anmutung an
+	void StyleBlackWhite(); // Schaltet Schwarzweiß-Anmutung an
+	void StyleContrast(float fr); // Erhöht Kontrast (Werte>0) bzw. vermindert Kontrast (Werte<0)
+	void StyleContrast(CColor c); // Erhöht Kontrast (Werte>0) bzw. vermindert Kontrast (Werte<0) jeweils getrennt nach RGB-Werten 
+	void StyleBrightness(float fr); // Erhöht Helligkeit (Werte>1), vermindert Helligkeit (Werte 0..1), invertiert Farbe (Wert<0) 
+	void StyleBrightness(CColor c); // Erhöht Helligkeit (Werte>1), vermindert helligkeit (Werte 0..1), invertiert Farbe (Wert<0) jeweils getrennt nach RGB-Werten 
+	void StyleRotateHue(float faHue); // Rotiert Farbwert um den Winkel fa im Bogenmaß
+	void StyleInverse(); // Invertiert alle Farben
+	void StyleOff(); // Schaltet alle Stile aus
+Vereinheitlichung der Stilbehandlung durch homogene Farbmatrix
+Erzeugung der Primitivenklasse CGeoTube zum Erzeugen von Röhren und CGeoExtrude (letztere noch nicht 100%-ig fertig) zum Erzeugen von extrudierten Körpern (aktuelle Projektgruppe braucht Solche Geometrieen für ihr Spiel, daher dieser Prio3-Task vorgezogen)
+Einfügen einer Rakete in das Testprogramm zum Ausprobieren von CGeoExtrude 
+
+29.04.2012 TB:
+Methode in CHVector:
+	void Scale(CHVector & v);		// skaliert einen Verktor mit den Werten eines anderen Vectors
+Bugfix: Normalen, Tangenten und Bitangenten in CGeoSweep werden jetzt richtig berechnet
+Neue Initalisierungsroutinen zur Erzeugung komplexer extrudierter Geometrieen:
+	void CGeoTube::Init(float fRadiusInner, float fRadiusOuter, float fLength, CMaterial * pmaterial, int iLongitude = 24); // Initialisiert eine Röhren-Geometrie, fRadiusInner = innerer Röhrenradius, fRadiusOuter = äußerer Röhrenradius, fLength = Länge der Röhre, iLongitude = Anzahl der radialen Vertices  
+	void CGeoSweep::Init(CHVector vSize, CMaterial * pmaterial, int iLongitude, int iLattitude, float * afrRadius, float * afrDistance, bool bFlip =false); // Initialisiert eine extrudierte Geometrie, vSize=allgemeine Skalierung, iLongitude = Anzahl radialer Vertices, iLattitude= Anzahl vetrices entlang des Pfades, afRadius  = Array von iLattitude Radien, afrDistance = Array von iLattitude Abständen zum Anfang des Pfades  
+	void CGeoSweep::Init(CMaterial * pmaterial, int iLongitude, CHMats & matsPath); // Initialisiert eine extrudierte Geometrie,  iLongitude = Anzahl radialer Vertices, CHMats = hommogene Matrizen zum Plazieren, Skalieren und Rotieren des Pfades
+	void CGeoSweep::Init(CHVector vSize, CMaterial * pmaterial, CHMats & matsPath, CHVectors & vs); // Initialisiert eine extrudierte Geometrie auf sehr komplexe Weise: matsPath gibt den Pfad als Liste homogener Matrizen an, vs die Punkte des Querschnitts 
+Neue GeometrieKlassen:
+	CGeoCone // Kegel als TriangleStrip
+	CGeoCylinder // Zylinder als TriangleStrip
+Einfügen von Boostern an die Rakete des Testprogramms zum Ausprobieren von CGeoTube, CGeoCone und CGeoCylinder => funktioniert
+
+29.04.2012 MS:
+Neue Methode in CHVector:
+	void Dist(CHVector & v) // berechnet euklidische Distanz zwischen zwei Vektoren
+
+01.05.2012 TB:
+Bugfix: Methode CMaterial::SetGlowAsImage() funktionierte nicht, jetzt funzts.
+Klasse COverlays und CFloatRects auf Smart Allocation umgestellt 
+Veraltete Kommentare, Variablen und Methoden in CViewport, COverlay, CFloatRects und CFloatRect gelöscht
+Chroma-Key in Asteroiden-Images verbessert
+Neue Methoden in CFloatRect:
+	CFloatRect(float fxPos, float fyPos, float fxSize, float fySize); // Konstuktor mit fxPos = linker x-Wert, fyPos = oberer y-Wert, fxSize = Breite, fy-Size = Höhe 
+	float GetRight(); // gibt die rechte X-Position aus
+	float GetBottom(); // gibt die untere Y-Position aus
+	float GetRatio(); // gibt das Verhältnis zwischen Breite und Höhe aus
+	bool IsInner(float fx, float fy); // Gibt true aus, wenn der Punkt P=(fx,fy) im Rechteck ist, ansonsten false 
+	void SetXPos(float fxPos); // Setzt linken X-Wert
+	void SetYPos(float fyPos);  // Setzt linken Y-Wert
+	void SetXSize(float fxSize); // Setzt Breite
+	void SetYSize(float fySize);  // Setzt Höhe
+	float GetXPos(); // Holt linken X-Wert
+	float GetYPos();  // Holt linken Y-Wert
+	float GetXSize(); // Holt Breite
+	float GetYSize();  // Holt Höhe
+Neue Methode in CViewport:
+	void AddSprite(COverlay * psprite); // Hängt 2D-Sprite an Viewport an
+Erweiterung von Direct-X um Sprites (dazu Umbau der Draw-Methode notwendig)
+Klasse COverlay funktioniert nun
+Vektorialogo-Sprite in Testprogramm zur Evaluation dazugefügt
+
+02.05.2012 TB:
+#include-Hierarchie aufgeräumt & Vorkompilierte Header eingeschaltet => Wesentlich schnellere Compilierzeit (nur noch ein Bruchteil der vorherigen Zeit bei wenigen Änderungen)
+Veraltete Methoden und Variablen in CHardware & CGeoCube gelöscht
+ 
+02.05.2012 - 03.05.2012 MS/TB/KE/FS:
+- In HVector MakePoint() verbessert. ;-)
+- UV-Mapping und Affe im BlenderImporter gefixt (Danke für die Hilfe!)
+- Nicht benötigter Paramter pApiRender aus CFileBlender entfernt.
+- HINSTANCE Parameter aus InputX entfernt: AfxGetInstanceHandle wird nun innerhalb der Mehtode Init aufgerufen.
+p.s.
+Vektoria läuft bei mir mit ca. 63 fps.
+Es läuft auch auf 3 Bildschirmen, sofern die Anzeige nicht erweitert wird, also mit einer Auflösung von 5760x1080 (auch im Vollbildmodus).
+Es geht nicht wenn die Anzeige auf die zusätzlichen Bildschirme erweitert!!! wird.
+
+03.05.2012 FS:
+- Bug in der Intensitätswertberechnung ausgebessert. (eventuell für Streifen-Problem verantwortlich?!)
+- Neue Testfälle für Schatten und Parallellichter geschrieben.
+- ShadowMap Größe über Precompilermakro einstellbar.
+- Projektionsmatrix für Parallellichtschatten verbessert.
+
+05.05.2012 TB:
+Klasse CGeoTube erweitert um:
+	void InitStraight(float fRadiusInner, float fRadiusOuter, float fLength, CMaterial * pmaterial, int iLongitude = 24, bool bInner = true); // Initialisiert eine Röhren-Geometrie, fRadiusInner = innerer Röhrenradius, fRadiusOuter = äußerer Röhrenradius, fLength = Länge der Röhre, pmaterial = Materialpointer, iLongitude = Anzahl der radialen Vertices, bInner = true, wenn Innenleben des Rohres erzeugt werden soll
+	void InitArc(float fRadiusInner, float fRadiusOuter, float fRadiusArc,  float faArc,  CMaterial * pmaterial, int iLongitude = 24, int iLattitude = 24, bool bInner = true); // Initialisiert eine Rohrbogen-Geometrie, fRadiusInner = innerer Röhrenradius, fRadiusOuter = äußerer Röhrenradius, fRadiusArc = Gesamtradius des Rohrbogens, faArc = zu zeichnender Öffnungswinkel des Rohrbogens im Bogenmß, iLongitude = Anzahl der radialen Vertexunterteilungen, pmaterial = Materialpointer, iLattitude = Anzahl der Vertexunterteilungen entlang des Rohres, bInner = true, wenn Innenleben des Rohres erzeugt werden soll   
+Bugfix: Bei Vollbildmodus wurde nicht beste Pixelauflösung gewählt, TODO: Frame mit höchster Pixelauflösung initialisieren
+
+08.05.2012 TB:
+Bugfix: Initialisierung von Geometrien nach dem Adden hatte nicht funktioniert, klappt jetzt
+namespaces für kritische Klassenbezeichnungen eingeführt (TODO für alle einführen)
+Große Umbenennungsorgie für die Knotenobjekte, jetzt folgende Buchstabenzuordnung:
+A: CAudio						(ehemals CSound)
+B: CBackground
+C: CCamera
+D: CDIDevice  
+E: CEmitter						(angedacht)
+F: CFrame						(ehemals CRenderFrame)
+G: CGeo 
+H: CHardware					(ehemals CComputer)
+I: CPixImage						(ehemals CPixImage)
+J: (frei)
+K: CKeyframe					(angedacht)
+L: CLight						(=> LL: ParallelLight, LP: PointLight, LS: SpotLight)
+M: CMaterial
+N: (frei)
+O: COverlay						(ehemals CSprite)
+P: CPlacement
+Q: (frei)
+R: CRoot  
+S: CScene
+T: CTexture
+U: CUnion						(angedacht)
+V: CViewport
+W: CWriting						(in Arbeit)
+X: (frei)
+Y: (frei)
+Z: (frei)
+
+
+09.05.2012 TB:
+Habe fast die ganze Nacht mit diesen verdammten Namespaces verbracht. Die zerreißen jedesmals die Applikation. Heimtückischerweise nicht sofort, sondern erst, wenn die Release-SDK-Version erstellt wird, 
+da gibt es plötzlich Linkerfehler. Scheinbar werden Namespaces nicht 100% durch LIBs durchgereicht. Kann sich jemand anderes mal von Euch drum kümmern, vielleicht hat es ja mehr Glück?
+Aus diesem Grund habe ich eine Rolle Rückwärts gemacht, die Namespaces für die jetzt erstellte V5 wieder herausgenommen und CImage wieder in CPixImage zurückbenannt. 
+
+------------>  V5 auf Laufwerk L gestellt
+
+
+
+14.05.2012 TB:
+Namensänderung, CViewoprt::AddSprite in CViewport::AddOverlay
+Bugfix: Applikation schmierte ab, wenn in einer Hierarchie nur 2D-Overlays ohne 3D-Geometrie erstellt wurden => getestet, funktioniert jetzt
+Bugfix: Smart Allocation reservierte zu viel Speicherplatz, alle Pluralklassen daraufhin geändert => getestet, funktioniert
+
+15.05.2012 TB:
+Bugfix: Maus-Koordinaten waren bei schnellen Mausbewegungen nicht genau
+Bugfix: Maus-Bewegung stimmten nach Resizing vom Window nicht mehr 
+analog zur möglichen Wahl zwischen DirectX,  OpenGL(TODO) und NullRenderer kann man jetzt zwischen DirectInput, SDL und NullDeviceApi wählen. Dafür folgende neue Klassen eingefügt: 
+		CDevice, 
+		CDeviceKeyboard, 
+		CDeviceMouse 
+		CDeviceGameController
+NULL-ApiInput eingefügt 
+Devices sind nun Knotenobjekte => Einfachere, konsistentere und logischere Bedienung, die Objekte einfach an ein Frame dranhängen und es funktioniert, dafür folgende neue Methoden in CFrame:
+	void AddDeviceKeyboard(CDeviceKeyboard * pdevicekeyboard);
+	void AddDeviceMouse(CDeviceMouse * pdevicemouse);
+	void AddDeviceGameController(CDeviceGameController * pdevicegamecontroller);
+Bugfix: SetBackfaceCullingOff erzeugte seltsame Effekte (Frontculling) => getestet, funktioniert nun
+
+16.05.2012 TB, FS, MS, KE:
+Release- läd nun Release-Lib und Debug- läd Debug-Lib (war vorher vertauscht)
+Einige Compilerparameter verändert (Geschwindigkeitoptimierung)
+
+17.05.2012 TB:
+Scenes funktionieren jetzt, sie waren vorher blos Dummys, jetzt zeigt die Camera nur die Objekte an, die in der Szene tatsächlich vorhanden sind (TODO: Lichter haben noch Bug, sie wirken sich in allen Scenes aus)
+Aufruf der Klasse CGame bei VektoriaApp und VektoriaTest vereinheitlicht
+Materialien müssen nun nicht mehr bei der Root mit AddMaterial angemeldet werden (Szenengraf denkt nun mit)
+
+18.05.2012 TB:
+-Vektoria V6 erstellt
+
+21.05.2012 FS:
+- AABBs Implementiert
+- Klasse CNode erstellt, alle Knoten welche in den Szenengraphen gehangen werden können müssen von dieser Klasse abgeleitet sein.
+- Ein Knoten (CNode) spannt außerdem immer einen neuen Raum auf und stellt daher auch eine Bounding Box dar.
+- In den Testprojekten ist nun außerdem der Einsatz der Taste "h" möglich um die Bounding Boxes anzeigen zu lassen. (Bereits allgemein als VisualHelpers bezeichnet, somit können demnächst auch Positionen von Placements visualisiert werden)
+TODO:
+- Bisher wurden die Bounding Boxes noch nicht für Placements realisiert, habe ich allerdings morgen vor.
+- GeoCube ist nicht für Bounding Boxes geeignet, da immer symmetrisch => Anpassungen notwendig.
+- Bounding Boxes für Kamera und Lichter.
+- zu guter Letzt dann Projektionsmatrixberechnung aufgrund Schnitte mit Kamera und Geometrie AABBs.
+
+22.05.2012 TB:
+Halbtransparente Overlays nun möglich, dafür folgende Methoden(in App getestet, funktioniert):
+	void SetTransparancy(float frTransparancy); 
+Overlays können mit folgenden Methoden nun an- und ausgeschaltet werden:
+	void SwitchOn();
+	void SwitchOff();
+Leichte Beschleunigung der Sprite-Zeichnung durch Vorinitialisierung der Vorldviewprojektion-Matrizen für Parallelprojektion
+Backgrounds sind jetzt möglich (Test in App eingebaut)
+
+05.06.2012 FS:
+Zwischenstand auf dem Weg zu Bounding Boxes:
+- CNode Klasse und CThing gemerged.
+- Virtuelle Methode UpdateAABB erstellt.
+  Diese soll bei jedem Baum Element aufgerufen werden können.
+- AddParent und SubParent erstellt, diese müssen noch korrekt implementiert werden.
+
+06.06.2012 KW + BW:
+Features:
+  extended CAABB (ctors, GetLongestAxis, Encompass, IsInside, GetMidPoint, GetMin, GetMax, GetSize, Copy);
+  extended CDirectX:
+    enabled Multisampling support,
+    enabled Anisotropic filtering,
+    changed shader model to 5.0,
+    fixed memory bug (calloc/delete -> calloc/free),
+    added methods (CreateBuffer, CreateSRVFromFile, DrawDrawable, SetShader, UnSetShader, GetMSAAQuality, CreateSamplerState, CreateShader, CreateStructuredBuffer, CreateConstantBuffer, CreateBuffer, CreateBufferUAV, CreateBufferSRV, SetConstantBuffers, SetDomainShaderResources, SetDomainShaderSamplers, RunComputeShader, Dispatch, TransferFromGPU, TransferToGPU, CreateInformationQueue, GetNextMessage),
+    implemented shader precompiling,
+    added hardware tesselation support,
+    added compute shader support,
+    added InformationQueue support,
+    increased shader optimization level,
+  added HumanicsApp demo;
+  implemented CDrawable as a base for classes that wish to handle their drawing completely themselves;
+  implemented CDynamicTriangleList and support classes (CDynamicListVertex, CDynamicListVertexs, CDynamicTriangle, CDynamicTriangles, CDynamicTriangleListData);
+  added ezlogger;
+  implemented CFileWavefront importer (*.obj);
+  implemented spring-mass-damper simulator:
+    CAABBNode        (a node in an AABB tree, that was created by a specific strategy, with children and an AABB),
+    CAABBTree        (manages a whole AABB tree),
+    CAngularSpring   (applies forces according to an angle/twist),
+    CAngularSprings,
+    CollisionHandler (detects and resolves collisions between masses and triangles),
+    CLinearSpring    (applies forces according to a stretch/compression),
+    CLinearSprings,
+    CMass            (represents a physical mass),
+    CMasses,
+    CSpringMassSystem (base class that implements subframe sampling),
+    CSpringMassSystemCPU (simulates springs and masses on the CPU),
+    CSpringMassSystemGPU (simulates springs and masses on the GPU),
+  implemented CTimer (platform independent, high resolution timer);
+  implemented CVector3 (three dimensional vector);
+  implemented CBufferService (manages buffers, SRVs, UAVs and constant buffers);
+
+Minor changes:
+  extended CGeoQuad   (added ability to specify texture mapping);
+  extended CHVector   (default ctor now initializes to zero, operator[], Min, Max);
+  extended CLight     (refactored FindLights to support CGeo and CDrawable);
+  extended CPlacement (added AddDrawable);
+  extended CBufferMap (getBuffer now returns NULL for negative buffer handle);
+  extended CSpotLight (increased shadowmap size);
+  fixed Sound.h for inclusion in files without stdafx.h;
+  enabled OpenMP for CPU parallelism;
+
+07.06.2012 FS:
+- Shadow Map Größe kann jetzt manuell gesetzt und auch während des Programms geändert werden.
+- Near und Far Planes können dynamisch geändert werden.
+Nur eine vorläufige Lösung, da diese bald automatisch berechnet werden sollen.
+Leider sitzt irgendwo ein Fehler und mir fehlt im Moment die Zeit lange danach zu suchen ...
+
+08.06.2012 TB:
+Neue Klasse CDeviceCursor hinzugefügt, damit absolute Mauskoordinaten nun möglich => Grundlage für vernünftiges Picking
+Neue Methoden der Klasse CDeviceCursor: 
+	bool GetAbsolute(int & ix, int & iy, bool bHideCursor = false); // Gibt die Zeigerpositionskoordinaten bezüglich der linken oberen Ecke des Frames aus, gibt true aus, wenn Cursor sich innerhalb des Frames befindet 
+	bool GetFractional(float & frx, float & fry, bool bHideCursor = false); // Gibt die fraktionalen Zeigerpositionskoordinaten (Wertebereich jeweils 0..1) bezüglich des Frames aus, gibt true aus, wenn Cursor sich innerhalb des Frames befindet
+	bool ButtonPressed(int iButton); // true, falls Taste iButton gedrückt wurde, ansonsten false
+	bool ButtonPressedLeft(); // true, falls linke Maustaste gedrückt wird, ansonsten false
+	bool ButtonPressedRight(); // true, falls rechte Maustaste gedrückt wird, ansonsten false
+	bool ButtonPressedMid(); // true, falls mittlere Maustaste gedrückt wird, ansonsten false
+Neue Methoden der Klasse CViewport: 
+	void FrameToViewportCoord(float & frx, float & fry); // Übersetzt die Koordinaten des Frames in Koordinaten des Viewports
+Neue Klasse zur Geometrieerzeugung (CGeoSlice) 
+Neue Methode zur Beschleunigung von fixen, unveränderlichen Placement-Hierarchien in CPlacment:
+	void Fix(); // Sollte aufgerufen werden, wenn sicher ist, dass Placment und Unterplacements starr in der Gegend stehen => Beschleunigt das Randering, da dann die Matrizen nicht immer wieder neu berechnet werden 
+
+09.06.2012 KW:
+fixed several crashes in CFileWavefront
+
+11.06.2012 FS:
+- Kleinen Bug in Light.cpp ausgebessert.
+
+12.06.2012 BW:
+fixed two crashes in vektoria test:
+	- wrong handle for DirectX Init
+	- CGeoTube needs init, before adding as geo (CNode needs initialized objects ...)
+
+12.06.2012 KW + BW:
+- header files cleanup
+- minor changes in CSpringMassSystem
+
+13.06.2012 TB:
+- Vektoria V7 erstellt
+
+14.06.2012 TB
+- Klasse CSprite eingeführt, von der COverlay und CBackground erben => weniger redundanter Code
+- Sprites (und damit Backgrounds und Overlays) lassen sich nun durch die Methdode Rotate(float fa) drehen
+- bugfix: Kopieroperator bei Sprites funktionierte nicht
+- Cursor lässt sich jetzt automatisch ausschalten, wenn er in Frame hineinbewegt wird => eigener Cursor erzeugbar
+Aufräumaktion:
+- Änderungen von veralteten und missverständlichen Headerkomentaren
+- Veralterer unsinniger Code in COverlay, CBackground und CTriangeStrip gelöscht 
+- kleine Variablennamenänderungen zum besseren Verständnis
+- bugfix: in DirextX "white.jpg" => "textures//white_image.jpg"
+
+30.08.2012 TB
+- Pluralklasse CWritings in SmartAllocation umgewandelt
+- CWriting ist jetzt von CSprite abgeleitet
+- Pluralklasse CPixImages in SmartAllocation umgewandelt
+- In die Pluralklassen jeweils die Methode "Sub" hinzugefügt, mit der man ein Objekt wieder aus der Klasse entfernen kann 
+
+30.10.2012 TB
+- Bug in CQuaternion gefixt: Quaternionennultiplikation lieferte falsche Ergebnisse
+- Beschleunigung der Umwandlung von Quaternionen in Matrizen
+- Folgende neue Funktionen in CQuaternion: 
+	Quaternion::Inverse()		// Generiert Inverse des Quaternions
+	CHMat GetMatrixByNormed(); // Generiert Rotationsmatrix aus einem normierten Quaternion und gibt sie aus, Achtung Quaternion muss normiert sein, sonst kommt hier was falsches raus, dafür ist sie etwas schneller als GetMatrix
+- VektoriaApp m_fTimeDelta war ungenau -> korrekter Timer eingebaut
+- Klasse CTimer komplett überarbeitet, einige Bugs gelöst, Header-Body-Struktur eingeführt, trotzdem aufwärtskompatibel
+- folgende neue Methoden in CTimer:
+    void Init();							// Initialisiert den Timer neu, falls der Aufruf des Konstruktors zu lange her ist
+	void Tick(float & fTime, float & fTimeDelta);	// Sollte jeden Tick aufgerufen werden, berechnet fTime (Zeit in Sekunden, die seit Init bzw. Konstruktor-Aufruf vergangen ist) und fTimeDelta (Zeit, seit dem letzten Tick vergangen ist)
+	void Fini();							// Finalisiert den Timer, wird zurzeit nicht verwendet
+	float SwitchFrameRateCalculationOn();	// Schaltet die Berechnung der Bildwiederholrate ein, FR-Berechnung kostet ein wenig Performanz, daher per Default aus
+	float SwitchFrameRateCalculationOff();	// Schaltet die Berechnung der Bildwiederholrate aus, FR-Berechnung kostet ein wenig Performanz, daher per Default aus
+	void CalcFrameRate();					// Berechnet die Bildwiederholrate (vier Werte: der arithmetische Kurzzeitdurchschnitt, der arithmetische Langzeitdurchschnitt, die schlechteste und der beste Wert)
+	float GetFrameRateAverage();			// Gibt den arithmetischen Kurzzeitdurchschnitt über die letzten Ticks (I_FR_TICKS) der FrameRate aus 
+	float GetFrameRateAverageLong();		// Gibt den arithmetischen Langzeitdurchschnitt über die letzten Ticks (I_FR_TICKS*I_FR_LONG_TERM_FAKTOR) der FrameRate aus 
+	float GetFrameRateMin();				// Gibt den schlechtesten Wert über die letzten Ticks (I_FR_TICKS) der FrameRate aus 
+	float GetFrameRateMax();				// Gibt den besten Wert über die letzten Ticks (I_FR_TICKS) der FrameRate aus 
+- Bugfix []-Operator bei CHVector gab bei iPos==3 nicht w aus 
+- Viele Kommentare überarbeitet
+
+31.10.2012 TB
+- Bugfix in CHat::Transpose(): Matrixelement [3,3] wurde falsch berechnet
+
+01.11.2012 MS (rev 297 + 298)
+- Alle Headerfiles von Blender entfernt und minimal benötigten Code in DNATypes.h zusammengefasst.>>>>>>> .r298
+
+01.11.2012 TB
+- Unbenutzte Destruktoren in Elementar-Klassen (CHMat, CHMats,CHvector, CHVectors, CHQuaternion, CHQuaternions, CIntRect, CIntRects, CFloatRect, CFloatRects, CColor, CColors) gelöscht
+- Frame Rate Anzeige in Titelleiste der App eingefügt
+
+02.11.2012 MS
+- 3DS-Importer von Michael Rücker eingefügt.
+- DNATypes.h nochmal überarbeitet
+
+02.11.2012 TB
+- Folgende Operatoren in CHVector eingefügt:
+	CHVector operator -(void); // Negativzeichen vor Vektor => Minus vor allen Vektorelementen
+	CHVector operator +(void); // Positivzeichen vor Vektor => keine Veränderung, trotzdem der mathematisch vollwertigenNotation halber wichtig
+
+07.11.2012 MS
+- UV-Mapping Bugfix im neuen 3DS-Importer>>>>>>> .r302
+
+08.11.2012 TB
+- Übergabe in Copy-Methode und Istgleichoperator von Klasse CFloatRect nun als Call-of-reference statt Call-of-Value (ist nach einer Messung schneller)
+- Folgende Methoden in Klasse CFloatRect eingefügt:
+	bool IsBetweenX(float fx); // gibt true aus, falls sich fx zwischen linker und rechter Kante befindet (ausschleißlich Kante)
+	bool IsBetweenY(float fy); // gibt true aus, falls sich fy zwischen oberer und unterer Kante befindet (ausschleißlich Kante)
+	bool IsBetween(float fx, float fy); // Gibt true aus, wenn der Punkt P=(fx,fy) im Rechteck ist, ansonsten false (ausschleißlich Kante)
+	bool IsInnerX(float fx); // gibt true aus, falls sich fx zwischen linker und rechter Kante befindet (einschließlich Kante)
+	bool IsInnerY(float fy); // gibt true aus, falls sich fy zwischen oberer und unterer Kante befindet (einschließlich Kante)
+	bool IsInner(float fx, float fy); // Gibt true aus, wenn der Punkt P=(fx,fy) im Rechteck ist, ansonsten false (einschließlich Kante)
+	void Scale(float f); // Skaliert Rechteck ausgehend vom Ursprung
+	void ScaleFromBottom(float f); // Skaliert Rechteck, aber lässt untere Kante auf gleichem Level (Rechteck wird hochgezogen)
+	void Scale(float fx, float fy); // Skaliert Rechteck ausgehend vom Ursprung
+	void ScaleFromBottom(float fx, float fy); // Skaliert Rechteck, aber lässt untere Kante auf gleichem Level (Rechteck wird hochgezogen)
+	float GetDistLeft(CFloatRect & floatrect); // gibt Zwischendistanz des Parameter-Floatrects von der linken Kante aus
+	float GetDistRight(CFloatRect & floatrect); // gibt Zwischenddistanz des Parameter-Floatrects von der rechten Kante aus
+	float GetDistTop(CFloatRect & floatrect); // gibt Zwischenddistanz des Parameter-Floatrects von der oberen Kante aus
+	float GetDistBottom(CFloatRect & floatrect); // gibt Zwischenddistanz des Parameter-Floatrects von der unteren Kante aus
+	void Clip(); // Schneidet Ränder des Rechtecks dergestalt ab, dass sie alle zwischen Null und Eins liegen
+- Folgende neue Makros in Util.h eingefügt:
+	UM_ISRANGEEQUAL(fMin1,fMax1,fMin2,fMax2) // Überprüft, ob zwei Wertebereiche einigermaßen gleich sind
+	UM_ISRANGEINRANGE(fMin1,fMax1,fMin2,fMax2) // Überprüft, ob ein Wertebereiche im anderen liegt 
+	UM_ISINRANGEEXCLUSIVE(f,fMin,fMax) // Überprüft, ob Wert f in den Wertebereich (fMin bis fMax) liegt  (exklusive fMin und fMax), wenn ja => true, falls nein => false
+	UM_ISINRANGEINCLUSIVE(f,fMin,fMax) // Überprüft, ob Wert f in den Wertebereich [fMin bis fMax] liegt (inklusive fMin und fMax), wenn ja => true, falls nein => false
+	UM_ISRANGETOUCHESRANGE(fMin1,fMax1,fMin2,fMax2) // Überprüft, ob ein Wertebereiche den anderen Berührt 
+	UM_ISONE(f)	// überprüft float und double-Werte auch dann auf Eins, wenn Ungenauigkeiten hinterm Komma bestehen
+
+09.11.2012 TB
+- Folgende Methoden in Klasse CHMat eingefügt (hat sich als praktisch erwiesen und fehlten als Analogon zu RotateX, ...:
+	void TranslateX(float fx); // Generiert Verschiebungsmatrix in X-Richtung 
+	void TranslateY(float fy); // Generiert Verschiebungsmatrix in Y-Richtung 
+	void TranslateZ(float fz); // Generiert Verschiebungsmatrix in Z-Richtung 
+	void TranslateXDelta(float fx); // Generiert Verschiebungsmatrix in X-Richtung und multipliziert diese mit der Rotationsmatrix 
+	void TranslateYDelta(float fy); // Generiert Verschiebungsmatrix in Y-Richtung und multipliziert diese mit der Rotationsmatrix 
+	void TranslateZDelta(float fz); // Generiert Verschiebungsmatrix in Z-Richtung und multipliziert diese mit der Rotationsmatrix 
+- Folgende Methoden in Klasse CPlacement eingefügt (hat sich als praktisch erwiesen und fehlten als Analogon zu RotateX, ...:
+	void TranslateX(float fx); // Generiert Verschiebungsmatrix in X-Richtung für das Placement
+	void TranslateY(float fy); // Generiert Verschiebungsmatrix in Y-Richtung für das Placement
+	void TranslateZ(float fz); // Generiert Verschiebungsmatrix in Z-Richtung für das Placement
+	void TranslateXDelta(float fx); // Generiert Verschiebungsmatrix in X-Richtung und multipliziert diese mit der Rotationsmatrix für das Placement
+	void TranslateYDelta(float fy); // Generiert Verschiebungsmatrix in Y-Richtung und multipliziert diese mit der Rotationsmatrix für das Placement
+	void TranslateZDelta(float fz); // Generiert Verschiebungsmatrix in Z-Richtung und multipliziert diese mit der Rotationsmatrix für das Placement
+
+11.11.2012 TB
+	Die beiden Klassen CGeoWall und CGeoWindow eingefügt, mit ihnen lassen sich beliebige Mauern und Wände mit Fenstern, Türen und Durchbrüchen erzeugen.
+	
+13.11.2012 TB
+ - MIN-, MAX-Makros in Util.h eingefügt:
+		UM_MIN(f1,f2)		// Min-Funktion
+		UM_MAX(f1,f2)		// Max-Funktion
+
+20.11.2012 TB
+- Folgende Methode in Klasse CFloatRect eingefügt:
+	void Translate(float fx, float fy); // Verschiebt Rechteck um den 2D-Vektor(fx,fy)
+- Folgende Methode in Klasse CTriangleList eingefügt:
+	void FlipSpin(); // Vertauscht Vertexreihenfolge, lässt aber anders als Flip den Normalen- und Tangentenvektor unbeeinflusst (wichtig für die korrekte Anzeige nach Spiegelungen)
+- Klasse CGeoWall können jetzt auch Giebel und Dächer erzeugen, dafür folgende Methoden:
+	float GetGableHeight(float fr); // Gibt die Höhe der Giebelschräge an dem relativen x-punkt fr an  
+	void SetGable(float frCuspLeft, float frCuspRight); // Gibt den linken und den rechten Giebelpunkt an (z.B. 0.0 = an der linken ecke der Mauer, 0.5 = Mauermitte, 1.0 = ganz rechts an der Mauer)
+	void SetGable(float frCusp); // Gibt für Spitzgiebel den gemeinsamen Scheitelpunkt an (z.B. 0.0 = an der linken Ecke der Mauer, 0.5 = Mauermitte, 1.0 = ganz rechts an der Mauer)
+	void SetTextureStart(float fxTextureStart = 0.0F, float fyTextureStart = 0.0F); // Verschiebt die UV-Koordinaten der Mauertextur
+	void SetTextureRepeat(float fxTextureRepeat = 1.0F, float fyTextureRepeat = 1.0F); // Skaliert die UV-Koordinaten der Mauertextur
+	void Init(float fWidth, float fHeight, float fThickness, CMaterial * pmaterial, bool bLeft = true, bool bRight = true, bool bBottom = true, bool bTop = true, bool bFront = true, bool bBack = true); // Initialisiert die Mauer fWidth ist die Länge, fHeight die Höhe, fThickness die Dicke, pmaterial das Material der Mauer, mit den boolschen Flages lassen sich die entsprechenden Seiten an- und ausschalten  
+	void AddGeoWindow(CGeoWindow * pgeowindow); // Stanzt ein Fenster in die Mauer, welches durch pgeowindow definiert wurde 
+	CGeoWindow * MakeGeoWindow(CFloatRect floatrect, int eStyle); // Erzeugt ein Fenster
+- Mit der Klasse CGeoWindow lässt sich jetzt hierarchisch wiederum CGeoWalls einbetten => Simse und Fensterrahmen möglich  
+- SetMaterial lässt sich nun auch während der Laufzeit verwenden, d.h. Materialien können im Tick ausgetauscht werden
+- Geometrien können nun an- und ausgeschaltet werden, dafür folgende Methoden in CGeo eingefügt:
+	void SwitchOn(); // Schaltet Geometrie an
+	void SwitchOff(); // Schaltet Geometrie aus
+
+23.11.2012 TB
+- GeoWall-Klasse etwas aufgeräumt
+- Beim Updaten Kollision in CTriangleList::Draw => hoffe, es wurden dabei keine wichtigen Änderungen von Flo oder Matthias zerstört => TODO Flo und Matthias fragen!
+- WASD-Steuerung für Erdumgebungen hinzugefügt (mit Eulerwinkeln, im Gegensatz zu bisheriger WASD-Steuerung für Weltraumumgebungen bleibt Horizont stets horizontal), 
+	dafür dritter boolscher Parameter Methode in PlaceWASD hinzugefügt, wenn true => Erdsteuerung, wenn false => Weltraumsteuerung
+- Overlays können nun hierarchisch angeordnet werden, das heißt, an ein Overlay kann ein anderes Overlay angeheftet werden (TODO noch keine relative Plazierung)
+- Bugfix in COverlay und CBackground (manche Grafikkarten stürzten ab)
+
+27.11.2012 TB
+- Kinderoverlays können nun relativ zum Vateroverlay parametrisiert werden, dafür folgende Methoden in der Klasse COverlay:
+	void AddOverlay(COverlay * poverlay); // Hängt Kind-Overlay an Hierarchie an
+	bool SubOverlay(COverlay * poverlay); // Hängt Kind-Overlay von Hierarchie ab, gibt true aus, wenn's geklappt hat
+	void SetBehindOn(); // lässt Overlay hinter Vateroverlay erscheinen
+	void SetBehindOff();  // lässt Overlay vor Vateroverlay erscheinen (Default)
+	void SetInnerOn(); // lässt Overlay innerhalb vom Vateroverlay erscheinen
+	void SetInnerOff();  // lässt Overlay außerhalb vom Vateroverlay (aber trotzdem ausgerichtet an Vaterkoordinaten) erscheinen (Default)
+
+28.11.2012 TB
+- Geoellipsoids können jetzt alternativ auch bizylindrisches, orthografisches und biorthografisches Mapping (ist leichter in Photoshop zu erstellen als reines zylindrisches)
+- Bugfix in CGeoEllipsoid (Methode Init stürzte bei Werten von iLongitude oder iLattitude unter 2 wegen Division durch Null ab) 
+- WASD-Steuerung kann jetzt optional höhenlimitiert werden, dafür folgende neue Methodern in DeviceKeyboard:
+	void SetWASDLevelMin(float fyLevelMin); // Erzeugt Kameramaximalhöhenlevel für die Erdsteuerung, die Kamera kann nie über fyLevelMax steigen
+	void SetWASDLevelMax(float fyLevelMax); // Erzeugt Kameraminimalhöhenlevel für die Erdsteuerung, die Kamera kann nie unter fyLevelMin untertauchen
+	float GetWASDLevelMin(); // Holt Kameraminmalhöhenlevel für die Erdsteuerung, die Kamera kann nie über fyLevelMax drübersteigen
+	float GetWASDLevelMax();// Erzeugt Kameramaximalhöhenlevel für die Erdsteuerung, die Kamera kann nie unter fyLevelMin untertauchen
+- Alle Methodennamen, die mit WASD-Steuerungen zusammenhängen, wurden aneinander angeglichen
+- Viele Kommentare in Header eingefügt
+
+29.11.2012 TB
+- CGeoEllipsoid kann nun auch nur Teile eines Ellisoids erzeugen, dafür Init-Methode erweitert:
+	void Init(CHVector vSize, CMaterial * pmaterial, int iLongitude = 24, int iLattitude = 12, int iLattitudeMin=0, int iLattitudeMax = INT_MAX, int eMapping = S_GEOELLIPSOIDMAPPING_CYLINDRICAL); // Initialisiert eine ellisoide Geometrie 
+-File3DS von Michael Rücker / MS in Projekt geladen (war vorher nur in Order)
+- Zwei neue Klassen zur Geometrieerzeugung: 
+	CGeoSphere (erzeugt Kugel)
+	CGeoDome (erzeugt Kuppeln oder Skydomes)
+- Materialieneigenschaften können nun auch nach dem Init im Tick verändert werden, dafür folgende Methode in ApiRender, NullRenderer und DirectX: 
+		void UpdateTextures(CMaterial * pmaterial); 		
+
+
+ 30.11.2012 TB
+ - In Placement kann jetzt die Z-Buffer-Distanz für die Alpha-Sortierung bei Transparenzen fixiert werden, 
+   dies ist vor Allem bei ineinandergeschachtelten transparenten Objekten notwenig, 
+   zum Beispiel Multi-Skydomes mit ineinander geschachtelten semitransparenten Layern, dafür folgende Methode:
+   	void FixDistance(float fDistance); // Fixiert die Distanz, die für die Z-Buffer-Sortierung verwendet wird, notwendig für ineinander geschachtelte transparente Objekte (Multiskydomes, Atmosphärenhüllen, etc.) 	
+- Draw-Aufrufe vereinfacht und beschleunigt
+- Methoden in CPlacementund CHMat komplementiert, nun ist es "rund":
+	void ScaleX(float fx);		// Generiert uniforme Skalierungsmatrix für die X-Achse
+	void ScaleY(float fy);		// Generiert uniforme Skalierungsmatrix für die Y-Achse
+	void ScaleZ(float fz);		// Generiert uniforme Skalierungsmatrix für die Z-Achse
+	void Translate(CHVector & v); // Generiert Verschiebungsmatrix
+	void ScaleXDelta(float fx);		// Generiert uniforme Skalierungsmatrix für die X-Achse und multipliziert diese mit der aktuellen Matrix
+	void ScaleYDelta(float fy);		// Generiert uniforme Skalierungsmatrix für die Y-Achse und multipliziert diese mit der aktuellen Matrix
+	void ScaleZDelta(float fz);		// Generiert uniforme Skalierungsmatrix für die Z-Achse und multipliziert diese mit der aktuellen Matrix
+	void TranslateDelta(float fx, float fy, float fz); // Generiert Verschiebungsmatrix und multipliziert diese mit der aktuellen Matrix
+
+02.12.2012 KW + BW:
+added method CAABB::Intersects
+CDevice gets hInstance from GetModuleHandle
+several Fixes to CFileWavefront
+extended logger for Vectors
+Fixes in CNode
+CDirectX:
+  DepthStencil Buffer gets resized
+  fixed runtime warning concerning Shadowmap
+  CopyBuffer() added
+  Texture Speedup
+  CreateShader now also checks included files
+  CreateTypedBuffer() added
+  CreateScan() added
+  added debug/profiling methods:
+    QueryGraphicsCard()
+    InitProfiling()
+    WaitForShaderExecution()
+moved physics simulation classes to LibParticlePhysics
+removed Sound.cpp and .h
+updated humanics demo application (now demonstrating usage of particles, springs, constraints, dynamic triangles and collision)	
+	
+03.12.2012 TB
+- letzte CFrame::Init-Parameter in enums umgewandelt (angenehmere Programierung für Anwender mit Intellisense)
+- Man kann nun automatisch zwischen ShaderModel 4.1 und 5.0 up- und downgraden,
+	 indem man zwischen eApiRender_DirectX11_Shadermodel41 oder eApiRender_DirectX11_Shadermodel50 in CFrame::Init wählt (Wunsch einiger Studierender mit älteren Laptops)
+
+12.12.2012 TB
+- Nun sind auch Height-Maps statt Bump-Maps möglich, dafür folgende Methoden in CMaterial:
+	void SetTextureHeight(CTexture *ptexture);
+	CPixImage * MakeTextureHeight(char * acPath);
+	void SetTextureHeightAsImage();
+- Kameraberechnung des Vertex-Shaders vereinfacht und beschleunigt
+- Nebel ist jetzt möglich, dafür folgende neue Methoden in CViewport:
+	void SetFogOn(); // Schaltet Nebel an
+	void SetFogOff(); // Schaltet Nebel aus
+	void SetFogStrength(float fFogStrength); // Gibt Nebelstärke an, Default = 0.01 
+- Bugfix: Wenn Texturpfad falsch gesetzt war, gab es überhaupt keine Anzeige eines Objektes, dies hat mehrere Anwender irritiert
+- Bugfix: Wurde Glow-Pfad falsch gesetzt, leuchtete die Schattenseite der Geometrien  
+- Bugfix: OutliningStyle war von der Richtung der Kamera abhängig 
+- Bugfix: Spekulares Highlight wurde falsch berechnet
+- Bugfix: System stürzte manchmal ab, wenn Geometrie nach dem Adden ans Placement angehangen wurde
+
+15.12.2012 TB:
+- Bugfix: Kopieroperator in CVertex kopierte nicht die UV-Koordinaten (getestet, funktioniert)
+- Bugfix: CGeoCube w-Komponente bei Normalen und Tangentenvektoren wurden auf 1 gesetzt, was eine seltsame Beleuchtung nach Rotationen zur Folge hatte
+- Flip und FlipSpin fnktionieren jetzt auch bei TriangleStrips (getestet, funktioniert)
+- CTriangleStrips lassen sich nun bei Bedarf in CTriangleLists konvertieren (getestet, funktioniert), dafür folgende Methode in CTriangleStrip:
+	CTriangleList * CopyToTriangleList(); // Gibt eine dem TriangleStrip äquivalente TriangleList aus
+
+18.12.2012 TB:
+- Funktion Transform in CVertex eingebaut:
+		void Transform(CHMat &m); // Matrixmultiplikation aller Werte mit der Matrix m => Verschieben, Rotieren, Skalieren etc. möglich 
+- Veraltete und nicht mehr benötigte Funktion CreatePoly überall gelöscht wo sie auftrat
+- Durch die Löschung von CreatePoly nicht mehr benötigte globale Variablen in CVertex gelöscht => Nahezu Halbierung des Speicherplatzbedarfs bei großen Szenen
+- BoundingBox-Berechnung kann nun ein- und ausgeschaltet werden, dafür folgende Methoden in CPlacement: 
+	void SetBoundingBoxesOff();
+	void SetBoundingBoxesOn();
+- StateSorting mit Vereinigung aller Geometrien unterhalb einer Placement-Hierarchie implementiert => bei Szenen mit vielen komplexen starren Objekten (Städte, Gebäude, Landschaften, Fixsterne, etc.) große Beschleungigung!
+  dafür folgende Methoden in CPlacement imlementiert: 
+	void Fix(); // Sollte aufgerufen werden, wenn sicher ist, dass Placment und Unterplacements starr in der Gegend stehen => Beschleunigt das Rendering, da dann die Matrizen nicht immer wieder neu berechnet werden 
+	void Unfix(); //Macht Fix rückgängig
+	void FixAndFasten(); // Sortiert zusätzlich zu Fix() nach Status-Calls, um CPUGPU-Traffic zu reduzieren und vereinigt Geometrien mit gleichem Material zu einer => große Beschleunigung (Achtung, die Rekalkulation dauert lange und daherr nur für einen Aufruf in Init-Teil geeignet!)
+	void UnfixAndUnfasten(); // Macht FixAndFasten rückgängig (Achtung, dauert lange!)
+- Testapplikation mit 25000 Objekten und 300000 Polys zum Testen von FixAndFasten eingebaut
+	Taste N: UnfixAndFasten (danach bei mir  1,7 fps)
+	Taste M: FixAndFasten   (danach bei mir 14,3 fps)
+
+20.12.2012 TB:
+- DrawPoly-Funktionen gelöscht, da veraltet
+
+01.02.2013 TB:
+Bugfix in Debug-Version: Kompilierte nicht
+
+07.04.2013 TB:
+Testbeds vereinheitlicht, Dateien fangen jetzt alle mit "Testbed" an => leichteres Finden in Ordner
+Klassen der Testbeds fangen auch mit Testbed an
+CTestbedGeo hinzugefügt
+Bugfix in CGeoWall: UV-Mapping wurde bei Fenstereinbau falsch gesetzt
+
+15.04.2013 TB:
+Bugfix in CGeoWall / CGeoWindow: Bei einigen fensterKombinationen wurde Maueroberkante nicht geschlossen
+CGeoWall: Vereinfachung der Saw-Methode bei gleichzeitigem Erhalt der Funktion
+CGeoWindow: Dreieckige Fenster möglich
+
+16.04.2013 TB:
+Neue Funktionen in CHVector:
+	float Angle(CHVector & v); // gibt Winkel im Bogenmaß aus, der sich zwischen dem bestehenden Vektor und dem Vector v befindet.
+	float AngleXY(); // gibt auf die XY-Ebene projizierten Drehwinkel im Bogenmaß aus (Null entspricht X-Achse);
+	float AngleZX(); // gibt auf die XZ-Ebene projizierten Drehwinkel im Bogenmaß aus (Null entspricht Z-Achse);
+	float AngleYZ(); // gibt auf die YZ-Ebene projizierten Drehwinkel im Bogenmaß aus (Null entspricht Y-Achse);
+Sinnlose Methode Fini() in CHVector gelöscht => alle Aufrufe ebenfalls gelöscht
+
+20.04.2013 TB:
+Bugfix: Bumpmap wurde nicht angezeigt, wenn keine Imange-Map angegeben war
+Neue Methode in CGeoWall:
+	CGeoWindow **  AddGeoWindows(CGeoWindow * pgeowindow, CFloatRect floatrect, int iX, int iY); // Stanzt iX*iY gleichartige Fenster rasterartig in den Mauerteil floatrect der Mauer, welches durch pgeowindow definiert wurde,  
+Romanische und Arcadenfenster in CGeoWindow möglich
+
+24.04.2013 TB:
+Neue Methoden in CDeviceCursor:
+	void Hide(); // Macht Cursor unsichtbar
+	void Show(); // Macht Cursor sichtbar
+	bool IsHidden(); // true, wenn Cursor unsichtbar, ansonsten false
+Bugfix in CDeviceCursor::GetFractional und CDeviceCursor::GetAbsolute: Cursor flackerte bei manchen Computern nach Hiding wieder auf
+CGeoWindow kann jetzt folgende Fensterformen:
+	eGeoWindowStyle_Rect,
+	eGeoWindowStyle_Tri,
+	eGeoWindowStyle_TriLeft,
+	eGeoWindowStyle_TriRight,
+	eGeoWindowStyle_TriRect,
+	eGeoWindowStyle_TriRectLeft,
+	eGeoWindowStyle_TriRectRight,
+	eGeoWindowStyle_Roman,
+	eGeoWindowStyle_RomanLeft,
+	eGeoWindowStyle_RomanRight,
+	eGeoWindowStyle_Gothic,
+	eGeoWindowStyle_GothicLeft,
+	eGeoWindowStyle_GothicRight,
+	eGeoWindowStyle_Arcade,
+	eGeoWindowStyle_ArcadeLeft,
+	eGeoWindowStyle_ArcadeRight,
+	eGeoWindowStyle_Eyebrow,
+	eGeoWindowStyle_EyebrowLeft,
+	eGeoWindowStyle_EyebrowRight,
+	eGeoWindowStyle_U,
+	eGeoWindowStyle_ULeft,
+	eGeoWindowStyle_URight,
+	eGeoWindowStyle_Bicircle,
+	eGeoWindowStyle_BicircleLeft,
+	eGeoWindowStyle_BicircleRight,
+	eGeoWindowStyle_RectBeveled,
+	eGeoWindowStyle_RectBeveledLeft,
+	eGeoWindowStyle_RectBeveledRight,
+	eGeoWindowStyle_Hexagon,
+	eGeoWindowStyle_HexagonLeft,
+	eGeoWindowStyle_HexagonRight,
+	eGeoWindowStyle_Octagon,
+	eGeoWindowStyle_OctagonLeft,
+	eGeoWindowStyle_OctagonRight
+Fenster können jetzt auch bei Giebelwänden eingestanzt werden 
+
+
+25.24.2013 TB:
+Neue Methoden in CDeviceMouse:
+	bool ButtonPressedLeft(); // true, falls linke Maustaste gedrückt wurde, ansonsten false (synchrone Mausklickabfragemethode)
+	bool ButtonPressedMid(); // true, falls mittlere Maustaste gedrückt wurde, ansonsten false (synchrone Mausklickabfragemethode)
+	bool ButtonPressedRight();// true, falls rechte Maustaste gedrückt wurde, ansonsten false (synchrone Mausklickabfragemethode)
+Klasse CGeos auf SmartAllocation umgestellt, 
+	CGeo::Sub hinzugefügt
+	Durch SamartAllocation sinnlos gewordene Variablen m_pgeoPrev und m_pgeoNext gelöscht.
+Kommentare und Variablenbezeichnungen etwas aufgeräumt
+
+
+28.24.2013 TB:
+Neue Methoden in CHMat (Gab es bisher nur als entsprechende Fremdmethoden):
+	void Transpose();			// Transponiert Matrix 
+	void Inverse();				// Invertiert Matrix 
+Neue Methode in CHVector:
+	void Null(); // Setzt alle Tupelwerte auf Null
+Bugfix bei CGeoWall::AddWindows: Es konnten nie mehr als 128 Fenster in eine Wand gestanzt werden
+Veraltete Methode CFace::Draw gelöscht 
+Neuer Generalkonstuktor zu CVertex hinzugefügt: CVertex(CHVector &  vPos, CHVector & vNormal, CHVector & vTangent, float fU, float fV);
+Bugfix in Zuweisungsoperator vcon CCameras: Zusätzliches Adden nach kopieren führte zum Absturz 
+
+01.05.2013 TB:
+Umfangreiche neue Modellierungsmethoden in CGeo:
+	bool SubVertex(CVertex *vertex); // Hängt betreffendes Vertex ab 
+	void TwistX(float faStrength); // Twisting um die X-Achse
+	void TwistY(float faStrength); // Twisting um die Y-Achse
+	void TwistZ(float faStrength); // Twisting um die Z-Achse
+
+	void TaperX(float fRadius, float faSection); // Tapering um die X-Achse
+	void TaperY(float fRadius, float faSection); // Tapering um die Y-Achse
+	void TaperZ(float fRadius, float faSection); // Tapering um die Z-Achse
+
+	void BendX(float fStrength, bool bInfluenceX=false, bool bInfluenceY=true, bool bInfluenceZ = true); // Bending in Richtung der X-Achse
+	void BendY(float fStrength, bool bInfluenceX=true, bool bInfluenceY=false, bool bInfluenceZ = true); // Bending in Richtung der Y-Achse
+	void BendZ(float fStrength, bool bInfluenceX=true, bool bInfluenceY=true, bool bInfluenceZ = false); // Bending in Richtung der Z-Achse
+
+	void Transform(CHMat & m); // Transformiert alle Punkte der Geometrie mit der Transformationsmatrix m
+	void Unite(CGeo * pzg, CHMat & m, bool bKill = false); // Vereinigt die Vorliegende Geometrie und die Geometrie pzg zu einer Einzigen, wenn bKill gleich true ist, wird pzg danach gelöscht, ansonsten kannn man mit ihr ganz normal weiterarbeiten.
+	bool IsTriangleList(); // Gibt true aus, wenn es sich bei der vorliegenden Geometrie um ein TriangleList handelt, ansonsten fal
+	bool IsTriangleStrip(); // Gibt true aus , wenn es sich  bei der vorliegenden Geometrie um ein TriangleStrip handelt, ansonsten false
+Umfangreiche neue Modellierungsmethoden in CTriangleList:
+	void Copy(CTriangleList & trianglelist); // Kopiert TriangleList in die aktuelle hinein
+	void Subdivide(float fLengthMax);  // Wandelt Mesh in ein Subdivision-Mesh mit mehr Polygonen um, abhängig von der maximalen Kantenlänge fLengthMax
+	void SubdivideX(float fLengthMax); // Wandelt Mesh in ein Subdivision-Mesh mit mehr Polygonen um, abhängig von der maximalen Kantenbreite fLengthMax in X-Richtung
+	void SubdivideY(float fLengthMax); // Wandelt Mesh in ein Subdivision-Mesh mit mehr Polygonen um, abhängig von der maximalen Kantenhöhe fLengthMax in Y-Richtung
+	void SubdivideZ(float fLengthMax); // Wandelt Mesh in ein Subdivision-Mesh mit mehr Polygonen um, abhängig von der maximalen Kantentiefe fLengthMax in Z-Richtung
+
+	CTriangleList * ExtractSubdivition(float fLengthMax); // Extrahiert Subdivision-Mesh mit mehr Polygonen aus dem aktuellen Mesh, abhängig von der maximalen Kantenlänge fLengthMax
+	CTriangleList * ExtractSubdivitionX(float fLengthMax);// Extrahiert Subdivision-Mesh mit mehr Polygonen aus dem aktuellen Mesh, abhängig von der maximalen Kantenbreite fLengthMax in X-Richtung
+	CTriangleList * ExtractSubdivitionY(float fLengthMax);// Extrahiert Subdivision-Mesh mit mehr Polygonen aus dem aktuellen Mesh, abhängig von der maximalen Kantenhöhe fLengthMax in Y-Richtung
+	CTriangleList * ExtractSubdivitionZ(float fLengthMax);// Extrahiert Subdivision-Mesh mit mehr Polygonen aus dem aktuellen Mesh,  abhängig von der maximalen Kantentiefe fLengthMax in Z-Richtung
+Löschen folgender Methoden in CGeo, CTriangleList und CTriangleStrip, die die ganze Smart Allocation durcheinanderbrachte und bei Studierenden zu verwirrung führte:
+	void Init(int iAllocVertices); 
+Umstellen der Pluralklasse CEmitters auf SmartAllocation, Methoden Sub und Kill hinzugefügt
+Viele veraltete Kommentare gelöscht, neue hinzugefügt
+
+
+02.05.2013 TB:
+Axis-Aligned-Billboards und Billboard-Scaling nun möglich, dafür folgende neue Methoden in CPlacement: 
+	void SetBillboardX();
+	void SetBillboardY();
+	void SetBillboardZ();
+	void SetBillboardScaling(float fx, float fy);
+	float GetBillboardScalingX();
+	float GetBillboardScalingY();
+Bugfix in CGeoEllipsoid: Bumpmapping wurde beim bizylindrischen und quadrobizylindrischen Mapping an einigen Stellen falsch berechnet
+Es werden nun semantische Netzwerktopologien bei CGeoEllipsoid, CGeoShpere und CGeoDome berücksichtigt => UV-Mapping sieht bei Quadro- und bizylindrischen Mapping besser aus, es gibt keine Artefakte mehr: 
+Konstante QUARTERPI in Util.h hinzugefügt
+
+07.05.2013 TB + KE:
+Network Klassen von Klaus in das Projekt integriert
+Network-Klassen etwas an die polnische Datentypnotation angepasst
+TestbedNetworkMaster und TestbedNetworClient erstellt
+
+07.05.2013 TB:
+Neue Methoden in CGeo.h:
+	void MapPlanarX(); // Planares UV-Mapping entlang der X-Achse
+	void MapPlanarY();  // Planares UV-Mapping entlang der Y-Achse
+	void MapPlanarZ(); // Planares UV-Mapping entlang der Z-Achse
+	void MapCubic(); // Vereinfachtes kubisches UV-Mapping
+	void MapCylindricalY(); // Zylindrisches UV-Mapping um die Y-Achse
+	void MapBicylindricalY(); // Bizylindrisches UV-Mapping um die Y-Achse
+	void ReduceRedundancy(bool bSmooth = true); // Reduziert redundante Vertices (Achtung!!! Braucht sehr lange, nur in Notfällen benutzen)
+	void Magnet(CHVector v, float fRadius, float frStrength, bool bAttract, EMagnetKind eKind = eMagnet_Center); // Neuartige Modellierungsmethode (Magnet, der die Vertices im Radius fRadius anzieht bzw. abstößt)
+Neue Methoden in CTriangleList.h:
+	void FlattenFaces(); // Macht jedes Polygon flach, indem die Normalenvektoren senkrecht zur Fläche ausgerichtet werden
+	void EstimateTangentsAndBinormals(); // Versucht, die Tangenten und die Binormalen für das Bumpmapping aus den gegebenen UV-Koordianten zu erraten  
+
+08.05.2013 TB:
+Bugfix: Beim allerersten Tick wurde manchmal ein nicht vorhandener Mausklick von ButtonPressed, ButtonPressedLeft, ... etc. zurückgegeben
+Neue Methoden in CViewport:
+	bool SubOverlay(COverlay * poverlay); // Hängt ein vorhandenes 2D-Sprite vom Viewport ab, gibt true aus, wenn's geklappt hat
+	bool SubBackground(CBackground * pbackground); // Hängt ein vorhandenes 2D-Background vom Viewport ab, gibt true aus, wenn's geklappt hat
+
+09.05.2013 TB:
+Es sind nun Gehrungen in CGeoWall möglich, dafür folgende vier neue Methoden in CGeoWall:
+	void SetMiterLeft(float faLeft); // Gibt eine eventuelle linke Wandgehrung im Bogenmaß an, muss vor Init aufgerufen werden
+	void SetMiterRight(float faRight); // Gibt eine eventuelle linke Wandgehrung im Bogenmaß an, muss vor Init aufgerufen werden
+	void SetMiterTop(float faLeft); // Gibt eine eventuelle obere Wandgehrung im Bogenmaß an, muss vor Init aufgerufen werden
+	void SetMiterBottom(float faRight); // Gibt eine eventuelle untere Wandgehrung im Bogenmaß an, muss vor Init aufgerufen werden
+Bugfix in CGeoWindow: Bei runden Fenstern, die außerhalb von Giebeln gesetzt wurden, wurde der rechte untere Teil angezeigt
+Bugfix in CGeoWall: Bitangente wurde auf Rückseite nicht richtig ausgerechnet => Bumpmapping sah dort seltsam aus
+Bugfix in CTriangleList::Subdivide: Bitangente wurde bei inversen Texturen nicht richtig ausgerechnet => Bumpmapping sah dort seltsam aus
+Zwei neue Methoden in CFloatRect:
+	float GetXMid(); // Gibt die Mitte in X-Richtung aus
+	float GetYMid();  // Gibt die Mitte in Y-Richtung aus
+Neuer Konstruktor in CVertex:
+	CVertex(CHVector &  vPos, CHVector & vNormal, CHVector & vTangent, CHVector & vBitangent, float fU, float fV);
+
+12.05.2013 TB:
+Neue Modellierungsmethoden in CGeo:
+	void WaveX(float fAmplitude, float fWavelength, float fOffset, bool bInfluenceX=true, bool bInfluenceY=false, bool bInfluenceZ = true); // Wellenform in Richtung der X-Achse
+	void WaveY(float fAmplitude, float fWavelength, float fOffset, bool bInfluenceX=true, bool bInfluenceY=false, bool bInfluenceZ = true); // Wellenform in Richtung der Y-Achse
+	void WaveZ(float fAmplitude, float fWavelength, float fOffset, bool bInfluenceX=true, bool bInfluenceY=false, bool bInfluenceZ = true); // Wellenform in Richtung der Z-Achse
+Bugfix in den Taper-Methoden: Tangenten- und Bitangentenvektoren wurden nicht richtig neuberechnet
+Neue Methoden in CGeoWall:
+	void AvoidCracks(); // Versucht, Tiles, so anzuordnen, dass sie auch für anschließendes Tapering, Bending und Twisting in Y-Richtung geeignet sind
+	void SetDeclinationZ(float fa, float fTranslationZ); // neigt die Wand um den Winkel fa nach hinten und verschiebt sie in Z-Richtung
+	void SetRoundingX(float fa, float fLengthMax = 0.2f); // Gibt eine eventuelle Wandrundung in X-Richtung ein (z.B. um Türme zu erzeugen)
+	void SetRoundingY(float fa, float fLengthMax = 0.2f); // Gibt eine eventuelle Wandrundung in Y-Richtung ein (z.B. um Kuppeln zu erzeugen)
+	void InitDome(float fRadius, float fThickness, CMaterial * pmaterial = 0, float fEdgeLengthMin = 0.5F, bool bBottom = true, bool bBack = true); // Erzeugt runde Kuppel mit Radius fRadius
+	void InitOnionDome(float fRadius, float fHeight, float fThickness,  float fStrength = 0.7, CMaterial * pmaterial = 0, float fEdgeLengthMin = 0.2F,  bool bBottom = true, bool bBack = true);  // Erzeugt allgäuer Zwiebeltürmchen mit Radius fRadius und Spitzenhöhe fSpike
+	void InitSpikeDome(float fRadius, float fHeight, float fThickness, float fStrength = 0.7, CMaterial * pmaterial = 0, float fEdgeLengthMin = 0.2F, bool bBottom = true, bool bBack = true);  // Erzeugt reingebogenes Spitztürmchen mit Radius fRadius und Spitzenhöhe fSpike
+	void InitRoundTowerCylinder(float fRadius, float fHeight, float fThickness, CMaterial * pmaterial = 0, float fEdgeLengthMin = 0.5F, bool bBottom = true, bool bTop = true, bool bBack = true); // Erzeugt eine Wand für einen runden Turm mit Radius fRadius und Höhe fHeight
+	void InitRoundTowerWave(float fRadius, float fHeight, float fThickness, float fAmplitude = 1.0F, float fWavelength = 1.0F, CMaterial * pmaterial = 0, float fEdgeLengthMin = 0.5F, bool bBottom = true, bool bTop = true, bool bBack = true); // Erzeugt eine wellenförmige Wand für einen runden Turm mit Radius fRadius und Höhe fHeight
+	void InitRoundTowerOriel(float fRadius, float fHeight, float fThickness, CMaterial * pmaterial = 0, float fEdgeLengthMin = 0.5F, bool bTop = true, bool bBack = true); // Erzeugt einen Erker für einen runden Turm mit Radius fRadius und Höhe fHeight
+	void InitRoundTowerRoof(float fRadius, float fHeight, float fThickness, CMaterial * pmaterial = 0, float fEdgeLengthMin = 0.5F, bool bBottom = true, bool bBack = true); // Erzeugt ein glattes Spitzdack für runde Türme
+
+|--------------------------------------------------------------------------------------|
+|    12.05.2013 TB: V9 Alpha erstellt (noch nicht online, nur auf Laufwerk L)		   |
+|--------------------------------------------------------------------------------------|
+
+
+13.05.2013 TB:
+Bugfix in Debug-Version: Debug-Versionen stürzten auf Laborrechner ab
+Bugfix in CGeoWall: InitRoundTowerCylinder: Radius wurde 4 mal so groß gezeichnet
+Bugfix in CGeoWall: bei gebogenen Wänden wurden die Parameter bTop und bBottom nicht berücksichtigt
+Bugfix in CGeoWall: bei Domes und TowerRoofs wurden die Fenster gegen den Uhrzeigersinn platziert 
+Bugfix in CGeo: RippleY, WaveY ... berechneten Normalenvektoren nur ansatzweise richtig
+Neue Funktionen in CGeoWall:
+	void InitRoundTowerInterface(float fRadiusBottom, float fRadiusTop, float fHeight, float fThickness, CMaterial * pmaterial = 0, float fEdgeLengthMin = 0.5F, bool bBottom = true, bool bTop = true, bool bBack = true); // Erzeugt eine Wand-Interface (unterer Radius zu oberem Radius) für einen runden Turm mit Höhe fHeight
+	void InitRoundTowerInterfaceSine(float fRadiusBottom, float fRadiusTop, float fHeight, float fThickness, CMaterial * pmaterial = 0, float fEdgeLengthMin = 0.5F, bool bBottom = true, bool bTop = true, bool bBack = true); // Erzeugt ein gebogenes Wand-Interface (unterer Radius zu oberem Radius) für einen runden Turm mit Höhe fHeight
+ 
+|--------------------------------------------------------------------------------------|
+|    14.05.2013 TB: V9 Beta erstellt (noch nicht online, nur auf Laufwerk L)		   |
+|--------------------------------------------------------------------------------------|
+
+16.05.2013 TB:
+Bugfix in CGeoWall: In der Release-Verion wurden manchmal die Tiles nicht angezeigt
+	void FlipTangents();
+	void FlipBitangents();
+
+
+
+22.05.2013 MS:
+Neue Klasse CFont (Eng verknüpft mit CText) die für das Handling der Schriftarten und das Erstellen der Geometrie für den Text zuständig ist.
+Neue Klasse CText mit der Texte direkt in einer Szene (Ohne Overlay) ausgegeben werden können:
+---------------------------------------------------------------------------
+   Noch nicht in Vektoria integriert. Vorerst nur in VektoriaEditor		       
+---------------------------------------------------------------------------
+Methoden:
+
+    bool Init(char* a_acText);  //Initialisiert einen Text mit default Schriftart. Achtung: Jeder Aufruf erzeugt ein neues Material. Nur für Debug-Zwecke verwenden!
+    bool Init(char* a_acText, char* a_acFontFilename, char* a_acTextureFilename); //Initialisiert einen Text und erstellt eine neue Schriftart. Diese Methode sollte nur verwendet werden, wenn nicht mehrere Texte mit dem selben Material/Schriftart erzeugt werden.
+    bool Init(char* a_acText, char* a_acFontFilename, CMaterial* a_pFontMaterial); //Initialisiert einen Text mit gegebener Schriftart.
+    void Fini(void);                                                                    
+
+    char* GetText(void); //Gibt den Text als String zurück.
+    bool SetText(char* ac_NewText); //Setzt einen neuen Text.
+    void AppendText(char* ac_Text); //Hängt einen String an den Text an.
+
+    float GetTextWidth(void); //Gibt die Breite des Textes in Pixel zurück.
+
+    bool ChangeFont(char* a_acText, char* a_acFontFilename, CMaterial* a_pFontMaterial); //Schriftart ändern.
+
+Beispiel:
+
+    CText* ptext = new CText();
+    ptext->Init("Hello World!");
+    
+    pplacementText = new CPlacement();
+    pplacementText->TranslateY(140.0f);
+    pplacementText->TranslateXDelta(ptext->GetTextWidth() / -2);
+    pplacementText->AddGeo(ptext);
+    pplacementRoot.AddPlacement(pplacementText);
+
+Schriftarten können erzeugt werden, indem man eine Textur mit allen Zeichen erstellt und die UV-Koordinaten entsprechend dem File default.txt angibt.
+
+
+26.05.2013 TB:
+	Komplettumbau der Klasse CGeoWindow und CGeoWall => Mitdenken für wenig Polys und keine Artefakte mehr 
+Bugfix bei Bounding Boxes, Bounding Boxes wurden nicht berechnet, falls Geo danach geadded wurde
+Die Boundingbox-Berechnung kann jetzt komplett unter einem Placement an- und ausgeschaltet werden (Default = off), dafür die Methoden SetBoundingBoxesOff() und SetBoundingBoxesOn() in CPlacement rekursiv gemacht:
+Komplett runde und ovale Fenster möglich, dafür folgende neue Methoden in CGeoWindow:	
+	void InitOval(CFloatRect floatrect, bool bAbsolute, int iGranularity = 12);
+	void InitOvalLeft(CFloatRect floatrect, bool bAbsolute, int iGranularity = 12);
+	void InitOvalRight(CFloatRect floatrect, bool bAbsolute, int iGranularity = 12);
+	void InitOvalArc(CFloatRect floatrect, bool bAbsolute, int iGranularity = 12);
+	void InitOvalArcLeft(CFloatRect floatrect, bool bAbsolute, int iGranularity = 12);
+	void InitOvalArcRight(CFloatRect floatrect, bool bAbsolute, int iGranularity = 12);
+	void InitOvalU(CFloatRect floatrect, bool bAbsolute, int iGranularity = 12);
+	void InitOvalULeft(CFloatRect floatrect, bool bAbsolute, int iGranularity = 12);
+	void InitOvalURight(CFloatRect floatrect, bool bAbsolute, int iGranularity = 12);
+	void InitU(CFloatRect floatrect, bool bAbsolute = false, int iGranularity = 12); 
+	void InitURight(CFloatRect floatrect, bool bAbsolute = false, int iGranularity = 12); 
+	void InitULeft(CFloatRect floatrect, bool bAbsolute = false, int iGranularity = 12);
+Es können nun Kniestöcke erzeugt werden, auch linke und rechte Giebel versetzt, dafür folgende neue Methoden in CGeoWall: 	
+	void SetKneeWallHeight(float frKneeWallHeightLeft, float frKneeWallHeightRight);  // Setzt Kniestockhöhe links und rechts auf unterschiedliche Höhe
+	void SetKneeWallHeight(float frKneeWallHeight);  // Setzt Kniestockhöhe links und rechts auf selbe Höhe
+	void SetKneeWallHeightLeft(float frKneeWallHeightLeft); // Setzt Kniestockhöhe links
+	void SetKneeWallHeightRight(float frKneeWallHeightRight);  // Setzt Kniestockhöhe rechts
+	void SetGable(float frCuspLeft, float frCuspRight); // Gibt den linken und den rechten Giebelpunkt an (z.B. 0.0 = an der linken Ecke der Mauer, 0.5 = Mauermitte, 1.0 = ganz rechts an der Mauer)
+	void SetGable(float frCusp); // Gibt für Spitzgiebel den gemeinsamen Scheitelpunkt an (z.B. 0.0 = an der linken ecke der Mauer, 0.5 = Mauermitte, 1.0 = ganz rechts an der Mauer
+	void SetGableLeft(float frCusp); // Gibt für Spitzgiebel den linken Scheitelpunkt an (z.B. 0.0 = an der linken ecke der Mauer, 0.5 = Mauermitte, 1.0 = ganz rechts an der Mauer
+	void SetGableRight(float frCusp); // Gibt für Spitzgiebel den rechten Scheitelpunkt an (z.B. 0.0 = an der linken ecke der Mauer, 0.5 = Mauermitte, 1.0 = ganz rechts an der Mauer
+Alle Fensterseiten können nun einzeln versteckt werden, dafür folgende Methoden in CGeoWindow: 
+	void HideLeft();
+	void HideLeftUpper();
+	void HideLeftLower();
+	void HideRight();
+	void HideRightUpper();
+	void HideRightLower();
+	void HideBottom();
+	void HideTop();
+Nun Erker und Anbautürme möglich, dafür folgende neue Methode in 
+	void SetSpareAngleX(float fa); // Gibt den Aussparungswinkel um die Y-Achse für eine gebogene Wand Turm / Zylinder an.=> Möglichkeit für Anbauten, Erker Beitürmchen etc.
+Neue Kopiermethode in CGeoWall:
+	void Copy(CGeoWall &zgw); // Kopiert Werte aus zgw in aktuelle hinein, erzeugt Kopien jedes einzelnen Vertex
+Neue Justierungsmethode in CWall => Größere Lo-Poly-Gebäude mit runden Wänden möglich
+	void Adjust(CGeoWall & geowallTop, bool bAdjustMapping = true); // Justiert die oberen Vertices so, dass sie zur Wand geowallTop passen
+Neue Verschmelzungsmetnode in Klasse CVertex:
+	void UniteDirections(CVertex & vertex2);  // Verschmilzt Normalen-, Tangenten- und Bitangenteninformationen der beiden Vertices this und vertex2
+CGeo::ReduceRedundancy verbessert, es werden auch n-Redundanzen ausgemerzt
+Neue Methoden in Pluralklasse CVertxs:
+	void CopyHierarchy(CVertexs vertexs); // Kopiert komplette Unterhierarchie und erzeugt Kopien jedes einzelnen Vertex
+	CVertex CalcMid(); // Mittelt alle Werte aller Vertices und gibt sie aus
+	void SetPos(CHVector & v); // Setzt die Positionen in allen Vertices auf den Wert v
+	void SetNormal(CHVector & v); // Setzt die Normalenvektoren in allen Vertices auf den Wert v
+	void SetTangent(CHVector & v); // Setzt die Tangentenvektoren in allen Vertices auf den Wert v
+	void SetBitangent(CHVector & v); // Setzt die Bitangentenvektoren in allen Vertices auf den Wert v
+	void Transform(CHMat & m); // Transformiert alle Vertices mit der Matrix m
+Octrees angefangen (für spätere Kollisionserkennung und Beschleunigung von Geometrieoperationen)=======
+
+
+27.05.2013 MS:
+Umbau der Pluralklasse CVertexs.
+Umstrukturierung des Codes.
+
+Folgende Neue Methoden zur Speicherverwaltung:
+    	void Reserve(unsigned int uiCapacity);
+    	void Resize(unsigned int uiCount);
+    	void Clear(void);
+    	void ClearAndDelete(void);
+
+Überladung des Index Operators:
+    	CVertex* operator[](unsigned int i) const;
+    	CVertex*& operator[](unsigned int i);
+
+Folgende Neue Methoden:
+    	void AddRange(CVertex** apVertices);
+    	void AddRange(CVertex** apVertices, unsigned int uiCount);
+
+    	void Insert(unsigned int uiAt, CVertex* pVertex); //Insert given vertex at position uiAt
+    	void AddFirst(CVertex* pVertex); //Insert given vertex at position 0            
+
+    	bool Find(CVertex* pVertex, unsigned int &uiPos); //Stores position of given vertex in uiPos
+    	void Remove(unsigned int uiAt); //Remove vertex at position uiAt
+	bool Sub(CVertex* pVertex); //Remove given vertex
+
+	unsigned int GetCount(void) const;  //Returns number of vertices
+
+Membervariablen < CVertex** m_apvertex > und < unsigned int m_iVertexs > sollten nichtmehr direkt verwendet werden. In Zukunft Indexoperator und GetCount() verwenden!
+
+Klasse CText: Methode SetText(...) zum setzten eines neuen Strings gefixt -> Rücksprache mit Tobi wegen: CTriangleList::m_bFirstDraw = true; damit der Text geupdatet wird. Ist das richtig so?
+
+
+
+2013.05.30 TB:
+Neue Funktion in CHVector:
+	bool IsNull(); // Gibt true aus, wenn alle Tupelwerte auf Null sind
+Neue Funktion in CHMat:
+	bool IsScaledToNull(); // gibt bei Nullskalierung true aus
+Neue Tauschmakros in Util.h: 
+	#define UM_SWAP_F(f1,f2)	// Tauscht die Werte zweier Floats miteinander aus
+	#define UM_SWAP_I(i1,i2)	// Tauscht die Werte zweier Integers miteinander aus
+	#define UM_SWAP_V(v1,v2)	// Tauscht die Werte zweier Vektoren miteinander aus
+Sweeping lässt sich jetzt in alle drei Achsenrichtungen ausführen
+Klasse CGeoSweep total überarbeitet, beschleunigt und "entrümpelt"
+UV-Mapping sieht bei Sweeping jetzt besser aus und lässt sich toggeln, dafür folgende neue Methoden in CGeoSweep:
+	void SetPlanarMappingAxis(int eAxis); // Setzt die Planare Mappingachse, 0 = X, 1 = Y, 2 = Z   
+	void SetPlanarMappingBottomOn(); // Erzeugt planares Mapping an der Basisreihe, muß vor Init aufgerufen wer
+	void SetPlanarMappingTopOn(); // Erzeugt planares Mapping an der Kopfreihe, muß vor Init aufgerufen werden
+	void InitRadial(CHVector vSize, CMaterial * pmaterial, int iLongitude, int iLattitude, float * afrRadius, float * afrDistance, bool bFlip =false, int eAxis = 1); // Initialisiert eine extrudierte Geometrie, vSize=allgemeine Skalierung, iLongitude = Anzahl radialer Vertices, iLattitude= Anzahl vetrices entlang des Pfades, afRadius  = Array von iLattitude Radien, afrDistance = Array von iLattitude Abständen zum Anfang des Pfades  
+	void InitCircle(CMaterial * pmaterial, int iLongitude, CHMats & matsPath, int eAxis = 1); // Initialisiert eine extrudierte Geometrie,  iLongitude = Anzahl radialer Vertices, CHMats = hommogene Matrizen zum Plazieren, Skalieren und Rotieren des Pfades
+Bugfix in CGeoSlice: letztes Polygon wurde manchmal nicht richtig geshadet
+Bugfix in CGeoCylinder: Tangenten und Bitangenten wurden an der Basis falsch berechnet 
+Vertices-Pluralklasse restauriert
+Alle Pluralklassen in Smart Allocating umgewandelt (auch die Lichtklassen, IntRect, Hardware ...) 
+Alle Pluralklassen haben nun eine Funktion Sub, um Objekt von Hierarchie abzuhängen
+Bugfix in allen Pluralklassen::Sub()  : Nach dem Abhängen konnte man die Objekte nicht wieder anhängen. => Sub sollte nun einwandfrei funktionieren 
+Punkt- und Spot-Lichter können jetzt an verschiedene Placements angehangen werden 
+Bugfix in CSpotLight: Near und Far-Clipping-Plane wurde überschrieben, falls Init nach SetClippingPlane aufgerufen wurde 
+Man kann nun auch während der Laufzeit (Tick) Placements an- und abhängen (war vorher nicht möglich) 
+Testtasten für Sub in TestbedGeneral inklusiert ("P" hängt Mond ab, "O" wieder dran)
+Neue Funtionen in CScene:
+	bool SubPlacement(CPlacement * pplacement); // Hängt ein Placement von einer Szene ab, gibt true aus, wenn es geklappt hat.
+	bool SubParallelLight(CParallelLight * pparallelLight);	// Hängt ein direktionales Licht von der Szene ab, gibt true aus, wenn es geklappt hat.
+In Editor CText:
+	CTriangleList::m_vertices.ClearAndDelete(); in gleichwertiges CTriangleList::m_vertices.Fini(); umgewandelt
+ 
+
+2013.06.03 TB:
+Bugfix: Billboards wurden nicht angezeigt, wenn SetBillboardAngle ohne SetBillboardScaling aufgerufen wurde 
+Klasse CFaces entrümpelt
+CGeoSweep, CGeoTube, CGeoCylinder und CGeoCone können jetzt in alle drei Achsenrichtungen erzeugt werden, dafür jeweils folgende Funktion:
+	void SetAxis(EAxis m_eAxis); // Setzt Modellierungsachse
+Neue Funktionen in CHMat:
+	void Rotate(EAxis eAxis, float fa);		// Generiert Rotationsmatrix um kartesische Achse eAxis mit Winkel fa
+	void Translate(EAxis eAxis, float f); // Generiert Verschiebungsmatrix in Axenrichtung, die durch eAxis festgelegt ist
+	void RotateDelta(EAxis eAxis, float fa); // Generiert beliebige Rotationsmatrix um die Drehachse eAxis mit Winkel fa und multipliziert diese mit der aktuellen Matrix  
+	void TranslateDelta(EAxis eAxis, float f); // Generiert Verschiebungsmatrix in Axenrichtung, die durch eAxis festgelegt ist, und multipliziert diese mit der aktuellen Matrix 
+
+2013.06.05 TB:
+GeoQuads können etzt in alle drei Achsenrichtungen erzeugt werden, dafür jeweils folgende Funktion:
+	void SetAxis(EAxis m_eAxis); // Setzt Modellierungsachse
+CGeoQuad:Init(CFloatRect ...) in CGeoQuad:InitForSprites(CFloatRect ...) umbenannt (Alter Name führte bei Anwendern öfters zu Verwirrung)
+CGeoQuad von alten Headern, Parametern, etc. "entrümpelt"
+Bugfix in CGeoQuad::Init Textur wurde auf dem Kopf gemappt
+
+2013.06.06 TB:
+Klasse CPlacement komplett umgebaut:
+	Es können nun mehrere verschiedene Geometrien, Pointlights, Spotlights, Drwables, Audios und Cameras an ein und dasselbe Placement an- und abgehangen werden !
+CPlacement::AddSound in CPlacement::AddAudio umbenannt
+Pluralklasse CDrawables eingefügt
+Pluralklasse von CAudio erweitert, nun können gleiche Soundfiles parallel (kanonmäßig) abgespielt werden
+Neue Methoden in CAudios:
+	void Add(CAudio * paudio);
+	bool Sub(CAudio * paudio);
+	CAudio * Make(char *stringWavFile, HWND hwnd);
+	bool Kill(CAudio * paudio);
+	void PauseCauseLoD(int iAudio);
+	void ContinueCauseLoD(int iAudio);
+	void Listen(CHMat & mListener, int iAudio); // Positioniert den Zuhörer beim 3D-Audio mittels der globalen Matrix mListener
+Zwei neue Methoden in CHMat:
+	void ProjectionOrtho(float fWidth, float fHeight, float fNear, float fFar); // Generiert eine orthografische Projektionsmatrix 
+	void ProjectionFov(float fWidth, float fHeight, float fNear, float fFar); // Generiert eine foveale Projektionsmatrix 
+Projektionsberechnung in CLight, CParallelLight, CSpotLight und CPointLight vereinfacht und beschleunigt (pro Licht und Frame 23 Funktionsaufrufe weniger)
+Alle Includes von xnamath.h und D3Dmath.h aus den Headern des Cores herausgenommen, entsprechende Funktionen durch eigene ersetzt => Schöne saubere Trennung zwischen Core (ohne Fremdbibliotheken) und DirectX (mit Direct-Bibliotheken) - Vorbereitung für spätere Trennung in verschiendene Libraries
+
+2013.06.07 TB:
+Leichte Beschleunigung von CPlacement, indem die Ermittlung ob ein transparentes Geo vom Tick in die Add- und Sub-Methoden verschoben wurden 
+Folgende neue Methoden in CPlacement:
+	bool SubSpotLight(CSpotLight * pspotlight); // Hängt das Scheinwerferlicht wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
+	bool SubPointLight(CPointLight * ppointlight); // Hängt das Punktlicht wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
+	bool SubDrawable(CDrawable * pdrawable); // Hängt das Drawable wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
+Lichter-Klassen optimert
+
+2013.06.07 TB:
+Einige neue Vektorfüllmethoden (auf Wunsch von Projektgruppe)
+	void SetXYZW(float f); // setzt alle Werte auf Wert f
+	void SetXYZ(float f); // setzt XYZ-Werte auf Wert f
+	void SetXYZ0(float f); // setzt XYZ-Werte auf Wert f, W-Wert auf 0
+	void SetXYZ1(float f); // setzt XYZ-Werte auf Wert f, W-Wert auf 0
+	void NormalX(); // setzt Vektor auf X-Normale (1,0,0,0)
+	void NormalY(); // setzt Vektor auf Y-Normale (0,1,0,0)
+	void NormalZ(); // setzt Vektor auf Z-Normale (0,0,1,0)
+
+	//------------------------------------------------------------------------------
+	// Vektoria V9 erstellt, Manual upgedatet, VektoriaV9App + VektoriaV9HalloWelt erstellt
+	//------------------------------------------------------------------------------
+
+2013.06.13 MS:
+AABBs in CNode überarbeitet:
+    bool    m_bAABBOn; // Boolsches Flag, um die AABB des Knotens aus (false) bzw. an (true) zu schalten
+    bool    m_bVisualHelpersEnabled; // Boolsches Flag, um die Visualisierung der AABB aus (false) bzw. an (true) zu schalten
+    CAABB   m_aabbBounds; // Axis Aligned Bounding Box
+
+	void SwitchAABBOn(bool a_bSwitchSubtreeOn = false); // Schaltet AABBs für diesen Node und seine gesamte Unterhierarchie an
+	void SwitchAABBOff(bool a_bSwitchSubtreeOff = false); // Schaltet AABBs für diesen Node und seine gesamte Unterhierarchie aus
+
+    void EnbaleVisualHelper(void); // Schaltet die Visualisierung der AABB nur für diesen Node an
+    void DisableVisualHelper(void); // Schaltet die Visualisierung der AABB nur für diesen Node aus
+    void EnableVisualHelpers(void); // Schaltet die Visualisierung der AABBs für diesen Node und seine gesamte Unterhierarchie an
+    void DisableVisualHelpers(void); // Schaltet die Visualisierung der AABBs für diesen Node und seine gesamte Unterhierarchie aus
+	
+Alle Nodes erben die Einstellungen für die AABBs vom übergeordneten Node.
+D.h.: Hängt man eine Geometrie an ein Placement, bei dem die AABBs angeschaltet sind, ist die AABB automatisch auch für die Geometrie angeschaltet.
+!!! Ob das sinnvoll ist sollte noch besprochen werden.
+Standardmäßig sind AABBs ausgeschaltet.
+
+Neue virtuelle Methode die den Klassennamen eines Nodes zurückgibt.
+	virtual const char* ClassName(void); //Gibt den Namen der Klasse zurück
+Alle Klassen die von Node abgeleitet werden geben somit beim Aufruf dieser Methode ihren Klassennamen zurück.
+z.B. CGeoSphere::ClassName() gibt "CGeoSphere" zurück CPlacement::ClassName() gibt "CPlacement" zurück. (Wird für den Editor benötigt.)
+
+Zwei neue Methoden für das "Picking" eines beliebigen Knotens (Placement, Geo, Camera, etc.)
+    bool IntersectSubtree(CHVector &a_vOrigin, CHVector &a_vRayDirection, CNode** r_pNode); //Dursucht die komplette Unterhierarchie nach einem Schnitt mit dem Picking-Ray und gibt den ersten getroffenen Knoten zurück.
+    bool Intersects(CHVector &a_vOrigin, CHVector &a_vRayDirection); //Prüft ob der PickingRay den Node schneidet und gibt bei einem Schnitt mit der AABB den Knoten zurück.
+
+Bugfix:
+Die Methode CNode::Draw(... ) zeichnet - wenn die "VisualHelpers" eingeschaltet sind - nun die AABBs des jeweiligen Nodes richtig.
+Ausserdem wurde eine sehr zeitaufwändige Resize Methode entfernt, die eine extreme FPS-reduzierung zur Folge hatte, wenn "VisualHelpers" eingeschaltet waren.
+
+TODO: 
+Update der AABBs ist noch nicht richtig implementiert.
+
+
+2013.07.04 MS:
+Neue Methode in CHMat
+    void GetRotation(float &fYaw, float &fPitch, float &fRoll); // Converts the matrix back to yaw, pitch, roll angles. [yaw: around the Z-Axis], [pitch: around the Y-Axis], [roll: around the X-Axis]
+
+CNode hat neuen Member const char* m_acName; damit Benutzer im Editor eigene Namen für die Objekte anlegen könne
+
+2013.07.18 TB:
+Bugfix: Backgrounds wurden ohne Rotationsangabe nicht richtig angezeigt
+Geometrien können nun an andere Geometrien geadded werden, dies sorgt bei komplexen Game Levels für mehr Übersichtlichkeit, dafür folgende neue Methoden in CGeo:
+	void AddGeo(CGeo * pgeo); // Hängt eine Geometrie an eine andere Geometrie an
+	bool SubGeo(CGeo * pgeo); // Hängt die Geometrie wieder von der aktuellen Geometrie ab, gibt true aus, wenns geklappt hat
+	bool HasTransparent(); // Gibt true aus, wenn irgenein transparentes Objekt an die Geometrie angehangen wurde
+Matrizenberechnungen in CCamera vereinheitlicht, vereinfacht und beschleunigt
+Cameras können nun auch in orthographische Parallelprojektion umgeschaltet werden (wichtig für CAD-Anwendungen und Dreitafelprojektionen), dafür folgende neue Methoden in CCamera:
+	void SetOrthoOn(); // Schaltet Kamera in Othogonalprojektionsmodus
+	void SetOrthoOff(); // Schaltet Kamera wieder in normalen fovealen Projektionsmodus (default)
+
+2013.07.26 MS:
+- Abstürtze beim Minimieren des Fensters sollten behoben sein. -> Siehe CFrame
+- Umbau von VektoriaApp.cpp -> Einfacherer und übersichtlicherer Code (vorallem für WindowResize)
+- F11 (Windows standrad) für Vollbildmodus
+    - TODO: Alte Breite und Höhe des Fensters merken und beim Verlassen des Vollbildmodus wieder setzten. (Wird momentan fest auf 1980x1080 gesetzt.)
+- CCamera wieder alten Code für ProjectionMat eingbaut, da neuer nicht das gleiche gemacht hat wie der alte.
+
+2013.07.29 TB:
+Pluralklasse CGeoWalls eingefügt.
+GeoWalls können jetzt DIREKT an GeoWindows drangehängt werden (übersichtlicher, stringenter und eröffnet für die Zunkunft mehr Möglichkeiten), dafür folgende Methoden in CGeoWindow:
+	void AddGeoWall(CGeoWall * pgeowall);
+	bool SubGeoWall(CGeoWall * pgeowall);
+	void Draw(float fDistanceToCameraSquare, CHMat & mGlobal);
+	// bis jetzt nur bei geraden Wänden möglich, gebogene Wände sollen folgen
+GeoWalls können jetzt als Geometrie verschoben werden, dafür folgende Funktion: SetMat()
+CGeoWalls und CGeoWindow jetzt von CNode abgeleitet // Habe der EInfachkeit halber einige virtual-Methoden in CNode in normale Methoden umgewandelt
+Bugfix in CPlacment: Matrizen wurden teilweise noch nach Fixing berechnet 
+
+ 
+2013.07.29 PF:
+Turntablenavigation hinzugefügt.
+Navigation, die vor allem aus der Vogelperspektive sinnvoll ist. 
+Ermöglicht Orbitrotation, Zoom und WASD Steuerung.
+Die meisten Parameter der Steuerung lassen sich anpassen.
+
+2013.08.09 TB:
+Veralteter Parameter prenderapi aus CScene::Draw, CScenes::Draw, CPlacement::Draw und CPlacements::Draw entfernt => Beschleunigung
+Bugfix in CGeoWall: Bei bestimmten Parametrisierungen von SetRoundingY trat Endlosschleife auf. 
+Unterwalls werden jetzt in Window-Hierarchie richtig plaziert, siehe neue Demo in TestbedGeo, TODO: Funktioniert noch nicht zusammen mit FixAndFasten
+Vektoria-Manual, FAQs und UML-Hierarchieskizze erneuert auf V9
+
+2013.08.19 TB:
+Neue Funktionen in CHVector:
+	float AngleYX(); // gibt auf die XY-Ebene projizierten Drehwinkel im Bogenmaß aus (Null entspricht Z-Achse);
+	float AngleXZ(); // gibt auf die XZ-Ebene projizierten Drehwinkel im Bogenmaß aus (Null entspricht X-Achse);
+	float AngleZY(); // gibt auf die YZ-Ebene projizierten Drehwinkel im Bogenmaß aus (Null entspricht Z-Achse);
+Neue Klassen für Geraden und Strahlen CRay und CRays eingefügt:
+In CRay folgende neue Methoden:
+	CRay operator=(CRay ray); // Kopieroperator von Strahl ray
+	void Copy(CRay ray); // Kopiert von Strahl ray 
+	void Init(CHVector & vOrigin, CHVector & vDirection); // Initialieret Strahl ray
+	void InitFromTo(CHVector & vOrigin, CHVector & vTo); // Initialieret Strahl ray mittels Start- und Endvektor
+	void SetMin(float fMin); // Setzt Strahlminimaldistanz ausgehend von vOrigin
+	void SetMax(float fMax); // Setzt Strahlmaximaldistanz ausgehend von vOrigin
+	float GetMin();  // Gibt Strahlminimaldistanz ausgehend von vOrigin aus
+	float GetMax(); // Gibt Strahlmaximaldistanz ausgehend von vOrigin aus
+	float Distance(CRay & ray); // Berechnet den minimalen Abstand zweier Strahlgeraden
+	float Distance(CHVector & v); // Berechnet den kleinsten Abstand der aktuellen Strahlgeraden von Punkt v
+	float Angle(CHVector & v); // Berechnet den Winkel der Strecke zwischenvOrigin und Punkt v zum Strahl 
+Pluralklasse CRays wie gewohnt mit Smart Allocation, Kopieroperator, Add, Sub, Make und Kill 
+Klasse GGeoWing für komplexe Gebäudestrukturen eingefügt
+Neue Methode in CGeoWall:
+	void SetGableByAngle(float faLeft, float faRight); // Erzeugt Gabelpunkte, indem die Winkel ausgehend von den unteren Ecken angegeben werden
+Bugfix: Nulldivision in CDevice::Init bei fehlendem Adden 
+
+2013.08.20 MS:
+Speicherleck in CText Entfernt.
+Diverse Copy-Methoden (CopyTranslation, CopyRotation, CopyScale) in CHMat und CPlacement hinzugefügt.
+Neue Methode "int GetKey(void)" in CDeviceKeyborad eingebaut. -> Gibt die aktuell gedrückte Taste zurück.
+Neue Methode "char GetChar(void)" in CDeviceKeyboard eingebaut. -> Zuordnung der DirectX-Keycodes (z.B. DIK_A) zu charaktern (deutsches Tastaturlayout).
+Editor Textboxen und Texteingabe für Position, Rotation und Skalierung von Objekten.
+ 
+2013.08.21 TB:
+Veraltete Funktionen in CFace gelöscht (Fini etc.)
+Rechte und linke Gehrung können sich nun ohne Artefakte überkreuzen
+Vereinfachung und Beschleunigung der Vertexberechnung in CGeoWall
+Bugfix: GetRightCuspByAngle gab bei HALFPI 0 statt 1 aus
+
+2013.09.04 TB:
+Neue Klassen für Ebenen eingefügt: CPlane inclusive Pluralklasse CPlanes
+In CPlane folgende neue Methoden:
+	CPlane(CHVector * pvA, CHVector * pvB, CHVector * pvC); // Initialisiert eine Ebene durch die Angabe dreier Punkte
+	CPlane(CHVector & vPoint, CHVector & vNormal); // (Re-)initialisiert eine Ebene durch die Angabe eines Punktes plus Normalenvektor
+	~CPlane();
+	CPlane operator=(CPlane & plane); // Kopieroperator
+	void Copy(CPlane & plane); // Kopierfunktion
+	void Init(CHVector * pvA, CHVector * pvB, CHVector * pvC); // (Re-)initialisiert eine Ebene durch die Angabe dreier Punkte
+	void Init(CHVector & vPoint, CHVector & vNormal); // (Re-)initialisiert eine Ebene durch die Angabe eines Punktes plus Normalenvektor
+	float Angle(CPlane & plane); // Berechnet den Schnittwinkel zwischen zwei Ebenen
+	CRay Intersect(CPlane & plane); // Berechnet die Schnittgerade zweier Ebenen
+	CHVector Intersect(CPlane & plane2, CPlane & plane3); // Berechnet den Schnittpunkt dreier Ebenen
+	CHVector Intersect(CRay & ray); // Berechnet Schnittpunkt eines Strahls mit der Ebene // noch ungetestet
+	bool IsFront(CHVector & v); // true, wenn v vor der Ebene liegt, false ansonsten
+	bool IsIn(CHVector & v); // true, wenn v in der Ebene liegt, false ansonsten
+	bool IsBack(CHVector & v); // true, wenn v hinter der Ebene liegt, false ansonsten
+	float GetD(); // Gibt D-Parameter der Ebene aus
+	CHVector GetNormal(); // rechnet Normale der Ebene aus
+	float Distance(CHVector & v); // gibt die Entfernung des angegebenen Punktes zur Ebene aus, liegt Punkt hinter der Ebene, wird der Wert negativ
+Pluralklasse CPlanes wie gewohnt mit Smart Allocation, Kopieroperator, Add, Sub, Make und Kill 
+GGeoWing erzeugt jetzt schon die Grundfassaden (noch ohne Fenster und Türen) von Gebäudestrukturen (übersichtliche Klasse soll ab V10 die Quick'n Dirty-Methoden MakeRoof und MakeWallByWindow in CPlacement ersetzen) 
+
+
+2013.09.12 PF:
+Namespace Vektoria eingefügt. Löst ebenfalls das Problem mit den DX-Makro-Compilerwarnungen.
+Weitere Namespaces unterhalb von ::Vektoria wären wünschenswert. Dafür sollte aber ein einhetliches System für die 
+Forwarddeclaration in Headern (z.B eine globale Forwarddeclaration) gefunden werden damit der Aufwand für die notwendigen 
+Änderungen in den einzelnen Projekten sich in Grenzen hält. 
+Wer in seinem Projekt keine hässlichen using namespace Vektoria;-Statements im Header wünscht, muss Das selbständig ändern ;)
+Das Ganze ist auch mit der V8 App vom Netzlaufwerk getestet. Es genügt ein using namespace Vektoria; in der game.h damit Es läuft.
+Ein Root-Singelton wiederspricht derzeit den Distributionfactory-Klassen, welche wohl mehrere Versionen des SG halten.
+
+2013.09.13 TB:
+CGeoWing erzeugt nun ganze Häuserteile bzw. Gebäudeflügel mit Dach und Fenster, verschiedene Dachformen möglich Spitzdach, Mansardendach, Zeltdach ...
+Seiten eines Gebäudeflügels können einzeln zu- oder abgeschaltet werden, dafür folgende Methoden in CGeoWing: 
+	void HideRoof();
+	void ShowLeft();
+	void ShowRight();
+	void ShowBottom();
+	void HideTop();
+Fenster können auf ein Gebäudeflügel appliziert werden, dafür folgende Methoden:
+	void AddGeoWindow(CGeoWindow * pgeowindow, int iWall, EGeoWingPart ePart = eGeoWingPart_Facade); // Stanzt ein einzelnes Fenster an die Wand mit der Nummer iWall
+	void AddGeoWindows(CGeoWindow * pgeowindow, int iWall, CFloatRect floatrect, int ixs, int iys, EGeoWingPart ePart = eGeoWingPart_Facade); // Stanzt ixs mal iys Fenster in den Bereich der Wand mit der Nummer iWall, der mit floatrect angegeben ist
+	void AddGeoWindowsRandom(CGeoWindow * pgeowindow, CGeoWindow * pgeowindowDoor, int iWallDoor); // Versucht, die Fanster automatisch zu platzieren
+	void AddRandomDoor(CGeoWindow * pgeowindow, int iWallDoor); // Fügt eine Tür hinzu, die automatisch plaziert wird
+	void AddRandomWindow(CGeoWindow * pgeowindow); // Fügt ein Fenster hinzu, das automatisch plaziert wird
+	void AddRandomWindowHighest(CGeoWindow * pgeowindow); // Fügt ein Fenster hinzu, das automatisch in die oberste Fensterzeile plaziert wird
+	void AddRandomWindowLowest(CGeoWindow * pgeowindow); // Fügt ein Fenster hinzu, das automatisch in die unterste Fensterzeile plaziert wird
+	void AddRandomWindowMid(CGeoWindow * pgeowindow); // Fügt ein Fenstertyp hinzu, das automatisch in die milleren Fensterzeilen plaziert wird
+	void AddRandomWindowRoof(CGeoWindow * pgeowindow); // Fügt ein Fenstertyp hinzu, das automatisch auf die Dächer plaziert wird
+	void AddRandomWindowCellar(CGeoWindow * pgeowindow); // Fügt ein Fenstertyp hinzu, die automatisch als Kellerfenster plaziert wird
+Bei den Methoden AddGeoWindow und AddGeoWindos von CGeoWing und CGeoWall sind jetzt auch absolute Maße möglich
+
+
+2013.09.18 TB:
+Bugfix: Zufallmakros in Util.h UM_RANDRADIAL und UM_RANDRADIALPN funktionierten nicht
+Bugfix in Vektoria-App: TimeDelta-Berechnung war ungenau, sie lag sogar teilweise bei schneller Frame-Rate konstant auf Null
+Vektoria-App-Klasse durch Herausnahme von redundantem Code beschleunigt und entrümpelt  
+Copy-Funktion in CNodes und CNode hinzugefügt
+CNode leicht beschleunigt durch Löschung von redundantem Code
+In CFloatRect eine Collide-Methode hinzugefügt, die untersucht, ob zwei FloatRects  im 2D-Space miteinander kollidieren. 
+In CGeoWindows eine Collide-Methode hinzugefügt, die untersucht, ob zwei Fensterbereiche auf einer Wand miteinander kollidieren. 
+Veraltete Kommentare in allen Klassen aufgeräumt
+Parent-Child-Struktur vereinheitlicht (bis jetzt aus Zeitgründen nur unterhalb von CPlacement), dafür viele SetRoot-Funktionen herausgenommen  
+Erschda Versuch vonner klaanen ekstärnen Koodvärschluesselung (Aas demjenische Grund werd des TeschdbedGeo aa ned bei Eich rischdisch funktioniere), bessere Grübdofunktione werre irschendwann folsche 
+namespaces in restliche Pluralklassen eingefügt 
+Frage an PF: Vielen Dank für die Namespaces! Halte ich auch für sehr sinnvoll. :-) Hast Du die Namespaces aber auch nach der Erzeugung einer externen Release-SDK getestet? Das war ja beim letzten Mal mein Problem => siehe EIntag vom 09.05.2012
+
+2013.09.21 TB:
+In CPlacement alle Beschleunigungsroutinen überarbeitet, alte Routinen erlauben nun noch eine schnellere Beschleunigung als vorher, Neue Methoden Fasten und Unfasten hinzugefügt 
+	void Fasten(); // Sortiert nach Status-Calls, um CPUGPU-Traffic zu reduzieren und vereinigt Geometrien mit gleichem Material  => Beschleunigung (Achtung 1, die Rekalkulation dauert lange!, Achtung 2: Transparente Objekte funktonieren nicht mehr), erlaubt Beschleunigung der untergeortneten Hierarachie, das Placement kann im Gegensatz zu FixAndFasten trotzdem noch bewegt werden
+	void Unfasten(); // Macht Fasten rückgängig (Achtung, dauert lange)
+In CGeoWing folgende Routine hinzugefügt:
+	void InitRoundTower(float fRadius, float fHeight, float fHeightRoof, float fThickness, float fOverroofDepth, CMaterial * pmaterialFacade, CMaterial * pmaterialRoof, CMaterial * pmaterialCeiling, float fEdgeLengthMin = 0.2F, bool bInner=false, bool bOpen=false, EGeoWingTowerRoof eKind = eGeoWingTowerRoof_Normal);
+
+2013.10.06 PF
+Spotlight wirft nun weiche Schatten via PCF (Percentage Closer Filtering). Shadowmaps mit 8kx8k laufen gerade noch
+flüssig genug, um zu zeigen wie nett so eine Shadowmap aussehen kann =). 
+
+2013.10.13 PF
+Spotlight hat nun kaskadierte Schatten und bool-Werte um soft/cascaded aus- und anschalten zu können.
+Spotlight kann nun bis zu 30 entfernt sein und Schatten werfen. 
+
+ 
+2013.10.16 TB:
+Bugfix: CGeoWall erzeugte bei Gabeln 2 unnötige interne Polygone
+CGeoWall kann nun auch Wände mit "negativen" Giebeln erzeugen, also Wände, die nach oben breiter werden. 
+CGeoWall hat folgende Methode 
+	void SetNrOfFloors(int iFloors); // gibt die zu einer Wand dazugehörige Stockwerksanzahl an, verbessert u.a. die Vorab-Allozierung von Tiles (diese muss dann nicht mehr auf den Maximalwert gesetzt werden), so dass auch nahezu beliebig große Wände möglich sind.
+CGeoWing erzeugt nun auch Gebäude mit beliebigen Grundriss, dafür folgende neue Methoden:
+	void InitPrintTent(); // erzeugt Gebäude mit beliebigen Grundriss und Zeltdach 
+	void InitPrintFlat(); // erzeugt Gebäude mit beliebigen Grundriss und Flachdach
+	void InitYardRoof(); // erzeugt Gebäude mit beliebigen Grundriss, Satteldach und Innenhof
+	void InitYardFlat(); // erzeugt Gebäude mit beliebigen Grundriss, Flachdach und Innenhof
+	void InitYardRutsh(); // erzeugt Gebäude mit beliebigen Grundriss, Schrägdach und Innenhof
+	void InitPolyFlat(); // erzeugt Gebäude mit n Kanten und Flachdach
+	void InitPolyTent(); // erzeugt Gebäude mit n Kanten und Zeltdach
+	void InitRectFlat(); // erzeugt rechteckiges Gebäude mit Zeltdach
+	void InitRectMans(); // erzeugt rechteckiges Gebäude mit Mansardendach
+	void InitRectTent(); // erzeugt rechteckiges Gebäude mit Zeltdach
+	void InitRectSaddle(); // erzeugt rechteckiges Gebäude mit Satteldach
+Neue Funktion in CHVector:
+	CHVector Mid(CHVector & hvector); // ermittelt Vektor, der genau in der Mitte zwischen aktuellem und angegebenen Vektor liegt
+Neue Funktion in CHVectors:
+	CHVector Mid(); // Rechnet arithmetischen Mittelpunkt aller Vektoren aus
+Bugfix: CFloatRect::Clip schnitt bei Size-Werten über 1.0F falsch ab
+Bugfix: UM_ROTINSPANFA(fa) funktionierte nicht
+Bei Lichtern wurde pro Tick und Licht die Varialble plightstructure jeweils alloziert und dealloziert => machte Szenen mit vielen Lichtern langsam, dies wurde nun durch eine entsprechende Membervariable m_plightstructure verhindert   
+While-Schleife der VektoriaApp.cpp entrümpelt, vereinfacht und beschleunigt
+
+2013.10.20 PF:
+In CCameraNavigationTurntable ist eine Pan-Bewegung (Bewegung entlang einer Ebene, die senkrecht zur Kamera steht) mit l.Alt + r. Maustaste verfügbar.
+Optional lässt sich die Achsensperre, die verhindert dass unter den Boden oder Überkopf rotiert werden kann in der Init() deaktivieren.
+
+2013.10.24 TB:
+3 neue Vektoria-Manuals für V10 erarbeitet: Barr-Modellierung, Hierachitekturmodellierung und Placement-Beschleunigung
+12 alte Vektoria-Manuals überarbeitet 
+FAQs überarbeitet
+Bugfix in CGeoWall: Bei Gehrungen wurden bei bestimmten Winkeln die Seitenwände nicht mehr angezeigt  
+CGeoWindows und CGeoWing "entrümpelt", vereinfacht und beschleunigt
+Neue Windows-Stile in CGeoWindows:
+	void InitV(CFloatRect floatrect, bool bAbsolute = false); 
+	void InitVLeft(CFloatRect floatrect, bool bAbsolute = false); 
+	void InitVRight(CFloatRect floatrect, bool bAbsolute = false); 
+Neue Methoden um Windows-Stile zu modifizieren (inveriert Kurvenzüge):
+	void SetInverseCurveAll();
+	void SetInverseCurveLeftUpper();
+	void SetInverseCurveLeftLower();
+	void SetInverseCurveRightUpper();
+	void SetInverseCurveRightLower();
+Neue AbfrageMethoden in CGeoWindows:
+	bool IsStyleRight(); 
+	bool IsStyleLeft();
+	bool IsStyleSym();
+
+2013.10.25 PF:
+Weiche Schatten werden nun mit Randomsampling gerendert (gibt schönere Kanten).
+
+2013.10.28
+Environmentmapping ist nun möglich mit: CPixImage * CMaterial::MakeTextureEnvironment( char * acPath )>>>>>>> .r451
+
+2013.10.31 TB:
+Neue Testumgebung: TestbedTown, in der die Architekturklassen und Schatten getrennt getestet werden können
+Bugfix: System stürzte ab, wen überhaupt kein Material geladen wurde oder überall nur NULL-Pointer als Materialzeiger übergeben wurden, nun wird Default-Material auf jeden Fall im ersten Tick der Root geladen, um dies zu verhindern 
+Bugfix: System stürzte ab, wenn Schatten bei mehreren Viewports angeschaltet wurde
+Bugfix: Polyflat erzeugte bei Winkeln unter 90° Artefakte
+Methoden für die weichen Schatten von Patrick in CSpotLight:
+	void SetShadowOn();
+	void SetSoftShadowOn();
+	void SetCascadedShadowOn();
+
+2013.11.03 PF:
+- Parallax Occlusion Maps mit MakeTextureHeight() möglich
+- SetTextureHeightAsImage() nicht sinvoll und und wurde entfernt
+- Kombination von POM und Bumpmapping möglich
+- MSAA wegen GPU-problemen auf 1 in directX::init gesetzt (m_uiSampleCount = 1;)
+- Demo in VektoriaTest
+
+2013.11.08 PF:
+-Environment Mapping interagiert mit Licht und Schatten
+-Weniger Probleme mit POM-Selfshadowing
+
+
+
+2013.11.12 MR:
+- Neue Version von CFile3DS hinzugefügt.
+	Paar Bugs gefixed.
+	Primitive Animationen möglich. Wird demnächst erweitert.
+- CMaterial hat eine neue Methode: void CMaterial::SetTextureAddressMode(ETextureAddressMode eTextureAddressMode).
+- CGeoSkybox hinzugefügt. (Geflippter, speziell UV gemappter Würfel mit allen Normalenvektoren in Richtung Parallellicht. Außerdem immer TextureAddressMode auf Clamp und specular aus)
+- Partikelsystem hinzugefügt
+	Ein neues Partikelsystem wird erzeugt, indem man einen Emitter erstellt, diesen an ein Placement hängt und das wiederum an eine Szene. Beispiele befinden sich im Testbed "CTestbedParticleSystemExamples"
+	Grundsätzliche Methoden des Emitters:
+	void Start();
+	void Stop();
+	void Pause();
+	
+	Weiterhin kann das System über folgende Methoden konfiguriert werden. Diese sind dabei jeweils Kategorien zugeordnet:
+	
+	CEBasic Basic;
+		void SetDuration(float fDuration);
+		void SetMaxParticles(int iMaxParticles);
+		void SetLoop(bool bLoop, bool bCoolDown = false);
+		void SetBillboardSize(float fBillboardSizeX, float fBillboardSizeY);
+		void Prewarm(float fSeconds);
+		void SoftParticles(bool bEnabled, float fFactor);
+		void Update();
+		
+	CETexture Texture;
+		CEFramesOverTime FramesOverTime;
+			void IsRandBetweenGraphs(bool bActive);
+			void GraphAdd(int iPercent, float fValueTop, float fValueBottom = 0);
+			void GraphClear();
+		void SetMaterial(CMaterial * pmaterial);
+		void SetBlendMode(EBlendMode m_bmBlendMode, bool bAlphaToCoverageEnabled);
+		void Update();
+			
+	CEEmission Emission;
+		void SpawnGraphAdd(int iPercent, float fValue);
+		void SpawnGraphClear();
+		void SpawnBurstsAdd(float fTime, int iParticles);
+		void SetSpawnAccuracy(int iSpawnAccuracy);
+		void SetSpawnShape(CESpawnShape ssSpawnShape);
+		void Update();
+		
+	CEVelocity Velocity;
+		CEVelocityOverTime VelocityOverTime;
+			void IsRandBetweenGraphs(bool bActive);
+			void GraphXAdd(int iPercent, float fValueTop, float fValueBottom = 0);
+			void GraphXClear();
+			void GraphYAdd(int iPercent, float fValueTop, float fValueBottom = 0);
+			void GraphYClear();
+			void GraphZAdd(int iPercent, float fValueTop, float fValueBottom = 0);
+			void GraphZClear();
+		void Update();
+		
+	CEForce Force;
+		CEForceOverTime ForceOverTime;
+			void IsRandBetweenGraphs(bool bActive);
+			void GraphXAdd(int iPercent, float fValueTop, float fValueBottom = 0);
+			void GraphXClear();
+			void GraphYAdd(int iPercent, float fValueTop, float fValueBottom = 0);
+			void GraphYClear();
+			void GraphZAdd(int iPercent, float fValueTop, float fValueBottom = 0);
+			void GraphZClear();
+		void Update();
+		
+	CESize Size;
+		CESizeOverTime SizeOverTime;
+			void IsRandBetweenGraphs(bool bActive);
+			void GraphAdd(int iPercent, float fValueTop, float fValueBottom = 0);
+			void GraphClear();
+		CESizeBySpeed SizeBySpeed;
+			void IsRandBetweenGraphs(bool bActive);
+			void GraphAdd(int iPercent, float fValueTop, float fValueBottom = 0);
+			void GraphClear();
+			void SpeedRange(float fSpeedRangeBottom, float fSpeedRangeTop);
+		void Update();
+		
+	CERotation Rotation;
+		CERotationOverTime AngularVelocityOverTime;
+			void IsRandBetweenGraphs(bool bActive);
+			void GraphAdd(int iPercent, float fValueTop, float fValueBottom = 0);
+			void GraphClear();
+		CERotationBySpeed AngularVelocityBySpeed;
+			void IsRandBetweenGraphs(bool bActive);
+			void GraphAdd(int iPercent, float fValueTop, float fValueBottom = 0);
+			void GraphClear();
+			void SpeedRange(float fSpeedRangeBottom, float fSpeedRangeTop);
+		void Update();
+	CEColor Color;
+		CEColorOverTime ColorOverTime;
+			void IsRandBetweenGraphs(bool bActive);
+			void GraphAdd(int iPercent, CColor fValueTop, CColor fValueBottom = CColor(1.0f, 1.0f, 1.0f, 1.0f));
+			void GraphClear();
+		CEColorBySpeed ColorBySpeed;
+			void IsRandBetweenGraphs(bool bActive);
+			void GraphAdd(int iPercent, CColor fValueTop, CColor fValueBottom = CColor(1.0f, 1.0f, 1.0f, 1.0f));
+			void GraphClear();
+			void SpeedRange(float fSpeedRangeBottom, float fSpeedRangeTop);
+		void Update();
+	
+2013.11.13 TB:
+Bugfix: Environmental- un POM-Texturen luden nicht Default-Material, falls falscher Pfad angegeben wurde   
+- Mehrere größere Levels können nun nacheinander geladen und entladen werden
+- Scenes können nun von der Wurzel wieder abgehangen werden, dafür folgene Methode in CRoot:
+	bool SubScene(CScene * pscene);	// Hängt eine Szene von der Wurzel ab, gibt false aus, wenn die angegebene Szene nicht ein Kind der Wurzel ist oder überhaupt nicht existiert, bei Erfolg wird true ausgegeben 
+- Materialien können nun aus Root-Liste wieder abgehängt werden, dafür folgende Funktion in CRoot:
+	bool SubMaterial(CMaterial * pmaterial); //Löscht ein Material aus der Materialliste der Wurzel, gibt true aus, wenn es funktioniert hat 
+	bool SubAllMaterials(); // Löscht alle Materialien aus der Materialliste der Wurzel, außer dem Defaultmaterial
+- und folgene Funktion in Render-API, um Ressorcen wieder freizugeben: 
+	bool DeleteMaterial(CMaterial * pmaterial); 		
+- Kleine Beschleunigung des Materialladens, durch Entrümpelung von UpdateTextures  
+- Übersichtlichere und wenigere verwirrende Benennungen in Render-API-Schnittstelle, ab jetzt: 
+	void CreateMaterial(CMaterial * pmaterial);
+	void UpdateMaterial(CMaterial * pmaterial); 		
+	bool DeleteMaterial(CMaterial * pmaterial); 		
+- Zwei neue Methoden in CGeos:
+	bool AddOnce(CGeo * pgeo); // Fügt pgeo nur hinzu, wenn es noch nicht in der Liste vorhanden ist
+	bool Has(CGeo * pgeo); // Schaut, ob pgeo in der Liste vorhanden ist, gibt true aus, falls ja
+ACHTUNG, SOLLTE COMITT NET FUNZE, ERINNERT EUCH AN DES G-HEIMGESPAECH BAAM LETSCHDE TREFFE!
+
+2013.11.13 TB:
+- Transform, Subdivition, Barr-Modellierung, Rippleing und Waving funktionieren jetzt auch bei CGeoWings, dafür folgende neue Methoden in CGeoWing: 
+	void Transform(CHMat & m); // Transformiert alle Punkte der Geometrie mit der Transformationsmatrix m, polymorphe Überschreibung
+	void Subdivide(float fLengthMax);  // Wandelt Mesh in ein Subdivision-Mesh mit mehr Polygonen um, abhängig von der maximalen Kantenlänge fLengthMax, polymorphe Überschreibung
+	void SubdivideX(float fLengthMax); // Wandelt Mesh in ein Subdivision-Mesh mit mehr Polygonen um, abhängig von der maximalen Kantenbreite fLengthMax in X-Richtung, polymorphe Überschreibung
+	void SubdivideY(float fLengthMax); // Wandelt Mesh in ein Subdivision-Mesh mit mehr Polygonen um, abhängig von der maximalen Kantenhöhe fLengthMax in Y-Richtung, polymorphe Überschreibung
+	void SubdivideZ(float fLengthMax); // Wandelt Mesh in ein Subdivision-Mesh mit mehr Polygonen um, abhängig von der maximalen Kantentiefe fLengthMax in Z-Richtung, polymorphe Überschreibung
+	void RippleY(float fAmplitude, int iHarmonics, float faPhase = 0.0F, bool bInfluenceX=true, bool bInfluenceY=false, bool bInfluenceZ = true); // Wellenriffeln um die Y-Achse, polymorphe Überschreibung
+	void RippleYHard(float fAmplitude, int iHarmonics, float faPhase = 0.0F, bool bInfluenceX=true, bool bInfluenceY=false, bool bInfluenceZ = true); // Wellenriffeln um die Y-Achse, polymorphe Überschreibung
+	void TwistX(float faStrength); // Twisting um die X-Achse, polymorphe Überschreibung
+	void TwistY(float faStrength); // Twisting um die Y-Achse, polymorphe Überschreibung
+	void TwistZ(float faStrength); // Twisting um die Z-Achse, polymorphe Überschreibung
+	void BendX(float fRadius, float faSection); // Bending um die X-Achse, polymorphe Überschreibung
+	void BendY(float fRadius, float faSection); // Bending um die Y-Achse, polymorphe Überschreibung
+	void BendZ(float fRadius, float faSection); // Bending um die Z-Achse, polymorphe Überschreibung
+	void TaperX(float fStrength, bool bInfluenceX=false, bool bInfluenceY=true, bool bInfluenceZ = true); // Tapering in Richtung der X-Achse, polymorphe Überschreibung
+	void TaperY(float fStrength, bool bInfluenceX=true, bool bInfluenceY=false, bool bInfluenceZ = true); // Tapering in Richtung der Y-Achse, polymorphe Überschreibung
+	void TaperZ(float fStrength, bool bInfluenceX=true, bool bInfluenceY=true, bool bInfluenceZ = false); // Tapering in Richtung der Z-Achse, polymorphe Überschreibung
+	void WaveX(float fAmplitude, float fWavelength, float faPhase = 0.0F, bool bInfluenceX=true, bool bInfluenceY=false, bool bInfluenceZ = true); // Wellenform in Richtung der X-Achse, polymorphe Überschreibung
+	void WaveY(float fAmplitude, float fWavelength, float faPhase = 0.0F, bool bInfluenceX=true, bool bInfluenceY=false, bool bInfluenceZ = true); // Wellenform in Richtung der Y-Achse, polymorphe Überschreibung
+	void WaveZ(float fAmplitude, float fWavelength, float faPhase = 0.0F, bool bInfluenceX=true, bool bInfluenceY=false, bool bInfluenceZ = true); // Wellenform in Richtung der Z-Achse, polymorphe Überschreibung
+
+2013.11.19 TB:
+- CPixImage wieder in CImage umbenannt (laut Elescheid v. Jun. 2012)
+- Logo in VektoriaApp etwas aufgehübscht
+- Poly-Wings können nun an Hauptgebäude angehangen werden (diesbezügliches Testtürmchen in TestbedTown) 
+- Artefakte bei vererbten Dachfenstern in runden Türmchen verhindert
+- Veraltete Kommentare in verschiedenen Klassen gelöscht 
+
+2013.11.21 TB:
+- Bugfix: BumpMapping funktionierte nur noch für Spekulare Texturen => Shaders.hlsl gefixt
+- Bugfix: CGeoCube hat jetzt richtigte Normalen, Binormalen und Tangenten (gecheckt)
+- Leichte Beschleuigung der Draw Calls (ca. 2%) in PassToGPU 
+- Klasse CHVector3 aus Vektoria Core entfernt (Elescheid v. 21.11.2013) und in CLibParticlePhysics verschoben 
+	=> Kleine Änderungen in CGeoSkybox und TurntableNavigation notwendig
+- CGeoCube hat jetzt zweites Init für Würfelformen statt allgemein Quaderform:
+	void Init(float fSize, CMaterial * pmaterial, float fTextureRepeat = 1.0f, bool bFlip = false); // Initialisiert eine Würfelform-Geometrie
+- CGeoCube::Resize() auskommentiert und CGeoCube::m_fSize gelöscht (war überflüssig)
+- In CMaterial: Neue Texturform für Skydomes, Skycubes, etc. (ging zwar auch schon vorher über Imagetexturen, man musste aber zusätzlich 5 verschiedene Parameter einstellen, nun nur noch ein praktischer Befehl):
+  	CImage * MakeTextureSky(char * acPath); // Erzeugt eine Texturhierarchie, die für Skymaps, Skydomes etc. geeignet ist  
+	void SetTextureSky(CTexture *ptexture); // Setzt eine Textur, die für Skymaps, Skydomes etc. geeignet ist  
+
+2013.11.28 TB:
+- Bugfix: Texturveränderungen während der Laufzeit wurden nicht mehr an DirectX weitergegeben (hatte das schon einmal gefixt)
+- Verminderung der Material-DrawCalls (ab jetzt nur wenn sich Material zu vorherigem Call verändert hat) => Beschleunigung
+- Animierte Texturen nun möglich, dafür folgende neue Methode in  CMaterial:
+	void SetAni(int ixPics, int iyPics, float fFps); // Erzeugt ein animiertes Material 
+- Umschaltbare Texturen nun möglich, dafür folgende neue Methoden in CMaterial:
+	void SetBot(int ixPics, int iyPics); // Erzeugt ein steuerbares Material
+	void SetPic(int ixPic, int iyPic); // Setzt Unterbild bei animierten oder steuerbaren Materialien
+- Texturanimation ist nach reiflicher Überlegung keine Eigenschaft von Images sondern von Materials => Altes angefangene Animationsteile in CImage rausgenommen, musste daher auch Partikelcode von Michi eingreifen
+
+2013.11.29 PF:
+- 64bit builds für Vektoria/VektoriaApp/VektoriaEditor/VektoriaTest (ein Bug kann dazu führen, dass im Debugmodus ohne angehängten Debugger Objekte fehlen oder falsch transformiert sind, kA woran Das liegen kann)
+- Alle Projekte nutzen das /Qpar flag um die Autovektorisierung des MS-Compilers zu nutzen
+- BRDF funktioniert nun mit beliebig vielen Lichtern in der Szene, die mehr als 0.1f Helligkeit besitzen>>>>>>> .r478
+
+2013.12.01 TB:
+- Materiallade- und Entlademethoden in DirectX komplett überarbeitet, Grund: Bisher wurde das selbe Image mehrfach geladen, wenn zwei Materialien auf das gleiche Image zurückgriffen => Schneller Texturespeicherüberlauf bei Sprites
+- Folgende neue Methoden in CDirectX:
+	int TexturePathExists(char *acPath);
+	bool CreateTexture(CTexture * ptexture, bool bDefaultWhite, int & iTexture); 
+- Komplettneubenennung der Variablennamen in CDirectX, die mit Texturen und Materialien zu tun haben (bisher wurde nicht zwischen Texturen und Materialien getrennt, war total durcheinander) 
+Bugfix: Copyoperator von CMaterial funltionierte nicht richtig
+
+
+2013.12.05 TB:
+- Writings funktionieren jetzt!
+- Folgende neue Klassen:
+	CWritingFont: Spezielles Font-Material
+		CWritingFont(); // Konstruktor
+		~CWritingFont(); // Destruktor
+		CWritingFont operator=(CWritingFont & writing); // Kopieroperator
+		void Copy(CWritingFont & writing); // Kopiermethode
+		void Init(char * acPath, bool bChromaKeying); // Initialisiert SchriftartMaterial durch Pfadangabe, bChromaKeying setzt chromatischen Farbschlüssel (Pixel 0,0)
+		void Fini(); // Finalisiert Schriftart
+		void SetTableSize(int ixTable, int iyTable); // Setzt die Feldgröße in Buchstaben im übergebenen ASCII-Feld
+		void SetTableStartASCII(int iTableStartASCII); // Setzt dien Anfang des übergebenen ASCII-Feldes
+	CWritingChar: Einzelner Buchstabensprite, folgende Methoden:
+		CWritingChar(); // Konstruktor
+		~CWritingChar(); // Destruktor
+		CWritingChar operator=(CWritingChar & writing); // Kopieroperator
+		void Copy(CWritingChar & writing); // Kopiermethode
+		void Init(CFloatRect & floatrect, CWritingFont * pwritingfont); // Initialisiert ein Zeichensprite, floatrect ist die 2D-Größe des Zeichenfeldes,  pwritingfont ein ASCII-Schriftsatzmaterial 
+		void Tick(float & fTimeDelta, CFloatRect & floatrectFather); // Wird automatisch jeden Tick aufgerufen, der Programmierer braucht sich normalerweise um diese Methode nicht zu kümmern
+		void Fini(); // Finalisiert Zeichensprite
+		void SetChar(char c); // Aktualisiert Zeichensprite
+		void SetFont(CWritingFont * pwritingfont); // Aktualisiert Font
+		void Draw(); // Wird automatisch aufgerufen
+	CWritingChars: Pluralklasse für Buchstabensprites
+	CWriting: Textfeld-Sprite, folgende Methoden: 
+		CWriting(); // Konstruktor
+		~CWriting(); // Destruktor
+		CWriting operator=(CWriting & writing); // Kopieroperator
+		void Copy(CWriting & writing); // Kopiermethode
+		void Init(CFloatRect & floatrect, int ixChars, CWritingFont * pwritingfont); // Initialisiert ein Textfeldsprite, floatrect ist die 2D-Größe des Textfeldes,  ixChars die maximalanzahl der Buchstaben, pwritingfont ein ASCII-Schriftsatzmaterial 
+		void Tick(float & fTimeDelta, CFloatRect & floatrectFather);// wird automatisch aufgefufen
+		void Fini(); // Finalisiert das Textfeldsprite
+		void SetString(char * ac); // Aktualisiert den Text
+		void SetFont(CWritingFont * pwritingfont); // Aktualisiert das ASCII-Schriftsatzmaterial
+		void SetViewport(CViewport * pviewport); // Wird automatisch aufgerufen
+	CWritings: Pluralklasse für Textfeldsprites
+Bugfix: Sprites wurden bei Rückbeleuchtung schwarz 
+Neue Methoden in CMaterial:
+	void SetTextureSprite(CTexture *ptexture);	// Setzt eine Textur, die für Sprites wie Backgrounds, Overlays, Writings und WritingChars geeignet ist   
+	CImage * MakeTextureSprite(char * acPath); // Erzeugt eine Texturhierarchie, die für Sprites wie Backgrounds, Overlays, Writings und WritingChars geeignet ist   
+
+2013.12.08 TB:
+- Neue praktische Methoden in CWriting:
+	void PrintF(LPCSTR szMsg, ...); // Äquivalent zu "printf" im Konsolenfenster
+	void PrintInt(int i); // Schreibt eine Integerzahl 
+	void PrintFloat(float f); // Schreibt eine Float-Gleichtkommazahl 
+	void PrintString(char * ac); // Schreibt einen Text
+	void SetFont(CWritingFont * pwritingfont, int & iCharStart, int & iCharEnd); // Aktualisiert das ASCII-Schriftsatzmaterial im Buchstabenbereich iCharStart bis iCharStartEnd
+- Methode PassToGPU vereinfacht und beschleunigt (Ein Material wird nur noch dann geladen, wenn vorheriges Material anderes Image)
+- Tickaufruf von Writing und WritingChar sehr beschleunigt, (UpdateMaterial wird nur noch bei Veränderungen aufgerufen)
+- Textlabels jetzt möglich, dafür folgende neue Klassen: 
+	CWribel: Textfeld-Label (WRIting + LaBEL = WRIBEL), folgende Methoden: 
+		CWribel(); // Konstruktor
+		~CWribel(); // Destruktor
+		CWriting operator=(CWribel & wribel); // Kopieroperator
+		void Copy(CWribel & wribel); // Kopiermethode
+		void Init(CFloatRect & floatrect, int ixChars, CWritingFont * pwritingfont); // Initialisiert ein Textfeldsprite, floatrect ist die 2D-Größe des Textfeldes,  ixChars die maximalanzahl der Buchstaben, pwritingfont ein ASCII-Schriftsatzmaterial 
+		void Tick(float & fTimeDelta, CFloatRect & floatrectFather);// wird automatisch aufgefufen
+		void Fini(); // Finalisiert das Textfeldsprite
+		void PrintF(LPCSTR szMsg, ...); // Äquivalent zu "printf" im Konsolenfenster
+		void PrintInt(int i); // Schreibt eine Integerzahl 
+		void PrintFloat(float f); // Schreibt eine Float-Gleichtkommazahl 
+		void PrintString(char * ac); // Schreibt einen Text
+		void SetFont(CWritingFont * pwritingfont, int & iCharStart, int & iCharEnd); // Aktualisiert das ASCII-Schriftsatzmaterial im Buchstabenbereich iCharStart bis iCharStartEnd
+	CWribels: Pluralklasse für Textfeldlabels
+
+2013.12.14 TB:
+- Backgrounds gecheckt
+- Animierte Materialien funktionieren jetzt auch bei Backgrounds und Overlays 
+- CDirectX::id um Faktor 5 beschleunigt, indem initialisierende For-Schleife in CCreateMaterial verschoben wurde 
+- Neue Schnittstellenfunktionen CDirectX::id, CApiRender::UpdateMaterialAni und CNullRenderer::UpdateMaterialAni hinzugefügt, die nur noch Animationsflags verändert => Beschleunigung
+
+2013.12.15 TB
+- Umbenennung der BufferMap-Methoden, damit sie konsistent zur anderen Software sind.  
+- BufferMap die Methode OverwriteBuffer hinzugefügt
+Es ist nun möglich, eine existierende Geometrie nachträglich zu ändern, dazu folgende Methoden:
+- TriangleList::Update() 
+- TriangleStrip::Update()
+- CDirectX,CNullRenderer, und CApiRender haben jetzt folgende neue Schnittstellenmethoden:
+	void UpdateTriangleList(CTriangleList *ptriangleList, SRenderObjectHandle & handle);
+- Rechtschreibkorrektur in CNode-Methode: EnabaleVisualHelper zu EnaableVisualHelper
+	void UpdateTriangleStrip(CTriangleStrip *ptriangleStrip, SRenderObjectHandle & handle);
+
+2014.01.13 TB
+- Bugfix: SetTexture funktioniert wieder
+
+2014.02.11 TB
+- Foliensatz für Writings erstellt
+
+2014.03.09 TB
+- Bugfix: CWriting stürzte bei mehr als 223 Buchstaben in Zeile ab
+
+2014.04.04 TB
+- Szenen und Viewports können nun einfach an- und ausgeschaltet werden, dafür folgende neue Methoden, in den beiden diesbezüglichen Klassen:
+	SwitchOff();
+	SwitchOn();
+ - friend-Klassen mit private-Zonen in allen Klassen damit unnötige Methoden dem Anwender verborgen bleiben
+
+2014.04.16 TB:
+- Bugfix: System blieb schwer hängen, wenn zu kleine Frame-Rate (z.B. wenn man App ohne Code aufgrufen hatte oder mit NUll-Renderer)
+
+2014.05.19 TB:
+- Unlöschbarer Splash-Screen mit Sound programmiert, 
+	(Klasse CSplash)
+- Achtung, Root muss jetzt mit Splash initialisiert werden, damit Programme funktionieren!
+
+2014.05.16 TB:
+- Neue Server-Version wieder konsistent gemacht
+- Änderungen von MS teilweise wieder rückgängig gemacht (sinnvolle Änderungen werden in Zukunft wieder suksessive rückentwicklelt)
+- Veraltete Files gelöscht (logger.h, connection.h, etc.) 
+
+2014.05.21 TB:
+- Bugfix: Projektionsmatrix in CCamera war falsch und führte daher bei der Picking-Routine im DV-Projekt zu Problemen, daher raus und durch richtige ersetzt:
+- Bugfix: CTimer konnte nicht bei Win64 funktionieren
+- CTimer überarbeitet, beschleunigt und übersichtlicher gestaltet, nicht mehr benötigte Routinen von Kim und Bene wurden rausgenommen
+- Neue Uitlity-Routine in CUtil.h: UM_SWAP // Tauscht die Werte zweier beliebiger Datentypen miteinander aus
+- Bugfix: CNode AABBs und Visualhelpers wurden nicht richtig gesetzt, wenn Add-Methode nach EnableAABBs oder EnableVisualHelpers aufgerufen wurden 
+- Bugfix: Kim und Benes Methoden "Encompass" in der Klasse CNode waren falsch implementiert und konnten so nicht funktionieren, durch folgende neue Methoden ersetzt:
+    void AddAABB(CAABB &aabb);
+	void AddVector(CHVector &vPos);
+- Clearing der AABB möglich
+- Neue Methode in CNode: 
+	ClearAABB()
+
+
+2014.05.22 TB:
+- Draw-Aufrufe von CNode und CGeo entrümpelt und beschleunigt
+- Bugfix: CPlacement::SetPointing(CPlacement * pplacementPointing) funtionierte nicht vor dem Adden
+
+
+2014.05.25 TB:
+- Löschung von unsinniger Funktion von Kim und Bene in CVertexs: void Init(int iAllocVertices); 
+- Komplette Neuschreibung der Klasse CNode von Flo, Kim und Bene, da Kraut und Rüben, konnte gar nicht richtig funktionieren  
+- Trennung der Methoden, Variablen und Daten aus CNode in 3 Klassen:
+		- CNode: Basisklasse für alle Knotenobjekte, für Knotenhierarchie, Noemen und Knoten-ID verantwortlich 
+		- CNode3D: Basisklasse für alle 3D-Objekte, für Bounding-Boxen, Frustrum-Culling, etc. verantwortlich
+		- CSprite: Basisklasse für alle 2D-Sprite-Objekte, für 2D-Intersectionen, Chromakeying, etc. verantwortlich
+- Neue Methoden in CNode:
+		bool IsNode2D(void); // Gibt true zurück, wenn es sich bei diesem Knoten um ein 2D-Knoten (Sprite) handelt, ansonsten false
+		bool IsNode3D(void); // Gibt true zurück, wenn es sich bei diesem Knoten um ein 3D-Knoten handelt, ansonsten false
+- Verschiedene Farben bei Bounding-Box-Visual-Helpers zum besseren Debuggen:
+			Geos: Grün
+			Placments: Rot
+			Audios: Magenta
+			Sonst: Weiß
+- Bugfix: Copy-Funtion in CNode funktionierte nicht
+
+2014.05.27 TB:
+- CTriangleStrip.cpp: SWAP-Makro durch Util-Makro ersetzt
+- Folgende Methoden wurden wieder aus CPlacement herausgenbomme und in CGeoWindow hineingesteckt (War schnelle Lösung für Zwiaschenprojekt mit Zeitdruck): 
+-	void MakeWallByWindow(CGeoWall *pgeowallChild, CGeoWindow * pgeowindow, float fThickness, CHVector vOffset, CHVector vScale, CMaterial * pmaterial, bool bLeft = true, bool bRight = true, bool bBottom = true, bool bTop = true, bool bBack = true);
+-	void MakeWallByWindow(CGeoWall *pgeowallChild, CGeoWindow * pgeowindow, float fThickness, float fOffset, CMaterial * pmaterial, bool bLeft = true, bool bRight = true, bool bBottom = true, bool bTop = true, bool bBack = true);
+-	void MakeRoof(CPlacement * pzpBack,CPlacement * pzpFront, CPlacement * pzpLeft, CPlacement * pzpRight,   CGeoWall *pgeowallBack, CGeoWall *pgeowallFront, CGeoWall *pgeowallLeft, CGeoWall *pgeowallRight, CHVector vSize, float fThickness, float frGableFrom, float frGableTo, CMaterial * pzm, float fxTextureRepeat, float fyTextureRepeat);
+-	void MakeRoof(CGeoWall *pgeowallBack, CGeoWall *pgeowallFront, CGeoWall *pgeowallLeft, CGeoWall *pgeowallRight, CHVector vSize, float fThickness, float frGableFrom, float frGableTo, CMaterial *pzm, float fxTextureRepeat = 1.0F, float fyTextureRepeat = 1.0F);
+- CPlacemengt: Alle Translate- Scaling- und Rotate-Methoden in CPlacement updaten nun das AABB
+- CGeo: Beim Hinzufügen eines Vertex wird nun automatisch das AABB geupdatet
+- CGeo: Twisting, Tapering, Bending, Waving und Rippling updaten automatisch das AABB
+- Buggfix in CPlacement: AABB in CPlacement wurde immer auf 5 Units Durchmesser gesetzt 
+- Fremdbibliotheken aus CAABB herausgeworfen und durch Util-Makros ersetzt
+- Komplettumbau von CAABB 
+
+2014.05.27 TB:
+- Methode GetTranslation aus CNode3D herausgeworfen (kan gar nicht funktionieren, da CNode3D den translativen Anteil gar nicht kennt, das tun nur einige vererbte Methoden)
+- Bugfix: VisualHelpers werden jetzt auch für Objekte richtig angezeigt, die keine Spheres sind
+- Notation in CAABB Vektoria-konform gemacht
+- CNode3D entrümpelt
+
+2014.05.30 TB:
+- S_SOUND in S_AUDIO umgewandelt (wegen Namenskonsistenz)
+- Bugfix: CNode::IsPlacement funktionierte nicht, falls Placement nicht geadded war 
+- Bugfix: SetPointing stürzte ab, wenn Placement auf das gezeigt wurde, noch nicht geadded war
+- Bugfix: Draw-Call in CNode3D funktioniert jetzt
+
+2014.06.05 TB (rev. 549): 
+-Bugfix: Placement-ViusalHelpers für AABBs werden nun korrekt angezeigt
+- Geo ABBB werden nun für ALLE Gemegtrieen korrekt berechnet
+- Übergeordnetes Placement ABBB wird nun  geupdatet (TODO: ist noch nicht ganz korrekt und funktioniert noch gar nicht für zusammenlaufende Hierarchien)
+- Man kann nun Placmeents auch unabhängig global statt local positionieren mit der Funktion SetMatGlobal();
+- Folgende neue Geometrie-Klassen erstellt (diese Klassen sind notwendig, falls man repetetive, gesteuerte oder animierte Texturen auf Spheres/Domes/Ellipsoide adden will, brauchte DV-Gruppe)
+ 	CGeoEllipsoidTiled
+ 	CGeoSphereTiled
+ 	CGeoDomeTiled
+- Animierte Wasser-Bumpmaptextur mit richtigem Z-Vektor zum Testen hinzugefügt 
+
+
+2014.06.06 TB: (rev. 550)
+- Uralt-Klasse "connection", die ohne Funktion ist, zum 3. Mal herausgenommen (wer tut die eigentlich immer wieder rein?)
+- Hurrraaaaaa! Es klappt! Die BVH-Hierarchie funzt!!! Ist nun eine geschickte Kombination aus hierarchisch strukturierten AABBs und OBBs und damit das Performanteste, was überhaupt möglich ist, also ein weiteres USP für Vektoria.
+- Sogar zusammenlaufende Placement-Hierarchien sind möglich (TODO: noch keine zusammenlaufende Geo-Hierarchien, 3D-Sounds bringen BVH noch durcheinander,
+	Die Klasse CAABB werde ich demnächst in CBoundingBox umbenennen, damit es keine Missvertändnisse gibt. Dann kann ich ans Picking und das Frustrum Culling gehen.
+
+2014.06.07 TB: (rev. 553)
+- Bugfix: Disable- & EnableVisualHelpers funktionierte nicht, wenn Placement erst zur Laufzeit geadded wurde
+- Bugfix: Disable- & EnableAABBS funktionierte nicht, wenn Placement erst zur Laufzeit geadded wurde
+- UpdateAABB-Methode wurde bei Placements beschleunigt, überladene Methode ohne Matrix geschaffen 
+
+
+2014.06.10 TB: (rev. 554)
+- Bounding Boxen funktionieren nun auch bei Geos, die an Geos geadded wurden und zusammenlaufende Geo-Hierarchien
+- CNode3D aufgeräumt
+- Bounding Boxen sollten nun auch nach FixAndFasten-Methoden funktionieren (noch ungetestet) 
+
+2014.06.10 TB: (rev. 555)
+- Beschleunigung der Bounding Box-Berechnung
+
+2014.06.12 TB: (rev. 557)
+Neue Funktion in CHMat:
+	void Rotate(CHVector & vOrientation, EAxis & eAxis); // Rotiert angegebene Achsen-Vektor eAxis in Richtung der Orientierung vOrientation
+
+
+2014.06.14 MR: (rev. 558)
+- Windows 8.1 SDK-Dateipfad in Shadercache gefixed.
+
+2014.06.14 MR: (rev. 560)
+- Bugfix: Partikelsysteme crashen jetzt nicht mehr wenn man die Prewarm-Phase auf mehr als 10 Sekunden stellt.
+- Bugfix: Fehler beseitigt der dazu führte, dass nur eine .3ds-Datei geladen werden konnte.
+- Die Methode CAudio::Stop pausiert einen Sound jetzt nicht mehr sondern stoppt ihn wirklich. (Wie der Name eigentlich vorgibt.)
+- CAudio hat eine neue Methode mit der man den Sound auch pausieren kann. CAudio:Pause
+
+2014.06.18 TB:
+- Ray-BoundingBox-Schnittberechnung implementiert, dafür folgende Methode in CAABB:
+		bool Intersects(CRay & r);
+
+2014.06.20 TB:
+- Neue Makros in Util.h:
+	#define UM_ISINRANGEFR(fr) ((fr>=0.0F)&&(fr<=1.0F))  // Überprüft, ob Wert f im fraktionalen Wertebereich [0,0 bis 1,0] liegt, wenn ja => true, falls nein => false
+	#define UM_ISNOTINRANGEFR(fr) ((fr<0.0F)&&(fr>1.0F))  // Überprüft, ob Wert f im fraktionalen Wertebereich [0,0 bis 1,0] liegt, wenn nein => true, falls ja => false
+- Funktion FrameToViewportCoord gibt jetzt auch einen boolschen Parameter aus:
+	bool FrameToViewportCoord(float & frx, float & fry); // Übersetzt die Koordinaten des Frames in Koordinaten des Viewports, gibt true aus, wenn Cursor innerhalb des Viewports liegt
+- Folgende neue Picking-Routinen in CDeviceCursor:
+	CViewport * PickViewport(); // Gibt erstes sichtbares Viewport aus, welches unter dem Cursor liegt, falls kein Viewport gefunden wurde ist das Ergebnis NULL
+	COverlay * PickOverlay(); // Gibt erstes sichtbares Overlay aus, welches unter dem Cursor liegt, falls kein Overlay gefunden wurde ist das Ergebnis NULL
+	CCamera * PickCamera(); // Gibt die Kamera aus, die mit dem sichtbaren Viewport verbunden ist, welches unter dem Cursor liegt, falls kein Viewport gefunden wurde ist das Ergebnis NULL
+	CPlacement * PickPlacement(); // Gibt dasjenige Placement mit der niedersten Hierarchiestufe aus, welches unter dem Cursor liegt, falls kein Placment gefunden wurde ist das Ergebnis NULL
+	CPlacements * PickPlacements(); // Gibt alle Placements aus, welches unter dem Cursor liegen, falls kein Placment gefunden wurde ist das Ergebnis NULL
+	CGeo * PickGeo(); // Gibt dasjenige Geo mit der niedersten Hierarchiestufe aus, welches unter dem Cursor liegt, falls kein Geo gefunden wurde ist das Ergebnis NULL
+- m_fFov in m_fFovHorizontal umbenannt, unm weitere Missverständnisse bei Studierenden entgegenzuwirken
+- Neue schnellere Projektionsmatrix in CHMat:
+	void ProjectionFov(float fFovHorizontal, float fRatio); // Generiert eine foveale Projektionsmatrix (ohne Near und Far-Clipping-Plane) 
+
+2014.06.26 TB: (rev 563)
+- Neue Methoden in der Pluralklasse CScenes:
+	bool AddOnce(CScene * pscene); // Fügt Szene nur dann in die Liste hinein, wenn sie noch nicht in der Liste eingetragen ist (Verhindert Doppeltabspeicherungen)
+	bool Has(CScene * pscene); // Gibt true aus, wenn Szene in der Liste vorhanden ist
+- Neue Methoden in CViewport:
+	CCamera * GetCamera(); // Holt die mit dem Viewport assoziierte Kamera
+	CScene * GetScene(); // Holt die mit dem Viewport assoziierte Szene
+- Neue Methoden in CDeviceCursor:
+	CScene * PickScene(); // Gibt die Szene aus, welche das sichtbare Viewport zeigt, welches unter dem Cursor liegt, falls keine Szene gefunden wurde ist das Ergebnis NULL
+- Parameter bei CCamera-Zuweisungsoperator und Kopiermethode in Call by Reference umgewandelt (schneller)
+- Neuw Ray-BoundingBox-Schnittberechnung mit Entfernungsberechnung implementiert, dafür folgende Methode in CAABB:
+		bool Intersects(CRay & r, float & fMin, float & fMax);
+- Neue Methode in CCamera:
+	CScene * GetScene(); // Gibt die angezeigte Szene aus
+- Picking funktioniert jetzt halbwegs (TODO: noch entfernungsabhängig machen)
+
+2014.06.28 TB: (rev 564)
+- Durch CNode veraltete Variable m_pparent gelöscht 
+- Bugfix: Neue CCamera-Projektionsmatrix zeigte Objekte invers an
+- Beschleunigung der Camera-Fov-Berechnung  
+- Picking von Placements funktioniert jetzt (auch entfernungsabhängig)
+
+2014.06.28 TB: (rev 565)
+- Temporärer Workaround um einen Bug bei SpotLights, (zwei Fehler heben sich hier gegenseitig halbwegs auf) TODO CSpotLight komplett neu schreiben: 
+	void ProjectionFovOld(float faFovHorizontal, float fRatio, float fNear, float fFar); // Generiert die foveale Projektionsmatrix aus V11 (falsch, nur der Aufwärtskombabilität in V12 drinnen, wird danach herausgenommen)
+
+2014.06.29 TB: (rev 566)
+- Bugfix in CHMat: Orthografische Projektion wird nun richtig skaliert
+- Bugfix in CCamera: Orthografische Kameras sind nun richtig skaliert
+- Neue Methoden in CCameras für orthografische Kameras:
+	void SetOrtho(float fOrthoScalingHorizontal); // Schaltet Kamera in Othogonalprojektionsmodus und gibt gleich den horizontalen Skalierungsfaktor an
+	void SetOrthoScaling(float fOrthoScalingHorizontal); // Setzt den horizontalen Skalierungsfaktor bei orthogonalen Kameras (vertikaler wird daraus automatisch berechnet), bei Fov-Kamera ohne Wirkung
+	float GetOrthoScaling(); // Gibt den orthogonalen Skalierungsfaktor aus
+- CCamera::CalcMat() durch Löschung redundanter Teile beschleunigt  
+TODO: Picking funktiert noch nicht bei orthografischer Projektion, sondern nur bei normaler fovealer
+
+2014.07.02 TB: (rev 568)
+Neue Methode in CRay zur Schnittpunktberechnung für das genaue Geometrie-Picking und die Kollisionsberechnung
+	bool IntersectsTriangle(CHVector & v1, CHVector & v2, CHVector & v3, CHVector & vIntersection); // Schaut, ob Strahl mit Dreieick v1-v2-v3 kollidiert, wenn ja, wird true ausgegeben
+Neue Methode in CTriangleList und CTriangleStrip zur Schnittpunktberechnung für das genaue Geometrie-Picking und die Kollisionsberechnung (TODO: noch ungetestet)
+	bool Intersects(CRay & r, CHVector & vIntersection); // berechnet, ob Strahl r ein Dreieck der Geometrie trifft, vIntersection ist dann der Schnittpunkt
+Neue Geo-Klasse hinzugefügt: 
+	CGeoTriangle  -2D-Dreieck im Raum (ist vor Allem praktisch zum Debuggen, aber auch für spitze Billboards)
+BUgfix: Link in Projekteigenschaften für Release-Ausgabedatei stimmte nicht  (jetzt korrekt "Vektoria_Release.lib")
+
+
+2014.07.06 TB: (rev 569)
+Neue Picking-Methoden in CDeviceCursor:
+	CViewport * PickViewport(float & frxViewport, float & fryViewport); // Gibt erstes sichtbares Viewport aus, welches unter dem Cursor liegt, falls kein Viewport gefunden wurde ist das Ergebnis NULL, dazu werden die passenden Bildschirmkoordinaten frxViewport und fryViewport des Picking-Punktes mit ausgegeben
+	CGeo * PickGeo(CHVector & vIntersection, float & fDistanceSquare); // Gibt dasjenige Geo mit der niedersten Hierarchiestufe aus, welches unter dem Cursor liegt, falls kein Geo gefunden wurde ist das Ergebnis NULL, vIntersection ist der genaue Schnittpunkt, fDistanceSquare ist das Quadrat der Entfernung zwischen Strahlursprung und Schnittpunkt, kann bei großen Geometrien einige Millisekunden dauern, ist dafür sehr exakt
+Picking-Routinen vereinfacht, aufgeräumt und beschleunigt
+Schnittpunktberechnungen für das genaue Geometrie-Picking und die Kollisionsberechnung in CTriangleList und CTriangleStrip wurden eingehend getestet => OK
+Bugfix: CTriangleStrip::CopyToTriangleList() kopierte letztes Dreeick nicht mit
+Bugfix: CTriangleStrip::AddIndexFirst() hat zweites und letztes Dreieck gelöscht.  
+Bugfix: CTriangleStrip::Flip() drehte zwar alle Normalen der Vertices um, aber drehte nur einen Teil der Flächennormalen um (die indirekt aus deer Drehrichtung der Vertices berechnet wird) 
+Bugfix: CTriangleStrip::FlipSpin() drehte nur einen Teil der Dreiecke um
+Picking abgeschlossen, gehe jetzt ans Frustum Culling
+
+2014.07.12 TB: (rev 570)
+Projektstruktur vereinfacht und unnötige Ordnerhierarchien abgeflacht
+Projekt in kleine Untereinheiten mit Libraries unterteilt (nun kann man Aufgaben an andere Peronen verteilen, ohne den ganzen Code zu veröffentlichen), außerdem wird das Compilieren beschleunigt:
+- VektoriaApp
+- Vektoria (Core)
+- VektoriaMath
+- ApiDirectX11
+- ApiNullrenderer
+- ApiOpenGL40
+- ApiDirectInput
+- ApiNullInput 
+TODO für weitere Untereinheiten-Libraries: 
+- ImporterBlender
+- ImporterOBJ
+- Importer3DS
+- ImporterCatia
+- ImporterX3D
+- VektoriaParticles ?
+ -VektoriaEditor
+
+2014.07.12 TB: (rev 573)
+- Unnötige Dateien gelöscht
+- OpenGL40-Klasse für AV erstellt
+- Dynamische Einbiundung von OpenGL40 in die Frame-Klasse
+- Entwicklungs- und Testumgebung für Anderas Vesenmeyer erstellt (nicht auf Server hochgeladen)  
+- Neue Klassen CFrustum und CFrustrums hinzugefügt
+
+2014.07.20 TB: 
+- Neue Konstruktoren für CRay und CFrustum:
+	CRay(); // Konstruktor ohne Initialisierung
+	CRay(CHVector & vOrigin, CHVector & vDirection); // Konstruktor mit einem Punktvektor und einer Richtung, fMin wird auf QUASI_ZERO und fMax auf F_MAX gesetzt.
+	CRay(CHVector& vOrigin, CHVector& vDirection, float fMin = QUASI_ZERO, float fMax = F_MAX); // Kostruktor, alle relevanten Parameter des Strahls werden initialisiert
+	CFrustum(); // Erzeugt Pyramidenstumpf ohne Initialisierung
+	CFrustum(CRay r, CHVector vNormalRight, float faHorizontal, float faVertical); // Initialisiert Pyramidenstumpf
+- Kamera hat jetzt einen Frustum als Member
+	die Methode  CalcFrustum(); in CCamera berechnet den aktuellen globalen Frustum
+- Neue Methoden in CFrustum:
+	bool IsInside(CHVector & v); // Gibt true aus, wenn Punkt innerhalb des Pyramidenstumpfes liegt, ansonsten false
+	int IsInside(CAABB & aabb); // Gibt -1 aus, wenn Box komplett außerhalb des Pyramidenstumpfes liegt, 0 fals halb drin, haln draußen, 1 fall komplett drinnen
+Bugfix: Copyoperator in CPlane kompierte Fz-Komponente falsch 
+
+2014.07.23 TB: (rev 587)
+- Folgende Veraltete Dateien gelöscht:
+	Computer.h
+	Computer.cpp
+	Computer.h
+	Computer.cpp
+- Folgende Methoden in CPlacement vor Anwender mittels Friend-Klassen und Private-Zone versteckt: 
+	void Draw(CCamera * pcamera, CHMat & mGlobalFather, int & itFatherIsInFrustum);
+	CPlacement * PickPlacement(CRay & r, float & fMin, float & fMax);
+- CFrustum::IsInside(CAABB & aabb); benutzt jetzt den Presenham-Algorithmus, um auch semitangierende Objekte des Frustums zu detektieren 
+- Testumgebung für CFrustum::IsInside(CAABB & aabb) gebaut und gecheckt => Funktioniert 
+- m_bAABBsOn defaultmäßig auf true gesetzt
+
+2014.09.20 TB: 
+- Bugfix: BVH-Baum aktualisierte sich nicht bei freien Rotationen
+
+2014.10.23 TB: Revision: 595:
+- Bugfiux: Frustum funktionierte nicht bei Winkeln über 180° 
+- Frustum Culling funktioniert jetzt (außer bei Hierarchitekturmodellierung
+
+2014.10.24 TB:
+- Frustum Culling funktioniert jetzt auch bei Hierarchitekturmodellierung, dafür UpdateAABB in CGeoWing überladen; 
+
+2014.10.26 TB
+- Collition Detection von Placments, dafür folgende Methoden in C
+- Frustum Culling funktioniert jetzt auch bei zusammenlaufenden Hierarchien
+- Auch Lichter können nun mehrfach durch zusammenlaufende Hierarchien instanziiert werden (war vorher nicht möglich!)
+- Geometrien können mehrfach in verschiedenen Scenes instanziiert werden
+
+2014.11.02 TB Rev 630:
+- Komplettumbau der Node3D-Hierarchie => Vereinheitlichung, Instanziierung in Node3D gepackt, anstatt in Placement, Geo, Scene, ...
+- Übersichtlichere Instanzliierung
+- Beschleunigung des Frustum Cullings
+- CGeoWing aufgeräumt 
+Bugfix in CViewport::CalcSize(): VieportBreite wurde falsch berechnet (Dieser Fehler ist neu dazaugekommen, wer hat ihn hineinprogrammiert?)
+Bugfix in CDeviceCursor::GetFractional: Funktion gab unsinnige Werte zurück, wenn vor erstem Root-Tick aufgerufen.
+Bugfix in CGeoWing::Draw kam nicht mit neuer Instanziierung zurecht und zeigte Innenfenster schwarz
+
+2014.11.02 TB Rev 631:
+- Release-Fehler teilweise gefixt (läuft in Debug aber nicht in Release)
+- Bugfix: stürzte ab (auch in Debug), wenn Camera nicht an Placement gehängt war
+- Redundanzen bei Parameterübergabe von Materialstrukt verringert
+
+2014.11.05 TB 
+- Bugfix: Es wurde vergessen die Variable m_bSwitch im Konstruktor von Node3D auf true zu setzen => CXrash bei bestimmten Lichttypen)
+
+2014.11.07 TB 
+- Einige Bugfixes von vergessenen Initialisierungen im Konstruktor
+- S_KIND-Struktur vereinheitlicht
+
+2014.11.07b TB 
+- m_eKind wird jetzt einheitlich initialisiert
+- Alle Membervariablen der Knotenklassen werden jetzt im Konstruktor initialisiert => Release-Fehler besteht immer noch (ist aber stets weg, wenn Nullrenderer eingeschaltet wird!) 
+
+2014.11.13 TB: 
+Bugfix: Bitangente an der rechten Seite von einer CGeoWall war falsch
+- Angefangen, das UV-Mapping zu vereinheitlichen, dafür zwei meue Methoden in CGeoWall: GetUVFront, und GetUVBack (TODO: für alle Fenstertypen anwenden)
+Bugfix: Bintangente war an der Spitze von romanischen Bögen nicht 100&-ig korrekt 
+- Steuerungs-Define in TestbedShader (von Turntable zu WASD)
+
+2014.11.16 TB: 
+- Neue Methode in CHMat: void RotateDelta(CHVector & vTo, CHVector & vFrom), // Generiert eine Rotationsmatrix, die Richtungsvektor vFrom genau in die Richtung des Richtungsvektors vTo rotiert und multipliziert diese mit der aktuellen Matrix  
+- Bumpmaps laden jetzt per Default Blautextur 
+- Neue Klasse: CGeoArrow generiert einen geometrischen 3D-Pfeil (Teil der Normalen, Tangenten und Bitangentenanzeige)
+
+2014.11.17 TB:
+Bugfix: m_pPostProcessor->UpdatePostProcessingCB(pviewport); in ForwardPlusRenderer getan 
+
+2014.11.19 TB:
+Bugfix: ForwardPlus-Renderer stürzte bei Vorhandenseins eines TriangleStrips ohne Vertices ab.
+- Neue Klasse: CGeoInfoVertex gibt Position, Normale, Tangente und Bitangenteeines Vertex grafisch in Form einer Kugel (Pos) und drei farbigen Pfeilen (Normale, Tangente und Bitangente) aus
+- Neue Klasse: CGeoInfoGeo gibt die Informationen einer ganzen Geometrie aus
+- Neue Default-Grundimages eingefügt (red_image.jpg, green_image.jpg, blue_image.jpg)
+
+2014.11.22 TB: (Rev 629)
+- Angefangen, DirectX-Klasse etwas aufzuräumen:
+- Die neunen Klassen CDrawObject und CDrawObjects eingefügt => Vereinfachung
+- SmartAllocating in CDrawObjects
+- Mergesort in CDrawobjects eingefügt
+- Mergesort kopiert nur noch pointer statt values => BEschleunigung des Sortierens 
+- Die beiden DirectX-Funktionen void CopyCHMatToXMFLOAT4X4(CHMat &m, XMFLOAT4X4 &f4); und void CopyXMFLOAT4X4ToCHMat(XMFLOAT4X4 &f4, CHMat &m); wurden entrümpelt, konsistent gemacht und beschleunigt durch Call by Reference
+Bugfix in CGeos: Geometrien wurden nicht richtig sortiert, wenn unter der zweiten Hierarchiestufe einer reinen Geo-Hierarchie ein einzelnes transparentes Material dabei war 
+Bucket für Binäre Alphamaterialien hinzugefügt (TODO: Nochmal checken)
+Folgende neue Methoden in CMaterial:
+		void SetTransparencyKind(ETransparencyKind eTransparencyKind); // Gibt die Transparenzart an: eTransparencyKind_No für opake Texturen, eTransparencyKind_BinaryByAlphaTest für ja-nein-Alpha-Texturen, eTransparencyKind_BinaryByChromaKey für Farbschlüsseltexturen, eTransparencyKind_Continual für Semitransparente Texturen mit Alpghakanal
+		bool IsOpaque(); // Gibt true aus, falls es sich um eine vollkommen undurchsichtige Textur handelt, ansonsten, also wenn Chroma-Keying, Transparenz oder AlphaTest eingeschaltet ist wird false ausgegeben
+
+
+2014.12.01 TB: (Rev 630)
+Bugfix in CDirectX: Der Y-Wert von Bot-Materialien wurde auf den X-Wert gesetzt => Wribels gaben seltsame Buchstaben aus
+
+
+2014.12.02 TB: (Rev 634)
+Bugfix in CQuaternion::GetMatrix() und CQuaternion::GetMatrixByNormed(): Objekt wurde bei manchen Rotationspoitionen des Quaternions deformiert
+Bugfix in CQuaternion::Slerp(): Stürzte bei Rotationswinkeln um TWOPI ab (Division by Zero).
+- CQuaternion::Slerp beschleunigt
+Folgende meue Funktionen in CPlacement:
+- 	void Rotate(CQuaternion &q); // erzeugt eine Rotationsmatrix aus dem Rotationsquaternion q
+-	void RotateDelta(CQuaternion &q); // erzeugt eine Rotationsmatrix aus dem Rotationsquaternion q und multipliziert diese mit der bisherigen Matrix des Placements
+
+2014.12.07 TB: (Rev 634)
+- Neue Methode in CHMat:
+	void ProjectionFovMirror(float faFovHorizontal, float fRatio, float fNear, float fFar); // Generiert eine horizontal gespiegelte foveale Projektionsmatrix 
+- Seitenverkehrte Spiegelausgabe in normalem Renderer jetzt möglich, dafür zwei neue Routinen in CCamera
+	void SetMirrorOn(); // Schaltet spiegelverkehrte Aufnahme an
+	void SetMirrorOff(); // Schaltet spiegelverkehrte Aufnahme wieder aus
+- Bugfix in CDirectX: In normalem Renderer wurden Overlays nicht mehr angezeigt
+- Overlays können jetzt in mehreren Ebenen übergeben werden => Transparente Overlays sollten im normalen Renderer jetzt richtig angezeigt werden (noch ungetestet)
+
+
+2014.12.17 TB (Rev 652):
+- DirectX-Renderer in drei getrennte Libraries aufgesplittet:
+  1.) ApiDirectX11Basic (für alten einfachen Renderer von mir) 
+  2.) ApiDirectX11ForwardPlus  (für neuen Luxusrenderer von Patrick) 
+  3.) ApiUtils (für nützliche gemeinsame Klassen der Api-Libraries)
+- Verschiedene Renderer müssen jetzt nicht mehr neu kompiliert werden, sondern können direkt in CFrame:Init() angewählt werden, dafür folgende enum-Struktur als 2.Parameter:
+	enum EApiRender
+	{
+		eApiRender_Null,
+		eApiRender_DirectX11_Shadermodel41,
+		eApiRender_DirectX11_Shadermodel50,
+		eApiRender_DirectX11_ForwardPlus,
+		eApiRender_OpenGL40
+	};
+- Letzte Codereste von Benedikt und Kim aus DirectX11 entfernt 
+- Particle-Renderroutinen von Michi aus DirectX11 entfernt 
+- DirectX11 teilweise aufgeräumt (TODO: Das Gleiche müsste auch im ForwardPlus-Renderer gemacht werden)
+
+2014.12.17 TB (Rev 653):
+- Bugfix: FP-Renderer ging nicht im Release-Modus
+
+2014.12.18 TB (Rev 654):
+- ShaderCompilationModes lassen sich jetzt auch in Fram::Init angeben => Ohne Neukomplierung des Codes veränderbar
+- Namen für die Übergabe vereinheitlicht (müsste dafür auch einige Variablen im FP-Renderer leicht ändern)
+- Unnötige Warnings beim Compillieren in den Projekteigenschaften mit SECURE_NO_WARNINGS ausgeschaltet.
+
+2014.12.27 TB (Rev 654):
+- Andere konsistente Namen für 64-Bit Versions-Libs
+- Overlays können jetzt mit einer Ebenendistanz versehen werden => für GUIs wichtig 
+
+2014.12.27b TB (Rev 666):
+- Overlays funktionieren jetzt auch im Mirror-Modus
+- Overlays werden für Patricks Shader jetzt auch getrennt nach Alpha-Binary und Alpha-Continual übergeben
+- Mein Alter DirectX11-Basic-Renderer etwas weiter aufgeräumt 
+
+2015-01.06 TB:
+- Frustum Culling berücksichtigt jetzt auch Punkt- und Spotlichter (TODO: Noch ungetestet)
+- Frustum Culling berücksichtigt jetzt auch Audios als vorläufige Version: bei Branches wird AABB auf Max gestellt, TODO: Noch ungetestet)
+- Standardtexturen image_black und image_white verkleinert
+
+2014-01-12 TB: (Rev 682)
+Bugfix: Bei Walls stand das UV-Mapping auf der rechten Seite auf dem Kopf
+
+2014-01-13 TB: 
+#define UM_SWAP(A,B) decltype(A) C=B;B=A;A=C; // Tauscht die Werte zweier beliebiger Datentypen miteinander aus
+Bugfix: PickPlacement und PickGeo lieferten bei einer Hierarchiestufe von eins immer NULL zurück
+Alte Header- und Body-Dateien gelöscht
+Neue Funktion in CHVector: 	void Null(); // Setzt alle Werte auf Null
+
+
+2014-01-18 TB: 
+Bugfix: FrustumCulling funktionierte nicht in speziellen zusammenlaufenden Hierarchiekonstellationen mit LODs 
+Beschleunigung des Frustum-Culling-Updates
+Anfang von neuer Demo für ATCSim (Galaxis)
+
+
+2014-01-22 TB: 
+Bugfix: Clipping von bewegten Cameras veränderte sich nicht!
+Bugfix: Background wurde im Basic-Shader nicht richtig angezeigt
+- ProgressBar beim Splash-Screen, dafür zwei neue Methoden in CRoot:
+		void ShowBar(float frProgress);
+		void HideBar();
+- Beschleunigung der Vertexübergabe an die Shader bei CTriangleLists um das doppelte
+- Neue Mapping-Möglichkeiten bei CGeoDomeTiled, CGeoEllipsoidTiled und CGeoSphereTiled
+- Neue vorgefertigte Geometrie CGeoFrustum mit entsprechende Klasse
+- Debugginghilfe für das Frustum Culling mit der Methode void  CGeoFrustum::Init(CCamera & camera, CMaterial & material);
+- Einige Methoden in CHVector beschleugigt.
+- Neue Methoden in CHVector:
+	void InitPoint(float fx, float fy, float fz); // initialisiert oder überschreibt die Werte des Vektors, der W-Wert ist Eins um einen Raumpunkt anzuzeigen
+	void InitDirection(float fx, float fy, float fz); // initialisiert oder überschreibt die Werte des Vektors, der W-Wert ist Null  um eine Richtung anzuzeigen
+
+2015-01-27 TB:Rev 695
+Bugfix: Das AABB von Point- und Spotlights wurden nicht richtig geupdtatet, wenn nach Placement geadded.
+- Vereinfachung und Beschleunigung der Bewegungsmethoden in CPlacement
+- Splash-Screen sicherer gemacht durch zweiten Gesamt-Kryptoschluessel 
+
+2015-01-27b TB:Rev 696
+Tick von Background in Protected-Zone gestellt
+Alle Parameter der Copy, Tick und SetFrame-Routinen vereinheitlicht in Call by Reference umgewandelt => Beschleunigung und Vereinheitlichung 
+Tick-Routinen in Singular-Klassen in protected gestellt (braucht der Anwender nicht zu kennen)
+Prozeduren in CViewpoort einheitlich umbenannt statt Enable.. Disable => Set..On Set..Off
+
+2015-02-12 TB:
+Großer Audioumbau! Nun gibt es eine Schnittstelle für die Audio-Api, die Sound-logig ist in eine getrennte LIB ausgegliedert worden 
+Die Apis wurden von der Benennung vereinheitlicht
+Apis beginnen jetzt immer mit Api...
+Alle Image-Methoden wurden in Diffuse-Methoden umgbenannt
+Mit folgenden Routinen lässt sich das FrustumCulling für jedes Placement nun getrennt aus- und anschalten: 
+- SetFrustumCullingOn();
+- SetFrustumCullingOff();
+ 
