@@ -196,7 +196,7 @@ FakesAssemblies/
 *.opt
 
 # Own adjustments
-Lib/Release64/VektoriaMath_Release64.lib
+Lib/Release64/Vektoria_Release64.lib
 !Lib/Debug/*
 !Lib/Debug/
 !Lib/Debug64/*
