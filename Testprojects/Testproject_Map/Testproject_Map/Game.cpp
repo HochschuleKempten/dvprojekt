@@ -12,6 +12,7 @@ CGame::CGame(void)
 CGame::~CGame(void)
 {
 	// Hier eventuelle Nachinitialisierungen Deiner Vektoria-Objekte einfügen:
+	delete m_lMaster;
 }
 
 void CGame::Init(HWND hwnd, CSplash *psplash)

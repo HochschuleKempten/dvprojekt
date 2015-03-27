@@ -1,10 +1,13 @@
 #pragma once
-#include "IVPlayingField.h"
+
+class IVPlayingField;
+class IVMaster;
+class LPlayingField;
 
 class IVFactory
 {
 public:
 	virtual ~IVFactory(){};
-	virtual IVPlayingField* createPlayingField() = 0;
+	virtual IVPlayingField* createPlayingField(IVMaster* master, LPlayingField* field) = 0;
 };
 

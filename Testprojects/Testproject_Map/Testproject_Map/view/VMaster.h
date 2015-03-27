@@ -13,6 +13,8 @@ using namespace Vektoria;
 
 NAMESPACE_VIEW_B
 
+class VFactory;
+
 class VMaster : public IVMaster
 {
 private:
@@ -29,14 +31,16 @@ private:
 	CBackground m_zb;
 
 	std::vector<IView*> views;
+	VFactory* factory;
 
 public:
-	virtual ~VMaster()
-	{}
+	VMaster();
+	virtual ~VMaster();
 
 	void initScene(HWND hwnd, CSplash* psplash);
 	void tick(float fTime, float fTimeDelta);
 
+	virtual IVFactory* getFactory();
 	virtual void addScenegraph(IView* view);
 	virtual void removeScenegraph(IView* view) {}
 };

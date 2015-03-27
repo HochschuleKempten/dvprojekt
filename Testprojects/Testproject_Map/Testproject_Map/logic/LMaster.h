@@ -1,6 +1,5 @@
 #pragma once
 #include "IVMaster.h"
-#define SIZE 1000
 
 class LPlayingField;
 
@@ -8,16 +7,16 @@ class LMaster
 {
 
 private: 
+	IVMaster* vMaster;
 	LPlayingField* playingField;
-	IVMaster* master;
 
 public:
-	LMaster(IVMaster* master);
+	LMaster(IVMaster* vMaster);
 	~LMaster();
 
-	IVMaster* getMaster()
+	IVMaster* getVMaster()
 	{
-		return master;
+		return vMaster;
 	}
 };
 

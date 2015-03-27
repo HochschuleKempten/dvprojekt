@@ -3,6 +3,8 @@
 #include "IVPlayingField.h"
 #include "LMaster.h"
 
+#define SIZE 1000
+
 //todo:  Methoden fuer abreissen und Upgrade
 class LPlayingField
 {
@@ -15,8 +17,10 @@ private:
 
 public:
 	LPlayingField(LMaster* lMaster)
-		: lMaster(lMaster)
+		: lMaster(lMaster), vField(lMaster->getVMaster()->getFactory()->createPlayingField(lMaster->getVMaster(), this))
 	{
+		fieldArray = new LField[SIZE*SIZE]; //dynamischer Aufbau des 2D Feldarrays als Aneinanderreihung
+		this->fieldLength = SIZE;
 		vField->init();
 	}
  

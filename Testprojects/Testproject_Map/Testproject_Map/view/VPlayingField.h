@@ -18,10 +18,8 @@ private:
 	CMaterial m_zm;
 
 public:
-	VPlayingField();
-
-	VPlayingField(IVMaster* master, LPlayingField* map)
-		: IVPlayingField(master, map)
+	VPlayingField(IVMaster* master, LPlayingField* field)
+		: IVPlayingField(master, field)
 	{}
 	virtual ~VPlayingField()
 	{}

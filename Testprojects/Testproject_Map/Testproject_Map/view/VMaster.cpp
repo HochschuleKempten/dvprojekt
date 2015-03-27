@@ -1,8 +1,17 @@
 #include "VMaster.h"
 #include "../logic/IView.h"
+#include "VFactory.h"
 
 NAMESPACE_VIEW_B
 
+VMaster::VMaster()
+	: factory(new VFactory())
+{}
+
+VMaster::~VMaster()
+{
+	delete factory;
+}
 
 void VMaster::initScene(HWND hwnd, CSplash* psplash)
 {
@@ -52,6 +61,11 @@ void VMaster::tick(float fTime, float fTimeDelta)
 	}
 
 	m_zr.Tick(fTimeDelta);
+}
+
+IVFactory* VMaster::getFactory()
+{
+	return factory;
 }
 
 void VMaster::addScenegraph(IView* view)
