@@ -62,9 +62,6 @@
     <ClInclude Include="logic\LPlayingField.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\IView.h">
-      <Filter>logic\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="logic\IView.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>

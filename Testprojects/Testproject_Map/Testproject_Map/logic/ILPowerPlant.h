@@ -1,5 +1,9 @@
 #pragma once
-class ILPowerPlant
+#include "ILBuilding.h"
+class ILPowerPlant :
+	public ILBuilding
 {
+private:
+	int energyValue;
 public:
 };

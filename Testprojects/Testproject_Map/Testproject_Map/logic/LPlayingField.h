@@ -1,6 +1,6 @@
 #pragma once
 #include "LField.h"
-
+//todo:  Methoden fuer abreissen und Upgrade
 class LPlayingField
 {
 private:
