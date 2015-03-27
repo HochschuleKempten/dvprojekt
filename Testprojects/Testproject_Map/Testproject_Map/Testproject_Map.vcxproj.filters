@@ -30,6 +30,9 @@
     <Filter Include="view\Headerdateien">
       <UniqueIdentifier>{4749bfe0-8c0f-45d6-8c2c-05888df1aec4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="logic\Interfaces">
+      <UniqueIdentifier>{04202a1a-fe8c-43c1-b1c6-ce8e2cd40282}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -62,14 +65,17 @@
     <ClInclude Include="logic\LPlayingField.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="logic\IView.h">
-      <Filter>logic\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="logic\IVMaster.h">
-      <Filter>logic\Headerdateien</Filter>
-    </ClInclude>
+<<<<<<< HEAD
+=======
     <ClInclude Include="view\VMaster.h">
       <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+>>>>>>> 36933e83500cef7c1aa286474282d6a2e18825ee
+    <ClInclude Include="logic\IView.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVMaster.h">
+      <Filter>logic\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
