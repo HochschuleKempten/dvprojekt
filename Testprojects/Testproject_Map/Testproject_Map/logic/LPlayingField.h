@@ -7,7 +7,8 @@ private:
 	LField * fieldArray;
 
 public:
-	LPlayingField(int length); //length = Kantenlänge des quadratischen Spielfeldes
+	LPlayingField();
+	LPlayingField(const int length); //length = Kantenlänge des quadratischen Spielfeldes
 	~LPlayingField();
 };
 

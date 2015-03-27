@@ -30,6 +30,9 @@
     <Filter Include="view\Headerdateien">
       <UniqueIdentifier>{4749bfe0-8c0f-45d6-8c2c-05888df1aec4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="view\Implementierungsdateien">
+      <UniqueIdentifier>{ea0dc22a-dcbf-45e7-95f0-f16c228899e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -62,9 +65,6 @@
     <ClInclude Include="logic\LPlayingField.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\IView.h">
-      <Filter>logic\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="logic\IView.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
@@ -73,6 +73,12 @@
     </ClInclude>
     <ClInclude Include="view\VMaster.h">
       <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VPlayingField.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVPlayingField.h">
+      <Filter>logic\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +102,12 @@
     </ClCompile>
     <ClCompile Include="logic\LPlayingField.cpp">
       <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VMaster.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VPlayingField.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
