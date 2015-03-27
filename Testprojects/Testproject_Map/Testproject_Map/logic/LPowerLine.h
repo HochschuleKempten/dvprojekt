@@ -4,7 +4,7 @@ class LPowerLine :
 	public ILBuilding
 {
 public:
-	LPowerLine();
+	LPowerLine(int costs);
 	~LPowerLine();
 };
 

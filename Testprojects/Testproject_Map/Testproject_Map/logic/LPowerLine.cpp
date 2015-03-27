@@ -1,7 +1,8 @@
 #include "LPowerLine.h"
 
 
-LPowerLine::LPowerLine()
+LPowerLine::LPowerLine(int costs):
+ILBuilding(costs)
 {
 }
 
