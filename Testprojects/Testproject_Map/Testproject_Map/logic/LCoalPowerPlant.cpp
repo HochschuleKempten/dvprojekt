@@ -1,10 +1,9 @@
 #include "LCoalPowerPlant.h"
 
-
-LCoalPowerPlant::LCoalPowerPlant()
+LCoalPowerPlant::LCoalPowerPlant(int costs, int energyValue):
+	ILPowerPlant(costs, energyValue)
 {
 }
-
 
 LCoalPowerPlant::~LCoalPowerPlant()
 {
