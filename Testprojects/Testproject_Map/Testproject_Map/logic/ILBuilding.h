@@ -2,11 +2,24 @@
 
 class ILBuilding
 {
+	//todo: Später max. Ausbaustufe und aktuelle, Spielerzuweisung
+
 private:
-	const int costs;
-	//todo: Später max. Ausbaustufe und aktuelle
+	int costs;
 
 public:
-	virtual int getCosts() = 0;
+	ILBuilding(int costs) :
+		costs(costs)
+	{
+	};
+
+	virtual ~ILBuilding()
+	{
+	};
+
+	int getCosts()
+	{
+		return costs;
+	};
 };
 
