@@ -4,7 +4,7 @@ class LNuclearPowerPlant :
 	public ILPowerPlant
 {
 public:
-	LNuclearPowerPlant();
+	LNuclearPowerPlant(int costs, int energyValue);
 	~LNuclearPowerPlant();
 };
 

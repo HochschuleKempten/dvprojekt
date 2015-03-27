@@ -1,10 +1,10 @@
 #pragma once
 #include "ILBuilding.h"
-class LTrail :
+class LPowerLine :
 	public ILBuilding
 {
 public:
-	LTrail();
-	~LTrail();
+	LPowerLine();
+	~LPowerLine();
 };
 

@@ -1,7 +1,8 @@
 #include "LNuclearPowerPlant.h"
 
 
-LNuclearPowerPlant::LNuclearPowerPlant()
+LNuclearPowerPlant::LNuclearPowerPlant(int costs, int energyValue) :
+ILPowerPlant(costs, energyValue)
 {
 }
 

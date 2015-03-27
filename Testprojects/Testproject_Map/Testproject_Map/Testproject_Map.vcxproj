@@ -143,7 +143,7 @@
     <ClInclude Include="logic\LOilRefinery.h" />
     <ClInclude Include="logic\LPlayingField.h" />
     <ClInclude Include="logic\LSolarPowerPlant.h" />
-    <ClInclude Include="logic\LTrail.h" />
+    <ClInclude Include="logic\LPowerLine.h" />
     <ClInclude Include="logic\LWindmillPowerPlant.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -160,7 +160,7 @@
     <ClCompile Include="logic\LOilRefinery.cpp" />
     <ClCompile Include="logic\LPlayingField.cpp" />
     <ClCompile Include="logic\LSolarPowerPlant.cpp" />
-    <ClCompile Include="logic\LTrail.cpp" />
+    <ClCompile Include="logic\LPowerLine.cpp" />
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="VektoriaApp.cpp" />
