@@ -104,6 +104,12 @@
     <ClInclude Include="logic\IVPlayingField.h">
       <Filter>logic\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="view\VFactory.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVFactory.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -150,6 +156,9 @@
     </ClCompile>
     <ClCompile Include="logic\LPowerLine.cpp">
       <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VFactory.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

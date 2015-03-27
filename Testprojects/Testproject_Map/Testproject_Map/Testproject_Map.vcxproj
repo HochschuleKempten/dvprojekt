@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="logic\IVFactory.h" />
     <ClInclude Include="logic\IView.h" />
     <ClInclude Include="logic\IVPlayingField.h" />
     <ClInclude Include="logic\IVMaster.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="view\VFactory.h" />
     <ClInclude Include="view\VPlayingField.h" />
     <ClInclude Include="view\VMaster.h" />
   </ItemGroup>
@@ -166,6 +168,7 @@
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="VektoriaApp.cpp" />
+    <ClCompile Include="view\VFactory.cpp" />
     <ClCompile Include="view\VPlayingField.cpp" />
     <ClCompile Include="view\VMaster.cpp" />
   </ItemGroup>
