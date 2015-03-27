@@ -8,7 +8,6 @@ class LMaster
 private: 
 	LPlayingField * playingField;
 
-
 public:
 	LMaster();
 	~LMaster();
