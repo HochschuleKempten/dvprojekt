@@ -18,8 +18,8 @@ void VPlayingField::init()
 			m_zp[i][j].SetName(stream.str().c_str());
 			m_zpCentral.AddPlacement(&m_zp[i][j]);
 
-			m_zp[i][j].TranslateX(i * 4.1);
-			m_zp[i][j].TranslateYDelta(j * 4.1);
+			m_zp[i][j].TranslateX(i * 4.1F);
+			m_zp[i][j].TranslateYDelta(j * 4.1F);
 		}
 	}
 

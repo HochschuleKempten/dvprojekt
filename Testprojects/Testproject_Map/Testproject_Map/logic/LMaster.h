@@ -12,13 +12,8 @@ private:
 	IVMaster* master;
 
 public:
-	LMaster(IVMaster* master)
-		: master(master)
-	{}
-	~LMaster()
-	{
-		delete playingField;
-	}
+	LMaster(IVMaster* master);
+	~LMaster();
 
 	IVMaster* getMaster()
 	{

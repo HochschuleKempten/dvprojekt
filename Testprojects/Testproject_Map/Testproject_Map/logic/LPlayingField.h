@@ -19,8 +19,9 @@ public:
 	{
 		vField->init();
 	}
+ 
 	LPlayingField(const int length); //length = Kantenlänge des quadratischen Spielfeldes
 	~LPlayingField();
 
-	LField & getField(int i, int j);
+	LField & getField(const int i, const int j);
 };

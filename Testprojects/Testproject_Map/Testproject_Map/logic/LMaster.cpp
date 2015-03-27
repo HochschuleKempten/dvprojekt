@@ -1,8 +1,12 @@
-//#include "LMaster.h"
-//#include "LPlayingField.h"
-//
-//template<typename ClassVPlayingField>
-//IVMaster* LMaster<ClassVPlayingField>::getMaster()
-//{
-//	return master;
-//}
+#include "LMaster.h"
+#include "LPlayingField.h"
+
+LMaster::LMaster(IVMaster* master)
+	: master(master), playingField(new LPlayingField(SIZE))
+{
+}
+
+LMaster::~LMaster()
+{
+	delete playingField;
+}
