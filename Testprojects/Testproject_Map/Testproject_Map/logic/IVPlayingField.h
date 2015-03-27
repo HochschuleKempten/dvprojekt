@@ -1,7 +1,8 @@
 #pragma once
 
 #include "IView.h"
-#include "LPlayingField.h"
+
+class LPlayingField;
 
 class IVPlayingField : public IView
 {

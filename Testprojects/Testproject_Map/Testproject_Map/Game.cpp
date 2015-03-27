@@ -1,8 +1,10 @@
 #include "StdAfx.h"
 #include "Game.h"
 #include <sstream>
+#include "view\VPlayingField.h"
 
 CGame::CGame(void)
+	: m_lMaster(new LMaster(&m_vMaster))
 {
 	// Hier eventuelle Vorinitialisierungen Deiner Vektoria-Objekte einfügen:
 }

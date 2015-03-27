@@ -57,6 +57,7 @@
 #include "Vektoria\Root.h"
 #include "VektoriaMath\Util.h"
 #include "view\VMaster.h"
+#include "logic\LMaster.h"
 
 using namespace Vektoria;
 using namespace HighVoltage::view;
@@ -70,11 +71,10 @@ public:
 	void Init(HWND hwnd, CSplash * psplash);
 	void Tick(float fTime, float fTimeDelta);
 	void Fini();
-
+	
 	void WindowReSize(int iNewWidth, int iNewHeight); // WindowsReSize wird immer dann aufgerufen, wenn der Benutzer die Fenstergröße verändert hat
-
+	
 private:
 	VMaster m_vMaster;
+	LMaster* m_lMaster;
 };
-
-

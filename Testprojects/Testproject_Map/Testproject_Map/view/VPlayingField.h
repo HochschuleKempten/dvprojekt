@@ -18,7 +18,7 @@ private:
 	CMaterial m_zm;
 
 public:
-	VPlayingField(void);
+	VPlayingField();
 
 	VPlayingField(IVMaster* master, LPlayingField* map)
 		: IVPlayingField(master, map)
