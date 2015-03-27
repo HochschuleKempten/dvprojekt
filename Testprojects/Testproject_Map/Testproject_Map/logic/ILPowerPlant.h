@@ -12,7 +12,6 @@ public:
 		ILBuilding(costs),
 		energyValue(energyValue)
 	{
-
 	};
 
 	virtual ~ILPowerPlant()

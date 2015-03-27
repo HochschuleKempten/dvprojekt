@@ -30,6 +30,9 @@
     <Filter Include="view\Headerdateien">
       <UniqueIdentifier>{4749bfe0-8c0f-45d6-8c2c-05888df1aec4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="logic\Interfaces">
+      <UniqueIdentifier>{a55ef8ad-46b5-4071-8814-7192c6ba31b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -47,25 +50,13 @@
     <ClInclude Include="logic\LMaster.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="logic\ILBuilding.h">
-      <Filter>logic\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="logic\LField.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="logic\LCoalPowerPlant.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="logic\ILPowerPlant.h">
-      <Filter>logic\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="logic\LPlayingField.h">
-      <Filter>logic\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="logic\IView.h">
-      <Filter>logic\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="logic\IVMaster.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VMaster.h">
@@ -88,6 +79,18 @@
     </ClInclude>
     <ClInclude Include="logic\LTrail.h">
       <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\ILBuilding.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\ILPowerPlant.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IView.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVMaster.h">
+      <Filter>logic\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
