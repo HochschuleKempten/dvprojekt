@@ -13,11 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Headerdateien\logic">
-      <UniqueIdentifier>{ce6456c7-6abb-4aca-8fd4-99dc71b552ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\view">
-      <UniqueIdentifier>{04d6f17d-8050-4940-b99b-5f1167230aaf}</UniqueIdentifier>
     <Filter Include="logic">
       <UniqueIdentifier>{62d3616a-0765-48c6-b1a5-107dde414f5d}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -28,6 +23,12 @@
     <Filter Include="logic\Quelldateien">
       <UniqueIdentifier>{55eb0dd5-a40c-4f00-8ab6-ea20121cc96f}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="view">
+      <UniqueIdentifier>{3b210bd6-fbd0-4067-ae00-56365f394d5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="view\Headerdateien">
+      <UniqueIdentifier>{4749bfe0-8c0f-45d6-8c2c-05888df1aec4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -43,17 +44,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\IView.h">
-      <Filter>Headerdateien\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="logic\IView.h">
-      <Filter>Headerdateien\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="logic\IVMaster.h">
-      <Filter>Headerdateien\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VMaster.h">
-      <Filter>Headerdateien\view</Filter>
     <ClInclude Include="logic\LMaster.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
@@ -71,6 +61,18 @@
     </ClInclude>
     <ClInclude Include="logic\LPlayingField.h">
       <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IView.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IView.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVMaster.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VMaster.h">
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
