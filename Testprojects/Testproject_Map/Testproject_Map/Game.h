@@ -56,6 +56,7 @@
 
 #include "Vektoria\Root.h"
 #include "VektoriaMath\Util.h"
+//#include "view\VMaster.h"
 
 using namespace Vektoria;
 
@@ -73,13 +74,27 @@ public:
 	void WindowReSize(int iNewWidth, int iNewHeight); // WindowsReSize wird immer dann aufgerufen, wenn der Benutzer die Fenstergröße verändert hat
 
 private:
+	static const int width = 2;
+	static const int height = 2;
     // Hier ist Platz für Deine Vektoriaobjekte:
 	CRoot m_zr;
 	CFrame m_zf;
 	CViewport m_zv;
 	CCamera m_zc;
-	CImage m_zi;
-	COverlay m_zo;
+	CPlacement m_zpCamera;
+	CScene m_zs;
+	CDeviceKeyboard m_zk;
+	CDeviceCursor m_zkCursor;
+	CDeviceMouse m_zkMouse;
+	CParallelLight m_zl;
+	CBackground m_zb;
+	//VMaster m_vMaster;
+	//CGeoQuad m_zg;
+	//CGeoCube m_zg;
+	CGeoCube m_zg[width][height];
+	CPlacement m_zp[width][height];
+	CMaterial m_zm;
+	CPlacement m_zpCentral;
 };
 
 

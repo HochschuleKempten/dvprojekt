@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Headerdateien\logic">
+      <UniqueIdentifier>{ce6456c7-6abb-4aca-8fd4-99dc71b552ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\view">
+      <UniqueIdentifier>{04d6f17d-8050-4940-b99b-5f1167230aaf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -26,6 +32,18 @@
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IView.h">
+      <Filter>Headerdateien\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IView.h">
+      <Filter>Headerdateien\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVMaster.h">
+      <Filter>Headerdateien\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VMaster.h">
+      <Filter>Headerdateien\view</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
