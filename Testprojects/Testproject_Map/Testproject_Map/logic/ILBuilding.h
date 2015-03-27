@@ -3,7 +3,7 @@
 class ILBuilding
 {
 private:
-	int costs;
+	const int costs;
 	//todo: Später max. Ausbaustufe und aktuelle
 
 public:
