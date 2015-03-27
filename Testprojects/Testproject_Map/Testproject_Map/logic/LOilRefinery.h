@@ -4,7 +4,7 @@ class LOilRefinery :
 	public ILPowerPlant
 {
 public:
-	LOilRefinery();
+	LOilRefinery(int costs, int energyValue);
 	~LOilRefinery();
 };
 

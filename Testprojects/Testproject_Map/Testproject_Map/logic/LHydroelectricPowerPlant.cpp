@@ -1,8 +1,10 @@
 #include "LHydroelectricPowerPlant.h"
 
 
-LHydroelectricPowerPlant::LHydroelectricPowerPlant()
+LHydroelectricPowerPlant::LHydroelectricPowerPlant(int costs, int energyValue) :
+	ILPowerPlant(costs, energyValue)
 {
+
 }
 
 

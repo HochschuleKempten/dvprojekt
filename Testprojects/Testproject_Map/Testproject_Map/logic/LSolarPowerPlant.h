@@ -4,7 +4,7 @@ class LSolarPowerPlant :
 	public ILPowerPlant
 {
 public:
-	LSolarPowerPlant();
+	LSolarPowerPlant(int costs, int energyValue);
 	~LSolarPowerPlant();
 };
 

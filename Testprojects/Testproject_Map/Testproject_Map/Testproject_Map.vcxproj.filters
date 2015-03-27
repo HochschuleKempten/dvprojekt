@@ -77,7 +77,7 @@
     <ClInclude Include="logic\LOilRefinery.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="logic\LTrail.h">
+    <ClInclude Include="logic\LPowerLine.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="logic\ILBuilding.h">
@@ -130,7 +130,7 @@
     <ClCompile Include="logic\LOilRefinery.cpp">
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="logic\LTrail.cpp">
+    <ClCompile Include="logic\LPowerLine.cpp">
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
