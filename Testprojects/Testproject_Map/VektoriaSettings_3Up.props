@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <IncludePath>$(DXSDK_DIR)Include;..\..\..\Lib;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)Lib\$(PlattformTarget);$(LibraryPath);..\..\..\Lib\$(Configuration)$(PlattformArchitecture)</LibraryPath>
+    <LibraryPath>$(DXSDK_DIR)Lib\$(PlatformTarget);$(LibraryPath);..\..\..\Lib\$(Configuration)$(PlatformArchitecture)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup />
