@@ -18,6 +18,16 @@
     </Filter>
     <Filter Include="Headerdateien\view">
       <UniqueIdentifier>{04d6f17d-8050-4940-b99b-5f1167230aaf}</UniqueIdentifier>
+    <Filter Include="logic">
+      <UniqueIdentifier>{62d3616a-0765-48c6-b1a5-107dde414f5d}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="logic\Headerdateien">
+      <UniqueIdentifier>{be5b307a-ed96-4cbc-8d1d-94ecf813fe19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logic\Quelldateien">
+      <UniqueIdentifier>{55eb0dd5-a40c-4f00-8ab6-ea20121cc96f}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +54,23 @@
     </ClInclude>
     <ClInclude Include="view\VMaster.h">
       <Filter>Headerdateien\view</Filter>
+    <ClInclude Include="logic\LMaster.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\ILBuilding.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LField.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LCoalPowerPlant.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\ILPowerPlant.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LPlayingField.h">
+      <Filter>logic\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +82,18 @@
     </ClCompile>
     <ClCompile Include="VektoriaApp.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LMaster.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LField.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LCoalPowerPlant.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LPlayingField.cpp">
+      <Filter>logic\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

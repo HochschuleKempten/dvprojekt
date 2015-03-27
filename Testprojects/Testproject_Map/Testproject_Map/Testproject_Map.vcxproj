@@ -133,6 +133,12 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="logic\IView.h" />
     <ClInclude Include="logic\IVMaster.h" />
+    <ClInclude Include="logic\ILBuilding.h" />
+    <ClInclude Include="logic\LField.h" />
+    <ClInclude Include="logic\LCoalPowerPlant.h" />
+    <ClInclude Include="logic\ILPowerPlant.h" />
+    <ClInclude Include="logic\LMaster.h" />
+    <ClInclude Include="logic\LPlayingField.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -141,6 +147,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="logic\LField.cpp" />
+    <ClCompile Include="logic\LCoalPowerPlant.cpp" />
+    <ClCompile Include="logic\LMaster.cpp" />
+    <ClCompile Include="logic\LPlayingField.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="VektoriaApp.cpp" />
   </ItemGroup>
