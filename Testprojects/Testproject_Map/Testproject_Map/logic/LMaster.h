@@ -1,12 +1,12 @@
 #pragma once
 #include "LPlayingField.h"
+#define SIZE 1000
 
 class LMaster
 {
 
 private: 
-	LPlayingField playingField;
-
+	LPlayingField * playingField;
 
 public:
 	LMaster();
