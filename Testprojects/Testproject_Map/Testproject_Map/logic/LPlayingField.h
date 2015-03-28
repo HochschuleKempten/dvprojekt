@@ -16,14 +16,7 @@ private:
 	int fieldLength;
 
 public:
-	LPlayingField(LMaster* lMaster)
-		: lMaster(lMaster), vField(lMaster->getVMaster()->getFactory()->createPlayingField(lMaster->getVMaster(), this))
-	{
-		fieldArray = new LField[SIZE*SIZE]; //dynamischer Aufbau des 2D Feldarrays als Aneinanderreihung
-		this->fieldLength = SIZE;
-		vField->init();
-	}
- 
+	LPlayingField(LMaster* lMaster); 
 	LPlayingField(const int length); //length = Kantenlänge des quadratischen Spielfeldes
 	~LPlayingField();
 
