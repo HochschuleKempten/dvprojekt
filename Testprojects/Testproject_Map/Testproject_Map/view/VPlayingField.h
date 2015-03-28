@@ -5,6 +5,7 @@
 
 NAMESPACE_VIEW_B
 
+
 class VPlayingField : public IVPlayingField, public CPlacement
 {
 private:
@@ -24,7 +25,6 @@ public:
 	virtual ~VPlayingField()
 	{}
 	
-
 	virtual void init();
 
 };

@@ -145,6 +145,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		}
 	}
 	g_pgame->Fini();
+	delete g_pgame;
+
 	/* The program return-value is 0 - The value that PostQuitMessage() gave */
 	return ERROR_SUCCESS;
 }

@@ -4,12 +4,12 @@
 
 NAMESPACE_VIEW_B
 
-class VFactory:
-	public IVFactory
+class VFactory : public IVFactory
 {
 public:
 	VFactory(IVMaster* vMaster);
-	virtual ~VFactory();
+	virtual ~VFactory()
+	{}
 	virtual IVPlayingField* createPlayingField(LPlayingField* field);
 };
 

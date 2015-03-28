@@ -37,4 +37,3 @@ void CGame::WindowReSize(int iNewWidth, int iNewHeight)
 	// Hier kannst Du dann die Auflösung des Viewports neu einstellen:
 
 }
-

@@ -8,11 +8,6 @@ VFactory::VFactory(IVMaster* vMaster):
 {
 }
 
-VFactory::~VFactory()
-{
-
-}
-
 IVPlayingField* VFactory::createPlayingField(LPlayingField* field)
 {
 	return new VPlayingField(m_vMaster, field);

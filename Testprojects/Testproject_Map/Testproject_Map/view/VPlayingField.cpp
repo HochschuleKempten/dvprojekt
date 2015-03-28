@@ -10,6 +10,7 @@ void VPlayingField::init()
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
 			stream.clear();
+			stream.str("");
 			stream << "i = " << i << ", j = " << j;
 
 			m_zg[i][j].Init(size, &m_zm);
