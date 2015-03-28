@@ -2,6 +2,7 @@
 #include "Game.h"
 #include <sstream>
 #include "view\VPlayingField.h"
+#include "logic\LPlayingField.h"
 
 CGame::CGame(void)
 	: lMaster(&vMaster)
@@ -19,6 +20,7 @@ void CGame::Init(HWND hwnd, CSplash *psplash)
 {
 	// Hier die Initialisierung Deiner Vektoria-Objekte einfügen:
 	vMaster.initScene(hwnd, psplash);
+	lMaster.getLPlayingField()->initVPlayingField();
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)

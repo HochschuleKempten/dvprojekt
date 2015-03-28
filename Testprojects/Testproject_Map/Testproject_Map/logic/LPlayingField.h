@@ -11,7 +11,7 @@ class LPlayingField
 
 private:
 	LMaster* lMaster;
-	IVPlayingField* vField;
+	IVPlayingField* vPlayingField;
 	LField * fieldArray;
 	int fieldLength;
 
@@ -20,5 +20,6 @@ public:
 	LPlayingField(const int length); //length = Kantenlänge des quadratischen Spielfeldes
 	~LPlayingField();
 
-	LField & getField(const int i, const int j);
+	void initVPlayingField();
+	LField * getField(const int i, const int j);
 };
