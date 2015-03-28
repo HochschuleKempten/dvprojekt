@@ -25,7 +25,7 @@ void LPlayingField::initVPlayingField()
 	vPlayingField->init();
 }
 
-LField & LPlayingField::getField(int i, int j)
+LField * LPlayingField::getField(int i, int j)
 {
-	return fieldArray[i*fieldLength + j];
+	return &(fieldArray[i*fieldLength + j]);
 }

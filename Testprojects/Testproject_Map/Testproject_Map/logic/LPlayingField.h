@@ -21,5 +21,5 @@ public:
 	~LPlayingField();
 
 	void initVPlayingField();
-	LField & getField(const int i, const int j);
+	LField * getField(const int i, const int j);
 };

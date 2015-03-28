@@ -19,9 +19,9 @@ public:
 		return vMaster;
 	}
 
-	LPlayingField & getLPlayingField()
+	LPlayingField * getLPlayingField()
 	{
-		return *playingField;
+		return playingField;
 	}
 };
 
