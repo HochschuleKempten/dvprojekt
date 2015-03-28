@@ -6,7 +6,7 @@
 NAMESPACE_VIEW_B
 
 VMaster::VMaster()
-	: factory(new VFactory())
+	: factory(new VFactory(this))
 {}
 
 VMaster::~VMaster()

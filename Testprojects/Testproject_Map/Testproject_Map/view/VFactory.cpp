@@ -3,9 +3,19 @@
 
 NAMESPACE_VIEW_B
 
-IVPlayingField* VFactory::createPlayingField(IVMaster* master, LPlayingField* field)
+VFactory::VFactory(IVMaster* vMaster):
+	IVFactory(vMaster)
 {
-	return new VPlayingField(master, field);
+}
+
+VFactory::~VFactory()
+{
+
+}
+
+IVPlayingField* VFactory::createPlayingField(LPlayingField* field)
+{
+	return new VPlayingField(m_vMaster, field);
 }
 
 NAMESPACE_VIEW_E
