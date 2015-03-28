@@ -5,6 +5,8 @@
 #include "../logic/IVMaster.h"
 #include <vector>
 
+class LMaster;
+
 using namespace Vektoria;
 
 #define NAMESPACE_VIEW_B namespace HighVoltage{ namespace view{
@@ -32,10 +34,13 @@ private:
 
 	std::vector<IView*> views;
 	VFactory* factory;
+	LMaster* lMaster;
 
 public:
 	VMaster();
 	virtual ~VMaster();
+
+	void setLMaster(LMaster* lMaster);
 
 	void initScene(HWND hwnd, CSplash* psplash);
 	void tick(float fTime, float fTimeDelta);

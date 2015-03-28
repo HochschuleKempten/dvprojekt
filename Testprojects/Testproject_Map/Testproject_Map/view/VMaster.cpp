@@ -1,5 +1,6 @@
 #include "VMaster.h"
 #include "../logic/IView.h"
+#include "../logic/LMaster.h"
 #include "VFactory.h"
 
 NAMESPACE_VIEW_B
@@ -11,6 +12,11 @@ VMaster::VMaster()
 VMaster::~VMaster()
 {
 	delete factory;
+}
+
+void VMaster::setLMaster(LMaster* lMaster)
+{
+	this->lMaster = lMaster;
 }
 
 void VMaster::initScene(HWND hwnd, CSplash* psplash)

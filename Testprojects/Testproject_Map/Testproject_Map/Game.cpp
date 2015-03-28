@@ -4,26 +4,26 @@
 #include "view\VPlayingField.h"
 
 CGame::CGame(void)
-	: m_lMaster(new LMaster(&m_vMaster))
+	: lMaster(&vMaster)
 {
+	vMaster.setLMaster(&lMaster);
 	// Hier eventuelle Vorinitialisierungen Deiner Vektoria-Objekte einfügen:
 }
 
 CGame::~CGame(void)
 {
 	// Hier eventuelle Nachinitialisierungen Deiner Vektoria-Objekte einfügen:
-	delete m_lMaster;
 }
 
 void CGame::Init(HWND hwnd, CSplash *psplash)
 {
 	// Hier die Initialisierung Deiner Vektoria-Objekte einfügen:
-	m_vMaster.initScene(hwnd, psplash);
+	vMaster.initScene(hwnd, psplash);
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
 {
-	m_vMaster.tick(fTime, fTimeDelta);
+	vMaster.tick(fTime, fTimeDelta);
 }
 
 void CGame::Fini()

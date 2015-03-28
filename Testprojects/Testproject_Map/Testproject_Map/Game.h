@@ -75,6 +75,6 @@ public:
 	void WindowReSize(int iNewWidth, int iNewHeight); // WindowsReSize wird immer dann aufgerufen, wenn der Benutzer die Fenstergröße verändert hat
 	
 private:
-	VMaster m_vMaster;
-	LMaster* m_lMaster;
+	VMaster vMaster;
+	LMaster lMaster;
 };
