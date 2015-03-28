@@ -2,11 +2,10 @@
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster),
-	vField(lMaster->getVMaster()->getFactory()->createPlayingField(this))
+	vPlayingField(lMaster->getVMaster()->getFactory()->createPlayingField(this))
 {
 	fieldArray = new LField[SIZE*SIZE]; //dynamischer Aufbau des 2D Feldarrays als Aneinanderreihung
 	this->fieldLength = SIZE;
-	vField->init();
 }
 
 LPlayingField::LPlayingField(const int length)
@@ -19,6 +18,11 @@ LPlayingField::LPlayingField(const int length)
 LPlayingField::~LPlayingField()
 {
 	delete[] fieldArray;
+}
+
+void LPlayingField::initVPlayingField()
+{
+	vPlayingField->init();
 }
 
 LField & LPlayingField::getField(int i, int j)
