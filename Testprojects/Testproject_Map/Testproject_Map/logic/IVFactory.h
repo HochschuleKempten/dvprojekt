@@ -6,8 +6,15 @@ class LPlayingField;
 
 class IVFactory
 {
+protected:
+	IVMaster* m_vMaster;
+
 public:
+	IVFactory(IVMaster* vMaster) :
+		m_vMaster(vMaster)
+	{
+	};
 	virtual ~IVFactory(){};
-	virtual IVPlayingField* createPlayingField(IVMaster* master, LPlayingField* field) = 0;
+	virtual IVPlayingField* createPlayingField(LPlayingField* field) = 0;
 };
 

@@ -8,7 +8,9 @@ class VFactory:
 	public IVFactory
 {
 public:
-	virtual IVPlayingField* createPlayingField(IVMaster* master, LPlayingField* field);
+	VFactory(IVMaster* vMaster);
+	virtual ~VFactory();
+	virtual IVPlayingField* createPlayingField(LPlayingField* field);
 };
 
 NAMESPACE_VIEW_E
