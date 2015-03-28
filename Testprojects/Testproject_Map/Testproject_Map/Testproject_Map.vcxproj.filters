@@ -171,6 +171,7 @@
     <None Include="res\VektoriaTest.ico">
       <Filter>Ressourcendateien</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VektoriaApp.rc">
