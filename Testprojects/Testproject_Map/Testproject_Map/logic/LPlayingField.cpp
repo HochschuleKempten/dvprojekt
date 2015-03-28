@@ -2,7 +2,7 @@
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster),
-	vField(lMaster->getVMaster()->getFactory()->createPlayingField(lMaster->getVMaster(), this))
+	vField(lMaster->getVMaster()->getFactory()->createPlayingField(lMaster->getVMaster(), this))//Copy des Pointer auf Master in Member
 {
 	fieldArray = new LField[SIZE*SIZE]; //dynamischer Aufbau des 2D Feldarrays als Aneinanderreihung
 	this->fieldLength = SIZE;
