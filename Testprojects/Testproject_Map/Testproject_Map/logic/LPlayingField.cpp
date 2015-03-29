@@ -18,7 +18,7 @@ LPlayingField::LPlayingField(const int length)
 LPlayingField::~LPlayingField()
 {
 	delete[] fieldArray;
-	delete vField;
+	delete vPlayingField;
 }
 
 void LPlayingField::initVPlayingField()
