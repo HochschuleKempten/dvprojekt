@@ -7,20 +7,21 @@ void VPlayingField::init()
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
 	CHVector size(2, 2, 0.5);
 	std::stringstream stream;
-	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width; j++) {
+	for (int i = 0; i < arrLength; i++) {
+		for (int j = 0; j < arrLength; j++) {
 			stream.clear();
 			stream.str("");
 			stream << "i = " << i << ", j = " << j;
 
-			m_zg[i][j].Init(size, &m_zm);
-			m_zg[i][j].SetName(stream.str().c_str());
-			m_zp[i][j].AddGeo(&m_zg[i][j]);
-			m_zp[i][j].SetName(stream.str().c_str());
-			m_zpCentral.AddPlacement(&m_zp[i][j]);
+			//todo ugly indexing, improve
+			m_zg[i*arrLength + j].Init(size, &m_zm);
+			m_zg[i*arrLength + j].SetName(stream.str().c_str());
+			m_zp[i*arrLength + j].AddGeo(&m_zg[i*arrLength + j]);
+			m_zp[i*arrLength + j].SetName(stream.str().c_str());
+			m_zpCentral.AddPlacement(&m_zp[i*arrLength + j]);
 
-			m_zp[i][j].TranslateX(i * 4.1F);
-			m_zp[i][j].TranslateYDelta(j * 4.1F);
+			m_zp[i*arrLength + j].TranslateX(i * 4.1F);
+			m_zp[i*arrLength + j].TranslateYDelta(j * 4.1F);
 		}
 	}
 

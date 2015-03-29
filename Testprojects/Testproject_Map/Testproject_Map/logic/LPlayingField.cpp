@@ -1,19 +1,11 @@
 #include "LPlayingField.h"
 
 LPlayingField::LPlayingField(LMaster* lMaster)
-	: lMaster(lMaster),
-	vPlayingField(lMaster->getVMaster()->getFactory()->createPlayingField(this))
+	: lMaster(lMaster)
 {
-	fieldArray = new LField[SIZE*SIZE]; //dynamischer Aufbau des 2D Feldarrays als Aneinanderreihung
-	this->fieldLength = SIZE;
+	fieldArray = new LField[fieldLength*fieldLength]; //dynamischer Aufbau des 2D Feldarrays als Aneinanderreihung
+	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
 }
-
-LPlayingField::LPlayingField(const int length)
-{
-	fieldArray = new LField[length*length]; //dynamischer Aufbau des 2D Feldarrays als Aneinanderreihung
-	this->fieldLength = length;
-}
-
 
 LPlayingField::~LPlayingField()
 {
@@ -29,4 +21,9 @@ void LPlayingField::initVPlayingField()
 LField * LPlayingField::getField(int i, int j)
 {
 	return &(fieldArray[i*fieldLength + j]);
+}
+
+int LPlayingField::getFieldLength()
+{
+	return fieldLength;
 }
