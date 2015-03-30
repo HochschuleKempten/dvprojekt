@@ -53,14 +53,14 @@ void VMaster::tick(float fTime, float fTimeDelta)
 			float f;
 
 			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
-			CGeoCone *cone = new CGeoCone();
-			CMaterial * mat = new CMaterial();
-			mat->MakeTextureDiffuse("textures\\_original.jpg");
-			cone->Init(2.0, 2.0, mat, 24, true);
-			cone->SetName("new TestCone");
-			pickedPlacement->RotateX(M_PI / 2);
-			pickedPlacement->TranslateZ(0.5);
-			pickedPlacement->AddGeo(cone);		
+			//CGeoCone *cone = new CGeoCone();
+			//CMaterial * mat = new CMaterial();
+			//mat->MakeTextureDiffuse("textures\\_original.jpg");
+			//cone->Init(2.0, 2.0, mat, 24, true);
+			//cone->SetName("new TestCone");
+			//pickedPlacement->RotateX(M_PI / 2);
+			//pickedPlacement->TranslateZ(0.5);
+			//pickedPlacement->AddGeo(cone);		
 			//m_zs.AddPlacement(pickedPlacement);
 	
 			//CGeo* picked = m_zkCursor.PickGeo(CHVector(), f);
