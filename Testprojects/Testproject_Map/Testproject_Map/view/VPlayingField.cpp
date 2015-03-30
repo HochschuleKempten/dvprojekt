@@ -13,7 +13,6 @@ void VPlayingField::init()
 			stream.str("");
 			stream << "i = " << i << ", j = " << j;
 
-			//todo ugly indexing, improve
 			m_zg[i][j].Init(size, &m_zm);
 			m_zg[i][j].SetName(stream.str().c_str());
 			m_zp[i][j].AddGeo(&m_zg[i][j]);
