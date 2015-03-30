@@ -27,6 +27,8 @@ public:
 
 	void fieldClicked(const int i, const int j);
 
+	void placeObject(int i, int j);
+
 	virtual ~VPlayingField()
 	{}
 	

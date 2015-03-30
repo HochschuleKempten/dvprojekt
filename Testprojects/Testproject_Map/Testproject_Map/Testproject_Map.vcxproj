@@ -137,6 +137,7 @@
     <ClInclude Include="logic\IVPlayingField.h" />
     <ClInclude Include="logic\IVMaster.h" />
     <ClInclude Include="logic\ILBuilding.h" />
+    <ClInclude Include="logic\IVPowerPlant.h" />
     <ClInclude Include="logic\LField.h" />
     <ClInclude Include="logic\LCoalPowerPlant.h" />
     <ClInclude Include="logic\ILPowerPlant.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="view\VGeneral.h" />
     <ClInclude Include="view\VPlayingField.h" />
     <ClInclude Include="view\VMaster.h" />
+    <ClInclude Include="view\VPowerPlant.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
@@ -175,6 +177,7 @@
     <ClCompile Include="view\VFactory.cpp" />
     <ClCompile Include="view\VPlayingField.cpp" />
     <ClCompile Include="view\VMaster.cpp" />
+    <ClCompile Include="view\VPowerPlant.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

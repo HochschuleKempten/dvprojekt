@@ -8,6 +8,11 @@ void VPlayingField::fieldClicked(const int i, const int j)
 
 }
 
+void VPlayingField::placeObject(int i, int j)
+{
+
+}
+
 void VPlayingField::init()
 {
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
