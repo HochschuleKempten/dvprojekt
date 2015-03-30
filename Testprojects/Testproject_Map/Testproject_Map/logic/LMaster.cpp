@@ -2,11 +2,17 @@
 #include "LPlayingField.h"
 
 LMaster::LMaster(IVMaster* vMaster)
-	: vMaster(vMaster), playingField(new LPlayingField(this))
+	: vMaster(vMaster)
 {
 }
 
 LMaster::~LMaster()
 {
 	delete playingField;
+}
+
+void LMaster::startNewGame()
+{
+	playingField = new LPlayingField(this);
+	playingField->initVPlayingField();
 }
