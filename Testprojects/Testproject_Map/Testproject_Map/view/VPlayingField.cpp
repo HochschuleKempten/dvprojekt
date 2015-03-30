@@ -14,14 +14,14 @@ void VPlayingField::init()
 			stream << "i = " << i << ", j = " << j;
 
 			//todo ugly indexing, improve
-			m_zg[i*arrLength + j].Init(size, &m_zm);
-			m_zg[i*arrLength + j].SetName(stream.str().c_str());
-			m_zp[i*arrLength + j].AddGeo(&m_zg[i*arrLength + j]);
-			m_zp[i*arrLength + j].SetName(stream.str().c_str());
-			m_zpCentral.AddPlacement(&m_zp[i*arrLength + j]);
+			m_zg[i][j].Init(size, &m_zm);
+			m_zg[i][j].SetName(stream.str().c_str());
+			m_zp[i][j].AddGeo(&m_zg[i][j]);
+			m_zp[i][j].SetName(stream.str().c_str());
+			m_zpCentral.AddPlacement(&m_zp[i][j]);
 
-			m_zp[i*arrLength + j].TranslateX(i * 4.1F);
-			m_zp[i*arrLength + j].TranslateYDelta(j * 4.1F);
+			m_zp[i][j].TranslateX(i * 4.1F);
+			m_zp[i][j].TranslateYDelta(j * 4.1F);
 		}
 	}
 
