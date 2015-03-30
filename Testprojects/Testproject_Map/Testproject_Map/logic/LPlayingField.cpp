@@ -3,6 +3,8 @@
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength)
 {
+	//todo: Aufruf hier ist zu kompliziert (zudem kennt LPlayingField jetzt IVFactory);
+	//sinnvoller wäre es, wenn vmaster schon die create-Methoden kennt (VFactory komplett weglassen?) und sich dann selbst um die Erzeugung kümmert
 	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
 }
 
