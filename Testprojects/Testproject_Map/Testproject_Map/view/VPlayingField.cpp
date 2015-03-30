@@ -2,16 +2,17 @@
 
 NAMESPACE_VIEW_B
 
+
 void VPlayingField::init()
 {
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
 	CHVector size(2, 2, 0.5);
 	std::stringstream stream;
-	for (int i = 0; i < arrLength; i++) {
-		for (int j = 0; j < arrLength; j++) {
+	for (int i = 0; i < m_zg.getRows(); i++) {
+		for (int j = 0; j < m_zg.getRows(); j++) {
 			stream.clear();
 			stream.str("");
-			stream << "i = " << i << ", j = " << j;
+			stream << i << ";" << j;
 
 			m_zg[i][j].Init(size, &m_zm);
 			m_zg[i][j].SetName(stream.str().c_str());
@@ -32,5 +33,6 @@ void VPlayingField::init()
 	AddPlacement(&m_zpCentral);
 	master->addScenegraph(this);
 }
+
 
 NAMESPACE_VIEW_E

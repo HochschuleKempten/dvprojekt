@@ -110,6 +110,12 @@
     <ClInclude Include="logic\IVFactory.h">
       <Filter>logic\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="logic\Array2D.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LUtility.h">
+      <Filter>logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">

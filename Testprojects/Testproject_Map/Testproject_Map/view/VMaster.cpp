@@ -1,6 +1,7 @@
 #include "VMaster.h"
 #include "../logic/IView.h"
 #include "../logic/LMaster.h"
+#include "../logic/LUtility.h"
 #include "VFactory.h"
 
 NAMESPACE_VIEW_B
@@ -53,6 +54,7 @@ void VMaster::tick(float fTime, float fTimeDelta)
 	if (m_zkCursor.ButtonPressedLeft()) {
 		if (!pickingActive) {
 			float f;
+
 			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
 			CGeoCone *cone = new CGeoCone();
 			CMaterial mat;
@@ -66,6 +68,16 @@ void VMaster::tick(float fTime, float fTimeDelta)
 	
 			if (pickedPlacement != nullptr) {
 				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
+
+			CGeo* picked = m_zkCursor.PickGeo(CHVector(), f);
+			//CPlacement* picked = m_zkCursor.PickPlacement();
+			
+			if (picked != nullptr) {
+				DEBUG_OUTPUT("picked object = " << picked->GetName());
+				std::vector<std::string> koord = split(picked->GetName(), ';');
+				int i = std::stoi(koord[0]);
+				int j = std::stoi(koord[1]);
+
 			}
 
 			pickingActive = true;
