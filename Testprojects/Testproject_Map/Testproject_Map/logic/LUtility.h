@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 
-std::vector<std::string> split(std::string str, const char delimiter)
+inline std::vector<std::string> split(std::string str, const char delimiter)
 {
 	std::vector<std::string> internal;
 	std::stringstream ss(str); // Turn the string into a stream.

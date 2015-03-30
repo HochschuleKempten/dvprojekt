@@ -10,8 +10,8 @@ protected:
 	LPlayingField* field;
 
 public:
-	IVPlayingField(IVMaster* master, LPlayingField* field)
-		: IView(master), field(field)
+	IVPlayingField(LPlayingField* field)
+		: field(field)
 	{}
 	virtual ~IVPlayingField()
 	{}

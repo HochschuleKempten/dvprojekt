@@ -116,6 +116,12 @@
     <ClInclude Include="logic\LUtility.h">
       <Filter>logic</Filter>
     </ClInclude>
+    <ClInclude Include="view\IViewObject.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VGeneral.h">
+      <Filter>view</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">

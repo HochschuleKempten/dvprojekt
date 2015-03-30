@@ -3,35 +3,40 @@
 NAMESPACE_VIEW_B
 
 
+void VPlayingField::fieldClicked(const int i, const int j)
+{
+
+}
+
 void VPlayingField::init()
 {
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
 	CHVector size(2, 2, 0.5);
 	std::stringstream stream;
-	for (int i = 0; i < m_zg.getRows(); i++) {
-		for (int j = 0; j < m_zg.getRows(); j++) {
+
+	for (int i = 0; i < m_zgField.getRows(); i++) {
+		for (int j = 0; j < m_zgField.getRows(); j++) {
 			stream.clear();
 			stream.str("");
-			stream << i << ";" << j;
+			//TODO(JS) primary and secondary keys
+			stream << "VPlayingField;" << i << ";" << j;
 
-			m_zg[i][j].Init(size, &m_zm);
-			m_zg[i][j].SetName(stream.str().c_str());
-			m_zp[i][j].AddGeo(&m_zg[i][j]);
-			m_zp[i][j].SetName(stream.str().c_str());
-			m_zpCentral.AddPlacement(&m_zp[i][j]);
+			m_zgField[i][j].Init(size, &m_zm);
+			m_zgField[i][j].SetName(stream.str().c_str());
+			m_zpField[i][j].AddGeo(&m_zgField[i][j]);
+			m_zpField[i][j].SetName(stream.str().c_str());
+			m_zp.AddPlacement(&m_zpField[i][j]);
 
-			m_zp[i][j].TranslateX(i * 4.1F);
-			m_zp[i][j].TranslateYDelta(j * 4.1F);
+			m_zpField[i][j].TranslateX(i * 4.1F);
+			m_zpField[i][j].TranslateYDelta(j * 4.1F);
 		}
 	}
 
-	//m_zpCentral.RotateX(-40 * M_PI / 180);
-	//m_zpCentral.RotateXDelta(0.1);
-	m_zpCentral.TranslateDelta(-4, -4, -6);
-
-	//TODO make this nice
-	AddPlacement(&m_zpCentral);
-	master->addScenegraph(this);
+	//m_zp.RotateX(-40 * M_PI / 180);
+	//m_zp.RotateXDelta(0.1);
+	m_zp.TranslateDelta(-4, -4, -6);
+	//TODO(JS) parse class name
+	vMaster->addScenegraph("VPlayingField", this);
 }
 
 

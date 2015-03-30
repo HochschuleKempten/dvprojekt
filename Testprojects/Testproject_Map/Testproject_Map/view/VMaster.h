@@ -1,21 +1,15 @@
 #pragma once
 
-#include "Vektoria\Root.h"
-#include "VektoriaMath\Util.h"
 #include "../logic/IVMaster.h"
-#include <vector>
+#include "IViewObject.h"
+#include "VFactory.h"
 
 class LMaster;
 
-using namespace Vektoria;
-
-#define NAMESPACE_VIEW_B namespace HighVoltage{ namespace view{
-#define NAMESPACE_VIEW_E }}
-#define DEBUG_OUTPUT(expr) do { std::stringstream s; s << expr << std::endl; OutputDebugString(s.str().c_str()); } while(0)
-
 NAMESPACE_VIEW_B
 
-class VFactory;
+
+class VPlayingField;
 
 class VMaster : public IVMaster
 {
@@ -32,13 +26,14 @@ private:
 	CParallelLight m_zl;
 	CBackground m_zb;
 
-	std::vector<IView*> views;
-	VFactory* factory;
+	std::map<std::string, IViewObject*> views;
+	VFactory factory;
 	LMaster* lMaster;
 
 public:
 	VMaster();
-	virtual ~VMaster();
+	virtual ~VMaster()
+	{}
 
 	void setLMaster(LMaster* lMaster);
 
@@ -46,8 +41,12 @@ public:
 	void tick(float fTime, float fTimeDelta);
 
 	virtual IVFactory* getFactory();
-	virtual void addScenegraph(IView* view);
-	virtual void removeScenegraph(IView* view) {}
+	VPlayingField* getPlayingField();
+
+	void addScenegraph(const std::string &name, IViewObject* view);
+	void removeScenegraph(const std::string &name, IViewObject* view) {}
+
 };
+
 
 NAMESPACE_VIEW_E

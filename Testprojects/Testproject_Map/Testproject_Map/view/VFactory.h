@@ -1,16 +1,25 @@
 #pragma once
 #include "../logic/IVFactory.h"
-#include "VMaster.h"
+#include "VGeneral.h"
 
 NAMESPACE_VIEW_B
 
+
+class VMaster;
+
 class VFactory : public IVFactory
 {
+private:
+	VMaster* vMaster;
+
 public:
-	VFactory(IVMaster* vMaster);
+	VFactory(VMaster* vMaster)
+		: vMaster(vMaster)
+	{}
 	virtual ~VFactory()
 	{}
 	virtual IVPlayingField* createPlayingField(LPlayingField* field);
 };
+
 
 NAMESPACE_VIEW_E

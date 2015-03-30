@@ -3,17 +3,14 @@
 #include "../logic/LMaster.h"
 #include "../logic/LUtility.h"
 #include "VFactory.h"
+#include "VPlayingField.h"
 
 NAMESPACE_VIEW_B
 
-VMaster::VMaster()
-	: factory(new VFactory(this))
-{
-}
 
-VMaster::~VMaster()
+VMaster::VMaster()
+	: factory(this)
 {
-	delete factory;
 }
 
 void VMaster::setLMaster(LMaster* lMaster)
@@ -55,29 +52,30 @@ void VMaster::tick(float fTime, float fTimeDelta)
 		if (!pickingActive) {
 			float f;
 
-			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
-			CGeoCone *cone = new CGeoCone();
-			CMaterial mat;
-			mat.MakeTextureDiffuse("textures\\_original.jpg");
-			cone->Init(2.0, 2.0, &mat, 24, true);
-			cone->SetName("new TestCone");
-			pickedPlacement->RotateX(M_PI / 2);
-			pickedPlacement->TranslateZ(0.5);
-			pickedPlacement->AddGeo(cone);		
-			m_zs.AddPlacement(pickedPlacement);
+			//CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
+			//CGeoCone *cone = new CGeoCone();
+			//CMaterial mat;
+			//mat.MakeTextureDiffuse("textures\\_original.jpg");
+			//cone->Init(2.0, 2.0, &mat, 24, true);
+			//cone->SetName("new TestCone");
+			//pickedPlacement->RotateX(M_PI / 2);
+			//pickedPlacement->TranslateZ(0.5);
+			//pickedPlacement->AddGeo(cone);		
+			//m_zs.AddPlacement(pickedPlacement);
 	
-			if (pickedPlacement != nullptr) {
-				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
-
-			CGeo* picked = m_zkCursor.PickGeo(CHVector(), f);
-			//CPlacement* picked = m_zkCursor.PickPlacement();
+			//CGeo* picked = m_zkCursor.PickGeo(CHVector(), f);
+			CPlacement* picked = m_zkCursor.PickPlacement();
 			
 			if (picked != nullptr) {
 				DEBUG_OUTPUT("picked object = " << picked->GetName());
 				std::vector<std::string> koord = split(picked->GetName(), ';');
-				int i = std::stoi(koord[0]);
-				int j = std::stoi(koord[1]);
+				std::string className = koord[0];
+				int i = std::stoi(koord[1]);
+				int j = std::stoi(koord[2]);
 
+				if (className == "VPlayingField") {
+					dynamic_cast<VPlayingField*>(views["VPlayingField"])->fieldClicked(i, j);
+				}
 			}
 
 			pickingActive = true;
@@ -92,13 +90,18 @@ void VMaster::tick(float fTime, float fTimeDelta)
 
 IVFactory* VMaster::getFactory()
 {
-	return factory;
+	return &factory;
 }
 
-void VMaster::addScenegraph(IView* view)
+VPlayingField* VMaster::getPlayingField()
 {
-	views.push_back(view);
-	m_zs.AddPlacement(dynamic_cast<CPlacement*>(view));
+	return dynamic_cast<VPlayingField*>(views["VPlayingField"]);
+}
+
+void VMaster::addScenegraph(const std::string &name, IViewObject* view)
+{
+	views[name] = view;
+	m_zs.AddPlacement(view->getPlacement());
 }
 
 
