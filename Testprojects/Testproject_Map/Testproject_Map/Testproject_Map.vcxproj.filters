@@ -179,7 +179,7 @@
       <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VPowerPlant.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

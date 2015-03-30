@@ -15,7 +15,7 @@ private:
 	
 
 public:
-	VPowerPlant(VMaster* vMaster, LPowerPlant* plant)
+	VPowerPlant(VMaster* vMaster, ILPowerPlant* plant)
 		: IVPowerPlant(plant), IViewObject(vMaster)
 	{}
 

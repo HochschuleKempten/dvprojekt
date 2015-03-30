@@ -3,6 +3,8 @@
 
 LField::LField()
 {
+	placingAllowed = true;
+	building = nullptr;
 }
 
 
@@ -10,9 +12,16 @@ LField::~LField()
 {
 }
 
-void LField::setBuilding(ILBuilding* building)
+//to "remove" a building, set it to null (delete it too?)
+bool LField::setBuilding(ILBuilding* building)
 {
-	this->building = building;
+	if (placingAllowed)
+	{
+		this->building = building;
+		return true;
+	}
+
+	return false;
 }
 ILBuilding* LField::getBuilding()
 {
@@ -21,10 +30,10 @@ ILBuilding* LField::getBuilding()
 
 void LField::setIsPlacingAllowed(bool allowed)
 {
-	isPlacingAllowed = allowed;
+	placingAllowed = allowed;
 }
 
-bool LField::getIsPlacingAllowed()
+bool LField::isPlacingAllowed()
 {
-	return isPlacingAllowed;
+	return placingAllowed;
 }

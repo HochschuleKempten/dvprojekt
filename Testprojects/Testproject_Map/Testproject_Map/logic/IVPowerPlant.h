@@ -2,15 +2,13 @@
 
 #include "IView.h"
 
-class LPowerPlant;
-
 class IVPowerPlant : public IView
 {
 protected:
-	LPowerPlant* plant;
+	ILPowerPlant* plant;
 
 public:
-	IVPowerPlant(LPowerPlant* plant)
+	IVPowerPlant(ILPowerPlant* plant)
 		: plant(plant)
 	{}
 	virtual ~IVPowerPlant()

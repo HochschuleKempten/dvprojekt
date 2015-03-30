@@ -4,16 +4,16 @@ class LField
 {
 private:
 	ILBuilding* building;
-	bool isPlacingAllowed;
-
+	bool placingAllowed;
 
 public:
+	// initializes this field with isPlacingAllowed = true!
 	LField();
 	~LField();
 
-	void setBuilding(ILBuilding* building);
+	bool setBuilding(ILBuilding* building);
 	ILBuilding* getBuilding();
 	void setIsPlacingAllowed(bool allowed);
-	bool getIsPlacingAllowed();
+	bool isPlacingAllowed();
 };
 

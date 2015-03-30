@@ -5,7 +5,7 @@ NAMESPACE_VIEW_B
 
 void VPowerPlant::initPowerPlant(const int i, const int j)
 {
-	//TODO logic calls this function
+	//TODO logic calls this function (IP: done)
 
 	//Todo create PP visual
 

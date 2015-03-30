@@ -7,11 +7,11 @@ class LPlayingField;
 class IVPlayingField : public IView
 {
 protected:
-	LPlayingField* field;
+	LPlayingField* playingField;
 
 public:
 	IVPlayingField(LPlayingField* playingField)
-		: field(playingField)
+		: playingField(playingField)
 	{}
 	virtual ~IVPlayingField()
 	{}
