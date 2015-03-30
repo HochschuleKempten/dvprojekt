@@ -53,11 +53,19 @@ void VMaster::tick(float fTime, float fTimeDelta)
 	if (m_zkCursor.ButtonPressedLeft()) {
 		if (!pickingActive) {
 			float f;
-			CGeo* picked = m_zkCursor.PickGeo(CHVector(), f);
-			//CPlacement* picked = m_zkCursor.PickPlacement();
-
-			if (picked != nullptr) {
-				DEBUG_OUTPUT("picked object = " << picked->GetName());
+			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
+			CGeoCone *cone = new CGeoCone();
+			CMaterial mat;
+			mat.MakeTextureDiffuse("textures\\_original.jpg");
+			cone->Init(2.0, 2.0, &mat, 24, true);
+			cone->SetName("new TestCone");
+			pickedPlacement->RotateX(M_PI / 2);
+			pickedPlacement->TranslateZ(0.5);
+			pickedPlacement->AddGeo(cone);		
+			m_zs.AddPlacement(pickedPlacement);
+	
+			if (pickedPlacement != nullptr) {
+				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 			}
 
 			pickingActive = true;
