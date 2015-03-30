@@ -93,7 +93,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     ShowWindow(hWnd, nCmdShow);
   
     // Game Init
-	g_pgame = (CGame*)(new CGame());
+	g_pgame = new CGame();
 	RECT rect;
 	GetClientRect(hWnd, &rect);
 	g_pgame->Init(hWnd, &splash);
