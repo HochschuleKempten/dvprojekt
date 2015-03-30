@@ -52,23 +52,37 @@ void VMaster::tick(float fTime, float fTimeDelta)
 		if (!pickingActive) {
 			float f;
 
-			//CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
-			//CGeoCone *cone = new CGeoCone();
-			//CMaterial mat;
-			//mat.MakeTextureDiffuse("textures\\_original.jpg");
-			//cone->Init(2.0, 2.0, &mat, 24, true);
-			//cone->SetName("new TestCone");
-			//pickedPlacement->RotateX(M_PI / 2);
-			//pickedPlacement->TranslateZ(0.5);
-			//pickedPlacement->AddGeo(cone);		
+			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
+			CGeoCone *cone = new CGeoCone();
+			CMaterial * mat = new CMaterial();
+			mat->MakeTextureDiffuse("textures\\_original.jpg");
+			cone->Init(2.0, 2.0, mat, 24, true);
+			cone->SetName("new TestCone");
+			pickedPlacement->RotateX(M_PI / 2);
+			pickedPlacement->TranslateZ(0.5);
+			pickedPlacement->AddGeo(cone);		
 			//m_zs.AddPlacement(pickedPlacement);
 	
 			//CGeo* picked = m_zkCursor.PickGeo(CHVector(), f);
-			CPlacement* picked = m_zkCursor.PickPlacement();
-			
-			if (picked != nullptr) {
-				DEBUG_OUTPUT("picked object = " << picked->GetName());
-				std::vector<std::string> koord = split(picked->GetName(), ';');
+			//
+			//
+			//if (picked != nullptr) 
+			//{
+			//	DEBUG_OUTPUT("picked object = " << picked->GetName());
+			//	std::vector<std::string> koord = split(picked->GetName(), ';');
+			//	std::string className = koord[0];
+			//	int i = std::stoi(koord[1]);
+			//	int j = std::stoi(koord[2]);
+			//
+			//	if (className == "VPlayingField") {
+			//		dynamic_cast<VPlayingField*>(views["VPlayingField"])->fieldClicked(i, j);
+			//	}
+			//}
+			//
+			if (pickedPlacement != nullptr)
+			{
+				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
+				std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
 				std::string className = koord[0];
 				int i = std::stoi(koord[1]);
 				int j = std::stoi(koord[2]);
