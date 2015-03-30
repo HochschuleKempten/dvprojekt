@@ -15,7 +15,7 @@ LPlayingField::~LPlayingField()
 
 void LPlayingField::initVPlayingField()
 {
-	vPlayingField->init();
+	vPlayingField->initPlayingField();
 }
 
 LField* LPlayingField::getField(const int i, const int j)

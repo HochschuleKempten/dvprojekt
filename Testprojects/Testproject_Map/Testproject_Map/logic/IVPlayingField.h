@@ -10,9 +10,11 @@ protected:
 	LPlayingField* field;
 
 public:
-	IVPlayingField(LPlayingField* field)
-		: field(field)
+	IVPlayingField(LPlayingField* playingField)
+		: field(playingField)
 	{}
 	virtual ~IVPlayingField()
 	{}
+
+	virtual void initPlayingField() = 0;
 };

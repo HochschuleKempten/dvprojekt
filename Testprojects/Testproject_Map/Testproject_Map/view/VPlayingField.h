@@ -19,10 +19,10 @@ private:
 	Array2D<CPlacement> m_zpField;
 
 public:
-	VPlayingField(VMaster* vMaster, LPlayingField* field)
-		: IVPlayingField(field), IViewObject(vMaster),
-		  m_zgField(field->getFieldLength(), field->getFieldLength()),
-		  m_zpField(field->getFieldLength(), field->getFieldLength())
+	VPlayingField(VMaster* vMaster, LPlayingField* playingField)
+		: IVPlayingField(playingField), IViewObject(vMaster),
+		  m_zgField(playingField->getFieldLength(), playingField->getFieldLength()),
+		  m_zpField(playingField->getFieldLength(), playingField->getFieldLength())
 	{}
 
 	void fieldClicked(const int i, const int j);
@@ -32,7 +32,7 @@ public:
 	virtual ~VPlayingField()
 	{}
 	
-	virtual void init();
+	virtual void initPlayingField();
 };
 
 

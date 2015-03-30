@@ -8,5 +8,5 @@ public:
 	virtual ~IView()
 	{}
 
-	virtual void init() = 0;
+	//virtual void init() = 0;
 };

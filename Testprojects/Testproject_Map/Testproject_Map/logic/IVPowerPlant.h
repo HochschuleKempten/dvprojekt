@@ -15,4 +15,6 @@ public:
 	{}
 	virtual ~IVPowerPlant()
 	{}
+
+	virtual void initPowerPlant(const int i, const int j) = 0;
 };

@@ -8,6 +8,8 @@ void VPlayingField::fieldClicked(const int i, const int j)
 	//Todo: Check what you want to do with that click, 
 	// for now we just want to place a Object
 
+	//TODO call logic function
+
 	this->placeObject(i, j);
 }
 
@@ -20,10 +22,10 @@ void VPlayingField::placeObject(int i, int j)
 	cone->SetName("new TestCone");
 	//How to rotate a geo???
 	
-	m_zgField[i][j].AddGeo(cone);
+	m_zpField[i][j].AddGeo(cone);
 }
 
-void VPlayingField::init()
+void VPlayingField::initPlayingField()
 {
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
 	CHVector size(2, 2, 0.5);

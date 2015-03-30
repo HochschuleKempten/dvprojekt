@@ -6,8 +6,8 @@
 #include "../logic/Array2D.h"
 #include "IViewObject.h"
 
-
 NAMESPACE_VIEW_B
+
 
 class VPowerPlant : public IVPowerPlant, public IViewObject
 {
@@ -19,15 +19,14 @@ public:
 		: IVPowerPlant(plant), IViewObject(vMaster)
 	{}
 
+	//TODO use geo, placement and material functions
+
 	virtual ~VPowerPlant()
 	{}
 
-	virtual void init();
-
-
-
-
+	virtual void initPowerPlant(const int i, const int j);
 
 };
+
 
 NAMESPACE_VIEW_E

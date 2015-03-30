@@ -123,10 +123,10 @@
       <Filter>view</Filter>
     </ClInclude>
     <ClInclude Include="logic\IVPowerPlant.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>logic\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="view\VPowerPlant.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
