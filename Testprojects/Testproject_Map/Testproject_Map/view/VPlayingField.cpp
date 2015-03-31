@@ -5,20 +5,19 @@ NAMESPACE_VIEW_B
 
 void VPlayingField::fieldClicked(const int i, const int j)
 {
-	//Todo: Check what you want to do with that click,
+	//Todo (V) Check what you want to do with that click,
 	// for now we just want to place a Object
 
-	//TODO call logic function (IP: done), add function pointer maybe?
 	this->playingField->placeBuilding(i, j);
 
-	//TODO delete this line, VPlayingField should only call LPlayingField::placeBuilding, the objects should place themselves
+	//TODO (V) delete this line, VPlayingField should only call LPlayingField::placeBuilding, the objects should place themselves
 	this->placeObject(i, j);
 }
 
 void VPlayingField::placeObject(int i, int j)
 {
 
-	//todo place in VPowerPlant
+	//todo (V) place in VPowerPlant
 	CGeoCone *cone = new CGeoCone();
 	CMaterial * mat = new CMaterial();
 	mat->MakeTextureDiffuse("textures\\_original.jpg");
@@ -39,7 +38,7 @@ void VPlayingField::initPlayingField()
 		for (int j = 0; j < m_zgField.getRows(); j++) {
 			stream.clear();
 			stream.str("");
-			//TODO(JS) primary and secondary keys
+			//TODO (JS) primary and secondary keys
 			stream << "VPlayingField;" << i << ";" << j;
 
 			m_zgField[i][j].Init(size, &m_zm);
@@ -56,7 +55,7 @@ void VPlayingField::initPlayingField()
 	//m_zp.RotateX(-40 * M_PI / 180);
 	//m_zp.RotateXDelta(0.1);
 	m_zp.TranslateDelta(-4, -4, -6);
-	//TODO(JS) parse class name
+	//TODO (JS) parse class name
 	vMaster->addScenegraph("VPlayingField", this);
 }
 

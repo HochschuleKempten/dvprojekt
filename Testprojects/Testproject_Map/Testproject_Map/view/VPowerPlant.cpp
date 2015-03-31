@@ -5,11 +5,9 @@ NAMESPACE_VIEW_B
 
 void VPowerPlant::initPowerPlant(const int i, const int j)
 {
-	//TODO logic calls this function (IP: done)
+	//Todo (V) create PP visual
 
-	//Todo create PP visual
-
-	//TODO VMaster getPlayingField() --> placeObject()
+	//TODO (V) VMaster getPlayingField() --> placeObject()
 }
 
 

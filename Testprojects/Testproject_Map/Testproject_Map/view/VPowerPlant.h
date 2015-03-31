@@ -19,7 +19,7 @@ public:
 		: IVPowerPlant(plant), IViewObject(vMaster)
 	{}
 
-	//TODO use geo, placement and material functions
+	//TODO (V) use geo, placement and material functions
 
 	virtual ~VPowerPlant()
 	{}

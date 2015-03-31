@@ -12,7 +12,7 @@ IVPlayingField* VFactory::createPlayingField(LPlayingField* field)
 
 IVPowerPlant* VFactory::createPowerPlant(ILPowerPlant* powerPlant)
 {
-	//todo check which concrete object is passed in and create the corresponding counterpart
+	//todo (V) check which concrete object is passed in and create the corresponding counterpart
 	return new VPowerPlant(vMaster, powerPlant);
 }
 

@@ -3,7 +3,7 @@
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength)
 {
-	//todo: Aufruf hier ist zu kompliziert (zudem kennt LPlayingField jetzt IVFactory);
+	//todo (L) Aufruf hier ist zu kompliziert (zudem kennt LPlayingField jetzt IVFactory);
 	//sinnvoller wäre es, wenn vmaster schon die create-Methoden kennt (VFactory komplett weglassen?) und sich dann selbst um die Erzeugung kümmert
 	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
 }
@@ -29,11 +29,11 @@ bool LPlayingField::placeBuilding(const int x, const int y)
 
 	if (selectedField->isPlacingAllowed())
 	{
-		//todo just for testing
+		//todo (IP) just for testing
 		LCoalPowerPlant* tempPlant = new LCoalPowerPlant(100, 20);
 		selectedField->setBuilding(tempPlant);
 
-		//todo LCoalPowerPlant should create it and hold the pointer to it
+		//todo (IP) LCoalPowerPlant should create it and hold the pointer to it
 		IVPowerPlant * vPowerPlant = this->lMaster->getVMaster()->getFactory()->createPowerPlant(tempPlant);
 		vPowerPlant->initPowerPlant(x, y);
 

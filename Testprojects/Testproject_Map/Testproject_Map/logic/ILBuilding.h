@@ -2,7 +2,7 @@
 
 class ILBuilding
 {
-	//todo: Später max. Ausbaustufe und aktuelle, Spielerzuweisung
+	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 private:
 	int costs;
 
