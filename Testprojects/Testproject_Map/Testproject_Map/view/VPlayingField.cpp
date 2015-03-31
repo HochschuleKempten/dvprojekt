@@ -8,7 +8,7 @@ void VPlayingField::fieldClicked(const int i, const int j)
 	//Todo: Check what you want to do with that click, 
 	// for now we just want to place a Object
 
-	//TODO call logic function (IP: done)
+	//TODO call logic function (IP: done), add function pointer maybe?
 	this->playingField->placeBuilding(i, j);
 	this->placeObject(i, j);
 }
