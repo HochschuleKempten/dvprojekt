@@ -47,3 +47,16 @@ int LPlayingField::getFieldLength()
 {
 	return fieldLength;
 }
+
+void LPlayingField::removeBuilding(const int x, const int y)
+{
+	LField * selectedField = &fieldArray[x][y];
+	delete selectedField->getBuilding();
+	selectedField->setBuilding(nullptr);
+}
+
+// ToDo (FL) Check on enough money
+void LPlayingField::upgradeBuilding(const int x, const int y)
+{
+
+}

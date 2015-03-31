@@ -20,5 +20,10 @@ public:
 	{
 		return costs;
 	};
+
+	//todo (L) implement this in the buildings that can be upgraded
+	void upgrade()
+	{
+	};
 };
 
