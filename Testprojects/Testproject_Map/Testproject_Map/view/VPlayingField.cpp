@@ -5,23 +5,27 @@ NAMESPACE_VIEW_B
 
 void VPlayingField::fieldClicked(const int i, const int j)
 {
-	//Todo: Check what you want to do with that click, 
+	//Todo: Check what you want to do with that click,
 	// for now we just want to place a Object
 
 	//TODO call logic function (IP: done), add function pointer maybe?
 	this->playingField->placeBuilding(i, j);
+
+	//TODO delete this line, VPlayingField should only call LPlayingField::placeBuilding, the objects should place themselves
 	this->placeObject(i, j);
 }
 
 void VPlayingField::placeObject(int i, int j)
-{ 
+{
+
+	//todo place in VPowerPlant
 	CGeoCone *cone = new CGeoCone();
 	CMaterial * mat = new CMaterial();
 	mat->MakeTextureDiffuse("textures\\_original.jpg");
 	cone->Init(2.0, 2.0, mat, 24, true);
 	cone->SetName("new TestCone");
 	//How to rotate a geo???
-	
+
 	m_zpField[i][j].AddGeo(cone);
 }
 

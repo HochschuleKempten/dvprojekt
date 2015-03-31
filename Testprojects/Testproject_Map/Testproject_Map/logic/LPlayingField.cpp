@@ -27,15 +27,14 @@ bool LPlayingField::placeBuilding(const int x, const int y)
 {
 	LField * selectedField = &fieldArray[x][y];
 
-	if (selectedField->isPlacingAllowed()) 
+	if (selectedField->isPlacingAllowed())
 	{
 		//todo just for testing
 		LCoalPowerPlant* tempPlant = new LCoalPowerPlant(100, 20);
 		selectedField->setBuilding(tempPlant);
 
-		//todo who should hold the returned pointer to the created power plant? the lPowerPlant?
+		//todo LCoalPowerPlant should create it and hold the pointer to it
 		IVPowerPlant * vPowerPlant = this->lMaster->getVMaster()->getFactory()->createPowerPlant(tempPlant);
-		//todo who should call this?
 		vPowerPlant->initPowerPlant(x, y);
 
 		return true;

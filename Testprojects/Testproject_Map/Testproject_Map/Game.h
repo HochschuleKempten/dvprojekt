@@ -65,16 +65,17 @@ using namespace HighVoltage::view;
 class CGame
 {
 public:
-    CGame(void);
-    ~CGame(void);
+	CGame(void);
+	~CGame(void);
 
 	void Init(HWND hwnd, CSplash * psplash);
 	void Tick(float fTime, float fTimeDelta);
 	void Fini();
-	
+
 	void WindowReSize(int iNewWidth, int iNewHeight); // WindowsReSize wird immer dann aufgerufen, wenn der Benutzer die Fenstergröße verändert hat
-	
+
 private:
 	VMaster vMaster;
 	LMaster lMaster;
+
 };

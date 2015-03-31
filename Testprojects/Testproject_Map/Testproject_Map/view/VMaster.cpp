@@ -38,7 +38,7 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 	m_zpCamera.AddCamera(&m_zc);
 	m_zs.AddParallelLight(&m_zl);
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
-			  CColor(1.0f, 1.0f, 1.0f));
+			CColor(1.0f, 1.0f, 1.0f));
 }
 
 void VMaster::tick(float fTime, float fTimeDelta)
@@ -60,7 +60,7 @@ void VMaster::tick(float fTime, float fTimeDelta)
 			//cone->SetName("new TestCone");
 			//pickedPlacement->RotateX(M_PI / 2);
 			//pickedPlacement->TranslateZ(0.5);
-			//pickedPlacement->AddGeo(cone);		
+			//pickedPlacement->AddGeo(cone);
 			//m_zs.AddPlacement(pickedPlacement);
 	
 			//CGeo* picked = m_zkCursor.PickGeo(CHVector(), f);
@@ -116,6 +116,11 @@ void VMaster::addScenegraph(const std::string &name, IViewObject* view)
 {
 	views[name] = view;
 	m_zs.AddPlacement(view->getPlacement());
+}
+
+void VMaster::resize(int width, int heigth)
+{
+	m_zf.ReSize(width, heigth);
 }
 
 
