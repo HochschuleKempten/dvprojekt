@@ -8,7 +8,7 @@ class Array2D
 {
 private:
 	//This class is just supposed to be a helper class for the Array2D class
-	//Needs to be an inner class so that the user can't instantiate objects from it
+	//Needs to be an private inner class so that the user can't instantiate objects from it
 	template<typename T>
 	class Array1D
 	{
@@ -75,6 +75,12 @@ public:
 	{
 		delete[] data;
 	}
+
+	//It is not possible to copy objects of this class, because the length is never stored
+	inline Array2D(const Array2D& src) = delete;
+	inline Array2D(const Array2D&& src) = delete;
+	inline Array2D& operator=(const Array2D& src) = delete;
+	inline Array2D& operator=(const Array2D&& src) = delete;
 
 	inline Array1D<T> operator[](const size_t rowIdx)
 	{

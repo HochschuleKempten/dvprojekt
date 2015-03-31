@@ -2,6 +2,7 @@
 #include "LPlayingField.h"
 
 class IVMaster;
+class LPlayer;
 
 class LMaster
 {
@@ -9,20 +10,15 @@ class LMaster
 private:
 	IVMaster* vMaster;
 	LPlayingField* playingField;
+	LPlayer* lPlayer;
 
 public:
 	LMaster(IVMaster* vMaster);
 	~LMaster();
 
-	IVMaster* getVMaster()
-	{
-		return vMaster;
-	}
-
-	LPlayingField * getLPlayingField()
-	{
-		return playingField;
-	}
-
+	IVMaster* getVMaster();
+	LPlayingField * getLPlayingField();
 	void startNewGame();
+	LPlayer* getPlayer();
+
 };

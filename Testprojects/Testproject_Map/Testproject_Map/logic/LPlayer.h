@@ -7,5 +7,6 @@ private:
 public:
 	LPlayer();
 	~LPlayer();
+	int getMoney();
 };
 

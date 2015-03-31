@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <regex>
+#include <typeinfo>
 
 inline std::vector<std::string> split(std::string str, const char delimiter)
 {
@@ -14,8 +16,68 @@ inline std::vector<std::string> split(std::string str, const char delimiter)
 	while (getline(ss, tok, delimiter)) {
 		internal.push_back(tok);
 	}
-
+	
 	return internal;
 }
+
+/**
+ * @brief returns the class name for an identifier.
+ *
+ * Example usage:
+ * @code
+ * //The calls are done via the appropriate macro
+ * getClassName(this):
+ * getClassName(*this);
+ * getClassName(VPlayingField);
+ * @encode
+ */
+inline std::string getClassName(const std::type_info& typeInfo)
+{
+	std::regex txt_regex("class (?:\\w+::)*(\\w+)(?: \\* \\w+)?$");
+	std::smatch base_match;
+	
+	//Don't use a temporary string object here, because the results will refer to it
+	std::string fullName = typeInfo.name();
+
+	if (std::regex_search(fullName, base_match, txt_regex)) {
+		return base_match[1].str();
+	}
+	else {
+		return std::string();
+	}
+}
+
+#define getClassName(type) getClassName(typeid(type))
+
+/**
+ * @brief Helper exception class for the assert macro.
+ */
+class ExceptionOutputDebug : public std::exception
+{
+public:
+	inline ExceptionOutputDebug(const std::string& e)
+	{
+		OutputDebugString("EXCEPTION! ");
+		OutputDebugString(e.c_str());
+		OutputDebugString("\n");
+		if (1) // avoids C4702 (unreachable code)
+			throw e;
+	}
+};
+
+#ifdef _DEBUG
+//Use this macro to check conditions at runtime in debug mode
+//Type in the conditition the behaviour you desire (the assertion fails if your condition fails)
+#define ASSERT(cond, msgExpr) if(!(cond)){ std::stringstream s; s << __FILE__ << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; throw ExceptionOutputDebug(s.str()); }
+#else
+#define ASSERT(cond, msgExpr)
+#endif
+
+#ifdef _DEBUG
+//Useful macro to print something to the visual studio output window
+#define DEBUG_OUTPUT(msgExpr) do { std::stringstream s; s << __FILE__ << "(" << __LINE__ << "): " << msgExpr << std::endl; OutputDebugString(s.str().c_str()); } while(0)
+#else
+#define DEBUG_OUTPUT(msgExpr)
+#endif
 
 #endif //_LUTILITY_H_

@@ -1,4 +1,5 @@
 #include "VPlayingField.h"
+#include "../logic/LUtility.h"
 
 NAMESPACE_VIEW_B
 
@@ -16,7 +17,6 @@ void VPlayingField::fieldClicked(const int i, const int j)
 
 void VPlayingField::placeObject(int i, int j)
 {
-
 	//todo (V) place in VPowerPlant
 	CGeoCone *cone = new CGeoCone();
 	CMaterial * mat = new CMaterial();
@@ -38,8 +38,8 @@ void VPlayingField::initPlayingField()
 		for (int j = 0; j < m_zgField.getRows(); j++) {
 			stream.clear();
 			stream.str("");
-			//TODO (JS) primary and secondary keys
-			stream << "VPlayingField;" << i << ";" << j;
+
+			stream << getClassName(this) << ";" << i << ";" << j;
 
 			m_zgField[i][j].Init(size, &m_zm);
 			m_zgField[i][j].SetName(stream.str().c_str());
@@ -52,11 +52,9 @@ void VPlayingField::initPlayingField()
 		}
 	}
 
-	//m_zp.RotateX(-40 * M_PI / 180);
-	//m_zp.RotateXDelta(0.1);
 	m_zp.TranslateDelta(-4, -4, -6);
-	//TODO (JS) parse class name
-	vMaster->addScenegraph("VPlayingField", this);
+	
+	vMaster->addScenegraph(getClassName(this), this);
 }
 
 

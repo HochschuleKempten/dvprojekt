@@ -1,5 +1,6 @@
 #include "LPlayingField.h"
 #include "LCoalPowerPlant.h"
+#include "LPlayer.h"
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength)
@@ -41,10 +42,16 @@ void LPlayingField::removeBuilding(const int x, const int y)
 	selectedField->setBuilding(nullptr);
 }
 
-// ToDo (FL) Check on enough money
+
 void LPlayingField::upgradeBuilding(const int x, const int y)
 {
-
+	LPlayer* selectedPlayer = lMaster->getPlayer();
+	if (selectedPlayer->getMoney() > 50000)
+	{
+		LField * selectedField = &fieldArray[x][y];
+		selectedField->getBuilding()->upgrade();
+	}
+	// ToDo (FL) Discuss case player dont have enough money
 }
 
 LMaster* LPlayingField::getLMaster()
