@@ -6,7 +6,6 @@
 #include "LCoalPowerPlant.h"
 #include "IVPowerPlant.h"
 
-//todo (L)  Methoden fuer abreissen und Upgrade
 class LPlayingField
 {
 

@@ -150,6 +150,7 @@
     <ClInclude Include="logic\LPowerLine.h" />
     <ClInclude Include="logic\LUtility.h" />
     <ClInclude Include="logic\LWindmillPowerPlant.h" />
+    <ClInclude Include="LPlayer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="logic\LSolarPowerPlant.cpp" />
     <ClCompile Include="logic\LPowerLine.cpp" />
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
+    <ClCompile Include="LPlayer.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="VektoriaApp.cpp" />
     <ClCompile Include="view\VFactory.cpp" />
