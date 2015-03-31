@@ -1,28 +1,24 @@
 #pragma once
 #include "IVMaster.h"
+#include "LPlayer.h"
 
 class LPlayingField;
 
 class LMaster
 {
 
-private: 
+private:
 	IVMaster* vMaster;
 	LPlayingField* playingField;
+	LPlayer* lPlayer;
 
 public:
 	LMaster(IVMaster* vMaster);
 	~LMaster();
 
-	IVMaster* getVMaster()
-	{
-		return vMaster;
-	}
-
-	LPlayingField * getLPlayingField()
-	{
-		return playingField;
-	}
-
+	IVMaster* getVMaster();
+	LPlayingField * getLPlayingField();
 	void startNewGame();
+	LPlayer* getPlayer();
+
 };

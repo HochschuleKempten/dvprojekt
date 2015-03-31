@@ -128,7 +128,7 @@
     <ClInclude Include="view\VPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="LPlayer.h">
+    <ClInclude Include="logic\LPlayer.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -184,7 +184,7 @@
     <ClCompile Include="view\VPowerPlant.cpp">
       <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
-    <ClCompile Include="LPlayer.cpp">
+    <ClCompile Include="logic\LPlayer.cpp">
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
