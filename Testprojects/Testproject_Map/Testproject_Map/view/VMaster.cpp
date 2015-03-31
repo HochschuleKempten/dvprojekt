@@ -90,6 +90,7 @@ void VMaster::tick(float fTime, float fTimeDelta)
 				int i = std::stoi(koord[1]);
 				int j = std::stoi(koord[2]);
 				
+				//todo (JS) picking doesn't work anymore, "classname" remains empty
 				if (className == getClassName(VPlayingField)) {
 					dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)])->fieldClicked(i, j);
 				}
