@@ -1,10 +1,9 @@
 #pragma once
 #include "LField.h"
-#include "IVPlayingField.h"
-#include "LMaster.h"
 #include "Array2D.h"
-#include "LCoalPowerPlant.h"
-#include "IVPowerPlant.h"
+#include "IVPlayingField.h"
+
+class LMaster;
 
 class LPlayingField
 {
@@ -20,10 +19,11 @@ public:
 	~LPlayingField();
 
 	void initVPlayingField();
-	LField* getField(const int x, const int y);
+	LField * getField(const int x, const int y);
 	// returns true if building could be placed, else false (building not allowed or building already placed)
-	bool placeBuilding(const int x, const int y); //todo (IP) add parameter that specifies the building which has to be placed
+	void placeBuilding(const int x, const int y); //todo (IP) add parameter that specifies the building which has to be placed
 	int getFieldLength();
 	void removeBuilding(const int x, const int y);
 	void upgradeBuilding(const int x, const int y);
+	LMaster* getLMaster();
 };

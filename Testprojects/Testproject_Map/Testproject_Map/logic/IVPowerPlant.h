@@ -2,6 +2,8 @@
 
 #include "IView.h"
 
+class ILPowerPlant;
+
 class IVPowerPlant : public IView
 {
 protected:

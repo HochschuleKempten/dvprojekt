@@ -1,8 +1,7 @@
 #include "LOilRefinery.h"
 
-
-LOilRefinery::LOilRefinery(int costs, int energyValue) :
-ILPowerPlant(costs, energyValue)
+LOilRefinery::LOilRefinery(const int costs, const int energyValue, LPlayingField* playingField, const int x, const int y)
+	:ILPowerPlant(costs, energyValue, playingField, x, y)
 {
 }
 

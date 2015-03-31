@@ -1,14 +1,18 @@
 #pragma once
 
+class LPlayingField;
+
 class ILBuilding
 {
 	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
-private:
+protected:
 	int costs;
+	LPlayingField* lPlayingField;
 
 public:
-	ILBuilding(int costs) :
-		costs(costs)
+	ILBuilding(const int costs, LPlayingField* lPlayingField, const int x, const int y)
+		:costs(costs),
+		lPlayingField(lPlayingField)
 	{
 	};
 

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "IVFactory.h"
-class IView;
+class IVFactory;
 
 class IVMaster
 {

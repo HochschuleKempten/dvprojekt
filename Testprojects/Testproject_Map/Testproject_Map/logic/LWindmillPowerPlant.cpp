@@ -1,8 +1,7 @@
 #include "LWindmillPowerPlant.h"
 
-
-LWindmillPowerPlant::LWindmillPowerPlant(int costs, int energyValue) :
-ILPowerPlant(costs, energyValue)
+LWindmillPowerPlant::LWindmillPowerPlant(const int costs, const int energyValue, LPlayingField* playingField, const int x, const int y)
+	:ILPowerPlant(costs, energyValue, playingField, x, y)
 {
 }
 

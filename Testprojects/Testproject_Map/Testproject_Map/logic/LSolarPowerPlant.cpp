@@ -1,8 +1,7 @@
 #include "LSolarPowerPlant.h"
 
-
-LSolarPowerPlant::LSolarPowerPlant(int costs, int energyValue) :
-ILPowerPlant(costs, energyValue)
+LSolarPowerPlant::LSolarPowerPlant(const int costs, const int energyValue, LPlayingField* playingField, const int x, const int y)
+	:ILPowerPlant(costs, energyValue, playingField, x, y)
 {
 }
 

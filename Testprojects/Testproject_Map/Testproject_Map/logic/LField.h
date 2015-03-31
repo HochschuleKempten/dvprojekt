@@ -1,5 +1,6 @@
 #pragma once
-#include "ILBuilding.h"
+class ILBuilding;
+
 class LField
 {
 private:
@@ -12,7 +13,7 @@ public:
 	~LField();
 
 	bool setBuilding(ILBuilding* building);
-	ILBuilding* getBuilding();
+	ILBuilding * getBuilding();
 	void setIsPlacingAllowed(bool allowed);
 	bool isPlacingAllowed();
 };

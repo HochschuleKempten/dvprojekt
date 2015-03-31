@@ -1,6 +1,5 @@
 #include "LPlayer.h"
 
-
 LPlayer::LPlayer()
 {
 }

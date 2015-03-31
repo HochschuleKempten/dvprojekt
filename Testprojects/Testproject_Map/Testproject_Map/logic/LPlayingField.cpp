@@ -1,10 +1,9 @@
 #include "LPlayingField.h"
+#include "LCoalPowerPlant.h"
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength)
 {
-	//todo (L) Aufruf hier ist zu kompliziert (zudem kennt LPlayingField jetzt IVFactory);
-	//sinnvoller wäre es, wenn vmaster schon die create-Methoden kennt (VFactory komplett weglassen?) und sich dann selbst um die Erzeugung kümmert
 	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
 }
 
@@ -23,24 +22,11 @@ LField* LPlayingField::getField(const int x, const int y)
 	return &fieldArray[x][y];
 }
 
-bool LPlayingField::placeBuilding(const int x, const int y)
+void LPlayingField::placeBuilding(const int x, const int y)
 {
-	LField * selectedField = &fieldArray[x][y];
-
-	if (selectedField->isPlacingAllowed())
-	{
-		//todo (IP) just for testing
-		LCoalPowerPlant* tempPlant = new LCoalPowerPlant(100, 20);
-		selectedField->setBuilding(tempPlant);
-
-		//todo (IP) LCoalPowerPlant should create it and hold the pointer to it
-		IVPowerPlant * vPowerPlant = this->lMaster->getVMaster()->getFactory()->createPowerPlant(tempPlant);
-		vPowerPlant->initPowerPlant(x, y);
-
-		return true;
-	}
-
-	return false;
+	//todo (IP) just for testing, parameter needs to be added (which building has to be build?)
+	LCoalPowerPlant* tempPlant = new LCoalPowerPlant(100, 20, this, x, y);
+	getField(x,y)->setBuilding(tempPlant);
 }
 
 int LPlayingField::getFieldLength()
@@ -50,7 +36,7 @@ int LPlayingField::getFieldLength()
 
 void LPlayingField::removeBuilding(const int x, const int y)
 {
-	LField * selectedField = &fieldArray[x][y];
+	LField * selectedField = getField(x,y);
 	delete selectedField->getBuilding();
 	selectedField->setBuilding(nullptr);
 }
@@ -59,4 +45,9 @@ void LPlayingField::removeBuilding(const int x, const int y)
 void LPlayingField::upgradeBuilding(const int x, const int y)
 {
 
+}
+
+LMaster* LPlayingField::getLMaster()
+{
+	return lMaster;
 }

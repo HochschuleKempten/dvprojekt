@@ -1,12 +1,12 @@
 #pragma once
-#include "IVMaster.h"
+#include "LPlayingField.h"
 
-class LPlayingField;
+class IVMaster;
 
 class LMaster
 {
 
-private: 
+private:
 	IVMaster* vMaster;
 	LPlayingField* playingField;
 
