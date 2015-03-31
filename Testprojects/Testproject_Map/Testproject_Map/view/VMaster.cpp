@@ -83,12 +83,15 @@ void VMaster::tick(float fTime, float fTimeDelta)
 			{
 				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 				std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
+
+				ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
+
 				std::string className = koord[0];
 				int i = std::stoi(koord[1]);
 				int j = std::stoi(koord[2]);
-
-				if (className == "VPlayingField") {
-					dynamic_cast<VPlayingField*>(views["VPlayingField"])->fieldClicked(i, j);
+				
+				if (className == getClassName(VPlayingField)) {
+					dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)])->fieldClicked(i, j);
 				}
 			}
 
@@ -109,7 +112,7 @@ IVFactory* VMaster::getFactory()
 
 VPlayingField* VMaster::getPlayingField()
 {
-	return dynamic_cast<VPlayingField*>(views["VPlayingField"]);
+	return dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)]);
 }
 
 void VMaster::addScenegraph(const std::string &name, IViewObject* view)
