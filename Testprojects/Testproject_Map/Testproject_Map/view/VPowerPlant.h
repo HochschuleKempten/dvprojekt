@@ -12,7 +12,6 @@ NAMESPACE_VIEW_B
 class VPowerPlant : public IVPowerPlant, public IViewObject
 {
 private:
-	
 
 public:
 	VPowerPlant(VMaster* vMaster, ILPowerPlant* plant)

@@ -5,7 +5,7 @@ NAMESPACE_VIEW_B
 
 void VPlayingField::fieldClicked(const int i, const int j)
 {
-	//Todo: Check what you want to do with that click, 
+	//Todo: Check what you want to do with that click,
 	// for now we just want to place a Object
 
 	//TODO call logic function (IP: done)
@@ -14,14 +14,14 @@ void VPlayingField::fieldClicked(const int i, const int j)
 }
 
 void VPlayingField::placeObject(int i, int j)
-{ 
+{
 	CGeoCone *cone = new CGeoCone();
 	CMaterial * mat = new CMaterial();
 	mat->MakeTextureDiffuse("textures\\_original.jpg");
 	cone->Init(2.0, 2.0, mat, 24, true);
 	cone->SetName("new TestCone");
 	//How to rotate a geo???
-	
+
 	m_zpField[i][j].AddGeo(cone);
 }
 

@@ -31,7 +31,7 @@ public:
 
 	virtual ~VPlayingField()
 	{}
-	
+
 	virtual void initPlayingField();
 };
 

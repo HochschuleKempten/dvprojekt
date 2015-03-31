@@ -14,7 +14,7 @@ inline std::vector<std::string> split(std::string str, const char delimiter)
 	while (getline(ss, tok, delimiter)) {
 		internal.push_back(tok);
 	}
-
+	
 	return internal;
 }
 
