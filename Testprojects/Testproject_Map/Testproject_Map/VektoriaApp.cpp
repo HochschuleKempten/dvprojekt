@@ -89,10 +89,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	splash.Show();
 
 
-    // display the window on the screen
-    ShowWindow(hWnd, nCmdShow);
-  
-    // Game Init
+	// display the window on the screen
+	ShowWindow(hWnd, nCmdShow);
+
+	// Game Init
 	g_pgame = new CGame();
 	RECT rect;
 	GetClientRect(hWnd, &rect);
@@ -159,7 +159,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)                  /* handle the messages */
 	{
 	case WM_SIZE:
-		g_pgame->WindowReSize(LOWORD(lParam), HIWORD(lParam));
+		g_pgame->WindowReSize(LOWORD(wParam), HIWORD(lParam));
 		return 0;
 
 	case WM_KEYDOWN:

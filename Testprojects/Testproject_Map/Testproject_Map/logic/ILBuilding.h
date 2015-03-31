@@ -2,8 +2,7 @@
 
 class ILBuilding
 {
-	//todo: Später max. Ausbaustufe und aktuelle, Spielerzuweisung
-
+	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 private:
 	int costs;
 
@@ -20,6 +19,11 @@ public:
 	int getCosts()
 	{
 		return costs;
+	};
+
+	//todo (L) implement this in the buildings that can be upgraded
+	void upgrade()
+	{
 	};
 };
 

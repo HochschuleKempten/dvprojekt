@@ -128,6 +128,9 @@
     <ClInclude Include="view\VPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="logic\LPlayer.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -180,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="view\VPowerPlant.cpp">
       <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LPlayer.cpp">
+      <Filter>logic\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
