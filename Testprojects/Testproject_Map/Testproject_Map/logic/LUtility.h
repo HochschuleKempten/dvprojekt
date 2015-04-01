@@ -33,7 +33,10 @@ inline std::vector<std::string> split(std::string str, const char delimiter)
  */
 inline std::string getClassName(const std::type_info& typeInfo)
 {
-	std::regex txt_regex("class (?:\\w+::)*(\\w+)(?: \\* \\w+)?$");
+	//Types look like: class HighVoltage::view::VPlayingField
+	//Pointer(x86) look like: class HighVoltage::view::VPlayingField *
+	//Pointer(x64) look like: class HighVoltage::view::VPlayingField * __ptr64
+	std::regex txt_regex("class (?:\\w+::)*(\\w+)(?: \\*(?: \\w+)?)?$");
 	std::smatch base_match;
 	
 	//Don't use a temporary string object here, because the results will refer to it
