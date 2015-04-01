@@ -134,6 +134,9 @@
     <ClInclude Include="view\IViewBuilding.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\VHydroelectricPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -188,6 +191,9 @@
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VCoalPowerPlant.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VHydroelectricPowerPlant.cpp">
       <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
   </ItemGroup>

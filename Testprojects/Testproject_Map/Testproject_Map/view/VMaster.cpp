@@ -53,9 +53,13 @@ void VMaster::tick(float fTime, float fTimeDelta)
 			float f;
 
 			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
+			if (pickedPlacement == nullptr) {
+				return;
+			}
+
 			std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
 
-			if (pickedPlacement != nullptr && koord.size() > 0)
+			if (koord.size() > 0)
 			{
 				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 
@@ -65,7 +69,35 @@ void VMaster::tick(float fTime, float fTimeDelta)
 					int i = std::stoi(koord[1]);
 					int j = std::stoi(koord[2]);
 
-					dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)])->fieldClicked(i, j);
+					dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)])->tryBuildField<LCoalPowerPlant>(i, j);
+				}
+
+			}
+
+			pickingActive = true;
+		}
+	}
+	else if (m_zkCursor.ButtonPressedRight()) {
+		if (!pickingActive) {
+			float f;
+
+			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
+			if (pickedPlacement == nullptr) {
+				return;
+			}
+
+			std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
+
+			if (koord.size() > 0) {
+				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
+
+				if (koord[0] == getClassName(VPlayingField)) {
+					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
+
+					int i = std::stoi(koord[1]);
+					int j = std::stoi(koord[2]);
+
+					dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)])->tryBuildField<LHydroelectricPowerPlant>(i, j);
 				}
 
 			}

@@ -9,7 +9,7 @@ class LMaster
 
 private:
 	IVMaster* vMaster;
-	LPlayingField* playingField;
+	LPlayingField* lPlayingField;
 	LPlayer* lPlayer;
 
 public:

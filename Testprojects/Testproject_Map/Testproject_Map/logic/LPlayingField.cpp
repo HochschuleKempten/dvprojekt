@@ -1,6 +1,10 @@
 #include "LPlayingField.h"
-#include "LCoalPowerPlant.h"
 #include "LPlayer.h"
+#include "LCoalPowerPlant.h"
+#include "LMaster.h"
+#include "IVPlayingField.h"
+#include "IVMaster.h"
+#include "IVFactory.h"
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength)
@@ -21,13 +25,6 @@ void LPlayingField::initVPlayingField()
 LField* LPlayingField::getField(const int x, const int y)
 {
 	return &fieldArray[x][y];
-}
-
-void LPlayingField::placeBuilding(const int x, const int y)
-{
-	//todo (IP) just for testing, parameter needs to be added (which building has to be build?)
-	LCoalPowerPlant* tempPlant = new LCoalPowerPlant(100, 20, this, x, y);
-	getField(x,y)->setBuilding(tempPlant);
 }
 
 int LPlayingField::getFieldLength()

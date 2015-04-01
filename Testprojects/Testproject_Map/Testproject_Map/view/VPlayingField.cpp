@@ -5,14 +5,6 @@
 NAMESPACE_VIEW_B
 
 
-void VPlayingField::fieldClicked(const int x, const int y)
-{
-	//Todo (V) Check what you want to do with that click,
-	// for now we just want to place a Object
-
-	this->playingField->placeBuilding(x, y);
-}
-
 void VPlayingField::placeObject(IViewBuilding* viewObject, const int x, const int y)
 {
 	viewObjects[x][y] = viewObject;

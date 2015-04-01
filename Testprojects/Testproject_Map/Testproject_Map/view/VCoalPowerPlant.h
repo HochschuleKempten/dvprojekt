@@ -15,14 +15,7 @@ private:
 	CGeoCone m_zg;
 
 public:
-	VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* plant)
-		: IVPowerPlant(plant), IViewBuilding(vMaster)
-	{
-		m_zm.MakeTextureDiffuse("textures\\_original.jpg");
-		m_zg.Init(2.0, 2.0, &m_zm, 24, true);
-		m_zp.Init();
-		m_zp.AddGeo(&m_zg);
-	}
+	VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant);
 
 	virtual ~VCoalPowerPlant()
 	{}

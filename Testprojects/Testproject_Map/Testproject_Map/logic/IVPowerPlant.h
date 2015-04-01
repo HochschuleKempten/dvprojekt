@@ -7,11 +7,11 @@ class ILPowerPlant;
 class IVPowerPlant : public IView
 {
 protected:
-	ILPowerPlant* plant;
+	ILPowerPlant* lPlant;
 
 public:
-	IVPowerPlant(ILPowerPlant* plant)
-		: plant(plant)
+	IVPowerPlant(ILPowerPlant* lPlant)
+		: lPlant(lPlant)
 	{}
 	virtual ~IVPowerPlant()
 	{}

@@ -1,9 +1,11 @@
 #pragma once
-#include "LField.h"
 #include "Array2D.h"
-#include "IVPlayingField.h"
+#include "LField.h"
+#include "LCoalPowerPlant.h"
+#include "LHydroelectricPowerPlant.h"
 
 class LMaster;
+class IVPlayingField;
 
 class LPlayingField
 {
@@ -19,9 +21,19 @@ public:
 	~LPlayingField();
 
 	void initVPlayingField();
-	LField * getField(const int x, const int y);
+	LField* getField(const int x, const int y);
 	// returns true if building could be placed, else false (building not allowed or building already placed)
-	void placeBuilding(const int x, const int y); //todo (IP) add parameter that specifies the building which has to be placed
+	
+	template<typename T>
+	void placeBuilding(const int x, const int y)
+	{
+		//todo (IP) just for testing, parameter needs to be added (which building has to be build?)
+		//TODO (L) maybe it is better when the field creates the building, just do some checks here
+		ILBuilding* tempPlant = new T(100, 20, this, x, y);
+		getField(x, y)->setBuilding(tempPlant);
+	}
+	
+	//todo (IP) add parameter that specifies the building which has to be placed
 	int getFieldLength();
 	void removeBuilding(const int x, const int y);
 	void upgradeBuilding(const int x, const int y);

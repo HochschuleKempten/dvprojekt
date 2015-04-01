@@ -5,7 +5,7 @@ class LPowerLine :
 	public ILBuilding
 {
 public:
-	LPowerLine(const int costs, LPlayingField* playingField, const int x, const int y);
+	LPowerLine(const int costs, LPlayingField* lPlayingField, const int x, const int y);
 	~LPowerLine();
 };
 

@@ -8,6 +8,7 @@
 
 NAMESPACE_VIEW_B
 
+
 class IViewBuilding;
 
 class VPlayingField : public IVPlayingField, public IViewObject
@@ -18,16 +19,20 @@ private:
 	Array2D<IViewBuilding*> viewObjects;
 
 public:
-	VPlayingField(VMaster* vMaster, LPlayingField* playingField)
-		: IVPlayingField(playingField), IViewObject(vMaster),
-		  m_zgField(playingField->getFieldLength(), playingField->getFieldLength()),
-		  m_zpField(playingField->getFieldLength(), playingField->getFieldLength()),
-		  viewObjects(playingField->getFieldLength(), playingField->getFieldLength())
+	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
+		: IVPlayingField(lPlayingField), IViewObject(vMaster),
+		  m_zgField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
+		  m_zpField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
+		  viewObjects(lPlayingField->getFieldLength(), lPlayingField->getFieldLength())
 	{}
 	virtual ~VPlayingField()
 	{}
 
-	void fieldClicked(const int x, const int y);
+	template<typename T>
+	void tryBuildField(const int x, const int y)
+	{
+		this->lPlayingField->placeBuilding<T>(x, y);
+	}
 
 	void placeObject(IViewBuilding* viewObject, const int x, const int y);
 

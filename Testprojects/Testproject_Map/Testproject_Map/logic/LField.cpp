@@ -10,6 +10,9 @@ LField::LField()
 
 LField::~LField()
 {
+	if (building != nullptr) {
+		delete building;
+	}
 }
 
 //to "remove" a building, set it to null (delete it too?)

@@ -9,7 +9,7 @@ LMaster::LMaster(IVMaster* vMaster)
 
 LMaster::~LMaster()
 {
-	delete playingField;
+	delete lPlayingField;
 }
 
 IVMaster* LMaster::getVMaster()
@@ -19,13 +19,13 @@ IVMaster* LMaster::getVMaster()
 
 LPlayingField * LMaster::getLPlayingField()
 {
-	return playingField;
+	return lPlayingField;
 }
 
 void LMaster::startNewGame()
 {
-	playingField = new LPlayingField(this);
-	playingField->initVPlayingField();
+	lPlayingField = new LPlayingField(this);
+	lPlayingField->initVPlayingField();
 }
 
 LPlayer* LMaster::getPlayer()

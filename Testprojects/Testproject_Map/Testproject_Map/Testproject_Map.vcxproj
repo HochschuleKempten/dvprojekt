@@ -158,6 +158,7 @@
     <ClInclude Include="view\IViewObject.h" />
     <ClInclude Include="view\VFactory.h" />
     <ClInclude Include="view\VGeneral.h" />
+    <ClInclude Include="view\VHydroelectricPowerPlant.h" />
     <ClInclude Include="view\VPlayingField.h" />
     <ClInclude Include="view\VMaster.h" />
     <ClInclude Include="view\VCoalPowerPlant.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="VektoriaApp.cpp" />
     <ClCompile Include="view\VFactory.cpp" />
+    <ClCompile Include="view\VHydroelectricPowerPlant.cpp" />
     <ClCompile Include="view\VPlayingField.cpp" />
     <ClCompile Include="view\VMaster.cpp" />
     <ClCompile Include="view\VCoalPowerPlant.cpp" />

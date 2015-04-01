@@ -20,9 +20,9 @@ public:
 	{}
 	virtual IVPlayingField* createPlayingField(LPlayingField* field);
 
-	//Argument from type ILPowerPlant so we just need one create method
-	//(in definition: check for concrete type and create the counterpart)
 	virtual IVPowerPlant* createCoalPowerPlant(LCoalPowerPlant* powerPlant);
+
+	virtual IVPowerPlant* createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant);
 };
 
 
