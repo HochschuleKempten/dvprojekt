@@ -22,7 +22,7 @@ public:
 
 	//Argument from type ILPowerPlant so we just need one create method
 	//(in definition: check for concrete type and create the counterpart)
-	virtual IVPowerPlant* createPowerPlant(ILPowerPlant* powerPlant);
+	virtual IVPowerPlant* createCoalPowerPlant(LCoalPowerPlant* powerPlant);
 };
 
 

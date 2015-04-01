@@ -14,13 +14,11 @@ protected:
 	IVPowerPlant* vPowerPlant;
 
 public:
-	ILPowerPlant(const int costs, const int energyValue, LPlayingField* lPlayingField, const int x, const int y)
+	ILPowerPlant(const int costs, const int energyValue, LPlayingField* lPlayingField, const int x, const int y, IVPowerPlant* vPowerPlant)
 		:ILBuilding(costs, lPlayingField, x, y),
+		vPowerPlant(vPowerPlant),
 		energyValue(energyValue)
-	{
-		vPowerPlant = this->lPlayingField->getLMaster()->getVMaster()->getFactory()->createPowerPlant(this);
-		vPowerPlant->initPowerPlant(x, y);
-	};
+	{};
 
 	virtual ~ILPowerPlant()
 	{

@@ -3,7 +3,7 @@
 class IVPlayingField;
 class LPlayingField;
 class IVPowerPlant;
-class ILPowerPlant;
+class LCoalPowerPlant;
 
 class IVFactory
 {
@@ -12,6 +12,6 @@ public:
 	{}
 	virtual ~IVFactory(){};
 	virtual IVPlayingField* createPlayingField(LPlayingField* field) = 0;
-	virtual IVPowerPlant* createPowerPlant(ILPowerPlant* powerPlant) = 0;
+	virtual IVPowerPlant* createCoalPowerPlant(LCoalPowerPlant* powerPlant) = 0;
 };
 

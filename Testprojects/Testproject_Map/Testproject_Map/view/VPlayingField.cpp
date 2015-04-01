@@ -10,9 +10,6 @@ void VPlayingField::fieldClicked(const int i, const int j)
 	// for now we just want to place a Object
 
 	this->playingField->placeBuilding(i, j);
-
-	//TODO (V) delete this line, VPlayingField should only call LPlayingField::placeBuilding, the objects should place themselves
-	this->placeObject(i, j);
 }
 
 void VPlayingField::placeObject(int i, int j)

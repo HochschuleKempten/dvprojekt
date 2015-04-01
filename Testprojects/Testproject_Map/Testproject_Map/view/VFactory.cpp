@@ -1,6 +1,6 @@
 #include "VFactory.h"
 #include "VPlayingField.h"
-#include "VPowerPlant.h"
+#include "VCoalPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
@@ -10,10 +10,9 @@ IVPlayingField* VFactory::createPlayingField(LPlayingField* field)
 	return new VPlayingField(vMaster, field);
 }
 
-IVPowerPlant* VFactory::createPowerPlant(ILPowerPlant* powerPlant)
+IVPowerPlant* VFactory::createCoalPowerPlant(LCoalPowerPlant* powerPlant)
 {
-	//todo (V) check which concrete object is passed in and create the corresponding counterpart
-	return new VPowerPlant(vMaster, powerPlant);
+	return new VCoalPowerPlant(vMaster, powerPlant);
 }
 
 

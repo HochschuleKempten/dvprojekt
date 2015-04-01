@@ -16,7 +16,7 @@ inline std::vector<std::string> split(std::string str, const char delimiter)
 	while (getline(ss, tok, delimiter)) {
 		internal.push_back(tok);
 	}
-	
+
 	return internal;
 }
 
@@ -38,7 +38,7 @@ inline std::string getClassName(const std::type_info& typeInfo)
 	//Pointer(x64) look like: class HighVoltage::view::VPlayingField * __ptr64
 	std::regex txt_regex("class (?:\\w+::)*(\\w+)(?: \\*(?: \\w+)?)?$");
 	std::smatch base_match;
-	
+
 	//Don't use a temporary string object here, because the results will refer to it
 	std::string fullName = typeInfo.name();
 

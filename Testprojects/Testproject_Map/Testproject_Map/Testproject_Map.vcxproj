@@ -159,7 +159,7 @@
     <ClInclude Include="view\VGeneral.h" />
     <ClInclude Include="view\VPlayingField.h" />
     <ClInclude Include="view\VMaster.h" />
-    <ClInclude Include="view\VPowerPlant.h" />
+    <ClInclude Include="view\VCoalPowerPlant.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
@@ -179,7 +179,7 @@
     <ClCompile Include="view\VFactory.cpp" />
     <ClCompile Include="view\VPlayingField.cpp" />
     <ClCompile Include="view\VMaster.cpp" />
-    <ClCompile Include="view\VPowerPlant.cpp" />
+    <ClCompile Include="view\VCoalPowerPlant.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
