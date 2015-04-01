@@ -8,4 +8,5 @@ LCoalPowerPlant::LCoalPowerPlant(const int costs, const int energyValue, LPlayin
 
 LCoalPowerPlant::~LCoalPowerPlant()
 {
+	delete vPowerPlant;
 }

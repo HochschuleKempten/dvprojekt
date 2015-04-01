@@ -1,28 +1,22 @@
 #include "VPlayingField.h"
 #include "../logic/LUtility.h"
+#include "IViewBuilding.h"
 
 NAMESPACE_VIEW_B
 
 
-void VPlayingField::fieldClicked(const int i, const int j)
+void VPlayingField::fieldClicked(const int x, const int y)
 {
 	//Todo (V) Check what you want to do with that click,
 	// for now we just want to place a Object
 
-	this->playingField->placeBuilding(i, j);
+	this->playingField->placeBuilding(x, y);
 }
 
-void VPlayingField::placeObject(int i, int j)
+void VPlayingField::placeObject(IViewBuilding* viewObject, const int x, const int y)
 {
-	//todo (V) place in VPowerPlant
-	CGeoCone *cone = new CGeoCone();
-	CMaterial * mat = new CMaterial();
-	mat->MakeTextureDiffuse("textures\\_original.jpg");
-	cone->Init(2.0, 2.0, mat, 24, true);
-	cone->SetName("new TestCone");
-	//How to rotate a geo???
-
-	m_zpField[i][j].AddGeo(cone);
+	viewObjects[x][y] = viewObject;
+	m_zpField[x][y].AddPlacement(viewObject->getPlacement());
 }
 
 void VPlayingField::initPlayingField()

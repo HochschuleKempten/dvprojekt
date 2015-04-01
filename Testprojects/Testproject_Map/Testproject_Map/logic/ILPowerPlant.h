@@ -4,7 +4,6 @@
 #include "LMaster.h"
 #include "IVMaster.h"
 #include "IVFactory.h"
-#include "LPlayingField.h"
 
 class ILPowerPlant:
 	public ILBuilding
