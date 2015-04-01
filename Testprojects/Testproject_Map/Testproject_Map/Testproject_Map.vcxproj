@@ -159,9 +159,13 @@
     <ClInclude Include="view\VFactory.h" />
     <ClInclude Include="view\VGeneral.h" />
     <ClInclude Include="view\VHydroelectricPowerPlant.h" />
+    <ClInclude Include="view\VNuclearPowerPlant.h" />
+    <ClInclude Include="view\VOilRefinery.h" />
     <ClInclude Include="view\VPlayingField.h" />
     <ClInclude Include="view\VMaster.h" />
     <ClInclude Include="view\VCoalPowerPlant.h" />
+    <ClInclude Include="view\VSolarPowerPlant.h" />
+    <ClInclude Include="view\VWindmillPowerPlant.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
@@ -180,9 +184,13 @@
     <ClCompile Include="VektoriaApp.cpp" />
     <ClCompile Include="view\VFactory.cpp" />
     <ClCompile Include="view\VHydroelectricPowerPlant.cpp" />
+    <ClCompile Include="view\VNuclearPowerPlant.cpp" />
+    <ClCompile Include="view\VOilRefinery.cpp" />
     <ClCompile Include="view\VPlayingField.cpp" />
     <ClCompile Include="view\VMaster.cpp" />
     <ClCompile Include="view\VCoalPowerPlant.cpp" />
+    <ClCompile Include="view\VSolarPowerPlant.cpp" />
+    <ClCompile Include="view\VWindmillPowerPlant.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
