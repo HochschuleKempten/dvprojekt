@@ -164,6 +164,7 @@
     <ClInclude Include="view\VPlayingField.h" />
     <ClInclude Include="view\VMaster.h" />
     <ClInclude Include="view\VCoalPowerPlant.h" />
+    <ClInclude Include="view\VPowerline.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
     <ClInclude Include="view\VWindmillPowerPlant.h" />
   </ItemGroup>
@@ -189,6 +190,7 @@
     <ClCompile Include="view\VPlayingField.cpp" />
     <ClCompile Include="view\VMaster.cpp" />
     <ClCompile Include="view\VCoalPowerPlant.cpp" />
+    <ClCompile Include="view\VPowerLine.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
     <ClCompile Include="view\VWindmillPowerPlant.cpp" />
   </ItemGroup>
