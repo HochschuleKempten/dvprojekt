@@ -1,8 +1,9 @@
 #pragma once
-#include "LPlayingField.h"
 
 class IVMaster;
+class LPlayingField;
 class LPlayer;
+class LUI;
 
 class LMaster
 {
@@ -11,14 +12,17 @@ private:
 	IVMaster* vMaster;
 	LPlayingField* lPlayingField;
 	LPlayer* lPlayer;
+	LUI* lUi;
 
 public:
 	LMaster(IVMaster* vMaster);
 	~LMaster();
 
-	IVMaster* getVMaster();
-	LPlayingField * getLPlayingField();
 	void startNewGame();
+	void tick(float fTime, float fTimeDelta);
+
+	LPlayingField* getLPlayingField();
+	IVMaster* getVMaster();
 	LPlayer* getPlayer();
 
 };

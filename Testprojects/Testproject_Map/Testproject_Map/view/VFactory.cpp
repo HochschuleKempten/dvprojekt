@@ -2,6 +2,7 @@
 #include "VPlayingField.h"
 #include "VCoalPowerPlant.h"
 #include "VHydroelectricPowerPlant.h"
+#include "VUI.h"
 
 NAMESPACE_VIEW_B
 
@@ -20,5 +21,11 @@ IVPowerPlant* VFactory::createHydroelectricPowerPlant(LHydroelectricPowerPlant* 
 {
 	return new VHydroelectricPowerPlant(vMaster, powerPlant);
 }
+
+IVUI* VFactory::createUi(LUI* lUi)
+{
+	return new VUI(vMaster, lUi);
+}
+
 
 NAMESPACE_VIEW_E

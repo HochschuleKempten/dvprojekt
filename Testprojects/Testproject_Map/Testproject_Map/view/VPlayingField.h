@@ -4,13 +4,14 @@
 #include "../logic/LPlayingField.h"
 #include "../logic/Array2D.h"
 #include "VMaster.h"
+#include "IViewObject.h"
 
 NAMESPACE_VIEW_B
 
 
 class IViewBuilding;
 
-class VPlayingField : public IVPlayingField, public IViewObject
+class VPlayingField : public IViewObject, public IVPlayingField
 {
 private:
 	const int fieldSize = 2;
@@ -20,7 +21,7 @@ private:
 
 public:
 	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
-		: IVPlayingField(lPlayingField), IViewObject(vMaster),
+		: IViewObject(vMaster), IVPlayingField(lPlayingField),
 		  m_zgField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
 		  m_zpField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
 		  viewObjects(lPlayingField->getFieldLength(), lPlayingField->getFieldLength())

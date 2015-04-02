@@ -137,20 +137,29 @@
     <ClInclude Include="view\VHydroelectricPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\VWindmillPowerPlant.h">
-      <Filter>Headerdateien</Filter>
+    <ClInclude Include="logic\IVUI.h">
+      <Filter>logic\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="view\VSolarPowerPlant.h">
-      <Filter>Headerdateien</Filter>
+    <ClInclude Include="view\VUI.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LUI.h">
+      <Filter>logic\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VNuclearPowerPlant.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VOilRefinery.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VPowerline.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VSolarPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VWindmillPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,20 +220,26 @@
     <ClCompile Include="view\VHydroelectricPowerPlant.cpp">
       <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
-    <ClCompile Include="view\VWindmillPowerPlant.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="view\VUI.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
-    <ClCompile Include="view\VSolarPowerPlant.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VOilRefinery.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="logic\LUI.cpp">
+      <Filter>logic\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VNuclearPowerPlant.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VOilRefinery.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VPowerLine.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VSolarPowerPlant.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VWindmillPowerPlant.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

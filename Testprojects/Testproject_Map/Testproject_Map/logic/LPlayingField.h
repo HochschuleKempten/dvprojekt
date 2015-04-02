@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Array2D.h"
 #include "LField.h"
 #include "LCoalPowerPlant.h"
@@ -27,7 +28,7 @@ public:
 	template<typename T>
 	void placeBuilding(const int x, const int y)
 	{
-		//Semms to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
+		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");
 
 		//todo (IP) just for testing, parameter needs to be added (which building has to be build?)

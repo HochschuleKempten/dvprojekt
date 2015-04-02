@@ -138,6 +138,7 @@
     <ClInclude Include="logic\IVMaster.h" />
     <ClInclude Include="logic\ILBuilding.h" />
     <ClInclude Include="logic\IVPowerPlant.h" />
+    <ClInclude Include="logic\IVUI.h" />
     <ClInclude Include="logic\LField.h" />
     <ClInclude Include="logic\LCoalPowerPlant.h" />
     <ClInclude Include="logic\ILPowerPlant.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="logic\LPlayingField.h" />
     <ClInclude Include="logic\LSolarPowerPlant.h" />
     <ClInclude Include="logic\LPowerLine.h" />
+    <ClInclude Include="logic\LUI.h" />
     <ClInclude Include="logic\LUtility.h" />
     <ClInclude Include="logic\LWindmillPowerPlant.h" />
     <ClInclude Include="resource.h" />
@@ -166,6 +168,7 @@
     <ClInclude Include="view\VCoalPowerPlant.h" />
     <ClInclude Include="view\VPowerline.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
+    <ClInclude Include="view\VUI.h" />
     <ClInclude Include="view\VWindmillPowerPlant.h" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +183,7 @@
     <ClCompile Include="logic\LPlayingField.cpp" />
     <ClCompile Include="logic\LSolarPowerPlant.cpp" />
     <ClCompile Include="logic\LPowerLine.cpp" />
+    <ClCompile Include="logic\LUI.cpp" />
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="VektoriaApp.cpp" />
@@ -192,6 +196,7 @@
     <ClCompile Include="view\VCoalPowerPlant.cpp" />
     <ClCompile Include="view\VPowerLine.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
+    <ClCompile Include="view\VUI.cpp" />
     <ClCompile Include="view\VWindmillPowerPlant.cpp" />
   </ItemGroup>
   <ItemGroup>

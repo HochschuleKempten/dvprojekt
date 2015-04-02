@@ -1,4 +1,5 @@
 #pragma once
+
 class ILBuilding;
 
 class LField
@@ -17,4 +18,3 @@ public:
 	void setIsPlacingAllowed(bool allowed);
 	bool isPlacingAllowed();
 };
-

@@ -18,11 +18,14 @@ public:
 	{}
 	virtual ~VFactory()
 	{}
+
 	virtual IVPlayingField* createPlayingField(LPlayingField* field);
 
 	virtual IVPowerPlant* createCoalPowerPlant(LCoalPowerPlant* powerPlant);
 
 	virtual IVPowerPlant* createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant);
+
+	virtual IVUI* createUi(LUI* lUi);
 };
 
 

@@ -4,6 +4,8 @@
 #include "../logic/LUtility.h"
 #include "VFactory.h"
 #include "VPlayingField.h"
+#include "VUI.h"
+#include "IViewObject.h"
 
 NAMESPACE_VIEW_B
 
@@ -18,6 +20,11 @@ void VMaster::setLMaster(LMaster* lMaster)
 	this->lMaster = lMaster;
 }
 
+void VMaster::setVUI(VUI* vUi)
+{
+	this->vUi = vUi;
+}
+
 void VMaster::initScene(HWND hwnd, CSplash* psplash)
 {
 	m_zr.Init(psplash);
@@ -26,9 +33,6 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 	m_zv.InitFull(&m_zc);
 	m_zr.AddFrameHere(&m_zf);
 	m_zf.AddViewport(&m_zv);
-	m_zf.AddDeviceKeyboard(&m_zk);
-	m_zf.AddDeviceCursor(&m_zkCursor);
-	m_zf.AddDeviceMouse(&m_zkMouse);
 	m_zr.AddScene(&m_zs);
 
 	m_zb.InitFull("textures/red_image.jpg");
@@ -38,77 +42,15 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 	m_zpCamera.AddCamera(&m_zc);
 	m_zs.AddParallelLight(&m_zl);
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
-			CColor(1.0f, 1.0f, 1.0f));
+			  CColor(1.0f, 1.0f, 1.0f));
 }
 
 void VMaster::tick(float fTime, float fTimeDelta)
 {
-	m_zk.PlaceWASD(m_zpCamera, fTimeDelta);
+	//PERFORMANCE make as much functions inline as possible
 
-	/* Picking */
-	static bool pickingActive = false;
-
-	if (m_zkCursor.ButtonPressedLeft()) {
-		if (!pickingActive) {
-			float f;
-
-			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
-			if (pickedPlacement == nullptr) {
-				return;
-			}
-
-			std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
-
-			if (koord.size() > 0)
-			{
-				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
-
-				if (koord[0] == getClassName(VPlayingField)) {
-					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
-
-					int i = std::stoi(koord[1]);
-					int j = std::stoi(koord[2]);
-
-					dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)])->tryBuildOnField<LCoalPowerPlant>(i, j);
-				}
-
-			}
-
-			pickingActive = true;
-		}
-	}
-	else if (m_zkCursor.ButtonPressedRight()) {
-		if (!pickingActive) {
-			float f;
-
-			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
-			if (pickedPlacement == nullptr) {
-				return;
-			}
-
-			std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
-
-			if (koord.size() > 0) {
-				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
-
-				if (koord[0] == getClassName(VPlayingField)) {
-					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
-
-					int i = std::stoi(koord[1]);
-					int j = std::stoi(koord[2]);
-
-					dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)])->tryBuildOnField<LHydroelectricPowerPlant>(i, j);
-				}
-
-			}
-
-			pickingActive = true;
-		}
-	}
-	else {
-		pickingActive = false;
-	}
-
+	vUi->handleInput(fTimeDelta);
+	lMaster->tick(fTime, fTimeDelta);
 	m_zr.Tick(fTimeDelta);
 }
 

@@ -15,6 +15,7 @@ LField::~LField()
 	}
 }
 
+//TODO (L) implement remove building
 //to "remove" a building, set it to null (delete it too?)
 bool LField::setBuilding(ILBuilding* building)
 {
