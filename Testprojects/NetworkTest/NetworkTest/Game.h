@@ -50,9 +50,11 @@
 #endif
 #endif
 
-#include "Server.h"
+#include "Client.h"
 #include "Vektoria\Root.h"
 #include "VektoriaMath\Util.h"
+#include <thread>
+#include <boost\thread\thread.hpp>
 
 
 using namespace Vektoria;
@@ -92,7 +94,10 @@ private:
 	CDeviceKeyboard m_zdKeyboard;
 	CDeviceMouse m_zdMouse;
 
-	CServer* m_pServer;
+	CClient* m_pClient;
+	boost::thread m_threadClient;
+	io_service* m_pIOService;
+	float m_fTimeSinceLastSend;
 };
 
 

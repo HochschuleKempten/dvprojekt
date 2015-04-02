@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "StdAfx.h"
-#include <boost\thread\thread.hpp>
 #include <boost\lexical_cast.hpp>
 
 CGame::CGame(void) {
@@ -8,7 +7,8 @@ CGame::CGame(void) {
 }
 
 CGame::~CGame(void) {
-	delete m_pServer;
+	delete m_pClient;
+	delete m_pIOService;
 }
 
 void CGame::Init(HWND hwnd, CSplash * psplash) {
@@ -55,39 +55,46 @@ void CGame::Init(HWND hwnd, CSplash * psplash) {
 	m_zr.AddScene(&m_zs);
 
 	// init network
-	io_service io_service;
+	m_pIOService = new io_service;
 
-	ip::tcp::resolver resolver(io_service);
-	ip::tcp::endpoint endpoint(ip::tcp::v4(), 1234);
+	ip::tcp::resolver resolver(*m_pIOService);
+	ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve({ "localhost", "1234" });
 
-	m_pServer = new CServer(io_service, endpoint);
-	m_pServer->do_accept();
+	m_pClient = new CClient(*m_pIOService);
+	m_pClient->do_connect(endpoint_iterator);
 
-	boost::thread thread([&io_service]() {
-		io_service.run();
+	m_threadClient = boost::thread([this]() {
+		m_pIOService->run();
 	});
+
+	m_fTimeSinceLastSend = 0;
 }
 
 void CGame::Tick(float fTime, float fTimeDelta) {
-	m_zpCube.TranslateX(sin(fTime));
+	m_zpCube.TranslateZ(-10.0f + 2.0f * sin(fTime));
 
 	m_zdKeyboard.PlaceWASD(m_zpCamera, fTimeDelta, true);
 
-	std::string text = "XY";
-	text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleXY());
-	text = "XZ";
-	text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleXZ());
-	text = "YX";
-	text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleYX());
-	text = "YZ";
-	text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleYZ());
-	text = "ZX";
-	text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleZX());
-	text = "ZY";
-	text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleZY());
+	if (m_fTimeSinceLastSend > 1) {
+		std::string text = "XY";
+		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleXY());
+		text += "XZ";
+		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleXZ());
+		text += "YX";
+		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleYX());
+		text += "YZ";
+		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleYZ());
+		text += "ZX";
+		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleZX());
+		text += "ZY";
+		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleZY());
 
-	m_pServer->write(CMessage(text.data()));
-
+		m_pClient->write(CMessage(text.data()));
+		m_fTimeSinceLastSend = 0;
+	} else {
+		m_fTimeSinceLastSend += fTimeDelta;
+	}
+	
 	m_zr.Tick(fTimeDelta);
 }
 

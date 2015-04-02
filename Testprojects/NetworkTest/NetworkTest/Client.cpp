@@ -32,13 +32,13 @@ void CClient::do_connect(ip::tcp::resolver::iterator& endpoint_iterator) {
 	async_connect(m_socket,
 		endpoint_iterator,
 		[this](error_code ec, ip::tcp::resolver::iterator iterator) {
-		if (!ec) {
-			std::cout << "Connected to server " << this->m_socket.remote_endpoint() << std::endl;
-			do_readHeader();
-		} else {
-			std::cout << ec.message() << std::endl;
+			if (!ec) {
+				std::cout << "Connected to server " << this->m_socket.remote_endpoint() << std::endl;
+				do_readHeader();
+			} else {
+				std::cout << ec.message() << std::endl;
+			}
 		}
-	}
 	);
 }
 
