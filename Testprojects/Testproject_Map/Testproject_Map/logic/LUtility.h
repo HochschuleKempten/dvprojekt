@@ -29,7 +29,7 @@ inline std::vector<std::string> split(std::string str, const char delimiter)
  * getClassName(this):
  * getClassName(*this);
  * getClassName(VPlayingField);
- * @encode
+ * @endcode
  */
 inline std::string getClassName(const std::type_info& typeInfo)
 {
@@ -69,15 +69,21 @@ public:
 };
 
 #ifdef _DEBUG
-//Use this macro to check conditions at runtime in debug mode
-//Type in the conditition the behaviour you desire (the assertion fails if your condition fails)
+/*
+ * @def ASSERT(cond, msgExpr)
+ * Use this macro to check conditions at runtime in debug mode
+ * Type in the conditition the behaviour you desire (the assertion fails if your condition fails)
+ */
 #define ASSERT(cond, msgExpr) if(!(cond)){ std::stringstream s; s << __FILE__ << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; throw ExceptionOutputDebug(s.str()); }
 #else
 #define ASSERT(cond, msgExpr)
 #endif
 
 #ifdef _DEBUG
-//Useful macro to print something to the visual studio output window
+/*
+ * @def DEBUG_OUTPUT(msgExpr)
+ * Useful macro to print something to the visual studio output window
+ */
 #define DEBUG_OUTPUT(msgExpr) do { std::stringstream s; s << __FILE__ << "(" << __LINE__ << "): " << msgExpr << std::endl; OutputDebugString(s.str().c_str()); } while(0)
 #else
 #define DEBUG_OUTPUT(msgExpr)

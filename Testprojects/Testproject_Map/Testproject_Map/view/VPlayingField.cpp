@@ -14,7 +14,7 @@ void VPlayingField::placeObject(IViewBuilding* viewObject, const int x, const in
 void VPlayingField::initPlayingField()
 {
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
-	CHVector size(2, 2, 0.5);
+	CHVector size(fieldSize, fieldSize, 0.5);
 	std::stringstream stream;
 
 	for (int i = 0; i < m_zgField.getRows(); i++) {
@@ -30,13 +30,15 @@ void VPlayingField::initPlayingField()
 			m_zpField[i][j].SetName(stream.str().c_str());
 			m_zp.AddPlacement(&m_zpField[i][j]);
 
-			m_zpField[i][j].TranslateX(i * 4.1F);
-			m_zpField[i][j].TranslateYDelta(j * 4.1F);
+			m_zpField[i][j].TranslateX(i * (fieldSize * fieldSize + 0.1));
+			m_zpField[i][j].TranslateYDelta(j * (fieldSize * fieldSize + 0.1));
 		}
 	}
 
-	m_zp.TranslateDelta(-4, -4, -6);
-	
+	float rows = m_zgField.getRows();
+	m_zp.TranslateDelta(-fieldSize * rows, -fieldSize * rows, -fieldSize * rows * 1.5);
+	m_zp.SetFrustumCullingOff();//TODO (V) remove this after bugfix
+
 	vMaster->addScenegraph(getClassName(this), this);
 }
 

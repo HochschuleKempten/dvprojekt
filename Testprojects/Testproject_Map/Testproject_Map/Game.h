@@ -52,10 +52,6 @@
 #endif
 
 
-
-
-#include "Vektoria\Root.h"
-#include "VektoriaMath\Util.h"
 #include "view\VMaster.h"
 #include "logic\LMaster.h"
 

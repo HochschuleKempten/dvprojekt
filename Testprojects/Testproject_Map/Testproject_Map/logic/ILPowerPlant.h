@@ -21,7 +21,7 @@ public:
 	{
 	};
 
-	int getEnergyValue()
+	int getEnergyValue() const
 	{
 		return energyValue;
 	};

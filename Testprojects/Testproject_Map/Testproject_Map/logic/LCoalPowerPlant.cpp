@@ -1,5 +1,4 @@
 #include "LCoalPowerPlant.h"
-#include "LPlayingField.h"
 #include "LMaster.h"
 #include "IVMaster.h"
 #include "IVFactory.h"

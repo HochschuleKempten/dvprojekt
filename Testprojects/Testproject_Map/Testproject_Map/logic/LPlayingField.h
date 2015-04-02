@@ -11,7 +11,7 @@ class LPlayingField
 {
 
 private:
-	const int fieldLength = 3; //todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
+	const int fieldLength = 6; //todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster;
 	IVPlayingField* vPlayingField;
 	Array2D<LField> fieldArray;
@@ -27,6 +27,9 @@ public:
 	template<typename T>
 	void placeBuilding(const int x, const int y)
 	{
+		//Semms to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
+		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");
+
 		//todo (IP) just for testing, parameter needs to be added (which building has to be build?)
 		//TODO (L) maybe it is better when the field creates the building, just do some checks here
 		ILBuilding* tempPlant = new T(100, 20, this, x, y);

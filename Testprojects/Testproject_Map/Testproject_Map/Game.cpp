@@ -2,7 +2,6 @@
 #include "Game.h"
 #include <sstream>
 #include "view\VPlayingField.h"
-#include "logic\LPlayingField.h"
 
 CGame::CGame(void)
 	: lMaster(&vMaster)

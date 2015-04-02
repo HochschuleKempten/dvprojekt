@@ -4,7 +4,6 @@
 #include "../logic/LPlayingField.h"
 #include "../logic/Array2D.h"
 #include "VMaster.h"
-#include "IViewObject.h"
 
 NAMESPACE_VIEW_B
 
@@ -14,6 +13,7 @@ class IViewBuilding;
 class VPlayingField : public IVPlayingField, public IViewObject
 {
 private:
+	const int fieldSize = 2;
 	Array2D<CGeoCube> m_zgField;
 	Array2D<CPlacement> m_zpField;
 	Array2D<IViewBuilding*> viewObjects;
@@ -29,7 +29,7 @@ public:
 	{}
 
 	template<typename T>
-	void tryBuildField(const int x, const int y)
+	void tryBuildOnField(const int x, const int y)
 	{
 		this->lPlayingField->placeBuilding<T>(x, y);
 	}

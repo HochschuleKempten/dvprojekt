@@ -69,7 +69,7 @@ void VMaster::tick(float fTime, float fTimeDelta)
 					int i = std::stoi(koord[1]);
 					int j = std::stoi(koord[2]);
 
-					dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)])->tryBuildField<LCoalPowerPlant>(i, j);
+					dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)])->tryBuildOnField<LCoalPowerPlant>(i, j);
 				}
 
 			}
@@ -97,7 +97,7 @@ void VMaster::tick(float fTime, float fTimeDelta)
 					int i = std::stoi(koord[1]);
 					int j = std::stoi(koord[2]);
 
-					dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)])->tryBuildField<LHydroelectricPowerPlant>(i, j);
+					dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)])->tryBuildOnField<LHydroelectricPowerPlant>(i, j);
 				}
 
 			}
