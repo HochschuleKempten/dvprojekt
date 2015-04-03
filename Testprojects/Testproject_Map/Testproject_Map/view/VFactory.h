@@ -25,6 +25,14 @@ public:
 
 	virtual IVPowerPlant* createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant);
 
+	virtual IVPowerPlant* createNuclearPowerPlant(LNuclearPowerPlant* powerPlant);
+
+	virtual IVPowerPlant* createOilRefinery(LOilRefinery* powerplant);
+
+	virtual IVPowerPlant* createSolarPowerPlant(LSolarPowerPlant* powerPlant);
+
+	virtual IVPowerPlant* createWindmillPowerPlant(LWindmillPowerPlant* powerPlant);
+
 	virtual IVUI* createUi(LUI* lUi);
 };
 
