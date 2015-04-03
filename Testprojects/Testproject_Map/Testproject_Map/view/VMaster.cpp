@@ -40,6 +40,10 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 
 	m_zs.AddPlacement(&m_zpCamera);
 	m_zpCamera.AddCamera(&m_zc);
+	
+	m_zpCamera.TranslateZ(50.0);
+	m_zpCamera.RotateXDelta(0.3 * PI);
+
 	m_zs.AddParallelLight(&m_zl);
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
 			  CColor(1.0f, 1.0f, 1.0f));

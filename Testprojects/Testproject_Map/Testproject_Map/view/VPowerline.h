@@ -1,12 +1,14 @@
 #pragma once
 
 #include "../logic/LPowerLine.h"
+#include "../logic/IVPowerLine.h"
 #include "IViewBuilding.h"
+
 
 NAMESPACE_VIEW_B
 
 
-class VPowerLine : public IViewBuilding
+class VPowerLine : public IVPowerLine, public IViewBuilding
 {
 private:
 	CPlacement m_zp;
@@ -14,11 +16,11 @@ private:
 	CGeoEllipsoid m_zg;
 
 public:
-	VPowerLine(VMaster* vMaster);
+	VPowerLine(VMaster *vMaster, LPowerLine* lPlant);
 	virtual ~VPowerLine()
 	{}
 
-	virtual void init(const int x, const int y);
+	virtual void initPowerLine(const int x, const int y);
 };
 
 

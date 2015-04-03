@@ -2,6 +2,11 @@
 #include "VPlayingField.h"
 #include "VCoalPowerPlant.h"
 #include "VHydroelectricPowerPlant.h"
+#include "VNuclearPowerPlant.h"
+#include "VOilRefinery.h"
+#include "VSolarPowerPlant.h"
+#include "VWindmillPowerPlant.h"
+#include "VPowerline.h"
 #include "VUI.h"
 
 NAMESPACE_VIEW_B
@@ -20,6 +25,31 @@ IVPowerPlant* VFactory::createCoalPowerPlant(LCoalPowerPlant* powerPlant)
 IVPowerPlant* VFactory::createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant)
 {
 	return new VHydroelectricPowerPlant(vMaster, powerPlant);
+}
+
+IVPowerPlant* VFactory::createNuclearPowerPlant(LNuclearPowerPlant* powerPlant)
+{
+	return new VNuclearPowerPlant(vMaster, powerPlant);
+}
+
+IVPowerPlant* VFactory::createOilRefinery(LOilRefinery* powerPlant)
+{
+	return new VOilRefinery(vMaster, powerPlant);
+}
+
+IVPowerPlant* VFactory::createSolarPowerPlant(LSolarPowerPlant* powerPlant)
+{
+	return new VSolarPowerPlant(vMaster, powerPlant);
+}
+
+IVPowerPlant* VFactory::createWindmillPowerPlant(LWindmillPowerPlant* powerPlant)
+{
+	return new VWindmillPowerPlant(vMaster, powerPlant);
+}
+
+IVPowerLine* VFactory::createPowerLine(LPowerLine* powerLine)
+{
+	return new VPowerLine(vMaster, powerLine);
 }
 
 IVUI* VFactory::createUi(LUI* lUi)
