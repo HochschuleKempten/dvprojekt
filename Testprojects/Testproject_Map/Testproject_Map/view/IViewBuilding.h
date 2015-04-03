@@ -8,10 +8,10 @@ NAMESPACE_VIEW_B
 class IViewBuilding : public IViewObject
 {
 public:
-	IViewBuilding(VMaster* vMaster)
-		: IViewObject(vMaster)
+	inline IViewBuilding(VMaster* vMaster, CPlacement* m_zp)
+		: IViewObject(vMaster, m_zp)
 	{}
-	virtual ~IViewBuilding()
+	inline virtual ~IViewBuilding()
 	{}
 };
 

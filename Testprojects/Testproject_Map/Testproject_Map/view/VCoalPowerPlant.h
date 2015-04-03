@@ -12,6 +12,8 @@ NAMESPACE_VIEW_B
 class VCoalPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:
+	CPlacement m_zp;
+	CMaterial m_zm;
 	CGeoCone m_zg;
 
 public:
@@ -21,7 +23,6 @@ public:
 	{}
 
 	virtual void initPowerPlant(const int x, const int y);
-
 };
 
 

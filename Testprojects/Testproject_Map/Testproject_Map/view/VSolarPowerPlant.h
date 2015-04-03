@@ -6,9 +6,12 @@
 
 NAMESPACE_VIEW_B
 
+
 class VSolarPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:
+	CPlacement m_zp;
+	CMaterial m_zm;
 	CGeoEllipsoid m_zg;
 
 public:
@@ -17,10 +20,6 @@ public:
 	{}
 
 	virtual void initPowerPlant(const int x, const int y);
-
-
-	
-
 };
 
 

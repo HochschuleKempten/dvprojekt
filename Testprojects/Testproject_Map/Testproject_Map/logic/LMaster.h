@@ -1,27 +1,27 @@
 #pragma once
 
+#include "IVTickObserver.h"
 #include "LUI.h"
 
 class IVMaster;
 class LPlayingField;
 class LPlayer;
-class LUI;
 
-class LMaster
+class LMaster : public IVTickObserver
 {
 
 private:
 	IVMaster* vMaster;
 	LPlayingField* lPlayingField;
 	LPlayer* lPlayer;
-	LUI* lUi;
+	LUI lUi;
 
 public:
 	LMaster(IVMaster* vMaster);
 	~LMaster();
 
 	void startNewGame();
-	void tick(float fTime, float fTimeDelta);
+	virtual void tick(const float fTimeDelta);
 
 	LPlayingField* getLPlayingField();
 	IVMaster* getVMaster();

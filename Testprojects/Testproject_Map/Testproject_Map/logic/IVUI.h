@@ -13,6 +13,4 @@ public:
 	{}
 	inline virtual ~IVUI()
 	{}
-
-	virtual void initUI() = 0;
 };

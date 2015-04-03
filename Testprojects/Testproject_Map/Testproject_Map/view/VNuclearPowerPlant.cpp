@@ -5,7 +5,7 @@ NAMESPACE_VIEW_B
 
 
 VNuclearPowerPlant::VNuclearPowerPlant(VMaster* vMaster, LNuclearPowerPlant* lPlant)
-: IViewBuilding(vMaster), IVPowerPlant(lPlant)
+	: IViewBuilding(vMaster, &m_zp), IVPowerPlant(lPlant)
 {
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
 	m_zg.Init(CHVector(1.5, 2.6, 0.8), &m_zm);
@@ -17,5 +17,6 @@ void VNuclearPowerPlant::initPowerPlant(const int x, const int y)
 {
 	vMaster->getPlayingField()->placeObject(this, x, y);
 }
+
 
 NAMESPACE_VIEW_E

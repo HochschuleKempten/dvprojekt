@@ -1,11 +1,15 @@
 #include "LMaster.h"
 #include "LPlayingField.h"
 #include "LUI.h"
+#include "IVMaster.h"
 
 LMaster::LMaster(IVMaster* vMaster)
 	: vMaster(vMaster),
-	lPlayer(lPlayer)
-{}
+	lPlayer(lPlayer),
+	lUi(this)
+{
+	vMaster->registerObserver(this);
+}
 
 LMaster::~LMaster()
 {
@@ -16,12 +20,9 @@ void LMaster::startNewGame()
 {
 	lPlayingField = new LPlayingField(this);
 	lPlayingField->initVPlayingField();
-
-	lUi = new LUI(this);
-	lUi->initVUi();
 }
 
-void LMaster::tick(float fTime, float fTimeDelta)
+void LMaster::tick(const float fTimeDelta)
 {
 
 }

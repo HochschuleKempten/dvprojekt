@@ -10,6 +10,8 @@ NAMESPACE_VIEW_B
 class VNuclearPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:
+	CPlacement m_zp;
+	CMaterial m_zm;
 	CGeoEllipsoid m_zg;
 
 public:
@@ -17,11 +19,7 @@ public:
 	virtual ~VNuclearPowerPlant()
 	{}
 
-	virtual void initPowerPlant(const int x, const int y);
-
-
-
-	
+	virtual void initPowerPlant(const int x, const int y);	
 };
 
 

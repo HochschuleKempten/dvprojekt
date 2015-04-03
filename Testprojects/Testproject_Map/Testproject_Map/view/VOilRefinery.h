@@ -6,9 +6,12 @@
 
 NAMESPACE_VIEW_B
 
+
 class VOilRefinery : public IVPowerPlant, public IViewBuilding
 {
 private:
+	CPlacement m_zp;
+	CMaterial m_zm;
 	CGeoEllipsoid m_zg;
 
 public:

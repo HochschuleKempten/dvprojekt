@@ -5,7 +5,7 @@ NAMESPACE_VIEW_B
 
 
 VCoalPowerPlant::VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant)
-	: IViewBuilding(vMaster), IVPowerPlant(lPlant)
+	: IViewBuilding(vMaster, &m_zp), IVPowerPlant(lPlant)
 {
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
 	m_zg.Init(2.0, 2.0, &m_zm, 24, true);

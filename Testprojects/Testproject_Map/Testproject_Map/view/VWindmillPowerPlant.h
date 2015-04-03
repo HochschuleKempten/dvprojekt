@@ -1,14 +1,19 @@
 # pragma once
 
+#include "../logic/LUtility.h"
 #include "../logic/IVPowerPlant.h"
 #include "../logic/LWindmillPowerPlant.h"
+#include "../logic/IVTickObserver.h"
 #include "IViewBuilding.h"
 
 NAMESPACE_VIEW_B
 
-class VWindmillPowerPlant : public IVPowerPlant, public IViewBuilding
+
+class VWindmillPowerPlant : public IVPowerPlant, public IViewBuilding, public IVTickObserver
 {
 private:
+	CPlacement m_zp;
+	CMaterial m_zm;
 	CGeoEllipsoid m_zg;
 	//TODO (V) Windkraftwerk einbauen
 
@@ -19,8 +24,10 @@ public:
 
 	virtual void initPowerPlant(const int x, const int y);
      
-
-		
+	inline virtual void tick(const float fTimeDelta)
+	{
+		//TODO (V) rotate windmill
+	}
 
 };
 

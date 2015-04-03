@@ -43,15 +43,16 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 	m_zs.AddParallelLight(&m_zl);
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
 			  CColor(1.0f, 1.0f, 1.0f));
+
+	vUi->initUI();
 }
 
 void VMaster::tick(float fTime, float fTimeDelta)
 {
 	//PERFORMANCE make as much functions inline as possible
 
-	vUi->handleInput(fTimeDelta);
-	lMaster->tick(fTime, fTimeDelta);
 	m_zr.Tick(fTimeDelta);
+	updateTick(fTimeDelta);
 }
 
 IVFactory* VMaster::getFactory()

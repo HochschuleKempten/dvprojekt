@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../logic/IVUI.h"
+#include "../logic/IVTickObserver.h"
 #include "VGeneral.h"
 
 NAMESPACE_VIEW_B
@@ -8,7 +9,7 @@ NAMESPACE_VIEW_B
 
 class VMaster;
 
-class VUI : public IVUI
+class VUI : public IVUI, public IVTickObserver
 {
 private:
 	VMaster* vMaster;
@@ -16,16 +17,20 @@ private:
 	CDeviceCursor m_zkCursor;
 	CDeviceMouse m_zkMouse;
 
+	void handleInput(float fTimeDelta);
+
 public:
-	inline VUI(VMaster* vMaster, LUI* lUi)
-		: vMaster(vMaster), IVUI(lUi)
-	{}
+	VUI(VMaster* vMaster, LUI* lUi);
 	inline virtual ~VUI()
 	{}
 
-	virtual void initUI();
+	void initUI();
 
-	void handleInput(float fTimeDelta);
+	inline virtual void tick(const float fTimeDelta)
+	{
+		handleInput(fTimeDelta);
+	}
+
 };
 
 

@@ -12,6 +12,4 @@ private:
 public:
 	LUI(LMaster* lMaster);
 	~LUI();
-
-	void initVUi();
 };

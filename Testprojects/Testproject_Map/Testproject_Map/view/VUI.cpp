@@ -6,10 +6,15 @@
 NAMESPACE_VIEW_B
 
 
-void VUI::initUI()
+VUI::VUI(VMaster* vMaster, LUI* lUi)
+	: vMaster(vMaster), IVUI(lUi)
 {
 	vMaster->setVUI(this);
+	vMaster->registerObserver(this);
+}
 
+void VUI::initUI()
+{
 	vMaster->m_zf.AddDeviceKeyboard(&m_zkKeyboard);
 	vMaster->m_zf.AddDeviceCursor(&m_zkCursor);
 	vMaster->m_zf.AddDeviceMouse(&m_zkMouse);

@@ -6,6 +6,7 @@
 #include <sstream>
 #include <regex>
 #include <typeinfo>
+#include <Windows.h>
 
 inline std::vector<std::string> split(std::string str, const char delimiter)
 {

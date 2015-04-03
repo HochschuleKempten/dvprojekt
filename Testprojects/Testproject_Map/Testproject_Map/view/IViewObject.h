@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../logic/LUtility.h"
 #include "VGeneral.h"
 
 NAMESPACE_VIEW_B
@@ -10,20 +11,21 @@ class VMaster;
 class IViewObject
 {
 protected:
-	CPlacement m_zp;//TODO (V) redesign with first real building
-	CMaterial m_zm;//TODO (V) this may will be unecessary, delete it
+	CPlacement* m_zp = nullptr;
 	VMaster* vMaster;
 
 public:
-	IViewObject(VMaster* vMaster)
-		: vMaster(vMaster)
+	inline IViewObject(VMaster* vMaster, CPlacement* m_zp)
+		: vMaster(vMaster), m_zp(m_zp)
 	{}
-	virtual ~IViewObject()
+	inline virtual ~IViewObject()
 	{}
 
-	CPlacement* getPlacement()
+	inline CPlacement* getPlacement()
 	{
-		return &m_zp;
+		ASSERT(m_zp != nullptr, "The placement is not initialized");
+
+		return m_zp;
 	}
 };
 

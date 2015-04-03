@@ -10,6 +10,8 @@ NAMESPACE_VIEW_B
 class VHydroelectricPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:
+	CPlacement m_zp;
+	CMaterial m_zm;
 	CGeoEllipsoid m_zg;
 
 public:

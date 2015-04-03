@@ -138,6 +138,7 @@
     <ClInclude Include="logic\IVMaster.h" />
     <ClInclude Include="logic\ILBuilding.h" />
     <ClInclude Include="logic\IVPowerPlant.h" />
+    <ClInclude Include="logic\IVTickObserver.h" />
     <ClInclude Include="logic\IVUI.h" />
     <ClInclude Include="logic\LField.h" />
     <ClInclude Include="logic\LCoalPowerPlant.h" />

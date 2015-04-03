@@ -8,13 +8,7 @@ LUI::LUI(LMaster* lMaster)
 	: lMaster(lMaster), vUi(this->lMaster->getVMaster()->getFactory()->createUi(this))
 {}
 
-
 LUI::~LUI()
 {
 	delete vUi;
-}
-
-void LUI::initVUi()
-{
-	vUi->initUI();
 }
