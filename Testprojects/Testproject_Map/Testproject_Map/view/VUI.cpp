@@ -18,6 +18,13 @@ void VUI::initUI()
 void VUI::handleInput(float fTimeDelta)
 {
 	m_zkKeyboard.PlaceWASD(vMaster->m_zpCamera, fTimeDelta);
+	m_zkKeyboard.SetWASDTranslationSensitivity(100.0);
+	m_zkKeyboard.SetWASDRotationSensitivity(2.0);
+    m_zkKeyboard.SetWASDLevelMin(100.0);
+	m_zkKeyboard.SetWASDLevelMax(200.0);
+
+
+
 
 	/* Picking */
 	static bool pickingActive = false;
