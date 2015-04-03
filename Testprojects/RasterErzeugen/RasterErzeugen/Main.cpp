@@ -11,7 +11,7 @@ using namespace cv;
 void rotateCenter(cv::Mat& src, double angle, cv::Mat& dst)
 {
 	int len = std::max(src.cols, src.rows);
-	cv::Point2f pt(len / 2., len / 2.);
+	cv::Point2f pt(len / 2. - 0.5, len / 2. - 0.5);
 	cv::Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);
 
 	cv::warpAffine(src, dst, r, cv::Size(len, len));
@@ -19,12 +19,18 @@ void rotateCenter(cv::Mat& src, double angle, cv::Mat& dst)
 
 int main()
 {
-	string name = "LuftaufnahmeBumpLight";
-	Mat img = imread(name + string(".jpg"));
-
+	//Settings
+	string name = "LuftaufnahmeBump";
 	int rasterSize = 6;
+
+	Mat img = imread(name + string(".jpg"));
 	int height = img.rows / rasterSize;
 	int width = img.cols / rasterSize;
+
+	if (height != width) {
+		cout << "The image needs to have an aspect ratio of 1:1, abort" << endl;
+		return -1;
+	}
 
 	for (int rowIdx = 0; rowIdx < rasterSize; rowIdx++) {
 		for (int colIdx = 0; colIdx < rasterSize; colIdx++) {
@@ -36,13 +42,14 @@ int main()
 			 * y
 			 */
 			Mat field = img(Rect(colIdx * height, rowIdx * width, width, height)).clone();
-			Mat rotMat = (Mat_<float>(2, 2) << 0, 1,
-											   1, 0);
-			rotateCenter(field, 180, field);	//CGeoCube needs to be rotated by 180°
-			//Mat erg = rotMat * field;
+
+			//CGeoCube needs to be rotated by 180°
+			//rotateCenter(field, 180, field);
+			flip(field, field, -1);
+
 			imwrite(name + to_string(rowIdx) + string("_") + to_string(colIdx) + string(".jpg"), field);
 		}
 	}
 
-	std::cout << "Everything done" << std::endl;
+	cout << "Everything done" << endl;
 }

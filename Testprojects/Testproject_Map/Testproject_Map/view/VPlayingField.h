@@ -18,7 +18,6 @@ private:
 	CMaterial m_zm;
 	const int fieldSize = 2;
 	//TODO (V) Neue Struktur der Placements
-	//TODO (V) Sicht auf das Spielfeld anpassen
 	Array2D<CGeoCube> m_zgField;
 	Array2D<CPlacement> m_zpField;
 	Array2D<IViewBuilding*> viewObjects;
@@ -35,6 +34,7 @@ public:
 	virtual ~VPlayingField()
 	{}
 
+	//TODO (V) remove building again
 	template<typename T>
 	void tryBuildOnField(const int x, const int y)
 	{

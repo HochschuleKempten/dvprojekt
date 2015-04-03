@@ -16,27 +16,29 @@ void VPlayingField::initPlayingField()
 	//m_zm.MakeTextureDiffuse("textures\\_original.jpg");
 	CHVector size(fieldSize, fieldSize, 0.5);
 	std::stringstream stream;
+	std::string textureDiffuse;
+	std::string textureBump;
 
-	for (int i = 0; i < m_zgField.getRows(); i++) {
-		for (int j = 0; j < m_zgField.getRows(); j++) {
+	for (int rowIdx = 0; rowIdx < m_zgField.getRows(); rowIdx++) {
+		for (int colIdx = 0; colIdx < m_zgField.getRows(); colIdx++) {
 			stream.clear();
 			stream.str("");
 
-			stream << getClassName(this) << ";" << i << ";" << j;
+			stream << getClassName(this) << ";" << rowIdx << ";" << colIdx;
 
-			std::string textureDiffuse = std::string("textures/LuftaufnahmeDiffuse") + std::to_string(i) + std::string("_") + std::to_string(j) + std::string(".jpg");
-			std::string textureBump = std::string("textures/LuftaufnahmeBumpLight") + std::to_string(i) + std::string("_") + std::to_string(j) + std::string(".jpg");
-			m_zmMaterials[i][j].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
-			m_zmMaterials[i][j].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
-			//m_zgField[i][j].Init(size, &m_zm);
-			m_zgField[i][j].Init(size, &m_zmMaterials[i][j]);
-			m_zgField[i][j].SetName(stream.str().c_str());
-			m_zpField[i][j].AddGeo(&m_zgField[i][j]);
-			m_zpField[i][j].SetName(stream.str().c_str());
-			m_zp.AddPlacement(&m_zpField[i][j]);
+			textureDiffuse = std::string("textures/LuftaufnahmeDiffuse") + std::to_string(rowIdx) + std::string("_") + std::to_string(colIdx) + std::string(".jpg");
+			textureBump = std::string("textures/LuftaufnahmeBump") + std::to_string(rowIdx) + std::string("_") + std::to_string(colIdx) + std::string(".jpg");
+			m_zmMaterials[rowIdx][colIdx].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
+			m_zmMaterials[rowIdx][colIdx].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
+			//m_zgField[rowIdx][colIdx].Init(size, &m_zm);
+			m_zgField[rowIdx][colIdx].Init(size, &m_zmMaterials[rowIdx][colIdx]);
+			m_zgField[rowIdx][colIdx].SetName(stream.str().c_str());
+			m_zpField[rowIdx][colIdx].AddGeo(&m_zgField[rowIdx][colIdx]);
+			m_zpField[rowIdx][colIdx].SetName(stream.str().c_str());
+			m_zp.AddPlacement(&m_zpField[rowIdx][colIdx]);
 
-			m_zpField[i][j].TranslateX(j * (fieldSize * fieldSize - 0.0));
-			m_zpField[i][j].TranslateYDelta(i * (fieldSize * fieldSize - 0.0) * -1);
+			m_zpField[rowIdx][colIdx].TranslateX(colIdx * (fieldSize * fieldSize - 0.0));
+			m_zpField[rowIdx][colIdx].TranslateYDelta(rowIdx * (fieldSize * fieldSize - 0.0) * -1);
 		}
 	}
 
