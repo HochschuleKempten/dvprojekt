@@ -10,7 +10,6 @@ LMaster::LMaster(IVMaster* vMaster)
 LMaster::~LMaster()
 {
 	delete lPlayingField;
-	delete lUi;
 }
 
 void LMaster::startNewGame()

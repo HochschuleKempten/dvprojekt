@@ -10,8 +10,8 @@ class VMaster;
 class IViewObject
 {
 protected:
-	CPlacement m_zp;
-	CMaterial m_zm;
+	CPlacement m_zp;//TODO (V) redesign with first real building
+	CMaterial m_zm;//TODO (V) this may will be unecessary, delete it
 	VMaster* vMaster;
 
 public:

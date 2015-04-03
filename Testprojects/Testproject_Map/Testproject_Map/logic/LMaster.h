@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LUI.h"
+
 class IVMaster;
 class LPlayingField;
 class LPlayer;

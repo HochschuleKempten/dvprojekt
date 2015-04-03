@@ -6,6 +6,7 @@
 
 NAMESPACE_VIEW_B
 
+
 class VNuclearPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:

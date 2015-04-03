@@ -6,7 +6,7 @@
 #include "IVPowerPlant.h"
 
 LHydroelectricPowerPlant::LHydroelectricPowerPlant(const int costs, const int energyValue, LPlayingField* lPlayingField, const int x, const int y)
-	:ILPowerPlant(costs, energyValue, lPlayingField, x, y, lPlayingField->getLMaster()->getVMaster()->getFactory()->createHydroelectricPowerPlant(this))//TODO (V) fill with concrete View Object
+	:ILPowerPlant(costs, energyValue, lPlayingField, x, y, lPlayingField->getLMaster()->getVMaster()->getFactory()->createHydroelectricPowerPlant(this))
 {
 	vPowerPlant->initPowerPlant(x, y);
 }

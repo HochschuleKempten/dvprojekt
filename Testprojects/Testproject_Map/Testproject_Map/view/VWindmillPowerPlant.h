@@ -10,6 +10,7 @@ class VWindmillPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:
 	CGeoEllipsoid m_zg;
+	//TODO (V) Windkraftwerk einbauen
 
 public:
 	VWindmillPowerPlant(VMaster *vMaster, LWindmillPowerPlant* lPlant);
