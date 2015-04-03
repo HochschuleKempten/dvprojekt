@@ -33,6 +33,8 @@ public:
 
 	virtual IVPowerPlant* createWindmillPowerPlant(LWindmillPowerPlant* powerPlant);
 
+	virtual IVPowerLine* createPowerLine(LPowerLine* powerLine);
+
 	virtual IVUI* createUi(LUI* lUi);
 };
 

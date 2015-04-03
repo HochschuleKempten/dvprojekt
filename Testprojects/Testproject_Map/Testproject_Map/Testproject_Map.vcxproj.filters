@@ -161,6 +161,12 @@
     <ClInclude Include="view\VWindmillPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="logic\IVPowerLine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\ILPowerLine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">

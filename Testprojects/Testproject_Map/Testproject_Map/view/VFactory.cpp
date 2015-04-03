@@ -6,6 +6,7 @@
 #include "VOilRefinery.h"
 #include "VSolarPowerPlant.h"
 #include "VWindmillPowerPlant.h"
+#include "VPowerline.h"
 #include "VUI.h"
 
 NAMESPACE_VIEW_B
@@ -44,6 +45,11 @@ IVPowerPlant* VFactory::createSolarPowerPlant(LSolarPowerPlant* powerPlant)
 IVPowerPlant* VFactory::createWindmillPowerPlant(LWindmillPowerPlant* powerPlant)
 {
 	return new VWindmillPowerPlant(vMaster, powerPlant);
+}
+
+IVPowerLine* VFactory::createPowerLine(LPowerLine* powerLine)
+{
+	return new VPowerLine(vMaster, powerLine);
 }
 
 IVUI* VFactory::createUi(LUI* lUi)

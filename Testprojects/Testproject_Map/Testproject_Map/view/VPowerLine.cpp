@@ -4,8 +4,8 @@
 NAMESPACE_VIEW_B 
 
 
-VPowerLine::VPowerLine(VMaster* vMaster)
-: IViewBuilding(vMaster)
+VPowerLine::VPowerLine(VMaster* vMaster, LPowerLine* lpowerLine)
+: IViewBuilding(vMaster), IVPowerLine(lpowerLine)
 {
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
 	m_zg.Init(CHVector(1.5, 2.6, 0.8), &m_zm);
@@ -13,7 +13,7 @@ VPowerLine::VPowerLine(VMaster* vMaster)
 	m_zp.AddGeo(&m_zg);
 }
 
-void VPowerLine::init(const int x, const int y)
+void VPowerLine::initPowerLine(const int x, const int y)
 {
 	vMaster->getPlayingField()->placeObject(this, x, y);
 }
