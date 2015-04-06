@@ -90,7 +90,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
     // display the window on the screen
-    ShowWindow(hWnd, nCmdShow);
+	ShowWindow(hWnd, nCmdShow);
   
     // Game Init
 	g_pgame = (CGame*)(new CGame());

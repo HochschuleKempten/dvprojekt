@@ -7,8 +7,7 @@ CGame::CGame(void) {
 }
 
 CGame::~CGame(void) {
-	delete m_pClient;
-	delete m_pIOService;
+	delete m_pComputer;
 }
 
 void CGame::Init(HWND hwnd, CSplash * psplash) {
@@ -24,6 +23,15 @@ void CGame::Init(HWND hwnd, CSplash * psplash) {
 	m_zmLogo.MakeTextureDiffuse("textures\\VektoriaLogo_400x400.bmp");
 	m_zmBlackMaterial.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmWhiteMaterial.MakeTextureSprite("textures\\white_image.jpg");
+
+	// font
+	m_wfDefaultFont.Init("fonts\\default.jpeg", false);
+	m_wfDefaultFont.SetTableSize(16, 6);
+	m_wfDefaultFont.SetTableStartASCII(0);
+
+	// writing
+	m_zwLog.Init(CFloatRect(0, 0, 0.5f, 0.02f), 100, &m_wfDefaultFont);
+	m_zv.AddWriting(&m_zwLog);
 
 	// background
 	m_zBackground.InitFull(&m_zmWhiteMaterial);
@@ -55,19 +63,11 @@ void CGame::Init(HWND hwnd, CSplash * psplash) {
 	m_zr.AddScene(&m_zs);
 
 	// init network
-	m_pIOService = new io_service;
+	m_fLastSendTime = 0;
 
-	ip::tcp::resolver resolver(*m_pIOService);
-	ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve({ "localhost", "1234" });
-
-	m_pClient = new CClient(*m_pIOService);
-	m_pClient->do_connect(endpoint_iterator);
-
-	m_threadClient = boost::thread([this]() {
-		m_pIOService->run();
-	});
-
-	m_fTimeSinceLastSend = 0;
+	// change cout dest
+	outFile = std::ofstream("cout.txt");
+	std::cout.rdbuf(outFile.rdbuf());
 }
 
 void CGame::Tick(float fTime, float fTimeDelta) {
@@ -75,24 +75,36 @@ void CGame::Tick(float fTime, float fTimeDelta) {
 
 	m_zdKeyboard.PlaceWASD(m_zpCamera, fTimeDelta, true);
 
-	if (m_fTimeSinceLastSend > 1) {
-		std::string text = "XY";
-		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleXY());
-		text += "XZ";
-		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleXZ());
-		text += "YX";
-		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleYX());
-		text += "YZ";
-		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleYZ());
-		text += "ZX";
-		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleZX());
-		text += "ZY";
-		text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleZY());
+	//m_zwLog.PrintF("abc123ABC");
 
-		m_pClient->write(CMessage(text.data()));
-		m_fTimeSinceLastSend = 0;
+	if (m_pComputer != 0) {
+		if (m_pComputer->isConnected() && fTime - m_fLastSendTime > 1) {
+			std::string text = "XY";
+			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleXY());
+			text += "XZ";
+			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleXZ());
+			text += "YX";
+			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleYX());
+			text += "YZ";
+			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleYZ());
+			text += "ZX";
+			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleZX());
+			text += "ZY";
+			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleZY());
+
+			m_pComputer->write(CMessage(text.data()));
+			m_fLastSendTime = fTime;
+		}
 	} else {
-		m_fTimeSinceLastSend += fTimeDelta;
+		if (m_zdKeyboard.GetKey() == 0x1F) { // "S"
+			m_pComputer = new CServer(1234);
+			m_pComputer->start();
+			//m_pComputer->setConsole(&m_zwLog);
+		} else if (m_zdKeyboard.GetKey() == 0x2E) { // "C"
+			m_pComputer = new CClient("localhost", "1234");
+			m_pComputer->start();
+			//m_pComputer->setConsole(&m_zwLog);
+		}
 	}
 	
 	m_zr.Tick(fTimeDelta);

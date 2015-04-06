@@ -51,11 +51,9 @@
 #endif
 
 #include "Client.h"
+#include "Server.h"
 #include "Vektoria\Root.h"
 #include "VektoriaMath\Util.h"
-#include <thread>
-#include <boost\thread\thread.hpp>
-
 
 using namespace Vektoria;
 
@@ -83,10 +81,13 @@ private:
 
 	CGeoCube m_zgCube;
 	CBackground m_zBackground;
+	CWriting m_zwLog;
 
 	CMaterial m_zmLogo;
 	CMaterial m_zmBlackMaterial;
 	CMaterial m_zmWhiteMaterial;
+
+	CWritingFont m_wfDefaultFont;
 
 	CPlacement m_zpCamera;
 	CPlacement m_zpCube;
@@ -94,10 +95,10 @@ private:
 	CDeviceKeyboard m_zdKeyboard;
 	CDeviceMouse m_zdMouse;
 
-	CClient* m_pClient;
-	boost::thread m_threadClient;
-	io_service* m_pIOService;
-	float m_fTimeSinceLastSend;
+	CComputer* m_pComputer = 0;
+	float m_fLastSendTime;
+
+	std::ofstream outFile;
 };
 
 

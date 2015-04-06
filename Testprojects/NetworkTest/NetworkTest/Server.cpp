@@ -1,94 +1,72 @@
 #include "Server.h"
-#include <boost\asio\write.hpp>
-#include <boost\asio\read.hpp>
+#include <boost\asio\placeholders.hpp>
 #include <iostream>
 
-CServer::CServer(io_service& io_service, const ip::tcp::endpoint& endpoint) : 
-	m_io_service(io_service), m_acceptor(io_service, endpoint), m_socket(io_service) {
+CServer::CServer(int port) :
+CComputer(), m_acceptor(m_io_service, ip::tcp::endpoint(ip::tcp::v4(), port)) {
 }
 
 CServer::~CServer() {
 }
 
-void CServer::close() {
-	m_io_service.post(
-		[this]() {
-			m_socket.close(); 
-		}
-	);
-}
-
-void CServer::write(const CMessage& msg) {
-	m_io_service.post(
-		[this, msg]() {
-			bool write_in_progress = !m_dequeMessageWrite.empty();
-			m_dequeMessageWrite.push_back(msg);
-
-			if (!write_in_progress) {
-				do_write();
-			}
-		}
-	);
-}
-
-void CServer::do_accept() {
+void CServer::connect() {
 	m_acceptor.async_accept(m_socket, 
-		[this](boost::system::error_code ec) {
-
-			if (!ec) {
-				std::cout << "Connected to client " << this->m_socket.remote_endpoint() << std::endl;
-				do_readHeader();
-			}
-		}
+		boost::bind(&CServer::acceptCompleteHandler, this, placeholders::error)
 	);
 }
 
-void CServer::do_write() {
-	async_write(m_socket,
-		buffer(m_dequeMessageWrite.front().getData(), m_dequeMessageWrite.front().getLength()),
-		[this](error_code ec, std::size_t length) {
-
-			if (!ec) {
-				m_dequeMessageWrite.pop_front();
-
-				if (!m_dequeMessageWrite.empty()) {
-					do_write();
-				}
-			} else {
-				m_socket.close();
-			}
+void CServer::acceptCompleteHandler(const boost::system::error_code& ec) {
+	if (!ec) {
+		if (m_pzwConsole != 0) {
+			m_pzwConsole->PrintString("Connected to client");
+		} else {
+			std::cout << "Connected to client " << m_socket.remote_endpoint() << std::endl;
 		}
-	);
+		readHeader();
+	} else {
+		if (m_pzwConsole != 0) {
+			char acText[20];
+			memcpy(acText, ec.message().data(), 20);
+			m_pzwConsole->PrintString(acText);
+		} else {
+			std::cout << "Connecting to client failed: " << ec.message() << std::endl;
+		}
+	}
 }
 
+void CServer::writeCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+	if (!ec) {
+		m_dequeMessageWrite.pop_front();
 
-void CServer::do_readHeader() {
-	async_read(m_socket,
-		buffer(m_messageRead.getData(), CMessage::headerLength),
-		[this](error_code ec, std::size_t length) {
-
-			if (!ec && m_messageRead.decodeHeader()) {
-				do_readBody();
-			} else {
-				m_socket.close();
-			}
+		if (!m_dequeMessageWrite.empty()) {
+			do_write();
 		}
-	);
+	} else {
+		m_socket.close();
+	}
 }
 
-void CServer::do_readBody() {
-	async_read(m_socket,
-		buffer(m_messageRead.getBody(), m_messageRead.getBodyLength()),
-		[this](error_code ec, std::size_t length) {
+void CServer::readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+	if (!ec && m_messageRead.decodeHeader()) {
+		readBody();
+	} else {
+		m_socket.close();
+	}
+}
 
-			if (!ec) {
-				std::cout << ">>";
-				std::cout.write(m_messageRead.getBody(), m_messageRead.getBodyLength());
-				std::cout << "\n";
-				do_readHeader();
-			} else {
-				m_socket.close();
-			}
+void CServer::readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+	if (!ec) {
+		if (m_pzwConsole != 0) {
+			char acText[20];
+			memcpy(acText, m_messageRead.getBody(), 20);
+			m_pzwConsole->PrintString(acText);
+		} else {
+			std::cout << ">>";
+			std::cout.write(m_messageRead.getBody(), m_messageRead.getBodyLength());
+			std::cout << "\n";
 		}
-	);
+		readHeader();
+	} else {
+		m_socket.close();
+	}
 }

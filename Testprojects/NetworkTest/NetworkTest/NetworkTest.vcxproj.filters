@@ -36,6 +36,9 @@
     <ClInclude Include="Server.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Computer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -54,6 +57,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Server.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Computer.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

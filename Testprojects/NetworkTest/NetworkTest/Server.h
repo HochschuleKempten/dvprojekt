@@ -1,32 +1,21 @@
 #pragma once
-#include <boost\asio\io_service.hpp>
-#include <boost\asio\ip\tcp.hpp>
-#include <deque>
-#include "Message.h"
+#include "Computer.h"
 
 using namespace boost::asio;
-using namespace boost::system;
 
-class CServer {
+class CServer : public CComputer {
 public:
-	CServer(io_service& io_service, const ip::tcp::endpoint& endpoint);
+	CServer(int port);
 	~CServer();
 
-	void close();
-	void write(const CMessage& msg);
-
-	void do_accept();
-
 private:
-	void do_write();
-	void do_readHeader();
-	void do_readBody();
+	void connect();
 
-	io_service& m_io_service;
+	void acceptCompleteHandler(const boost::system::error_code& ec);
+	void writeCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+	void readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+	void readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+
 	ip::tcp::acceptor m_acceptor;
-	ip::tcp::socket m_socket;
-
-	CMessage m_messageRead;
-	std::deque<CMessage> m_dequeMessageWrite;
 };
 
