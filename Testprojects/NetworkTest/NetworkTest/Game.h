@@ -97,8 +97,6 @@ private:
 
 	CComputer* m_pComputer = 0;
 	float m_fLastSendTime;
-
-	std::ofstream outFile;
 };
 
 

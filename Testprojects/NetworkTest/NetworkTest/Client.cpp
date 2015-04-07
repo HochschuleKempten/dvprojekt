@@ -20,28 +20,23 @@ void CClient::connect() {
 
 void CClient::connectCompleteHandler(const boost::system::error_code& ec, ip::tcp::resolver::iterator iterator) {
 	if (!ec) {
-		if (m_pzwConsole != 0) {
-			m_pzwConsole->PrintString("Connected to server");
-		} else {
-			std::cout << "Connected to server " << m_socket.remote_endpoint() << std::endl;
-		}
+		std::cout << "Connected to server " << m_socket.remote_endpoint() << std::endl;
+
+		m_dequeTextToPrint.emplace_back("Connected to server " + m_socket.remote_endpoint().address().to_string());
+
 		readHeader();
 	} else {
-		if (m_pzwConsole != 0) {
-			char acText[20];
-			memcpy(acText, ec.message().data(), 20);
-			m_pzwConsole->PrintString(acText);
-		} else {
-			std::cout << "Connecting to server failed: " << ec.message() << std::endl;
-		}
+		std::cout << "Connecting to server failed: " << ec.message() << std::endl;
+
+		m_dequeTextToPrint.emplace_back(ec.message());
 	}
 }
 
 void CClient::writeCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
 	if (!ec) {
-		m_dequeMessageWrite.pop_front();
+		m_dequeMessagesToWrite.pop_front();
 
-		if (!m_dequeMessageWrite.empty()) {
+		if (!m_dequeMessagesToWrite.empty()) {
 			do_write();
 		}
 	} else {
@@ -59,15 +54,12 @@ void CClient::readHeaderCompleteHandler(const boost::system::error_code& ec, std
 
 void CClient::readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
 	if (!ec) {
-		if (m_pzwConsole != 0) {
-			char acText[20];
-			memcpy(acText, m_messageRead.getBody(), 20);
-			m_pzwConsole->PrintString(acText);
-		} else {
-			std::cout << ">>";
-			std::cout.write(m_messageRead.getBody(), m_messageRead.getBodyLength());
-			std::cout << "\n";
-		}
+		std::cout << ">>";
+		std::cout.write(m_messageRead.getBody(), m_messageRead.getBodyLength());
+		std::cout << "\n";
+
+		m_dequeTextToPrint.emplace_back(m_messageRead.getBody(), m_messageRead.getBodyLength());
+
 		readHeader();
 	} else {
 		m_socket.close();

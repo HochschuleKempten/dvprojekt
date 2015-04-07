@@ -19,7 +19,8 @@ public:
 
 	void write(const CMessage& msg);
 
-	void setConsole(Vektoria::CWriting* pConsole);
+	bool isTextLeft();
+	std::string getLatestText();
 
 protected:
 	virtual void connect() = 0;
@@ -36,7 +37,6 @@ protected:
 	ip::tcp::socket m_socket;
 
 	CMessage m_messageRead;
-	std::deque<CMessage> m_dequeMessageWrite;
-
-	Vektoria::CWriting* m_pzwConsole = 0;
+	std::deque<CMessage> m_dequeMessagesToWrite;
+	std::deque<std::string> m_dequeTextToPrint;
 };

@@ -9,7 +9,6 @@ m_io_service(io_service()), m_socket(m_io_service) {
 
 CComputer::~CComputer() {
 	m_thread.join();
-	delete m_pzwConsole;
 }
 
 void CComputer::start() {
@@ -48,8 +47,8 @@ bool CComputer::isConnected() {
 
 void CComputer::write(const CMessage& msg) {
 	m_io_service.post([this, msg]() {
-		bool write_in_progress = !m_dequeMessageWrite.empty();
-		m_dequeMessageWrite.push_back(msg);
+		bool write_in_progress = !m_dequeMessagesToWrite.empty();
+		m_dequeMessagesToWrite.push_back(msg);
 
 		if (!write_in_progress) {
 			do_write();
@@ -57,13 +56,24 @@ void CComputer::write(const CMessage& msg) {
 	});
 }
 
-void CComputer::setConsole(Vektoria::CWriting* pConsole) {
-	m_pzwConsole = pConsole;
+bool CComputer::isTextLeft() {
+	return !m_dequeTextToPrint.empty();
+}
+
+std::string CComputer::getLatestText() {
+	std::string retString = "";
+	
+	if (!m_dequeTextToPrint.empty()) {
+		retString = m_dequeTextToPrint.front();
+		m_dequeTextToPrint.pop_front();
+	}
+
+	return retString;
 }
 
 void CComputer::do_write() {
 	async_write(m_socket,
-		buffer(m_dequeMessageWrite.front().getData(), m_dequeMessageWrite.front().getLength()),
+		buffer(m_dequeMessagesToWrite.front().getData(), m_dequeMessagesToWrite.front().getLength()),
 		boost::bind(&CComputer::writeCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 }

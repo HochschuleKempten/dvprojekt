@@ -25,12 +25,11 @@ void CGame::Init(HWND hwnd, CSplash * psplash) {
 	m_zmWhiteMaterial.MakeTextureSprite("textures\\white_image.jpg");
 
 	// font
-	m_wfDefaultFont.Init("fonts\\default.jpeg", false);
+	m_wfDefaultFont.Init("fonts\\FontArialShadowBlack.png", true);
 	m_wfDefaultFont.SetTableSize(16, 6);
-	m_wfDefaultFont.SetTableStartASCII(0);
 
 	// writing
-	m_zwLog.Init(CFloatRect(0, 0, 0.5f, 0.02f), 100, &m_wfDefaultFont);
+	m_zwLog.Init(CFloatRect(0.01f, 0, 1, 0.05f), 100, &m_wfDefaultFont);
 	m_zv.AddWriting(&m_zwLog);
 
 	// background
@@ -64,10 +63,6 @@ void CGame::Init(HWND hwnd, CSplash * psplash) {
 
 	// init network
 	m_fLastSendTime = 0;
-
-	// change cout dest
-	outFile = std::ofstream("cout.txt");
-	std::cout.rdbuf(outFile.rdbuf());
 }
 
 void CGame::Tick(float fTime, float fTimeDelta) {
@@ -75,9 +70,8 @@ void CGame::Tick(float fTime, float fTimeDelta) {
 
 	m_zdKeyboard.PlaceWASD(m_zpCamera, fTimeDelta, true);
 
-	//m_zwLog.PrintF("abc123ABC");
-
 	if (m_pComputer != 0) {
+
 		if (m_pComputer->isConnected() && fTime - m_fLastSendTime > 1) {
 			std::string text = "XY";
 			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleXY());
@@ -95,15 +89,19 @@ void CGame::Tick(float fTime, float fTimeDelta) {
 			m_pComputer->write(CMessage(text.data()));
 			m_fLastSendTime = fTime;
 		}
+
+		if (m_pComputer->isTextLeft()) {
+			m_zwLog.PrintF(m_pComputer->getLatestText().data());
+		}
 	} else {
+
 		if (m_zdKeyboard.GetKey() == 0x1F) { // "S"
 			m_pComputer = new CServer(1234);
 			m_pComputer->start();
-			//m_pComputer->setConsole(&m_zwLog);
+
 		} else if (m_zdKeyboard.GetKey() == 0x2E) { // "C"
 			m_pComputer = new CClient("localhost", "1234");
 			m_pComputer->start();
-			//m_pComputer->setConsole(&m_zwLog);
 		}
 	}
 	
