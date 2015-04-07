@@ -36,6 +36,8 @@ protected:
 	boost::thread m_thread;
 	ip::tcp::socket m_socket;
 
+	bool m_bConnected;
+
 	CMessage m_messageRead;
 	std::deque<CMessage> m_dequeMessagesToWrite;
 	std::deque<std::string> m_dequeTextToPrint;

@@ -4,7 +4,7 @@
 #include <boost\asio\placeholders.hpp>
 
 CComputer::CComputer() :
-m_io_service(io_service()), m_socket(m_io_service) {
+m_io_service(io_service()), m_socket(m_io_service), m_bConnected(false) {
 }
 
 CComputer::~CComputer() {
@@ -29,11 +29,10 @@ void CComputer::stop() {
 	});
 	m_thread.join();
 
-	if (!isConnected()) {
-		std::cout << "Connection closed" << std::endl;
-	} else {
-		std::cout << "Failed to close connection" << std::endl;
-	}
+	m_bConnected = false;
+
+	std::cout << "Connection closed" << std::endl;
+	m_dequeTextToPrint.emplace_back("Connection closed");
 }
 
 void CComputer::restart() {
@@ -42,7 +41,7 @@ void CComputer::restart() {
 }
 
 bool CComputer::isConnected() {
-	return m_socket.is_open();
+	return m_bConnected;
 }
 
 void CComputer::write(const CMessage& msg) {

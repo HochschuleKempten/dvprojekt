@@ -16,6 +16,7 @@ private:
 	void readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length);
 	void readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length);
 
+	ip::tcp::endpoint m_endpoint;
 	ip::tcp::acceptor m_acceptor;
 };
 

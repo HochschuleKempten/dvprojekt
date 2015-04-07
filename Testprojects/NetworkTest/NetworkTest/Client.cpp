@@ -4,8 +4,8 @@
 #include <iostream>
 
 CClient::CClient(std::string ip, std::string port) :
-CComputer() {
-	m_endpointIterator = ip::tcp::resolver(m_io_service).resolve({ ip, port });
+CComputer(), m_resolver(m_io_service) {
+	m_endpointIterator = ip::tcp::resolver(m_io_service).resolve({ip, port});
 }
 
 CClient::~CClient() {
@@ -21,13 +21,12 @@ void CClient::connect() {
 void CClient::connectCompleteHandler(const boost::system::error_code& ec, ip::tcp::resolver::iterator iterator) {
 	if (!ec) {
 		std::cout << "Connected to server " << m_socket.remote_endpoint() << std::endl;
-
 		m_dequeTextToPrint.emplace_back("Connected to server " + m_socket.remote_endpoint().address().to_string());
 
+		m_bConnected = true;
 		readHeader();
 	} else {
 		std::cout << "Connecting to server failed: " << ec.message() << std::endl;
-
 		m_dequeTextToPrint.emplace_back(ec.message());
 	}
 }

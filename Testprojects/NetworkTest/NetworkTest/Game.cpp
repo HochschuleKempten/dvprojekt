@@ -98,7 +98,6 @@ void CGame::Tick(float fTime, float fTimeDelta) {
 		if (m_zdKeyboard.GetKey() == 0x1F) { // "S"
 			m_pComputer = new CServer(1234);
 			m_pComputer->start();
-
 		} else if (m_zdKeyboard.GetKey() == 0x2E) { // "C"
 			m_pComputer = new CClient("localhost", "1234");
 			m_pComputer->start();
