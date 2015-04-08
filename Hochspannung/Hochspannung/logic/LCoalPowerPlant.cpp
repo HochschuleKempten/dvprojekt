@@ -13,5 +13,4 @@ LCoalPowerPlant::LCoalPowerPlant(const int costs, const int energyValue, LField*
 
 LCoalPowerPlant::~LCoalPowerPlant()
 {
-	delete vPowerPlant;
 }

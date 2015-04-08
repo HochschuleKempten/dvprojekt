@@ -27,29 +27,29 @@ std::shared_ptr<IVPowerPlant> VFactory::createCoalPowerPlant(LCoalPowerPlant* po
 	return std::shared_ptr<IVPowerPlant>(new VCoalPowerPlant(vMaster, powerPlant));
 }
 
-IVPowerPlant* VFactory::createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant)
+std::shared_ptr<IVPowerPlant>VFactory::createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant)
 {
-	return new VHydroelectricPowerPlant(vMaster, powerPlant);
+	return std::shared_ptr<IVPowerPlant>(new VHydroelectricPowerPlant(vMaster, powerPlant));
 }
 
-IVPowerPlant* VFactory::createNuclearPowerPlant(LNuclearPowerPlant* powerPlant)
+std::shared_ptr<IVPowerPlant> VFactory::createNuclearPowerPlant(LNuclearPowerPlant* powerPlant)
 {
-	return new VNuclearPowerPlant(vMaster, powerPlant);
+	return std::shared_ptr<IVPowerPlant>(new VNuclearPowerPlant(vMaster, powerPlant));
 }
 
-IVPowerPlant* VFactory::createOilRefinery(LOilRefinery* powerPlant)
+std::shared_ptr<IVPowerPlant> VFactory::createOilRefinery(LOilRefinery* powerPlant)
 {
-	return new VOilRefinery(vMaster, powerPlant);
+	return std::shared_ptr<IVPowerPlant>(new VOilRefinery(vMaster, powerPlant));
 }
 
-IVPowerPlant* VFactory::createSolarPowerPlant(LSolarPowerPlant* powerPlant)
+std::shared_ptr<IVPowerPlant> VFactory::createSolarPowerPlant(LSolarPowerPlant* powerPlant)
 {
-	return new VSolarPowerPlant(vMaster, powerPlant);
+	return std::shared_ptr<IVPowerPlant>(new VSolarPowerPlant(vMaster, powerPlant));
 }
 
-IVPowerPlant* VFactory::createWindmillPowerPlant(LWindmillPowerPlant* powerPlant)
+std::shared_ptr<IVPowerPlant> VFactory::createWindmillPowerPlant(LWindmillPowerPlant* powerPlant)
 {
-	return new VWindmillPowerPlant(vMaster, powerPlant);
+	return std::shared_ptr<IVPowerPlant>(new VWindmillPowerPlant(vMaster, powerPlant));
 }
 
 IVPowerLine* VFactory::createPowerLine(LPowerLine* powerLine)

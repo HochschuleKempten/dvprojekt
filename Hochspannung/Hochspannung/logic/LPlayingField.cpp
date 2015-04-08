@@ -7,7 +7,9 @@
 #include "IVFactory.h"
 
 LPlayingField::LPlayingField(LMaster* lMaster)
-	: lMaster(lMaster), fieldArray(fieldLength, fieldLength)
+	: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this](LField& obj) { //Lambda-Expression
+	obj.setLPlayingField(this);
+	})
 {
 	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
 }

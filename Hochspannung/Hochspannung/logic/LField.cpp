@@ -1,8 +1,7 @@
 #include "LField.h"
 
 
-LField::LField(LPlayingField* lPlayingField) :
-	lPlayingField(lPlayingField),
+LField::LField() :
 	placingAllowed(true),
 	lBuilding(nullptr)
 {
@@ -12,6 +11,11 @@ LField::LField(LPlayingField* lPlayingField) :
 LField::~LField()
 {
 	removeBuilding();
+}
+
+void LField::setLPlayingField(LPlayingField* lPlayingField)
+{
+	this->lPlayingField = lPlayingField;
 }
 
 bool LField::removeBuilding()

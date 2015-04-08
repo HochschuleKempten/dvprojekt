@@ -12,7 +12,7 @@ private:
 
 public:
 	// initializes this field with isPlacingAllowed = true!
-	LField(LPlayingField* lPlayingField);
+	LField();
 	~LField();
 
 	template <typename T>
@@ -27,6 +27,8 @@ public:
 		return false;
 	}
 
+	// this must be called after construction of this object
+	void setLPlayingField(LPlayingField* lPlayingField);
 	bool removeBuilding();
 	ILBuilding * getBuilding();
 	void setIsPlacingAllowed(bool allowed);

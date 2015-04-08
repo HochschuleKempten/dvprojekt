@@ -24,15 +24,15 @@ public:
 	//virtual IVPowerPlant* createCoalPowerPlant(LCoalPowerPlant* powerPlant);
 	virtual std::shared_ptr<IVPowerPlant> createCoalPowerPlant(LCoalPowerPlant* powerPlant);
 
-	virtual IVPowerPlant* createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant);
-
-	virtual IVPowerPlant* createNuclearPowerPlant(LNuclearPowerPlant* powerPlant);
-
-	virtual IVPowerPlant* createOilRefinery(LOilRefinery* powerplant);
-
-	virtual IVPowerPlant* createSolarPowerPlant(LSolarPowerPlant* powerPlant);
-
-	virtual IVPowerPlant* createWindmillPowerPlant(LWindmillPowerPlant* powerPlant);
+	virtual std::shared_ptr<IVPowerPlant> createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant);
+			
+	virtual std::shared_ptr<IVPowerPlant> createNuclearPowerPlant(LNuclearPowerPlant* powerPlant);
+			
+	virtual std::shared_ptr<IVPowerPlant> createOilRefinery(LOilRefinery* powerplant);
+			
+	virtual std::shared_ptr<IVPowerPlant> createSolarPowerPlant(LSolarPowerPlant* powerPlant);
+			
+	virtual std::shared_ptr<IVPowerPlant> createWindmillPowerPlant(LWindmillPowerPlant* powerPlant);
 
 	virtual IVPowerLine* createPowerLine(LPowerLine* powerLine);
 
