@@ -7,13 +7,12 @@ NAMESPACE_VIEW_B
 
 void VPlayingField::placeObject(IViewBuilding* viewObject, const int x, const int y)
 {
-	viewObjects[x][y] = viewObject;
+	viewObjects[x][y] = shared_ptr<IViewBuilding>(viewObject);
 	m_zpField[x][y].AddPlacement(viewObject->getPlacement());
 }
 
 void VPlayingField::initPlayingField()
 {
-	//m_zm.MakeTextureDiffuse("textures\\_original.jpg");
 	CHVector size(fieldSize, fieldSize, 0.5);
 	std::stringstream stream;
 	std::string textureDiffuse;
@@ -30,7 +29,6 @@ void VPlayingField::initPlayingField()
 			textureBump = std::string("textures/LuftaufnahmeBump") + std::to_string(rowIdx) + std::string("_") + std::to_string(colIdx) + std::string(".jpg");
 			m_zmMaterials[rowIdx][colIdx].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
 			m_zmMaterials[rowIdx][colIdx].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
-			//m_zgField[rowIdx][colIdx].Init(size, &m_zm);
 			m_zgField[rowIdx][colIdx].Init(size, &m_zmMaterials[rowIdx][colIdx]);
 			m_zgField[rowIdx][colIdx].SetName(stream.str().c_str());
 			m_zpField[rowIdx][colIdx].AddGeo(&m_zgField[rowIdx][colIdx]);
@@ -47,6 +45,13 @@ void VPlayingField::initPlayingField()
 	m_zp.SetFrustumCullingOff();//TODO (V) remove this after bugfix
 
 	vMaster->addScenegraph(getClassName(this), this);
+}
+
+void VPlayingField::removeObject(const int x, const int y)
+{
+	//TODO (V) how to get placement?
+	//m_zpField[x][y].SubPlacement(viewObjects[x][y]->getPlacement());
+	//viewObjects[x][y] = nullptr;
 }
 
 

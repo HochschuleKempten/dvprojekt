@@ -51,10 +51,10 @@ void VUI::handleInput(float fTimeDelta)
 				if (koord[0] == getClassName(VPlayingField)) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
 
-					int i = std::stoi(koord[1]);
-					int j = std::stoi(koord[2]);
+					int x = std::stoi(koord[1]);
+					int y = std::stoi(koord[2]);
 
-					dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryBuildOnField<LCoalPowerPlant>(i, j);
+					dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryBuildOnField<LCoalPowerPlant>(x, y);
 				}
 
 			}
@@ -79,10 +79,11 @@ void VUI::handleInput(float fTimeDelta)
 				if (koord[0] == getClassName(VPlayingField)) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
 
-					int i = std::stoi(koord[1]);
-					int j = std::stoi(koord[2]);
+					int x = std::stoi(koord[1]);
+					int y = std::stoi(koord[2]);
 
-					dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryBuildOnField<LHydroelectricPowerPlant>(i, j);
+					dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryRemoveObject(x, y);
+					//dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryBuildOnField<LHydroelectricPowerPlant>(x, y);
 				}
 
 			}

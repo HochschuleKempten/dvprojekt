@@ -35,7 +35,7 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 	m_zf.AddViewport(&m_zv);
 	m_zr.AddScene(&m_zs);
 
-	m_zb.InitFull("textures/red_image.jpg");
+	m_zb.InitFull("textures/black_image.jpg");
 	m_zv.AddBackground(&m_zb);
 
 	m_zs.AddPlacement(&m_zpCamera);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IView.h"
+#include <memory>
 
 class LPlayingField;
 
@@ -17,4 +18,6 @@ public:
 	{}
 
 	virtual void initPlayingField() = 0;
+
+	virtual void removeObject(const int x, const int y) = 0;
 };

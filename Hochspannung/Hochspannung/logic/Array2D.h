@@ -2,6 +2,7 @@
 #define _ARRAY_2D_H_
 
 #include <xutility>
+#include <functional>
 
 template<typename T>
 class Array2D
@@ -58,12 +59,18 @@ private:
 #endif
 
 public:
-	inline Array2D(const size_t rows, const size_t cols)
+	inline Array2D(const size_t rows, const size_t cols, const std::function<void(T& obj)>& callback = nullptr)
 		: data(new T[rows*cols]), rows(rows)
 #ifdef _DEBUG
 		, cols(cols)
 #endif
-	{}
+	{
+		if (callback != nullptr) {
+			for (size_t i = 0; i < rows*cols; i++) {
+				callback(data[i]);
+			}
+		}
+	}
 	inline Array2D(const size_t rows, const size_t cols, const T& default)
 		: Array2D(rows, cols)
 	{

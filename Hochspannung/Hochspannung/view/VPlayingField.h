@@ -20,7 +20,7 @@ private:
 	//TODO (V) Neue Struktur der Placements
 	Array2D<CGeoCube> m_zgField;
 	Array2D<CPlacement> m_zpField;
-	Array2D<IViewBuilding*> viewObjects;
+	Array2D<shared_ptr<IViewBuilding>> viewObjects;
 	Array2D<CMaterial> m_zmMaterials;
 
 public:
@@ -36,14 +36,21 @@ public:
 
 	//TODO (V) remove building again
 	template<typename T>
-	void tryBuildOnField(const int x, const int y)
+	inline void tryBuildOnField(const int x, const int y)
 	{
 		this->lPlayingField->placeBuilding<T>(x, y);
+	}
+
+	inline void tryRemoveObject(const int x, const int y)
+	{
+		lPlayingField->removeBuilding(x, y);
 	}
 
 	void placeObject(IViewBuilding* viewObject, const int x, const int y);
 
 	virtual void initPlayingField();
+
+	virtual void removeObject(const int x, const int y);
 };
 
 

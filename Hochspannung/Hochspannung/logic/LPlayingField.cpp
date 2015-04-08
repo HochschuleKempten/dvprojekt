@@ -34,18 +34,20 @@ int LPlayingField::getFieldLength()
 
 void LPlayingField::removeBuilding(const int x, const int y)
 {
-	LField * selectedField = getField(x,y);
-	delete selectedField->getBuilding();
-	selectedField->setBuilding(nullptr);
+	if (getField(x, y)->removeBuilding()) {
+		vPlayingField->removeObject(x, y);
+	}
+	else {
+		//TODO (All) how to handle error checks?
+	}
 }
-
 
 void LPlayingField::upgradeBuilding(const int x, const int y)
 {
 	LPlayer* selectedPlayer = lMaster->getPlayer();
 	if (selectedPlayer->getMoney() > 50000)
 	{
-		LField * selectedField = &fieldArray[x][y];
+		LField* selectedField = &fieldArray[x][y];
 		selectedField->getBuilding()->upgrade();
 	}
 	// ToDo (FL) Discuss case player dont have enough money
