@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 class LPlayingField;
 
 class IVPlayingField
@@ -15,4 +17,6 @@ public:
 	{}
 
 	virtual void initPlayingField() = 0;
+
+	virtual void removeObject(const int x, const int y) = 0;
 };

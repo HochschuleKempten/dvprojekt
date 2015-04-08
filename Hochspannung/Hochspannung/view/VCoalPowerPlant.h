@@ -8,7 +8,7 @@
 
 NAMESPACE_VIEW_B
 
-
+//TODO (V) move IViewBuilding inherience to  IVPowerPlant
 class VCoalPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:

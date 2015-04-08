@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 class IVPlayingField;
 class IVPowerLine;
 class LPlayingField;
@@ -21,7 +23,8 @@ public:
 	{}
 	virtual ~IVFactory(){};
 	virtual IVPlayingField* createPlayingField(LPlayingField* field) = 0;
-	virtual IVPowerPlant* createCoalPowerPlant(LCoalPowerPlant* powerPlant) = 0;
+	//virtual IVPowerPlant* createCoalPowerPlant(LCoalPowerPlant* powerPlant) = 0;
+	virtual std::shared_ptr<IVPowerPlant> createCoalPowerPlant(LCoalPowerPlant* powerPlant) = 0;
 	virtual IVPowerPlant* createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant) = 0;
 	virtual IVPowerPlant* createNuclearPowerPlant(LNuclearPowerPlant* powerPlant) = 0;
 	virtual IVPowerPlant* createOilRefinery(LOilRefinery* powerPlant) = 0;
