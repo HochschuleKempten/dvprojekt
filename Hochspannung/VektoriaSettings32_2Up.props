@@ -3,8 +3,8 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir>$(USERPROFILE)\Documents\VisualStudioBuild\$(ProjectName)\bin\$(Configuration)_$(Platform)\</OutDir>
-    <IntDir>$(USERPROFILE)\Documents\VisualStudioBuild\$(ProjectName)\cache\$(Configuration)_$(Platform)\</IntDir>
+    <IncludePath>$(DXSDK_DIR)Include;..\..\Lib;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\$(PlatformTarget);$(LibraryPath);..\..\Lib\$(Configuration)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup />
