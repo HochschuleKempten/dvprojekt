@@ -13,9 +13,14 @@ VCoalPowerPlant::VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant)
 	m_zp.AddGeo(&m_zg);
 }
 
-void VCoalPowerPlant::initPowerPlant(const int x, const int y)
+void VCoalPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {
-	vMaster->getPlayingField()->placeObject(this, x, y);
+	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
+
+	std::stringstream stream;
+	stream << getClassName(this) << ";" << x << ";" << y;
+
+	m_zp.SetName(stream.str().c_str());
 }
 
 

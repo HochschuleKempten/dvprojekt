@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 class ILPowerPlant;
 
 class IVPowerPlant
@@ -14,5 +16,5 @@ public:
 	virtual ~IVPowerPlant()
 	{}
 
-	virtual void initPowerPlant(const int x, const int y) = 0;
+	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y) = 0;
 };

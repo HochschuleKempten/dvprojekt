@@ -21,7 +21,6 @@ public:
 
 	virtual IVPlayingField* createPlayingField(LPlayingField* field);
 
-	//virtual IVPowerPlant* createCoalPowerPlant(LCoalPowerPlant* powerPlant);
 	virtual std::shared_ptr<IVPowerPlant> createCoalPowerPlant(LCoalPowerPlant* powerPlant);
 
 	virtual std::shared_ptr<IVPowerPlant> createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant);

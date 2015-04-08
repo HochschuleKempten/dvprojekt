@@ -7,8 +7,9 @@
 #include "IVFactory.h"
 
 LPlayingField::LPlayingField(LMaster* lMaster)
-	: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this](LField& obj) { //Lambda-Expression
-	obj.setLPlayingField(this);
+	: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this] (LField& obj)
+    { //Lambda-Expression
+		obj.setLPlayingField(this);
 	})
 {
 	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
@@ -37,7 +38,7 @@ int LPlayingField::getFieldLength()
 void LPlayingField::removeBuilding(const int x, const int y)
 {
 	if (getField(x, y)->removeBuilding()) {
-		vPlayingField->removeObject(x, y);
+		vPlayingField->objectRemoved(x, y);
 	}
 	else {
 		//TODO (All) how to handle error checks?

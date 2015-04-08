@@ -9,7 +9,7 @@ class ILPowerLine : public ILBuilding
 protected:
 
 	int energyValue;
-	IVPowerLine* vPowerLine;
+	std::shared_ptr<IVPowerLine> vPowerLine;
 
 public:
 	ILPowerLine(const int costs, const int energyValue, LField* lField, IVPowerLine* vPowerLine)

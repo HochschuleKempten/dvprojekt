@@ -2,6 +2,7 @@
 #include "VMaster.h"
 #include "../logic/LUtility.h"
 #include "VPlayingField.h"
+#include "VCoalPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
@@ -79,11 +80,10 @@ void VUI::handleInput(float fTimeDelta)
 				if (koord[0] == getClassName(VPlayingField)) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
 
-					int x = std::stoi(koord[1]);
-					int y = std::stoi(koord[2]);
-
-					dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryRemoveObject(x, y);
-					//dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryBuildOnField<LHydroelectricPowerPlant>(x, y);
+					dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryBuildOnField<LHydroelectricPowerPlant>(std::stoi(koord[1]), std::stoi(koord[2]));
+				}
+				else if (koord[0] == getClassName(VCoalPowerPlant)) {
+					vMaster->getPlayingField()->tryRemoveObject(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
 
 			}

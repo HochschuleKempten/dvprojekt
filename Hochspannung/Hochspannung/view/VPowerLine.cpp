@@ -13,9 +13,9 @@ VPowerLine::VPowerLine(VMaster* vMaster, LPowerLine* lpowerLine)
 	m_zp.AddGeo(&m_zg);
 }
 
-void VPowerLine::initPowerLine(const int x, const int y)
+void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y)
 {
-	vMaster->getPlayingField()->placeObject(this, x, y);
+	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }
 
 

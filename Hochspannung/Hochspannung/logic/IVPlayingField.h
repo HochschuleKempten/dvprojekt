@@ -18,5 +18,5 @@ public:
 
 	virtual void initPlayingField() = 0;
 
-	virtual void removeObject(const int x, const int y) = 0;
+	virtual void objectRemoved(const int x, const int y) = 0;
 };

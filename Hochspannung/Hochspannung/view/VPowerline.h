@@ -20,7 +20,7 @@ public:
 	virtual ~VPowerLine()
 	{}
 
-	virtual void initPowerLine(const int x, const int y);
+	virtual void initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y);
 };
 
 

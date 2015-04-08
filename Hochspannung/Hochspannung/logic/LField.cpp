@@ -1,12 +1,10 @@
 #include "LField.h"
 
-
 LField::LField() :
 	placingAllowed(true),
 	lBuilding(nullptr)
 {
 }
-
 
 LField::~LField()
 {
@@ -30,6 +28,7 @@ bool LField::removeBuilding()
 
 	return false;
 }
+
 ILBuilding* LField::getBuilding()
 {
 	return lBuilding;

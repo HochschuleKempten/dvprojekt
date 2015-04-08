@@ -5,6 +5,7 @@
 #include "../logic/Array2D.h"
 #include "VMaster.h"
 #include "IViewObject.h"
+#include <memory>
 
 NAMESPACE_VIEW_B
 
@@ -47,11 +48,11 @@ public:
 		lPlayingField->removeBuilding(x, y);
 	}
 
-	void placeObject(IViewBuilding* viewObject, const int x, const int y);
+	void placeObject(const std::shared_ptr<IViewBuilding>& objPtr, const int x, const int y);
 
 	virtual void initPlayingField();
 
-	virtual void removeObject(const int x, const int y);
+	virtual void objectRemoved(const int x, const int y);
 };
 
 

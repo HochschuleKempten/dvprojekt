@@ -13,9 +13,9 @@ VNuclearPowerPlant::VNuclearPowerPlant(VMaster* vMaster, LNuclearPowerPlant* lPl
 	m_zp.AddGeo(&m_zg);
 }
 
-void VNuclearPowerPlant::initPowerPlant(const int x, const int y)
+void VNuclearPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {
-	vMaster->getPlayingField()->placeObject(this, x, y);
+	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }
 
 

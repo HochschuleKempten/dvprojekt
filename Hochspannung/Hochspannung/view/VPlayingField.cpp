@@ -5,10 +5,10 @@
 NAMESPACE_VIEW_B
 
 
-void VPlayingField::placeObject(IViewBuilding* viewObject, const int x, const int y)
+void VPlayingField::placeObject(const std::shared_ptr<IViewBuilding>& objPtr, const int x, const int y)
 {
-	viewObjects[x][y] = shared_ptr<IViewBuilding>(viewObject);
-	m_zpField[x][y].AddPlacement(viewObject->getPlacement());
+	viewObjects[x][y] = objPtr;
+	m_zpField[x][y].AddPlacement(objPtr->getPlacement());
 }
 
 void VPlayingField::initPlayingField()
@@ -47,11 +47,11 @@ void VPlayingField::initPlayingField()
 	vMaster->addScenegraph(getClassName(this), this);
 }
 
-void VPlayingField::removeObject(const int x, const int y)
+void VPlayingField::objectRemoved(const int x, const int y)
 {
-	//TODO (V) how to get placement?
-	//m_zpField[x][y].SubPlacement(viewObjects[x][y]->getPlacement());
-	//viewObjects[x][y] = nullptr;
+	CPlacement* back = viewObjects[x][y]->getPlacement();
+	bool erg = m_zpField[x][y].SubPlacement(back);
+	//viewObjects[x][y] = nullptr;	//TODO (V) can not delete object -> engine crash
 }
 
 

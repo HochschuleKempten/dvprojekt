@@ -8,7 +8,7 @@
 LSolarPowerPlant::LSolarPowerPlant(const int costs, const int energyValue, LField* lField, const int x, const int y)
 	:ILPowerPlant(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createSolarPowerPlant(this))
 {
-	vPowerPlant->initPowerPlant(x, y);
+	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }
 
 

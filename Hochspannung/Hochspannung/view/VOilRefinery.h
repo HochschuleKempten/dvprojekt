@@ -19,7 +19,7 @@ public:
 	virtual ~VOilRefinery()
 	{}
 
-	virtual void initPowerPlant(const int x, const int y);
+	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y);
 
 
 	

@@ -17,11 +17,6 @@ IVPlayingField* VFactory::createPlayingField(LPlayingField* field)
 	return new VPlayingField(vMaster, field);
 }
 
-//IVPowerPlant* VFactory::createCoalPowerPlant(LCoalPowerPlant* powerPlant)
-//{
-//	return new VCoalPowerPlant(vMaster, powerPlant);
-//}
-
 std::shared_ptr<IVPowerPlant> VFactory::createCoalPowerPlant(LCoalPowerPlant* powerPlant)
 {
 	return std::shared_ptr<IVPowerPlant>(new VCoalPowerPlant(vMaster, powerPlant));

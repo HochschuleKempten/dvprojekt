@@ -8,7 +8,7 @@
 
 NAMESPACE_VIEW_B
 
-//TODO (V) move IViewBuilding inherience to  IVPowerPlant
+
 class VCoalPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:
@@ -20,9 +20,14 @@ public:
 	VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant);
 
 	virtual ~VCoalPowerPlant()
-	{}
+	{
+		m_zp.SubGeo(&m_zg);
+		m_zp.Fini();
+		m_zg.Fini();
+		m_zm.Fini();
+	}
 
-	virtual void initPowerPlant(const int x, const int y);
+	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y);
 };
 
 
