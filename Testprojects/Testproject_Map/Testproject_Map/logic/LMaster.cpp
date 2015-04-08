@@ -2,10 +2,11 @@
 #include "LPlayingField.h"
 #include "LUI.h"
 #include "IVMaster.h"
+#include "LPlayer.h"
 
 LMaster::LMaster(IVMaster* vMaster)
 	: vMaster(vMaster),
-	lPlayer(lPlayer),
+	lPlayer(new LPlayer()),
 	lUi(this)
 {
 	vMaster->registerObserver(this);

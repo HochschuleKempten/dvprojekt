@@ -10,18 +10,27 @@ LField::LField()
 
 LField::~LField()
 {
-	if (building != nullptr) {
-		delete building;
-	}
+	removeBuilding();
 }
 
-//TODO (L) implement remove building
-//to "remove" a building, set it to null (delete it too?)
 bool LField::setBuilding(ILBuilding* building)
 {
 	if (placingAllowed)
 	{
 		this->building = building;
+		return true;
+	}
+
+	return false;
+}
+
+bool LField::removeBuilding()
+{
+	if (building != nullptr)
+	{
+		delete building;
+		building = nullptr;
+
 		return true;
 	}
 

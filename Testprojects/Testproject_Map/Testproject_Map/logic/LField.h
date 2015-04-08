@@ -14,6 +14,7 @@ public:
 	~LField();
 
 	bool setBuilding(ILBuilding* building);
+	bool removeBuilding();
 	ILBuilding * getBuilding();
 	void setIsPlacingAllowed(bool allowed);
 	bool isPlacingAllowed();

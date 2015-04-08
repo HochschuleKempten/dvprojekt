@@ -31,13 +31,11 @@ public:
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");
 
-		//todo (IP) just for testing, parameter needs to be added (which building has to be build?)
 		//TODO (L) maybe it is better when the field creates the building, just do some checks here
 		ILBuilding* tempPlant = new T(100, 20, this, x, y);
 		getField(x, y)->setBuilding(tempPlant);
 	}
 	
-	//todo (IP) add parameter that specifies the building which has to be placed
 	int getFieldLength();
 	void removeBuilding(const int x, const int y);
 	void upgradeBuilding(const int x, const int y);
