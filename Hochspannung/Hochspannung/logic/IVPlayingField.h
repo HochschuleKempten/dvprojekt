@@ -1,10 +1,8 @@
 #pragma once
 
-#include "IView.h"
-
 class LPlayingField;
 
-class IVPlayingField : public IView
+class IVPlayingField
 {
 protected:
 	LPlayingField* lPlayingField;

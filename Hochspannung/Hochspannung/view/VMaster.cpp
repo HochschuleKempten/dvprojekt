@@ -1,5 +1,4 @@
 #include "VMaster.h"
-#include "../logic/IView.h"
 #include "../logic/LMaster.h"
 #include "../logic/LUtility.h"
 #include "VFactory.h"

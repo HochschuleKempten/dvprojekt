@@ -6,8 +6,8 @@
 #include "IVPowerLine.h"
 
 
-LPowerLine::LPowerLine(const int costs, const int energyValue, LPlayingField* lPlayingField, const int x, const int y)
-:ILPowerLine(costs, energyValue, lPlayingField, x, y, lPlayingField->getLMaster()->getVMaster()->getFactory()->createPowerLine(this))
+LPowerLine::LPowerLine(const int costs, const int energyValue, LField* lField, const int x, const int y)
+	:ILPowerLine(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createPowerLine(this))
 {
 	vPowerLine->initPowerLine(x, y);
 }

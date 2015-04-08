@@ -1,10 +1,8 @@
 #pragma once
 
-#include "IView.h"
-
 class LPowerLine;
 
-class IVPowerLine : public IView
+class IVPowerLine
 {
 protected:
 	LPowerLine* lPowerLine;

@@ -34,9 +34,7 @@ int LPlayingField::getFieldLength()
 
 void LPlayingField::removeBuilding(const int x, const int y)
 {
-	LField * selectedField = getField(x,y);
-	delete selectedField->getBuilding();
-	selectedField->setBuilding(nullptr);
+	getField(x, y)->removeBuilding();		
 }
 
 

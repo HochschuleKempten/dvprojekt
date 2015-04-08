@@ -1,10 +1,11 @@
 #include "LField.h"
 
 
-LField::LField()
+LField::LField(LPlayingField* lPlayingField) :
+	lPlayingField(lPlayingField),
+	placingAllowed(true),
+	lBuilding(nullptr)
 {
-	placingAllowed = true;
-	building = nullptr;
 }
 
 
@@ -13,23 +14,12 @@ LField::~LField()
 	removeBuilding();
 }
 
-bool LField::setBuilding(ILBuilding* building)
-{
-	if (placingAllowed)
-	{
-		this->building = building;
-		return true;
-	}
-
-	return false;
-}
-
 bool LField::removeBuilding()
 {
-	if (building != nullptr)
+	if (lBuilding != nullptr)
 	{
-		delete building;
-		building = nullptr;
+		delete lBuilding;
+		lBuilding = nullptr;
 
 		return true;
 	}
@@ -38,7 +28,7 @@ bool LField::removeBuilding()
 }
 ILBuilding* LField::getBuilding()
 {
-	return building;
+	return lBuilding;
 }
 
 void LField::setIsPlacingAllowed(bool allowed)
@@ -49,4 +39,9 @@ void LField::setIsPlacingAllowed(bool allowed)
 bool LField::isPlacingAllowed()
 {
 	return placingAllowed;
+}
+
+LPlayingField* LField::getLPlayingField()
+{
+	return lPlayingField;
 }

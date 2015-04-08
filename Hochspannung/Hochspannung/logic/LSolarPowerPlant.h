@@ -5,7 +5,7 @@ class LSolarPowerPlant :
 	public ILPowerPlant
 {
 public:
-	LSolarPowerPlant(const int costs, const int energyValue, LPlayingField* lPlayingField, const int x, const int y);
+	LSolarPowerPlant(const int costs, const int energyValue, LField* lField, const int x, const int y);
 	~LSolarPowerPlant();
 };
 

@@ -2,7 +2,6 @@
 #include "ILBuilding.h"
 
 class IVPowerPlant;
-class LPlayingField;
 
 class ILPowerPlant : public ILBuilding
 {
@@ -11,8 +10,8 @@ protected:
 	IVPowerPlant* vPowerPlant;
 
 public:
-	ILPowerPlant(const int costs, const int energyValue, LPlayingField* lPlayingField, const int x, const int y, IVPowerPlant* vPowerPlant)
-		: ILBuilding(costs, lPlayingField, x, y),
+	ILPowerPlant(const int costs, const int energyValue, LField* lField, IVPowerPlant* vPowerPlant)
+		: ILBuilding(costs, lField),
 		vPowerPlant(vPowerPlant),
 		energyValue(energyValue)
 	{};

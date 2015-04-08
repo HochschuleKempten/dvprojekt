@@ -1,10 +1,8 @@
 #pragma once
 
-#include "IView.h"
-
 class ILPowerPlant;
 
-class IVPowerPlant : public IView
+class IVPowerPlant
 {
 protected:
 	ILPowerPlant* lPlant;

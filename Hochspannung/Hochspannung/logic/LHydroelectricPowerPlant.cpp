@@ -5,8 +5,8 @@
 #include "IVFactory.h"
 #include "IVPowerPlant.h"
 
-LHydroelectricPowerPlant::LHydroelectricPowerPlant(const int costs, const int energyValue, LPlayingField* lPlayingField, const int x, const int y)
-	:ILPowerPlant(costs, energyValue, lPlayingField, x, y, lPlayingField->getLMaster()->getVMaster()->getFactory()->createHydroelectricPowerPlant(this))
+LHydroelectricPowerPlant::LHydroelectricPowerPlant(const int costs, const int energyValue, LField* lField, const int x, const int y)
+	:ILPowerPlant(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createHydroelectricPowerPlant(this))
 {
 	vPowerPlant->initPowerPlant(x, y);
 }

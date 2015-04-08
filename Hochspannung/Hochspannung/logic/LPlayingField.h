@@ -15,7 +15,7 @@ private:
 	const int fieldLength = 6; //todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster;
 	IVPlayingField* vPlayingField;
-	Array2D<LField> fieldArray;
+	Array2D<LField> fieldArray; //todo (IP) beim Erzeugen this übergeben
 
 public:
 	LPlayingField(LMaster* lMaster);
@@ -23,17 +23,15 @@ public:
 
 	void initVPlayingField();
 	LField* getField(const int x, const int y);
+
 	// returns true if building could be placed, else false (building not allowed or building already placed)
-	
 	template<typename T>
-	void placeBuilding(const int x, const int y)
+	bool placeBuilding(const int x, const int y)
 	{
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");
 
-		//TODO (L) maybe it is better when the field creates the building, just do some checks here
-		ILBuilding* tempPlant = new T(100, 20, this, x, y);
-		getField(x, y)->setBuilding(tempPlant);
+		return getField(x, y)->setBuilding<T>(x, y);
 	}
 	
 	int getFieldLength();

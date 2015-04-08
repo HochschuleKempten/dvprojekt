@@ -12,8 +12,8 @@ protected:
 	IVPowerLine* vPowerLine;
 
 public:
-	ILPowerLine(const int costs, const int energyValue, LPlayingField* lPlayingField, const int x, const int y, IVPowerLine* vPowerLine)
-		: ILBuilding(costs, lPlayingField, x, y),
+	ILPowerLine(const int costs, const int energyValue, LField* lField, IVPowerLine* vPowerLine)
+		: ILBuilding(costs, lField),
 		vPowerLine(vPowerLine),
 		energyValue(energyValue)
 	{};

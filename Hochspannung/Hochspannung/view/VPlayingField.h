@@ -38,6 +38,7 @@ public:
 	template<typename T>
 	void tryBuildOnField(const int x, const int y)
 	{
+		//todo (V) check return value from "placeBuilding"
 		this->lPlayingField->placeBuilding<T>(x, y);
 	}
 
