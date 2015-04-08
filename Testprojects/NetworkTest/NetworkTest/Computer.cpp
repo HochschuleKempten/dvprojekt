@@ -90,3 +90,58 @@ void CComputer::readBody() {
 		boost::bind(&CComputer::readBodyCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 }
+
+void CComputer::writeCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+	if (!ec) {
+		m_dequeMessagesToWrite.pop_front();
+
+		if (!m_dequeMessagesToWrite.empty()) {
+			do_write();
+		}
+	} else {
+		handleConnectionError(ec);
+	}
+}
+
+void CComputer::readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+	if (!ec) {
+		if (m_messageRead.decodeHeader()) { // message to long
+			readBody();
+		}
+	} else {
+		handleConnectionError(ec);
+	}
+}
+
+void CComputer::readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+	if (!ec) {
+		std::cout << ">>";
+		std::cout.write(m_messageRead.getBody(), m_messageRead.getBodyLength());
+		std::cout << "\n";
+
+		m_dequeTextToPrint.emplace_back(m_messageRead.getBody(), m_messageRead.getBodyLength());
+
+		readHeader();
+	} else {
+		handleConnectionError(ec);
+	}
+}
+
+void CComputer::handleConnectionError(const boost::system::error_code& ec) {
+	switch (ec.value()) {
+	case 0:
+		// no error
+		break;
+
+	case boost::asio::error::connection_reset:
+		m_bConnected = false;
+		std::cout << "Lost connection -> Trying to reconnect..." << std::endl;
+		connect(); // try to reconnect
+		break;
+
+	default:
+		std::cout << "Error: " << ec.message() << std::endl;
+		m_socket.close(); // close connection, just to be sure
+		break;
+	}
+}

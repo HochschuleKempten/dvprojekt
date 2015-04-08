@@ -12,9 +12,9 @@ private:
 	void connect();
 
 	void connectCompleteHandler(const boost::system::error_code& ec, ip::tcp::resolver::iterator iterator);
-	void writeCompleteHandler(const boost::system::error_code& ec, std::size_t length);
-	void readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length);
-	void readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+	//void writeCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+	//void readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+	//void readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length);
 
 	ip::tcp::resolver m_resolver;
 	ip::tcp::resolver::iterator m_endpointIterator;

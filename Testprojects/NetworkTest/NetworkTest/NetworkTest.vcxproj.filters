@@ -39,6 +39,9 @@
     <ClInclude Include="Computer.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="GuiConsole.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -60,6 +63,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Computer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiConsole.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

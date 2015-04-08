@@ -73,18 +73,38 @@ void CGame::Tick(float fTime, float fTimeDelta) {
 	if (m_pComputer != 0) {
 
 		if (m_pComputer->isConnected() && fTime - m_fLastSendTime > 1) {
-			std::string text = "XY";
-			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleXY());
-			text += "XZ";
-			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleXZ());
-			text += "YX";
-			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleYX());
-			text += "YZ";
-			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleYZ());
-			text += "ZX";
-			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleZX());
-			text += "ZY";
-			text += boost::lexical_cast<std::string>(m_zpCube.GetTranslation().AngleZY());
+			std::string text;
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx00));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx01));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx02));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx03));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx10));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx11));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx12));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx13));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx20));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx21));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx22));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx23));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx30));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx31));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx32));
+			text.append("|");
+			text.append(boost::lexical_cast<std::string>(m_zpCube.m_mLocal.m_fx33));
 
 			m_pComputer->write(CMessage(text.data()));
 			m_fLastSendTime = fTime;

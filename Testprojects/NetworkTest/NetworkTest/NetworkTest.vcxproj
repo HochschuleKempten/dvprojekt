@@ -153,6 +153,7 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Computer.h" />
+    <ClInclude Include="GuiConsole.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Server.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Computer.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GuiConsole.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="stdafx.cpp" />

@@ -28,9 +28,11 @@ protected:
 	void readHeader();
 	void readBody();
 
-	virtual void writeCompleteHandler(const boost::system::error_code& ec, std::size_t length) = 0;
-	virtual void readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length) = 0;
-	virtual void readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length) = 0;
+	void writeCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+	void readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+	void readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+
+	void handleConnectionError(const boost::system::error_code& ec);
 
 	io_service m_io_service; 
 	boost::thread m_thread;

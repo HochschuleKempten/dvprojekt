@@ -11,6 +11,7 @@
 #include "Vektoria\Timer.h"
 #include "Vektoria\Splash.h"
 #include "Mmsystem.h"
+#include "GuiConsole.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -36,6 +37,11 @@ CGame * g_pgame;
 //--------------------------------------------------------------------------------------
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
+
+#ifdef _DEBUG /* Redirect IO for debugging purpose*/
+	RedirectIOToConsole();
+#endif
+
 	HWND hWnd = NULL;   /* This is the handle for our window */
 	MSG msg;
 	WNDCLASSEX wcex;    /* Data structure for the windowclass */
@@ -90,7 +96,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
     // display the window on the screen
-	ShowWindow(hWnd, nCmdShow);
+	ShowWindow(hWnd, 10);
   
     // Game Init
 	g_pgame = (CGame*)(new CGame());
