@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="logic">
+      <UniqueIdentifier>{62d3616a-0765-48c6-b1a5-107dde414f5d}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="logic\Headerdateien">
+      <UniqueIdentifier>{be5b307a-ed96-4cbc-8d1d-94ecf813fe19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logic\Quelldateien">
+      <UniqueIdentifier>{55eb0dd5-a40c-4f00-8ab6-ea20121cc96f}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="view">
+      <UniqueIdentifier>{3b210bd6-fbd0-4067-ae00-56365f394d5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="view\Headerdateien">
+      <UniqueIdentifier>{4749bfe0-8c0f-45d6-8c2c-05888df1aec4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="view\Implementierungsdateien">
+      <UniqueIdentifier>{ea0dc22a-dcbf-45e7-95f0-f16c228899e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logic\Interfaces">
+      <UniqueIdentifier>{a55ef8ad-46b5-4071-8814-7192c6ba31b5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LMaster.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LField.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LCoalPowerPlant.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LPlayingField.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VMaster.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LHydroelectricPowerPlant.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LNuclearPowerPlant.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LSolarPowerPlant.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LWindmillPowerPlant.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LOilRefinery.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LPowerLine.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\ILBuilding.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\ILPowerPlant.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVMaster.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VPlayingField.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVPlayingField.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VFactory.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVFactory.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\Array2D.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LUtility.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewObject.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VGeneral.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVPowerPlant.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LPlayer.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VCoalPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewBuilding.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VHydroelectricPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVUI.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VUI.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LUI.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VNuclearPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VOilRefinery.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VPowerline.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VSolarPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VWindmillPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVTickObserver.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\ILPowerLine.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVPowerLine.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VMaterialLoader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="VektoriaApp.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LMaster.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LField.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LCoalPowerPlant.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LPlayingField.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VMaster.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VPlayingField.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LHydroelectricPowerPlant.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LNuclearPowerPlant.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LSolarPowerPlant.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LWindmillPowerPlant.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LOilRefinery.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LPowerLine.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VFactory.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LPlayer.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VCoalPowerPlant.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VHydroelectricPowerPlant.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VUI.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LUI.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VNuclearPowerPlant.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VOilRefinery.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VPowerLine.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VSolarPowerPlant.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VWindmillPowerPlant.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VMaterialLoader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders.hlsl">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="shadowmap.hlsl">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\VektoriaTest.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VektoriaApp.rc">
+      <Filter>Ressourcendateien</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
