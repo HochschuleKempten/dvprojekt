@@ -8,7 +8,7 @@ VNuclearPowerPlant::VNuclearPowerPlant(VMaster* vMaster, LNuclearPowerPlant* lPl
 	: IViewBuilding(vMaster, &m_zp), IVPowerPlant(lPlant)
 {
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
-	m_zg.Init(CHVector(1.5, 2.6, 0.8), &m_zm);
+	m_zg.Init(CHVector(1.5f, 2.6f, 0.8f), &m_zm);
 	m_zp.Init();
 	m_zp.AddGeo(&m_zg);
 }

@@ -59,7 +59,7 @@ private:
 #endif
 
 public:
-	inline Array2D(const size_t rows, const size_t cols, const std::function<void(T& obj, const size_t idx)>& callback = nullptr)
+	inline Array2D(const size_t rows, const size_t cols, const std::function<void(T& obj)>& callback = nullptr)
 		: data(new T[rows*cols]), rows(rows)
 #ifdef _DEBUG
 		, cols(cols)

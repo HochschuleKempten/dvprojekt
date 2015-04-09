@@ -1,4 +1,5 @@
 #include "LField.h"
+#include "ILBuilding.h"
 
 LField::LField() :
 	placingAllowed(true),

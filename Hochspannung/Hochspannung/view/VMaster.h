@@ -45,7 +45,7 @@ public:
 	VPlayingField* getPlayingField();
 
 	void addScenegraph(const std::string &name, IViewObject* view);
-	void removeScenegraph(const std::string &name, IViewObject* view) {}
+	//void removeScenegraph(const std::string &name, IViewObject* view) {}
 	void resize(int width, int height);
 
 	friend class VUI;

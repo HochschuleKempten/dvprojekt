@@ -13,7 +13,7 @@ void VPlayingField::placeObject(const std::shared_ptr<IViewBuilding>& objPtr, co
 
 void VPlayingField::initPlayingField()
 {
-	CHVector size(fieldSize, fieldSize, 0.5);
+	CHVector size(fieldSize, fieldSize, 0.5f);
 	std::stringstream stream;
 	std::string textureDiffuse;
 	std::string textureBump;
@@ -51,7 +51,7 @@ void VPlayingField::objectRemoved(const int x, const int y)
 {
 	CPlacement* back = viewObjects[x][y]->getPlacement();
 	bool erg = m_zpField[x][y].SubPlacement(back);
-	//viewObjects[x][y] = nullptr;	//TODO (V) can not delete object -> engine crash
+	viewObjects[x][y] = nullptr;	//TODO (V) can not delete object -> engine crash
 }
 
 
