@@ -5,6 +5,8 @@ class LHydroelectricPowerPlant :
 	public ILPowerPlant
 {
 public:
+	const static int id = 1;
+
 	LHydroelectricPowerPlant(const int costs, const int energyValue, LField* lField, const int x, const int y);
 	~LHydroelectricPowerPlant();
 };
