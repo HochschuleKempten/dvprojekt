@@ -42,6 +42,9 @@
     <ClInclude Include="GuiConsole.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="TransferObject.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -66,6 +69,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="GuiConsole.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="TransferObject.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
