@@ -12,6 +12,7 @@ class LPlayingField
 
 private:
 	const int fieldLength = 3; //todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
+	// (FL) Vorschlag: Groesse wird vom Spieler beim erstellen des Spiels angegebeben ueber Parameter wie Mapgroesse
 	LMaster* lMaster;
 	IVPlayingField* vPlayingField;
 	Array2D<LField> fieldArray;
@@ -23,7 +24,7 @@ public:
 	void initVPlayingField();
 	LField* getField(const int x, const int y);
 	// returns true if building could be placed, else false (building not allowed or building already placed)
-	
+
 	template<typename T>
 	void placeBuilding(const int x, const int y)
 	{
@@ -32,7 +33,7 @@ public:
 		ILBuilding* tempPlant = new T(100, 20, this, x, y);
 		getField(x, y)->setBuilding(tempPlant);
 	}
-	
+
 	//todo (IP) add parameter that specifies the building which has to be placed
 	int getFieldLength();
 	void removeBuilding(const int x, const int y);
