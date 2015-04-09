@@ -13,19 +13,13 @@ class VCoalPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:
 	CPlacement m_zp;
-	CMaterial m_zm;
 	CGeoCone m_zg;
 
 public:
 	VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant);
 
 	virtual ~VCoalPowerPlant()
-	{
-		m_zp.SubGeo(&m_zg);
-		m_zp.Fini();
-		m_zg.Fini();
-		m_zm.Fini();
-	}
+	{}
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y);
 };

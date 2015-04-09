@@ -3,6 +3,7 @@
 #include "../logic/LUtility.h"
 #include "VPlayingField.h"
 #include "VCoalPowerPlant.h"
+#include "VHydroelectricPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
@@ -83,6 +84,9 @@ void VUI::handleInput(float fTimeDelta)
 					dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryBuildOnField<LHydroelectricPowerPlant>(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
 				else if (koord[0] == getClassName(VCoalPowerPlant)) {
+					vMaster->getPlayingField()->tryRemoveObject(std::stoi(koord[1]), std::stoi(koord[2]));
+				}
+				else if (koord[0] == getClassName(VHydroelectricPowerPlant)) {
 					vMaster->getPlayingField()->tryRemoveObject(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
 

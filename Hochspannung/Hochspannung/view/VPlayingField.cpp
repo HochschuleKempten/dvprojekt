@@ -49,9 +49,9 @@ void VPlayingField::initPlayingField()
 
 void VPlayingField::objectRemoved(const int x, const int y)
 {
-	CPlacement* back = viewObjects[x][y]->getPlacement();
-	bool erg = m_zpField[x][y].SubPlacement(back);
-	viewObjects[x][y] = nullptr;	//TODO (V) can not delete object -> engine crash
+	bool erg = m_zpField[x][y].SubPlacement(viewObjects[x][y]->getPlacement());
+	ASSERT(erg, "Unable to sub the placement");
+	viewObjects[x][y] = nullptr;
 }
 
 

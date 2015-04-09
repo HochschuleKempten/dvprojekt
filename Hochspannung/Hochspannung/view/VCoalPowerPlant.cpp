@@ -1,5 +1,6 @@
 #include "VCoalPowerPlant.h"
 #include "VPlayingField.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -7,8 +8,7 @@ NAMESPACE_VIEW_B
 VCoalPowerPlant::VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant)
 	: IViewBuilding(vMaster, &m_zp), IVPowerPlant(lPlant)
 {
-	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
-	m_zg.Init(2.0, 2.0, &m_zm, 24, true);
+	m_zg.Init(2.0, 2.0, &VMaterialLoader::materialCoalPowerPlant, 24, true);
 	m_zp.Init();
 	m_zp.AddGeo(&m_zg);
 }
@@ -17,10 +17,7 @@ void VCoalPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr
 {
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	std::stringstream stream;
-	stream << getClassName(this) << ";" << x << ";" << y;
-
-	m_zp.SetName(stream.str().c_str());
+	SET_NAME_AND_COORDINATES
 }
 
 

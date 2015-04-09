@@ -5,6 +5,7 @@
 #include "VPlayingField.h"
 #include "VUI.h"
 #include "IViewObject.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -12,6 +13,7 @@ NAMESPACE_VIEW_B
 VMaster::VMaster()
 	: factory(this)
 {
+	VMaterialLoader::init();
 }
 
 void VMaster::setLMaster(LMaster* lMaster)
