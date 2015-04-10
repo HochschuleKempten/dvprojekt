@@ -6,7 +6,14 @@ NAMESPACE_VIEW_B
 VScreen::VScreen()
 {
 }
-VScreen::VScreen(VScreen::ScreenType screentype,CFrame* frame) :m_isOn(true)
+VScreen::VScreen(CViewport* viewport, VScreen::ScreenType screentype, CFrame* frame) :m_isOn(false)
+{
+	//TODO (pb)
+	//m_viewport = viewport; 
+	m_screenType = screentype;
+	frame->AddViewport(viewport);
+}
+VScreen::VScreen(VScreen::ScreenType screentype,CFrame* frame) :m_isOn(false)
 {
 	m_screenType = screentype;
 	m_camera.Init(120);

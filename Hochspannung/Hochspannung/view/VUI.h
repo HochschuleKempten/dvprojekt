@@ -12,6 +12,8 @@ class VMaster;
 
 class VUI : public IVUI, public IVTickObserver,public IViewObserver
 {
+	friend class VMaster;
+
 private:
 	VMaster* vMaster;
 	CDeviceKeyboard m_zkKeyboard;
@@ -21,6 +23,12 @@ private:
 	std::map<std::string, VScreen*> m_screens;
 	std::map<std::string, VScreen*>::iterator m_iterScreens;
 
+	CViewport m_zv;
+	CCamera m_zc;
+	CPlacement m_zpCamera;
+	CScene m_zs;
+	CParallelLight m_zl;
+	CBackground m_zb;
 
 	bool isQuit;
 
@@ -33,10 +41,8 @@ public:
 
 	void initUI();
 
-	inline virtual void tick(const float fTimeDelta)
-	{
-		handleInput(fTimeDelta);
-	}
+	virtual void tick(const float fTimeDelta);
+	
 
 	void addScreen(string sName, VScreen::ScreenType);
 

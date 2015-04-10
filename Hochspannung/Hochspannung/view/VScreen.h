@@ -25,6 +25,7 @@ public:
 	};
 
 	VScreen();
+	VScreen(CViewport* viewport, VScreen::ScreenType screentype, CFrame* frame);
 	VScreen(VScreen::ScreenType screentype, CFrame* frame);
 	void switchOn();
 	void switchOff();
@@ -35,13 +36,15 @@ public:
 	
 	~VScreen();
 	bool isOn();
+	ScreenType m_screenType;
 private:
 	bool m_isOn;
 	map<string,IViewGUIContainer*> m_Guicontainer;
 	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
-	ScreenType m_screenType;
 	CViewport m_viewport;
 	CCamera m_camera;
+
+	
 };
 
 NAMESPACE_VIEW_E

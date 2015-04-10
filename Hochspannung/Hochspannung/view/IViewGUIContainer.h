@@ -22,7 +22,7 @@ public:
 
 	};
 
-	virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IObserver::Event clickAction) = 0;
+	virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewObserver::Event clickAction) = 0;
 	virtual list<IViewGUIObject*> getGuiObjectList()=0;
 	virtual ~IViewGUIContainer(){};
 private:

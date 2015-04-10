@@ -1,5 +1,5 @@
 #include "VGroup.h"
-
+#include "VButton.h"
 NAMESPACE_VIEW_B
 
 VGroup::VGroup()
@@ -22,11 +22,11 @@ VGroup::~VGroup()
 
 void VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewObserver::Event clickAction)
 {
-	VButton* VButton = new VButton(m_viewport,rect, MaterialNormal, MaterialHover, clickAction);
-
-	VButton->addObserver(this);
+	VButton* vButton = new VButton(m_viewport,rect, MaterialNormal, MaterialHover, clickAction);
 	
-	m_guiObjects.push_back(VButton);
+	vButton->addObserver(this);
+	
+	m_guiObjects.push_back(vButton);
 }
 
 void VGroup::onNotify(IViewObserver::Event events)
