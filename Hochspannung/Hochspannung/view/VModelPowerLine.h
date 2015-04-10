@@ -3,11 +3,11 @@
 
 NAMESPACE_VIEW_B
 
-class CTrasse : public CPlacement
+class VModelPowerLine : public CPlacement
 {
 public:
-	CTrasse(void);
-	~CTrasse(void);
+	VModelPowerLine(void);
+	~VModelPowerLine(void);
 
 	void Init();
 private:

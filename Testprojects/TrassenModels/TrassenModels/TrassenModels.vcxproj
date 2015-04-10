@@ -70,7 +70,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Helper.h" />
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Trasse.h" />
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -79,7 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Helper.cpp" />
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Trasse.cpp" />
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TextureTester.cpp" />

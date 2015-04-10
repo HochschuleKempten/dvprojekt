@@ -33,7 +33,7 @@
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Helper.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Trasse.h">
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Helper.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Trasse.cpp">
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

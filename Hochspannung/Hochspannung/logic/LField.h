@@ -15,12 +15,12 @@ public:
 	LField();
 	~LField();
 
-	template <typename T>
-	bool setBuilding(const int x, const int y)
+	template <typename T, typename... Args>
+	bool setBuilding(const int x, const int y, const Args... arguments)
 	{
 		if (placingAllowed)
 		{
-			lBuilding = new T(100, 20, this, x, y); //TODO (IP) where should cost and energy values come from? 
+			lBuilding = new T(100, 20, this, x, y, arguments...); //TODO (IP) where should cost and energy values come from? -> IP: will be saved as static const values in the classes
 			return true;
 		}
 

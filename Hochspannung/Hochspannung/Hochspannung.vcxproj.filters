@@ -146,9 +146,6 @@
     <ClInclude Include="view\VOilRefinery.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\VPowerline.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\VSolarPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -191,7 +188,13 @@
     <ClInclude Include="view\Helper.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\Trasse.h">
+    <ClInclude Include="view\VIdentifier.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VPowerLine.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelPowerLine.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -289,7 +292,7 @@
     <ClCompile Include="view\Helper.cpp">
       <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
-    <ClCompile Include="view\Trasse.cpp">
+    <ClCompile Include="view\VModelPowerLine.cpp">
       <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
   </ItemGroup>

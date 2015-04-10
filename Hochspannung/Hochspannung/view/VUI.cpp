@@ -1,10 +1,12 @@
 #include "VUI.h"
 #include "VMaster.h"
 #include "VPlayingField.h"
+#include "VPowerLine.h"
 #include "VCoalPowerPlant.h"
 #include "VHydroelectricPowerPlant.h"
 #include "VMaterialLoader.h"
-
+#include "VIdentifier.h"
+#include "../logic/ILPowerLine.h"
 
 NAMESPACE_VIEW_B
 
@@ -84,13 +86,13 @@ void VUI::handleInput(float fTimeDelta)
 			if (koord.size() > 0) {
 				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 
-				if (std::stoi(koord[0]) == VPlayingField::id) {
+				if (std::stoi(koord[0]) == VIdentifier::VPlayingField) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
 
 					int x = std::stoi(koord[1]);
 					int y = std::stoi(koord[2]);
 
-					vMaster->getPlayingField()->tryBuildOnField<LCoalPowerPlant>(x, y);
+					vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y, ILPowerLine::EAST);
 				}
 
 			}
@@ -111,15 +113,15 @@ void VUI::handleInput(float fTimeDelta)
 			if (koord.size() > 0) {
 				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 
-				if (std::stoi(koord[0]) == VPlayingField::id) {
+				if (std::stoi(koord[0]) == VIdentifier::VPlayingField) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
 
 					vMaster->getPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
-				else if (std::stoi(koord[0]) == VCoalPowerPlant::id) {
+				else if (std::stoi(koord[0]) == VIdentifier::VPowerLine) {
 					vMaster->getPlayingField()->tryRemoveObject(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
-				else if (std::stoi(koord[0]) == VHydroelectricPowerPlant::id) {
+				else if (std::stoi(koord[0]) == VIdentifier::VHydroelectricPowerPlant) {
 					vMaster->getPlayingField()->tryRemoveObject(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
 
@@ -239,5 +241,6 @@ void VUI::tick(const float fTimeDelta)
 		}
 	}
 }
+
 
 NAMESPACE_VIEW_E

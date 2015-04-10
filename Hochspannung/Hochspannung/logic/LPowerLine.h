@@ -3,11 +3,11 @@
 
 class LPowerLine :
 	public ILPowerLine
-{
+{	
 public:
-	const static int id = 4;
+	static const int id = 4;
 
-	LPowerLine(const int costs, const int energyValue, LField* lField, const int x, const int y);
+	LPowerLine(const int costs, const int energyValue, LField* lField, const int x, const int y, PowerLineOrientation orientation);
 	~LPowerLine();
 };
 

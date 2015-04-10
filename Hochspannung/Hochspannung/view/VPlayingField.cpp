@@ -1,5 +1,6 @@
 #include "VPlayingField.h"
 #include "IViewBuilding.h"
+#include "VIdentifier.h"
 
 NAMESPACE_VIEW_B
 
@@ -30,7 +31,7 @@ void VPlayingField::initPlayingField()
 				stream.str("");
 
 				//stream << getClassName(this) << ";" << rowIdx << ";" << colIdx;
-				stream << id << ";" << rowIdx << ";" << colIdx;
+				stream << VIdentifier::VPlayingField << ";" << rowIdx << ";" << colIdx;
 
 				textureDiffuse = std::string("textures/LuftaufnahmeDiffuse") + std::to_string(rowIdx) + std::string("_") + std::to_string(colIdx) + std::string(".jpg");
 				textureBump = std::string("textures/LuftaufnahmeBump") + std::to_string(rowIdx) + std::string("_") + std::to_string(colIdx) + std::string(".jpg");
@@ -73,8 +74,6 @@ void VPlayingField::objectRemoved(const int x, const int y)
 	ASSERT(erg, "Unable to sub the placement");
 	viewObjects[x][y] = nullptr;
 }
-
-
 
 
 NAMESPACE_VIEW_E

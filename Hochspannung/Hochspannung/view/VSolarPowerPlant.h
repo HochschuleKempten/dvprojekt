@@ -4,7 +4,6 @@
 #include "../logic/LSolarPowerPlant.h"
 #include "IViewBuilding.h"
 
-
 NAMESPACE_VIEW_B
 
 
@@ -21,9 +20,6 @@ public:
 	{}
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y);
-
-
-	static const int id = __COUNTER__;
 };
 
 

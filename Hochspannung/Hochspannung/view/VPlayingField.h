@@ -8,7 +8,6 @@
 #include <vector>
 #include <memory>
 
-
 NAMESPACE_VIEW_B
 
 
@@ -40,11 +39,11 @@ public:
 	{}
 
 	//TODO (V) remove building again
-	template<typename T>
-	inline void tryBuildOnField(const int x, const int y)
+	template<typename T, typename... Args>
+	inline void tryBuildOnField(const int x, const int y, const Args... arguments)
 	{
 		//todo (V) check return value from "placeBuilding"
-		this->lPlayingField->placeBuilding<T>(x, y);
+		this->lPlayingField->placeBuilding<T>(x, y, arguments...);
 	}
 
 	inline void tryRemoveObject(const int x, const int y)
@@ -57,9 +56,6 @@ public:
 	virtual void initPlayingField();
 
 	virtual void objectRemoved(const int x, const int y);
-
-
-	static const int id = __COUNTER__;
 };
 
 
