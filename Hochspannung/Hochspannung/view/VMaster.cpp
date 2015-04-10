@@ -64,6 +64,6 @@ void VMaster::resize(int width, int heigth)
 	m_zf.ReSize(width, heigth);
 }
 
-int VMaster::id = IDGenerator::generateID();
+
 
 NAMESPACE_VIEW_E

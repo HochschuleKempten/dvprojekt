@@ -3,7 +3,7 @@
 #include "../logic/LPowerLine.h"
 #include "../logic/IVPowerLine.h"
 #include "IViewBuilding.h"
-#include "../logic/IDGenerator.h"
+
 
 
 NAMESPACE_VIEW_B

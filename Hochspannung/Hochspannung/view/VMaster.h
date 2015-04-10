@@ -3,7 +3,7 @@
 #include "../logic/IVMaster.h"
 #include "VFactory.h"
 #include "VGeneral.h"
-#include "../logic/IDGenerator.h"
+
 
 class LMaster;
 
