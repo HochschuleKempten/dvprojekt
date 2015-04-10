@@ -8,7 +8,7 @@
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this] (LField& obj)
-    { //Lambda-Expression
+	{ //Lambda-Expression
 		obj.setLPlayingField(this);
 	})
 {

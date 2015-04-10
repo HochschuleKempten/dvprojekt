@@ -15,7 +15,7 @@ private:
 	const int fieldLength = 6; //todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster;
 	IVPlayingField* vPlayingField;
-	Array2D<LField> fieldArray; //todo (IP) beim Erzeugen this übergeben
+	Array2D<LField> fieldArray;
 
 public:
 	LPlayingField(LMaster* lMaster);
