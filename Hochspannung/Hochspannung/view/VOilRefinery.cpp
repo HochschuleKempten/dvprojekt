@@ -19,4 +19,6 @@ void VOilRefinery::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, c
 }
 
 
+
+
 NAMESPACE_VIEW_E

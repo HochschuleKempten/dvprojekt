@@ -158,10 +158,18 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="view\Helper.h" />
     <ClInclude Include="view\IViewBuilding.h" />
+    <ClInclude Include="view\IViewGUIContainer.h" />
+    <ClInclude Include="view\IViewGUIObject.h" />
     <ClInclude Include="view\IViewObject.h" />
+    <ClInclude Include="view\IViewObserver.h" />
+    <ClInclude Include="view\IViewSubject.h" />
+    <ClInclude Include="view\Trasse.h" />
+    <ClInclude Include="view\VButton.h" />
     <ClInclude Include="view\VFactory.h" />
     <ClInclude Include="view\VGeneral.h" />
+    <ClInclude Include="view\VGroup.h" />
     <ClInclude Include="view\VHydroelectricPowerPlant.h" />
     <ClInclude Include="view\VMaterialLoader.h" />
     <ClInclude Include="view\VNuclearPowerPlant.h" />
@@ -170,6 +178,7 @@
     <ClInclude Include="view\VMaster.h" />
     <ClInclude Include="view\VCoalPowerPlant.h" />
     <ClInclude Include="view\VPowerline.h" />
+    <ClInclude Include="view\VScreen.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
     <ClInclude Include="view\VUI.h" />
     <ClInclude Include="view\VWindmillPowerPlant.h" />
@@ -190,7 +199,11 @@
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="VektoriaApp.cpp" />
+    <ClCompile Include="view\Helper.cpp" />
+    <ClCompile Include="view\Trasse.cpp" />
+    <ClCompile Include="view\VButton.cpp" />
     <ClCompile Include="view\VFactory.cpp" />
+    <ClCompile Include="view\VGroup.cpp" />
     <ClCompile Include="view\VHydroelectricPowerPlant.cpp" />
     <ClCompile Include="view\VMaterialLoader.cpp" />
     <ClCompile Include="view\VNuclearPowerPlant.cpp" />
@@ -199,6 +212,7 @@
     <ClCompile Include="view\VMaster.cpp" />
     <ClCompile Include="view\VCoalPowerPlant.cpp" />
     <ClCompile Include="view\VPowerLine.cpp" />
+    <ClCompile Include="view\VScreen.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
     <ClCompile Include="view\VUI.cpp" />
     <ClCompile Include="view\VWindmillPowerPlant.cpp" />

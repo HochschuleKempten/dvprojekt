@@ -21,4 +21,5 @@ void VHydroelectricPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant
 }
 
 
+
 NAMESPACE_VIEW_E
