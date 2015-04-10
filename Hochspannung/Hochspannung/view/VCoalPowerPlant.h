@@ -24,7 +24,8 @@ public:
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y);
 
-	static int id;
+
+	static const int id = __COUNTER__;
 };
 
 

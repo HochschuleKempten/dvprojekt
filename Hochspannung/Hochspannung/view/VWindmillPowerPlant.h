@@ -29,7 +29,8 @@ public:
 		//TODO (V) rotate windmill
 	}
 
-	static int id;
+
+	static const int id = __COUNTER__;
 };
 
 

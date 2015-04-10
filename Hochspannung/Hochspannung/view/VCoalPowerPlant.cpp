@@ -20,7 +20,7 @@ void VCoalPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr
 	SET_NAME_AND_COORDINATES
 }
 
-int VCoalPowerPlant::id = IDGenerator::generateID();
+
 
 
 

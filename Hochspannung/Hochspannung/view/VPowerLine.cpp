@@ -19,7 +19,7 @@ void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const
 }
 
 
-int VPowerLine::id = IDGenerator::generateID();
+
 
 
 NAMESPACE_VIEW_E
