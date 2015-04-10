@@ -21,9 +21,9 @@ private:
 	CFrame m_zf;
 	
 	VFactory factory;
-	LMaster* lMaster;
-	VUI* vUi;
-	VPlayingField* vPlayingField;
+	LMaster* lMaster = nullptr;
+	VUI* vUi = nullptr;
+	VPlayingField* vPlayingField = nullptr;
 
 public:
 	VMaster();

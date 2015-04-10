@@ -72,7 +72,6 @@ void VUI::handleInput(float fTimeDelta)
 
 	if (m_zkCursor.ButtonPressedLeft()) {
 		if (!pickingActive) {
-			
 
 			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
 			if (pickedPlacement == nullptr) {
@@ -90,7 +89,7 @@ void VUI::handleInput(float fTimeDelta)
 					int x = std::stoi(koord[1]);
 					int y = std::stoi(koord[2]);
 
-					dynamic_cast<VPlayingField*>(vMaster->getPlayingField())->tryBuildOnField<LCoalPowerPlant>(x, y);
+					vMaster->getPlayingField()->tryBuildOnField<LCoalPowerPlant>(x, y);
 				}
 
 			}
@@ -100,7 +99,6 @@ void VUI::handleInput(float fTimeDelta)
 	}
 	else if (m_zkCursor.ButtonPressedRight()) {
 		if (!pickingActive) {
-		
 
 			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
 			if (pickedPlacement == nullptr) {
@@ -115,7 +113,7 @@ void VUI::handleInput(float fTimeDelta)
 				if (std::stoi(koord[0]) == VPlayingField::id) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
 
-					dynamic_cast<VPlayingField*>(vMaster->getPlayingField())->tryBuildOnField<LHydroelectricPowerPlant>(std::stoi(koord[1]), std::stoi(koord[2]));
+					vMaster->getPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
 				else if (std::stoi(koord[0]) == VCoalPowerPlant::id) {
 					vMaster->getPlayingField()->tryRemoveObject(std::stoi(koord[1]), std::stoi(koord[2]));

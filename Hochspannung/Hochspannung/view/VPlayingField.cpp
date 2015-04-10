@@ -20,7 +20,7 @@ void VPlayingField::initPlayingField()
 
 	int square = sqrt(m_zpPlacementHolders.size());
 	
-	for (int holder = 0; holder < m_zpPlacementHolders.size(); holder++)
+	for (int holder = 0; holder < static_cast<int>(m_zpPlacementHolders.size()); holder++)
 	{
 		for (int rowIdx = (holder % square) * 5; rowIdx < ((holder % square) + 1) * 5; rowIdx++)
 		{
@@ -42,8 +42,8 @@ void VPlayingField::initPlayingField()
 				m_zpField[rowIdx][colIdx].SetName(stream.str().c_str());
 				m_zp.AddPlacement(&m_zpField[rowIdx][colIdx]);
 
-				int test = colIdx * (fieldSize * fieldSize - 0.0);
-				int ttest = rowIdx * (fieldSize * fieldSize - 0.0) * -1;
+				//int test = colIdx * (fieldSize * fieldSize - 0.0);
+				//int ttest = rowIdx * (fieldSize * fieldSize - 0.0) * -1;
 
 				m_zpField[rowIdx][colIdx].TranslateX(colIdx * (fieldSize * fieldSize - 0.0));
 				m_zpField[rowIdx][colIdx].TranslateYDelta(rowIdx * (fieldSize * fieldSize - 0.0) * -1);

@@ -17,23 +17,23 @@ class IViewBuilding;
 class VPlayingField : public IViewObject, public IVPlayingField
 {
 private:
-	CPlacement m_zp;
-	CMaterial m_zm;
 	const int fieldSize = 2;
 	std::vector<CPlacement> m_zpPlacementHolders;	
-	Array2D<CGeoCube> m_zgField;
 	Array2D<CPlacement> m_zpField;
-	Array2D<shared_ptr<IViewBuilding>> viewObjects;
+	Array2D<CGeoCube> m_zgField;
 	Array2D<CMaterial> m_zmMaterials;
+	Array2D<shared_ptr<IViewBuilding>> viewObjects;
+	CPlacement m_zp;
 
 public:
 	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
-		: IViewObject(vMaster, &m_zp), IVPlayingField(lPlayingField),
-		m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25),
-		  m_zgField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
+		: IVPlayingField(lPlayingField),
+		  m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25),
 		  m_zpField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
+		  m_zgField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
+		  m_zmMaterials(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
 		  viewObjects(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
-		  m_zmMaterials(lPlayingField->getFieldLength(), lPlayingField->getFieldLength())
+		  IViewObject(vMaster, &m_zp)
 		  
 	{}
 	virtual ~VPlayingField()

@@ -57,7 +57,7 @@ VPlayingField* VMaster::getPlayingField()
 
 void VMaster::setVPlayingField(VPlayingField* vPlayingField)
 {
-	vPlayingField = vPlayingField;
+	this->vPlayingField = vPlayingField;
 	vUi->m_zs.AddPlacement(vPlayingField->getPlacement());
 }
 
