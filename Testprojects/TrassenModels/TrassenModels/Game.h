@@ -56,7 +56,7 @@
 
 #include "Vektoria\Root.h"
 #include "VektoriaMath\Util.h"
-#include "../../../Hochspannung/Hochspannung/view/Trasse.h"
+#include "../../../Hochspannung/Hochspannung/view/VModelPowerLine.h"
 #include "TextureTester.h"
 
 using namespace Vektoria;
@@ -86,7 +86,7 @@ private:
 	CCamera m_zc;
 	CParallelLight m_zl;
 	CDeviceKeyboard m_zdk;
-	CTrasse *m_zTrasse = new CTrasse();
+	VModelPowerLine *m_zTrasse = new VModelPowerLine();
 	CTextureTester *m_zTester = new CTextureTester();
 };
 

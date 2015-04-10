@@ -76,6 +76,4 @@ void VPlayingField::objectRemoved(const int x, const int y)
 }
 
 
-
-
 NAMESPACE_VIEW_E

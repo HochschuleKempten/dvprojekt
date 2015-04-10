@@ -3,7 +3,7 @@
 #include "../logic/LPowerLine.h"
 #include "../logic/IVPowerLine.h"
 #include "IViewBuilding.h"
-#include "Trasse.h"
+#include "VModelPowerLine.h"
 
 NAMESPACE_VIEW_B
 
@@ -11,10 +11,7 @@ NAMESPACE_VIEW_B
 class VPowerLine : public IVPowerLine, public IViewBuilding
 {
 private:
-	CTrasse m_zp;
-	//CPlacement m_zp;
-	//CMaterial m_zm;
-	//CGeoEllipsoid m_zg;
+	VModelPowerLine m_zp;
 
 public:
 	VPowerLine(VMaster *vMaster, LPowerLine* lPlant);

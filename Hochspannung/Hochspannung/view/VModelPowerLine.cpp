@@ -1,10 +1,10 @@
-#include "Trasse.h"
+#include "VModelPowerLine.h"
 
 NAMESPACE_VIEW_B
 
 #define SIZEOF_ARRAY(array) (sizeof(array) / sizeof(*array))
 
-CTrasse::CTrasse(void)
+VModelPowerLine::VModelPowerLine(void)
 {
 	m_zvFoundation1.InitPoint(0.25f, 0.05f, 0.25f);		
 	m_zvFoundation2.InitPoint(0, 0, 0);
@@ -53,11 +53,11 @@ CTrasse::CTrasse(void)
 	m_zpBasisPoles[9] = m_zpBasisPole10;
 }
 
-CTrasse::~CTrasse(void) 
+VModelPowerLine::~VModelPowerLine(void) 
 {
 }
 
-void CTrasse::Init()
+void VModelPowerLine::Init()
 {
 	m_zmGrey.MakeTextureDiffuse("textures\\grey_image.jpg");
 	m_zmBlack.MakeTextureDiffuse("textures\\black_image.jpg");
@@ -80,7 +80,7 @@ void CTrasse::Init()
 	//m_pScene->AddPlacement(&m_zpRightConduit);
 }
 
-void CTrasse::placeFoundation()
+void VModelPowerLine::placeFoundation()
 {
 	//create foundation
 	m_zgFoundation.Init(m_zvFoundation1, &m_zmGrey);
@@ -88,7 +88,7 @@ void CTrasse::placeFoundation()
 	m_zpFoundation.AddGeo(&m_zgFoundation);
 }
 
-void CTrasse::placeBasis()
+void VModelPowerLine::placeBasis()
 {
 	//right hand bottom corner
 	m_zgPole1.Init(m_zgvPoles, &m_zmBlack);
@@ -178,7 +178,7 @@ void CTrasse::placeBasis()
 	m_zpBasis.AddPlacement(&m_zpLeftPoles);
 }
 
-void CTrasse::placeHead()
+void VModelPowerLine::placeHead()
 {
 	//upper front
 	m_zgUpperPole1.Init(m_zgvUpperPole1, &m_zmBlack);
@@ -237,7 +237,7 @@ void CTrasse::placeHead()
 	m_zpHead.AddPlacement(&m_zpRoofPole4);
 }
 
-void CTrasse::placeConduit(void)
+void VModelPowerLine::placeConduit(void)
 {
 	m_zgRightConduit1.Init(CHVector(0.49f, 0.005f, 0.005f), &m_zmBlack);
 	m_zgRightConduit2.Init(CHVector(0.49f, 0.005f, 0.005f), &m_zmBlack);
@@ -269,7 +269,7 @@ void CTrasse::placeConduit(void)
 	m_zpRightConduit.AddPlacement(&m_zpRightConduit4);
 }
 
-void CTrasse::makeWall(void)
+void VModelPowerLine::makeWall(void)
 {
 
 }
