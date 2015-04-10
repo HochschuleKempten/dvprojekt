@@ -43,7 +43,7 @@ private:
 	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
 	CViewport m_viewport;
 	CCamera m_camera;
-
+	
 	
 };
 

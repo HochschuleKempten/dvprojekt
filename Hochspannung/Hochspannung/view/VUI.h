@@ -4,7 +4,7 @@
 #include "../logic/IVTickObserver.h"
 #include "VGeneral.h"
 #include "IViewObserver.h"
-#include "VScreen.h"
+#include "IViewScreen.h"
 NAMESPACE_VIEW_B
 
 
@@ -20,8 +20,8 @@ private:
 	CDeviceCursor m_zkCursor;
 	CDeviceMouse m_zkMouse;
 
-	std::map<std::string, VScreen*> m_screens;
-	std::map<std::string, VScreen*>::iterator m_iterScreens;
+	std::map<std::string, IViewScreen*> m_screens;
+	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
 
 	CViewport m_zv;
 	CCamera m_zc;
@@ -44,10 +44,10 @@ public:
 	virtual void tick(const float fTimeDelta);
 	
 
-	void addScreen(string sName, VScreen::ScreenType);
+	void addScreen(string sName, IViewScreen::ScreenType);
 
 	void switchScreen(string switchTo);
-	VScreen* getScreen(string sName);
+	IViewScreen* getScreen(string sName);
 
 	virtual void onNotify(IViewObserver::Event);
 };

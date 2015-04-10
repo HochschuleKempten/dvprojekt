@@ -188,6 +188,12 @@
     <ClInclude Include="view\IViewGUIContainer.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\IViewScreen.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenMainMenue.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -278,6 +284,9 @@
       <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VScreen.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenMainMenue.cpp">
       <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
   </ItemGroup>

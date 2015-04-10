@@ -4,6 +4,7 @@
 #include "VCoalPowerPlant.h"
 #include "VHydroelectricPowerPlant.h"
 #include "VMaterialLoader.h"
+#include "VScreenMainMenue.h"
 
 
 NAMESPACE_VIEW_B
@@ -42,17 +43,17 @@ void VUI::initUI()
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
 	CColor(1.0f, 1.0f, 1.0f));
 
-	addScreen("MainMenue", VScreen::MainMenue);
-	getScreen("MainMenue")->addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Bottom");
+	addScreen("MainMenue", IViewScreen::MainMenue);
+	/*getScreen("MainMenue")->addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Bottom");
 	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33, 0.27, 0.33, 0.14), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::START_GAME);
 	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33, 0.42, 0.33, 0.14), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::MainOptions);
 	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33, 0.57, 0.33, 0.14), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::QUIT_GAME);
-
-	addScreen("Ingame", VScreen::Ingame);
+*/
+	/*addScreen("Ingame", IViewScreen::Ingame);
 	getScreen("Ingame")->addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "craft");
 	getScreen("Ingame")->getContainer("craft")->addButton(CFloatRect(0.0, 0.75, 0.20, 0.25), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenue, IViewObserver::NOTHING);
 	getScreen("Ingame")->getContainer("craft")->addButton(CFloatRect(0.2, 0.75, 0.60, 0.25), &VMaterialLoader::materialIngameCraft, &VMaterialLoader::materialIngameCraft, IViewObserver::NOTHING);
-
+*/
 	switchScreen("MainMenue");
 }
 
@@ -161,23 +162,22 @@ void VUI::onNotify(IViewObserver::Event evente)
 }
 
 
-void VUI::addScreen(string sName, VScreen::ScreenType screenType)
+void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
 {
-	if (screenType==VScreen::ScreenType::Ingame)
+	switch (screenType)
 	{
-		m_screens[sName] = new VScreen(&m_zv,screenType, &vMaster->m_zf);
+	case IViewScreen::ScreenType::MainMenue:
+		m_screens[sName] = new VScreenMainMenue(&vMaster->m_zf);
 		m_screens[sName]->addObserver(this);
-	}
-	else
-	{
-		m_screens[sName] = new VScreen(screenType, &vMaster->m_zf);
-		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::ScreenType::Ingame:
+		break;
 	}
 }
 
 void VUI::switchScreen(string switchTo)
 {
-	map<string, VScreen*>::iterator it = m_screens.find(switchTo);
+	map<string, IViewScreen*>::iterator it = m_screens.find(switchTo);
 	ASSERT(it != m_screens.end(),"Screen not available");
 
 	for (it = m_screens.begin(); it != m_screens.end(); it++)
@@ -188,24 +188,12 @@ void VUI::switchScreen(string switchTo)
 	
 	m_screens[switchTo]->switchOn();
 
-	if (getScreen(switchTo)->m_screenType == VScreen::ScreenType::Ingame)
-	{
-		m_zs.SwitchOn();
-		m_zv.SwitchOn();
-
-	}
-	else
-	{
-		m_zs.SwitchOff();
-		m_zv.SwitchOff();
-	}
-
 }
 
 
-VScreen* VUI::getScreen(string sName)
+IViewScreen* VUI::getScreen(string sName)
 {
-	ASSERT(m_screens.find(sName) != m_screens.end(), "Screen not available");
+	ASSERT(m_screens.find(sName) != m_screens.end(), "Screen"<< sName<< "not available");
 	return	m_screens[sName];
 }
 void VUI::tick(const float fTimeDelta)

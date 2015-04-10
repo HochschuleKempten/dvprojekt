@@ -8,7 +8,7 @@ VScreen::VScreen()
 }
 VScreen::VScreen(CViewport* viewport, VScreen::ScreenType screentype, CFrame* frame) :m_isOn(false)
 {
-	//TODO (pb)
+	//TODO (pb) m_viewport als Pointer
 	//m_viewport = viewport; 
 	m_screenType = screentype;
 	frame->AddViewport(viewport);

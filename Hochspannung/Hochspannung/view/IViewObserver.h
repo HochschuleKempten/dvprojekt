@@ -22,14 +22,10 @@ enum Event
 	MainOptions,
 	NOTHING
 };
-//template<typename T>
-//struct Entity
-//{
-//	T* instance;
-//};
+
 	virtual ~IViewObserver() {}
 	
 	virtual void onNotify(Event evente)=0;
-	//virtual void onNotify(int Instance, Event evente) = 0;
+	
 };
 NAMESPACE_VIEW_E
