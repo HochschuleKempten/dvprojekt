@@ -7,8 +7,7 @@
 
 
 LPowerLine::LPowerLine(const int costs, const int energyValue, LField* lField, const int x, const int y, PowerLineOrientation orientation)
-	:ILPowerLine(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createPowerLine(this)),
-	orientation(orientation)
+	:ILPowerLine(costs, energyValue, orientation, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createPowerLine(this))
 {
 	vPowerLine->initPowerLine(vPowerLine, x, y);
 }
