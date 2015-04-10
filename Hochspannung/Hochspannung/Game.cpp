@@ -6,6 +6,12 @@
 CGame::CGame(void)
 	: lMaster(&vMaster)
 {
+
+#ifdef _DEBUG
+	/* Redirect IO to console for debugging */
+	redirectIOToConsole();
+#endif // DEBUG
+
 	vMaster.setLMaster(&lMaster);
 	// Hier eventuelle Vorinitialisierungen Deiner Vektoria-Objekte einfügen:
 }

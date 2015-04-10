@@ -7,6 +7,8 @@
 #include <regex>
 #include <typeinfo>
 #include <Windows.h>
+#include <fcntl.h>
+#include <io.h>
 
 inline std::vector<std::string> split(std::string str, const char delimiter)
 {
@@ -89,5 +91,33 @@ public:
 #else
 #define DEBUG_OUTPUT(msgExpr)
 #endif
+
+#ifdef _DEBUG
+/**
+ * Call this method at application startup to redirect stdout to a newly created console (if there´s not already one)
+ */
+inline void redirectIOToConsole() {
+
+	int hConsoleHandle;
+	long lStdHandle;
+	CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+	FILE* pFile;
+
+	// allocate a console for this app
+	AllocConsole();
+
+	// set the screen buffer to be big enough to let us scroll text
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &consoleInfo);
+	consoleInfo.dwSize.Y = 500;
+	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), consoleInfo.dwSize);
+
+	// redirect unbuffered STDOUT to the console
+	lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+	hConsoleHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	pFile = _fdopen(hConsoleHandle, "w");
+	*stdout = *pFile;
+	setvbuf(stdout, NULL, _IONBF, 0);
+}
+#endif // DEBUG
 
 #endif //_LUTILITY_H_
