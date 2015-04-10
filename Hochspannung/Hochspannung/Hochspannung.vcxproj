@@ -171,13 +171,14 @@
     <ClInclude Include="view\VGeneral.h" />
     <ClInclude Include="view\VGroup.h" />
     <ClInclude Include="view\VHydroelectricPowerPlant.h" />
+    <ClInclude Include="view\VIdentifier.h" />
     <ClInclude Include="view\VMaterialLoader.h" />
     <ClInclude Include="view\VNuclearPowerPlant.h" />
     <ClInclude Include="view\VOilRefinery.h" />
     <ClInclude Include="view\VPlayingField.h" />
     <ClInclude Include="view\VMaster.h" />
     <ClInclude Include="view\VCoalPowerPlant.h" />
-    <ClInclude Include="view\VPowerline.h" />
+    <ClInclude Include="view\VPowerLine.h" />
     <ClInclude Include="view\VScreen.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
     <ClInclude Include="view\VUI.h" />

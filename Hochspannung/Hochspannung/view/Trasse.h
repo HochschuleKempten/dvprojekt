@@ -3,6 +3,7 @@
 
 NAMESPACE_VIEW_B
 
+//TODO (V) rename --> PowerLine
 class CTrasse : public CPlacement
 {
 public:

@@ -5,7 +5,6 @@
 #include "../logic/IVTickObserver.h"
 #include "IViewBuilding.h"
 
-
 NAMESPACE_VIEW_B
 
 
@@ -28,9 +27,6 @@ public:
 	{
 		//TODO (V) rotate windmill
 	}
-
-
-	static const int id = __COUNTER__;
 };
 
 

@@ -25,13 +25,13 @@ public:
 	LField* getField(const int x, const int y);
 
 	// returns true if building could be placed, else false (building not allowed or building already placed)
-	template<typename T>
-	bool placeBuilding(const int x, const int y)
+	template<typename T, typename... Args>
+	bool placeBuilding(const int x, const int y, const Args... arguments)
 	{
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");
 
-		return getField(x, y)->setBuilding<T>(x, y);
+		return getField(x, y)->setBuilding<T>(x, y, arguments...);
 	}
 	
 	int getFieldLength();
