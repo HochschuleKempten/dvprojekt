@@ -16,7 +16,7 @@ public:
 };
 
 #define SET_NAME_AND_COORDINATES std::stringstream stream; \
-								 stream << getClassName(this) << ";" << x << ";" << y;	\
+								 stream << id << ";" << x << ";" << y;	\
 								 m_zp.SetName(stream.str().c_str());
 
 

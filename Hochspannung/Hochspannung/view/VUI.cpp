@@ -84,13 +84,13 @@ void VUI::handleInput(float fTimeDelta)
 			if (koord.size() > 0) {
 				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 
-				if (koord[0] == getClassName(VPlayingField)) {
+				if (std::stoi(koord[0]) == VPlayingField::id) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
 
 					int x = std::stoi(koord[1]);
 					int y = std::stoi(koord[2]);
 
-					dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryBuildOnField<LCoalPowerPlant>(x, y);
+					dynamic_cast<VPlayingField*>(vMaster->getPlayingField())->tryBuildOnField<LCoalPowerPlant>(x, y);
 				}
 
 			}
@@ -112,15 +112,15 @@ void VUI::handleInput(float fTimeDelta)
 			if (koord.size() > 0) {
 				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 
-				if (koord[0] == getClassName(VPlayingField)) {
+				if (std::stoi(koord[0]) == VPlayingField::id) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
 
-					dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryBuildOnField<LHydroelectricPowerPlant>(std::stoi(koord[1]), std::stoi(koord[2]));
+					dynamic_cast<VPlayingField*>(vMaster->getPlayingField())->tryBuildOnField<LHydroelectricPowerPlant>(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
-				else if (koord[0] == getClassName(VCoalPowerPlant)) {
+				else if (std::stoi(koord[0]) == VCoalPowerPlant::id) {
 					vMaster->getPlayingField()->tryRemoveObject(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
-				else if (koord[0] == getClassName(VHydroelectricPowerPlant)) {
+				else if (std::stoi(koord[0]) == VHydroelectricPowerPlant::id) {
 					vMaster->getPlayingField()->tryRemoveObject(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
 
@@ -137,25 +137,25 @@ void VUI::handleInput(float fTimeDelta)
 
 void VUI::onNotify(IViewObserver::Event evente)
 {
-	OutputDebugString("Nachricht bei GUI-Observer angekommen\n");
+	DEBUG_OUTPUT("Nachricht bei GUI-Observer angekommen\n");
 	switch (evente)
 	{
 	case IViewObserver::START_GAME:
-		OutputDebugString("STARTING GAME.........\n");
+		DEBUG_OUTPUT("STARTING GAME.........\n");
 		switchScreen("Ingame"); //TODO Button Action erweitern um switchscreen event damit Screen nicht hardcoded Ingame sein muss
 		break;
 	case IViewObserver::MainOptions:
-		OutputDebugString("Open Options from MainMenue.........\n");
+		DEBUG_OUTPUT("Open Options from MainMenue.........\n");
 		//m_writing.PrintF("Change Screen to Options");
 		break;
 	case IViewObserver::QUIT_GAME:
 		isQuit = true;
 		PostQuitMessage(0);
-		OutputDebugString("Quit Game.........\n");
+		DEBUG_OUTPUT("Quit Game.........\n");
 		break;
 		// Handle other events, and update heroIsOnBridge_...
 	default:
-		OutputDebugString("Keine Lösung gefunden\n");
+		DEBUG_OUTPUT("Keine Lösung gefunden\n");
 	}
 
 }

@@ -20,11 +20,10 @@ private:
 	CRoot m_zr;
 	CFrame m_zf;
 	
-
-	std::map<std::string, IViewObject*> views;
 	VFactory factory;
 	LMaster* lMaster;
 	VUI* vUi;
+	VPlayingField* vPlayingField;
 
 public:
 	VMaster();
@@ -40,7 +39,7 @@ public:
 	virtual IVFactory* getFactory();
 	VPlayingField* getPlayingField();
 
-	void addScenegraph(const std::string &name, IViewObject* view);
+	void setVPlayingField(VPlayingField* vPlayingField);
 	//void removeScenegraph(const std::string &name, IViewObject* view) {}
 	void resize(int width, int height);
 
