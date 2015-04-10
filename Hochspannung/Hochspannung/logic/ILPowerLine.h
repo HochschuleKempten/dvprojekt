@@ -9,10 +9,10 @@ class ILPowerLine : public ILBuilding
 public:
 	enum PowerLineOrientation
 	{
-		NORTH = 0x0,
-		EAST = 0x1,
-		SOUTH = 0x2,
-		WEST = 0x4
+		NORTH = 0x1,
+		EAST = 0x2,
+		SOUTH = 0x4,
+		WEST = 0x8
 	};
 
 protected:
