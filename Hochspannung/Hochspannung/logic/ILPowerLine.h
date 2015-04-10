@@ -7,7 +7,7 @@ class LPlayingField;
 class ILPowerLine : public ILBuilding
 {
 protected:
-
+	
 	int energyValue;
 	std::shared_ptr<IVPowerLine> vPowerLine;
 

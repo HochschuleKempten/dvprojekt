@@ -3,11 +3,22 @@
 
 class LPowerLine :
 	public ILPowerLine
-{
+{	
 public:
-	const static int id = 4;
+	enum PowerLineOrientation
+	{
+		NORTH = 0x0,
+		EAST = 0x1,
+		SOUTH = 0x2,
+		WEST = 0x4
+	};
 
-	LPowerLine(const int costs, const int energyValue, LField* lField, const int x, const int y);
+	static const int id = 4;
+
+	LPowerLine(const int costs, const int energyValue, LField* lField, const int x, const int y, PowerLineOrientation orientation);
 	~LPowerLine();
+
+private:
+	PowerLineOrientation orientation;
 };
 
