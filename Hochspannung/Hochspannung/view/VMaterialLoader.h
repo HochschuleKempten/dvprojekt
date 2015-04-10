@@ -18,6 +18,9 @@ public:
 
 	static CMaterial materialCoalPowerPlant;
 	static CMaterial materialHydroelectricPowerPlant;
+	static CMaterial materialMainMenue;
+	static CMaterial materialMainMenueHover;
+	static CMaterial materialIngameCraft;
 };
 
 
