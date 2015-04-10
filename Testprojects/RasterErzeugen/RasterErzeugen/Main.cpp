@@ -20,8 +20,8 @@ void rotateCenter(cv::Mat& src, double angle, cv::Mat& dst)
 int main()
 {
 	//Settings
-	string name = "LuftaufnahmeBump";
-	int rasterSize = 6;
+	string name = "LuftaufnahmeDiffuse";
+	int rasterSize = 10;
 
 	Mat img = imread(name + string(".jpg"));
 	int height = img.rows / rasterSize;

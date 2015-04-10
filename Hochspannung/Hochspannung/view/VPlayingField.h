@@ -5,7 +5,9 @@
 #include "../logic/Array2D.h"
 #include "VMaster.h"
 #include "IViewObject.h"
+#include <vector>
 #include <memory>
+
 
 NAMESPACE_VIEW_B
 
@@ -19,6 +21,7 @@ private:
 	CMaterial m_zm;
 	const int fieldSize = 2;
 	//TODO (V) Neue Struktur der Placements
+	std::vector<CPlacement> m_zpPlacementHolders;	
 	Array2D<CGeoCube> m_zgField;
 	Array2D<CPlacement> m_zpField;
 	Array2D<shared_ptr<IViewBuilding>> viewObjects;
@@ -27,10 +30,12 @@ private:
 public:
 	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
 		: IViewObject(vMaster, &m_zp), IVPlayingField(lPlayingField),
+		m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25),
 		  m_zgField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
 		  m_zpField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
 		  viewObjects(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
 		  m_zmMaterials(lPlayingField->getFieldLength(), lPlayingField->getFieldLength())
+		  
 	{}
 	virtual ~VPlayingField()
 	{}

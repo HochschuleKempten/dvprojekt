@@ -13,30 +13,50 @@ void VPlayingField::placeObject(const std::shared_ptr<IViewBuilding>& objPtr, co
 
 void VPlayingField::initPlayingField()
 {
+	m_zp.Fasten(); // direkt das oberste fasten????????
 	CHVector size(fieldSize, fieldSize, 0.5f);
 	std::stringstream stream;
 	std::string textureDiffuse;
 	std::string textureBump;
 
-	for (int rowIdx = 0; rowIdx < m_zgField.getRows(); rowIdx++) {
-		for (int colIdx = 0; colIdx < m_zgField.getRows(); colIdx++) {
-			stream.clear();
-			stream.str("");
+	int square = sqrt(m_zpPlacementHolders.size());
+	
+	for (int holder = 0; holder < m_zpPlacementHolders.size(); holder++)
+	{
+		for (int rowIdx = (holder % square) * 5; rowIdx < ((holder % square) + 1) * 5; rowIdx++)
+		{
+			for (int colIdx = (holder / square) * 5 ; colIdx < ((holder /square + 1) * 5); colIdx++)
+			{
+				stream.clear();
+				stream.str("");
 
-			stream << getClassName(this) << ";" << rowIdx << ";" << colIdx;
+				stream << getClassName(this) << ";" << rowIdx << ";" << colIdx;
 
-			textureDiffuse = std::string("textures/LuftaufnahmeDiffuse") + std::to_string(rowIdx) + std::string("_") + std::to_string(colIdx) + std::string(".jpg");
-			textureBump = std::string("textures/LuftaufnahmeBump") + std::to_string(rowIdx) + std::string("_") + std::to_string(colIdx) + std::string(".jpg");
-			m_zmMaterials[rowIdx][colIdx].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
-			m_zmMaterials[rowIdx][colIdx].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
-			m_zgField[rowIdx][colIdx].Init(size, &m_zmMaterials[rowIdx][colIdx]);
-			m_zgField[rowIdx][colIdx].SetName(stream.str().c_str());
-			m_zpField[rowIdx][colIdx].AddGeo(&m_zgField[rowIdx][colIdx]);
-			m_zpField[rowIdx][colIdx].SetName(stream.str().c_str());
-			m_zp.AddPlacement(&m_zpField[rowIdx][colIdx]);
+				textureDiffuse = std::string("textures/LuftaufnahmeDiffuse") + std::to_string(rowIdx) + std::string("_") + std::to_string(colIdx) + std::string(".jpg");
+				textureBump = std::string("textures/LuftaufnahmeBump") + std::to_string(rowIdx) + std::string("_") + std::to_string(colIdx) + std::string(".jpg");
+				m_zmMaterials[rowIdx][colIdx].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
+				m_zmMaterials[rowIdx][colIdx].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
+				m_zgField[rowIdx][colIdx].Init(size, &m_zmMaterials[rowIdx][colIdx]);
+				m_zgField[rowIdx][colIdx].SetName(stream.str().c_str());
+				m_zpField[rowIdx][colIdx].AddGeo(&m_zgField[rowIdx][colIdx]);
+				m_zpField[rowIdx][colIdx].SetName(stream.str().c_str());
+				m_zp.AddPlacement(&m_zpField[rowIdx][colIdx]);
 
-			m_zpField[rowIdx][colIdx].TranslateX(colIdx * (fieldSize * fieldSize - 0.0));
-			m_zpField[rowIdx][colIdx].TranslateYDelta(rowIdx * (fieldSize * fieldSize - 0.0) * -1);
+				int test = colIdx * (fieldSize * fieldSize - 0.0);
+				int ttest = rowIdx * (fieldSize * fieldSize - 0.0) * -1;
+
+				m_zpField[rowIdx][colIdx].TranslateX(colIdx * (fieldSize * fieldSize - 0.0));
+				m_zpField[rowIdx][colIdx].TranslateYDelta(rowIdx * (fieldSize * fieldSize - 0.0) * -1);
+
+			
+
+				DEBUG_OUTPUT("Placements: " << holder << rowIdx << colIdx);
+/*
+				DEBUG_OUTPUT("X Pos: " << test);
+				DEBUG_OUTPUT("Y Pos: " << ttest);
+			*/
+
+			}
 		}
 	}
 
