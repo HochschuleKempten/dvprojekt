@@ -28,6 +28,7 @@ public:
 		//TODO (V) rotate windmill
 	}
 
+	static int id;
 };
 
 

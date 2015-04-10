@@ -20,5 +20,6 @@ void VHydroelectricPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant
 	SET_NAME_AND_COORDINATES
 }
 
+int VHydroelectricPowerPlant::id = IDGenerator::generateID();
 
 NAMESPACE_VIEW_E

@@ -3,6 +3,7 @@
 #include "../logic/IVMaster.h"
 #include "VFactory.h"
 #include "VGeneral.h"
+#include "../logic/IDGenerator.h"
 
 class LMaster;
 
@@ -44,6 +45,7 @@ public:
 	void resize(int width, int height);
 
 	friend class VUI;
+	static int id;
 };
 
 

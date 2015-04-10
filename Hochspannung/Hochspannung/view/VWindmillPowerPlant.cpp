@@ -20,5 +20,7 @@ void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& ob
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }
 
+int VWindmillPowerPlant::id = IDGenerator::generateID();
+
 
 NAMESPACE_VIEW_E

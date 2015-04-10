@@ -73,5 +73,7 @@ void VPlayingField::objectRemoved(const int x, const int y)
 	viewObjects[x][y] = nullptr;
 }
 
+int VPlayingField::id = IDGenerator::generateID();
+
 
 NAMESPACE_VIEW_E

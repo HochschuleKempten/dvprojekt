@@ -18,5 +18,7 @@ void VOilRefinery::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, c
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }
 
+int VOilRefinery::id = IDGenerator::generateID();
+
 
 NAMESPACE_VIEW_E

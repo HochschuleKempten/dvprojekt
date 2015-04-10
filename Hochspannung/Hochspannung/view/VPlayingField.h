@@ -58,6 +58,8 @@ public:
 	virtual void initPlayingField();
 
 	virtual void objectRemoved(const int x, const int y);
+
+	static int id;
 };
 
 

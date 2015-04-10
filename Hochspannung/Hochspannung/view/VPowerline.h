@@ -21,7 +21,10 @@ public:
 	{}
 
 	virtual void initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y);
+
+	static int id;
 };
 
+int VPowerLine::id = IDGenerator::generateID();
 
 NAMESPACE_VIEW_E 

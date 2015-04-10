@@ -18,5 +18,6 @@ void VNuclearPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& obj
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }
 
+int VNuclearPowerPlant::id = IDGenerator::generateID();
 
 NAMESPACE_VIEW_E
