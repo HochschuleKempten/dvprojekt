@@ -29,7 +29,8 @@ void VPlayingField::initPlayingField()
 				stream.clear();
 				stream.str("");
 
-				stream << getClassName(this) << ";" << rowIdx << ";" << colIdx;
+				//stream << getClassName(this) << ";" << rowIdx << ";" << colIdx;
+				stream << id << ";" << rowIdx << ";" << colIdx;
 
 				textureDiffuse = std::string("textures/LuftaufnahmeDiffuse") + std::to_string(rowIdx) + std::string("_") + std::to_string(colIdx) + std::string(".jpg");
 				textureBump = std::string("textures/LuftaufnahmeBump") + std::to_string(rowIdx) + std::string("_") + std::to_string(colIdx) + std::string(".jpg");
@@ -63,7 +64,7 @@ void VPlayingField::initPlayingField()
 	m_zp.TranslateDelta(-fieldSize * rows, fieldSize * rows, -fieldSize * rows * 1.5);
 	m_zp.SetFrustumCullingOff();//TODO (V) remove this after bugfix
 
-	vMaster->addScenegraph(getClassName(this), this);
+	vMaster->setVPlayingField(this);
 }
 
 void VPlayingField::objectRemoved(const int x, const int y)

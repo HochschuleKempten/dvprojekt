@@ -50,13 +50,15 @@ IVFactory* VMaster::getFactory()
 
 VPlayingField* VMaster::getPlayingField()
 {
-	return dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)]);
+	ASSERT(vPlayingField != nullptr, "VPlayingField is not initialized");
+
+	return vPlayingField;
 }
 
-void VMaster::addScenegraph(const std::string &name, IViewObject* view)
+void VMaster::setVPlayingField(VPlayingField* vPlayingField)
 {
-	views[name] = view;
-	vUi->m_zs.AddPlacement(view->getPlacement());
+	vPlayingField = vPlayingField;
+	vUi->m_zs.AddPlacement(vPlayingField->getPlacement());
 }
 
 void VMaster::resize(int width, int heigth)
