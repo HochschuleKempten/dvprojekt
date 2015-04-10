@@ -44,14 +44,14 @@ void VUI::initUI()
 
 	addScreen("MainMenue", VScreen::MainMenue);
 	getScreen("MainMenue")->addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Bottom");
-	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33, 0.27, 0.33, 0.14), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::START_GAME);
-	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33, 0.42, 0.33, 0.14), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::MainOptions);
-	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33, 0.57, 0.33, 0.14), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::QUIT_GAME);
+	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33f, 0.27f, 0.33f, 0.14f), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::START_GAME);
+	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33f, 0.42f, 0.33f, 0.14f), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::MainOptions);
+	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33f, 0.57f, 0.33f, 0.14f), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::QUIT_GAME);
 
 	addScreen("Ingame", VScreen::Ingame);
 	getScreen("Ingame")->addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "craft");
-	getScreen("Ingame")->getContainer("craft")->addButton(CFloatRect(0.0, 0.75, 0.20, 0.25), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenue, IViewObserver::NOTHING);
-	getScreen("Ingame")->getContainer("craft")->addButton(CFloatRect(0.2, 0.75, 0.60, 0.25), &VMaterialLoader::materialIngameCraft, &VMaterialLoader::materialIngameCraft, IViewObserver::NOTHING);
+	getScreen("Ingame")->getContainer("craft")->addButton(CFloatRect(0.0f, 0.75f, 0.20f, 0.25f), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenue, IViewObserver::NOTHING);
+	getScreen("Ingame")->getContainer("craft")->addButton(CFloatRect(0.2f, 0.75f, 0.60f, 0.25f), &VMaterialLoader::materialIngameCraft, &VMaterialLoader::materialIngameCraft, IViewObserver::NOTHING);
 
 	switchScreen("MainMenue");
 }
@@ -72,7 +72,7 @@ void VUI::handleInput(float fTimeDelta)
 
 	if (m_zkCursor.ButtonPressedLeft()) {
 		if (!pickingActive) {
-			float f;
+			
 
 			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
 			if (pickedPlacement == nullptr) {
@@ -100,7 +100,7 @@ void VUI::handleInput(float fTimeDelta)
 	}
 	else if (m_zkCursor.ButtonPressedRight()) {
 		if (!pickingActive) {
-			float f;
+		
 
 			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
 			if (pickedPlacement == nullptr) {

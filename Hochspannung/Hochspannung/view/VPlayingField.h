@@ -20,7 +20,6 @@ private:
 	CPlacement m_zp;
 	CMaterial m_zm;
 	const int fieldSize = 2;
-	//TODO (V) Neue Struktur der Placements
 	std::vector<CPlacement> m_zpPlacementHolders;	
 	Array2D<CGeoCube> m_zgField;
 	Array2D<CPlacement> m_zpField;
