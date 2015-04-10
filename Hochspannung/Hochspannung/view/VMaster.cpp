@@ -1,6 +1,5 @@
 #include "VMaster.h"
 #include "../logic/LMaster.h"
-#include "../logic/LUtility.h"
 #include "VFactory.h"
 #include "VPlayingField.h"
 #include "VUI.h"

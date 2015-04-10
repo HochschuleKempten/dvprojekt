@@ -1,9 +1,11 @@
 #pragma once
 
+#include "../logic/LUtility.h"
 #include "Vektoria\Root.h"
 #include "VektoriaMath\Util.h"
 #include <vector>
 #include <map>
+#include <list>
 
 using namespace Vektoria;
 

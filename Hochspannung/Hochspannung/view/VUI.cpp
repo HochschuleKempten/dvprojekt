@@ -1,6 +1,5 @@
 #include "VUI.h"
 #include "VMaster.h"
-#include "../logic/LUtility.h"
 #include "VPlayingField.h"
 #include "VCoalPowerPlant.h"
 #include "VHydroelectricPowerPlant.h"

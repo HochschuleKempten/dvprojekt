@@ -1,5 +1,4 @@
 #include "VPlayingField.h"
-#include "../logic/LUtility.h"
 #include "IViewBuilding.h"
 
 NAMESPACE_VIEW_B

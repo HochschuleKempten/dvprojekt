@@ -1,6 +1,5 @@
 # pragma once
 
-#include "../logic/LUtility.h"
 #include "../logic/IVPowerPlant.h"
 #include "../logic/LWindmillPowerPlant.h"
 #include "../logic/IVTickObserver.h"

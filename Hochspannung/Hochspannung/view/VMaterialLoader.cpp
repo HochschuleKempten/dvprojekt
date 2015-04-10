@@ -1,5 +1,4 @@
 #include "VMaterialLoader.h"
-#include "../logic/LUtility.h"
 
 NAMESPACE_VIEW_B
 
