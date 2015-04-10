@@ -53,21 +53,17 @@ inline std::string getClassName(const std::type_info& typeInfo)
 
 #define getClassName(type) getClassName(typeid(type))
 
-/**
- * @brief Helper exception class for the assert macro.
- */
-class ExceptionOutputDebug : public std::exception
-{
-public:
-	inline ExceptionOutputDebug(const std::string& e)
-	{
-		OutputDebugString("EXCEPTION! ");
-		OutputDebugString(e.c_str());
-		OutputDebugString("\n");
-		if (1) // avoids C4702 (unreachable code)
-			throw e;
-	}
-};
+#ifdef _DEBUG
+/*
+* @def DEBUG_OUTPUT(msgExpr)
+* Useful macro to print something to the visual studio output window
+*/
+#define DEBUG_OUTPUT(msgExpr) { std::stringstream s; \
+                                s << __FILE__ << "(" << __LINE__ << "): " << msgExpr << std::endl; \
+                                OutputDebugString(s.str().c_str()); }
+#else
+#define DEBUG_OUTPUT(msgExpr)
+#endif
 
 #ifdef _DEBUG
 /*
@@ -75,19 +71,16 @@ public:
  * Use this macro to check conditions at runtime in debug mode
  * Type in the conditition the behaviour you desire (the assertion fails if your condition fails)
  */
-#define ASSERT(cond, msgExpr) if(!(cond)){ std::stringstream s; s << __FILE__ << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; throw ExceptionOutputDebug(s.str()); }
+#define ASSERT(cond, msgExpr) if(!(cond)) { \
+								 std::stringstream s; \
+                                 s << __FILE__ << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; \
+								 OutputDebugString("EXCEPTION! "); \
+								 OutputDebugString(s.str().c_str()); \
+								 OutputDebugString("\n"); \
+								 throw std::string(s.str()); \
+                              }
 #else
 #define ASSERT(cond, msgExpr)
-#endif
-
-#ifdef _DEBUG
-/*
- * @def DEBUG_OUTPUT(msgExpr)
- * Useful macro to print something to the visual studio output window
- */
-#define DEBUG_OUTPUT(msgExpr) do { std::stringstream s; s << __FILE__ << "(" << __LINE__ << "): " << msgExpr << std::endl; OutputDebugString(s.str().c_str()); } while(0)
-#else
-#define DEBUG_OUTPUT(msgExpr)
 #endif
 
 #endif //_LUTILITY_H_

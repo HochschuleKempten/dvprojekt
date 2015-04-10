@@ -4,6 +4,7 @@
 #include "VFactory.h"
 #include "VGeneral.h"
 
+
 class LMaster;
 
 NAMESPACE_VIEW_B
@@ -18,17 +19,11 @@ class VMaster : public IVMaster
 private:
 	CRoot m_zr;
 	CFrame m_zf;
-	CViewport m_zv;
-	CCamera m_zc;
-	CPlacement m_zpCamera;
-	CScene m_zs;
-	CParallelLight m_zl;
-	CBackground m_zb;
-
-	std::map<std::string, IViewObject*> views;
+	
 	VFactory factory;
-	LMaster* lMaster;
-	VUI* vUi;
+	LMaster* lMaster = nullptr;
+	VUI* vUi = nullptr;
+	VPlayingField* vPlayingField = nullptr;
 
 public:
 	VMaster();
@@ -44,11 +39,12 @@ public:
 	virtual IVFactory* getFactory();
 	VPlayingField* getPlayingField();
 
-	void addScenegraph(const std::string &name, IViewObject* view);
+	void setVPlayingField(VPlayingField* vPlayingField);
 	//void removeScenegraph(const std::string &name, IViewObject* view) {}
 	void resize(int width, int height);
 
 	friend class VUI;
+	static int id;
 };
 
 

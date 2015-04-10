@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../logic/LUtility.h"
 #include "VGeneral.h"
 
 NAMESPACE_VIEW_B

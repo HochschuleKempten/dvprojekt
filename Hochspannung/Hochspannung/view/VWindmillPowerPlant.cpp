@@ -21,4 +21,6 @@ void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& ob
 }
 
 
+
+
 NAMESPACE_VIEW_E
