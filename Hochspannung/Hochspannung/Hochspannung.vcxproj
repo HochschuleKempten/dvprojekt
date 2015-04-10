@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="logic\Array2D.h" />
+    <ClInclude Include="logic\IDGenerator.h" />
     <ClInclude Include="logic\ILPowerLine.h" />
     <ClInclude Include="logic\IVFactory.h" />
     <ClInclude Include="logic\IVPlayingField.h" />

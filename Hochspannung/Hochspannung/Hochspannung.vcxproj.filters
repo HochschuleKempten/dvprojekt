@@ -188,6 +188,9 @@
     <ClInclude Include="view\IViewGUIContainer.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="logic\IDGenerator.h">
+      <Filter>logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
