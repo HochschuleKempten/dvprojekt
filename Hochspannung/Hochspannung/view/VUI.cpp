@@ -59,7 +59,8 @@ void VUI::initUI()
 void VUI::handleInput(float fTimeDelta)
 {
 	m_zkKeyboard.PlaceWASD(m_zpCamera, fTimeDelta);
-	m_zkKeyboard.SetWASDTranslationSensitivity(100.0);
+	//TODO (V) Move this to init
+	m_zkKeyboard.SetWASDTranslationSensitivity(10.0);
 	m_zkKeyboard.SetWASDRotationSensitivity(2.0);
     m_zkKeyboard.SetWASDLevelMin(100.0);
 	m_zkKeyboard.SetWASDLevelMax(200.0);

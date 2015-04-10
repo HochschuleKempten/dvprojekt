@@ -5,6 +5,7 @@
 #include "../logic/Array2D.h"
 #include "VMaster.h"
 #include "IViewBuilding.h"
+#include "Trasse.h"
 
 
 NAMESPACE_VIEW_B
@@ -13,8 +14,9 @@ NAMESPACE_VIEW_B
 class VCoalPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:
-	CPlacement m_zp;
-	CGeoCone m_zg;
+	CTrasse m_zp;
+	//CPlacement m_zp;
+	//CGeoCone m_zg;
 
 public:
 	VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant);
