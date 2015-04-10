@@ -5,6 +5,7 @@
 #include "../logic/Array2D.h"
 #include "VMaster.h"
 #include "IViewObject.h"
+#include "../logic/IDGenerator.h"
 #include <vector>
 #include <memory>
 

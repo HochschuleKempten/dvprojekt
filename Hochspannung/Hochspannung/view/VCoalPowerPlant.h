@@ -5,6 +5,7 @@
 #include "../logic/Array2D.h"
 #include "VMaster.h"
 #include "IViewBuilding.h"
+#include "../logic/IDGenerator.h"
 
 NAMESPACE_VIEW_B
 

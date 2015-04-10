@@ -3,6 +3,7 @@
 #include "../logic/LPowerLine.h"
 #include "../logic/IVPowerLine.h"
 #include "IViewBuilding.h"
+#include "../logic/IDGenerator.h"
 
 
 NAMESPACE_VIEW_B
@@ -25,6 +26,5 @@ public:
 	static int id;
 };
 
-int VPowerLine::id = IDGenerator::generateID();
 
 NAMESPACE_VIEW_E 

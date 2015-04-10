@@ -3,6 +3,7 @@
 #include "../logic/IVPowerPlant.h"
 #include "../logic/LSolarPowerPlant.h"
 #include "IViewBuilding.h"
+#include "../logic/IDGenerator.h"
 
 NAMESPACE_VIEW_B
 
@@ -24,6 +25,5 @@ public:
 	static int id;
 };
 
-int VSolarPowerPlant::id = IDGenerator::generateID();
 
 NAMESPACE_VIEW_E

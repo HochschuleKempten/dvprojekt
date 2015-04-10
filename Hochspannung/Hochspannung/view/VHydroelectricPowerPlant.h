@@ -3,6 +3,7 @@
 #include "../logic/IVPowerPlant.h"
 #include "../logic/LHydroelectricPowerPlant.h"
 #include "IViewBuilding.h"
+#include "../logic/IDGenerator.h"
 
 NAMESPACE_VIEW_B
 
