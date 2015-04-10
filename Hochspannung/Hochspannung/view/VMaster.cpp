@@ -1,6 +1,5 @@
 #include "VMaster.h"
 #include "../logic/LMaster.h"
-#include "../logic/LUtility.h"
 #include "VFactory.h"
 #include "VPlayingField.h"
 #include "VUI.h"
@@ -30,24 +29,8 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 {
 	m_zr.Init(psplash);
 	m_zf.Init(hwnd);
-	m_zc.Init();
-	m_zv.InitFull(&m_zc);
 	m_zr.AddFrameHere(&m_zf);
-	m_zf.AddViewport(&m_zv);
-	m_zr.AddScene(&m_zs);
-
-	m_zb.InitFull("textures/black_image.jpg");
-	m_zv.AddBackground(&m_zb);
-
-	m_zs.AddPlacement(&m_zpCamera);
-	m_zpCamera.AddCamera(&m_zc);
 	
-	m_zpCamera.TranslateZ(50.0);
-	m_zpCamera.RotateXDelta(0.3 * PI);
-
-	m_zs.AddParallelLight(&m_zl);
-	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
-			  CColor(1.0f, 1.0f, 1.0f));
 
 	vUi->initUI();
 }
@@ -73,7 +56,7 @@ VPlayingField* VMaster::getPlayingField()
 void VMaster::addScenegraph(const std::string &name, IViewObject* view)
 {
 	views[name] = view;
-	m_zs.AddPlacement(view->getPlacement());
+	vUi->m_zs.AddPlacement(view->getPlacement());
 }
 
 void VMaster::resize(int width, int heigth)

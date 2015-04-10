@@ -18,12 +18,7 @@ class VMaster : public IVMaster
 private:
 	CRoot m_zr;
 	CFrame m_zf;
-	CViewport m_zv;
-	CCamera m_zc;
-	CPlacement m_zpCamera;
-	CScene m_zs;
-	CParallelLight m_zl;
-	CBackground m_zb;
+	
 
 	std::map<std::string, IViewObject*> views;
 	VFactory factory;
