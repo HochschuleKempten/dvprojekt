@@ -41,6 +41,6 @@ public:
 	PowerLineOrientation getPowerLineOrientation()
 	{
 		return orientation;
-	}
+	};
 
 };

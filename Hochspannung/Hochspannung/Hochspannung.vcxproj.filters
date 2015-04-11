@@ -197,6 +197,9 @@
     <ClInclude Include="view\VModelPowerLine.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="logic\LCity.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -294,6 +297,9 @@
     </ClCompile>
     <ClCompile Include="view\VModelPowerLine.cpp">
       <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LCity.cpp">
+      <Filter>logic\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

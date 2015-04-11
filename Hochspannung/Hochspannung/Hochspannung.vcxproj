@@ -141,6 +141,7 @@
     <ClInclude Include="logic\IVPowerPlant.h" />
     <ClInclude Include="logic\IVTickObserver.h" />
     <ClInclude Include="logic\IVUI.h" />
+    <ClInclude Include="logic\LCity.h" />
     <ClInclude Include="logic\LField.h" />
     <ClInclude Include="logic\LCoalPowerPlant.h" />
     <ClInclude Include="logic\ILPowerPlant.h" />
@@ -186,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="logic\LCity.cpp" />
     <ClCompile Include="logic\LField.cpp" />
     <ClCompile Include="logic\LCoalPowerPlant.cpp" />
     <ClCompile Include="logic\LHydroelectricPowerPlant.cpp" />

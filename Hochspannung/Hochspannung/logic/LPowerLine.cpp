@@ -15,3 +15,8 @@ LPowerLine::LPowerLine(const int costs, const int energyValue, LField* lField, c
 LPowerLine::~LPowerLine()
 {
 }
+
+int LPowerLine::getID()
+{
+	return id;
+}
