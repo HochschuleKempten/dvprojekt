@@ -5,12 +5,9 @@
 
 class LMaster;
 class IVPlayingField;
-class ILPowerLine;
 
 class LPlayingField
 {
-	//todo (IP) add isConnected(building, building) method
-
 private:
 	const int fieldLength = 10; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P), todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster;
@@ -29,24 +26,13 @@ public:
 	bool placeBuilding(const int x, const int y, const Args... arguments)
 	{
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
-		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");
+		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
 
-		bool retVal = getField(x, y)->setBuilding<T>(x, y, arguments...);
-
-		if (powerPlantConnected(x, y)) //todo (IP) not just powerplant, also powerline
-		{
-			//todo (IP) add energy value to city
-		}
-
-		return retVal;
+		return getField(x, y)->setBuilding<T>(x, y, arguments...);;
 	}
 	
 	int getFieldLength();
 	void removeBuilding(const int x, const int y);
 	void upgradeBuilding(const int x, const int y);
 	LMaster* getLMaster();
-
-private:
-	bool powerPlantConnected(const int x, const int y);
-	bool helper(const int x, const int y, ILPowerLine::PowerLineOrientation mask);
 };
