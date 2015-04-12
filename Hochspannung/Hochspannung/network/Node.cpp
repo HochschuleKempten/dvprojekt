@@ -1,17 +1,17 @@
-#include "Computer.h"
+#include "Node.h"
 #include <boost\asio\write.hpp>
 #include <boost\asio\read.hpp>
 #include <boost\asio\placeholders.hpp>
 
-CComputer::CComputer() :
+CNode::CNode() :
 m_io_service(io_service()), m_socket(m_io_service), m_bConnected(false) {
 }
 
-CComputer::~CComputer() {
+CNode::~CNode() {
 	m_thread.join();
 }
 
-void CComputer::start() {
+void CNode::start() {
 	if (!isConnected()) {
 		connect();
 
@@ -23,7 +23,7 @@ void CComputer::start() {
 	}
 }
 
-void CComputer::stop() {
+void CNode::stop() {
 	m_io_service.post([this]() {
 		m_socket.close();
 	});
@@ -34,17 +34,17 @@ void CComputer::stop() {
 	std::cout << "Connection closed" << std::endl;
 }
 
-void CComputer::restart() {
+void CNode::restart() {
 	stop();
 	start();
 }
 
-bool CComputer::isConnected() {
+bool CNode::isConnected() {
 	return m_bConnected;
 }
 
-void CComputer::write(const CMessage& msg) {
-	m_io_service.post([this, msg]() {
+void CNode::write(const CMessage& message) {
+	m_io_service.post([this, message]() {
 		bool write_in_progress = !m_dequeMessagesToWrite.empty();
 
 		if (!write_in_progress) {
@@ -53,28 +53,28 @@ void CComputer::write(const CMessage& msg) {
 	});
 }
 
-void CComputer::do_write() {
+void CNode::do_write() {
 	async_write(m_socket,
 		buffer(m_dequeMessagesToWrite.front().getData(), m_dequeMessagesToWrite.front().getLength()),
-		boost::bind(&CComputer::writeCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
+		boost::bind(&CNode::writeCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 }
 
-void CComputer::readHeader() {
+void CNode::readHeader() {
 	async_read(m_socket,
 		buffer(m_messageRead.getData(), CMessage::headerLength),
-		boost::bind(&CComputer::readHeaderCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
+		boost::bind(&CNode::readHeaderCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 }
 
-void CComputer::readBody() {
+void CNode::readBody() {
 	async_read(m_socket,
 		buffer(m_messageRead.getBody(), m_messageRead.getBodyLength()),
-		boost::bind(&CComputer::readBodyCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
+		boost::bind(&CNode::readBodyCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 }
 
-void CComputer::writeCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+void CNode::writeCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
 	if (!ec) {
 		m_dequeMessagesToWrite.pop_front();
 
@@ -86,9 +86,9 @@ void CComputer::writeCompleteHandler(const boost::system::error_code& ec, std::s
 	}
 }
 
-void CComputer::readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+void CNode::readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
 	if (!ec) {
-		if (m_messageRead.decodeHeader()) { // message to long
+		if (m_messageRead.decodeHeader()) { // message is to long
 			readBody();
 		}
 	} else {
@@ -96,7 +96,7 @@ void CComputer::readHeaderCompleteHandler(const boost::system::error_code& ec, s
 	}
 }
 
-void CComputer::readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+void CNode::readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
 	if (!ec) {
 		std::cout << ">>";
 		std::cout.write(m_messageRead.getBody(), m_messageRead.getBodyLength());
@@ -108,7 +108,7 @@ void CComputer::readBodyCompleteHandler(const boost::system::error_code& ec, std
 	}
 }
 
-void CComputer::handleConnectionError(const boost::system::error_code& ec) {
+void CNode::handleConnectionError(const boost::system::error_code& ec) {
 	switch (ec.value()) {
 	case 0:
 		// no error

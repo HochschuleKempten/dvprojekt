@@ -181,9 +181,6 @@
     <ClInclude Include="network\Client.h">
       <Filter>network\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="network\Computer.h">
-      <Filter>network\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="network\Message.h">
       <Filter>network\Headerdateien</Filter>
     </ClInclude>
@@ -191,6 +188,9 @@
       <Filter>network\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="network\TransferObject.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="network\Node.h">
       <Filter>network\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -279,9 +279,6 @@
     <ClCompile Include="network\Client.cpp">
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="network\Computer.cpp">
-      <Filter>network\Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="network\Message.cpp">
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
@@ -289,6 +286,9 @@
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="network\TransferObject.cpp">
+      <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\Node.cpp">
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

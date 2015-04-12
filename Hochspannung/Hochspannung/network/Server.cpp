@@ -3,7 +3,7 @@
 #include <iostream>
 
 CServer::CServer(int port) :
-CComputer(), m_acceptor(m_io_service, ip::tcp::v4()), m_endpoint(ip::tcp::endpoint(ip::tcp::v4(), port)) {
+CNode(), m_acceptor(m_io_service, ip::tcp::v4()), m_endpoint(ip::tcp::endpoint(ip::tcp::v4(), port)) {
 	m_acceptor.bind(m_endpoint);
 }
 

@@ -1,11 +1,23 @@
 #pragma once
-#include "Computer.h"
+#include "Node.h"
 
 using namespace boost::asio;
 
-class CServer : public CComputer {
+/**
+ * @class CServer
+ * @brief Server class for the communication between two game sessions.
+ */
+class CServer : public CNode {
 public:
+	/**
+	 * @brief Constructor that takes the server port.
+	 * @param port the server should listen to.
+	 */
 	CServer(int port);
+
+	/**
+	 * @brief Default constructor.
+	 */
 	~CServer();
 
 private:

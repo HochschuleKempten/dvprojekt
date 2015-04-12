@@ -4,7 +4,7 @@
 #include <iostream>
 
 CClient::CClient(std::string ip, std::string port) :
-CComputer(), m_resolver(m_io_service) {
+CNode(), m_resolver(m_io_service) {
 	m_endpointIterator = ip::tcp::resolver(m_io_service).resolve({ip, port});
 }
 
