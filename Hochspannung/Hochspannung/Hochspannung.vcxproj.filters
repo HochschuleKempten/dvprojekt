@@ -36,6 +36,17 @@
     <Filter Include="logic\Interfaces">
       <UniqueIdentifier>{a55ef8ad-46b5-4071-8814-7192c6ba31b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{f968b7d4-fdca-43a9-9179-75f6e83da9a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\Headerdateien">
+      <UniqueIdentifier>{c0579edc-8357-4e92-a4e2-eb6102c3c869}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="network\Quelldateien">
+      <UniqueIdentifier>{ecddb718-3c1a-4363-8172-811f1978f36f}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -200,6 +211,21 @@
     <ClInclude Include="logic\LCity.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="network\Client.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="network\Message.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="network\Server.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="network\TransferObject.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="network\Node.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -300,6 +326,21 @@
     </ClCompile>
     <ClCompile Include="logic\LCity.cpp">
       <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\Client.cpp">
+      <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\Message.cpp">
+      <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\Server.cpp">
+      <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\TransferObject.cpp">
+      <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\Node.cpp">
+      <Filter>network\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
