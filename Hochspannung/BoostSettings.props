@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <IncludePath>..\..\boost_1_57_0;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\boost_1_57_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\boost_1_57_0\stage\lib$(PlatformArchitecture)-msvc-12.0;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup />
