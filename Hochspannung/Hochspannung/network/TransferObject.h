@@ -1,5 +1,7 @@
 #pragma once
 
+namespace Network {
+
 enum Action {
 	UNDEFINED,
 
@@ -43,3 +45,4 @@ private:
 
 };
 
+}

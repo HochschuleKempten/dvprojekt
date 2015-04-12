@@ -1,5 +1,7 @@
 #include "TransferObject.h"
 
+namespace Network {
+
 CTransferObject::CTransferObject(Action action = UNDEFINED, int iTransObjectID = -1, int iCoordX = -1, int iCoordY = -1) :
 m_Action(action), m_iTransObjectID(iTransObjectID), m_iCoordX(iCoordX), m_iCoordY(iCoordY) {
 }
@@ -37,4 +39,6 @@ int CTransferObject::getCoordY() {
 
 void CTransferObject::setCoordY(int iCoordY) {
 	m_iCoordY = iCoordY;
+}
+
 }

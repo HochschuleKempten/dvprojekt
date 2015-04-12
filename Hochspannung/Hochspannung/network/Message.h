@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <cstring>
 
+namespace Network {
+
 /**
  * @class CMessage
  * @brief Base class for the communication between two game sessions.
@@ -91,3 +93,4 @@ private:
 	int m_iBodyLength;
 };
 
+}

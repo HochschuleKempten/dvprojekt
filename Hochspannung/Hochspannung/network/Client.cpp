@@ -3,6 +3,8 @@
 #include <boost\asio\connect.hpp>
 #include <iostream>
 
+namespace Network {
+
 CClient::CClient(std::string ip, std::string port) :
 CNode(), m_resolver(m_io_service) {
 	m_endpointIterator = ip::tcp::resolver(m_io_service).resolve({ip, port});
@@ -18,13 +20,15 @@ void CClient::connect() {
 	);
 }
 
-void CClient::connectCompleteHandler(const boost::system::error_code& ec, ip::tcp::resolver::iterator iterator) {
+void CClient::connectCompleteHandler(const error_code& ec, ip::tcp::resolver::iterator iterator) {
 	if (!ec) {
 		std::cout << "Connected to server " << m_socket.remote_endpoint() << std::endl;
 
 		m_bConnected = true;
 		readHeader();
 	} else {
-		std::cout << "Connecting to server failed: " << ec.message() << std::endl;
+		handleConnectionError(ec);
 	}
+}
+
 }

@@ -5,7 +5,10 @@
 #include "Vektoria\Writing.h"
 #include "Message.h"
 
+namespace Network {
+
 using namespace boost::asio;
+using boost::system::error_code;
 
 /**
  * @class CNode
@@ -21,7 +24,7 @@ public:
 	/**
 	 * @brief Default deconstructor.
 	 */
-	~CNode();
+	virtual ~CNode();
 	
 	/**
 	 * @brief Start the node
@@ -83,28 +86,28 @@ protected:
 	 * This handler is called when async_write completes. 
 	 * Don`t call it directly!
 	 */
-	void writeCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+	void writeCompleteHandler(const error_code& ec, std::size_t length);
 
 	/**
 	 * @brief Read handler.
   	 * This handler is called when async_read completes. 
 	 * Don`t call it directly!
 	 */
-	void readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+	void readHeaderCompleteHandler(const error_code& ec, std::size_t length);
 	
 	/**
 	 * @brief Read handler.
 	 * This handler is called when async_read completes. 
 	 * Don`t call it directly!
 	 */
-	void readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length);
+	void readBodyCompleteHandler(const error_code& ec, std::size_t length);
 
 	/**
 	 * @brief Handles any connection errors.
 	 * A convenience method that should be called in case of connection errors for centralized error handling (e.g. by handlers).
 	 * @param ec the error code to handle
 	 */
-	void handleConnectionError(const boost::system::error_code& ec);
+	void handleConnectionError(const error_code& ec);
 
 	io_service m_io_service; 
 	boost::thread m_thread;
@@ -115,3 +118,5 @@ protected:
 	CMessage m_messageRead;
 	std::deque<CMessage> m_dequeMessagesToWrite;
 };
+
+}

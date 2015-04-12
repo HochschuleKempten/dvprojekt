@@ -3,6 +3,11 @@
 
 using namespace boost::asio;
 
+namespace Network {
+
+using namespace boost::asio;
+using boost::system::error_code;
+
 /**
  * @class CClient
  * @brief Client class for the communication between two game sessions.
@@ -24,9 +29,10 @@ public:
 private:
 	void connect();
 
-	void connectCompleteHandler(const boost::system::error_code& ec, ip::tcp::resolver::iterator iterator);
+	void connectCompleteHandler(const error_code& ec, ip::tcp::resolver::iterator iterator);
 
 	ip::tcp::resolver m_resolver;
 	ip::tcp::resolver::iterator m_endpointIterator;
 };
 
+}

@@ -3,6 +3,8 @@
 #include <boost\asio\read.hpp>
 #include <boost\asio\placeholders.hpp>
 
+namespace Network {
+
 CNode::CNode() :
 m_io_service(io_service()), m_socket(m_io_service), m_bConnected(false) {
 }
@@ -25,6 +27,7 @@ void CNode::start() {
 
 void CNode::stop() {
 	m_io_service.post([this]() {
+		m_socket.shutdown(ip::tcp::socket::shutdown_both);
 		m_socket.close();
 	});
 	m_thread.join();
@@ -74,7 +77,7 @@ void CNode::readBody() {
 	);
 }
 
-void CNode::writeCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+void CNode::writeCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
 		m_dequeMessagesToWrite.pop_front();
 
@@ -86,7 +89,7 @@ void CNode::writeCompleteHandler(const boost::system::error_code& ec, std::size_
 	}
 }
 
-void CNode::readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+void CNode::readHeaderCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
 		if (m_messageRead.decodeHeader()) { // message is to long
 			readBody();
@@ -96,7 +99,7 @@ void CNode::readHeaderCompleteHandler(const boost::system::error_code& ec, std::
 	}
 }
 
-void CNode::readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
 		std::cout << ">>";
 		std::cout.write(m_messageRead.getBody(), m_messageRead.getBodyLength());
@@ -108,21 +111,42 @@ void CNode::readBodyCompleteHandler(const boost::system::error_code& ec, std::si
 	}
 }
 
-void CNode::handleConnectionError(const boost::system::error_code& ec) {
-	switch (ec.value()) {
-	case 0:
-		// no error
-		break;
+void CNode::handleConnectionError(const error_code& ec) {
+	if (ec.category() == boost::system::system_category()) {
+		switch (ec.value()) {
+		case ERROR_SUCCESS:
+			// no error
+			break;
 
-	case boost::asio::error::connection_reset:
+		case ERROR_CONNECTION_REFUSED:
+			m_bConnected = false;
+			std::cout << "Connection refused by remote computer -> Trying again..." << std::endl;
+			connect(); // try to reconnect
+			break;
+
+		case WSAECONNRESET:
+			m_bConnected = false;
+			std::cout << "Connection was closed by remote host -> Trying to reconnect..." << std::endl;
+			connect(); // try to reconnect
+			break;
+
+		default:
+			m_bConnected = false;
+			std::cout << "System Error: " << ec.message() << std::endl;
+			m_io_service.post([this]() {
+				m_socket.shutdown(ip::tcp::socket::shutdown_both);
+				m_socket.close();
+			}); // close connection, just to be sure
+			break;
+		}
+	} else {
 		m_bConnected = false;
-		std::cout << "Lost connection -> Trying to reconnect..." << std::endl;
-		connect(); // try to reconnect
-		break;
-
-	default:
 		std::cout << "Error: " << ec.message() << std::endl;
-		m_socket.close(); // close connection, just to be sure
-		break;
+		m_io_service.post([this]() {
+			m_socket.shutdown(ip::tcp::socket::shutdown_both);
+			m_socket.close();
+		}); // close connection, just to be sure
 	}
+}
+
 }
