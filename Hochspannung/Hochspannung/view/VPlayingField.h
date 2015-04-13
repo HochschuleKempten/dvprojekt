@@ -5,8 +5,8 @@
 #include "../logic/Array2D.h"
 #include "VMaster.h"
 #include "IViewObject.h"
-#include <vector>
 #include <memory>
+#include "VField.h"
 
 NAMESPACE_VIEW_B
 
@@ -25,24 +25,26 @@ class IViewBuilding;
  */
 class VPlayingField : public IViewObject, public IVPlayingField
 {
+	friend class VField;
+
 private:
-	const int fieldSize = 2;
+	const float fieldSize = 2.0f;
+	const float fieldDepth = 0.5f;
+	const CHVector size = CHVector(fieldSize, fieldSize, fieldDepth);
+
 	std::vector<CPlacement> m_zpPlacementHolders;	
-	Array2D<CPlacement> m_zpField;
-	Array2D<CGeoCube> m_zgField;
-	Array2D<CMaterial> m_zmMaterials;
-	Array2D<shared_ptr<IViewBuilding>> viewObjects;
+	Array2D<VField> vFields;
 	CPlacement m_zp;
 
 public:
 	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
 		: IVPlayingField(lPlayingField),
-		  m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25),
-		  m_zpField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
-		  m_zgField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
-		  m_zmMaterials(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
-		  viewObjects(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
-		  IViewObject(vMaster, &m_zp)
+		m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25),
+		vFields(lPlayingField->getFieldLength(), lPlayingField->getFieldLength(), [this] (VField& vField)
+		{
+			vField.vPlayingField = this;
+		}),
+		IViewObject(vMaster, &m_zp)
 	{}
 	virtual ~VPlayingField();
 

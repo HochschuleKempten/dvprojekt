@@ -68,6 +68,8 @@ void VUI::handleInput(float fTimeDelta)
 {
 	m_zkKeyboard.PlaceWASD(m_zpCamera, fTimeDelta);
 
+	//TODO (JS) make power line clickable
+
 	/* Picking */
 	static bool pickingActive = false;
 

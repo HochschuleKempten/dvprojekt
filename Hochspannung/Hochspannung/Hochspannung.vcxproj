@@ -177,6 +177,7 @@
     <ClInclude Include="view\IViewObserver.h" />
     <ClInclude Include="view\IViewSubject.h" />
     <ClInclude Include="view\VCity.h" />
+    <ClInclude Include="view\VField.h" />
     <ClInclude Include="view\VModelPowerLine.h" />
     <ClInclude Include="view\VButton.h" />
     <ClInclude Include="view\VFactory.h" />
@@ -220,6 +221,7 @@
     <ClCompile Include="VektoriaApp.cpp" />
     <ClCompile Include="view\Helper.cpp" />
     <ClCompile Include="view\VCity.cpp" />
+    <ClCompile Include="view\VField.cpp" />
     <ClCompile Include="view\VModelPowerLine.cpp" />
     <ClCompile Include="view\VButton.cpp" />
     <ClCompile Include="view\VFactory.cpp" />
