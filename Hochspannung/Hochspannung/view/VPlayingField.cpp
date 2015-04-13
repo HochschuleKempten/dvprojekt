@@ -60,8 +60,6 @@ void VPlayingField::initPlayingField()
 	m_zp.SetFrustumCullingOff();//TODO (V) remove this after bugfix
 
 	m_zp.SetName("Placement VPlayingField");
-
-	vMaster->setVPlayingField(this);
 }
 
 void VPlayingField::objectRemoved(const int x, const int y)

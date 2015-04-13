@@ -7,27 +7,13 @@
 #include "IVFactory.h"
 #include <vector>
 #include "LUtility.h"
+
 #include "LPowerLine.h"
 
 LPlayingField::LPlayingField(LMaster* lMaster)
-: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this](LField& obj)
-{   //Lambda-Expression
-	obj.setLPlayingField(this);
-	//TODO (MB) create fields randomly with city
-	
-	
-	
-		//TODO (MB) create LCity --> placeBuilding
-		obj.init(LField::WATER, LField::LEVEL1);
-	})
-
-
-
-
+	: lMaster(lMaster), fieldArray(fieldLength, fieldLength)
 {
-	this->createFields();
 	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
-
 	createFields();
 }
 
@@ -72,11 +58,11 @@ void LPlayingField::upgradeBuilding(const int x, const int y)
 
 void LPlayingField::createFields()
 {
-
 	bool hasCity = false;;
 	std::vector<LField::FieldType> fieldTypes   = { LField::FieldType::CITY, LField::FieldType::COAL, LField::FieldType::GRASS, LField::FieldType::MOUNTAIN, LField::FieldType::OIL, LField::FieldType::WATER};
 	std::vector<LField::FieldLevel> fieldLevels = { LField::FieldLevel::LEVEL1, LField::FieldLevel::LEVEL2, LField::FieldLevel::LEVEL3};
 	
+	std::srand(std::time(0));
 
 	for (int x = 0; x < fieldLength; x++)
 	{
@@ -87,11 +73,11 @@ void LPlayingField::createFields()
 			int level = rand() % fieldLevels.size();
 			
 
-			if (hasCity & type == 0)
+			if (hasCity && type == 0)
 			{
+				y--;
 				continue;
 			}
-
 			else
 			{
 				fieldArray[x][y].init(fieldTypes[type], fieldLevels[level]);
@@ -99,8 +85,8 @@ void LPlayingField::createFields()
 			
 			if (type == 0)
 			{
-				hasCity == true;
-				//fieldArray[x][y].setBuilding<LPowerLine>(x, y);
+				hasCity = true;
+				fieldArray[x][y].setBuilding<LPowerLine>(x, y, ILPowerLine::EAST);
 			}
 
 			

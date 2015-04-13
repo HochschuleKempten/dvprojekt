@@ -45,7 +45,9 @@ public:
 			vField.vPlayingField = this;
 		}),
 		IViewObject(vMaster, &m_zp)
-	{}
+	{
+		vMaster->setVPlayingField(this);
+	}
 	virtual ~VPlayingField();
 
 	//TODO (V) remove building again

@@ -47,9 +47,9 @@ std::shared_ptr<IVPowerPlant> VFactory::createWindmillPowerPlant(LWindmillPowerP
 	return std::shared_ptr<IVPowerPlant>(new VWindmillPowerPlant(vMaster, powerPlant));
 }
 
-IVPowerLine* VFactory::createPowerLine(LPowerLine* powerLine)
+std::shared_ptr<IVPowerLine> VFactory::createPowerLine(LPowerLine* powerLine)
 {
-	return new VPowerLine(vMaster, powerLine);
+	return std::shared_ptr<IVPowerLine>(new VPowerLine(vMaster, powerLine));
 }
 
 IVUI* VFactory::createUi(LUI* lUi)
