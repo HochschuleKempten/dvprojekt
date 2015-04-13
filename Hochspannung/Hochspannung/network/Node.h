@@ -58,12 +58,6 @@ public:
 	void write(const CMessage& message);
 
 	/**
-	 * @brief Pushs the given transferObject to the end of the deque
-	 * @param transferObject the CTransferObject to push
-	 */
-	void setTransferObject(CTransferObject& transferObject);
-
-	/**
 	* @brief Pushs the given transferObject to the end of the deque
 	* @return transferObject the first CTransferObject from the deque
 	*/
@@ -73,7 +67,7 @@ public:
 	 * @brief Puts the CTransferObjects from m_dequeActionsToSend to
 	 * m_dequeMessagesToWrite and casts them
 	 */
-	void writeTransferObjectsToMessageDeque();
+	void writeTransferObjectsToMessageDeque(Action action, int iObjID, int iCoordX, int iCoordY, std::string sValue);
 
 	/**
 	* @brief Puts the CMessage from m_dequeMessagesToRead to
@@ -135,26 +129,12 @@ protected:
 	void handleConnectionError(const error_code& ec);
 
 	/**
-	 * @brief Returns the action as string
-	 * @param action the action needed as string
-	 * @return std::string
-	 */
-	std::string encodeAction(Action action);
-	
-	/**
-	* @brief Returns the given action string as Action
-	* @param actionStr the string to be transformed to an Action
-	* @return Action
-	*/
-	Action decodeAction(std::string actionStr);
-
-	/**
 	 * @brief Returns a string from a char array
 	 * @param mes the pointer to the message
 	 * @param maxLen the maximum length of the message
 	 * @return std::string
 	*/
-	std::string retrieveString(char* mes, int maxLen);
+	std::string retrieveString(char* mes, unsigned int maxLen);
 
 	io_service m_io_service; 
 	boost::thread m_thread;
@@ -166,7 +146,6 @@ protected:
 	std::deque<CMessage> m_dequeMessagesToWrite;
 	std::deque<CMessage> m_dequeMessagesToRead;
 	
-	std::deque<CTransferObject> m_dequeActionsToSend;
 	std::deque<CTransferObject> m_dequeActionsToExecute;
 };
 
