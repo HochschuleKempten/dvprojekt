@@ -14,6 +14,8 @@ private:
 	IVPlayingField* vPlayingField;
 	Array2D<LField> fieldArray;
 
+	void createFields();
+
 public:
 	LPlayingField(LMaster* lMaster);
 	~LPlayingField();
