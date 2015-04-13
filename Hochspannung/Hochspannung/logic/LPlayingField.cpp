@@ -5,6 +5,7 @@
 #include "IVPlayingField.h"
 #include "IVMaster.h"
 #include "IVFactory.h"
+#include "LCity.h"
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 : lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this](LField& obj)
@@ -89,6 +90,7 @@ void LPlayingField::createFields()
 			if (type == 0)
 			{
 				hasCity == true;
+				fieldArray[x][y].setBuilding<LCity>(x, y);
 			}
 		}
 	}
