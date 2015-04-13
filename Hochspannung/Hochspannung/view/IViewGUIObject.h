@@ -1,6 +1,6 @@
 #pragma once
 //TODO (pb)
-#include "IViewObserver.h"
+#include "IViewUIObserver.h"
 #include "IViewSubject.h"
 
 

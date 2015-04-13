@@ -11,7 +11,7 @@ public:
 	VScreenMainMenue(CFrame* frame);
 	~VScreenMainMenue();
 
-	void onNotify(IViewObserver::Event events);
+	void onNotify(IViewUIObserver::Event events);
 	
 };
 

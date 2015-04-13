@@ -20,7 +20,7 @@ VGroup::~VGroup()
 	}
 }
 
-void VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewObserver::Event clickAction)
+void VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction)
 {
 	VButton* vButton = new VButton(m_viewport,rect, MaterialNormal, MaterialHover, clickAction);
 	
@@ -29,7 +29,7 @@ void VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* Ma
 	m_guiObjects.push_back(vButton);
 }
 
-void VGroup::onNotify(IViewObserver::Event events)
+void VGroup::onNotify(IViewUIObserver::Event events)
 {
 	OutputDebugString("Nachricht bei Group-Observer angekommen\n");
 	switch (events)

@@ -3,14 +3,14 @@
 #include "../logic/IVUI.h"
 #include "../logic/IVTickObserver.h"
 #include "VGeneral.h"
-#include "IViewObserver.h"
+#include "IViewUIObserver.h"
 #include "IViewScreen.h"
 NAMESPACE_VIEW_B
 
 
 class VMaster;
 
-class VUI : public IVUI, public IVTickObserver,public IViewObserver
+class VUI : public IVUI, public IVTickObserver,public IViewUIObserver
 {
 	friend class VMaster;
 
@@ -49,7 +49,7 @@ public:
 	void switchScreen(string switchTo);
 	IViewScreen* getScreen(string sName);
 
-	virtual void onNotify(IViewObserver::Event);
+	virtual void onNotify(IViewUIObserver::Event);
 };
 
 

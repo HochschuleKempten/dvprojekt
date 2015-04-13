@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IViewGUIContainer.h"
-#include "IViewObserver.h"
+#include "IViewUIObserver.h"
 #include "IViewSubject.h"
 
 
@@ -13,7 +13,7 @@
 //---------------------------------------------------
 NAMESPACE_VIEW_B
 
-class VScreen:public IViewObserver,public IViewSubject
+class VScreen:public IViewUIObserver,public IViewSubject
 {
 public:
 	enum ScreenType
@@ -31,7 +31,7 @@ public:
 	void switchOff();
 	void addContainer(IViewGUIContainer::ContainerType containerType,CFloatRect floatRect,string Name);
 	IViewGUIContainer* getContainer(string sName);
-	virtual void onNotify(IViewObserver::Event);
+	virtual void onNotify(IViewUIObserver::Event);
 	map<string, IViewGUIContainer*>getGuiContainerMap();
 	
 	~VScreen();

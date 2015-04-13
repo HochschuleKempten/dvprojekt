@@ -3,7 +3,7 @@
 
 NAMESPACE_VIEW_B
 //---------------------------------------------------
-// IObserver Interface
+// IViewUIObserver Interface
 // Beschreibung:
 //
 // Autor: Patrick Benkowitsch
@@ -11,21 +11,21 @@ NAMESPACE_VIEW_B
 
 
 
-class IViewObserver
+class IViewUIObserver
 {
 public:
-enum Event
-{
-	START_GAME,
-	STOP_GAME,
-	QUIT_GAME,
-	MainOptions,
-	NOTHING
-};
+	enum Event
+	{
+		START_GAME,
+		STOP_GAME,
+		QUIT_GAME,
+		MainOptions,
+		NOTHING
+	};
 
-	virtual ~IViewObserver() {}
-	
-	virtual void onNotify(Event evente)=0;
-	
+	virtual ~IViewUIObserver() {}
+
+	virtual void onNotify(Event evente) = 0;
+
 };
 NAMESPACE_VIEW_E

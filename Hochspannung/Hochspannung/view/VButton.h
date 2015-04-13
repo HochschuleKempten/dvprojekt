@@ -14,7 +14,7 @@ class VButton:public IViewGUIObject{
 public:
 	
 	VButton();
-	VButton(CViewport* viewport,CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewObserver::Event clickAction);
+	VButton(CViewport* viewport,CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction);
 	~VButton();
 	
 	
@@ -54,7 +54,7 @@ private:
 	
 	bool m_bHasHover;
 
-	IViewObserver::Event action;
+	IViewUIObserver::Event action;
 	
 
 

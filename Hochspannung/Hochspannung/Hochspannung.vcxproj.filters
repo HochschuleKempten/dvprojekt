@@ -179,9 +179,6 @@
     <ClInclude Include="view\IViewSubject.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\IViewObserver.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\IViewGUIObject.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -193,6 +190,15 @@
     </ClInclude>
     <ClInclude Include="view\VScreenMainMenue.h">
       <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenIngame.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewUIObserver.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VDialog.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,11 +289,14 @@
     <ClCompile Include="view\VGroup.cpp">
       <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
-    <ClCompile Include="view\VScreen.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
-    </ClCompile>
     <ClCompile Include="view\VScreenMainMenue.cpp">
       <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenIngame.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VDialog.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

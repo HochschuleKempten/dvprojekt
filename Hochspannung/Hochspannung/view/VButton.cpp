@@ -7,10 +7,10 @@ m_bHasHover(false)
 {
 
 }
-VButton::VButton(CViewport* viewport,CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewObserver::Event clickAction) :
+VButton::VButton(CViewport* viewport,CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) :
 m_zfrRect(CFloatRect(0, 0, 0, 0)),
 m_bHasHover(false),
-action(IViewObserver::NOTHING)
+action(IViewUIObserver::NOTHING)
 {
 	m_zoNormal = new COverlay();
 	m_zoNormal->Init(MaterialNormal,rect);
@@ -48,7 +48,7 @@ void VButton::onMouseOut(void)
 }
 void VButton::onMouseClickLeft(void)
 {
-	notify(IViewObserver::START_GAME);
+	notify(IViewUIObserver::START_GAME);
 	//ToDo
 }
 void VButton::onMouseClickRight(void)

@@ -2,7 +2,7 @@
 
 #include "IViewGUIContainer.h"
 #include "IViewGUIObject.h"
-#include "IViewObserver.h"
+#include "IViewUIObserver.h"
 #include "IViewSubject.h"
 
 
@@ -21,8 +21,8 @@ public:
 	VGroup(CFloatRect floatRect,CViewport& viewport);
 	VGroup();
 	~VGroup();
-	void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewObserver::Event clickAction);
-	 void onNotify(IViewObserver::Event);
+	void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction);
+	 void onNotify(IViewUIObserver::Event);
 	 list<IViewGUIObject*> getGuiObjectList();
 private:
 	CFloatRect m_rect;
