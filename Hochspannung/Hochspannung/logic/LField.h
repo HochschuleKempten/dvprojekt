@@ -10,8 +10,8 @@ public:
 	{
 		CITY     = 0,
 		WATER    = -1,
-		GRASS    = -1,
-		MOUNTAIN = 0,
+		GRASS    = -2,
+		MOUNTAIN = -3,
 		COAL     = 100,
 		OIL      = 50
 	};
