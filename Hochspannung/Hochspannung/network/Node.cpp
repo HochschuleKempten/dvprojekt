@@ -2,6 +2,7 @@
 #include <boost\asio\write.hpp>
 #include <boost\asio\read.hpp>
 #include <boost\asio\placeholders.hpp>
+#include <boost\lexical_cast.hpp>
 
 namespace Network {
 
@@ -147,6 +148,133 @@ void CNode::handleConnectionError(const error_code& ec) {
 			m_socket.close();
 		}); // close connection, just to be sure
 	}
+}
+
+void CNode::setTransferObject(CTransferObject& transferObject) {
+	m_dequeActionsToSend.push_back(transferObject);
+}
+
+CTransferObject CNode::getTransferObject() {
+	CTransferObject transferObject = m_dequeActionsToExecute.front();
+	m_dequeActionsToExecute.pop_front();
+	return transferObject;
+}
+
+void CNode::writeTransferObjectsToMessageDeque() {
+	CTransferObject transferObject;
+	Action action;
+	CMessage message;
+	std::string transferObjectString = "";
+
+	while (!m_dequeActionsToSend.empty()) {
+		transferObject = m_dequeActionsToSend.front();
+
+		// transforms the action to string
+		// delimiter is a semicolon
+		transferObjectString = encodeAction(transferObject.getAction()) + ";";
+		transferObjectString += boost::lexical_cast<std::string>(transferObject.getTransObjectID()) + ";";
+		transferObjectString += boost::lexical_cast<std::string>(transferObject.getCoordX()) + ";";
+		transferObjectString += boost::lexical_cast<std::string>(transferObject.getCoordY()) + ";";
+		transferObjectString += transferObject.getValue() + ";";
+
+		// write message on m_dequeMessagesToWrite
+		const char* messageStr = transferObjectString.c_str();
+		message.setContent(messageStr);
+		m_dequeMessagesToWrite.push_back(message);
+
+		m_dequeActionsToSend.pop_front();
+	}
+}
+
+void CNode::writeMessagesToTransferObjectDeque() {
+	CTransferObject transferObject;
+	CMessage message;
+	std::string messageStr;
+	std::string transferObjMember[5];
+	const char* pcMess;
+	size_t pos = 0;
+
+
+	while (!m_dequeMessagesToRead.empty()) {
+		message = m_dequeMessagesToRead.front();
+		pcMess = message.getBody();
+		messageStr = retrieveString((char*)pcMess, 512);
+
+		for (int i = 0, pos = messageStr.find(";"); i < 5; i++) {
+			transferObjMember[i] = messageStr.substr(0, pos);
+			messageStr.erase(0, pos + 1);
+		}
+
+		transferObject.setAction(decodeAction(transferObjMember[0]));
+		transferObject.setTransObjectID(boost::lexical_cast<int>(transferObjMember[1]));
+		transferObject.setCoordX(boost::lexical_cast<int>(transferObjMember[2]));
+		transferObject.setCoordY(boost::lexical_cast<int>(transferObjMember[3]));
+		transferObject.setValue(transferObjMember[4]);
+
+		m_dequeActionsToExecute.push_back(transferObject);
+
+		m_dequeMessagesToRead.pop_front();
+	}
+}
+
+std::string CNode::encodeAction(Action action) {
+	switch (action) {
+	case UNDEFINED:
+		return "undefined";
+	case SET_OBJECT:
+		return "set_object";
+	case DELETE_OBJECT:
+		return "delete_object";
+	case UPGRADE_OBJECT:
+		return "upgrade_object";
+	case START_GAME:
+		return "start_game";
+	case END_GAME:
+		return "end_game";
+	case PAUSE_GAME:
+		return "pause_game";
+	case CONTINUE_GAME:
+		return "continue_game";
+	case SET_MAPSIZE:
+		return "set_mapsize";
+	}
+}
+
+Action CNode::decodeAction(std::string actionStr) {
+	if (actionStr == "undefined") {
+		return UNDEFINED;
+	} else if (actionStr == "set_object") {
+		return SET_OBJECT;
+	}
+	else if (actionStr == "delete_object") {
+		return DELETE_OBJECT;
+	}
+	else if (actionStr == "upgrade_object") {
+		return UPGRADE_OBJECT;
+	}
+	else if (actionStr == "start_game") {
+		return START_GAME;
+	}
+	else if (actionStr == "end_game") {
+		return END_GAME;
+	}
+	else if (actionStr == "pause_game") {
+		return PAUSE_GAME;
+	}
+	else if (actionStr == "continue_game") {
+		return CONTINUE_GAME;
+	}
+	else if (actionStr == "set_mapsize") {
+		return SET_MAPSIZE;
+	}
+}
+
+std::string CNode::retrieveString(char* mes, int maxLen) {
+	size_t len = 0;
+	while ((len < maxLen) && (mes[len] != '\0')) {
+		len++;
+	}
+	return std::string(mes, len);
 }
 
 }

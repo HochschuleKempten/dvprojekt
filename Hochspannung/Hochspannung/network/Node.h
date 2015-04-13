@@ -4,6 +4,7 @@
 #include <deque>
 #include "Vektoria\Writing.h"
 #include "Message.h"
+#include "TransferObject.h"
 
 namespace Network {
 
@@ -55,6 +56,30 @@ public:
 	 * @param message the CMessage to send
 	 */ 
 	void write(const CMessage& message);
+
+	/**
+	 * @brief Pushs the given transferObject to the end of the deque
+	 * @param transferObject the CTransferObject to push
+	 */
+	void setTransferObject(CTransferObject& transferObject);
+
+	/**
+	* @brief Pushs the given transferObject to the end of the deque
+	* @return transferObject the first CTransferObject from the deque
+	*/
+	CTransferObject getTransferObject();
+
+	/**
+	 * @brief Puts the CTransferObjects from m_dequeActionsToSend to
+	 * m_dequeMessagesToWrite and casts them
+	 */
+	void writeTransferObjectsToMessageDeque();
+
+	/**
+	* @brief Puts the CMessage from m_dequeMessagesToRead to
+	* m_dequeActionToExecute and casts them
+	*/
+	void writeMessagesToTransferObjectDeque();
 
 protected:
 
@@ -109,6 +134,28 @@ protected:
 	 */
 	void handleConnectionError(const error_code& ec);
 
+	/**
+	 * @brief Returns the action as string
+	 * @param action the action needed as string
+	 * @return std::string
+	 */
+	std::string encodeAction(Action action);
+	
+	/**
+	* @brief Returns the given action string as Action
+	* @param actionStr the string to be transformed to an Action
+	* @return Action
+	*/
+	Action decodeAction(std::string actionStr);
+
+	/**
+	 * @brief Returns a string from a char array
+	 * @param mes the pointer to the message
+	 * @param maxLen the maximum length of the message
+	 * @return std::string
+	*/
+	std::string retrieveString(char* mes, int maxLen);
+
 	io_service m_io_service; 
 	boost::thread m_thread;
 	ip::tcp::socket m_socket;
@@ -117,6 +164,10 @@ protected:
 
 	CMessage m_messageRead;
 	std::deque<CMessage> m_dequeMessagesToWrite;
+	std::deque<CMessage> m_dequeMessagesToRead;
+	
+	std::deque<CTransferObject> m_dequeActionsToSend;
+	std::deque<CTransferObject> m_dequeActionsToExecute;
 };
 
 }

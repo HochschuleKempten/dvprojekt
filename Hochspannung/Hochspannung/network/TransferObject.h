@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace Network {
 
 enum Action {
@@ -21,7 +23,7 @@ class CTransferObject {
 public:
 
 	CTransferObject();
-	CTransferObject(Action action, int iTransObjectID, int iCoordX, int iCoordY);
+	CTransferObject(Action action, int iTransObjectID, int iCoordX, int iCoordY, std::string sValue);
 	~CTransferObject();
 
 	Action getAction();
@@ -36,11 +38,15 @@ public:
 	int getCoordY();
 	void setCoordY(int iCoordY);
 
+	std::string getValue();
+	void setValue(std::string sValue);
+
 private:
 	Action m_Action;
 	int m_iTransObjectID;
 	int m_iCoordX;
 	int m_iCoordY;
+	std::string m_sValue;
 	// to be continued...
 
 };
