@@ -9,7 +9,7 @@ class IVPlayingField;
 class LPlayingField
 {
 private:
-	const int fieldLength = 10; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P), todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
+	const int fieldLength = 10; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster;
 	IVPlayingField* vPlayingField;
 	Array2D<LField> fieldArray;

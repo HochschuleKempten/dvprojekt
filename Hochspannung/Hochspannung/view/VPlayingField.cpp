@@ -45,6 +45,7 @@ void VPlayingField::initPlayingField()
 		{
 			for (int colIdx = (holder / square) * 5 ; colIdx < ((holder /square + 1) * 5); colIdx++)
 			{
+
 				vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
 				m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);
 			}

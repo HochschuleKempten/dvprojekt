@@ -12,13 +12,15 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 	obj.setLPlayingField(this);
 	//TODO (MB) create fields randomly with city
 	
-	createFields();
+	
 	
 		//TODO (MB) create LCity --> placeBuilding
 		obj.init(LField::WATER, LField::LEVEL1);
 	})
 {
 	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
+
+	createFields();
 }
 
 LPlayingField::~LPlayingField()
@@ -64,21 +66,32 @@ void LPlayingField::createFields()
 {
 	LField::FieldType fieldTypes[6] { LField::FieldType::CITY, LField::FieldType::COAL, LField::FieldType::GRASS, LField::FieldType::MOUNTAIN, LField::FieldType::OIL, LField::FieldType::WATER};
 	LField::FieldLevel fieldLevels[3] { LField::FieldLevel::LEVEL1, LField::FieldLevel::LEVEL2, LField::FieldLevel::LEVEL3};
+	bool hasCity = false;;
 
 	for (int x = 0; x < fieldLength; x++)
 	{
 		for (int y = 0; y < fieldLength; y++)
 		{
 
-			int type = rand() % 5;
-			int level = rand() % 3;
+			int type = rand() % 6;
+			int level = rand() % 3;	
 
-			LField field;
-			field.init(fieldTypes[type], fieldLevels[level]);
-			fieldArray[x][y] = field;
+			if (hasCity & type == 0)
+			{
+				continue;
+			}
+
+			else
+			{
+				fieldArray[x][y].init(fieldTypes[type], fieldLevels[level]);
+			}			
+			
+			if (type == 0)
+			{
+				hasCity == true;
+			}
 		}
 	}
-
 }
 
 LMaster* LPlayingField::getLMaster()
