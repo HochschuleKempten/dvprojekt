@@ -42,6 +42,7 @@ void VUI::initUI()
 	
 	m_zs.AddPlacement(&m_zpCamera);
 	m_zpCamera.AddCamera(&m_zc);
+	m_zpCamera.SetName("Placement Camera");
 
 	m_zpCamera.TranslateZ(50.0);
 	m_zpCamera.RotateXDelta(0.3 * PI);
@@ -80,11 +81,11 @@ void VUI::handleInput(float fTimeDelta)
 			if (pickedPlacement == nullptr) {
 				return;
 			}
-
+			
+			DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 			std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
 
-			if (koord.size() > 0) {
-				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
+			if (koord.size() == 3) {
 
 				if (std::stoi(koord[0]) == VIdentifier::VPlayingField) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
@@ -110,7 +111,7 @@ void VUI::handleInput(float fTimeDelta)
 
 			std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
 
-			if (koord.size() > 0) {
+			if (koord.size() == 3) {
 				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 
 				if (std::stoi(koord[0]) == VIdentifier::VPlayingField) {

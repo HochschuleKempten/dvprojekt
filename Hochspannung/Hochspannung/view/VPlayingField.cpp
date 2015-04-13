@@ -39,6 +39,9 @@ void VPlayingField::initPlayingField()
 	int square = sqrt(m_zpPlacementHolders.size());
 	for (int holder = 0; holder < static_cast<int>(m_zpPlacementHolders.size()); holder++)
 	{
+		std::stringstream stream;
+		stream << "holder = " << holder;
+		m_zpPlacementHolders[holder].SetName(stream.str().c_str());
 		m_zp.AddPlacement(&m_zpPlacementHolders[holder]);
 
 		for (int rowIdx = (holder % square) * 5; rowIdx < ((holder % square) + 1) * 5; rowIdx++)
@@ -54,6 +57,8 @@ void VPlayingField::initPlayingField()
 	float rows = vFields.getRows();
 	m_zp.TranslateDelta(-fieldSize * rows, fieldSize * rows, -fieldSize * rows * 1.5);
 	m_zp.SetFrustumCullingOff();//TODO (V) remove this after bugfix
+
+	m_zp.SetName("Placement VPlayingField");
 
 	vMaster->setVPlayingField(this);
 }

@@ -17,8 +17,9 @@ private:
 public:
 	static void init();
 
-	//TODO (JS) make this nice
-	static std::map<std::pair<LField::FieldType, LField::FieldLevel>, CMaterial> fieldMaterials;
+	using FieldPair = std::pair<LField::FieldType, LField::FieldLevel>;
+	static std::map<FieldPair, CMaterial> fieldMaterials;
+
 	static CMaterial materialCoalPowerPlant;
 	static CMaterial materialHydroelectricPowerPlant;
 	static CMaterial materialMainMenue;
