@@ -25,7 +25,6 @@ void CGame::Init(HWND hwnd, CSplash *psplash)
 {
 	// Hier die Initialisierung Deiner Vektoria-Objekte einfügen:
 	vMaster.initScene(hwnd, psplash);
-	lMaster.startNewGame();
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)

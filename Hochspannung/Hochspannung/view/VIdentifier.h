@@ -8,6 +8,7 @@ NAMESPACE_VIEW_B
 enum VIdentifier
 {
 	VPlayingField            = 100,
+	VCity                    = 101,
 	VCoalPowerPlant          = 110,
 	VPowerLine               = 111,
 	VHydroelectricPowerPlant = 112,

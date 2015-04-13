@@ -226,6 +226,12 @@
     <ClInclude Include="network\Node.h">
       <Filter>network\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\VCity.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVCity.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -341,6 +347,9 @@
     </ClCompile>
     <ClCompile Include="network\Node.cpp">
       <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VCity.cpp">
+      <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

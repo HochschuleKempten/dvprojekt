@@ -13,6 +13,16 @@ NAMESPACE_VIEW_B
 
 class IViewBuilding;
 
+/**
+ * @brief The VPlayingField class controls the playing field in the game.
+ *
+ * Due to performance reasons the hierarchy of this class currently looks like shown in the following image:
+ *
+ * @image html images/VPlayingField_hierarchy.png "Hierarchy of the playing field"
+ *
+ * Each holder coltrols a small field part about 5x5 placements. On each of these placements is the geo of the field
+ * itself and a view object, if some was placed.
+ */
 class VPlayingField : public IViewObject, public IVPlayingField
 {
 private:
@@ -33,17 +43,16 @@ public:
 		  m_zmMaterials(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
 		  viewObjects(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
 		  IViewObject(vMaster, &m_zp)
-		  
 	{}
-	virtual ~VPlayingField()
-	{}
+	virtual ~VPlayingField();
 
 	//TODO (V) remove building again
 	template<typename T, typename... Args>
 	inline void tryBuildOnField(const int x, const int y, const Args... arguments)
 	{
-		//todo (V) check return value from "placeBuilding"
-		this->lPlayingField->placeBuilding<T>(x, y, arguments...);
+		if (!lPlayingField->placeBuilding<T>(x, y, arguments...)) {
+			DEBUG_OUTPUT("Could not place building at " << x << ", " << y);
+		}
 	}
 
 	inline void tryRemoveObject(const int x, const int y)
