@@ -15,9 +15,9 @@ class CServer : public CNode {
 public:
 	/**
 	 * @brief Constructor that takes the server port.
-	 * @param port the server should listen to.
+	 * @param usPort the server should listen to.
 	 */
-	CServer(unsigned short port);
+	CServer(unsigned short usPort);
 
 	/**
 	 * @brief Default constructor.
@@ -25,7 +25,7 @@ public:
 	~CServer();
 
 private:
-	void connect();
+	bool connect();
 
 	void acceptCompleteHandler(const error_code& ec);
 

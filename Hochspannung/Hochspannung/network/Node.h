@@ -1,6 +1,7 @@
 #pragma once
 #include <boost\thread\thread.hpp>
 #include <boost\asio\ip\tcp.hpp>
+#include <boost\asio\deadline_timer.hpp>
 #include <deque>
 #include "Vektoria\Writing.h"
 #include "Message.h"
@@ -28,26 +29,27 @@ public:
 	virtual ~CNode();
 	
 	/**
-	 * @brief Start the node
-	 * Tries to build up a connection by calling connect.
+	 * @brief Start the node.
+	 * Attempts to build up a connection by calling connect.
 	 * Must be called before any messages can be send or recieved.
+	 * @return true, if successful, false otherwise (even if already connected).
 	 */
-	void start();
+	bool start();
 
 	/**
-	 * @brief Stop the node
+	 * @brief Stop the node.
 	 * Closes any active connection and stops sending/reciving messages.
 	 */
 	void stop();
 
 	/**
-	 * @brief Restart the node
+	 * @brief Restart the node.
 	 */
 	void restart();
 
 	/**
-	 * @brief Returns if the connection is currently open
-	 * @return true if the connection is open, false otherwise
+	 * @brief Returns if the connection is currently open.
+	 * @return true, if the connection is open, false otherwise.
 	 */
 	bool isConnected();
 
@@ -58,29 +60,24 @@ public:
 	void write(const CMessage& message);
 
 	/**
-	* @brief Pushs the given transferObject to the end of the deque
-	* @return transferObject the first CTransferObject from the deque
-	*/
-	CTransferObject getTransferObject();
-
-	/**
-	 * @brief Puts the CTransferObjects from m_dequeActionsToSend to
-	 * m_dequeMessagesToWrite and casts them
+	 * @brief Returns the next action from deque, if available.
+	 * @return the first CTransferObject from the deque, or an empty object if none none is available.
 	 */
-	void writeTransferObjectsToMessageDeque(Action action, int iObjID, int iCoordX, int iCoordY, std::string sValue);
+	CTransferObject getNextActionToExecute();
 
 	/**
-	* @brief Puts the CMessage from m_dequeMessagesToRead to
-	* m_dequeActionToExecute and casts them
+	* @brief Returns if a next action is available.
+	* @return true, if a next action is available, false otherwise.
 	*/
-	void writeMessagesToTransferObjectDeque();
+	bool isActionAvailable();
 
 protected:
 
 	/**
 	 * @brief This method is called by start() to connect to another node.
+	 * @return true, if the attempt to connect was started successfully, false otherwise.
 	 */
-	virtual void connect() = 0;
+	virtual bool connect() = 0;
 
 	/**
 	 * @brief Start an asynchronous write operation.
@@ -124,7 +121,7 @@ protected:
 	/**
 	 * @brief Handles any connection errors.
 	 * A convenience method that should be called in case of connection errors for centralized error handling (e.g. by handlers).
-	 * @param ec the error code to handle
+	 * @param ec the error code to handle.
 	 */
 	void handleConnectionError(const error_code& ec);
 
@@ -133,18 +130,19 @@ protected:
 	 * @param mes the pointer to the message
 	 * @param maxLen the maximum length of the message
 	 * @return std::string
-	*/
+	 */
 	std::string retrieveString(char* mes, unsigned int maxLen);
 
-	io_service m_io_service; 
+	io_service m_ioService;
+
 	boost::thread m_thread;
 	ip::tcp::socket m_socket;
+	deadline_timer m_timer;
 
 	bool m_bConnected;
 
 	CMessage m_messageRead;
 	std::deque<CMessage> m_dequeMessagesToWrite;
-	std::deque<CMessage> m_dequeMessagesToRead;
 	
 	std::deque<CTransferObject> m_dequeActionsToExecute;
 };

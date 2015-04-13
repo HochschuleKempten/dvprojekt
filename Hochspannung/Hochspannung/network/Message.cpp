@@ -6,16 +6,16 @@ CMessage::CMessage() :
 	m_iBodyLength(0) {
 }
 
-CMessage::CMessage(const char* content) {
-	setContent(content);
+CMessage::CMessage(const char* pcContent) {
+	setContent(pcContent);
 }
 
 CMessage::~CMessage() {
 }
 
-void CMessage::setContent(const char* content) {
-	m_iBodyLength = std::strlen(content);
-	std::memcpy(getBody(), content, m_iBodyLength);
+void CMessage::setContent(const char* pcContent) {
+	m_iBodyLength = std::strlen(pcContent);
+	std::memcpy(getBody(), pcContent, m_iBodyLength);
 	encodeHeader();
 }
 
@@ -24,29 +24,30 @@ char* CMessage::getData() {
 }
 
 int CMessage::getLength() const {
-	return headerLength + m_iBodyLength;
+	return iHeaderLength + m_iBodyLength;
 }
 
 char* CMessage::getBody() {
-	return m_acData + headerLength;
+	return m_acData + iHeaderLength;
 }
 
 int CMessage::getBodyLength() const {
 	return m_iBodyLength;
 }
 
-void CMessage::setBodyLength(int bodyLength) {
-	m_iBodyLength = bodyLength;
-	if (m_iBodyLength > maxBodyLength) {
-		m_iBodyLength = maxBodyLength;
+void CMessage::setBodyLength(int iBodyLength) {
+	m_iBodyLength = iBodyLength;
+	if (m_iBodyLength > iMaxBodyLength) {
+		m_iBodyLength = iMaxBodyLength;
 	}
 }
 
 bool CMessage::decodeHeader() {
-	char header[headerLength + 1] = "";
-	std::strncat(header, m_acData, headerLength);
+	char header[iHeaderLength + 1] = "";
+	std::strncat(header, m_acData, iHeaderLength);
 	m_iBodyLength = std::atoi(header);
-	if (m_iBodyLength > maxBodyLength) {
+
+	if (m_iBodyLength > iMaxBodyLength) {
 		m_iBodyLength = 0;
 		return false;
 	}
@@ -54,9 +55,9 @@ bool CMessage::decodeHeader() {
 }
 
 void CMessage::encodeHeader() {
-	char header[headerLength + 1] = "";
+	char header[iHeaderLength + 1] = "";
 	std::sprintf(header, "%4d", static_cast<int>(m_iBodyLength));
-	std::memcpy(m_acData, header, headerLength);
+	std::memcpy(m_acData, header, iHeaderLength);
 }
 
 }

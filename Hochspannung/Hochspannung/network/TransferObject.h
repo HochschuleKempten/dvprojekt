@@ -22,8 +22,7 @@ enum Action {
 class CTransferObject {
 public:
 
-	CTransferObject();
-	CTransferObject(Action action, int iTransObjectID, int iCoordX, int iCoordY, std::string sValue);
+	CTransferObject(Action action = UNDEFINED, int iTransObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = NULL);
 	~CTransferObject();
 
 	Action getAction();

@@ -193,6 +193,9 @@
     <ClInclude Include="network\Node.h">
       <Filter>network\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="network\NetworkService.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -289,6 +292,9 @@
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="network\Node.cpp">
+      <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\NetworkService.cpp">
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

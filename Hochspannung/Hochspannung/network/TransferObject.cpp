@@ -2,7 +2,7 @@
 
 namespace Network {
 
-CTransferObject::CTransferObject(Action action = UNDEFINED, int iTransObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = NULL) :
+CTransferObject::CTransferObject(Action action, int iTransObjectID, int iCoordX, int iCoordY, std::string sValue) :
 m_Action(action), m_iTransObjectID(iTransObjectID), m_iCoordX(iCoordX), m_iCoordY(iCoordY), m_sValue(sValue) {
 }
 
