@@ -6,51 +6,6 @@ NAMESPACE_VIEW_B
 
 VModelPowerLine::VModelPowerLine(void)
 {
-	//m_zvFoundation1.InitPoint(0.25f, 0.05f, 0.25f);		
-	//m_zvFoundation2.InitPoint(0, 0, 0);
-	//
-	////initialize base pole vectors
-	//m_zgvPoles.InitPoint(0.005f, 1.0435f, 0.005f);
-	//m_zpvPole1.InitPoint(m_zvFoundation2.GetX() + m_zvFoundation1.GetX() - m_zgvPoles.GetX() - 0.001f, m_zvFoundation2.GetY() * 2 + m_zgvPoles.GetY(), m_zvFoundation2.GetZ() + m_zvFoundation1.GetZ() - m_zgvPoles.GetX() - 0.001f);
-	//m_zpvPole2.InitPoint(m_zvFoundation2.GetX() - m_zvFoundation1.GetX() + m_zgvPoles.GetX() - 0.001f, m_zvFoundation2.GetY() * 2 + m_zgvPoles.GetY(), m_zvFoundation2.GetZ() + m_zvFoundation1.GetZ() - m_zgvPoles.GetX() - 0.001f);
-	//m_zpvPole3.InitPoint(m_zvFoundation2.GetX() + m_zvFoundation1.GetX() - m_zgvPoles.GetX() - 0.001f, m_zvFoundation2.GetY() * 2 + m_zgvPoles.GetY(), m_zvFoundation2.GetZ() - m_zvFoundation1.GetZ() + m_zgvPoles.GetX() - 0.001f);
-	//m_zpvPole4.InitPoint(m_zvFoundation2.GetX() - m_zvFoundation1.GetX() + m_zgvPoles.GetX() - 0.001f, m_zvFoundation2.GetY() * 2 + m_zgvPoles.GetY(), m_zvFoundation2.GetZ() - m_zvFoundation1.GetZ() + m_zgvPoles.GetX() - 0.001f);
-
-	////initialize upper pole vectors
-	//m_zgvUpperPole1.InitPoint(0.25f - 0.005f * 2.0f, 0.005f, 0.005f);
-	//m_zgvUpperPole2.InitPoint(0.005f, 0.005f, 0.25f - 0.005f * 2.0f);
-
-	////initialize upper pole placement vectors
-	//m_zpvUpperPole1.InitPoint(m_zvFoundation2.GetX(), m_zgvPoles.GetY() + m_zgvPoles.GetY() - m_zgvPoles.GetX(), m_zpvPole1.GetZ());
-	//m_zpvUpperPole2.InitPoint(m_zpvPole1.GetX(), m_zgvPoles.GetY() + m_zgvPoles.GetY() - m_zgvPoles.GetX(), m_zvFoundation2.GetZ());
-	//m_zpvUpperPole3.InitPoint(m_zvFoundation2.GetX(), m_zgvPoles.GetY() + m_zgvPoles.GetY() - m_zgvPoles.GetX(), m_zpvPole3.GetZ());
-	//m_zpvUpperPole4.InitPoint(m_zpvPole2.GetX(), m_zgvPoles.GetY() + m_zgvPoles.GetY() - m_zgvPoles.GetX(), m_zvFoundation2.GetZ());
-
-	////initialize front/back/left/right poles
-	//m_zgvBasisPoles.InitPoint(0.005f, 0.32f, 0.005f);
-
-	////initialize front poles array-data
-	//m_zgBasisPoles[0] = m_zgBasisPole1;
-	//m_zgBasisPoles[1] = m_zgBasisPole2;
-	//m_zgBasisPoles[2] = m_zgBasisPole3;
-	//m_zgBasisPoles[3] = m_zgBasisPole4;
-	//m_zgBasisPoles[4] = m_zgBasisPole5; 
-	//m_zgBasisPoles[5] = m_zgBasisPole6;
-	//m_zgBasisPoles[6] = m_zgBasisPole7;
-	//m_zgBasisPoles[7] = m_zgBasisPole8;
-	//m_zgBasisPoles[8] = m_zgBasisPole9;
-	//m_zgBasisPoles[9] = m_zgBasisPole10;
-
-	//m_zpBasisPoles[0] = m_zpBasisPole1;
-	//m_zpBasisPoles[1] = m_zpBasisPole2;
-	//m_zpBasisPoles[2] = m_zpBasisPole3;
-	//m_zpBasisPoles[3] = m_zpBasisPole4;
-	//m_zpBasisPoles[4] = m_zpBasisPole5;
-	//m_zpBasisPoles[5] = m_zpBasisPole6;
-	//m_zpBasisPoles[6] = m_zpBasisPole7;
-	//m_zpBasisPoles[7] = m_zpBasisPole8;
-	//m_zpBasisPoles[8] = m_zpBasisPole9;
-	//m_zpBasisPoles[9] = m_zpBasisPole10;
 }
 
 VModelPowerLine::~VModelPowerLine(void)
@@ -59,8 +14,6 @@ VModelPowerLine::~VModelPowerLine(void)
 
 void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFoundationWidth, float fPylonHeight)
 {
-	m_zpPole1.SetPointingOff();
-
 	m_zmGrey.MakeTextureDiffuse("textures\\grey_image.jpg");
 	m_zmBlack.MakeTextureDiffuse("textures\\black_image.jpg");
 
@@ -85,7 +38,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
 	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), &m_zmBlack);
 	m_zgSphere.Init(2 * m_fPoleThickness, &m_zmBlack);
-	m_zgArm.Init(CHVector(m_fPoleDistance * 2, m_fStrutHeight, m_fPoleDistance), &m_zmBlack);
+	m_zgArm.Init(CHVector(m_fPoleDistance * 4, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
 
 	// preparing struts (rotate)
 	m_zpStruts = new CPlacement[m_iStrutsCount * 8];
@@ -130,8 +83,8 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 
 		// adding arms
 		m_zpArm[i].AddGeo(&m_zgArm);
-		m_zpArm[i].TranslateDelta(-2*m_fPoleDistance-m_fPoleDistance, 2 * m_iArmPosition * m_fStrutHeight + m_fStrutHeight, 0);
-		m_zpArm[i].RotateYDelta(i*HALFPI);
+		m_zpArm[i].TranslateDelta(-4 * m_fPoleDistance-m_fPoleDistance, 2 * m_iArmPosition * m_fStrutHeight + m_fStrutHeight + m_fStrutHeight, -m_fPoleDistance);
+		m_zpArm[i].RotateYDelta(i * HALFPI);
 		m_zpFoundation.AddPlacement(&m_zpArm[i]);
 
 		// rotate modeled pole and add it to foundation
@@ -142,12 +95,24 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	
 	switch (m_ePylonType) {
 	case STRAIGHT:
-		m_zpArm[0].SwitchOn();
-		m_zpArm[1].SwitchOff();
-		m_zpArm[2].SwitchOn();
-		m_zpArm[3].SwitchOff();
+		if (m_eDirection == NORTH || m_eDirection == SOUTH) 
+		{
+			m_zpArm[0].SwitchOn();
+			m_zpArm[1].SwitchOff();
+			m_zpArm[2].SwitchOn();
+			m_zpArm[3].SwitchOff();
+		}
+		else if (m_eDirection == WEST || m_eDirection == EAST)
+		{
+			m_zpArm[0].SwitchOn();
+			m_zpArm[1].SwitchOff();
+			m_zpArm[2].SwitchOn();
+			m_zpArm[3].SwitchOff();
+		}
 		break;
 	case CROSS:
+		m_zpArm[0].TranslateYDelta(-m_fStrutHeight * 4);
+		m_zpArm[2].TranslateYDelta(-m_fStrutHeight * 4);
 		m_zpArm[0].SwitchOn();
 		m_zpArm[1].SwitchOn();
 		m_zpArm[2].SwitchOn();
@@ -170,23 +135,6 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_zpFoundation.AddGeo(&m_zgFoundation);
 	m_zpFoundation.RotateY(m_eDirection * HALFPI);
 	this->AddPlacement(&m_zpFoundation);
-
-	//this->placeFoundation();
-	//this->placeBasis();
-	//this->placeHead();
-	//this->placeConduit();
-
-	////this->makeWall();
-	////this->AddPlacement(&m_zpBaseWall);
-
-	//this->AddPlacement(&m_zpFoundation);
-	//this->AddPlacement(&m_zpBasis);
-	//this->AddPlacement(&m_zpHead);
-	//this->AddPlacement(&m_zpRightConduit);
-	////m_pScene->AddPlacement(&m_zpFoundation);
-	////m_pScene->AddPlacement(&m_zpBasis);
-	////m_pScene->AddPlacement(&m_zpHead);
-	////m_pScene->AddPlacement(&m_zpRightConduit);
 }
 
 

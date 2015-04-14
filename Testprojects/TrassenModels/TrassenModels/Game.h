@@ -88,6 +88,8 @@ private:
 	CDeviceKeyboard m_zdk;
 	VModelPowerLine *m_zTrasse1 = new VModelPowerLine();
 	VModelPowerLine *m_zTrasse2 = new VModelPowerLine();
+	VModelPowerLine *m_zTrasse3 = new VModelPowerLine();
+	VModelPowerLine *m_zTrasse4 = new VModelPowerLine();
 	CTextureTester *m_zTester = new CTextureTester();
 
 	float a = 0;
