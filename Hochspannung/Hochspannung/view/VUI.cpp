@@ -6,6 +6,7 @@
 #include "VHydroelectricPowerPlant.h"
 #include "VMaterialLoader.h"
 #include "VIdentifier.h"
+#include "../logic/LWindmillPowerPlant.h"
 #include "../logic/ILPowerLine.h"
 #include "../logic/LMaster.h"
 
@@ -117,7 +118,7 @@ void VUI::handleInput(float fTimeDelta)
 				if (std::stoi(koord[0]) == VIdentifier::VPlayingField) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
 
-					vMaster->getPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(std::stoi(koord[1]), std::stoi(koord[2]));
+					vMaster->getPlayingField()->tryBuildOnField<LWindmillPowerPlant>(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
 				else if (std::stoi(koord[0]) == VIdentifier::VPowerLine) {
 					vMaster->getPlayingField()->tryRemoveObject(std::stoi(koord[1]), std::stoi(koord[2]));

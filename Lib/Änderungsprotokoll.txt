@@ -2936,3 +2936,22 @@ Mit folgenden Routinen lässt sich das FrustumCulling für jedes Placement nun get
 - SetFrustumCullingOn();
 - SetFrustumCullingOff();
  
+2015-02-13 TB:
+Bugfix: Vektoria stürzte ab, wenn im ersten Frame kein Objekt zu sehen war, sowohl im BasicRenderer als auch im FP-Renderer!
+Bugfix: Vektoria stürzte ab, wenn einer Geometie ein Null-Pointer als Material übergeben wurde.
+
+2015-04-01 FP & TB:
+Bugfix: CFrame stürzte bei ReSize ab, wenn Größe verkleinert wurde.
+
+2015-04-04 TB:
+Bugfix: FrustumCulling funktionierte bei zusammenlaufenden Hierarchien nicht einwandfrei
+Bugfix: Picking nacvh ReSize ungenau
+CScene und CPlacement haben jetzt die Möglichkeit, FrustumCullung und BVH-Berechnung verschieden genau zu toggeln, au folgende Funktionen:  
+	void SetFrustumCullingOn(); // schaltet das Frustum Culling für dieses Placement und alle Unterplacements/ Untergeometrien ein
+	void SetFrustumCullingOff(); // schaltet das Frustum Culling für dieses Placement und alle Unterplacements/ Untergeometrien aus
+	void SetFrustumCullingByFather(); // schaltet das Frustum Culling für dieses Placement auf Überschreibmodus, d.h.. es wird durch die Vorfahren gesteuert.
+	void SetBVHExactCalculationOn(); // schaltet den genauen Berechnungsmodus für die Bounding Volume Hierarchie dieses Placement und alle Unterplacements/ Untergeometrien ein (Achtung, kann Performanz stark nach unten drücken, nur in Notfällen verwenden)
+	void SetBVHExactCalculationOff(); // schaltet den schnellen Berechnungsmodus für die Bounding Volume Hierarchie dieses Placement und alle Unterplacements/ Untergeometrien ein (Achtung, kann bei zusammenlaufenden Hierarchien mit vielen bewegten Objekten zu ungenau sein) 
+	void SetBVHExactCalculationByFather();// schaltet den genauen/schnellen Berechnungsmodus für die Bounding Volume Hierarchie auf Überschreibung duch die Vorfahren
+
+
