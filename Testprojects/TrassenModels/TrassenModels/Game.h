@@ -66,8 +66,8 @@ using namespace HighVoltage::view;
 class CGame
 {
 public:
-    CGame(void);
-    ~CGame(void);
+	CGame(void);
+	~CGame(void);
 
 	void Init(HWND hwnd, CSplash * psplash);
 	void Tick(float fTime, float fTimeDelta);
@@ -86,7 +86,8 @@ private:
 	CCamera m_zc;
 	CParallelLight m_zl;
 	CDeviceKeyboard m_zdk;
-	VModelPowerLine *m_zTrasse = new VModelPowerLine();
+	VModelPowerLine *m_zTrasse1 = new VModelPowerLine();
+	VModelPowerLine *m_zTrasse2 = new VModelPowerLine();
 	CTextureTester *m_zTester = new CTextureTester();
 };
 

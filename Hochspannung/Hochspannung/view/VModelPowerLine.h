@@ -6,10 +6,30 @@ NAMESPACE_VIEW_B
 class VModelPowerLine : public CPlacement
 {
 public:
+	enum PYLONTYPE {
+		STRAIGHT, CROSS, ANGLE
+	};
+	enum DIRECTION {
+		WEST, SOUTH, EAST, NORTH
+	};
+	struct armPosition 
+	{
+		CHVector vWest;
+		CHVector vSouth;
+		CHVector vEast;
+		CHVector vNorth;
+	};
+
 	VModelPowerLine(void);
 	~VModelPowerLine(void);
 
-	void Init();
+	void Init(PYLONTYPE ePylonType = STRAIGHT, DIRECTION eDirection = NORTH, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
+	bool ConnectTo(VModelPowerLine *pPylon);
+
+	float getHeight(); // including foundation
+	float getWidth();  // width of the foundation
+	armPosition getArmPositions();
+
 private:
 	//CHelper m_Helper;
 
@@ -129,51 +149,43 @@ private:
 	//void placeConduit(void);
 
 
-	//void makeWall(void);
-
-	//CGeoWall m_zgBaseWall;
-	//CPlacement m_zpBaseWall;
-	//CGeoWindow m_zgWindowTri;
-	//CGeoWindow m_zgWindowRect;
-
-	//float m_fWidth = 1.0f;
-	//float m_fHeight = 2.0f;
-	//float m_fThickness = 0.05f;
 
 	// new pylon modeling (10.4.2015)
+	CGeoCube m_zgArm;
 	CGeoCube m_zgFoundation;
 	CGeoCube m_zgPole;
+	CGeoCube m_zgRoof;
 	CGeoCube m_zgStrut;
-	
+	CGeoSphere m_zgSphere;
+
 	CPlacement m_zpFoundation;
+	CPlacement m_zpArm[4];
 	CPlacement m_zpPole[4];
-	CPlacement m_zpStrut;
+	CPlacement m_zpRoof[4];
+	CPlacement m_zpSphere[5];
 	CPlacement * m_zpStruts = NULL;
-	CPlacement m_zpStrutMain;
 
-	void updateModel();
-	void model();
+	float m_fFoundationHeight   = 0;
+	float m_fFoundationWidth    = 0;
+	float m_fPoleDistance       = 0;
+	float m_fPoleThickness      = 0;
+	float m_fPylonHeight        = 0;
+	float m_fStrutAngle         = 0;
+	float m_fStrutHeight        = 0;
+	float m_fStrutLength        = 0;
+	float m_fStrutThickness     = 0;
+	float m_fArmLength          = 0;
+	int m_iArmPosition          = 9;
+	int m_iStrutsCount          = 0;
+	PYLONTYPE m_ePylonType      = STRAIGHT;
+	DIRECTION m_eDirection      = NORTH;
 
-	float getHeight();
-	float getWidth();
-	void setHeight(float height);
-	void setWidth(float width);
+	armPosition sArmPositions;
+	bool bConnectedWest = false;
+	bool bConnectedSout = false;
+	bool bConnectedEast = false;
+	bool bConnectedNorth = false;
 
-	float m_fPylonHeight = 10.0f;
-
-	float m_fPoleDistance = 1.0f;
-	float m_fPoleThickness = 0.1f;
-
-	float m_fStrutAngle = 0;
-	float m_fStrutHeight = 1.0f;
-	float m_fStrutThickness = 0.08f;
-
-	float m_fFoundationHeight = 0.5f;
-	float m_fFoundationWidth = 1.5f;
-
-	enum PYLONTYPE {
-		STRAIGHT, CROSS, ANGLE
-	};
 };
 
 NAMESPACE_VIEW_E

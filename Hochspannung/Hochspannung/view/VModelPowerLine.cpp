@@ -53,17 +53,122 @@ VModelPowerLine::VModelPowerLine(void)
 	//m_zpBasisPoles[9] = m_zpBasisPole10;
 }
 
-VModelPowerLine::~VModelPowerLine(void) 
+VModelPowerLine::~VModelPowerLine(void)
 {
 }
 
-void VModelPowerLine::Init()
+void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFoundationWidth, float fPylonHeight)
 {
 	m_zmGrey.MakeTextureDiffuse("textures\\grey_image.jpg");
 	m_zmBlack.MakeTextureDiffuse("textures\\black_image.jpg");
 
-	this->model();
+	// set necessary attributes depending on foundationWidth and pylonHeight
+	m_fFoundationWidth  = fFoundationWidth;
+	m_fFoundationHeight = fFoundationWidth * 0.1f;
+	m_fPylonHeight      = fPylonHeight;
+	m_fPoleDistance     = fFoundationWidth * 0.8f;
+	m_fPoleThickness    = m_fPoleDistance * 0.1f;
+	m_fStrutHeight      = fPylonHeight * 0.1f;
+	m_fStrutLength      = sqrtf(powf(m_fPoleDistance, 2) + powf(m_fStrutHeight, 2));
+	m_fStrutAngle       = asinf(m_fStrutHeight / m_fStrutLength);;
+	m_fStrutThickness   = m_fPoleDistance * 0.08f;
+	m_iStrutsCount      = (int)(m_fPylonHeight / m_fStrutHeight);
+	m_ePylonType        = ePylonType;
+	m_eDirection        = eDirection;
+	m_fArmLength        = m_fPylonHeight * 0.3f;
+
+	// init geometries (foundation, pole, strut)
+	m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &m_zmGrey);
+	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), &m_zmBlack);
+	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
+	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), &m_zmBlack);
+	m_zgSphere.Init(2 * m_fPoleThickness, &m_zmBlack);
+	m_zgArm.Init(CHVector(m_fPoleDistance * 2, m_fStrutHeight, m_fPoleDistance), &m_zmBlack);
+
+	// preparing struts (rotate)
+	m_zpStruts = new CPlacement[m_iStrutsCount * 8];
+	for (int i = 0; i < m_iStrutsCount * 8; i++) {
+		m_zpStruts[i].AddGeo(&m_zgStrut);
+	}
+
+	// preparing spheres
+	for (int i = 0; i < 5; i++)
+		m_zpSphere[i].AddGeo(&m_zgSphere);
+
+	int index1, index2;
+	float iYTranslation;
+	// adding struts to poles
+	for (int i = 0; i < 4; i++) {
+		m_zpPole[i].AddGeo(&m_zgPole);
+		m_zpRoof[i].AddGeo(&m_zgRoof);
+
+		//// adding struts
+		for (int j = 0; j < m_iStrutsCount; j++) {
+			index1        = (i * m_iStrutsCount * 2) + j;
+			index2        = index1 + m_iStrutsCount;
+			iYTranslation = j * m_fStrutHeight * 2 - m_fPylonHeight + m_fStrutHeight;
+
+			m_zpPole[i].AddPlacement(&m_zpStruts[index1]);
+			m_zpPole[i].AddPlacement(&m_zpStruts[index2]);
+
+			m_zpStruts[index1].RotateZDelta(-m_fStrutAngle);
+			m_zpStruts[index2].RotateZDelta(m_fStrutAngle);
+
+			m_zpStruts[index1].TranslateDelta(m_fPoleDistance, iYTranslation, 0);
+			m_zpStruts[index2].TranslateDelta(m_fPoleDistance, iYTranslation, 0);
+		}
+
+		// adding roof
+		m_zpRoof[i].RotateZDelta(-asinf((m_fPoleDistance + m_fPoleThickness) / (2 * (m_fStrutHeight - m_fStrutThickness))));
+		m_zpRoof[i].RotateYDelta(CHelper::AngleToRad(45));
+		m_zpRoof[i].TranslateDelta(m_fPoleDistance * 0.5f, m_fPylonHeight + m_fStrutHeight * 1.1f, -4 * m_fPoleThickness);
+		m_zpPole[i].AddPlacement(&m_zpRoof[i]);
+		m_zpSphere[i].TranslateYDelta(m_fPylonHeight);
+		m_zpPole[i].AddPlacement(&m_zpSphere[i]);
+
+		// adding arms
+		m_zpArm[i].AddGeo(&m_zgArm);
+		m_zpArm[i].TranslateDelta(-2*m_fPoleDistance-m_fPoleDistance, 2 * m_iArmPosition * m_fStrutHeight + m_fStrutHeight, 0);
+		m_zpArm[i].RotateYDelta(i*HALFPI);
+		m_zpFoundation.AddPlacement(&m_zpArm[i]);
+
+		// rotate modeled pole and add it to foundation
+		m_zpPole[i].RotateYDelta(i * HALFPI);
+		m_zpFoundation.AddPlacement(&m_zpPole[i]);
+	}
+
+	
+	switch (m_ePylonType) {
+	case STRAIGHT:
+		m_zpArm[0].SwitchOn();
+		m_zpArm[1].SwitchOff();
+		m_zpArm[2].SwitchOn();
+		m_zpArm[3].SwitchOff();
+		break;
+	case CROSS:
+		m_zpArm[0].SwitchOn();
+		m_zpArm[1].SwitchOn();
+		m_zpArm[2].SwitchOn();
+		m_zpArm[3].SwitchOn();
+		break;
+	case ANGLE:
+		m_zpArm[0].SwitchOn();
+		m_zpArm[1].SwitchOn();
+		m_zpArm[2].SwitchOff();
+		m_zpArm[3].SwitchOff();
+		break;
+	}
+
+	// finally move the 4 poles into place
+	m_zpPole[0].TranslateDelta(-m_fPoleDistance, m_fPylonHeight, m_fPoleDistance);
+	m_zpPole[1].TranslateDelta(m_fPoleDistance, m_fPylonHeight, m_fPoleDistance);
+	m_zpPole[2].TranslateDelta(m_fPoleDistance, m_fPylonHeight, -m_fPoleDistance);
+	m_zpPole[3].TranslateDelta(-m_fPoleDistance, m_fPylonHeight, -m_fPoleDistance);
+
+	m_zpFoundation.AddGeo(&m_zgFoundation);
+	m_zpFoundation.RotateY(m_eDirection * HALFPI);
 	this->AddPlacement(&m_zpFoundation);
+
 	//this->placeFoundation();
 	//this->placeBasis();
 	//this->placeHead();
@@ -81,6 +186,8 @@ void VModelPowerLine::Init()
 	////m_pScene->AddPlacement(&m_zpHead);
 	////m_pScene->AddPlacement(&m_zpRightConduit);
 }
+
+
 
 //void VModelPowerLine::placeFoundation()
 //{
@@ -271,83 +378,34 @@ void VModelPowerLine::Init()
 //	m_zpRightConduit.AddPlacement(&m_zpRightConduit4);
 //}
 
-void VModelPowerLine::setWidth(float width)
-{
-	this->m_fFoundationWidth = width;
-	this->updateModel();
-}
-
-void VModelPowerLine::setHeight(float height)
-{
-	this->m_fPylonHeight = height;
-	this->updateModel();
-}
-
-float VModelPowerLine::getWidth()
-{
+float VModelPowerLine::getWidth() {
 	return m_fFoundationWidth;
 }
 
-float VModelPowerLine::getHeight()
-{
+
+float VModelPowerLine::getHeight() {
 	return m_fPylonHeight;
 }
 
-
-void VModelPowerLine::updateModel() {
-
+VModelPowerLine::armPosition VModelPowerLine::getArmPositions() {
+	return sArmPositions;
 }
 
-void VModelPowerLine::model() {
-	// model foundation
-	m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &m_zmGrey);
-	m_zpFoundation.AddGeo(&m_zgFoundation);
+bool VModelPowerLine::ConnectTo(VModelPowerLine *pPylon) {
+	/* possible positions of 2 pylons
+	   horizontal and vertical
+	*/
 
-	// generate one reference pole and strut model
-	float fStrutLength = sqrtf(pow(m_fPoleDistance, 2) + pow(m_fStrutHeight, 2));
-	m_fStrutAngle = asinf(m_fStrutHeight / fStrutLength);
-
-	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), &m_zmBlack);
-	m_zgStrut.Init(CHVector(fStrutLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
-
-
-	// generate strut placements for 4 poles
-	int iStrutsCount = (int)(m_fPylonHeight / m_fStrutHeight);
-	m_zpStruts = new CPlacement[iStrutsCount * 4];
-
-	for (int i = 0; i < iStrutsCount * 4; i++) {
-		m_zpStruts[i].AddGeo(&m_zgStrut);
-	}
-
-	for (int i = 0; i < 4; i++) {
-		// adding pole geometry to placements
-		m_zpPole[i].AddGeo(&m_zgPole);
-
-		// adding struts
-		for (int j = 0; j < iStrutsCount; j++) {
-			m_zpStrutMain.AddPlacement(&m_zpStruts[i * iStrutsCount + j]);
-			(j % 2) ? m_zpStruts[i * iStrutsCount + j].RotateZDelta(m_fStrutAngle) : m_zpStruts[i * iStrutsCount + j].RotateZDelta(-m_fStrutAngle);
-			m_zpStruts[i * iStrutsCount + j].TranslateDelta(-m_fPoleDistance, j * m_fStrutHeight * 2, 0);
-		}
-
-		// rotating poles (0 - 90 - 180 - 270 degrees)
-		m_zpPole[i].AddPlacement(&m_zpStrutMain);
-		m_zpPole[i].RotateYDelta(i * HALFPI);
-	}
-
-
-	// move poles into four corners
-	m_zpPole[0].TranslateDelta(-m_fPoleDistance, m_fPylonHeight + m_fFoundationHeight, m_fPoleDistance);
-	m_zpPole[1].TranslateDelta(m_fPoleDistance, m_fPylonHeight + m_fFoundationHeight, m_fPoleDistance);
-	m_zpPole[2].TranslateDelta(m_fPoleDistance, m_fPylonHeight + m_fFoundationHeight, -m_fPoleDistance);
-	m_zpPole[3].TranslateDelta(-m_fPoleDistance, m_fPylonHeight + m_fFoundationHeight, -m_fPoleDistance);
+	// check if power lines can be connected based on type (line, cross, angle)
 	
-	// move struts into place and add poles to foundation
-	m_zpStrutMain.TranslateDelta(2.0f, -m_fPylonHeight + m_fStrutHeight, 0);
-	for (int i = 0; i < 4; i++) {
-		m_zpFoundation.AddPlacement(&m_zpPole[i]);
-	}
+	// determine free slots
 
+	// calculate distance between 2 power lines
+	armPosition destPositions = pPylon->getArmPositions();
+	
+	// modeling and placing lines
+
+	return true;
 }
 
 NAMESPACE_VIEW_E
