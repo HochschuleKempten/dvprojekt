@@ -3,6 +3,10 @@
 #include "Array2D.h"
 #include "LField.h"
 #include <vector>
+#include <boost\graph\graph_traits.hpp>
+#include <boost\graph\adjacency_list.hpp>
+
+using namespace boost;
 
 class LMaster;
 class IVPlayingField;
@@ -14,6 +18,17 @@ private:
 	LMaster* lMaster;
 	IVPlayingField* vPlayingField;
 	Array2D<LField> fieldArray;
+
+	//bidirectional = directed graph with access to both out and in-edges
+	using Graph = adjacency_list < vecS, vecS, bidirectionalS >;
+	Graph* powerLineGraph;
+	
+	//todo (IP) this struct is used in generatePowerLineGraph()
+	struct pl
+	{
+		bool placed = false;
+		std::vector<pl*> connections;
+	};
 
 private:
 	void createFields();
@@ -35,7 +50,7 @@ public:
 		//return getField(x, y)->setBuilding<T>(x, y, arguments...);
 
 		bool ret = getField(x, y)->setBuilding<T>(x, y, arguments...);
-		generateTree();
+		//generateTree();
 
 		return ret;
 	}
@@ -47,6 +62,6 @@ public:
 	LMaster* getLMaster();
 
 private:
-	void generateTree();
+	void generatePowerLineGraph();
 	bool checkIndex(const int x, const int y);
 };

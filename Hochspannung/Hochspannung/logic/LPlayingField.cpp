@@ -5,14 +5,7 @@
 #include "IVPlayingField.h"
 #include "IVMaster.h"
 #include "IVFactory.h"
-#include <vector>
 #include "LUtility.h"
-#include "LPowerLine.h"
-#include "IVPowerLine.h" //todo (JS,IP) needed, else Error C4150.. i have no idea why
-#include <boost\graph\graph_traits.hpp>
-#include <boost\graph\adjacency_list.hpp>
-
-using namespace boost;
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength)
@@ -91,10 +84,7 @@ void LPlayingField::createFields()
 			{
 				hasCity = true;
 				getField(x, y)->setBuilding<LPowerLine>(x, y, ILPowerLine::EAST);
-			}
-
-			
-			
+			}		
 		}
 	}
 }
@@ -104,21 +94,8 @@ LMaster* LPlayingField::getLMaster()
 	return lMaster;
 }
 
-void LPlayingField::generateTree()
+void LPlayingField::generatePowerLineGraph()
 {
-	//bidirectional = directed graph with access to both out and in-edges
-	typedef adjacency_list<vecS, vecS, bidirectionalS> Graph;
-
-
-
-
-	//---------------------
-
-	struct pl
-	{
-		bool placed = false;
-		std::vector<pl*> connections;
-	};
 
 	pl** plArray = new pl*[fieldLength];
 
@@ -175,6 +152,33 @@ void LPlayingField::generateTree()
 				}
 			}
 		}
+	}
+
+	//todo (L) put following part in own method (graph shouldn't be recreated every check!)
+
+	//count how much powerlines exist
+	int powerLineCounter = 0;
+	for (int x = 0; x < fieldLength; x++)
+	{
+		for (int y = 0; y < fieldLength; y++)
+		{
+			if (plArray[x][y].placed)
+			{
+				powerLineCounter++;
+			}
+		}
+	}
+
+
+	//create empty graph with space for number of existing powerlines
+	powerLineGraph = new Graph(powerLineCounter);
+
+	//iterate through struct array, check if field contains a powerline (plArray[][].placed == true) and
+	//check on connections to other powerlines
+
+	for (int x = 0; x < fieldLength; x++)
+	{
+
 	}
 
 

@@ -21,7 +21,7 @@ private:
 	CPlacement m_zp;
 	CGeoCube m_zg;
 	CMaterial m_zm;
-	shared_ptr<IViewBuilding> m_zViewBuilding = nullptr;
+	std::shared_ptr<IViewBuilding> m_zViewBuilding = nullptr;
 
 public:
 	VField();
