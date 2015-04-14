@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Headerdateien\buildings">
+      <UniqueIdentifier>{0b3b61f5-639f-4ed6-bfae-b58e8e5f23ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\buildings">
+      <UniqueIdentifier>{0cbc2381-3a3c-4fd8-a732-5473af2aa7b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -27,32 +33,32 @@
     <ClInclude Include="targetver.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Appartments.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude02.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude03.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebauede01.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\OfficeTowerViewingDeck.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\SmallOfficeBuilding.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\TwistedTower.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelCity.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Appartments.h">
+      <Filter>Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude02.h">
+      <Filter>Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude03.h">
+      <Filter>Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebauede01.h">
+      <Filter>Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.h">
+      <Filter>Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\OfficeTowerViewingDeck.h">
+      <Filter>Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\SmallOfficeBuilding.h">
+      <Filter>Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\TwistedTower.h">
+      <Filter>Headerdateien\buildings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -65,32 +71,32 @@
     <ClCompile Include="VektoriaApp.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Appartments.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude02.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude03.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebauede01.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\OfficeTowerViewingDeck.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\SmallOfficeBuilding.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\TwistedTower.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelCity.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Appartments.cpp">
+      <Filter>Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude02.cpp">
+      <Filter>Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude03.cpp">
+      <Filter>Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebauede01.cpp">
+      <Filter>Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.cpp">
+      <Filter>Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\OfficeTowerViewingDeck.cpp">
+      <Filter>Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\SmallOfficeBuilding.cpp">
+      <Filter>Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\TwistedTower.cpp">
+      <Filter>Quelldateien\buildings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
