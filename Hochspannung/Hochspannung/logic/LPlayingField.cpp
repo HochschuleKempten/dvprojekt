@@ -207,21 +207,11 @@ void LPlayingField::generatePowerLineGraph()
 				//check outgoing connections
 				for (int i = 0; i < plArray[x][y].connections.size(); i++)
 				{	
-					for (int j = 0; j < plArray[x][y].connections[i]->connections.size(); j++)
-					{
-						//check if outgoing connections of neighbours are incoming connections to this field
-						// o -> x
-						// x -> o
+					//position of neighbour which is connected to this field
+					int otherX = plArray[x][y].connections[i]->x;
+					int otherY = plArray[x][y].connections[i]->y;
 
-						if (plArray[x][y].connections[i]->connections[j] == &plArray[x][y])
-						{
-							//position of neighbour which is connected to this field
-							int otherX = plArray[x][y].connections[i]->connections[j]->x;
-							int otherY = plArray[x][y].connections[i]->connections[j]->y;
-
-							add_edge(convertIndex(x, y), convertIndex(otherX, otherY), powerLineGraph);
-						}
-					}
+					add_edge(convertIndex(x, y), convertIndex(otherX, otherY), powerLineGraph);
 				}
 			}
 		}

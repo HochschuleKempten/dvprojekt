@@ -22,7 +22,7 @@ private:
 	IVPlayingField* vPlayingField;
 	Array2D<LField> fieldArray;
 
-	using Graph = adjacency_list < vecS, vecS, bidirectionalS>;
+	using Graph = adjacency_list < vecS, vecS, directedS>;
 	Graph powerLineGraph;
 	
 	//todo (IP) this struct is used in generatePowerLineGraph()
