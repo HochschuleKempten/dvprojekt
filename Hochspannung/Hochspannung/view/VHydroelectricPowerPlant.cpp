@@ -1,6 +1,7 @@
 #include "VHydroelectricPowerPlant.h"
 #include "VPlayingField.h"
 #include "VMaterialLoader.h"
+#include "VIdentifier.h"
 
 NAMESPACE_VIEW_B
 
@@ -17,8 +18,9 @@ void VHydroelectricPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant
 {
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	SET_NAME_AND_COORDINATES
+	SET_NAME_AND_COORDINATES(VIdentifier::VHydroelectricPowerPlant);
 }
+
 
 
 NAMESPACE_VIEW_E

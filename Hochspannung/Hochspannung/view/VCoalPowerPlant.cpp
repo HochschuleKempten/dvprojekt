@@ -1,6 +1,7 @@
 #include "VCoalPowerPlant.h"
 #include "VPlayingField.h"
 #include "VMaterialLoader.h"
+#include "VIdentifier.h"
 
 NAMESPACE_VIEW_B
 
@@ -17,7 +18,7 @@ void VCoalPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr
 {
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	SET_NAME_AND_COORDINATES
+	SET_NAME_AND_COORDINATES(VIdentifier::VCoalPowerPlant);
 }
 
 

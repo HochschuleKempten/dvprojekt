@@ -25,7 +25,6 @@ void CGame::Init(HWND hwnd, CSplash *psplash)
 {
 	// Hier die Initialisierung Deiner Vektoria-Objekte einfügen:
 	vMaster.initScene(hwnd, psplash);
-	lMaster.startNewGame();
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
@@ -42,6 +41,5 @@ void CGame::WindowReSize(int iNewWidth, int iNewHeight)
 {
 	//Windows ReSize wird immer automatisch aufgerufen, wenn die Fenstergröße verändert wurde.
 	//Hier kannst Du dann die Auflösung des Viewports neu einstellen:
-	//todo (IP) possible after patch
-	//vMaster.resize(iNewWidth, iNewHeight);
+	vMaster.resize(iNewWidth, iNewHeight);
 }

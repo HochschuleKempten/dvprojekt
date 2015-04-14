@@ -176,8 +176,16 @@ public:
 	float m_fFocusDistance;
 
 	bool m_bFrustumCulling;
+	bool m_bFrustumCullingByFather;
 	void SetFrustumCullingOn();
 	void SetFrustumCullingOff();
+	void SetFrustumCullingByFather();
+
+	bool m_bBVHExactCalculation;
+	bool m_bBVHExactCalculationByFather;
+	void SetBVHExactCalculationOn();
+	void SetBVHExactCalculationOff();
+	void SetBVHExactCalculationByFather();
 
 
 	bool m_bBillboard;
@@ -231,9 +239,12 @@ public:
 
     const char* ClassName() { return "CPlacement"; }
 
-	void UpdateAABBs(void); // Aktualisiert die AABB für diesen Node und seine gesamte Unterhierarchie
+	void UpdateAABBsFromDirectChildrenUpwards(void); // Aktualisiert die AABB für diesen Node und seine gesamte Unterhierarchie
 	void UpdateAABBHierarchyWithGeos(void);
 	void UpdateAABBAnchestors();
+	void UpdateAABBThisFromDirectChildren();
+	void UpdateAABBsFromPlacementHierarchyUpwards();
+
 
 	CScenes  m_scenesAnchestor;
 

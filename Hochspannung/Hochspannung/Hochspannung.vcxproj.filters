@@ -30,9 +30,6 @@
     <Filter Include="view\Headerdateien">
       <UniqueIdentifier>{4749bfe0-8c0f-45d6-8c2c-05888df1aec4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="view\Implementierungsdateien">
-      <UniqueIdentifier>{ea0dc22a-dcbf-45e7-95f0-f16c228899e2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="logic\Interfaces">
       <UniqueIdentifier>{a55ef8ad-46b5-4071-8814-7192c6ba31b5}</UniqueIdentifier>
     </Filter>
@@ -46,6 +43,12 @@
     <Filter Include="network\Quelldateien">
       <UniqueIdentifier>{ecddb718-3c1a-4363-8172-811f1978f36f}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="view\Interfaces">
+      <UniqueIdentifier>{76f298df-e761-4281-a5f9-315e3ec7a090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="view\Quelldateien">
+      <UniqueIdentifier>{ea0dc22a-dcbf-45e7-95f0-f16c228899e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +124,6 @@
     <ClInclude Include="logic\LUtility.h">
       <Filter>logic</Filter>
     </ClInclude>
-    <ClInclude Include="view\IViewObject.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\VGeneral.h">
       <Filter>view</Filter>
     </ClInclude>
@@ -134,9 +134,6 @@
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VCoalPowerPlant.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="view\IViewBuilding.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VHydroelectricPowerPlant.h">
@@ -157,9 +154,6 @@
     <ClInclude Include="view\VOilRefinery.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\VPowerline.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\VSolarPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -176,7 +170,31 @@
       <Filter>logic\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="view\VMaterialLoader.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VButton.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VGroup.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreen.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Helper.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VIdentifier.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VPowerLine.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelPowerLine.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LCity.h">
+      <Filter>logic\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="network\Client.h">
       <Filter>network\Headerdateien</Filter>
@@ -195,6 +213,66 @@
     </ClInclude>
     <ClInclude Include="network\NetworkService.h">
       <Filter>network\Headerdateien</Filter>
+	</ClInclude>
+    <ClInclude Include="view\VCity.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVCity.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VField.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewBuilding.h">
+      <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewGUIContainer.h">
+      <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewGUIObject.h">
+      <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewObject.h">
+      <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewObserver.h">
+      <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewSubject.h">
+      <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LIdentifier.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelWindmillPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Appartments.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Gebaeude02.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Gebaeude03.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Gebauede01.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\LargeOfficeBuilding.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\OfficeTowerViewingDeck.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\SmallOfficeBuilding.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\TwistedTower.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelCity.h">
+      <Filter>view</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -220,10 +298,10 @@
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VMaster.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VPlayingField.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="logic\LHydroelectricPowerPlant.cpp">
       <Filter>logic\Quelldateien</Filter>
@@ -244,40 +322,58 @@
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VFactory.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="logic\LPlayer.cpp">
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VCoalPowerPlant.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VHydroelectricPowerPlant.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VUI.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="logic\LUI.cpp">
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VNuclearPowerPlant.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VOilRefinery.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VPowerLine.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VSolarPowerPlant.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VWindmillPowerPlant.cpp">
-      <Filter>view\Implementierungsdateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VMaterialLoader.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VButton.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VGroup.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreen.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Helper.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelPowerLine.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LCity.cpp">
+      <Filter>logic\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="network\Client.cpp">
       <Filter>network\Quelldateien</Filter>
@@ -296,6 +392,42 @@
     </ClCompile>
     <ClCompile Include="network\NetworkService.cpp">
       <Filter>network\Quelldateien</Filter>
+	</ClInclude>
+    <ClCompile Include="view\VCity.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VField.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelWindmillPowerPlant.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Appartments.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Gebaeude02.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Gebaeude03.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Gebauede01.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\LargeOfficeBuilding.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\OfficeTowerViewingDeck.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\SmallOfficeBuilding.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\TwistedTower.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelCity.cpp">
+      <Filter>view</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

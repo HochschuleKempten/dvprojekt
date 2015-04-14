@@ -4,6 +4,7 @@
 #include "../logic/LHydroelectricPowerPlant.h"
 #include "IViewBuilding.h"
 
+
 NAMESPACE_VIEW_B
 
 

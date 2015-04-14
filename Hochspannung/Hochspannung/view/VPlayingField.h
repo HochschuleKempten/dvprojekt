@@ -6,41 +6,57 @@
 #include "VMaster.h"
 #include "IViewObject.h"
 #include <memory>
+#include "VField.h"
 
 NAMESPACE_VIEW_B
 
 
 class IViewBuilding;
 
+/**
+ * @brief The VPlayingField class controls the playing field in the game.
+ *
+ * Due to performance reasons the hierarchy of this class currently looks like shown in the following image:
+ *
+ * @image html images/VPlayingField_hierarchy.png "Hierarchy of the playing field"
+ *
+ * Each holder coltrols a small field part about 5x5 placements. On each of these placements is the geo of the field
+ * itself and a view object, if some was placed.
+ */
 class VPlayingField : public IViewObject, public IVPlayingField
 {
+	friend class VField;
+
 private:
+	const float fieldSize = 2.0f;
+	const float fieldDepth = 0.5f;
+	const CHVector size = CHVector(fieldSize, fieldSize, fieldDepth);
+
+	std::vector<CPlacement> m_zpPlacementHolders;	
+	Array2D<VField> vFields;
 	CPlacement m_zp;
-	CMaterial m_zm;
-	const int fieldSize = 2;
-	//TODO (V) Neue Struktur der Placements
-	Array2D<CGeoCube> m_zgField;
-	Array2D<CPlacement> m_zpField;
-	Array2D<shared_ptr<IViewBuilding>> viewObjects;
-	Array2D<CMaterial> m_zmMaterials;
 
 public:
 	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
-		: IViewObject(vMaster, &m_zp), IVPlayingField(lPlayingField),
-		  m_zgField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
-		  m_zpField(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
-		  viewObjects(lPlayingField->getFieldLength(), lPlayingField->getFieldLength()),
-		  m_zmMaterials(lPlayingField->getFieldLength(), lPlayingField->getFieldLength())
-	{}
-	virtual ~VPlayingField()
-	{}
+		: IVPlayingField(lPlayingField),
+		m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25),
+		vFields(lPlayingField->getFieldLength(), lPlayingField->getFieldLength(), [this] (VField& vField)
+		{
+			vField.vPlayingField = this;
+		}),
+		IViewObject(vMaster, &m_zp)
+	{
+		vMaster->setVPlayingField(this);
+	}
+	virtual ~VPlayingField();
 
 	//TODO (V) remove building again
-	template<typename T>
-	inline void tryBuildOnField(const int x, const int y)
+	template<typename T, typename... Args>
+	inline void tryBuildOnField(const int x, const int y, const Args... arguments)
 	{
-		//todo (V) check return value from "placeBuilding"
-		this->lPlayingField->placeBuilding<T>(x, y);
+		if (!lPlayingField->placeBuilding<T>(x, y, arguments...)) {
+			DEBUG_OUTPUT("Could not place building at " << x << ", " << y);
+		}
 	}
 
 	inline void tryRemoveObject(const int x, const int y)

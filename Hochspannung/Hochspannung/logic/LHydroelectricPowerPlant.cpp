@@ -15,3 +15,8 @@ LHydroelectricPowerPlant::LHydroelectricPowerPlant(const int costs, const int en
 LHydroelectricPowerPlant::~LHydroelectricPowerPlant()
 {
 }
+
+int LHydroelectricPowerPlant::getID()
+{
+	return id;
+}
