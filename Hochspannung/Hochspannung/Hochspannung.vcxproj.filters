@@ -178,9 +178,6 @@
     <ClInclude Include="view\VGroup.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\VScreen.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\Helper.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -271,6 +268,21 @@
     <ClInclude Include="view\VModelCity.h">
       <Filter>view</Filter>
     </ClInclude>
+    <ClInclude Include="view\VDialog.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenIngame.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenMainMenue.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenSpielmodusWahl.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewScreen.h">
+      <Filter>view\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -360,9 +372,6 @@
     <ClCompile Include="view\VGroup.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="view\VScreen.cpp">
-      <Filter>view\Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="view\Helper.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
@@ -422,6 +431,18 @@
     </ClCompile>
     <ClCompile Include="view\VModelCity.cpp">
       <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenIngame.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenMainMenue.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenSpielmodusWahl.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VDialog.cpp">
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

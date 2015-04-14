@@ -5,6 +5,7 @@
 #include "VCoalPowerPlant.h"
 #include "VHydroelectricPowerPlant.h"
 #include "VMaterialLoader.h"
+#include "IViewScreen.h"
 
 #include "VScreenMainMenue.h"
 #include "VScreenIngame.h"
@@ -133,12 +134,12 @@ void VUI::onNotify(IViewUIObserver::Event evente)
 	switch (evente)
 	{
 
-	case IViewObserver::START_GAME:
+	case IViewUIObserver::START_GAME:
 		DEBUG_OUTPUT("STARTING GAME.........\n");
 		vMaster->lMaster->startNewGame();
 		switchScreen("Ingame"); //TODO Button Action erweitern um switchscreen event damit Screen nicht hardcoded Ingame sein muss
 		break;
-	case IViewObserver::MainOptions:
+	case IViewUIObserver::MainOptions:
 		DEBUG_OUTPUT("Open Options from MainMenue.........\n");
 		break;
 	case IViewUIObserver::QUIT_GAME:
@@ -211,8 +212,6 @@ void VUI::aktualisiereGeld(const int& wert)
 
 }
 void VUI::aktualisiereBev(const int& wert)
-
-VScreen* VUI::getScreen(string sName)
 {
 
 }
