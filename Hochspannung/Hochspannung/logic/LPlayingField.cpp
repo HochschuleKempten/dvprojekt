@@ -68,7 +68,7 @@ void LPlayingField::createFields()
 	{
 		for (int y = 0; y < fieldLength; y++)
 		{
-			fieldArray[x][y].setLPlayingField(this);
+			getField(x,y)->setLPlayingField(this);
 			int type = rand() % fieldTypes.size();
 			int level = rand() % fieldLevels.size();
 			
@@ -80,13 +80,13 @@ void LPlayingField::createFields()
 			}
 			else
 			{
-				fieldArray[x][y].init(fieldTypes[type], fieldLevels[level]);
+				getField(x, y)->init(fieldTypes[type], fieldLevels[level]);
 			}			
 			
 			if (type == 0)
 			{
 				hasCity = true;
-				fieldArray[x][y].setBuilding<LPowerLine>(x, y, ILPowerLine::EAST);
+				getField(x, y)->setBuilding<LPowerLine>(x, y, ILPowerLine::EAST);
 			}
 
 			
