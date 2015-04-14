@@ -10,7 +10,8 @@
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this] (LField& f) {
 		f.setLPlayingField(this);
-	})
+	}),
+	powerLineGraph(fieldLength*fieldLength)
 {
 	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
 	createFields();
@@ -57,9 +58,9 @@ void LPlayingField::upgradeBuilding(const int x, const int y)
 
 void LPlayingField::createFields()
 {
-
 	int cityPositionX = 5;// fieldLength * 0.5 + rand() % 3;
 	int cityPositionY = 5;// fieldLength * 0.25 + rand() % 3;
+
 
 	int firstPowerLinePositionX = cityPositionX;
 	int firstPowerLinePositionY = cityPositionY +1;
@@ -73,11 +74,12 @@ void LPlayingField::createFields()
 	fieldArray[cityPositionX][cityPositionY].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
 	fieldArray[cityPositionX][cityPositionY].setBuilding<LPowerLine>(cityPositionX, cityPositionY, LPowerLine::EAST); //Until we have a citymodel, we use a powerline
 
+
 	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].setBuilding<LPowerLine>(firstPowerLinePositionX, firstPowerLinePositionY, LPowerLine::WEST | LPowerLine::SOUTH); //Until we have a citymodel, we use a powerline
+	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].setBuilding<LPowerLine>(firstPowerLinePositionX, firstPowerLinePositionY, LPowerLine::EAST); //Until we have a citymodel, we use a powerline
 
 	fieldArray[secondPowerLinePositionX][secondPowerLinePositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	fieldArray[secondPowerLinePositionX][secondPowerLinePositionY].setBuilding<LPowerLine>(secondPowerLinePositionX, secondPowerLinePositionY, LPowerLine::NORTH | LPowerLine::EAST); //Until we have a citymodel, we use a powerline
+	fieldArray[secondPowerLinePositionX][secondPowerLinePositionY].setBuilding<LPowerLine>(secondPowerLinePositionX, secondPowerLinePositionY, LPowerLine::EAST); //Until we have a citymodel, we use a powerline
 
 	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
 	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].setBuilding<LPowerLine>(firstPowerPlantPositionX, firstPowerPlantPositionY, LPowerLine::EAST);
@@ -127,12 +129,11 @@ LMaster* LPlayingField::getLMaster()
 
 void LPlayingField::generatePowerLineGraph()
 {
-
-	pl** plArray = new pl*[fieldLength];
+	pLine** plArray = new pLine*[fieldLength];
 
 	for (int i = 0; i < fieldLength; i++)
 	{
-		plArray[i] = new pl[fieldLength];
+		plArray[i] = new pLine[fieldLength];
 	}
 
 	ILBuilding* building = nullptr;
@@ -141,6 +142,9 @@ void LPlayingField::generatePowerLineGraph()
 	{
 		for (int y = 0; y < fieldLength; y++)
 		{
+			plArray[x][y].x = x;
+			plArray[x][y].y = y;
+
 			building = getField(x, y)->getBuilding();
 
 			//check if building is a powerline
@@ -187,29 +191,40 @@ void LPlayingField::generatePowerLineGraph()
 
 	//todo (L) put following part in own method (graph shouldn't be recreated every check!)
 
-	//count how much powerlines exist
-	int powerLineCounter = 0;
-	for (int x = 0; x < fieldLength; x++)
-	{
-		for (int y = 0; y < fieldLength; y++)
-		{
-			if (plArray[x][y].placed)
-			{
-				powerLineCounter++;
-			}
-		}
-	}
-
-
-	//create empty graph with space for number of existing powerlines
-	powerLineGraph = new Graph(powerLineCounter);
+	//remove all existing edges and vertices
+	powerLineGraph.clear();
 
 	//iterate through struct array, check if field contains a powerline (plArray[][].placed == true) and
 	//check on connections to other powerlines
 
 	for (int x = 0; x < fieldLength; x++)
 	{
+		for (int y = 0; y < fieldLength; y++)
+		{
+			//check if field contains a powerline
+			if (plArray[x][y].placed)
+			{
+				//check outgoing connections
+				for (int i = 0; i < plArray[x][y].connections.size(); i++)
+				{	
+					for (int j = 0; j < plArray[x][y].connections[i]->connections.size(); j++)
+					{
+						//check if outgoing connections of neighbours are incoming connections to this field
+						// o -> x
+						// x -> o
 
+						if (plArray[x][y].connections[i]->connections[j] == &plArray[x][y])
+						{
+							//position of neighbour which is connected to this field
+							int otherX = plArray[x][y].connections[i]->connections[j]->x;
+							int otherY = plArray[x][y].connections[i]->connections[j]->y;
+
+							add_edge(convertIndex(x, y), convertIndex(otherX, otherY), powerLineGraph);
+						}
+					}
+				}
+			}
+		}
 	}
 
 
@@ -222,7 +237,15 @@ void LPlayingField::generatePowerLineGraph()
 	delete [] plArray;
 }
 
+//todo (L) implement method for checking graph
+
 bool LPlayingField::checkIndex(const int x, const int y)
 {
 	return (x >= 0) && (x < fieldLength) && (y >= 0) && (y < fieldLength);
 }
+
+int LPlayingField::convertIndex(const int x, const int y)
+{
+	return (x*fieldLength + y);
+}
+

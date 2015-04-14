@@ -14,20 +14,23 @@ class IVPlayingField;
 class LPlayingField
 {
 private:
+
+	//todo (IP) initialize members
+	//todo (IP) use namespace
 	const int fieldLength = 10; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster;
 	IVPlayingField* vPlayingField;
 	Array2D<LField> fieldArray;
 
-	//bidirectional = directed graph with access to both out and in-edges
-	using Graph = adjacency_list < vecS, vecS, bidirectionalS >;
-	Graph* powerLineGraph;
+	using Graph = adjacency_list < vecS, vecS, bidirectionalS>;
+	Graph powerLineGraph;
 	
 	//todo (IP) this struct is used in generatePowerLineGraph()
-	struct pl
+	struct pLine
 	{
 		bool placed = false;
-		std::vector<pl*> connections;
+		std::vector<pLine*> connections;
+		int x, y;
 	};
 
 private:
@@ -64,4 +67,5 @@ public:
 private:
 	void generatePowerLineGraph();
 	bool checkIndex(const int x, const int y);
+	int convertIndex(const int x, const int y);
 };
