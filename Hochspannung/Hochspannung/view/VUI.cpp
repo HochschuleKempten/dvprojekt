@@ -1,19 +1,27 @@
 #include "VUI.h"
 #include "VMaster.h"
 #include "VPlayingField.h"
+#include "VPowerLine.h"
 #include "VCoalPowerPlant.h"
 #include "VHydroelectricPowerPlant.h"
 #include "VMaterialLoader.h"
+
 #include "VScreenMainMenue.h"
 #include "VScreenIngame.h"
 #include "VScreenSpielmodusWahl.h"
+
+
+#include "VIdentifier.h"
+#include "../logic/LWindmillPowerPlant.h"
+#include "../logic/ILPowerLine.h"
+#include "../logic/LMaster.h"
 
 
 NAMESPACE_VIEW_B
 
 
 VUI::VUI(VMaster* vMaster, LUI* lUi)
-: vMaster(vMaster), IVUI(lUi), isQuit(false)
+	: vMaster(vMaster), IVUI(lUi), isQuit(false)
 {
 	vMaster->setVUI(this);
 	vMaster->registerObserver(this);
@@ -24,11 +32,21 @@ void VUI::initUI()
 	vMaster->m_zf.AddDeviceKeyboard(&m_zkKeyboard);
 	vMaster->m_zf.AddDeviceCursor(&m_zkCursor);
 	vMaster->m_zf.AddDeviceMouse(&m_zkMouse);
+
 	vMaster->m_zr.AddFrameHere(&vMaster->m_zf);
 
 	
-	addScreen("MainMenue", IViewScreen::MainMenue);
+	
 
+
+	//Camera (WASD) settings
+	m_zkKeyboard.SetWASDTranslationSensitivity(20.0);
+	m_zkKeyboard.SetWASDRotationSensitivity(2.0);
+	m_zkKeyboard.SetWASDLevelMin(100.0);
+	m_zkKeyboard.SetWASDLevelMax(200.0);
+
+	addScreen("MainMenue", IViewScreen::MainMenue);
+	
 	addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
 	
 	addScreen("Ingame", IViewScreen::Ingame);
@@ -39,38 +57,32 @@ void VUI::initUI()
 void VUI::handleInput(float fTimeDelta)
 {
 	m_zkKeyboard.PlaceWASD(m_zpCamera, fTimeDelta);
-	m_zkKeyboard.SetWASDTranslationSensitivity(100.0);
-	m_zkKeyboard.SetWASDRotationSensitivity(2.0);
-    m_zkKeyboard.SetWASDLevelMin(100.0);
-	m_zkKeyboard.SetWASDLevelMax(200.0);
 
-
-
+	//TODO (JS) make power line clickable
 
 	/* Picking */
 	static bool pickingActive = false;
 
 	if (m_zkCursor.ButtonPressedLeft()) {
 		if (!pickingActive) {
-			float f;
 
 			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
 			if (pickedPlacement == nullptr) {
 				return;
 			}
-
+			
+			DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 			std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
 
-			if (koord.size() > 0) {
-				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
+			if (koord.size() == 3) {
 
-				if (koord[0] == getClassName(VPlayingField)) {
+				if (std::stoi(koord[0]) == VIdentifier::VPlayingField) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
 
 					int x = std::stoi(koord[1]);
 					int y = std::stoi(koord[2]);
 
-					dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryBuildOnField<LCoalPowerPlant>(x, y);
+					vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y, ILPowerLine::EAST);
 				}
 
 			}
@@ -80,7 +92,6 @@ void VUI::handleInput(float fTimeDelta)
 	}
 	else if (m_zkCursor.ButtonPressedRight()) {
 		if (!pickingActive) {
-			float f;
 
 			CPlacement *pickedPlacement = m_zkCursor.PickPlacement();
 			if (pickedPlacement == nullptr) {
@@ -89,18 +100,18 @@ void VUI::handleInput(float fTimeDelta)
 
 			std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
 
-			if (koord.size() > 0) {
+			if (koord.size() == 3) {
 				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 
-				if (koord[0] == getClassName(VPlayingField)) {
+				if (std::stoi(koord[0]) == VIdentifier::VPlayingField) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
 
-					dynamic_cast<VPlayingField*>(vMaster->views[getClassName(VPlayingField)])->tryBuildOnField<LHydroelectricPowerPlant>(std::stoi(koord[1]), std::stoi(koord[2]));
+					vMaster->getPlayingField()->tryBuildOnField<LWindmillPowerPlant>(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
-				else if (koord[0] == getClassName(VCoalPowerPlant)) {
+				else if (std::stoi(koord[0]) == VIdentifier::VPowerLine) {
 					vMaster->getPlayingField()->tryRemoveObject(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
-				else if (koord[0] == getClassName(VHydroelectricPowerPlant)) {
+				else if (std::stoi(koord[0]) == VIdentifier::VHydroelectricPowerPlant) {
 					vMaster->getPlayingField()->tryRemoveObject(std::stoi(koord[1]), std::stoi(koord[2]));
 				}
 
@@ -115,25 +126,27 @@ void VUI::handleInput(float fTimeDelta)
 }
 
 
+
 void VUI::onNotify(IViewUIObserver::Event evente)
 {
-	OutputDebugString("Nachricht bei GUI-Observer angekommen\n");
+	DEBUG_OUTPUT("Nachricht bei GUI-Observer angekommen\n");
 	switch (evente)
 	{
-	case IViewUIObserver::START_GAME:
-		OutputDebugString("STARTING GAME.........\n");
-		switchScreen("Ingame");
+
+	case IViewObserver::START_GAME:
+		DEBUG_OUTPUT("STARTING GAME.........\n");
+		vMaster->lMaster->startNewGame();
+		switchScreen("Ingame"); //TODO Button Action erweitern um switchscreen event damit Screen nicht hardcoded Ingame sein muss
 		break;
-	case IViewUIObserver::MainOptions:
-		OutputDebugString("Open Options from MainMenue.........\n");
-		//m_writing.PrintF("Change Screen to Options");
+	case IViewObserver::MainOptions:
+		DEBUG_OUTPUT("Open Options from MainMenue.........\n");
 		break;
 	case IViewUIObserver::QUIT_GAME:
 		isQuit = true;
 		PostQuitMessage(0);
-		OutputDebugString("Quit Game.........\n");
+		DEBUG_OUTPUT("Quit Game.........\n");
 		break;
-		// Handle other events...
+		
 	case IViewUIObserver::SWITCH_TO_SPIELMODUS:
 		
 		switchScreen("Spielmoduswahl");
@@ -143,7 +156,7 @@ void VUI::onNotify(IViewUIObserver::Event evente)
 		switchScreen("MainMenue");
 		break;
 	default:
-		OutputDebugString("Keine Lösung gefunden\n");
+		DEBUG_OUTPUT("Keine Lösung gefunden\n");
 	}
 
 }
@@ -198,9 +211,12 @@ void VUI::aktualisiereGeld(const int& wert)
 
 }
 void VUI::aktualisiereBev(const int& wert)
+
+VScreen* VUI::getScreen(string sName)
 {
 
 }
+
 void VUI::aktualisiereInfo(const int& wert)
 {
 
@@ -247,5 +263,6 @@ void VUI::tick(const float fTimeDelta)
 		}
 	}
 }
+
 
 NAMESPACE_VIEW_E

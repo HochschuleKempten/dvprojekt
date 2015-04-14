@@ -6,7 +6,7 @@
 #include "IVPowerPlant.h"
 
 LOilRefinery::LOilRefinery(const int costs, const int energyValue, LField* lField, const int x, const int y)
-	:ILPowerPlant(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createOilRefinery(this))//TODO (V) fill with concrete View Object
+	:ILPowerPlant(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createOilRefinery(this))
 {
 	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }
@@ -14,4 +14,9 @@ LOilRefinery::LOilRefinery(const int costs, const int energyValue, LField* lFiel
 
 LOilRefinery::~LOilRefinery()
 {
+}
+
+int LOilRefinery::getID()
+{
+	return id;
 }

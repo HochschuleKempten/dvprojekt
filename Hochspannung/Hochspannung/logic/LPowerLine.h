@@ -3,11 +3,14 @@
 
 class LPowerLine :
 	public ILPowerLine
-{
+{	
 public:
-	const static int id = 4;
+	static const int id = 4;
 
-	LPowerLine(const int costs, const int energyValue, LField* lField, const int x, const int y);
+	// set orientation of the powerline with the bitwise operator (|) (example: PowerLineOrientation::NORTH|PowerLineOrientation::EAST)
+	LPowerLine(const int costs, const int energyValue, LField* lField, const int x, const int y, const int orientation);
 	~LPowerLine();
+
+	int getID();
 };
 

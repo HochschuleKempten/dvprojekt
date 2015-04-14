@@ -6,7 +6,7 @@
 #include "IVPowerPlant.h"
 
 LNuclearPowerPlant::LNuclearPowerPlant(const int costs, const int energyValue, LField* lField, const int x, const int y)
-	:ILPowerPlant(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createNuclearPowerPlant(this))//TODO (V) fill with concrete View Object
+	:ILPowerPlant(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createNuclearPowerPlant(this))
 {
 	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }
@@ -14,4 +14,9 @@ LNuclearPowerPlant::LNuclearPowerPlant(const int costs, const int energyValue, L
 
 LNuclearPowerPlant::~LNuclearPowerPlant()
 {
+}
+
+int LNuclearPowerPlant::getID()
+{
+	return id;
 }

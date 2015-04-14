@@ -33,7 +33,7 @@ public:
 			
 	virtual std::shared_ptr<IVPowerPlant> createWindmillPowerPlant(LWindmillPowerPlant* powerPlant);
 
-	virtual IVPowerLine* createPowerLine(LPowerLine* powerLine);
+	virtual std::shared_ptr<IVPowerLine> createPowerLine(LPowerLine* powerLine);
 
 	virtual IVUI* createUi(LUI* lUi);
 };

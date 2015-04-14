@@ -15,9 +15,9 @@ public:
 	{}
 };
 
-#define SET_NAME_AND_COORDINATES std::stringstream stream; \
-								 stream << getClassName(this) << ";" << x << ";" << y;	\
-								 m_zp.SetName(stream.str().c_str());
+#define SET_NAME_AND_COORDINATES(id) { std::stringstream stream; \
+								       stream << id << ";" << x << ";" << y;	\
+								       m_zp.SetName(stream.str().c_str()); }
 
 
 NAMESPACE_VIEW_E

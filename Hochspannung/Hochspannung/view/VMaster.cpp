@@ -31,7 +31,6 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 	m_zf.Init(hwnd);
 	m_zr.AddFrameHere(&m_zf);
 	
-
 	vUi->initUI();
 }
 
@@ -50,19 +49,22 @@ IVFactory* VMaster::getFactory()
 
 VPlayingField* VMaster::getPlayingField()
 {
-	return dynamic_cast<VPlayingField*>(views[getClassName(VPlayingField)]);
+	ASSERT(vPlayingField != nullptr, "VPlayingField is not initialized");
+
+	return vPlayingField;
 }
 
-void VMaster::addScenegraph(const std::string &name, IViewObject* view)
+void VMaster::setVPlayingField(VPlayingField* vPlayingField)
 {
-	views[name] = view;
-	vUi->m_zs.AddPlacement(view->getPlacement());
+	this->vPlayingField = vPlayingField;
+	vUi->m_zs.AddPlacement(vPlayingField->getPlacement());
 }
 
 void VMaster::resize(int width, int heigth)
 {
 	m_zf.ReSize(width, heigth);
 }
+
 
 
 NAMESPACE_VIEW_E

@@ -214,3 +214,4 @@ Lib/Release64/Vektoria_Release64.lib
 !Lib/Release64/ApiUtils_Release64.lib
 !Lib/Release64/VektoriaMath_Release64.lib
 Cache/
+!boost_1_57_0/**

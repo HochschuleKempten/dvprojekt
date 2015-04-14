@@ -50,6 +50,17 @@ namespace Vektoria
 		bool HasCamera(CCamera * pcamera);
 		void Draw(CCamera * pcamera, bool & bTickDraw);
 
+		bool m_bFrustumCulling;
+		void SetFrustumCullingOn();
+		void SetFrustumCullingOff();
+
+		bool m_bBVHExactCalculation;
+		void SetBVHExactCalculationOn();
+		void SetBVHExactCalculationOff();
+
+
+
+
 		CPlacement * PickPlacment(CRay & r);
 
 

@@ -7,6 +7,8 @@
 #include <regex>
 #include <typeinfo>
 #include <Windows.h>
+#include <fcntl.h>
+#include <io.h>
 
 inline std::vector<std::string> split(std::string str, const char delimiter)
 {
@@ -53,21 +55,17 @@ inline std::string getClassName(const std::type_info& typeInfo)
 
 #define getClassName(type) getClassName(typeid(type))
 
-/**
- * @brief Helper exception class for the assert macro.
- */
-class ExceptionOutputDebug : public std::exception
-{
-public:
-	inline ExceptionOutputDebug(const std::string& e)
-	{
-		OutputDebugString("EXCEPTION! ");
-		OutputDebugString(e.c_str());
-		OutputDebugString("\n");
-		if (1) // avoids C4702 (unreachable code)
-			throw e;
-	}
-};
+#ifdef _DEBUG
+/*
+* @def DEBUG_OUTPUT(msgExpr)
+* Useful macro to print something to the visual studio output window
+*/
+#define DEBUG_OUTPUT(msgExpr) { std::stringstream s; \
+                                s << __FILE__ << "(" << __LINE__ << "): " << msgExpr << std::endl; \
+                                OutputDebugString(s.str().c_str()); }
+#else
+#define DEBUG_OUTPUT(msgExpr)
+#endif
 
 #ifdef _DEBUG
 /*
@@ -75,19 +73,44 @@ public:
  * Use this macro to check conditions at runtime in debug mode
  * Type in the conditition the behaviour you desire (the assertion fails if your condition fails)
  */
-#define ASSERT(cond, msgExpr) if(!(cond)){ std::stringstream s; s << __FILE__ << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; throw ExceptionOutputDebug(s.str()); }
+#define ASSERT(cond, msgExpr) if(!(cond)) { \
+								 std::stringstream s; \
+                                 s << __FILE__ << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; \
+								 OutputDebugString("EXCEPTION! "); \
+								 OutputDebugString(s.str().c_str()); \
+								 OutputDebugString("\n"); \
+								 throw std::string(s.str()); \
+                              }
 #else
 #define ASSERT(cond, msgExpr)
 #endif
 
 #ifdef _DEBUG
-/*
- * @def DEBUG_OUTPUT(msgExpr)
- * Useful macro to print something to the visual studio output window
+/**
+ * Call this method at application startup to redirect stdout to a newly created console (if there´s not already one)
  */
-#define DEBUG_OUTPUT(msgExpr) do { std::stringstream s; s << __FILE__ << "(" << __LINE__ << "): " << msgExpr << std::endl; OutputDebugString(s.str().c_str()); } while(0)
-#else
-#define DEBUG_OUTPUT(msgExpr)
-#endif
+inline void redirectIOToConsole() {
+
+	int hConsoleHandle;
+	long lStdHandle;
+	CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+	FILE* pFile;
+
+	// allocate a console for this app
+	AllocConsole();
+
+	// set the screen buffer to be big enough to let us scroll text
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &consoleInfo);
+	consoleInfo.dwSize.Y = 500;
+	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), consoleInfo.dwSize);
+
+	// redirect unbuffered STDOUT to the console
+	lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+	hConsoleHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	pFile = _fdopen(hConsoleHandle, "w");
+	*stdout = *pFile;
+	setvbuf(stdout, NULL, _IONBF, 0);
+}
+#endif // DEBUG
 
 #endif //_LUTILITY_H_
