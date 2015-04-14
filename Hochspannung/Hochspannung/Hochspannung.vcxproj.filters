@@ -217,7 +217,6 @@
     <ClInclude Include="logic\IVCity.h">
       <Filter>logic\Interfaces</Filter>
     </ClInclude>
-<<<<<<< Updated upstream
     <ClInclude Include="view\VField.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -238,10 +237,9 @@
     </ClInclude>
     <ClInclude Include="view\IViewSubject.h">
       <Filter>view\Interfaces</Filter>
-=======
+	</ClInclude>
     <ClInclude Include="logic\LIdentifier.h">
       <Filter>logic</Filter>
->>>>>>> Stashed changes
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
