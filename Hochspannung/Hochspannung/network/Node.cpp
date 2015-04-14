@@ -21,7 +21,11 @@ bool CNode::start() {
 		if (connect()) {
 			if (!m_thread.try_join_for(boost::chrono::duration<int>())) {
 				m_thread = boost::thread([this]() {
-					m_ioService.run();
+					try {
+						m_ioService.run();
+					} catch (...) {
+						std::cout << "Unexpected Exception occurred while running io_service!" << std::endl;
+					}
 				});
 			}
 
@@ -136,7 +140,7 @@ void CNode::handleConnectionError(const error_code& ec) {
 			// no error
 			break;
 
-		case ERROR_CONNECTION_REFUSED:
+		case ERROR_CONNECTION_REFUSED: // Connection refused
 			m_bConnected = false;
 			std::cout << "Connection refused by remote computer -> Trying again..." << std::endl;
 
@@ -145,7 +149,7 @@ void CNode::handleConnectionError(const error_code& ec) {
 			connect(); // try to reconnect
 			break;
 
-		case WSAECONNRESET:
+		case WSAECONNRESET: // Remote computer closed node
 			m_bConnected = false;
 			std::cout << "Connection was closed by remote host -> Trying to reconnect..." << std::endl;
 
@@ -154,12 +158,18 @@ void CNode::handleConnectionError(const error_code& ec) {
 			connect(); // try to reconnect
 			break;
 
+		case ERROR_SEM_TIMEOUT: // Connection attempt timed out
+			m_bConnected = false;;
+			std::cout << "Connection attempt timed out -> Trying again..." << std::endl;
+
+			connect(); // try to reconnect
+			break;
+
 		default:
 			m_bConnected = false;
 			std::cout << "System Error: " << ec.message() << std::endl;
 
 			m_ioService.post([this]() {
-				m_socket.shutdown(ip::tcp::socket::shutdown_both);
 				m_socket.close();
 			}); // close connection, just to be sure
 			break;
@@ -169,7 +179,6 @@ void CNode::handleConnectionError(const error_code& ec) {
 		std::cout << "Error: " << ec.message() << std::endl;
 
 		m_ioService.post([this]() {
-			m_socket.shutdown(ip::tcp::socket::shutdown_both);
 			m_socket.close();
 		}); // close connection, just to be sure
 	}
