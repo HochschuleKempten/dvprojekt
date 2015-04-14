@@ -56,6 +56,7 @@ bool CNode::isConnected() {
 void CNode::write(const CMessage& message) {
 	m_ioService.post([this, message]() {
 		bool write_in_progress = !m_dequeMessagesToWrite.empty();
+		m_dequeMessagesToWrite.push_back(message);
 
 		if (!write_in_progress) {
 			do_write();

@@ -98,7 +98,7 @@ bool CNetworkService::isActionAvailable() {
 	return m_pNode->isActionAvailable();
 }
 
-void CNetworkService::sendAsMessage(Action action, int iObjectID, int iCoordX, int iCoordY, std::string sValue) {
+void CNetworkService::sendAsMessage(Action action, int iObjectID, int iCoordX, int iCoordY, std::string stValue) {
 
 	// transforms the action to string
 	// delimiter is a semicolon
@@ -106,7 +106,7 @@ void CNetworkService::sendAsMessage(Action action, int iObjectID, int iCoordX, i
 	stMessage += boost::lexical_cast<std::string>(iObjectID) + ";";
 	stMessage += boost::lexical_cast<std::string>(iCoordX) + ";";
 	stMessage += boost::lexical_cast<std::string>(iCoordY) + ";";
-	stMessage += sValue + ";";
+	stMessage += stValue + ";";
 
 	CMessage message(stMessage.c_str());
 	m_pNode->write(message);

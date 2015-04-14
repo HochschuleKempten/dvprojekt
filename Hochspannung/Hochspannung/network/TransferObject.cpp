@@ -2,8 +2,8 @@
 
 namespace Network {
 
-CTransferObject::CTransferObject(Action action, int iTransObjectID, int iCoordX, int iCoordY, std::string sValue) :
-m_Action(action), m_iTransObjectID(iTransObjectID), m_iCoordX(iCoordX), m_iCoordY(iCoordY), m_sValue(sValue) {
+CTransferObject::CTransferObject(Action action, int iTransObjectID, int iCoordX, int iCoordY, std::string stValue) :
+m_Action(action), m_iTransObjectID(iTransObjectID), m_iCoordX(iCoordX), m_iCoordY(iCoordY), m_stValue(stValue) {
 }
 
 CTransferObject::~CTransferObject() {
@@ -42,11 +42,11 @@ void CTransferObject::setCoordY(int iCoordY) {
 }
 
 std::string CTransferObject::getValue() {
-	return m_sValue;
+	return m_stValue;
 }
 
-void CTransferObject::setValue(std::string sValue) {
-	m_sValue = sValue;
+void CTransferObject::setValue(std::string stValue) {
+	m_stValue = stValue;
 }
 
 }

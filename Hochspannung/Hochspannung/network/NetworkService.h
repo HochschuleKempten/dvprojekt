@@ -131,9 +131,9 @@ private:
 	 * @param iObjectID the objects ID.
 	 * @param iCoordX the x coordinate.
 	 * @param iCoordY the y coordinate.
-	 * @param sValue any other value to send.
+	 * @param stValue any other value to send.
 	 */
-	void sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = NULL);
+	void sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string stValue = "");
 
 	CNode* m_pNode = 0;
 	State m_ConnectionState;
