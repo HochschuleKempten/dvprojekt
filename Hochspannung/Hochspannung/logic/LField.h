@@ -25,7 +25,7 @@ public:
 
 private:
 	ILBuilding* lBuilding;
-	LPlayingField* lPlayingField;
+	LPlayingField* lPlayingField = nullptr;
 	bool placingAllowed;
 	FieldType fieldType;
 	FieldLevel fieldLevel;

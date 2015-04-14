@@ -8,7 +8,9 @@
 #include "LUtility.h"
 
 LPlayingField::LPlayingField(LMaster* lMaster)
-	: lMaster(lMaster), fieldArray(fieldLength, fieldLength)
+	: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this] (LField& f) {
+		f.setLPlayingField(this);
+	})
 {
 	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
 	createFields();
@@ -56,8 +58,8 @@ void LPlayingField::upgradeBuilding(const int x, const int y)
 void LPlayingField::createFields()
 {
 
-	int cityPositionX = fieldLength * 0.5 + rand() % 3;
-	int cityPositionY = fieldLength + 0.25 + rand() % 3;
+	int cityPositionX = 5;// fieldLength * 0.5 + rand() % 3;
+	int cityPositionY = 5;// fieldLength * 0.25 + rand() % 3;
 
 	int firstPowerLinePositionX = cityPositionX;
 	int firstPowerLinePositionY = cityPositionY +1;
@@ -69,7 +71,7 @@ void LPlayingField::createFields()
 	int firstPowerPlantPositionY = secondPowerLinePositionY + 1;
 
 	fieldArray[cityPositionX][cityPositionY].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
-	fieldArray[cityPositionX][cityPositionX].setBuilding<LPowerLine>(cityPositionX, cityPositionX, LPowerLine::EAST); //Until we have a citymodel, we use a powerline
+	fieldArray[cityPositionX][cityPositionY].setBuilding<LPowerLine>(cityPositionX, cityPositionY, LPowerLine::EAST); //Until we have a citymodel, we use a powerline
 
 	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
 	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].setBuilding<LPowerLine>(firstPowerLinePositionX, firstPowerLinePositionY, LPowerLine::WEST | LPowerLine::SOUTH); //Until we have a citymodel, we use a powerline
@@ -78,7 +80,7 @@ void LPlayingField::createFields()
 	fieldArray[secondPowerLinePositionX][secondPowerLinePositionY].setBuilding<LPowerLine>(secondPowerLinePositionX, secondPowerLinePositionY, LPowerLine::NORTH | LPowerLine::EAST); //Until we have a citymodel, we use a powerline
 
 	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].setBuilding<LPowerLine>(firstPowerPlantPositionX, firstPowerPlantPositionX, LPowerLine::EAST);
+	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].setBuilding<LPowerLine>(firstPowerPlantPositionX, firstPowerPlantPositionY, LPowerLine::EAST);
 
 
 	std::vector<LField::FieldType> fieldTypes = { LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::COAL, LField::FieldType::GRASS, LField::FieldType::MOUNTAIN, LField::FieldType::OIL, LField::FieldType::WATER, LField::FieldType::GRASS };
@@ -110,7 +112,6 @@ void LPlayingField::createFields()
 				continue;
 			}
 
-			fieldArray[x][y].setLPlayingField(this);
 			int type = rand() % fieldTypes.size();
 			int level = rand() % fieldLevels.size();
 			fieldArray[x][y].init(fieldTypes[type], fieldLevels[level]);
@@ -147,7 +148,7 @@ void LPlayingField::generatePowerLineGraph()
 			{
 				plArray[x][y].placed = true;
 
-				LPowerLine::PowerLineOrientation orientation = static_cast<LPowerLine*>(building)->getPowerLineOrientation();
+				int orientation = static_cast<LPowerLine*>(building)->getPowerLineOrientation();
 				
 				if (orientation & LPowerLine::PowerLineOrientation::NORTH)
 				{
