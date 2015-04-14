@@ -42,8 +42,8 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zTrasse1->Init(VModelPowerLine::PYLONTYPE::STRAIGHT);
 	m_zTrasse2->Init(VModelPowerLine::PYLONTYPE::STRAIGHT);
 
-	m_zTrasse1->Translate(CHVector(-1.5f, 0, 0));
-	m_zTrasse2->Translate(CHVector(1.5f, 0, 0));
+	//m_zTrasse1->Translate(CHVector(-1.5f, 0, 0));
+	//m_zTrasse2->Translate(CHVector(1.5f, 0, 0));
 
 	m_zTrasse1->ConnectTo(m_zTrasse2);
 
@@ -54,6 +54,8 @@ void CGame::Tick(float fTime, float fTimeDelta)
 {
 	m_zdk.PlaceWASD(m_zpCamera, fTimeDelta);
 	m_zr.Tick(fTimeDelta);
+	m_zTrasse1->TranslateX(sinf(fTime) - 1);
+	m_zTrasse2->TranslateX(-sinf(fTime) + 1);
 }
 
 void CGame::Fini()

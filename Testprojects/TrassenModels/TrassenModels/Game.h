@@ -89,6 +89,8 @@ private:
 	VModelPowerLine *m_zTrasse1 = new VModelPowerLine();
 	VModelPowerLine *m_zTrasse2 = new VModelPowerLine();
 	CTextureTester *m_zTester = new CTextureTester();
+
+	float a = 0;
 };
 
 
