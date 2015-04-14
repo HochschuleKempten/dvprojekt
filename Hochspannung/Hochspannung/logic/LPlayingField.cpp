@@ -7,6 +7,8 @@
 #include "IVFactory.h"
 #include "LUtility.h"
 
+//#include <iostream>
+
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this] (LField& f) {
 		f.setLPlayingField(this);
@@ -15,6 +17,9 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 {
 	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
 	createFields();
+
+	//todo (L) where?
+	generatePowerLineGraph();
 }
 
 LPlayingField::~LPlayingField()
@@ -189,10 +194,11 @@ void LPlayingField::generatePowerLineGraph()
 		}
 	}
 
-	//todo (L) put following part in own method (graph shouldn't be recreated every check!)
-
-	//remove all existing edges and vertices
-	powerLineGraph.clear();
+	//remove all existing edges
+	for (int i = 0; i < fieldLength*fieldLength; i++)
+	{
+		powerLineGraph.m_vertices[i].m_out_edges.clear();
+	}
 
 	//iterate through struct array, check if field contains a powerline (plArray[][].placed == true) and
 	//check on connections to other powerlines
@@ -217,7 +223,30 @@ void LPlayingField::generatePowerLineGraph()
 		}
 	}
 
+	//----DEBUG
 
+	//std::cout << "Out edges: " << std::endl;
+	//// Get a list of outgoing edges from vertex 1
+	//typedef graph_traits < Graph >::out_edge_iterator out_edge_iterator;
+
+	//std::cout << "size: " << powerLineGraph.m_vertices.size() << std::endl;
+
+	//
+
+	//std::pair<out_edge_iterator, out_edge_iterator> outEdges = out_edges(0, powerLineGraph);
+
+	//for (int i = 1; i < fieldLength*fieldLength; i++)
+	//{
+	//	for (; outEdges.first != outEdges.second; ++outEdges.first)
+	//	{
+	//		std::cout << *outEdges.first << " ";
+	//	}
+	//	outEdges = out_edges(i, powerLineGraph);
+	//}
+
+	//std::cout << std::endl;
+
+	//----DEBUG
 
 	for (int i = 0; i < fieldLength; i++)
 	{
