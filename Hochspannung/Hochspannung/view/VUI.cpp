@@ -160,11 +160,13 @@ void VUI::switchScreen(string switchTo)
 
 	for (it = m_screens.begin(); it != m_screens.end(); it++)
 	{
+		it->second;
 		it->second->switchOff();
 
 	}
 
 	m_screens[switchTo]->switchOn();
+	m_screenChanged = true;
 
 }
 
@@ -174,6 +176,20 @@ IViewScreen* VUI::getScreen(string sName)
 	ASSERT(m_screens.find(sName) != m_screens.end(), "Screen"<< sName<< "not available");
 	return	m_screens[sName];
 }
+
+void VUI::aktualisiereGeld(const int& wert)
+{
+
+}
+void VUI::aktualisiereBev(const int& wert)
+{
+
+}
+void VUI::aktualisiereInfo(const int& wert)
+{
+
+}
+
 void VUI::tick(const float fTimeDelta)
 {
 	handleInput(fTimeDelta);
@@ -187,22 +203,31 @@ void VUI::tick(const float fTimeDelta)
 	{
 		if (m_iterScreens->second->isOn())
 		{
+			m_iterScreens->second->checkShortcut(&m_zkKeyboard);
 			tempGuicontainer = m_iterScreens->second->getGuiContainerMap();
 			list<IViewGUIObject*>tempList;
 			list<IViewGUIObject*>::iterator tempIter;
 			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
 			{
-				tempList = tempIterGuicontainer->second->getGuiObjectList();
-
-				for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
+				if (tempIterGuicontainer->second->isOn())
 				{
-					(*tempIter)->checkHover(CurPosX, CurPosY);
-					(*tempIter)->checkPressed(CurPosX, CurPosY, m_zkCursor.ButtonPressedLeft());
-					if (isQuit)break;
+					tempList = tempIterGuicontainer->second->getGuiObjectList();
+
+					for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
+					{
+						(*tempIter)->checkHover(CurPosX, CurPosY);
+						(*tempIter)->checkPressed(CurPosX, CurPosY, m_zkCursor.ButtonPressedLeft());
+						if (m_screenChanged)
+						{
+							m_screenChanged = false;
+							return;
+						}
+						if (isQuit)return;
+					}
+					if (isQuit)return;
 				}
-				if (isQuit)break;
 			}
-			if (isQuit)break;
+			if (isQuit)return;
 		}
 	}
 }

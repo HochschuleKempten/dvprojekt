@@ -1,19 +1,19 @@
 #include "VButton.h"
 NAMESPACE_VIEW_B
 
-VButton::VButton():
-m_zfrRect(CFloatRect(0,0,0,0)),
+VButton::VButton() :
+m_zfrRect(CFloatRect(0, 0, 0, 0)),
 m_bHasHover(false)
 {
 
 }
-VButton::VButton(CViewport* viewport,CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) :
+VButton::VButton(CViewport* viewport, CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) :
 m_zfrRect(CFloatRect(0, 0, 0, 0)),
 m_bHasHover(false),
 action(IViewUIObserver::NOTHING)
 {
 	m_zoNormal = new COverlay();
-	m_zoNormal->Init(MaterialNormal,rect);
+	m_zoNormal->Init(MaterialNormal, rect);
 
 	m_zoHover = new COverlay();
 	m_zoHover->Init(MaterialHover, rect);
@@ -23,10 +23,10 @@ action(IViewUIObserver::NOTHING)
 
 	viewport->AddOverlay(getNormalOverlay());
 
-	
+
 
 	viewport->AddOverlay(getHoverOverlay());
-	
+
 
 }
 VButton::~VButton()
@@ -57,7 +57,7 @@ void VButton::onMouseClickRight(void)
 }
 
 
-void VButton::checkHover(float fPosX, float fPosY)
+void VButton::checkHover(const float& fPosX, const float& fPosY)
 {
 
 	//Prüfe ob X-Koordinate innerhalb des Buttons
@@ -67,23 +67,20 @@ void VButton::checkHover(float fPosX, float fPosY)
 		if ((fPosY >  m_zfrRect.GetYPos()) && (fPosY < (m_zfrRect.GetYPos() + m_zfrRect.GetYSize())))
 		{
 			//Koordinaten sind auf Button
-			m_zoNormal->SwitchOff();
-			m_zoHover->SwitchOn();
+			onMouseOver();
 		}
 		else
 		{
 			//X-Koordinate passt aber Y-Koordinate nicht
 			//Koordinaten sind auf Button
-			m_zoHover->SwitchOff();
-			m_zoNormal->SwitchOn();
-			
+			onMouseOut();
+
 		}
 	}
 	else
 	{
 		//X-Koordinate passt nicht
-		m_zoHover->SwitchOff();
-		m_zoNormal->SwitchOn();
+		onMouseOut();
 	}
 
 }
@@ -111,7 +108,7 @@ CFloatRect VButton::getRectangle()
 }
 
 
-void VButton::checkPressed(float fPosX, float fPosY, bool bLeftpressed)
+void VButton::checkPressed(const float& fPosX, const float& fPosY, const bool& bLeftpressed)
 {
 	if (bLeftpressed)
 	{
@@ -123,15 +120,25 @@ void VButton::checkPressed(float fPosX, float fPosY, bool bLeftpressed)
 				OutputDebugString("Button Clickevent ausgelöst\n ");
 				OutputDebugString("button->Benachrichtige alle Beobachter\n");
 				notify(action);
-				
+
 			}
-			
+
+		}
+		else
+		{
+			return;
+		}
 	}
-	else
-	{
-		return;
-	}
-}
 }
 
+void VButton::switchOn()
+{
+	m_zoNormal->SwitchOn();
+	m_zoHover->SwitchOff();
+}
+void VButton::switchOff()
+{
+	m_zoNormal->SwitchOff();
+	m_zoHover->SwitchOff();
+}
 NAMESPACE_VIEW_E

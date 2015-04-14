@@ -2,16 +2,19 @@
 #include "IViewGUIContainer.h"
 NAMESPACE_VIEW_B
 
-class VDialog :
-	public IViewGUIContainer
+class VDialog : public IViewGUIContainer
 {
 public:
 	VDialog();
-	VDialog(CFloatRect floatRect, CViewport& viewport, CMaterial* MaterialNormal);
+	VDialog(CFloatRect floatRect, CViewport* viewport, CMaterial* MaterialNormal);
 	~VDialog();
 	void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction);
 	void onNotify(IViewUIObserver::Event);
 	list<IViewGUIObject*> getGuiObjectList();
+	virtual void switchOn();
+
+	virtual void switchOff();
+	
 private:
 	CFloatRect m_rect;
 	CViewport* m_viewport;

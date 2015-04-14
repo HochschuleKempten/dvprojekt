@@ -18,12 +18,14 @@ NAMESPACE_VIEW_B
 class VGroup:public IViewGUIContainer
 {
 public:
-	VGroup(CFloatRect floatRect,CViewport& viewport);
+	VGroup(CFloatRect floatRect,CViewport* viewport);
 	VGroup();
 	~VGroup();
 	void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction);
 	 void onNotify(IViewUIObserver::Event);
 	 list<IViewGUIObject*> getGuiObjectList();
+	virtual void switchOn();
+	virtual void switchOff();
 private:
 	CFloatRect m_rect;
 	CViewport* m_viewport;

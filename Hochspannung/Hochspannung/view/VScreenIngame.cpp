@@ -16,7 +16,13 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_scene->SwitchOff();
 	m_zb.InitFull("textures/black_image.jpg");
 	m_viewport.AddBackground(&m_zb);
+	
+	m_bottomBar.Init("textures\\MainMenueBackground.png", CFloatRect(0.0, 0.75, 1.0, 0.25));
+	m_viewport.AddOverlay(&m_bottomBar);
 
+	m_topBar.Init("textures\\MainMenueBackground.png", CFloatRect(0.2, 0.0, 0.6, 0.05));
+	m_viewport.AddOverlay(&m_topBar);
+	
 	m_scene->AddPlacement(m_zpCamera);
 	m_zpCamera->AddCamera(&m_zc);
 
@@ -26,16 +32,15 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_scene->AddParallelLight(&m_zl);
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
 		CColor(1.0f, 1.0f, 1.0f));
-	addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
-	getContainer("Menue")->addButton(CFloatRect(0.0, 0.75, 1, 0.25), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewUIObserver::NOTHING);
 	
 	addContainer(IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.22, 0.33, 0.66), "DialogBox");
-	getContainer("DialogBox")->addButton(CFloatRect(0.33, 0.27, 0.30, 0.12), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewUIObserver::START_GAME);
-	getContainer("DialogBox")->addButton(CFloatRect(0.33, 0.42, 0.30, 0.12), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewUIObserver::MainOptions);
-	getContainer("DialogBox")->addButton(CFloatRect(0.33, 0.57, 0.30, 0.12), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewUIObserver::QUIT_GAME);
-
+	
+	getContainer("DialogBox")->addButton(CFloatRect(0.35, 0.27, 0.32, 0.12), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, IViewUIObserver::NOTHING);
+	getContainer("DialogBox")->addButton(CFloatRect(0.35, 0.41, 0.32, 0.12), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, IViewUIObserver::QUIT_GAME);
+	
 	
 	m_viewport.SwitchOff();
+getContainer("DialogBox")->switchOff();
 
 }
 VScreenIngame::VScreenIngame(CViewport* viewp, CFrame* frame)
@@ -71,5 +76,26 @@ void VScreenIngame::switchOff()
 	m_viewport.SwitchOff();
 	m_scene->SwitchOff();
 	m_isOn = false;
+}
+
+void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
+{
+	if (!keyboard->KeyPressed(DIK_ESCAPE))
+	{
+		bK = false;
+	}
+	if (keyboard->KeyPressed(DIK_ESCAPE) && bK == false)
+	{
+		if (!getContainer("DialogBox")->isOn())
+		{
+			getContainer("DialogBox")->switchOn();
+		}
+		else
+		{
+			getContainer("DialogBox")->switchOff();
+		}
+		bK = true;
+	}
+	
 }
 NAMESPACE_VIEW_E

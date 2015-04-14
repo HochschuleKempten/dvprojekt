@@ -178,7 +178,6 @@
     <ClInclude Include="view\VMaster.h" />
     <ClInclude Include="view\VCoalPowerPlant.h" />
     <ClInclude Include="view\VPowerline.h" />
-    <ClInclude Include="view\VScreen.h" />
     <ClInclude Include="view\VScreenIngame.h" />
     <ClInclude Include="view\VScreenMainMenue.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
@@ -231,4 +230,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="VektoriaApp.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

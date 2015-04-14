@@ -23,11 +23,17 @@ public:
 
 	};
 
+	virtual void switchOn()=0;
+	virtual void switchOff() = 0;
+	virtual bool isOn()
+	{
+		return m_bOn;
+	}
 	virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) = 0;
 	virtual list<IViewGUIObject*> getGuiObjectList()=0;
 	virtual ~IViewGUIContainer(){};
-private:
-	list<VButton> cgButtons;
+protected:
+	bool m_bOn = true;
 };
 
 NAMESPACE_VIEW_E

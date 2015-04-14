@@ -168,8 +168,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 			g_bFullscreen = !g_bFullscreen;
 			ChangeDisplay(hwnd);
 		}
-		if (wParam != VK_ESCAPE) break;
-
+		//if (wParam != VK_ESCAPE) break;
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);           /* send a WM_QUIT to the message queue */
 		break;

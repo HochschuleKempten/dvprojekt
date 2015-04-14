@@ -173,9 +173,6 @@
     <ClInclude Include="view\VGroup.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\VScreen.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\IViewSubject.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>

@@ -22,6 +22,16 @@ public:
 	//MainMenue
 	static CMaterial materialMainMenue;
 	static CMaterial materialMainMenueHover;
+		//Buttons
+	static CMaterial materialButtonMainMenueNeuesSpiel;
+	static CMaterial materialButtonMainMenueNeuesSpielHover;
+	static CMaterial materialButtonMainMenueOptionen;
+	static CMaterial materialButtonMainMenueOptionenHover;
+	static CMaterial materialButtonMainMenueCredits;
+	static CMaterial materialButtonMainMenueCreditsHover;
+	static CMaterial materialButtonMainMenueSpielBeenden;
+	static CMaterial materialButtonMainMenueSpielBeendenHover;
+
 	//Ingame
 	static CMaterial materialIngameCraft;
 	static CMaterial materialDialogBackground;

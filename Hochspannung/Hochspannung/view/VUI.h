@@ -31,7 +31,7 @@ private:
 	CBackground m_zb;
 
 	bool isQuit;
-
+	bool m_screenChanged = false;
 	void handleInput(float fTimeDelta);
 
 public:
@@ -50,6 +50,10 @@ public:
 	IViewScreen* getScreen(string sName);
 
 	virtual void onNotify(IViewUIObserver::Event);
+
+	void aktualisiereGeld(const int& wert);
+	void aktualisiereBev(const int& wert);
+	void aktualisiereInfo(const int& wert);
 };
 
 

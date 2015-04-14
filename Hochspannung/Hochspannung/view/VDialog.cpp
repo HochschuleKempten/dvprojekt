@@ -5,10 +5,10 @@ VDialog::VDialog()
 {
 }
 
-VDialog::VDialog(CFloatRect floatRect, CViewport& viewport, CMaterial* materialBackground)
+VDialog::VDialog(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground)
 {
 	
-	m_viewport = &viewport;
+	m_viewport = viewport;
 	m_rect = floatRect;
 	m_background = new COverlay();
 	m_background->SetLayer(0.9);
@@ -50,5 +50,30 @@ void VDialog::onNotify(IViewUIObserver::Event events)
 list<IViewGUIObject*> VDialog::getGuiObjectList()
 {
 	return m_guiObjects;
+}
+
+void VDialog::switchOn()
+{
+	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
+	{
+		(*lIterGUIObjects)->switchOn();
+		
+	}
+	m_background->SwitchOn();
+
+	m_bOn = true;
+
+}
+
+void VDialog::switchOff()
+{
+	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
+	{
+		//(*lIterGUIObjects)->switchOff();
+		(*lIterGUIObjects)->switchOff();
+		
+	}
+	m_background->SwitchOff();
+	m_bOn = false;
 }
 NAMESPACE_VIEW_E

@@ -16,8 +16,9 @@ class IViewGUIObject:public IViewSubject
 {
 public:
 	virtual ~IViewGUIObject(){};
-	virtual void checkHover(float fPosX, float fPosY)=0;
-	virtual void checkPressed(float fPoxX, float fPoxY, bool bLeftpressed) = 0;
-	
+	virtual void checkHover(const float& fPosX, const float& fPosY)=0;
+	virtual void checkPressed(const float& fPosX, const float& fPosY, const bool& bLeftpressed) = 0;
+	virtual void switchOn()=0;
+	virtual void switchOff() = 0;
 };
 NAMESPACE_VIEW_E

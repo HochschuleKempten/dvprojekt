@@ -46,11 +46,11 @@ public:
 		switch (containerType)
 		{
 		case IViewGUIContainer::Group:
-			m_Guicontainer[sName] = new VGroup(floatRect, m_viewport);
+			m_Guicontainer[sName] = new VGroup(floatRect, &m_viewport);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		case IViewGUIContainer::Dialog:
-			m_Guicontainer[sName] = new VDialog(floatRect, m_viewport, &VMaterialLoader::materialDialogBackground);
+			m_Guicontainer[sName] = new VDialog(floatRect, &m_viewport, &VMaterialLoader::materialDialogBackground);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		}
@@ -68,6 +68,7 @@ public:
 	{
 		return m_isOn;
 	}
+	virtual void checkShortcut(CDeviceKeyboard* keyboard)=0;
 protected:	
 	map<string, IViewGUIContainer*> m_Guicontainer;
 	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;

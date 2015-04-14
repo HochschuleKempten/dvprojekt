@@ -18,8 +18,8 @@ public:
 	~VButton();
 	
 	
-	void checkHover(float fPosX, float fPosY);
-	void checkPressed(float fCursorPosX, float fCursorPosY, bool bLeftpressed);
+	void checkHover(const float& fPosX, const float& fPosY);
+	void checkPressed(const float& fPosX, const float& fPosY, const bool& bLeftpressed);
 	
 	
 
@@ -32,7 +32,8 @@ public:
 
 	bool bGetHasHover();
 
-	
+	void switchOn();
+	void switchOff();
 	
 	//Getter
 
@@ -50,7 +51,6 @@ private:
 	COverlay* m_zoHover;
 	
 	CFloatRect m_zfrRect; 
-	string m_slabel;
 	
 	bool m_bHasHover;
 

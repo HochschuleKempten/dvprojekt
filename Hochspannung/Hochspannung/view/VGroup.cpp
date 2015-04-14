@@ -6,9 +6,9 @@ VGroup::VGroup()
 {
 }
 
-VGroup::VGroup(CFloatRect floatRect,CViewport& viewport)
+VGroup::VGroup(CFloatRect floatRect,CViewport* viewport)
 {
-	m_viewport = &viewport;
+	m_viewport = viewport;
 	m_rect = floatRect;
 }
 
@@ -47,4 +47,16 @@ list<IViewGUIObject*> VGroup::getGuiObjectList()
 	return m_guiObjects;
 }
 
+void VGroup::switchOn()
+{
+
+}
+
+void VGroup::switchOff()
+{
+	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
+	{
+		(*lIterGUIObjects)->switchOff();
+	}
+}
 NAMESPACE_VIEW_E
