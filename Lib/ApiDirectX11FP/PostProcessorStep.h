@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DirectX11FP.h"
-#include "DXUtilities.h"
+#include "../ApiUtils/DXUtilities.h"
 
 namespace Vektoria
 {

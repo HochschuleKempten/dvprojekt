@@ -36,6 +36,14 @@ public:
 	void DontDraw(bool &bTickTack);
 
 	void SearchForCameras(CCameras * pcameras);
+
+	void SetFrustumCullingOn();
+	void SetFrustumCullingOff();
+	void SetBVHExactCalculationOn();
+	void SetBVHExactCalculationOff();
+
+
+
 	CPlacement ** m_applacement;
 	int m_iPlacementAllocs;
 	int m_iAllocBlock;
