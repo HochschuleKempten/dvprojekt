@@ -131,7 +131,7 @@ protected:
 	 * @param maxLen the maximum length of the message
 	 * @return std::string
 	 */
-	std::string retrieveString(char* mes, unsigned int maxLen);
+	std::string retrieveString(const char* mes, unsigned int maxLen);
 
 	io_service m_ioService;
 

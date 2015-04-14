@@ -109,7 +109,7 @@ void CNode::readHeaderCompleteHandler(const error_code& ec, std::size_t /*length
 void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
 		const char* pcMessage = m_messageRead.getBody();
-		std::string stMessage = retrieveString((char*)pcMessage, 512);
+		std::string stMessage = retrieveString(pcMessage, 512);
 		std::vector<std::string> transferObjectMember = split(stMessage, ';');
 
 		CTransferObject transferObject(
@@ -189,7 +189,7 @@ bool CNode::isActionAvailable() {
 	return !m_dequeActionsToExecute.empty();
 }
 
-std::string CNode::retrieveString(char* mes, unsigned int maxLen) {
+std::string CNode::retrieveString(const char* mes, unsigned int maxLen) {
 	size_t len = 0;
 	while ((len < maxLen) && (mes[len] != '\0')) {
 		len++;
