@@ -244,6 +244,33 @@
     <ClInclude Include="view\VModelWindmillPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\Appartments.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Gebaeude02.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Gebaeude03.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Gebauede01.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\LargeOfficeBuilding.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\OfficeTowerViewingDeck.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\SmallOfficeBuilding.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\TwistedTower.h">
+      <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelCity.h">
+      <Filter>view</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -368,6 +395,33 @@
     </ClCompile>
     <ClCompile Include="view\VModelWindmillPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Appartments.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Gebaeude02.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Gebaeude03.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Gebauede01.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\LargeOfficeBuilding.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\OfficeTowerViewingDeck.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\SmallOfficeBuilding.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\TwistedTower.cpp">
+      <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelCity.cpp">
+      <Filter>view</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
