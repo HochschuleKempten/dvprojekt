@@ -6,6 +6,12 @@
 CGame::CGame(void)
 	: lMaster(&vMaster)
 {
+
+#ifdef _DEBUG
+	/* Redirect IO to console for debugging */
+	redirectIOToConsole();
+#endif // DEBUG
+
 	vMaster.setLMaster(&lMaster);
 	// Hier eventuelle Vorinitialisierungen Deiner Vektoria-Objekte einfügen:
 }
@@ -19,7 +25,6 @@ void CGame::Init(HWND hwnd, CSplash *psplash)
 {
 	// Hier die Initialisierung Deiner Vektoria-Objekte einfügen:
 	vMaster.initScene(hwnd, psplash);
-	lMaster.startNewGame();
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)

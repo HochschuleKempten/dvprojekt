@@ -15,3 +15,8 @@ LSolarPowerPlant::LSolarPowerPlant(const int costs, const int energyValue, LFiel
 LSolarPowerPlant::~LSolarPowerPlant()
 {
 }
+
+int LSolarPowerPlant::getID()
+{
+	return id;
+}

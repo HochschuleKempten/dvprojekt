@@ -15,3 +15,8 @@ LOilRefinery::LOilRefinery(const int costs, const int energyValue, LField* lFiel
 LOilRefinery::~LOilRefinery()
 {
 }
+
+int LOilRefinery::getID()
+{
+	return id;
+}

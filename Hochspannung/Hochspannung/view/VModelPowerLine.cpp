@@ -59,6 +59,8 @@ VModelPowerLine::~VModelPowerLine(void)
 
 void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFoundationWidth, float fPylonHeight)
 {
+	m_zpPole1.SetPointingOff();
+
 	m_zmGrey.MakeTextureDiffuse("textures\\grey_image.jpg");
 	m_zmBlack.MakeTextureDiffuse("textures\\black_image.jpg");
 

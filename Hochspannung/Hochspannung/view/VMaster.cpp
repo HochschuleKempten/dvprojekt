@@ -31,7 +31,6 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 	m_zf.Init(hwnd);
 	m_zr.AddFrameHere(&m_zf);
 	
-
 	vUi->initUI();
 }
 

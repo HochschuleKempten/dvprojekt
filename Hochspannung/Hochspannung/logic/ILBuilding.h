@@ -27,7 +27,9 @@ public:
 	};
 
 	//todo (L) implement this in the buildings that can be upgraded
-	void upgrade()
+	virtual void upgrade() 
 	{
 	};
+
+	virtual int getID() = 0;
 };

@@ -7,12 +7,13 @@
 #include "VMaterialLoader.h"
 #include "VIdentifier.h"
 #include "../logic/ILPowerLine.h"
+#include "../logic/LMaster.h"
 
 NAMESPACE_VIEW_B
 
 
 VUI::VUI(VMaster* vMaster, LUI* lUi)
-: vMaster(vMaster), IVUI(lUi), isQuit(false)
+	: vMaster(vMaster), IVUI(lUi), isQuit(false)
 {
 	vMaster->setVUI(this);
 	vMaster->registerObserver(this);
@@ -24,6 +25,11 @@ void VUI::initUI()
 	vMaster->m_zf.AddDeviceCursor(&m_zkCursor);
 	vMaster->m_zf.AddDeviceMouse(&m_zkMouse);
 
+	//Camera (WASD) settings
+	m_zkKeyboard.SetWASDTranslationSensitivity(20.0);
+	m_zkKeyboard.SetWASDRotationSensitivity(2.0);
+	m_zkKeyboard.SetWASDLevelMin(100.0);
+	m_zkKeyboard.SetWASDLevelMax(200.0);
 
 	m_zc.Init();
 	m_zv.InitFull(&m_zc);
@@ -36,6 +42,7 @@ void VUI::initUI()
 	
 	m_zs.AddPlacement(&m_zpCamera);
 	m_zpCamera.AddCamera(&m_zc);
+	m_zpCamera.SetName("Placement Camera");
 
 	m_zpCamera.TranslateZ(50.0);
 	m_zpCamera.RotateXDelta(0.3 * PI);
@@ -61,14 +68,8 @@ void VUI::initUI()
 void VUI::handleInput(float fTimeDelta)
 {
 	m_zkKeyboard.PlaceWASD(m_zpCamera, fTimeDelta);
-	//TODO (V) Move this to init
-	m_zkKeyboard.SetWASDTranslationSensitivity(10.0);
-	m_zkKeyboard.SetWASDRotationSensitivity(2.0);
-    m_zkKeyboard.SetWASDLevelMin(100.0);
-	m_zkKeyboard.SetWASDLevelMax(200.0);
 
-
-
+	//TODO (JS) make power line clickable
 
 	/* Picking */
 	static bool pickingActive = false;
@@ -80,11 +81,11 @@ void VUI::handleInput(float fTimeDelta)
 			if (pickedPlacement == nullptr) {
 				return;
 			}
-
+			
+			DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 			std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
 
-			if (koord.size() > 0) {
-				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
+			if (koord.size() == 3) {
 
 				if (std::stoi(koord[0]) == VIdentifier::VPlayingField) {
 					ASSERT(koord.size() == 3, "Not enough arguments in the placement name");
@@ -110,7 +111,7 @@ void VUI::handleInput(float fTimeDelta)
 
 			std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
 
-			if (koord.size() > 0) {
+			if (koord.size() == 3) {
 				DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 
 				if (std::stoi(koord[0]) == VIdentifier::VPlayingField) {
@@ -135,7 +136,6 @@ void VUI::handleInput(float fTimeDelta)
 	}
 }
 
-
 void VUI::onNotify(IViewObserver::Event evente)
 {
 	DEBUG_OUTPUT("Nachricht bei GUI-Observer angekommen\n");
@@ -143,6 +143,7 @@ void VUI::onNotify(IViewObserver::Event evente)
 	{
 	case IViewObserver::START_GAME:
 		DEBUG_OUTPUT("STARTING GAME.........\n");
+		vMaster->lMaster->startNewGame();
 		switchScreen("Ingame"); //TODO Button Action erweitern um switchscreen event damit Screen nicht hardcoded Ingame sein muss
 		break;
 	case IViewObserver::MainOptions:
@@ -160,7 +161,6 @@ void VUI::onNotify(IViewObserver::Event evente)
 	}
 
 }
-
 
 void VUI::addScreen(string sName, VScreen::ScreenType screenType)
 {
@@ -203,12 +203,12 @@ void VUI::switchScreen(string switchTo)
 
 }
 
-
 VScreen* VUI::getScreen(string sName)
 {
 	ASSERT(m_screens.find(sName) != m_screens.end(), "Screen not available");
 	return	m_screens[sName];
 }
+
 void VUI::tick(const float fTimeDelta)
 {
 	handleInput(fTimeDelta);

@@ -21,8 +21,7 @@ protected:
 	std::shared_ptr<IVPowerLine> vPowerLine;
 
 public:
-
-	ILPowerLine(const int costs, const int energyValue, PowerLineOrientation orientation, LField* lField, IVPowerLine* vPowerLine)
+	ILPowerLine(const int costs, const int energyValue, PowerLineOrientation orientation, LField* lField, const std::shared_ptr<IVPowerLine>& vPowerLine)
 		: ILBuilding(costs, lField),
 		vPowerLine(vPowerLine),
 		energyValue(energyValue),
@@ -41,6 +40,6 @@ public:
 	PowerLineOrientation getPowerLineOrientation()
 	{
 		return orientation;
-	}
+	};
 
 };
