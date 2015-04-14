@@ -57,7 +57,6 @@ void VPlayingField::initPlayingField()
 
 	float rows = vFields.getRows();
 	m_zp.TranslateDelta(-fieldSize * rows, fieldSize * rows, -fieldSize * rows * 1.5);
-	m_zp.SetFrustumCullingOff();//TODO (V) remove this after bugfix
 
 	m_zp.SetName("Placement VPlayingField");
 }
