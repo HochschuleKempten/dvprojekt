@@ -12,7 +12,7 @@ class LMaster : public IVTickObserver
 
 private:
 	IVMaster* vMaster;
-	LPlayingField* lPlayingField;
+	LPlayingField* lPlayingField = nullptr;
 	LPlayer* lPlayer;
 	LUI lUi;
 

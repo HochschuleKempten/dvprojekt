@@ -4,6 +4,7 @@
 #include "../logic/LWindmillPowerPlant.h"
 #include "../logic/IVTickObserver.h"
 #include "IViewBuilding.h"
+#include "VModelWindmillPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
@@ -11,9 +12,10 @@ NAMESPACE_VIEW_B
 class VWindmillPowerPlant : public IVPowerPlant, public IViewBuilding, public IVTickObserver
 {
 private:
-	CPlacement m_zp;
-	CMaterial m_zm;
-	CGeoEllipsoid m_zg;
+	VModelWindmillPowerPlant m_zp;
+	//CPlacement m_zp;
+	//CMaterial m_zm;
+	//CGeoEllipsoid m_zg;
 	//TODO (V) Windkraftwerk einbauen
 
 public:

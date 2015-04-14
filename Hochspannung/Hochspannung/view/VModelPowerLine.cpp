@@ -59,6 +59,8 @@ VModelPowerLine::~VModelPowerLine(void)
 
 void VModelPowerLine::Init()
 {
+	m_zpPole1.SetPointingOff();
+
 	m_zmGrey.MakeTextureDiffuse("textures\\grey_image.jpg");
 	m_zmBlack.MakeTextureDiffuse("textures\\black_image.jpg");
 

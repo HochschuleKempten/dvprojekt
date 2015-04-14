@@ -17,6 +17,25 @@ void LField::setLPlayingField(LPlayingField* lPlayingField)
 	this->lPlayingField = lPlayingField;
 }
 
+void LField::init(const FieldType fieldType, const FieldLevel fieldLevel)
+{
+	this->fieldType = fieldType;
+	this->fieldLevel = fieldLevel;
+
+	energyStock = fieldType * fieldLevel;
+	energyLeft = energyStock;
+}
+
+LField::FieldType LField::getFieldType() const
+{
+	return fieldType;
+}
+
+LField::FieldLevel LField::getFieldLevel() const
+{
+	return fieldLevel;
+}
+
 bool LField::removeBuilding()
 {
 	if (lBuilding != nullptr)

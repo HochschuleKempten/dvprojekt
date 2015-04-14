@@ -15,3 +15,8 @@ LNuclearPowerPlant::LNuclearPowerPlant(const int costs, const int energyValue, L
 LNuclearPowerPlant::~LNuclearPowerPlant()
 {
 }
+
+int LNuclearPowerPlant::getID()
+{
+	return id;
+}

@@ -4,7 +4,6 @@
 #include "VFactory.h"
 #include "VGeneral.h"
 
-
 class LMaster;
 
 NAMESPACE_VIEW_B
@@ -40,11 +39,10 @@ public:
 	VPlayingField* getPlayingField();
 
 	void setVPlayingField(VPlayingField* vPlayingField);
-	//void removeScenegraph(const std::string &name, IViewObject* view) {}
+	
 	void resize(int width, int height);
 
 	friend class VUI;
-	static int id;
 };
 
 

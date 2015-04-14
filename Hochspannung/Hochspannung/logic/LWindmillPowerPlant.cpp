@@ -15,3 +15,8 @@ LWindmillPowerPlant::LWindmillPowerPlant(const int costs, const int energyValue,
 LWindmillPowerPlant::~LWindmillPowerPlant()
 {
 }
+
+int LWindmillPowerPlant::getID()
+{
+	return id;
+}

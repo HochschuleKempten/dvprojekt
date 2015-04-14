@@ -1,0 +1,9 @@
+diff a/SampleProject/SampleProject/Game.h b/SampleProject/SampleProject/Game.h	(rejected hunks)
+@@ -73,7 +73,6 @@
+ 	void WindowReSize(int iNewWidth, int iNewHeight); // WindowsReSize wird immer dann aufgerufen, wenn der Benutzer die Fenstergr��e ver�ndert hat
+ 
+ private:
+-    // Hier ist Platz f�r Deine Vektoriaobjekte:
+ 	HWND m_hwnd;
+ 	bool m_bReSized;
+ 	// Hier ist Platz f�r Deine Vektoriaobjekte:

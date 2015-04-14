@@ -1,0 +1,11 @@
+diff a/SampleProject/SampleProject/Game.cpp b/SampleProject/SampleProject/Game.cpp	(rejected hunks)
+@@ -13,6 +13,9 @@
+ 
+ void CGame::Init(HWND hwnd, CSplash * psplash)
+ {
++	m_hwnd = hwnd;
++	m_bReSized = false;
++	// Hier die Initialisierung Deiner Vektoria-Objekte einfügen:
+ 	m_zr.Init(psplash);
+ 	m_zc.Init();
+ 	m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput);
