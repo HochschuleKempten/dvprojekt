@@ -2,6 +2,7 @@
 
 #include "Array2D.h"
 #include "LField.h"
+#include <vector>
 
 class LMaster;
 class IVPlayingField;
@@ -31,7 +32,12 @@ public:
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
 
-		return getField(x, y)->setBuilding<T>(x, y, arguments...);
+		//return getField(x, y)->setBuilding<T>(x, y, arguments...);
+
+		bool ret = getField(x, y)->setBuilding<T>(x, y, arguments...);
+		generateTree();
+
+		return ret;
 	}
 	
 	
@@ -39,4 +45,8 @@ public:
 	void removeBuilding(const int x, const int y);
 	void upgradeBuilding(const int x, const int y);
 	LMaster* getLMaster();
+
+private:
+	void generateTree();
+	bool checkIndex(const int x, const int y);
 };

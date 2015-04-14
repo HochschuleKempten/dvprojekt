@@ -1,14 +1,18 @@
 #include "LPlayingField.h"
 #include "LPlayer.h"
-#include "ILBuilding.h"
+#include "LPowerLine.h"
 #include "LMaster.h"
 #include "IVPlayingField.h"
 #include "IVMaster.h"
 #include "IVFactory.h"
 #include <vector>
 #include "LUtility.h"
-
 #include "LPowerLine.h"
+#include "IVPowerLine.h" //todo (JS,IP) needed, else Error C4150.. i have no idea why
+#include <boost\graph\graph_traits.hpp>
+#include <boost\graph\adjacency_list.hpp>
+
+using namespace boost;
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength)
@@ -98,4 +102,92 @@ void LPlayingField::createFields()
 LMaster* LPlayingField::getLMaster()
 {
 	return lMaster;
+}
+
+void LPlayingField::generateTree()
+{
+	//bidirectional = directed graph with access to both out and in-edges
+	typedef adjacency_list<vecS, vecS, bidirectionalS> Graph;
+
+
+
+
+	//---------------------
+
+	struct pl
+	{
+		bool placed = false;
+		std::vector<pl*> connections;
+	};
+
+	pl** plArray = new pl*[fieldLength];
+
+	for (int i = 0; i < fieldLength; i++)
+	{
+		plArray[i] = new pl[fieldLength];
+	}
+
+	ILBuilding* building = nullptr;
+
+	for (int x = 0; x < fieldLength; x++)
+	{
+		for (int y = 0; y < fieldLength; y++)
+		{
+			building = getField(x, y)->getBuilding();
+
+			//check if building is a powerline
+			if (building != nullptr && building->getID() == LPowerLine::id)
+			{
+				plArray[x][y].placed = true;
+
+				LPowerLine::PowerLineOrientation orientation = static_cast<LPowerLine*>(building)->getPowerLineOrientation();
+				
+				if (orientation & LPowerLine::PowerLineOrientation::NORTH)
+				{
+					if (checkIndex(x - 1, y))
+					{
+						plArray[x][y].connections.push_back(&plArray[x - 1][y]);
+					}
+				}
+
+				if (orientation & LPowerLine::PowerLineOrientation::EAST)
+				{
+					if (checkIndex(x, y + 1))
+					{
+						plArray[x][y].connections.push_back(&plArray[x][y + 1]);
+					}
+				}
+
+				if (orientation & LPowerLine::PowerLineOrientation::SOUTH)
+				{
+					if (checkIndex(x + 1, y))
+					{
+						plArray[x][y].connections.push_back(&plArray[x + 1][y]);
+					}
+				}
+
+				if (orientation & LPowerLine::PowerLineOrientation::WEST)
+				{
+					if (checkIndex(x, y - 1))
+					{
+						plArray[x][y].connections.push_back(&plArray[x][y - 1]);
+					}
+				}
+			}
+		}
+	}
+
+
+
+	for (int i = 0; i < fieldLength; i++)
+	{
+		delete [] plArray[i];
+	}
+
+	delete [] plArray;
+}
+
+bool LPlayingField::checkIndex(const int x, const int y)
+{
+	return (x >= 0) && (x < fieldLength) && (y >= 0) && (y < fieldLength);
 }
