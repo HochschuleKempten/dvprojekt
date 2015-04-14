@@ -13,10 +13,6 @@ class VWindmillPowerPlant : public IVPowerPlant, public IViewBuilding, public IV
 {
 private:
 	VModelWindmillPowerPlant m_zp;
-	//CPlacement m_zp;
-	//CMaterial m_zm;
-	//CGeoEllipsoid m_zg;
-	//TODO (V) Windkraftwerk einbauen
 
 public:
 	VWindmillPowerPlant(VMaster *vMaster, LWindmillPowerPlant* lPlant);
@@ -27,7 +23,7 @@ public:
      
 	inline virtual void tick(const float fTimeDelta)
 	{
-		//TODO (V) rotate windmill
+		m_zp.rotate(0.05f);
 	}
 };
 
