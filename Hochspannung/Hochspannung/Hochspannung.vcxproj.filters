@@ -237,9 +237,12 @@
     </ClInclude>
     <ClInclude Include="view\IViewSubject.h">
       <Filter>view\Interfaces</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="logic\LIdentifier.h">
       <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelWindmillPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +364,9 @@
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VField.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelWindmillPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
