@@ -18,19 +18,21 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_zmBlack.MakeTextureDiffuse("textures\\black_image.jpg");
 
 	// set necessary attributes depending on foundationWidth and pylonHeight
-	m_fFoundationWidth  = fFoundationWidth;
+	m_fFoundationWidth = fFoundationWidth;
 	m_fFoundationHeight = fFoundationWidth * 0.1f;
-	m_fPylonHeight      = fPylonHeight;
-	m_fPoleDistance     = fFoundationWidth * 0.8f;
-	m_fPoleThickness    = m_fPoleDistance * 0.1f;
-	m_fStrutHeight      = fPylonHeight * 0.1f;
-	m_fStrutLength      = sqrtf(powf(m_fPoleDistance, 2) + powf(m_fStrutHeight, 2));
-	m_fStrutAngle       = asinf(m_fStrutHeight / m_fStrutLength);;
-	m_fStrutThickness   = m_fPoleDistance * 0.08f;
-	m_iStrutsCount      = (int)(m_fPylonHeight / m_fStrutHeight);
-	m_ePylonType        = ePylonType;
-	m_eDirection        = eDirection;
-	m_fArmLength        = m_fPylonHeight * 0.3f;
+	m_fPylonHeight = fPylonHeight;
+	m_fPoleDistance = fFoundationWidth * 0.8f;
+	m_fPoleThickness = m_fPoleDistance * 0.1f;
+	m_fStrutHeight = fPylonHeight * 0.1f;
+	m_fStrutLength = sqrtf(powf(m_fPoleDistance, 2) + powf(m_fStrutHeight, 2));
+	m_fStrutAngle = asinf(m_fStrutHeight / m_fStrutLength);;
+	m_fStrutThickness = m_fPoleDistance * 0.08f;
+	m_iStrutsCount = (int)(m_fPylonHeight / m_fStrutHeight);
+	m_ePylonType = ePylonType;
+	m_eDirection = eDirection;
+	m_fArmLength = m_fPylonHeight * 0.3f;
+	m_fConnectorLength = m_fStrutHeight;
+	m_fConnectorThickness = m_fConnectorLength * 0.1f;
 
 	// init geometries (foundation, pole, strut)
 	m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &m_zmGrey);
@@ -39,6 +41,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), &m_zmBlack);
 	m_zgSphere.Init(2 * m_fPoleThickness, &m_zmBlack);
 	m_zgArm.Init(CHVector(m_fPoleDistance * 4, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
+	m_zgConnector.Init(m_fConnectorThickness, m_fConnectorThickness, m_fConnectorLength, &m_zmBlack);
 
 	// preparing struts (rotate)
 	m_zpStruts = new CPlacement[m_iStrutsCount * 8];
@@ -59,8 +62,8 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 
 		//// adding struts
 		for (int j = 0; j < m_iStrutsCount; j++) {
-			index1        = (i * m_iStrutsCount * 2) + j;
-			index2        = index1 + m_iStrutsCount;
+			index1 = (i * m_iStrutsCount * 2) + j;
+			index2 = index1 + m_iStrutsCount;
 			iYTranslation = j * m_fStrutHeight * 2 - m_fPylonHeight + m_fStrutHeight;
 
 			m_zpPole[i].AddPlacement(&m_zpStruts[index1]);
@@ -83,24 +86,32 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 
 		// adding arms
 		m_zpArm[i].AddGeo(&m_zgArm);
-		m_zpArm[i].TranslateDelta(-4 * m_fPoleDistance-m_fPoleDistance, 2 * m_iArmPosition * m_fStrutHeight + m_fStrutHeight + m_fStrutHeight, -m_fPoleDistance);
+		m_zpArm[i].TranslateDelta(-4 * m_fPoleDistance - m_fPoleDistance, 2 * m_iArmPosition * m_fStrutHeight + m_fStrutHeight + m_fStrutHeight, -m_fPoleDistance);
 		m_zpArm[i].RotateYDelta(i * HALFPI);
 		m_zpFoundation.AddPlacement(&m_zpArm[i]);
+
+		// adding connectors for arms
+		CTriangleList *triangles = m_zgConnector.CopyToTriangleList();
+		triangles->Subdivide(m_fConnectorLength * 0.1f);
+		triangles->WaveY(0.5f, 0.01f, 0);
+		m_zpConnector[i].AddGeo(triangles);
+		m_zpConnector[i].Translate(-m_fArmLength, -m_fConnectorLength, 0);
+		m_zpArm[i].AddPlacement(&m_zpConnector[i]);
 
 		// rotate modeled pole and add it to foundation
 		m_zpPole[i].RotateYDelta(i * HALFPI);
 		m_zpFoundation.AddPlacement(&m_zpPole[i]);
 	}
 
-	
+
 	switch (m_ePylonType) {
 	case STRAIGHT:
-		if (m_eDirection == NORTH || m_eDirection == SOUTH) 
+		if (m_eDirection == NORTH || m_eDirection == SOUTH)
 		{
-			m_zpArm[0].SwitchOn();
-			m_zpArm[1].SwitchOff();
-			m_zpArm[2].SwitchOn();
-			m_zpArm[3].SwitchOff();
+			m_zpArm[0].SwitchOff();
+			m_zpArm[1].SwitchOn();
+			m_zpArm[2].SwitchOff();
+			m_zpArm[3].SwitchOn();
 		}
 		else if (m_eDirection == WEST || m_eDirection == EAST)
 		{
@@ -117,6 +128,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 		m_zpArm[1].SwitchOn();
 		m_zpArm[2].SwitchOn();
 		m_zpArm[3].SwitchOn();
+
 		break;
 	case ANGLE:
 		m_zpArm[0].SwitchOn();
@@ -126,6 +138,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 		break;
 	}
 
+
 	// finally move the 4 poles into place
 	m_zpPole[0].TranslateDelta(-m_fPoleDistance, m_fPylonHeight, m_fPoleDistance);
 	m_zpPole[1].TranslateDelta(m_fPoleDistance, m_fPylonHeight, m_fPoleDistance);
@@ -133,10 +146,9 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_zpPole[3].TranslateDelta(-m_fPoleDistance, m_fPylonHeight, -m_fPoleDistance);
 
 	m_zpFoundation.AddGeo(&m_zgFoundation);
-	m_zpFoundation.RotateY(m_eDirection * HALFPI);
+	//m_zpFoundation.RotateY(m_eDirection * HALFPI);
 	this->AddPlacement(&m_zpFoundation);
 }
-
 
 
 //void VModelPowerLine::placeFoundation()
@@ -337,25 +349,74 @@ float VModelPowerLine::getHeight() {
 	return m_fPylonHeight;
 }
 
-VModelPowerLine::armPosition VModelPowerLine::getArmPositions() {
-	return sArmPositions;
+CHVector * VModelPowerLine::ConnectorPositions() {
+	for (int i = 0; i < 4; i++){
+		m_vConnectorPositions[i] = this->GetTranslation() + m_zpFoundation.GetTranslation() + m_zpArm[i].GetTranslation() + m_zpConnector[i].GetTranslation();
+	}
+	return m_vConnectorPositions;
+}
+
+CPlacement * VModelPowerLine::Connectors() {
+	return m_zpConnector;
+}
+
+bool * VModelPowerLine::ConnectedPositions() {
+	//baFreeSlots[0] = bConnectedWest;
+	//baFreeSlots[1] = bConnectedSouth;
+	//baFreeSlots[2] = bConnectedEast;
+	//baFreeSlots[3] = bConnectedNorth;
+	return m_bConnectedPositions;
 }
 
 bool VModelPowerLine::ConnectTo(VModelPowerLine *pPylon) {
-	/* possible positions of 2 pylons
-	   horizontal and vertical
-	*/
-
-	// check if power lines can be connected based on type (line, cross, angle)
-	
 	// determine free slots
+	bool * bpConnectedPositions = pPylon->ConnectedPositions();
+	int iConnector1 = -1, iConnector2 = -1;
+	for (int i = 0; i < 4; i++) {
+		if (!bpConnectedPositions[i]) {
+			iConnector2 = i;
+			break;
+		}
+	}
+	for (int i = 0; i < 4; i++) {
+		if (!m_bConnectedPositions[i]) {
+			iConnector1 = i;
+			break;
+		}
+	}
+
+	if (iConnector1 < 0 || iConnector2 < 0)
+		return false;
 
 	// calculate distance between 2 power lines
-	armPosition destPositions = pPylon->getArmPositions();
-	
-	// modeling and placing lines
+	CHVector * vpConnectorPositions = pPylon->ConnectorPositions();
+	CHVector * m_vConnectorPositions = this->ConnectorPositions();
 
+	CHVector vTranslation1 = m_vConnectorPositions[iConnector1];
+	CHVector vTranslation2 = vpConnectorPositions[iConnector2];
+
+	float distance = vTranslation1.Dist(vTranslation2);
+	float angle = vTranslation1.Angle(vTranslation2);
+
+	// generate line
+	CGeoCylinder * gLine = new CGeoCylinder;
+	gLine->Init(m_fConnectorThickness * 0.5f, m_fConnectorThickness * 0.5f, distance, &m_zmGrey);
+	m_zpLine[iConnector1].AddGeo(gLine);
+
+	// rotate in right direction
+	if (vTranslation2.GetX() > vTranslation1.GetX()) {
+		m_zpLine[iConnector1].RotateXDelta(-HALFPI);
+		//m_zpLine[iConnector1].RotateYDelta(-angle);
+	}
+	else {
+		m_zpLine[iConnector1].RotateXDelta(HALFPI);
+		//m_zpLine[iConnector1].RotateYDelta(angle);
+	}
+
+	m_zpConnector[iConnector1].AddPlacement(&m_zpLine[iConnector1]);
 	return true;
-}
 
+
+	
+}
 NAMESPACE_VIEW_E
