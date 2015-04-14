@@ -19,10 +19,13 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	
 	m_bottomBar.Init("textures\\MainMenueBackground.png", CFloatRect(0.0, 0.75, 1.0, 0.25));
 	m_viewport.AddOverlay(&m_bottomBar);
+	m_bottomBar.SetLayer(0.8);
 
 	m_topBar.Init("textures\\MainMenueBackground.png", CFloatRect(0.2, 0.0, 0.6, 0.05));
 	m_viewport.AddOverlay(&m_topBar);
 	
+	m_topBar.SetLayer(0.8);
+
 	m_scene->AddPlacement(m_zpCamera);
 	m_zpCamera->AddCamera(&m_zc);
 
@@ -33,10 +36,10 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
 		CColor(1.0f, 1.0f, 1.0f));
 	
-	addContainer(IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.22, 0.33, 0.66), "DialogBox");
+	addContainer(IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55), "DialogBox");
 	
-	getContainer("DialogBox")->addButton(CFloatRect(0.35, 0.27, 0.32, 0.12), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, IViewUIObserver::NOTHING);
-	getContainer("DialogBox")->addButton(CFloatRect(0.35, 0.41, 0.32, 0.12), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, IViewUIObserver::QUIT_GAME);
+	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.10, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, IViewUIObserver::NOTHING);
+	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.27, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, IViewUIObserver::QUIT_GAME);
 	
 	
 	m_viewport.SwitchOff();

@@ -33,7 +33,9 @@ void VMaterialLoader::init()
 	materialMainMenue.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpiel.png");
 	materialMainMenueHover.MakeTextureSprite("textures\\MainMenueNewGameHover.png");
 	materialIngameCraft.Init(CColor(0.2F, 0.80F, 0.77F), CColor(0.2F, 0.80F, 0.77F), CColor(0.2F, 0.80F, 0.77F));
-	materialDialogBackground.Init(CColor(0.18F, 0.49F, 0.69F), CColor(0.18F, 0.49F, 0.69F), CColor(0.18F, 0.49F, 0.69F));
+	//materialDialogBackground.Init(CColor(0.18F, 0.49F, 0.69F), CColor(0.18F, 0.49F, 0.69F), CColor(0.18F, 0.49F, 0.69F));
+	
+	materialDialogBackground.MakeTextureSprite("textures\\MainMenueBackground.png");
 	
 	//Buttons
 	materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpiel.png");

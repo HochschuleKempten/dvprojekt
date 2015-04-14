@@ -34,6 +34,12 @@ public:
 	virtual ~IViewGUIContainer(){};
 protected:
 	bool m_bOn = true;
+	virtual CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)
+	{
+		 
+		return CFloatRect(RelativeToRect->GetXPos() + (RelativeToRect->GetXSize() * RelativeRect->GetXPos()), RelativeToRect->GetYPos() + (RelativeToRect->GetYSize() * RelativeRect->GetYPos()),
+			RelativeToRect->GetXSize()*RelativeRect->GetXSize(), RelativeToRect->GetYSize()*RelativeRect->GetYSize());
+	}
 };
 
 NAMESPACE_VIEW_E

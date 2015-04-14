@@ -27,7 +27,10 @@ VDialog::~VDialog()
 
 void VDialog::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction)
 {
-	VButton* vButton = new VButton(m_viewport, rect, MaterialNormal, MaterialHover, clickAction);
+	/*CFloatRect rectRelative;
+	rectRelative = CFloatRect(m_rect.GetXPos() + (m_rect.GetXSize() * rect.GetXPos()), m_rect.GetYPos() + (m_rect.GetYSize() * rect.GetYPos()),m_rect.GetXSize()*rect.GetXSize(), m_rect.GetYSize()*rect.GetYSize());
+*/
+	VButton* vButton = new VButton(m_viewport, createRelativeRectangle(&m_rect,&rect), MaterialNormal, MaterialHover, clickAction);
 
 	vButton->addObserver(this);
 
