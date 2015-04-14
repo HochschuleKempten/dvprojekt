@@ -3,7 +3,6 @@
 #include <boost\asio\ip\tcp.hpp>
 #include <boost\asio\deadline_timer.hpp>
 #include <deque>
-#include "Vektoria\Writing.h"
 #include "Message.h"
 #include "TransferObject.h"
 

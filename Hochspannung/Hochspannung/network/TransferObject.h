@@ -23,6 +23,7 @@ class CTransferObject {
 public:
 
 	CTransferObject(Action action = UNDEFINED, int iTransObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string stValue = "");
+
 	~CTransferObject();
 
 	Action getAction();
