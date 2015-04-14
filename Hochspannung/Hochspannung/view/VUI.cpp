@@ -6,6 +6,7 @@
 #include "VMaterialLoader.h"
 #include "VScreenMainMenue.h"
 #include "VScreenIngame.h"
+#include "VScreenSpielmodusWahl.h"
 
 
 NAMESPACE_VIEW_B
@@ -27,6 +28,8 @@ void VUI::initUI()
 
 	
 	addScreen("MainMenue", IViewScreen::MainMenue);
+
+	addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
 	
 	addScreen("Ingame", IViewScreen::Ingame);
 	
@@ -119,7 +122,7 @@ void VUI::onNotify(IViewUIObserver::Event evente)
 	{
 	case IViewUIObserver::START_GAME:
 		OutputDebugString("STARTING GAME.........\n");
-		switchScreen("Ingame"); //TODO Button Action erweitern um switchscreen event damit Screen nicht hardcoded Ingame sein muss	
+		switchScreen("Ingame");
 		break;
 	case IViewUIObserver::MainOptions:
 		OutputDebugString("Open Options from MainMenue.........\n");
@@ -131,6 +134,14 @@ void VUI::onNotify(IViewUIObserver::Event evente)
 		OutputDebugString("Quit Game.........\n");
 		break;
 		// Handle other events...
+	case IViewUIObserver::SWITCH_TO_SPIELMODUS:
+		
+		switchScreen("Spielmoduswahl");
+		break;
+	case IViewUIObserver::SWITCH_TO_MAINMENUE:
+
+		switchScreen("MainMenue");
+		break;
 	default:
 		OutputDebugString("Keine Lösung gefunden\n");
 	}
@@ -146,10 +157,15 @@ void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
 		m_screens[sName] = new VScreenMainMenue(&vMaster->m_zf);
 		m_screens[sName]->addObserver(this);
 		break;
+	case IViewScreen::ScreenType::Spielmoduswahl:
+		m_screens[sName] = new VScreenSpielmodusWahl(&vMaster->m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
 	case IViewScreen::ScreenType::Ingame:
 		m_screens[sName] = new VScreenIngame(&vMaster->m_zf,&vMaster->m_zr,&m_zs,&m_zpCamera);
 		m_screens[sName]->addObserver(this);
 		break;
+
 	}
 }
 

@@ -180,6 +180,7 @@
     <ClInclude Include="view\VPowerline.h" />
     <ClInclude Include="view\VScreenIngame.h" />
     <ClInclude Include="view\VScreenMainMenue.h" />
+    <ClInclude Include="view\VScreenSpielmodusWahl.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
     <ClInclude Include="view\VUI.h" />
     <ClInclude Include="view\VWindmillPowerPlant.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="view\VPowerLine.cpp" />
     <ClCompile Include="view\VScreenIngame.cpp" />
     <ClCompile Include="view\VScreenMainMenue.cpp" />
+    <ClCompile Include="view\VScreenSpielmodusWahl.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
     <ClCompile Include="view\VUI.cpp" />
     <ClCompile Include="view\VWindmillPowerPlant.cpp" />

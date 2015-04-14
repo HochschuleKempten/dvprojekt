@@ -197,6 +197,9 @@
     <ClInclude Include="view\VDialog.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\VScreenSpielmodusWahl.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -293,6 +296,9 @@
       <Filter>view\Implementierungsdateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VDialog.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenSpielmodusWahl.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

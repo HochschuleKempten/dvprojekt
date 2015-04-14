@@ -49,7 +49,12 @@ list<IViewGUIObject*> VGroup::getGuiObjectList()
 
 void VGroup::switchOn()
 {
+	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
+	{
+		(*lIterGUIObjects)->switchOn();
+	}
 
+	m_bOn = true;
 }
 
 void VGroup::switchOff()
@@ -58,5 +63,7 @@ void VGroup::switchOff()
 	{
 		(*lIterGUIObjects)->switchOff();
 	}
+
+	m_bOn = false;
 }
 NAMESPACE_VIEW_E

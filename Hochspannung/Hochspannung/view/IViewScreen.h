@@ -28,7 +28,8 @@ public:
 		MainMenue,
 		Options,
 		Credits,
-		Ingame
+		Ingame,
+		Spielmoduswahl
 	};
 
 	virtual void switchOn()

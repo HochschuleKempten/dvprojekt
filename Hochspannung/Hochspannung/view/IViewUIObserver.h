@@ -20,6 +20,8 @@ public:
 		STOP_GAME,
 		QUIT_GAME,
 		MainOptions,
+		SWITCH_TO_SPIELMODUS,
+		SWITCH_TO_MAINMENUE,
 		NOTHING
 	};
 

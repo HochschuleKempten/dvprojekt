@@ -31,10 +31,19 @@ public:
 	static CMaterial materialButtonMainMenueCreditsHover;
 	static CMaterial materialButtonMainMenueSpielBeenden;
 	static CMaterial materialButtonMainMenueSpielBeendenHover;
+	static CMaterial materialButtonMainMenueEinzelspieler;
+	static CMaterial materialButtonMainMenueEinzelspielerHover;
+	static CMaterial materialButtonMainMenueMehrspieler;
+	static CMaterial materialButtonMainMenueMehrspielerHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
 	static CMaterial materialDialogBackground;
+
+	//Allgemein
+		//Buttons
+	static CMaterial materialButtonBack;
+	static CMaterial materialButtonBackHover;
 	
 };
 

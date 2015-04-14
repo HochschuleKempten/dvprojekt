@@ -21,7 +21,13 @@ CMaterial VMaterialLoader::materialButtonMainMenueCreditsHover;
 CMaterial VMaterialLoader::materialButtonMainMenueSpielBeenden; 
 CMaterial VMaterialLoader::materialButtonMainMenueSpielBeendenHover;
 
+CMaterial VMaterialLoader::materialButtonMainMenueEinzelspieler;
+CMaterial VMaterialLoader::materialButtonMainMenueEinzelspielerHover;
+CMaterial VMaterialLoader::materialButtonMainMenueMehrspieler;
+CMaterial VMaterialLoader::materialButtonMainMenueMehrspielerHover;
 
+CMaterial VMaterialLoader::materialButtonBack;
+CMaterial VMaterialLoader::materialButtonBackHover;
 
 void VMaterialLoader::init()
 {
@@ -46,6 +52,14 @@ void VMaterialLoader::init()
 	materialButtonMainMenueCreditsHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueCreditsHover.png");
 	materialButtonMainMenueSpielBeenden.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueSpielBeenden.png");
 	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueSpielBeendenHover.png");
+	
+	materialButtonMainMenueEinzelspieler.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueEinzelspieler.png");
+	materialButtonMainMenueEinzelspielerHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueEinzelspielerHover.png");
+	materialButtonMainMenueMehrspieler.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueMehrspieler.png");
+	materialButtonMainMenueMehrspielerHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueMehrspielerHover.png");
+
+	materialButtonBack.MakeTextureSprite("textures\\Buttons\\ButtonBack.png");
+	materialButtonBackHover.MakeTextureSprite("textures\\Buttons\\ButtonBackHover.png");
 
 }
 
