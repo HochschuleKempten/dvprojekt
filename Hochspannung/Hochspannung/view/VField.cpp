@@ -25,7 +25,9 @@ void VField::initField(const int rowIdx, const int colIdx)
 {
 	lField = vPlayingField->lPlayingField->getField(rowIdx, colIdx);
 
-	std::stringstream stream;
+	static std::stringstream stream;	//Create only one object
+	stream.str("");
+	stream.clear();
 	stream << VIdentifier::VPlayingField << ";" << rowIdx << ";" << colIdx;
 	m_zp.SetName(stream.str().c_str());
 

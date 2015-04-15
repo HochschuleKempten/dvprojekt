@@ -13,10 +13,9 @@
 NAMESPACE_VIEW_B
 
 
-VUI::VUI(VMaster* vMaster, LUI* lUi)
-	: vMaster(vMaster), IVUI(lUi), isQuit(false)
+VUI::VUI(VMaster* vMaster)
+	: vMaster(vMaster), isQuit(false)
 {
-	vMaster->setVUI(this);
 	vMaster->registerObserver(this);
 }
 

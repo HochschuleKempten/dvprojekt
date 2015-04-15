@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IVTickObserver.h"
-#include "LUI.h"
 
 class IVMaster;
 class LPlayingField;
@@ -14,7 +13,6 @@ private:
 	IVMaster* vMaster;
 	LPlayingField* lPlayingField = nullptr;
 	LPlayer* lPlayer;
-	LUI lUi;
 
 public:
 	LMaster(IVMaster* vMaster);

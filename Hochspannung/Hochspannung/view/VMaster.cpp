@@ -10,7 +10,7 @@ NAMESPACE_VIEW_B
 
 
 VMaster::VMaster()
-	: factory(this)
+	: factory(this), vUi(this)
 {
 	VMaterialLoader::init();
 }
@@ -20,18 +20,13 @@ void VMaster::setLMaster(LMaster* lMaster)
 	this->lMaster = lMaster;
 }
 
-void VMaster::setVUI(VUI* vUi)
-{
-	this->vUi = vUi;
-}
-
 void VMaster::initScene(HWND hwnd, CSplash* psplash)
 {
 	m_zr.Init(psplash);
 	m_zf.Init(hwnd);
 	m_zr.AddFrameHere(&m_zf);
 	
-	vUi->initUI();
+	vUi.initUI();
 }
 
 void VMaster::tick(float fTime, float fTimeDelta)
@@ -57,7 +52,7 @@ VPlayingField* VMaster::getPlayingField()
 void VMaster::setVPlayingField(VPlayingField* vPlayingField)
 {
 	this->vPlayingField = vPlayingField;
-	vUi->m_zs.AddPlacement(vPlayingField->getPlacement());
+	vUi.m_zs.AddPlacement(vPlayingField->getPlacement());
 }
 
 void VMaster::resize(int width, int heigth)

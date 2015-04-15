@@ -1,16 +1,16 @@
 #pragma once
 
-#include "../logic/IVUI.h"
 #include "../logic/IVTickObserver.h"
 #include "VGeneral.h"
 #include "IViewObserver.h"
 #include "VScreen.h"
+
 NAMESPACE_VIEW_B
 
 
 class VMaster;
 
-class VUI : public IVUI, public IVTickObserver,public IViewObserver
+class VUI : public IVTickObserver, public IViewObserver
 {
 	friend class VMaster;
 
@@ -35,7 +35,7 @@ private:
 	void handleInput(float fTimeDelta);
 
 public:
-	VUI(VMaster* vMaster, LUI* lUi);
+	VUI(VMaster* vMaster);
 	inline virtual ~VUI()
 	{}
 

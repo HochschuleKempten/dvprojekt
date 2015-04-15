@@ -30,6 +30,5 @@ public:
 	virtual std::shared_ptr<IVPowerPlant> createSolarPowerPlant(LSolarPowerPlant* powerPlant) = 0;
 	virtual std::shared_ptr<IVPowerPlant> createWindmillPowerPlant(LWindmillPowerPlant* powerPlant) = 0;
 	virtual std::shared_ptr<IVPowerLine> createPowerLine(LPowerLine* powerLine) = 0;
-	virtual IVUI* createUi(LUI* lUi) = 0;
 };
 

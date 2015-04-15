@@ -139,14 +139,8 @@
     <ClInclude Include="view\VHydroelectricPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="logic\IVUI.h">
-      <Filter>logic\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="view\VUI.h">
       <Filter>view\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="logic\LUI.h">
-      <Filter>logic\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VNuclearPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
@@ -332,9 +326,6 @@
     </ClCompile>
     <ClCompile Include="view\VUI.cpp">
       <Filter>view\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="logic\LUI.cpp">
-      <Filter>logic\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VNuclearPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>

@@ -7,7 +7,6 @@
 #include "VSolarPowerPlant.h"
 #include "VWindmillPowerPlant.h"
 #include "VPowerline.h"
-#include "VUI.h"
 
 NAMESPACE_VIEW_B
 
@@ -50,11 +49,6 @@ std::shared_ptr<IVPowerPlant> VFactory::createWindmillPowerPlant(LWindmillPowerP
 std::shared_ptr<IVPowerLine> VFactory::createPowerLine(LPowerLine* powerLine)
 {
 	return std::shared_ptr<IVPowerLine>(new VPowerLine(vMaster, powerLine));
-}
-
-IVUI* VFactory::createUi(LUI* lUi)
-{
-	return new VUI(vMaster, lUi);
 }
 
 

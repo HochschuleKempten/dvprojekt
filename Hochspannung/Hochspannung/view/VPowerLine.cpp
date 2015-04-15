@@ -9,9 +9,9 @@ VPowerLine::VPowerLine(VMaster* vMaster, LPowerLine* lpowerLine)
 	: IViewBuilding(vMaster, &m_zp), IVPowerLine(lpowerLine)
 {
 	m_zp.Init();
-	m_zp.RotateX(M_PI / 2);
-	m_zp.ScaleDelta(2.0);
-	m_zp.TranslateZDelta(0.5);
+	m_zp.RotateX(static_cast<float>(M_PI / 2.0f));
+	m_zp.ScaleDelta(2.0f);
+	m_zp.TranslateZDelta(0.5f);
 }
 
 void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y)

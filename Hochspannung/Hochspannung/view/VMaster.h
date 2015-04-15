@@ -3,6 +3,7 @@
 #include "../logic/IVMaster.h"
 #include "VFactory.h"
 #include "VGeneral.h"
+#include "VUI.h"
 
 class LMaster;
 
@@ -11,7 +12,6 @@ NAMESPACE_VIEW_B
 
 class IViewObject;
 class VPlayingField;
-class VUI;
 
 class VMaster : public IVMaster
 {
@@ -20,8 +20,8 @@ private:
 	CFrame m_zf;
 	
 	VFactory factory;
+	VUI vUi;
 	LMaster* lMaster = nullptr;
-	VUI* vUi = nullptr;
 	VPlayingField* vPlayingField = nullptr;
 
 public:
@@ -30,7 +30,6 @@ public:
 	{}
 
 	void setLMaster(LMaster* lMaster);
-	void setVUI(VUI* vUi);
 
 	void initScene(HWND hwnd, CSplash* psplash);
 	void tick(float fTime, float fTimeDelta);

@@ -23,7 +23,8 @@ public:
      
 	inline virtual void tick(const float fTimeDelta)
 	{
-		m_zp.rotate(0.05f);
+		const double sec = 2.0;	//Number of seconds per rotation
+		m_zp.rotate(static_cast<float>((2.0 * M_PI / sec) * fTimeDelta));
 	}
 };
 
