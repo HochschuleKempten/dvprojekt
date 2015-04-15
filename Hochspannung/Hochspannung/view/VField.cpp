@@ -43,8 +43,13 @@ void VField::initField(const int rowIdx, const int colIdx)
 
 void VField::removeBuilding()
 {
+#ifdef _DEBUG
 	bool erg = m_zp.SubPlacement(m_zViewBuilding->getPlacement());
 	ASSERT(erg, "Unable to sub the placement");
+#else
+	m_zp.SubPlacement(m_zViewBuilding->getPlacement());
+#endif
+
 	m_zViewBuilding = nullptr;
 }
 
