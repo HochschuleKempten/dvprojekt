@@ -1,6 +1,8 @@
 #pragma once
-
 #include <memory>
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
 
 class LPlayingField;
 
@@ -20,3 +22,5 @@ public:
 
 	virtual void objectRemoved(const int x, const int y) = 0;
 };
+
+NAMESPACE_LOGIC_E

@@ -1,6 +1,8 @@
 #pragma once
-
 #include <memory>
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
 
 class IVPlayingField;
 class IVPowerLine;
@@ -32,3 +34,4 @@ public:
 	virtual std::shared_ptr<IVPowerLine> createPowerLine(LPowerLine* powerLine) = 0;
 };
 
+NAMESPACE_LOGIC_E

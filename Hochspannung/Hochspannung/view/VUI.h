@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../logic/IVTickObserver.h"
 #include "VGeneral.h"
 #include "IViewObserver.h"
 #include "VScreen.h"
+#include "../logic/IVTickObserver.h"
 
 NAMESPACE_VIEW_B
 

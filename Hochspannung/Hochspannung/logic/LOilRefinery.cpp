@@ -5,6 +5,8 @@
 #include "IVFactory.h"
 #include "IVPowerPlant.h"
 
+NAMESPACE_LOGIC_B
+
 LOilRefinery::LOilRefinery(const int costs, const int energyValue, LField* lField, const int x, const int y)
 	:ILPowerPlant(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createOilRefinery(this))
 {
@@ -20,3 +22,5 @@ int LOilRefinery::getID()
 {
 	return id;
 }
+
+NAMESPACE_LOGIC_E

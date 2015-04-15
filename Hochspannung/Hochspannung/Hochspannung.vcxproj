@@ -149,6 +149,7 @@
     <ClInclude Include="logic\LField.h" />
     <ClInclude Include="logic\LCoalPowerPlant.h" />
     <ClInclude Include="logic\ILPowerPlant.h" />
+    <ClInclude Include="logic\LGeneral.h" />
     <ClInclude Include="logic\LHydroelectricPowerPlant.h" />
     <ClInclude Include="logic\LIdentifier.h" />
     <ClInclude Include="logic\LMaster.h" />

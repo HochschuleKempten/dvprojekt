@@ -1,5 +1,8 @@
 #pragma once
 #include "ILPowerPlant.h"
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
 
 class LNuclearPowerPlant :
 	public ILPowerPlant
@@ -13,3 +16,4 @@ public:
 	int getID();
 };
 
+NAMESPACE_LOGIC_E

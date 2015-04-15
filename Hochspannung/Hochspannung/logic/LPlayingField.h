@@ -1,12 +1,12 @@
 #pragma once
-
+#include "LGeneral.h"
 #include "Array2D.h"
 #include "LField.h"
 #include <vector>
 #include <boost\graph\graph_traits.hpp>
 #include <boost\graph\adjacency_list.hpp>
 
-using namespace boost;
+NAMESPACE_LOGIC_B
 
 class LMaster;
 class IVPlayingField;
@@ -18,11 +18,11 @@ private:
 	//todo (IP) initialize members
 	//todo (IP) use namespace
 	const int fieldLength = 10; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
-	LMaster* lMaster;
-	IVPlayingField* vPlayingField;
+	LMaster* lMaster = nullptr;
+	IVPlayingField* vPlayingField = nullptr;
 	Array2D<LField> fieldArray;
 
-	using Graph = adjacency_list < vecS, vecS, directedS>;
+	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
 	
 	//todo (IP) this struct is used in generatePowerLineGraph()
@@ -69,3 +69,5 @@ private:
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const int x, const int y);
 };
+
+NAMESPACE_LOGIC_E

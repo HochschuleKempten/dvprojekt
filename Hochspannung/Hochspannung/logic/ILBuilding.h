@@ -1,5 +1,8 @@
 #pragma once
 #include <memory>
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
 
 class LField;
 
@@ -33,3 +36,5 @@ public:
 
 	virtual int getID() = 0;
 };
+
+NAMESPACE_LOGIC_E

@@ -1,6 +1,8 @@
 #pragma once
-
 #include "ILBuilding.h"
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
 
 class IVPowerPlant;
 
@@ -26,3 +28,5 @@ public:
 		return energyValue;
 	};
 };
+
+NAMESPACE_LOGIC_E

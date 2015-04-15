@@ -1,15 +1,14 @@
 #pragma once
 
-#include "../logic/IVMaster.h"
-#include "VFactory.h"
 #include "VGeneral.h"
+#include "VFactory.h"
 #include "VUI.h"
-
-class LMaster;
+#include "../logic/IVMaster.h"
 
 NAMESPACE_VIEW_B
 
 
+class LMaster;
 class IViewObject;
 class VPlayingField;
 

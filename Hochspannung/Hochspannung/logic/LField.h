@@ -1,5 +1,9 @@
 #pragma once
 
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
+
 class ILBuilding;
 class LPlayingField;
 
@@ -24,7 +28,7 @@ public:
 	};
 
 private:
-	ILBuilding* lBuilding;
+	ILBuilding* lBuilding = nullptr;
 	LPlayingField* lPlayingField = nullptr;
 	bool placingAllowed;
 	FieldType fieldType;
@@ -63,3 +67,5 @@ public:
 	bool isPlacingAllowed();
 	LPlayingField* getLPlayingField();
 };
+
+NAMESPACE_LOGIC_E

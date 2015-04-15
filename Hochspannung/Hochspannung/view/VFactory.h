@@ -1,6 +1,7 @@
 #pragma once
-#include "../logic/IVFactory.h"
+
 #include "VGeneral.h"
+#include "../logic/IVFactory.h"
 
 NAMESPACE_VIEW_B
 

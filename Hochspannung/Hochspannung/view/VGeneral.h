@@ -6,6 +6,7 @@
 #include "VektoriaMath\Util.h"
 #pragma warning ( pop )
 
+#include "../logic/LGeneral.h"
 #include "../logic/LUtility.h"
 #include <vector>
 #include <map>
@@ -13,7 +14,5 @@
 
 using namespace Vektoria;
 
-#define NAMESPACE_VIEW_B namespace HighVoltage{ namespace view{
-#define NAMESPACE_VIEW_E }}
-
-#define COUNTER __COUNTER__
+#define NAMESPACE_VIEW_B namespace HighVoltage{ //namespace view{
+#define NAMESPACE_VIEW_E }

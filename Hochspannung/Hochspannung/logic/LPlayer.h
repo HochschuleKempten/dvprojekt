@@ -1,4 +1,8 @@
 #pragma once
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
+
 class LPlayer
 {
 private:
@@ -10,3 +14,4 @@ public:
 	int getMoney();
 };
 
+NAMESPACE_LOGIC_E

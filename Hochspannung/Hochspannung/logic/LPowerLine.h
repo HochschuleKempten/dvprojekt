@@ -1,5 +1,8 @@
 #pragma once
 #include "ILPowerLine.h"
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
 
 class LPowerLine :
 	public ILPowerLine
@@ -14,3 +17,4 @@ public:
 	int getID();
 };
 
+NAMESPACE_LOGIC_E

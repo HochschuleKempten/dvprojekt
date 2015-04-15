@@ -4,11 +4,10 @@
 #include "IViewBuilding.h"
 #include <string>
 
-class LField;
-
 NAMESPACE_VIEW_B
 
 
+class LField;
 class VPlayingField;
 
 class VField

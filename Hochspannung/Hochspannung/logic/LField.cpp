@@ -1,6 +1,8 @@
 #include "LField.h"
 #include "ILBuilding.h"
 
+NAMESPACE_LOGIC_B
+
 LField::LField() :
 	placingAllowed(true),
 	lBuilding(nullptr)
@@ -68,3 +70,5 @@ LPlayingField* LField::getLPlayingField()
 {
 	return lPlayingField;
 }
+
+NAMESPACE_LOGIC_E

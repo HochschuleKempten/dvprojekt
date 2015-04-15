@@ -5,6 +5,8 @@
 #include "IVPowerPlant.h"
 #include "LPlayingField.h"
 
+NAMESPACE_LOGIC_B
+
 LCoalPowerPlant::LCoalPowerPlant(const int costs, const int energyValue, LField* lField, const int x, const int y)
 	: ILPowerPlant(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createCoalPowerPlant(this))
 {
@@ -19,3 +21,5 @@ int LCoalPowerPlant::getID()
 {
 	return id;
 }
+
+NAMESPACE_LOGIC_E

@@ -1,5 +1,6 @@
 #include "LCity.h"
 
+NAMESPACE_LOGIC_B
 
 LCity::LCity()
 {
@@ -25,3 +26,5 @@ int LCity::getEnergy()
 {
 	return energy;
 }
+
+NAMESPACE_LOGIC_E

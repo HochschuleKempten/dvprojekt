@@ -7,7 +7,9 @@
 #include "IVFactory.h"
 #include "LUtility.h"
 
-//#include <iostream>
+NAMESPACE_LOGIC_B
+
+using namespace boost;
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this] (LField& f) {
@@ -268,3 +270,4 @@ int LPlayingField::convertIndex(const int x, const int y)
 	return (x*fieldLength + y);
 }
 
+NAMESPACE_LOGIC_E

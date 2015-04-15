@@ -1,12 +1,14 @@
 #pragma once
+#include "LGeneral.h"
 
+NAMESPACE_LOGIC_B
 class IVCity;
 
 class LCity
 { //todo (IP)  create this
 private:
 	int energy = 0;
-	IVCity* vCity;
+	IVCity* vCity = nullptr;
 
 public:
 	LCity();
@@ -17,3 +19,4 @@ public:
 	int getEnergy();
 };
 
+NAMESPACE_LOGIC_E

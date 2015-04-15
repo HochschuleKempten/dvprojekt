@@ -3,6 +3,8 @@
 #include "IVMaster.h"
 #include "LPlayer.h"
 
+NAMESPACE_LOGIC_B
+
 LMaster::LMaster(IVMaster* vMaster)
 	: vMaster(vMaster),
 	lPlayer(new LPlayer())
@@ -40,3 +42,5 @@ LPlayer* LMaster::getPlayer()
 {
 	return lPlayer;
 }
+
+NAMESPACE_LOGIC_E
