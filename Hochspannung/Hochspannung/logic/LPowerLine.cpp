@@ -19,9 +19,4 @@ LPowerLine::~LPowerLine()
 {
 }
 
-int LPowerLine::getID()
-{
-	return id;
-}
-
 NAMESPACE_LOGIC_E

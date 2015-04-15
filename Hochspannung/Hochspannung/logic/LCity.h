@@ -5,7 +5,7 @@ NAMESPACE_LOGIC_B
 class IVCity;
 
 class LCity
-{ //todo (IP)  create this
+{ //todo (IP) create this
 private:
 	int energy = 0;
 	IVCity* vCity = nullptr;

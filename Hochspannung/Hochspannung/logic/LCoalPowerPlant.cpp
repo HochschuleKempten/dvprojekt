@@ -17,9 +17,4 @@ LCoalPowerPlant::~LCoalPowerPlant()
 {
 }
 
-int LCoalPowerPlant::getID()
-{
-	return id;
-}
-
 NAMESPACE_LOGIC_E

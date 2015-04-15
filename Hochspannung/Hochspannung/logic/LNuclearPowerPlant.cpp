@@ -18,9 +18,4 @@ LNuclearPowerPlant::~LNuclearPowerPlant()
 {
 }
 
-int LNuclearPowerPlant::getID()
-{
-	return id;
-}
-
 NAMESPACE_LOGIC_E

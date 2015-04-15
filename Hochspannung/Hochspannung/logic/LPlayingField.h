@@ -14,9 +14,6 @@ class IVPlayingField;
 class LPlayingField
 {
 private:
-
-	//todo (IP) initialize members
-	//todo (IP) use namespace
 	const int fieldLength = 10; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster = nullptr;
 	IVPlayingField* vPlayingField = nullptr;
@@ -24,14 +21,6 @@ private:
 
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
-	
-	//todo (IP) this struct is used in generatePowerLineGraph()
-	struct pLine
-	{
-		bool placed = false;
-		std::vector<pLine*> connections;
-		int x, y;
-	};
 
 private:
 	void createFields();

@@ -18,9 +18,4 @@ LSolarPowerPlant::~LSolarPowerPlant()
 {
 }
 
-int LSolarPowerPlant::getID()
-{
-	return id;
-}
-
 NAMESPACE_LOGIC_E

@@ -18,9 +18,4 @@ LOilRefinery::~LOilRefinery()
 {
 }
 
-int LOilRefinery::getID()
-{
-	return id;
-}
-
 NAMESPACE_LOGIC_E

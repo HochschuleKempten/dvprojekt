@@ -134,6 +134,13 @@ LMaster* LPlayingField::getLMaster()
 	return lMaster;
 }
 
+struct pLine
+{
+	bool placed = false;
+	std::vector<pLine*> connections;
+	int x, y;
+};
+
 void LPlayingField::generatePowerLineGraph()
 {
 	pLine** plArray = new pLine*[fieldLength];
@@ -155,7 +162,7 @@ void LPlayingField::generatePowerLineGraph()
 			building = getField(x, y)->getBuilding();
 
 			//check if building is a powerline
-			if (building != nullptr && building->getID() == LPowerLine::id)
+			if (building != nullptr && dynamic_cast<LPowerLine*>(building) != nullptr)
 			{
 				plArray[x][y].placed = true;
 

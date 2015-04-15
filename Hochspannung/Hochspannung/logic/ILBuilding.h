@@ -33,8 +33,6 @@ public:
 	virtual void upgrade() 
 	{
 	};
-
-	virtual int getID() = 0;
 };
 
 NAMESPACE_LOGIC_E

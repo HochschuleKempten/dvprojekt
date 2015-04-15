@@ -18,9 +18,4 @@ LWindmillPowerPlant::~LWindmillPowerPlant()
 {
 }
 
-int LWindmillPowerPlant::getID()
-{
-	return id;
-}
-
 NAMESPACE_LOGIC_E
