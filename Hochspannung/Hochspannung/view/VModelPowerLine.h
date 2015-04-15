@@ -27,6 +27,9 @@ public:
 	void SetPosition(int x, int y);
 	void Init(PYLONTYPE ePylonType = STRAIGHT, DIRECTION eDirection = NORTH, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
 	bool ConnectTo(VModelPowerLine *pPylon);
+	map<DIRECTION, vector<VModelPowerLine *>> * Connections();
+	bool AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition);
+
 	VModelPowerLine::PYLONTYPE PylonType();
 
 	bool ConnectedWest() {
@@ -53,7 +56,9 @@ public:
 private:
 	void InitArm();
 	vector<DIRECTION> DetermineArm(VModelPowerLine *pPylon);
-	int * GridPosition();
+	map<DIRECTION, vector<VModelPowerLine *> > m_connections;
+
+	SHORT * GridPosition();
 	DIRECTION Direction();
 
 	CMaterial m_zmBlack;
@@ -77,33 +82,32 @@ private:
 	CPlacement m_zpSphere[5];
 	CPlacement * m_zpStruts = NULL;
 
-	float m_fFoundationHeight = 0;
-	float m_fFoundationWidth = 0;
-	float m_fPoleDistance = 0;
-	float m_fPoleThickness = 0;
-	float m_fPylonHeight = 0;
-	float m_fStrutAngle = 0;
-	float m_fStrutHeight = 0;
-	float m_fStrutLength = 0;
-	float m_fStrutThickness = 0;
-	float m_fArmLength = 0;
-	float m_fConnectorLength = 0;
-	float m_fConnectorThickness = 0;
-	int m_iArmPosition = 9;
-	int m_iStrutsCount = 0;
-	PYLONTYPE m_ePylonType = STRAIGHT;
-	DIRECTION m_eDirection = NORTH;
-
-	armPosition sArmPositions;
 	CHVector m_vConnectorPositions[4];
+	SHORT m_iGridPosition[2];
+	SHORT m_iMaxConnectionsPerConnector = 2;
 	bool m_bConnectedPositions[4];
 
-	bool bConnectedWest = false;
-	bool bConnectedSouth = false;
-	bool bConnectedEast = false;
-	bool bConnectedNorth = false;
-
-	int m_iGridPosition[2];
+	SHORT m_iArmPosition       = 9;
+	SHORT m_iStrutsCount       = 0;
+	PYLONTYPE m_ePylonType      = STRAIGHT;
+	DIRECTION m_eDirection      = NORTH;
+	float m_fFoundationHeight   = 0;
+	float m_fFoundationWidth    = 0;
+	float m_fPoleDistance       = 0;
+	float m_fPoleThickness      = 0;
+	float m_fPylonHeight        = 0;
+	float m_fStrutAngle         = 0;
+	float m_fStrutHeight        = 0;
+	float m_fStrutLength        = 0;
+	float m_fStrutThickness     = 0;
+	float m_fArmLength          = 0;
+	float m_fConnectorLength    = 0;
+	float m_fConnectorThickness = 0;
+	bool bConnectedWest         = false;
+	bool bConnectedSouth        = false;
+	bool bConnectedEast         = false;
+	bool bConnectedNorth        = false;
+	
 };
 
 NAMESPACE_VIEW_E
