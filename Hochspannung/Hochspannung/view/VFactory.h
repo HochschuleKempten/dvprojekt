@@ -35,6 +35,8 @@ public:
 	virtual std::shared_ptr<IVPowerPlant> createWindmillPowerPlant(LWindmillPowerPlant* powerPlant);
 
 	virtual std::shared_ptr<IVPowerLine> createPowerLine(LPowerLine* powerLine);
+
+	virtual std::shared_ptr<IVCity> createCity(LCity* city);
 };
 
 

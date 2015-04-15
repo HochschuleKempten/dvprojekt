@@ -8,7 +8,7 @@ NAMESPACE_LOGIC_B
 class LCoalPowerPlant : public ILPowerPlant
 {
 public:
-	LCoalPowerPlant(const int costs, const int energyValue, LField* lField, const int x, const int y);
+	LCoalPowerPlant(LField* lField, const int x, const int y);
 	~LCoalPowerPlant();
 };
 

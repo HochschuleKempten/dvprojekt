@@ -10,13 +10,12 @@ class ILBuilding
 {
 	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 protected:
-	int costs;
+	static const int costs = 10;
 	LField* lField;
 
 public:
-	ILBuilding(const int costs, LField* lField)
-		:costs(costs),
-		lField(lField)
+	ILBuilding(LField* lField)
+		: lField(lField)
 	{
 	};
 

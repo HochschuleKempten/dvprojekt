@@ -6,6 +6,7 @@
 #include "IVMaster.h"
 #include "IVFactory.h"
 #include "LUtility.h"
+#include "LCity.h"
 
 NAMESPACE_LOGIC_B
 
@@ -79,7 +80,7 @@ void LPlayingField::createFields()
 	int firstPowerPlantPositionY = secondPowerLinePositionY + 1;
 
 	fieldArray[cityPositionX][cityPositionY].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
-	fieldArray[cityPositionX][cityPositionY].setBuilding<LPowerLine>(cityPositionX, cityPositionY, LPowerLine::EAST); //Until we have a citymodel, we use a powerline
+	fieldArray[cityPositionX][cityPositionY].setBuilding<LCity>(cityPositionX, cityPositionY); //Until we have a citymodel, we use a powerline
 
 
 	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);

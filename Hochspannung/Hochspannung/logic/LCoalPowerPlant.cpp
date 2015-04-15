@@ -7,8 +7,8 @@
 
 NAMESPACE_LOGIC_B
 
-LCoalPowerPlant::LCoalPowerPlant(const int costs, const int energyValue, LField* lField, const int x, const int y)
-	: ILPowerPlant(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createCoalPowerPlant(this))
+LCoalPowerPlant::LCoalPowerPlant(LField* lField, const int x, const int y)
+	: ILPowerPlant(lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createCoalPowerPlant(this))
 {
 	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }

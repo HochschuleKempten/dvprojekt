@@ -15,8 +15,8 @@ class LOilRefinery;
 class LSolarPowerPlant;
 class LWindmillPowerPlant;
 class LPowerLine;
-class IVUI;
-class LUI;
+class IVCity;
+class LCity;
 
 class IVFactory
 {
@@ -24,7 +24,7 @@ public:
 	IVFactory()
 	{}
 	virtual ~IVFactory(){};
-	virtual IVPlayingField* createPlayingField(LPlayingField* field) = 0;
+	virtual IVPlayingField* createPlayingField(LPlayingField* field) = 0;//TODO (All) why no shared_ptr here?
 	virtual std::shared_ptr<IVPowerPlant> createCoalPowerPlant(LCoalPowerPlant* powerPlant) = 0;
 	virtual std::shared_ptr<IVPowerPlant> createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant) = 0;
 	virtual std::shared_ptr<IVPowerPlant> createNuclearPowerPlant(LNuclearPowerPlant* powerPlant) = 0;
@@ -32,6 +32,7 @@ public:
 	virtual std::shared_ptr<IVPowerPlant> createSolarPowerPlant(LSolarPowerPlant* powerPlant) = 0;
 	virtual std::shared_ptr<IVPowerPlant> createWindmillPowerPlant(LWindmillPowerPlant* powerPlant) = 0;
 	virtual std::shared_ptr<IVPowerLine> createPowerLine(LPowerLine* powerLine) = 0;
+	virtual std::shared_ptr<IVCity> createCity(LCity* city) = 0;
 };
 
 NAMESPACE_LOGIC_E

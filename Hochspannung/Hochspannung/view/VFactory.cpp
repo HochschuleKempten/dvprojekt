@@ -7,6 +7,7 @@
 #include "VSolarPowerPlant.h"
 #include "VWindmillPowerPlant.h"
 #include "VPowerline.h"
+#include "VCity.h"
 
 NAMESPACE_VIEW_B
 
@@ -49,6 +50,11 @@ std::shared_ptr<IVPowerPlant> VFactory::createWindmillPowerPlant(LWindmillPowerP
 std::shared_ptr<IVPowerLine> VFactory::createPowerLine(LPowerLine* powerLine)
 {
 	return std::shared_ptr<IVPowerLine>(new VPowerLine(vMaster, powerLine));
+}
+
+std::shared_ptr<IVCity> VFactory::createCity(LCity* city)
+{
+	return std::shared_ptr<IVCity>(new VCity(vMaster, city));
 }
 
 

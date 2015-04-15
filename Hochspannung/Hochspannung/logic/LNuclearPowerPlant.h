@@ -8,7 +8,7 @@ class LNuclearPowerPlant :
 	public ILPowerPlant
 {
 public:
-	LNuclearPowerPlant(const int costs, const int energyValue, LField* lField, const int x, const int y);
+	LNuclearPowerPlant(LField* lField, const int x, const int y);
 	~LNuclearPowerPlant();
 };
 

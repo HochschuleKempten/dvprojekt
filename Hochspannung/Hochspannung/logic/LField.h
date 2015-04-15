@@ -49,7 +49,7 @@ public:
 	{
 		if (placingAllowed)
 		{
-			lBuilding = new T(100, 20, this, x, y, arguments...); //TODO (IP) where should cost and energy values come from? -> IP: will be saved as static const values in the classes
+			lBuilding = new T(this, x, y, arguments...); //TODO (IP) where should cost and energy values come from? -> IP: will be saved as static const values in the classes
 			placingAllowed = false;
 			return true;
 		}
