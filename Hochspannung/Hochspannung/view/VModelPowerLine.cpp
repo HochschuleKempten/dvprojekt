@@ -577,7 +577,7 @@ void VModelPowerLine::DetermineArm(VModelPowerLine *pPylon, vector<DIRECTION> * 
 				else
 					iaArmPairs->push_back(NORTH);
 			}
-			else {
+			else if ((m_iGridPosition[0] == ipGridPosition[0]) && (m_iGridPosition[1] != ipGridPosition[1])) {
 				if ((m_eDirection == WEST || m_eDirection == NORTH) && (eDirection == WEST || eDirection == EAST))
 					iaArmPairs->push_back(WEST);
 				else
@@ -585,6 +585,18 @@ void VModelPowerLine::DetermineArm(VModelPowerLine *pPylon, vector<DIRECTION> * 
 			}
 			break;
 		case VModelPowerLine::CROSS:
+			if ((m_iGridPosition[0] != ipGridPosition[0]) && (m_iGridPosition[1] == ipGridPosition[1])) {
+				if (m_eDirection == WEST || m_eDirection == EAST)
+					iaArmPairs->push_back(SOUTH);
+				else
+					iaArmPairs->push_back(NORTH);
+			}
+			else if ((m_iGridPosition[0] == ipGridPosition[0]) && (m_iGridPosition[1] != ipGridPosition[1])) {
+				if (m_eDirection == WEST || m_eDirection == NORTH)
+					iaArmPairs->push_back(WEST);
+				else
+					iaArmPairs->push_back(EAST);
+			}
 			break;
 		case VModelPowerLine::ANGLE:
 			if ((m_iGridPosition[0] != ipGridPosition[0]) && (m_iGridPosition[1] == ipGridPosition[1])) {
@@ -593,7 +605,7 @@ void VModelPowerLine::DetermineArm(VModelPowerLine *pPylon, vector<DIRECTION> * 
 				else
 					iaArmPairs->push_back(NORTH);
 			}
-			else {
+			else if ((m_iGridPosition[0] == ipGridPosition[0]) && (m_iGridPosition[1] != ipGridPosition[1])) {
 				if ((m_eDirection == WEST || m_eDirection == NORTH) && (eDirection == WEST || eDirection == NORTH))
 					iaArmPairs->push_back(WEST);
 				else

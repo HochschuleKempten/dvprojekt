@@ -42,8 +42,8 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zs.AddPlacement(m_zTrasse3);
 	m_zs.AddPlacement(m_zTrasse4);
 
-	m_zTrasse1->Init(VModelPowerLine::PYLONTYPE::STRAIGHT, VModelPowerLine::EAST);
-	m_zTrasse2->Init(VModelPowerLine::PYLONTYPE::ANGLE, VModelPowerLine::DIRECTION::NORTH);
+	m_zTrasse1->Init(VModelPowerLine::PYLONTYPE::ANGLE, VModelPowerLine::WEST);
+	m_zTrasse2->Init(VModelPowerLine::PYLONTYPE::CROSS, VModelPowerLine::DIRECTION::NORTH);
 	m_zTrasse3->Init(VModelPowerLine::PYLONTYPE::STRAIGHT, VModelPowerLine::DIRECTION::EAST);
 	m_zTrasse4->Init(VModelPowerLine::PYLONTYPE::CROSS);
 
@@ -52,7 +52,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zTrasse3->Translate(CHVector(1.5f, 0, 0));
 	m_zTrasse4->Translate(CHVector(-1.5f, 0, -1));
 
-	m_zTrasse1->SetPosition(0, 1);
+	m_zTrasse1->SetPosition(1, 0);
 	m_zTrasse2->SetPosition(0, 0);
 
 	m_zTrasse1->ConnectTo(m_zTrasse2);
