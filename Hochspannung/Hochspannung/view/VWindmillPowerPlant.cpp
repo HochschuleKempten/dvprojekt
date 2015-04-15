@@ -8,7 +8,7 @@ NAMESPACE_VIEW_B
 VWindmillPowerPlant::VWindmillPowerPlant(VMaster* vMaster, LWindmillPowerPlant* lPlant)
 	: IViewBuilding(vMaster, &m_zp), IVPowerPlant(lPlant)
 {
-	m_zp.RotateX(static_cast<float>(M_PI / 2.0));
+	m_zp.RotateX(CASTS<float>(M_PI / 2.0));
 	m_zp.ScaleDelta(0.8f);
 	m_zp.TranslateZDelta(7.0f);
 

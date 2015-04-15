@@ -9,8 +9,8 @@ NAMESPACE_VIEW_B
 VPlayingField::~VPlayingField()
 {
 	//Sub the field itself
-	int square = sqrt(m_zpPlacementHolders.size());
-	for (int holder = 0; holder < static_cast<int>(m_zpPlacementHolders.size()); holder++) {
+	int square = CASTS<int>(sqrt(m_zpPlacementHolders.size()));
+	for (int holder = 0; holder < CASTS<int>(m_zpPlacementHolders.size()); holder++) {
 		
 		//Sub each field placement from the holders
 		for (int rowIdx = (holder % square) * 5; rowIdx < ((holder % square) + 1) * 5; rowIdx++) {
@@ -36,8 +36,8 @@ void VPlayingField::initPlayingField()
 {
 	m_zp.Fasten(); // direkt das oberste fasten????????
 
-	int square = sqrt(m_zpPlacementHolders.size());
-	for (int holder = 0; holder < static_cast<int>(m_zpPlacementHolders.size()); holder++)
+	int square = CASTS<int>(sqrt(m_zpPlacementHolders.size()));
+	for (int holder = 0; holder < CASTS<int>(m_zpPlacementHolders.size()); holder++)
 	{
 		std::stringstream stream;
 		stream << "holder = " << holder;
@@ -55,8 +55,8 @@ void VPlayingField::initPlayingField()
 		}
 	}
 
-	float rows = vFields.getRows();
-	m_zp.TranslateDelta(-fieldSize * rows, fieldSize * rows, -fieldSize * rows * 1.5);
+	float rows = CASTS<float>(vFields.getRows());
+	m_zp.TranslateDelta(CASTS<float>(-fieldSize * rows), CASTS<float>(fieldSize * rows), CASTS<float>(-fieldSize * rows * 1.5));
 
 	m_zp.SetName("Placement VPlayingField");
 }

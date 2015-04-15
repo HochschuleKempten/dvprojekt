@@ -1,4 +1,5 @@
 #include "Message.h"
+#include "../logic/LUtility.h"
 
 CMessage::CMessage() :
 	m_iBodyLength(0) {
@@ -53,6 +54,6 @@ bool CMessage::decodeHeader() {
 
 void CMessage::encodeHeader() {
 	char header[headerLength + 1] = "";
-	std::sprintf(header, "%4d", static_cast<int>(m_iBodyLength));
+	std::sprintf(header, "%4d", CASTS<int>(m_iBodyLength));
 	std::memcpy(m_acData, header, headerLength);
 }

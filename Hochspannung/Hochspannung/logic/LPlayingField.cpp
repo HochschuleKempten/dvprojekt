@@ -93,7 +93,7 @@ void LPlayingField::createFields()
 	std::vector<LField::FieldType> fieldTypes = { LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::COAL, LField::FieldType::GRASS, LField::FieldType::MOUNTAIN, LField::FieldType::OIL, LField::FieldType::WATER, LField::FieldType::GRASS };
 	std::vector<LField::FieldLevel> fieldLevels = { LField::FieldLevel::LEVEL1, LField::FieldLevel::LEVEL2, LField::FieldLevel::LEVEL3 };
 
-	std::srand(std::time(0));
+	std::srand(CASTS<unsigned int>(std::time(0)));
 
 	for (int x = 0; x < fieldLength; x++)
 	{
@@ -157,7 +157,7 @@ void LPlayingField::generatePowerLineGraph()
 			{
 				plArray[x][y].placed = true;
 
-				int orientation = static_cast<LPowerLine*>(building)->getPowerLineOrientation();
+				int orientation = CASTD<LPowerLine*>(building)->getPowerLineOrientation();
 				
 				if (orientation & LPowerLine::PowerLineOrientation::NORTH)
 				{
@@ -211,7 +211,7 @@ void LPlayingField::generatePowerLineGraph()
 			if (plArray[x][y].placed)
 			{
 				//check outgoing connections
-				for (int i = 0; i < plArray[x][y].connections.size(); i++)
+				for (size_t i = 0; i < plArray[x][y].connections.size(); i++)
 				{	
 					//position of neighbour which is connected to this field
 					int otherX = plArray[x][y].connections[i]->x;
