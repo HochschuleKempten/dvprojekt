@@ -1,5 +1,6 @@
 #include "VGeneral.h"
 #include "Helper.h"
+#include <array>
 
 NAMESPACE_VIEW_B
 
@@ -23,8 +24,11 @@ public:
 	VModelPowerLine(void);
 	~VModelPowerLine(void);
 
+	void SetPosition(int x, int y);
 	void Init(PYLONTYPE ePylonType = STRAIGHT, DIRECTION eDirection = NORTH, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
 	bool ConnectTo(VModelPowerLine *pPylon);
+	VModelPowerLine::PYLONTYPE PylonType();
+
 	bool ConnectedWest() {
 		return bConnectedWest;
 	};
@@ -47,6 +51,11 @@ public:
 	float getWidth();  // width of the foundation
 
 private:
+	void InitArm();
+	void DetermineArm(VModelPowerLine *pPylon, vector<DIRECTION> * iArmPairs);
+	int * GridPosition();
+	DIRECTION Direction();
+
 	CMaterial m_zmBlack;
 	CMaterial m_zmGrey;
 
@@ -94,6 +103,7 @@ private:
 	bool bConnectedEast = false;
 	bool bConnectedNorth = false;
 
+	int m_iGridPosition[2];
 };
 
 NAMESPACE_VIEW_E
