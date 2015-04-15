@@ -52,7 +52,7 @@ public:
 
 private:
 	void InitArm();
-	void DetermineArm(VModelPowerLine *pPylon, vector<DIRECTION> * iArmPairs);
+	vector<DIRECTION> DetermineArm(VModelPowerLine *pPylon);
 	int * GridPosition();
 	DIRECTION Direction();
 

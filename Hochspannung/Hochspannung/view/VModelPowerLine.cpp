@@ -462,8 +462,7 @@ bool VModelPowerLine::ConnectTo(VModelPowerLine *pPylon) {
 
 	m_zpConnector[iConnector1].AddPlacement(&m_zpLine[iConnector1]);
 	*/
-	vector<DIRECTION> vec_iaArmPairs;
-	DetermineArm(pPylon, &vec_iaArmPairs);
+	vector<DIRECTION> vec_iaArmPairs = DetermineArm(pPylon);
 
 
 	return true;
@@ -473,7 +472,8 @@ VModelPowerLine::PYLONTYPE VModelPowerLine::PylonType() {
 	return m_ePylonType;
 }
 
-void VModelPowerLine::DetermineArm(VModelPowerLine *pPylon, vector<DIRECTION> * iaArmPairs) {
+vector<VModelPowerLine::DIRECTION> VModelPowerLine::DetermineArm(VModelPowerLine *pPylon) {
+	vector<DIRECTION> vecaArmPairs;
 	DIRECTION eDirection       = pPylon->Direction();
 	PYLONTYPE ePylonType       = pPylon->PylonType();
 	int * ipGridPosition       = pPylon->GridPosition();
@@ -486,28 +486,28 @@ void VModelPowerLine::DetermineArm(VModelPowerLine *pPylon, vector<DIRECTION> * 
 		case VModelPowerLine::STRAIGHT:
 			if ((m_eDirection == NORTH || m_eDirection == SOUTH) && (eDirection == NORTH || eDirection == SOUTH)) {
 				if ((m_iGridPosition[0] != ipGridPosition[0]) && (m_iGridPosition[1] == ipGridPosition[1])) {
-					iaArmPairs->push_back(SOUTH);
-					iaArmPairs->push_back(NORTH);
+					vecaArmPairs.push_back(SOUTH);
+					vecaArmPairs.push_back(NORTH);
 				}
 			}
 			else if ((m_eDirection == WEST || m_eDirection == EAST) && eDirection == WEST || eDirection == EAST) {
 				if ((m_iGridPosition[0] == ipGridPosition[0]) && (m_iGridPosition[1] != ipGridPosition[1])) {
-					iaArmPairs->push_back(WEST);
-					iaArmPairs->push_back(EAST);
+					vecaArmPairs.push_back(WEST);
+					vecaArmPairs.push_back(EAST);
 				}
 			}
 			break;
 		case VModelPowerLine::CROSS:
 			if ((m_eDirection == NORTH || m_eDirection == SOUTH)) {
 				if ((m_iGridPosition[0] != ipGridPosition[0]) && (m_iGridPosition[1] == ipGridPosition[1])) {
-					iaArmPairs->push_back(SOUTH);
-					iaArmPairs->push_back(NORTH);
+					vecaArmPairs.push_back(SOUTH);
+					vecaArmPairs.push_back(NORTH);
 				}
 			}
 			else {
 				if ((m_iGridPosition[0] == ipGridPosition[0]) && (m_iGridPosition[1] != ipGridPosition[1])) {
-					iaArmPairs->push_back(WEST);
-					iaArmPairs->push_back(EAST);
+					vecaArmPairs.push_back(WEST);
+					vecaArmPairs.push_back(EAST);
 				}
 			}
 			break;
@@ -515,20 +515,20 @@ void VModelPowerLine::DetermineArm(VModelPowerLine *pPylon, vector<DIRECTION> * 
 			if ((m_eDirection == NORTH || m_eDirection == SOUTH)) {
 				if ((m_iGridPosition[0] != ipGridPosition[0]) && (m_iGridPosition[1] == ipGridPosition[1])) {
 					if (eDirection == WEST || eDirection == SOUTH) {
-						iaArmPairs->push_back(SOUTH);
+						vecaArmPairs.push_back(SOUTH);
 					}
 					else {
-						iaArmPairs->push_back(NORTH);
+						vecaArmPairs.push_back(NORTH);
 					}
 				}
 			}
 			else {
 				if ((m_iGridPosition[0] == ipGridPosition[0]) && (m_iGridPosition[1] != ipGridPosition[1])) {
 					if (eDirection == WEST || eDirection == NORTH) {
-						iaArmPairs->push_back(WEST);
+						vecaArmPairs.push_back(WEST);
 					}
 					else {
-						iaArmPairs->push_back(EAST);
+						vecaArmPairs.push_back(EAST);
 					}
 				}
 			}
@@ -543,23 +543,23 @@ void VModelPowerLine::DetermineArm(VModelPowerLine *pPylon, vector<DIRECTION> * 
 		case VModelPowerLine::STRAIGHT:
 			if ((m_iGridPosition[0] == ipGridPosition[0]) && (m_iGridPosition[1] != ipGridPosition[1])) {
 				if (eDirection == WEST || eDirection == EAST) {
-					iaArmPairs->push_back(WEST);
-					iaArmPairs->push_back(EAST);
+					vecaArmPairs.push_back(WEST);
+					vecaArmPairs.push_back(EAST);
 				}
 			}
 			else if ((m_iGridPosition[0] != ipGridPosition[0]) && (m_iGridPosition[1] == ipGridPosition[1])) {
-				iaArmPairs->push_back(NORTH);
-				iaArmPairs->push_back(SOUTH);
+				vecaArmPairs.push_back(NORTH);
+				vecaArmPairs.push_back(SOUTH);
 			}
 			break;
 		case VModelPowerLine::CROSS:
 			if ((m_iGridPosition[0] == ipGridPosition[0]) && (m_iGridPosition[1] != ipGridPosition[1])) {
-				iaArmPairs->push_back(WEST);
-				iaArmPairs->push_back(EAST);
+				vecaArmPairs.push_back(WEST);
+				vecaArmPairs.push_back(EAST);
 			}
 			else {
-				iaArmPairs->push_back(NORTH);
-				iaArmPairs->push_back(SOUTH);
+				vecaArmPairs.push_back(NORTH);
+				vecaArmPairs.push_back(SOUTH);
 			}
 		case VModelPowerLine::ANGLE:
 			break;
@@ -573,43 +573,43 @@ void VModelPowerLine::DetermineArm(VModelPowerLine *pPylon, vector<DIRECTION> * 
 		case VModelPowerLine::STRAIGHT:
 			if ((m_iGridPosition[0] != ipGridPosition[0]) && (m_iGridPosition[1] == ipGridPosition[1])) {
 				if ((m_eDirection == WEST || m_eDirection == EAST) && (eDirection == NORTH || eDirection == SOUTH))
-					iaArmPairs->push_back(SOUTH);
+					vecaArmPairs.push_back(SOUTH);
 				else
-					iaArmPairs->push_back(NORTH);
+					vecaArmPairs.push_back(NORTH);
 			}
 			else if ((m_iGridPosition[0] == ipGridPosition[0]) && (m_iGridPosition[1] != ipGridPosition[1])) {
 				if ((m_eDirection == WEST || m_eDirection == NORTH) && (eDirection == WEST || eDirection == EAST))
-					iaArmPairs->push_back(WEST);
+					vecaArmPairs.push_back(WEST);
 				else
-					iaArmPairs->push_back(EAST);
+					vecaArmPairs.push_back(EAST);
 			}
 			break;
 		case VModelPowerLine::CROSS:
 			if ((m_iGridPosition[0] != ipGridPosition[0]) && (m_iGridPosition[1] == ipGridPosition[1])) {
 				if (m_eDirection == WEST || m_eDirection == EAST)
-					iaArmPairs->push_back(SOUTH);
+					vecaArmPairs.push_back(SOUTH);
 				else
-					iaArmPairs->push_back(NORTH);
+					vecaArmPairs.push_back(NORTH);
 			}
 			else if ((m_iGridPosition[0] == ipGridPosition[0]) && (m_iGridPosition[1] != ipGridPosition[1])) {
 				if (m_eDirection == WEST || m_eDirection == NORTH)
-					iaArmPairs->push_back(WEST);
+					vecaArmPairs.push_back(WEST);
 				else
-					iaArmPairs->push_back(EAST);
+					vecaArmPairs.push_back(EAST);
 			}
 			break;
 		case VModelPowerLine::ANGLE:
 			if ((m_iGridPosition[0] != ipGridPosition[0]) && (m_iGridPosition[1] == ipGridPosition[1])) {
 				if ((m_eDirection == WEST || m_eDirection == SOUTH) && (eDirection == WEST || eDirection == SOUTH))
-					iaArmPairs->push_back(SOUTH);
+					vecaArmPairs.push_back(SOUTH);
 				else
-					iaArmPairs->push_back(NORTH);
+					vecaArmPairs.push_back(NORTH);
 			}
 			else if ((m_iGridPosition[0] == ipGridPosition[0]) && (m_iGridPosition[1] != ipGridPosition[1])) {
 				if ((m_eDirection == WEST || m_eDirection == NORTH) && (eDirection == WEST || eDirection == NORTH))
-					iaArmPairs->push_back(WEST);
+					vecaArmPairs.push_back(WEST);
 				else
-					iaArmPairs->push_back(EAST);
+					vecaArmPairs.push_back(EAST);
 			}
 			break;
 		default:
@@ -620,5 +620,6 @@ void VModelPowerLine::DetermineArm(VModelPowerLine *pPylon, vector<DIRECTION> * 
 		break;
 	}
 
+	return vecaArmPairs;
 }
 NAMESPACE_VIEW_E
