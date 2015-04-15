@@ -37,8 +37,8 @@ void VField::initField(const int rowIdx, const int colIdx)
 	m_zg.Init(vPlayingField->size, &m_zm);
 	m_zp.AddGeo(&m_zg);
 
-	m_zp.TranslateX(colIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0));
-	m_zp.TranslateYDelta(rowIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0) * -1);
+	m_zp.TranslateX(CASTS<float>(colIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0)));
+	m_zp.TranslateYDelta(CASTS<float>(rowIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0) * -1));
 }
 
 void VField::removeBuilding()
