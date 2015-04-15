@@ -6,7 +6,7 @@ NAMESPACE_LOGIC_B
 class LPlayer
 {
 private:
-	int money;
+	int money = 0;
 
 public:
 	LPlayer();

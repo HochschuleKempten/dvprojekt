@@ -3,9 +3,7 @@
 
 NAMESPACE_LOGIC_B
 
-LField::LField() :
-	placingAllowed(true),
-	lBuilding(nullptr)
+LField::LField()
 {
 }
 

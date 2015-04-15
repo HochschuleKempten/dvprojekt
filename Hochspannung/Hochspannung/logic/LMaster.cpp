@@ -15,12 +15,15 @@ LMaster::LMaster(IVMaster* vMaster)
 LMaster::~LMaster()
 {
 	delete lPlayingField;
+	delete lPlayer;
 }
 
 void LMaster::startNewGame()
 {
-	lPlayingField = new LPlayingField(this);
-	lPlayingField->initVPlayingField();
+	if (lPlayingField == nullptr) {
+		lPlayingField = new LPlayingField(this);
+		lPlayingField->initVPlayingField();
+	}
 }
 
 void LMaster::tick(const float fTimeDelta)

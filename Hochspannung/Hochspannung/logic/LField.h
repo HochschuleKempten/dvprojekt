@@ -30,11 +30,11 @@ public:
 private:
 	ILBuilding* lBuilding = nullptr;
 	LPlayingField* lPlayingField = nullptr;
-	bool placingAllowed;
-	FieldType fieldType;
-	FieldLevel fieldLevel;
-	int energyStock;
-	int energyLeft;
+	bool placingAllowed = true;
+	FieldType fieldType = GRASS;
+	FieldLevel fieldLevel = LEVEL1;
+	int energyStock = 0;
+	int energyLeft = 0;
 
 public:
 
