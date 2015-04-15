@@ -16,7 +16,7 @@ class LPlayingField
 private:
 	const int fieldLength = 10; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster = nullptr;
-	IVPlayingField* vPlayingField = nullptr;
+	std::shared_ptr<IVPlayingField> vPlayingField = nullptr;
 	Array2D<LField> fieldArray;
 
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
@@ -29,7 +29,6 @@ public:
 	LPlayingField(LMaster* lMaster);
 	~LPlayingField();
 
-	void initVPlayingField();
 	LField* getField(const int x, const int y);
 
 	// returns true if building could be placed, else false (building not allowed or building already placed)

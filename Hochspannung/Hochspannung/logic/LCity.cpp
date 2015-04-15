@@ -14,7 +14,6 @@ LCity::LCity(LField* lField, const int x, const int y)
 	vCity->initCity(vCity, x, y);
 }
 
-
 LCity::~LCity()
 {
 }

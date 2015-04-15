@@ -18,8 +18,10 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 	}),
 	powerLineGraph(fieldLength*fieldLength)
 {
-	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
-	createFields();
+	vPlayingField = lMaster->getVMaster()->getFactory()->createPlayingField(this);
+	vPlayingField->initPlayingField(vPlayingField);	//Sets the shared_ptr (need to be done before the fields can be created)
+	createFields();									//Create the fields (also places some buildings)
+	vPlayingField->buildPlayingField();				//Not build the playing field
 
 	//todo (L) where?
 	generatePowerLineGraph();
@@ -27,12 +29,6 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 
 LPlayingField::~LPlayingField()
 {
-	delete vPlayingField;
-}
-
-void LPlayingField::initVPlayingField()
-{
-	vPlayingField->initPlayingField();
 }
 
 LField* LPlayingField::getField(const int x, const int y)

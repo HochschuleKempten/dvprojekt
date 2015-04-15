@@ -24,7 +24,7 @@ public:
 	IVFactory()
 	{}
 	virtual ~IVFactory(){};
-	virtual IVPlayingField* createPlayingField(LPlayingField* field) = 0;//TODO (All) why no shared_ptr here?
+	virtual std::shared_ptr<IVPlayingField> createPlayingField(LPlayingField* field) = 0;
 	virtual std::shared_ptr<IVPowerPlant> createCoalPowerPlant(LCoalPowerPlant* powerPlant) = 0;
 	virtual std::shared_ptr<IVPowerPlant> createHydroelectricPowerPlant(LHydroelectricPowerPlant* powerPlant) = 0;
 	virtual std::shared_ptr<IVPowerPlant> createNuclearPowerPlant(LNuclearPowerPlant* powerPlant) = 0;

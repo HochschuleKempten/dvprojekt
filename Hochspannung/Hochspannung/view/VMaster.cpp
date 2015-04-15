@@ -46,10 +46,10 @@ VPlayingField* VMaster::getPlayingField()
 {
 	ASSERT(vPlayingField != nullptr, "VPlayingField is not initialized");
 
-	return vPlayingField;
+	return vPlayingField.get();
 }
 
-void VMaster::setVPlayingField(VPlayingField* vPlayingField)
+void VMaster::setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField)
 {
 	this->vPlayingField = vPlayingField;
 	vUi.m_zs.AddPlacement(vPlayingField->getPlacement());

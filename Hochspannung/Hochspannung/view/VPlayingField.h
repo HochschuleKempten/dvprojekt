@@ -45,9 +45,7 @@ public:
 			vField.vPlayingField = this;
 		}),
 		IViewObject(vMaster, &m_zp)
-	{
-		vMaster->setVPlayingField(this);
-	}
+	{}
 	virtual ~VPlayingField();
 
 	//TODO (V) remove building again
@@ -66,7 +64,8 @@ public:
 
 	void placeObject(const std::shared_ptr<IViewBuilding>& objPtr, const int x, const int y);
 
-	virtual void initPlayingField();
+	virtual void initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr);
+	virtual void buildPlayingField();
 
 	virtual void objectRemoved(const int x, const int y);
 };

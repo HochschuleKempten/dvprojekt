@@ -20,7 +20,7 @@ public:
 	virtual ~VFactory()
 	{}
 
-	virtual IVPlayingField* createPlayingField(LPlayingField* field);
+	virtual std::shared_ptr<IVPlayingField> createPlayingField(LPlayingField* field);
 
 	virtual std::shared_ptr<IVPowerPlant> createCoalPowerPlant(LCoalPowerPlant* powerPlant);
 

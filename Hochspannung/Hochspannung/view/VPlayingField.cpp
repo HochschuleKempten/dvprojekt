@@ -32,22 +32,24 @@ void VPlayingField::placeObject(const std::shared_ptr<IViewBuilding>& objPtr, co
 	vFields[x][y].m_zp.AddPlacement(objPtr->getPlacement());
 }
 
-void VPlayingField::initPlayingField()
+void VPlayingField::initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr)
+{
+	vMaster->setVPlayingField(dynamic_pointer_cast<VPlayingField>(objPtr));
+}
+
+void VPlayingField::buildPlayingField()
 {
 	m_zp.Fasten(); // direkt das oberste fasten????????
 
 	int square = CASTS<int>(sqrt(m_zpPlacementHolders.size()));
-	for (int holder = 0; holder < CASTS<int>(m_zpPlacementHolders.size()); holder++)
-	{
+	for (int holder = 0; holder < CASTS<int>(m_zpPlacementHolders.size()); holder++) {
 		std::stringstream stream;
 		stream << "holder = " << holder;
 		m_zpPlacementHolders[holder].SetName(stream.str().c_str());
 		m_zp.AddPlacement(&m_zpPlacementHolders[holder]);
 
-		for (int rowIdx = (holder % square) * 5; rowIdx < ((holder % square) + 1) * 5; rowIdx++)
-		{
-			for (int colIdx = (holder / square) * 5 ; colIdx < ((holder /square + 1) * 5); colIdx++)
-			{
+		for (int rowIdx = (holder % square) * 5; rowIdx < ((holder % square) + 1) * 5; rowIdx++) {
+			for (int colIdx = (holder / square) * 5; colIdx < ((holder / square + 1) * 5); colIdx++) {
 
 				vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
 				m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);

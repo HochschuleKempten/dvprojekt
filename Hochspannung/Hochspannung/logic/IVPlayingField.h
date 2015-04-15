@@ -18,7 +18,9 @@ public:
 	virtual ~IVPlayingField()
 	{}
 
-	virtual void initPlayingField() = 0;
+	virtual void initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr) = 0;
+
+	virtual void buildPlayingField() = 0;
 
 	virtual void objectRemoved(const int x, const int y) = 0;
 };

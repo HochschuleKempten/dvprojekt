@@ -21,7 +21,7 @@ private:
 	VFactory factory;
 	VUI vUi;
 	LMaster* lMaster = nullptr;
-	VPlayingField* vPlayingField = nullptr;
+	std::shared_ptr<VPlayingField> vPlayingField = nullptr;
 
 public:
 	VMaster();
@@ -36,7 +36,7 @@ public:
 	virtual IVFactory* getFactory();
 	VPlayingField* getPlayingField();
 
-	void setVPlayingField(VPlayingField* vPlayingField);
+	void setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField);
 	
 	void resize(int width, int height);
 

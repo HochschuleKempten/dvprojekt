@@ -22,7 +22,6 @@ void LMaster::startNewGame()
 {
 	if (lPlayingField == nullptr) {
 		lPlayingField = new LPlayingField(this);
-		lPlayingField->initVPlayingField();
 	}
 }
 
