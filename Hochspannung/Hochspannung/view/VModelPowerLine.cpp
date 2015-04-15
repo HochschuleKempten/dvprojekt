@@ -31,8 +31,8 @@ void VModelPowerLine::SetPosition(int x, int y) {
 	m_iGridPosition[1] = y;
 
 	// translate
-	TranslateXDelta(x);
-	TranslateZDelta(y);
+	TranslateXDelta((float)x);
+	TranslateZDelta((float)y);
 }
 
 void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFoundationWidth, float fPylonHeight)
@@ -162,8 +162,8 @@ void VModelPowerLine::InitArm() {
 			}
 			break;
 		case CROSS:
-	/*		m_zpArm[0].TranslateYDelta(-m_fStrutHeight  * m_iArmPosition);
-			m_zpArm[2].TranslateYDelta(-m_fStrutHeight * m_iArmPosition);*/
+			//m_zpArm[0].TranslateYDelta(m_fStrutHeight  * m_iArmPosition);
+			//m_zpArm[2].TranslateYDelta(m_fStrutHeight * m_iArmPosition);
 			m_zpArm[0].SwitchOn();
 			m_zpArm[1].SwitchOn();
 			m_zpArm[2].SwitchOn();
@@ -423,10 +423,6 @@ CPlacement * VModelPowerLine::Connectors() {
 }
 
 bool * VModelPowerLine::ConnectedPositions() {
-	//baFreeSlots[0] = bConnectedWest;
-	//baFreeSlots[1] = bConnectedSouth;
-	//baFreeSlots[2] = bConnectedEast;
-	//baFreeSlots[3] = bConnectedNorth;
 	return m_bConnectedPositions;
 }
 
@@ -444,10 +440,9 @@ bool VModelPowerLine::ConnectTo(VModelPowerLine *pPylon) {
 	CHVector vTranslation1 = m_vConnectorPositions[vec_aArmPairs[0]];
 	CHVector vTranslation2 = vpConnectorPositions[vec_aArmPairs[0]];
 
-	float distance = vTranslation1.Dist(vTranslation2);
+	//float distance = vTranslation1.Dist(vTranslation2);
+	float distance = this->GetTranslation().Dist(pPylon->GetTranslation());
 	float angle    = vTranslation1.Angle(vTranslation2);
-	//float distance = this->GetTranslation().Dist(pPylon->GetTranslation());
-	//float angle    = this->GetTranslation().Angle(pPylon->GetTranslation());
 
 	// generate line
 	CGeoCylinder * gLine = new CGeoCylinder;
@@ -481,6 +476,7 @@ bool VModelPowerLine::ConnectTo(VModelPowerLine *pPylon) {
 		m_zpLine[vec_aArmPairs[0]].RotateX(-HALFPI);
 	}
 
+	// move the arms up and down if necessary (so cables won't cross)
 	m_zpConnector[vec_aArmPairs[0]].AddPlacement(&m_zpLine[vec_aArmPairs[0]]);
 
 	return true;
@@ -492,10 +488,6 @@ map<VModelPowerLine::DIRECTION, vector<VModelPowerLine *>> * VModelPowerLine::Co
 
 bool VModelPowerLine::AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition) {
 	// see whether connector capacity is available
-	//map<DIRECTION, vector<VModelPowerLine *> > * connections = pPylon->Connections();
-	//vector<VModelPowerLine *> pylons = (*connections)[eConnectorPosition];
-	//int size = pylons.size();
-
 	if ((m_connections[eConnectorPosition].size() >= m_iMaxConnectionsPerConnector) || ((*pPylon->Connections())[eConnectorPosition].size() >= m_iMaxConnectionsPerConnector)) {
 		return false;
 	}
@@ -676,4 +668,15 @@ vector<VModelPowerLine::DIRECTION> VModelPowerLine::DetermineArm(VModelPowerLine
 
 	return vecaArmPairs;
 }
+
+// TODO: implement disconnection from given active connection to a pylon
+bool VModelPowerLine::DisconnectFrom(VModelPowerLine * pPylon) {
+	return false;
+}
+
+// TODO: implement disconnection function for all active connections
+bool VModelPowerLine::DisconnectAll() {
+	return false;
+}
+
 NAMESPACE_VIEW_E

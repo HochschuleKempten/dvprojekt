@@ -13,32 +13,28 @@ public:
 	enum DIRECTION {
 		WEST, SOUTH, EAST, NORTH
 	};
-	struct armPosition
-	{
-		CHVector vWest;
-		CHVector vSouth;
-		CHVector vEast;
-		CHVector vNorth;
-	};
 
 	VModelPowerLine(void);
 	~VModelPowerLine(void);
 
-	void SetPosition(int x, int y);
-	void Init(PYLONTYPE ePylonType = STRAIGHT, DIRECTION eDirection = NORTH, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
-	bool ConnectTo(VModelPowerLine *pPylon);
 	map<DIRECTION, vector<VModelPowerLine *>> * Connections();
-	bool AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition);
-
 	VModelPowerLine::PYLONTYPE PylonType();
+	CHVector * ConnectorPositions();
+	CPlacement * Connectors();
+
+	void Init(PYLONTYPE ePylonType = STRAIGHT, DIRECTION eDirection = NORTH, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
+	void SetPosition(int x, int y);
+	bool ConnectTo(VModelPowerLine *pPylon);
+	bool AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition);
+	bool DisconnectFrom(VModelPowerLine * pPylon);
+	bool DisconnectAll();
+
 
 	bool ConnectedWest() {
 		return bConnectedWest;
 	};
 
 	bool * ConnectedPositions();
-	CHVector * ConnectorPositions();
-	CPlacement * Connectors();
 
 	bool ConnectedSouth() {
 		return bConnectedSouth;
@@ -84,7 +80,7 @@ private:
 
 	CHVector m_vConnectorPositions[4];
 	SHORT m_iGridPosition[2];
-	SHORT m_iMaxConnectionsPerConnector = 2;
+	USHORT m_iMaxConnectionsPerConnector = 2;
 	bool m_bConnectedPositions[4];
 
 	SHORT m_iArmPosition       = 9;
@@ -107,7 +103,6 @@ private:
 	bool bConnectedSouth        = false;
 	bool bConnectedEast         = false;
 	bool bConnectedNorth        = false;
-	
 };
 
 NAMESPACE_VIEW_E
