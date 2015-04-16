@@ -39,12 +39,7 @@ public:
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
 
-		//return getField(x, y)->setBuilding<T>(x, y, arguments...);
-
-		bool ret = getField(x, y)->setBuilding<T>(x, y, arguments...);
-		//generateTree();
-
-		return ret;
+		return getField(x, y)->setBuilding<T>(x, y, arguments...);
 	}
 	
 	
@@ -58,7 +53,9 @@ private:
 	void generatePowerLineGraph();
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const int x, const int y);
-	bool vertexConnected(const int x1, const int y1, const int x2, const int y2);
+	bool vertexConnected(const int start, const int destination);
+	void calculateEnergyValueCity();
+	std::vector<int> getConnectedPowerLines(const int x, const int y);
 };
 
 NAMESPACE_LOGIC_E
