@@ -1,6 +1,5 @@
 #pragma once
 #include "ILBuilding.h"
-#include <memory>
 
 NAMESPACE_LOGIC_B
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IViewBuilding.h"
-#include <memory>
 
 NAMESPACE_VIEW_B
 

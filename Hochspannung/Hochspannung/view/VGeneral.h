@@ -10,5 +10,5 @@
 
 using namespace Vektoria;
 
-#define NAMESPACE_VIEW_B namespace HighVoltage{ //namespace view{
+#define NAMESPACE_VIEW_B namespace HighVoltage{
 #define NAMESPACE_VIEW_E }

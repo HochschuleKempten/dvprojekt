@@ -4,7 +4,6 @@
 #include "../logic/LPlayingField.h"
 #include "../logic/Array2D.h"
 #include "IViewObject.h"
-#include <memory>
 #include "VField.h"
 
 NAMESPACE_VIEW_B

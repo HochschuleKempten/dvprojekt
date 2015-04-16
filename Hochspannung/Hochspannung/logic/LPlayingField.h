@@ -2,7 +2,6 @@
 #include "LGeneral.h"
 #include "Array2D.h"
 #include "LField.h"
-#include <vector>
 #include <boost/graph/adjacency_list.hpp>
 
 NAMESPACE_LOGIC_B
