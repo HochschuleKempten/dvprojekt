@@ -28,11 +28,11 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_light.Init(CHVector(1.0f, 1.0f, 1.0f), CColor(1.0f, 1.0f, 1.0f));
 
 	// Material einrichten
-	m_quadMaterial.MakeTextureDiffuse("textures/diffuse.png");		//Diffuse
-	//m_quadMaterial.MakeTextureBump("textures/normal.png");			//Bump Map / Normal Map
-	//m_quadMaterial.MakeTextureGlow("textures\\lava\\emissive.png");			//Emissive
-	//m_quadMaterial.MakeTextureSpecular("textures/specular.png");		//Specular Map
-	//m_quadMaterial.MakeTextureHeight("textures\\lava\\height.png");			//Height Map
+	m_quadMaterial.MakeTextureDiffuse("textures/diffuse.png");				//Diffuse
+	m_quadMaterial.MakeTextureBump("textures/normal.png");					//Bump Map / Normal Map
+	m_quadMaterial.MakeTextureGlow("textures/emissive.png");				//Emissive
+	m_quadMaterial.MakeTextureSpecular("textures/specular.png");			//Specular Map
+	//m_quadMaterial.MakeTextureHeight("textures/height.png");				//Height Map
 
 	// Frame an Root anhängen
 	m_root.AddFrameHere(&m_frame);
