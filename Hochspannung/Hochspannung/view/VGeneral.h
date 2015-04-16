@@ -7,10 +7,6 @@
 #pragma warning ( pop )
 
 #include "../logic/LUtility.h"
-#include <vector>
-#include <map>
-#include <list>
-#include <string>
 
 using namespace Vektoria;
 
