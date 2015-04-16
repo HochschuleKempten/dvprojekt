@@ -211,6 +211,9 @@
     <ClInclude Include="network\Node.h">
       <Filter>network\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="network\NetworkService.h">
+      <Filter>network\Headerdateien</Filter>
+	</ClInclude>
     <ClInclude Include="view\VCity.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -387,6 +390,9 @@
     <ClCompile Include="network\Node.cpp">
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="network\NetworkService.cpp">
+      <Filter>network\Quelldateien</Filter>
+	</ClCompile>
     <ClCompile Include="view\VCity.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>

@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <cstring>
 
+namespace Network {
+
 /**
  * @class CMessage
  * @brief Base class for the communication between two game sessions.
@@ -13,12 +15,12 @@ public:
 	/**
 	 * the fixed length of the header.
 	 */
-	const static int headerLength = 4;
+	const static int iHeaderLength = 4;
 
 	/**
 	 * the fixed max length of the body.
 	 */
-	const static int maxBodyLength = 512;
+	const static int iMaxBodyLength = 512;
 
 	/**
 	 * @brief Default constructor.
@@ -29,7 +31,7 @@ public:
 	 * @brief Constructor that takes the messages content.
 	 * @param content the messages content that should be send.
 	 */
-	CMessage(const char* content);
+	CMessage(const char* pcContent);
 
 	/**
 	 * @brief Default deconstructor.
@@ -40,7 +42,7 @@ public:
 	 * @brief Set the messages content.
 	 * @param content the messages content that should be send.
 	 */
-	void setContent(const char* content);
+	void setContent(const char* pcContent);
 
 	/**
 	 * @brief Returns the complete message data.
@@ -87,7 +89,8 @@ private:
 	 */
 	void encodeHeader();
 
-	char m_acData[headerLength + maxBodyLength];
+	char m_acData[iHeaderLength + iMaxBodyLength];
 	int m_iBodyLength;
 };
 
+}
