@@ -30,7 +30,6 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 	vPlayingField->buildPlayingField();				//Now build the playing field
 
 	//todo (L) where?
-	generatePowerLineGraph();
 	calculateEnergyValueCity();
 }
 
@@ -236,31 +235,6 @@ void LPlayingField::generatePowerLineGraph()
 		}
 	}
 
-	//----DEBUG
-
-	//std::cout << "Out edges: " << std::endl;
-	//// Get a list of outgoing edges from vertex 1
-	//typedef graph_traits < Graph >::out_edge_iterator out_edge_iterator;
-
-	//std::cout << "size: " << powerLineGraph.m_vertices.size() << std::endl;
-
-	//
-
-	//std::pair<out_edge_iterator, out_edge_iterator> outEdges = out_edges(0, powerLineGraph);
-
-	//for (int i = 1; i < fieldLength*fieldLength; i++)
-	//{
-	//	for (; outEdges.first != outEdges.second; ++outEdges.first)
-	//	{
-	//		std::cout << *outEdges.first << " ";
-	//	}
-	//	outEdges = out_edges(i, powerLineGraph);
-	//}
-
-	//std::cout << std::endl;
-
-	//----DEBUG
-
 	for (int i = 0; i < fieldLength; i++)
 	{
 		delete [] plArray[i];
@@ -310,7 +284,7 @@ void LPlayingField::setVertexConnected(const bool b)
 	plVertexConnected = b;
 }
 
-bool LPlayingField::vertexConnected(const int start, const int destination)
+bool LPlayingField::powerlinesConnected(const int start, const int destination)
 {
 	plVertexConnected = false;
 
@@ -323,12 +297,12 @@ bool LPlayingField::vertexConnected(const int start, const int destination)
 
 void LPlayingField::calculateEnergyValueCity()
 {
-	//todo (L)
+	generatePowerLineGraph();
 
 	LCity* city = nullptr;
 	std::pair<int, int> cityPosition;
-	//first = pair of coordinates, second = energy value
-	std::vector<std::pair<std::pair<int, int>, int>> powerPlants;
+	//first = index of vertex, second = energy value
+	std::vector<std::pair<int, int>> powerPlants;
 
 	for (int x = 0; x < fieldLength; x++)
 	{
@@ -343,7 +317,7 @@ void LPlayingField::calculateEnergyValueCity()
 			if (dynamic_cast<ILPowerPlant*>(getField(x, y)->getBuilding()) != nullptr)
 			{
 				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(getField(x, y)->getBuilding());
-				powerPlants.push_back(std::pair<std::pair<int, int>, int>(std::pair<int,int>(x,y), powerPlant->getEnergyValue()));
+				powerPlants.push_back(std::pair<int, int>(convertIndex(x,y), powerPlant->getEnergyValue()));
 			}
 		}
 	}
@@ -352,34 +326,23 @@ void LPlayingField::calculateEnergyValueCity()
 	std::vector<int> cityPowerLines = getConnectedPowerLines(cityPosition.first, cityPosition.second);
 
 	//vertex indices of powerlines connected to the powerplant
-	std::vector<int> powerPlantPowerLines;
+	//std::vector<int> powerPlantPowerLines;
 
 	int energyValue = 0;
 
-	bool breakCityPlLoop = false;
-
 	for (int i = 0; i < powerPlants.size(); i++)
 	{
-		powerPlantPowerLines = getConnectedPowerLines(powerPlants[i].first.first, powerPlants[i].first.second);
 
-		breakCityPlLoop = false;
-
-		for (int j = 0; j < cityPowerLines.size() && !breakCityPlLoop; j++)
+		for (int j = 0; j < cityPowerLines.size(); j++)
 		{
-			for (int k = 0; k < powerPlantPowerLines.size(); k++)
+			if (powerlinesConnected(cityPowerLines[j], powerPlants[i].first))
 			{
-				if (vertexConnected(cityPowerLines[j], powerPlantPowerLines[k]))
-				{
-					energyValue += powerPlants[i].second;
+				energyValue += powerPlants[i].second;
 
-					breakCityPlLoop = true;
-
-					break;
-				}
+				break;
 			}
 		}
 	}
-
 
 	city->setEnergy(energyValue);
 }
