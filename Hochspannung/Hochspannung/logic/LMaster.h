@@ -12,12 +12,12 @@ class LMaster : public IVTickObserver
 {
 
 private:
-	IVMaster* vMaster = nullptr;
+	IVMaster& vMaster;
 	LPlayingField* lPlayingField = nullptr;
 	LPlayer* lPlayer = nullptr;
 
 public:
-	LMaster(IVMaster* vMaster);
+	LMaster(IVMaster& vMaster);
 	~LMaster();
 
 	void startNewGame();

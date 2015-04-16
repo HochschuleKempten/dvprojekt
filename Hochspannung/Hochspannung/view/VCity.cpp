@@ -1,8 +1,9 @@
 #include "VCity.h"
 #include "VPlayingField.h"
 #include "VIdentifier.h"
-#include "../logic/LCity.h"
 #include "VMaterialLoader.h"
+#include "VMaster.h"
+#include "../logic/LCity.h"
 
 NAMESPACE_VIEW_B
 

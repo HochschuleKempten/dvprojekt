@@ -36,8 +36,7 @@ private:
 
 public:
 	VUI(VMaster* vMaster);
-	inline virtual ~VUI()
-	{}
+	virtual ~VUI();
 
 	void initUI();
 

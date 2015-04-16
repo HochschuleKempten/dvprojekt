@@ -15,6 +15,9 @@ VMaster::VMaster()
 	VMaterialLoader::init();
 }
 
+VMaster::~VMaster()
+{}
+
 void VMaster::setLMaster(LMaster* lMaster)
 {
 	this->lMaster = lMaster;
@@ -59,7 +62,6 @@ void VMaster::resize(int width, int heigth)
 {
 	m_zf.ReSize(width, heigth);
 }
-
 
 
 NAMESPACE_VIEW_E

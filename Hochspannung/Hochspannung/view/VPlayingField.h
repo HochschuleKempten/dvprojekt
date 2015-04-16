@@ -3,7 +3,6 @@
 #include "../logic/IVPlayingField.h"
 #include "../logic/LPlayingField.h"
 #include "../logic/Array2D.h"
-#include "VMaster.h"
 #include "IViewObject.h"
 #include <memory>
 #include "VField.h"
@@ -37,15 +36,7 @@ private:
 	CPlacement m_zp;
 
 public:
-	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
-		: IVPlayingField(lPlayingField),
-		m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25),
-		vFields(lPlayingField->getFieldLength(), lPlayingField->getFieldLength(), [this] (VField& vField)
-		{
-			vField.vPlayingField = this;
-		}),
-		IViewObject(vMaster, &m_zp)
-	{}
+	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField);
 	virtual ~VPlayingField();
 
 	//TODO (V) remove building again

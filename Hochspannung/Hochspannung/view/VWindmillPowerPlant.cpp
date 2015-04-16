@@ -1,6 +1,7 @@
 #include "VWindmillPowerPlant.h"
 #include "VPlayingField.h"
 #include "VIdentifier.h"
+#include "VMaster.h"
 
 NAMESPACE_VIEW_B
 
@@ -14,6 +15,9 @@ VWindmillPowerPlant::VWindmillPowerPlant(VMaster* vMaster, LWindmillPowerPlant* 
 
 	vMaster->registerObserver(this);
 }
+
+VWindmillPowerPlant::~VWindmillPowerPlant()
+{}
 
 void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {

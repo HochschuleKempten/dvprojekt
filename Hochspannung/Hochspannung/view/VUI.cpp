@@ -19,6 +19,9 @@ VUI::VUI(VMaster* vMaster)
 	vMaster->registerObserver(this);
 }
 
+VUI::~VUI()
+{}
+
 void VUI::initUI()
 {
 	vMaster->m_zf.AddDeviceKeyboard(&m_zkKeyboard);

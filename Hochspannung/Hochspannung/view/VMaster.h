@@ -25,8 +25,7 @@ private:
 
 public:
 	VMaster();
-	virtual ~VMaster()
-	{}
+	virtual ~VMaster();
 
 	void setLMaster(LMaster* lMaster);
 

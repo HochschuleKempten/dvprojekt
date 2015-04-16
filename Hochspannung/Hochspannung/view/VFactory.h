@@ -14,11 +14,8 @@ private:
 	VMaster* vMaster;
 
 public:
-	VFactory(VMaster* vMaster)
-		: vMaster(vMaster)
-	{}
-	virtual ~VFactory()
-	{}
+	VFactory(VMaster* vMaster);
+	virtual ~VFactory();
 
 	virtual std::shared_ptr<IVPlayingField> createPlayingField(LPlayingField* field);
 

@@ -20,7 +20,7 @@ protected:
 	}
 
 public:
-	virtual ~IVMaster()
+	inline virtual ~IVMaster()
 	{}
 
 	inline void registerObserver(IVTickObserver* observer)

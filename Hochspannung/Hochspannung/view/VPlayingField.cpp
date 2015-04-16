@@ -1,10 +1,18 @@
 #include "VPlayingField.h"
-#include "IViewBuilding.h"
-#include "VIdentifier.h"
-#include "VMaterialLoader.h"
+#include "VMaster.h"
 
 NAMESPACE_VIEW_B
 
+
+VPlayingField::VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
+	: IViewObject(vMaster, &m_zp),
+      IVPlayingField(lPlayingField),
+	  m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25),
+	  vFields(lPlayingField->getFieldLength(), lPlayingField->getFieldLength(), [this] (VField& vField)
+	  {
+		  vField.vPlayingField = this;
+	  })
+{}
 
 VPlayingField::~VPlayingField()
 {

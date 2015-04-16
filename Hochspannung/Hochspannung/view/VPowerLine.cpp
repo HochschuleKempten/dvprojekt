@@ -1,6 +1,7 @@
 #include "VPowerLine.h"
 #include "VPlayingField.h"
 #include "VIdentifier.h"
+#include "VMaster.h"
 
 NAMESPACE_VIEW_B 
 
@@ -13,6 +14,9 @@ VPowerLine::VPowerLine(VMaster* vMaster, LPowerLine* lpowerLine)
 	m_zp.ScaleDelta(2.0f);
 	m_zp.TranslateZDelta(0.5f);
 }
+
+VPowerLine::~VPowerLine()
+{}
 
 void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y)
 {

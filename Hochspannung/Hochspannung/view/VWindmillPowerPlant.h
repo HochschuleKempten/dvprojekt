@@ -16,8 +16,7 @@ private:
 
 public:
 	VWindmillPowerPlant(VMaster *vMaster, LWindmillPowerPlant* lPlant);
-    virtual ~VWindmillPowerPlant()
-	{}
+	virtual ~VWindmillPowerPlant();
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y);
      

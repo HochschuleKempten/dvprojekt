@@ -6,14 +6,15 @@
 NAMESPACE_VIEW_B
 
 
-
 class VMaterialLoader
 {
 private:
-	inline VMaterialLoader()
-	{}
-	inline ~VMaterialLoader()
-	{}
+	VMaterialLoader() = delete;
+	VMaterialLoader(const VMaterialLoader&) = delete;
+	VMaterialLoader(const VMaterialLoader&&) = delete;
+	VMaterialLoader operator=(const VMaterialLoader&) = delete;
+	VMaterialLoader operator=(const VMaterialLoader&&) = delete;
+	~VMaterialLoader() = delete;
 
 public:
 	static void init();

@@ -4,7 +4,7 @@
 #include "view\VPlayingField.h"
 
 CGame::CGame(void)
-	: lMaster(&vMaster)
+	: lMaster(vMaster)
 {
 
 #ifdef _DEBUG

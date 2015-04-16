@@ -12,6 +12,13 @@
 NAMESPACE_VIEW_B
 
 
+VFactory::VFactory(VMaster* vMaster)
+: vMaster(vMaster)
+{}
+
+VFactory::~VFactory()
+{}
+
 std::shared_ptr<IVPlayingField> VFactory::createPlayingField(LPlayingField* field)
 {
 	return shared_ptr<IVPlayingField>(new VPlayingField(vMaster, field));
