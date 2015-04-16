@@ -104,7 +104,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions), _DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
@@ -170,6 +170,7 @@
     <ClInclude Include="logic\LUtility.h" />
     <ClInclude Include="logic\LWindmillPowerPlant.h" />
     <ClInclude Include="network\Client.h" />
+    <ClInclude Include="network\NetworkService.h" />
     <ClInclude Include="network\Node.h" />
     <ClInclude Include="network\Message.h" />
     <ClInclude Include="network\Server.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="logic\LPowerLine.cpp" />
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="network\Client.cpp" />
+    <ClCompile Include="network\NetworkService.cpp" />
     <ClCompile Include="network\Node.cpp" />
     <ClCompile Include="network\Message.cpp" />
     <ClCompile Include="network\Server.cpp" />
