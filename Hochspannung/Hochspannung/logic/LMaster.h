@@ -1,7 +1,8 @@
 #pragma once
-
 #include "IVTickObserver.h"
-#include "LUI.h"
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
 
 class IVMaster;
 class LPlayingField;
@@ -11,13 +12,12 @@ class LMaster : public IVTickObserver
 {
 
 private:
-	IVMaster* vMaster;
+	IVMaster& vMaster;
 	LPlayingField* lPlayingField = nullptr;
-	LPlayer* lPlayer;
-	LUI lUi;
+	LPlayer* lPlayer = nullptr;
 
 public:
-	LMaster(IVMaster* vMaster);
+	LMaster(IVMaster& vMaster);
 	~LMaster();
 
 	void startNewGame();
@@ -28,3 +28,5 @@ public:
 	LPlayer* getPlayer();
 
 };
+
+NAMESPACE_LOGIC_E

@@ -16,8 +16,7 @@ private:
 
 public:
 	VSolarPowerPlant(VMaster *vMaster, LSolarPowerPlant* lPlant);
-	virtual ~VSolarPowerPlant()
-	{}
+	virtual ~VSolarPowerPlant();
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y);
 };

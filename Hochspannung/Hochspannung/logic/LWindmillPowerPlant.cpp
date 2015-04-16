@@ -5,8 +5,10 @@
 #include "IVFactory.h"
 #include "IVPowerPlant.h"
 
-LWindmillPowerPlant::LWindmillPowerPlant(const int costs, const int energyValue, LField* lField, const int x, const int y)
-	: ILPowerPlant(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createWindmillPowerPlant(this))
+NAMESPACE_LOGIC_B
+
+LWindmillPowerPlant::LWindmillPowerPlant(LField* lField, const int x, const int y)
+	: ILPowerPlant(lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createWindmillPowerPlant(this))
 {
 	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }
@@ -16,7 +18,4 @@ LWindmillPowerPlant::~LWindmillPowerPlant()
 {
 }
 
-int LWindmillPowerPlant::getID()
-{
-	return id;
-}
+NAMESPACE_LOGIC_E

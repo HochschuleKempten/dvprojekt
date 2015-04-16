@@ -1,7 +1,11 @@
 #pragma once
 #include "Node.h"
 
+
+namespace Network {
+
 using namespace boost::asio;
+using boost::system::error_code;
 
 /**
  * @class CServer
@@ -11,9 +15,9 @@ class CServer : public CNode {
 public:
 	/**
 	 * @brief Constructor that takes the server port.
-	 * @param port the server should listen to.
+	 * @param usPort the server should listen to.
 	 */
-	CServer(int port);
+	CServer(unsigned short usPort);
 
 	/**
 	 * @brief Default constructor.
@@ -21,11 +25,12 @@ public:
 	~CServer();
 
 private:
-	void connect();
+	bool connect();
 
-	void acceptCompleteHandler(const boost::system::error_code& ec);
+	void acceptCompleteHandler(const error_code& ec);
 
 	ip::tcp::endpoint m_endpoint;
 	ip::tcp::acceptor m_acceptor;
 };
 
+}

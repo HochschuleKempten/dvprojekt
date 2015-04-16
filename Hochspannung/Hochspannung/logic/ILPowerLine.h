@@ -1,5 +1,8 @@
 #pragma once
 #include "ILBuilding.h"
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
 
 class IVPowerLine;
 class LPlayingField;
@@ -17,24 +20,17 @@ public:
 
 protected:
 	int orientation;
-	int energyValue;
 	std::shared_ptr<IVPowerLine> vPowerLine;
 
 public:
-	ILPowerLine(const int costs, const int energyValue, const int orientation, LField* lField, const std::shared_ptr<IVPowerLine>& vPowerLine)
-		: ILBuilding(costs, lField),
+	ILPowerLine(const int orientation, LField* lField, const std::shared_ptr<IVPowerLine>& vPowerLine)
+		: ILBuilding(lField),
 		vPowerLine(vPowerLine),
-		energyValue(energyValue),
 		orientation(orientation)
 	{};
 
 	virtual ~ILPowerLine()
 	{
-	};
-
-	int getEnergyValue() const
-	{
-		return energyValue;
 	};
 
 	int getPowerLineOrientation()
@@ -43,3 +39,5 @@ public:
 	};
 
 };
+
+NAMESPACE_LOGIC_E

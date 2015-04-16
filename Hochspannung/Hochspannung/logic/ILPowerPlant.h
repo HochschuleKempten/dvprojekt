@@ -1,20 +1,20 @@
 #pragma once
-
 #include "ILBuilding.h"
+
+NAMESPACE_LOGIC_B
 
 class IVPowerPlant;
 
 class ILPowerPlant : public ILBuilding
 {
 protected:
-	int energyValue;
+	static const int energyValue = 100;
 	std::shared_ptr<IVPowerPlant> vPowerPlant;
 
 public:
-	inline ILPowerPlant(const int costs, const int energyValue, LField* lField, std::shared_ptr<IVPowerPlant> vPowerPlant)
-		: ILBuilding(costs, lField),
-		vPowerPlant(vPowerPlant),
-		energyValue(energyValue)
+	inline ILPowerPlant(LField* lField, std::shared_ptr<IVPowerPlant> vPowerPlant)
+		: ILBuilding(lField),
+		vPowerPlant(vPowerPlant)
 	{};
 
 	inline virtual ~ILPowerPlant()
@@ -26,3 +26,5 @@ public:
 		return energyValue;
 	};
 };
+
+NAMESPACE_LOGIC_E

@@ -6,6 +6,17 @@
 #include "IVMaster.h"
 #include "IVFactory.h"
 #include "LUtility.h"
+#include "LCity.h"
+#include <boost/graph/breadth_first_search.hpp>
+#include <boost/graph/graph_traits.hpp>
+#include "LCoalPowerPlant.h"
+#ifdef _DEBUG
+#include <iostream>
+#endif
+
+NAMESPACE_LOGIC_B
+
+using namespace boost;
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this] (LField& f) {
@@ -13,18 +24,17 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 	}),
 	powerLineGraph(fieldLength*fieldLength)
 {
-	vPlayingField = this->lMaster->getVMaster()->getFactory()->createPlayingField(this);
-	createFields();
+	vPlayingField = lMaster->getVMaster()->getFactory()->createPlayingField(this);
+	vPlayingField->initPlayingField(vPlayingField);	//Sets the shared_ptr (need to be done before the fields can be created)
+	createFields();									//Create the fields (also places some buildings)
+	vPlayingField->buildPlayingField();				//Now build the playing field
+
+	//todo (L) where?
+	calculateEnergyValueCity();
 }
 
 LPlayingField::~LPlayingField()
 {
-	delete vPlayingField;
-}
-
-void LPlayingField::initVPlayingField()
-{
-	vPlayingField->initPlayingField();
 }
 
 LField* LPlayingField::getField(const int x, const int y)
@@ -72,23 +82,23 @@ void LPlayingField::createFields()
 	int firstPowerPlantPositionY = secondPowerLinePositionY + 1;
 
 	fieldArray[cityPositionX][cityPositionY].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
-	fieldArray[cityPositionX][cityPositionY].setBuilding<LPowerLine>(cityPositionX, cityPositionY, LPowerLine::EAST); //Until we have a citymodel, we use a powerline
+	fieldArray[cityPositionX][cityPositionY].setBuilding<LCity>(cityPositionX, cityPositionY);
 
 
 	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].setBuilding<LPowerLine>(firstPowerLinePositionX, firstPowerLinePositionY, LPowerLine::EAST); //Until we have a citymodel, we use a powerline
+	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].setBuilding<LPowerLine>(firstPowerLinePositionX, firstPowerLinePositionY, LPowerLine::WEST | LPowerLine::SOUTH); //Until we have a citymodel, we use a powerline
 
 	fieldArray[secondPowerLinePositionX][secondPowerLinePositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	fieldArray[secondPowerLinePositionX][secondPowerLinePositionY].setBuilding<LPowerLine>(secondPowerLinePositionX, secondPowerLinePositionY, LPowerLine::EAST); //Until we have a citymodel, we use a powerline
+	fieldArray[secondPowerLinePositionX][secondPowerLinePositionY].setBuilding<LPowerLine>(secondPowerLinePositionX, secondPowerLinePositionY, LPowerLine::NORTH | LPowerLine::EAST); //Until we have a citymodel, we use a powerline
 
 	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].setBuilding<LPowerLine>(firstPowerPlantPositionX, firstPowerPlantPositionY, LPowerLine::EAST);
+	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].setBuilding<LCoalPowerPlant>(firstPowerPlantPositionX, firstPowerPlantPositionY);
 
 
 	std::vector<LField::FieldType> fieldTypes = { LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::COAL, LField::FieldType::GRASS, LField::FieldType::MOUNTAIN, LField::FieldType::OIL, LField::FieldType::WATER, LField::FieldType::GRASS };
 	std::vector<LField::FieldLevel> fieldLevels = { LField::FieldLevel::LEVEL1, LField::FieldLevel::LEVEL2, LField::FieldLevel::LEVEL3 };
 
-	std::srand(std::time(0));
+	std::srand(CASTS<unsigned int>(std::time(0)));
 
 	for (int x = 0; x < fieldLength; x++)
 	{
@@ -127,6 +137,13 @@ LMaster* LPlayingField::getLMaster()
 	return lMaster;
 }
 
+struct pLine
+{
+	bool placed = false;
+	std::vector<pLine*> connections;
+	int x, y;
+};
+
 void LPlayingField::generatePowerLineGraph()
 {
 	pLine** plArray = new pLine*[fieldLength];
@@ -148,11 +165,11 @@ void LPlayingField::generatePowerLineGraph()
 			building = getField(x, y)->getBuilding();
 
 			//check if building is a powerline
-			if (building != nullptr && building->getID() == LPowerLine::id)
+			if (building != nullptr && dynamic_cast<LPowerLine*>(building) != nullptr)
 			{
 				plArray[x][y].placed = true;
 
-				int orientation = static_cast<LPowerLine*>(building)->getPowerLineOrientation();
+				int orientation = CASTD<LPowerLine*>(building)->getPowerLineOrientation();
 				
 				if (orientation & LPowerLine::PowerLineOrientation::NORTH)
 				{
@@ -189,10 +206,11 @@ void LPlayingField::generatePowerLineGraph()
 		}
 	}
 
-	//todo (L) put following part in own method (graph shouldn't be recreated every check!)
-
-	//remove all existing edges and vertices
-	powerLineGraph.clear();
+	//remove all existing edges
+	for (int i = 0; i < fieldLength*fieldLength; i++)
+	{
+		powerLineGraph.m_vertices[i].m_out_edges.clear();
+	}
 
 	//iterate through struct array, check if field contains a powerline (plArray[][].placed == true) and
 	//check on connections to other powerlines
@@ -205,7 +223,7 @@ void LPlayingField::generatePowerLineGraph()
 			if (plArray[x][y].placed)
 			{
 				//check outgoing connections
-				for (int i = 0; i < plArray[x][y].connections.size(); i++)
+				for (size_t i = 0; i < plArray[x][y].connections.size(); i++)
 				{	
 					//position of neighbour which is connected to this field
 					int otherX = plArray[x][y].connections[i]->x;
@@ -217,8 +235,6 @@ void LPlayingField::generatePowerLineGraph()
 		}
 	}
 
-
-
 	for (int i = 0; i < fieldLength; i++)
 	{
 		delete [] plArray[i];
@@ -226,8 +242,6 @@ void LPlayingField::generatePowerLineGraph()
 
 	delete [] plArray;
 }
-
-//todo (L) implement method for checking graph
 
 bool LPlayingField::checkIndex(const int x, const int y)
 {
@@ -239,3 +253,169 @@ int LPlayingField::convertIndex(const int x, const int y)
 	return (x*fieldLength + y);
 }
 
+//needed for vertexConnected()
+class custom_bfs_visitor : public default_bfs_visitor
+{
+private:
+	int vertex = 0;
+	LPlayingField * lPlayingField;
+public:
+
+	custom_bfs_visitor(int vertex, LPlayingField* lPl) :
+		vertex(vertex),
+		lPlayingField(lPl)
+	{
+	}
+
+	template < typename Vertex, typename Graph >
+	void discover_vertex(Vertex u, const Graph & g) const
+	{
+		if (u == vertex)
+		{
+			//todo (L) ugly..
+			lPlayingField->setVertexConnected(true);
+		}
+	}
+
+};
+
+void LPlayingField::setVertexConnected(const bool b)
+{
+	plVertexConnected = b;
+}
+
+bool LPlayingField::powerlinesConnected(const int start, const int destination)
+{
+	plVertexConnected = false;
+
+	custom_bfs_visitor vis(destination, this);
+
+	breadth_first_search(powerLineGraph, vertex(start, powerLineGraph), visitor(vis));
+
+	return plVertexConnected;
+}
+
+void LPlayingField::calculateEnergyValueCity()
+{
+	generatePowerLineGraph();
+
+	LCity* city = nullptr;
+	std::pair<int, int> cityPosition;
+	//first = index of vertex, second = energy value
+	std::vector<std::pair<int, int>> powerPlants;
+
+	for (int x = 0; x < fieldLength; x++)
+	{
+		for (int y = 0; y < fieldLength; y++)
+		{
+			if (city == nullptr && dynamic_cast<LCity*>(getField(x, y)->getBuilding()) != nullptr)
+			{
+				city = dynamic_cast<LCity*>(getField(x, y)->getBuilding());
+				cityPosition = std::pair<int, int>(x, y);
+			}
+
+			if (dynamic_cast<ILPowerPlant*>(getField(x, y)->getBuilding()) != nullptr)
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(getField(x, y)->getBuilding());
+				powerPlants.push_back(std::pair<int, int>(convertIndex(x,y), powerPlant->getEnergyValue()));
+			}
+		}
+	}
+
+	//vertex indices of powerlines connected to the city
+	std::vector<int> cityPowerLines = getConnectedPowerLines(cityPosition.first, cityPosition.second);
+
+	//vertex indices of powerlines connected to the powerplant
+	//std::vector<int> powerPlantPowerLines;
+
+	int energyValue = 0;
+
+	for (int i = 0; i < powerPlants.size(); i++)
+	{
+
+		for (int j = 0; j < cityPowerLines.size(); j++)
+		{
+			if (powerlinesConnected(cityPowerLines[j], powerPlants[i].first))
+			{
+				energyValue += powerPlants[i].second;
+
+				break;
+			}
+		}
+	}
+
+	city->setEnergy(energyValue);
+}
+
+std::vector<int> LPlayingField::getConnectedPowerLines(const int x, const int y)
+{
+	LPowerLine* powerLine = nullptr;
+
+	std::vector<int> plIndex;
+
+	if (getField(x, y)->getBuilding() != nullptr)
+	{
+		//todo (L) redundant
+		//north
+		if (checkIndex(x - 1, y))
+		{
+			powerLine = dynamic_cast<LPowerLine*>(getField(x - 1, y)->getBuilding());
+
+			if (powerLine != nullptr)
+			{
+				if (powerLine->getPowerLineOrientation() & LPowerLine::SOUTH)
+				{
+					plIndex.push_back(convertIndex(x - 1, y));
+				}
+			}
+		}
+
+		//east
+		if (checkIndex(x, y + 1))
+		{
+			powerLine = dynamic_cast<LPowerLine*>(getField(x, y + 1)->getBuilding());
+
+			if (powerLine != nullptr)
+			{
+				if (powerLine->getPowerLineOrientation() & LPowerLine::WEST)
+				{
+					plIndex.push_back(convertIndex(x, y + 1));
+				}
+			}
+		}
+
+		//south
+		if (checkIndex(x + 1, y))
+		{
+			powerLine = dynamic_cast<LPowerLine*>(getField(x + 1, y)->getBuilding());
+
+			if (powerLine != nullptr)
+			{
+				if (powerLine->getPowerLineOrientation() & LPowerLine::NORTH)
+				{
+					plIndex.push_back(convertIndex(x + 1, y));
+				}
+			}
+		}
+
+
+		//west
+		if (checkIndex(x, y - 1))
+		{
+			powerLine = dynamic_cast<LPowerLine*>(getField(x, y - 1)->getBuilding());
+
+			if (powerLine != nullptr)
+			{
+				if (powerLine->getPowerLineOrientation() & LPowerLine::EAST)
+				{
+					plIndex.push_back(convertIndex(x, y - 1));
+				}
+			}
+		}
+
+
+	}
+
+	return plIndex;
+}
+NAMESPACE_LOGIC_E

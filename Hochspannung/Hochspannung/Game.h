@@ -56,7 +56,7 @@
 #include "logic\LMaster.h"
 
 using namespace Vektoria;
-using namespace HighVoltage::view;
+using namespace HighVoltage;
 
 class CGame
 {

@@ -94,6 +94,8 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_MBCS;_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -102,8 +104,10 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions), _DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -114,6 +118,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -126,6 +132,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -145,11 +153,11 @@
     <ClInclude Include="logic\IVPowerLine.h" />
     <ClInclude Include="logic\IVPowerPlant.h" />
     <ClInclude Include="logic\IVTickObserver.h" />
-    <ClInclude Include="logic\IVUI.h" />
     <ClInclude Include="logic\LCity.h" />
     <ClInclude Include="logic\LField.h" />
     <ClInclude Include="logic\LCoalPowerPlant.h" />
     <ClInclude Include="logic\ILPowerPlant.h" />
+    <ClInclude Include="logic\LGeneral.h" />
     <ClInclude Include="logic\LHydroelectricPowerPlant.h" />
     <ClInclude Include="logic\LIdentifier.h" />
     <ClInclude Include="logic\LMaster.h" />
@@ -159,10 +167,10 @@
     <ClInclude Include="logic\LPlayingField.h" />
     <ClInclude Include="logic\LSolarPowerPlant.h" />
     <ClInclude Include="logic\LPowerLine.h" />
-    <ClInclude Include="logic\LUI.h" />
     <ClInclude Include="logic\LUtility.h" />
     <ClInclude Include="logic\LWindmillPowerPlant.h" />
     <ClInclude Include="network\Client.h" />
+    <ClInclude Include="network\NetworkService.h" />
     <ClInclude Include="network\Node.h" />
     <ClInclude Include="network\Message.h" />
     <ClInclude Include="network\Server.h" />
@@ -221,14 +229,19 @@
     <ClCompile Include="logic\LPlayingField.cpp" />
     <ClCompile Include="logic\LSolarPowerPlant.cpp" />
     <ClCompile Include="logic\LPowerLine.cpp" />
-    <ClCompile Include="logic\LUI.cpp" />
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="network\Client.cpp" />
+    <ClCompile Include="network\NetworkService.cpp" />
     <ClCompile Include="network\Node.cpp" />
     <ClCompile Include="network\Message.cpp" />
     <ClCompile Include="network\Server.cpp" />
     <ClCompile Include="network\TransferObject.cpp" />
-    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="VektoriaApp.cpp" />
     <ClCompile Include="view\Appartments.cpp" />
     <ClCompile Include="view\Gebaeude02.cpp" />

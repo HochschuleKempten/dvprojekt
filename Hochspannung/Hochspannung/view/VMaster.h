@@ -1,17 +1,16 @@
 #pragma once
 
-#include "../logic/IVMaster.h"
-#include "VFactory.h"
 #include "VGeneral.h"
-
-class LMaster;
+#include "VFactory.h"
+#include "VUI.h"
+#include "../logic/IVMaster.h"
 
 NAMESPACE_VIEW_B
 
 
+class LMaster;
 class IViewObject;
 class VPlayingField;
-class VUI;
 
 class VMaster : public IVMaster
 {
@@ -20,17 +19,15 @@ private:
 	CFrame m_zf;
 	
 	VFactory factory;
+	VUI vUi;
 	LMaster* lMaster = nullptr;
-	VUI* vUi = nullptr;
-	VPlayingField* vPlayingField = nullptr;
+	std::shared_ptr<VPlayingField> vPlayingField = nullptr;
 
 public:
 	VMaster();
-	virtual ~VMaster()
-	{}
+	virtual ~VMaster();
 
 	void setLMaster(LMaster* lMaster);
-	void setVUI(VUI* vUi);
 
 	void initScene(HWND hwnd, CSplash* psplash);
 	void tick(float fTime, float fTimeDelta);
@@ -38,7 +35,7 @@ public:
 	virtual IVFactory* getFactory();
 	VPlayingField* getPlayingField();
 
-	void setVPlayingField(VPlayingField* vPlayingField);
+	void setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField);
 	
 	void resize(int width, int height);
 
