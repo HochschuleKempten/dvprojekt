@@ -7,6 +7,11 @@
 #include "IVFactory.h"
 #include "LUtility.h"
 #include "LCity.h"
+#include <boost/graph/breadth_first_search.hpp>
+#include <boost/graph/graph_traits.hpp>
+#ifdef _DEBUG
+#include <iostream>
+#endif
 
 NAMESPACE_LOGIC_B
 
@@ -25,6 +30,12 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 
 	//todo (L) where?
 	generatePowerLineGraph();
+	if (vertexConnected(5, 6, 6, 7))
+	{
+#ifdef _DEBUG
+		std::cout << "connected" << std::endl;
+#endif
+	}
 }
 
 LPlayingField::~LPlayingField()
@@ -80,13 +91,14 @@ void LPlayingField::createFields()
 
 
 	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].setBuilding<LPowerLine>(firstPowerLinePositionX, firstPowerLinePositionY, LPowerLine::EAST); //Until we have a citymodel, we use a powerline
+	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].setBuilding<LPowerLine>(firstPowerLinePositionX, firstPowerLinePositionY, LPowerLine::WEST | LPowerLine::SOUTH); //Until we have a citymodel, we use a powerline
 
 	fieldArray[secondPowerLinePositionX][secondPowerLinePositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	fieldArray[secondPowerLinePositionX][secondPowerLinePositionY].setBuilding<LPowerLine>(secondPowerLinePositionX, secondPowerLinePositionY, LPowerLine::EAST); //Until we have a citymodel, we use a powerline
+	fieldArray[secondPowerLinePositionX][secondPowerLinePositionY].setBuilding<LPowerLine>(secondPowerLinePositionX, secondPowerLinePositionY, LPowerLine::NORTH | LPowerLine::EAST); //Until we have a citymodel, we use a powerline
 
+	//todo (V) change type to powerplant
 	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].setBuilding<LPowerLine>(firstPowerPlantPositionX, firstPowerPlantPositionY, LPowerLine::EAST);
+	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].setBuilding<LPowerLine>(firstPowerPlantPositionX, firstPowerPlantPositionY, LPowerLine::WEST);
 
 
 	std::vector<LField::FieldType> fieldTypes = { LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::COAL, LField::FieldType::GRASS, LField::FieldType::MOUNTAIN, LField::FieldType::OIL, LField::FieldType::WATER, LField::FieldType::GRASS };
@@ -272,6 +284,48 @@ bool LPlayingField::checkIndex(const int x, const int y)
 int LPlayingField::convertIndex(const int x, const int y)
 {
 	return (x*fieldLength + y);
+}
+
+//needed for vertexConnected()
+class custom_bfs_visitor : public default_bfs_visitor
+{
+private:
+	int vertex = 0;
+	LPlayingField * lPlayingField;
+public:
+
+	custom_bfs_visitor(int vertex, LPlayingField* lPl) :
+		vertex(vertex),
+		lPlayingField(lPl)
+	{
+	}
+
+	template < typename Vertex, typename Graph >
+	void discover_vertex(Vertex u, const Graph & g) const
+	{
+		if (u == vertex)
+		{
+			//todo (L) ugly..
+			lPlayingField->setVertexConnected(true);
+		}
+	}
+
+};
+
+void LPlayingField::setVertexConnected(const bool b)
+{
+	plVertexConnected = b;
+}
+
+bool LPlayingField::vertexConnected(const int x1, const int y1, const int x2, const int y2)
+{
+	plVertexConnected = false;
+
+	custom_bfs_visitor vis(convertIndex(x2, y2),this);
+
+	breadth_first_search(powerLineGraph, vertex(convertIndex(x1, y1), powerLineGraph), visitor(vis));
+
+	return plVertexConnected;
 }
 
 NAMESPACE_LOGIC_E
