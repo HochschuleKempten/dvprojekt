@@ -19,9 +19,12 @@ void VMaterialLoader::init()
 	fieldMaterials[FieldPair(LField::OIL, LField::LEVEL1)].MakeTextureDiffuse("textures/black_image.jpg");
 	fieldMaterials[FieldPair(LField::OIL, LField::LEVEL2)].MakeTextureDiffuse("textures/black_image.jpg");
 	fieldMaterials[FieldPair(LField::OIL, LField::LEVEL3)].MakeTextureDiffuse("textures/black_image.jpg");
-	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL1)].MakeTextureDiffuse("textures/green_image.jpg");
-	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL2)].MakeTextureDiffuse("textures/green_image.jpg");
-	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL3)].MakeTextureDiffuse("textures/green_image.jpg");
+	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL1)].MakeTextureDiffuse("textures/texture_terrain_base_diffuse.png");
+	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL1)].MakeTextureSpecular("textures/texture_terrain_base_specular.png");
+	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL2)].MakeTextureDiffuse("textures/texture_terrain_base_diffuse.png");
+	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL2)].MakeTextureSpecular("textures/texture_terrain_base_specular.png");
+	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL3)].MakeTextureDiffuse("textures/texture_terrain_base_diffuse.png");
+	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL3)].MakeTextureSpecular("textures/texture_terrain_base_specular.png");
 	fieldMaterials[FieldPair(LField::COAL, LField::LEVEL1)].MakeTextureDiffuse("textures/white_image.jpg");
 	fieldMaterials[FieldPair(LField::COAL, LField::LEVEL2)].MakeTextureDiffuse("textures/white_image.jpg");
 	fieldMaterials[FieldPair(LField::COAL, LField::LEVEL3)].MakeTextureDiffuse("textures/white_image.jpg");
