@@ -56,6 +56,8 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_fArmLength          = m_fPylonHeight * 0.3f;
 	m_fConnectorLength    = m_fStrutHeight;
 	m_fConnectorThickness = m_fConnectorLength * 0.1f;
+	m_fRingRadius		  =	m_fConnectorThickness;
+	m_fRingThickness	  =	m_fConnectorThickness / 4.0f;
 
 	// init geometries (foundation, pole, strut)
 	m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &m_zmGrey);
@@ -65,6 +67,14 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_zgSphere.Init(2 * m_fPoleThickness, &m_zmBlack);
 	m_zgArm.Init(CHVector(m_fPoleDistance * 4, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
 	m_zgConnector.Init(m_fConnectorThickness, m_fConnectorThickness, m_fConnectorLength, &m_zmBlack);
+	m_zgRing.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmBlack);
+
+	// init ring vector
+	for (int i = 0; i < 16; i++)
+	{
+		m_zpRing.push_back(new CPlacement);
+		m_zpConnector.push_back(new CPlacement);
+	}
 
 	// preparing struts (rotate)
 	m_zpStruts = new CPlacement[m_iStrutsCount * 8];
@@ -109,17 +119,39 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 
 		// adding arms
 		m_zpArm[i].AddGeo(&m_zgArm);
-		m_zpArm[i].TranslateDelta(-4 * m_fPoleDistance - m_fPoleDistance, 2 * m_iArmPosition * m_fStrutHeight + m_fStrutHeight + m_fStrutHeight, -m_fPoleDistance);
+		m_zpArm[i].RotateYDelta(0.122f);
+		m_zpArm[i].TranslateDelta(-4 * m_fPoleDistance - m_fPoleDistance, 2 * m_iArmPosition * m_fStrutHeight, -m_fPoleDistance / 2.0f);
 		m_zpArm[i].RotateYDelta(i * HALFPI);
 		m_zpFoundation.AddPlacement(&m_zpArm[i]);
 
 		// adding connectors for arms
-		CTriangleList *triangles = m_zgConnector.CopyToTriangleList();
-		triangles->Subdivide(m_fConnectorLength * 0.1f);
-		triangles->WaveY(0.5f, 0.01f, 0);
-		m_zpConnector[i].AddGeo(triangles);
-		m_zpConnector[i].Translate(-m_fArmLength, -m_fConnectorLength, 0);
-		m_zpArm[i].AddPlacement(&m_zpConnector[i]);
+		m_zpTriangleConnector = m_zgConnector.CopyToTriangleList();
+		m_zpTriangleConnector->Subdivide(m_fConnectorLength * 0.1f);
+		m_zpTriangleConnector->WaveY(0.5f, 0.01f, 0);
+		float dividedArm = m_fArmLength / 4.0f;
+		m_zpConnector[i * 4]->AddGeo(m_zpTriangleConnector);
+		m_zpConnector[i * 4 + 1]->AddGeo(m_zpTriangleConnector);
+		m_zpConnector[i * 4 + 2]->AddGeo(m_zpTriangleConnector);
+		m_zpConnector[i * 4 + 3]->AddGeo(m_zpTriangleConnector);
+
+		m_zpConnector[i * 4]->Translate(dividedArm * -3.0f, -m_fConnectorLength, 0);
+		m_zpConnector[i * 4 + 1]->Translate(dividedArm * -2.0f, -m_fConnectorLength, 0);
+		m_zpConnector[i * 4 + 2]->Translate(dividedArm * 3.0f, -m_fConnectorLength, 0);
+		m_zpConnector[i * 4 + 3]->Translate(dividedArm * 2.0f, -m_fConnectorLength, 0);
+
+		m_zpArm[i].AddPlacement(m_zpConnector[i * 4]);
+		m_zpArm[i].AddPlacement(m_zpConnector[i * 4 + 1]);
+		m_zpArm[i].AddPlacement(m_zpConnector[i * 4 + 2]);
+		m_zpArm[i].AddPlacement(m_zpConnector[i * 4 + 3]);
+
+		// add rings to connectors
+		m_zpRing[i]->AddGeo(&m_zgRing);
+		m_zpRing[i]->RotateXDelta(HALFPI);
+		m_zpRing[i]->TranslateDelta(0, -m_fRingRadius, 0);
+		m_zpConnector[i * 4]->AddPlacement(m_zpRing[i]);
+		m_zpConnector[i * 4 + 1]->AddPlacement(m_zpRing[i]);
+		m_zpConnector[i * 4 + 2]->AddPlacement(m_zpRing[i]);
+		m_zpConnector[i * 4 + 3]->AddPlacement(m_zpRing[i]);
 
 		// rotate modeled pole and add it to foundation
 		m_zpPole[i].RotateYDelta(i * HALFPI);
@@ -213,195 +245,6 @@ SHORT * VModelPowerLine::GridPosition() {
 	return m_iGridPosition;
 }
 
-//void VModelPowerLine::placeFoundation()
-//{
-//	//create foundation
-//	m_zgFoundation.Init(m_zvFoundation1, &m_zmGrey);
-//	m_zpFoundation.Translate(m_zvFoundation2);
-//	m_zpFoundation.AddGeo(&m_zgFoundation);
-//}
-//
-//void VModelPowerLine::placeBasis()
-//{
-//	//right hand bottom corner
-//	m_zgPole1.Init(m_zgvPoles, &m_zmBlack);
-//	m_zpPole1.Translate(m_zpvPole1);
-//
-//	//left hand bottom corner
-//	m_zgPole2.Init(m_zgvPoles, &m_zmBlack);
-//	m_zpPole2.Translate(m_zpvPole2);
-//
-//	//right hand upper corner
-//	m_zgPole3.Init(m_zgvPoles, &m_zmBlack);
-//	m_zpPole3.Translate(m_zpvPole3);
-//
-//	//left hand upper corner
-//	m_zgPole4.Init(m_zgvPoles, &m_zmBlack);
-//	m_zpPole4.Translate(m_zpvPole4);
-//
-//	m_zpPole1.AddGeo(&m_zgPole1);
-//	m_zpPole2.AddGeo(&m_zgPole2);
-//	m_zpPole3.AddGeo(&m_zgPole3);
-//	m_zpPole4.AddGeo(&m_zgPole4);
-//
-//	float rotate = m_Helper.AngleToRad(50.0f);
-//
-//	for (int i = 0; i < SIZEOF_ARRAY(m_zpBasisPoles); i += 2)
-//	{
-//		m_zgBasisPoles[i].Init(m_zgvBasisPoles, &m_zmBlack);
-//		m_zpBasisPoles[i].RotateZDelta(rotate);
-//		m_zgBasisPoles[i + 1].Init(m_zgvBasisPoles, &m_zmBlack);
-//		m_zpBasisPoles[i + 1].RotateZDelta(-rotate);
-//
-//		switch (i)
-//		{
-//		case 0:
-//			m_zpBasisPoles[i].TranslateYDelta(m_zvFoundation2.GetY() * 2 + 0.25f);
-//			m_zpBasisPoles[i + 1].TranslateYDelta(m_zvFoundation2.GetY() * 2 + 0.25f);
-//			break;
-//		case 2:
-//			m_zpBasisPoles[i].TranslateYDelta(m_zvFoundation2.GetY() * 2 + 0.325f + 0.325f);
-//			m_zpBasisPoles[i + 1].TranslateYDelta(m_zvFoundation2.GetY() * 2 + 0.325f + 0.325f);
-//			break;
-//		case 4:
-//			m_zpBasisPoles[i].TranslateYDelta(m_zvFoundation2.GetY() * 2 + 0.35f + 0.35f + 0.35f);
-//			m_zpBasisPoles[i + 1].TranslateYDelta(m_zvFoundation2.GetY() * 2 + 0.35f + 0.35f + 0.35f);
-//			break;
-//		case 6:
-//			m_zpBasisPoles[i].TranslateYDelta(m_zvFoundation2.GetY() * 2 + 0.365f + 0.365f + 0.365f + 0.365f);
-//			m_zpBasisPoles[i + 1].TranslateYDelta(m_zvFoundation2.GetY() * 2 + 0.365f + 0.365f + 0.365f + 0.365f);
-//			break;
-//		case 8:
-//			m_zpBasisPoles[i].TranslateYDelta(m_zvFoundation2.GetY() * 2 + 0.375f + 0.375f + 0.375f + 0.375f + 0.375f);
-//			m_zpBasisPoles[i + 1].TranslateYDelta(m_zvFoundation2.GetY() * 2 + 0.375f + 0.375f + 0.375f + 0.375f + 0.375f);
-//			break;
-//		}
-//	}
-//
-//	//place front/back/right/left poles and add them to basis placement
-//	for (int i = 0; i < SIZEOF_ARRAY(m_zpBasisPoles); i++)
-//	{
-//		m_zpBasisPoles[i].AddGeo(&m_zgBasisPoles[i]);
-//
-//		m_zpFrontPoles.AddPlacement(&m_zpBasisPoles[i]);
-//		m_zpBackPoles.AddPlacement(&m_zpBasisPoles[i]);
-//		m_zpRightPoles.AddPlacement(&m_zpBasisPoles[i]);
-//		m_zpLeftPoles.AddPlacement(&m_zpBasisPoles[i]);
-//	}
-//
-//	m_zpFrontPoles.TranslateDelta(CHVector(m_zvFoundation2.GetX(), m_zvFoundation2.GetY(), m_zpvPole2.GetZ()));
-//
-//	m_zpBackPoles.TranslateDelta(CHVector(m_zvFoundation2.GetX(), m_zvFoundation2.GetY(), m_zpvPole4.GetZ()));
-//
-//	m_zpRightPoles.RotateYDelta(m_Helper.AngleToRad(90.0f));
-//	m_zpRightPoles.TranslateDelta(CHVector(m_zpvPole4.GetX(), m_zvFoundation2.GetY(), m_zvFoundation2.GetZ()));
-//
-//	m_zpLeftPoles.RotateYDelta(m_Helper.AngleToRad(90.0f));
-//	m_zpLeftPoles.TranslateDelta(CHVector(m_zpvPole3.GetX(), m_zvFoundation2.GetY(), m_zvFoundation2.GetZ()));
-//
-//	//place base poles
-//	m_zpBasis.AddPlacement(&m_zpPole1);
-//	m_zpBasis.AddPlacement(&m_zpPole2);
-//	m_zpBasis.AddPlacement(&m_zpPole3);
-//	m_zpBasis.AddPlacement(&m_zpPole4);
-//
-//	m_zpBasis.AddPlacement(&m_zpFrontPoles);
-//	m_zpBasis.AddPlacement(&m_zpBackPoles);
-//	m_zpBasis.AddPlacement(&m_zpRightPoles);
-//	m_zpBasis.AddPlacement(&m_zpLeftPoles);
-//}
-//
-//void VModelPowerLine::placeHead()
-//{
-//	//upper front
-//	m_zgUpperPole1.Init(m_zgvUpperPole1, &m_zmBlack);
-//	m_zpUpperPole1.Translate(m_zpvUpperPole1);
-//
-//	//upper right
-//	m_zgUpperPole2.Init(m_zgvUpperPole2, &m_zmBlack);
-//	m_zpUpperPole2.Translate(m_zpvUpperPole2);
-//
-//	//upper back
-//	m_zgUpperPole3.Init(m_zgvUpperPole1, &m_zmBlack);
-//	m_zpUpperPole3.Translate(m_zpvUpperPole3);
-//
-//	//upper left
-//	m_zgUpperPole4.Init(m_zgvUpperPole2, &m_zmBlack);
-//	m_zpUpperPole4.Translate(m_zpvUpperPole4);
-//
-//	m_zgRoofPole1.Init(CHVector(0.005f, 0.23f, 0.005f), &m_zmBlack);
-//	m_zpRoofPole1.RotateXDelta(m_Helper.AngleToRad(-45.0f));
-//	m_zpRoofPole1.RotateYDelta(m_Helper.AngleToRad(45.0f));
-//	m_zpRoofPole1.TranslateDelta(CHVector(m_zvFoundation2.GetX() + 0.115f, m_zgvPoles.GetY() * 2.0f + 0.165f, m_zvFoundation2.GetZ() + 0.1175f));
-//
-//	m_zgRoofPole2.Init(CHVector(0.005f, 0.23f, 0.005f), &m_zmBlack);
-//	m_zpRoofPole2.RotateXDelta(m_Helper.AngleToRad(-135.0f));
-//	m_zpRoofPole2.RotateYDelta(m_Helper.AngleToRad(135.0f));
-//	m_zpRoofPole2.TranslateDelta(CHVector(m_zvFoundation2.GetX() - 0.115f, m_zgvPoles.GetY() * 2.0f + 0.165f, m_zvFoundation2.GetZ() + 0.1175f));
-//
-//	m_zgRoofPole3.Init(CHVector(0.005f, 0.23f, 0.005f), &m_zmBlack);
-//	m_zpRoofPole3.RotateXDelta(m_Helper.AngleToRad(-225.0f));
-//	m_zpRoofPole3.RotateYDelta(m_Helper.AngleToRad(225.0f));
-//	m_zpRoofPole3.TranslateDelta(CHVector(m_zvFoundation2.GetX() - 0.115f, m_zgvPoles.GetY() * 2.0f + 0.165f, m_zvFoundation2.GetZ() - 0.1175f));
-//
-//	m_zgRoofPole4.Init(CHVector(0.005f, 0.23f, 0.005f), &m_zmBlack);
-//	m_zpRoofPole4.RotateXDelta(m_Helper.AngleToRad(-315.0f));
-//	m_zpRoofPole4.RotateYDelta(m_Helper.AngleToRad(315.0f));
-//	m_zpRoofPole4.TranslateDelta(CHVector(m_zvFoundation2.GetX() + 0.115f, m_zgvPoles.GetY() * 2.0f + 0.165f, m_zvFoundation2.GetZ() - 0.1175f));
-//
-//	m_zpUpperPole1.AddGeo(&m_zgUpperPole1);
-//	m_zpUpperPole2.AddGeo(&m_zgUpperPole2);
-//	m_zpUpperPole3.AddGeo(&m_zgUpperPole3);
-//	m_zpUpperPole4.AddGeo(&m_zgUpperPole4);
-//
-//	m_zpRoofPole1.AddGeo(&m_zgRoofPole1);
-//	m_zpRoofPole2.AddGeo(&m_zgRoofPole2);
-//	m_zpRoofPole3.AddGeo(&m_zgRoofPole3);
-//	m_zpRoofPole4.AddGeo(&m_zgRoofPole4);
-//
-//	//place upper poles
-//	m_zpHead.AddPlacement(&m_zpUpperPole1);
-//	m_zpHead.AddPlacement(&m_zpUpperPole2);
-//	m_zpHead.AddPlacement(&m_zpUpperPole3);
-//	m_zpHead.AddPlacement(&m_zpUpperPole4);
-//	m_zpHead.AddPlacement(&m_zpRoofPole1);
-//	m_zpHead.AddPlacement(&m_zpRoofPole2);
-//	m_zpHead.AddPlacement(&m_zpRoofPole3);
-//	m_zpHead.AddPlacement(&m_zpRoofPole4);
-//}
-//
-//void VModelPowerLine::placeConduit(void)
-//{
-//	m_zgRightConduit1.Init(CHVector(0.49f, 0.005f, 0.005f), &m_zmBlack);
-//	m_zgRightConduit2.Init(CHVector(0.49f, 0.005f, 0.005f), &m_zmBlack);
-//	m_zgRightConduit3.Init(CHVector(0.55f, 0.005f, 0.005f), &m_zmGrey);
-//	m_zgRightConduit4.Init(CHVector(0.55f, 0.005f, 0.005f), &m_zmGrey);
-//
-//	m_zpRightConduit1.RotateYDelta(m_Helper.AngleToRad(14.5f));
-//	m_zpRightConduit1.TranslateDelta(CHVector(m_zpvPole1.GetX() + 0.465f, m_zvFoundation2.GetY() * 2 + 0.375f + 0.375f + 0.375f + 0.375f + 0.17f, m_zpvPole1.GetZ() - 0.12f));
-//
-//	m_zpRightConduit2.RotateYDelta(m_Helper.AngleToRad(-14.5f));
-//	m_zpRightConduit2.TranslateDelta(CHVector(m_zpvPole1.GetX() + 0.465f, m_zvFoundation2.GetY() * 2 + 0.375f + 0.375f + 0.375f + 0.375f + 0.17f, m_zpvPole3.GetZ() + 0.12f));
-//
-//	m_zpRightConduit3.RotateYDelta(m_Helper.AngleToRad(15.0f));
-//	m_zpRightConduit3.RotateXDelta(m_Helper.AngleToRad(-65.0f));
-//	m_zpRightConduit3.TranslateDelta(CHVector(m_zpvPole1.GetX() + 0.55f, m_zvFoundation2.GetY() * 2 + 0.375f + 0.375f + 0.375f + 0.375f + 0.375f + 0.095f, m_zpvPole1.GetZ() - 0.1f));
-//
-//	m_zpRightConduit4.RotateYDelta(m_Helper.AngleToRad(-15.0f));
-//	m_zpRightConduit4.RotateXDelta(m_Helper.AngleToRad(-65.0f));
-//	m_zpRightConduit4.TranslateDelta(CHVector(m_zpvPole1.GetX() + 0.475f, m_zvFoundation2.GetY() * 2 + 0.375f + 0.375f + 0.375f + 0.375f + 0.375f, m_zpvPole3.GetZ() + 0.1f));
-//
-//	m_zpRightConduit1.AddGeo(&m_zgRightConduit1);
-//	m_zpRightConduit2.AddGeo(&m_zgRightConduit2);
-//	m_zpRightConduit3.AddGeo(&m_zgRightConduit3);
-//	m_zpRightConduit4.AddGeo(&m_zgRightConduit4);
-//
-//	m_zpRightConduit.AddPlacement(&m_zpRightConduit1);
-//	m_zpRightConduit.AddPlacement(&m_zpRightConduit2);
-//	m_zpRightConduit.AddPlacement(&m_zpRightConduit3);
-//	m_zpRightConduit.AddPlacement(&m_zpRightConduit4);
-//}
-
 float VModelPowerLine::getWidth() {
 	return m_fFoundationWidth;
 }
@@ -413,14 +256,14 @@ float VModelPowerLine::getHeight() {
 
 CHVector * VModelPowerLine::ConnectorPositions() {
 	for (int i = 0; i < 4; i++){
-		m_vConnectorPositions[i] = this->GetTranslation() + m_zpFoundation.GetTranslation() + m_zpArm[i].GetTranslation() + m_zpConnector[i].GetTranslation();
+		m_vConnectorPositions[i] = this->GetTranslation() + m_zpFoundation.GetTranslation() + m_zpArm[i].GetTranslation() + m_zpConnector[i]->GetTranslation();
 	}
 	return m_vConnectorPositions;
 }
 
-CPlacement * VModelPowerLine::Connectors() {
-	return m_zpConnector;
-}
+//CPlacement * VModelPowerLine::Connectors() {
+//	return m_zpConnector;
+//}
 
 bool * VModelPowerLine::ConnectedPositions() {
 	return m_bConnectedPositions;
@@ -477,7 +320,7 @@ bool VModelPowerLine::ConnectTo(VModelPowerLine *pPylon) {
 	}
 
 	// move the arms up and down if necessary (so cables won't cross)
-	m_zpConnector[vec_aArmPairs[0]].AddPlacement(&m_zpLine[vec_aArmPairs[0]]);
+	m_zpConnector[vec_aArmPairs[0]]->AddPlacement(&m_zpLine[vec_aArmPairs[0]]);
 
 	return true;
 }

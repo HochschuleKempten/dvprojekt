@@ -68,15 +68,20 @@ private:
 	CGeoCube m_zgStrut;
 	CGeoSphere m_zgSphere;
 	CGeoCylinder m_zgConnector;
+	CGeoTube m_zgRing;
 
 	CPlacement m_zpFoundation;
 	CPlacement m_zpArm[4];
 	CPlacement m_zpPole[4];
 	CPlacement m_zpRoof[4];
-	CPlacement m_zpConnector[4];
+	std::vector<CPlacement*> m_zpConnector;
+	std::vector<CPlacement*> m_zpRing;
 	CPlacement m_zpLine[8];
 	CPlacement m_zpSphere[5];
 	CPlacement * m_zpStruts = NULL;
+
+	CTriangleList *m_zpTriangleConnector;
+	CTriangleList *m_zpTriangleRing;
 
 	CHVector m_vConnectorPositions[4];
 	SHORT m_iGridPosition[2];
@@ -99,6 +104,8 @@ private:
 	float m_fArmLength          = 0;
 	float m_fConnectorLength    = 0;
 	float m_fConnectorThickness = 0;
+	float m_fRingRadius = 0;
+	float m_fRingThickness = 0;
 	bool bConnectedWest         = false;
 	bool bConnectedSouth        = false;
 	bool bConnectedEast         = false;
