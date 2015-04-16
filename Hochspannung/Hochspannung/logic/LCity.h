@@ -17,8 +17,7 @@ public:
 	LCity(LField* lField, const int x, const int y);
 	~LCity();
 
-	void addEnergy(const int energy);
-	void removeEnergy(const int energy);
+	void setEnergy(const int energy);
 	int getEnergy();
 };
 
