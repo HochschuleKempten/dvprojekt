@@ -3,8 +3,7 @@
 #include "Array2D.h"
 #include "LField.h"
 #include <vector>
-#include <boost\graph\graph_traits.hpp>
-#include <boost\graph\adjacency_list.hpp>
+#include <boost/graph/adjacency_list.hpp>
 
 NAMESPACE_LOGIC_B
 
@@ -21,11 +20,13 @@ private:
 
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
+	bool plVertexConnected = false;
 
 private:
 	void createFields();
 
 public:
+
 	LPlayingField(LMaster* lMaster);
 	~LPlayingField();
 
@@ -52,10 +53,12 @@ public:
 	void upgradeBuilding(const int x, const int y);
 	LMaster* getLMaster();
 
+	void setVertexConnected(const bool b);
 private:
 	void generatePowerLineGraph();
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const int x, const int y);
+	bool vertexConnected(const int x1, const int y1, const int x2, const int y2);
 };
 
 NAMESPACE_LOGIC_E
