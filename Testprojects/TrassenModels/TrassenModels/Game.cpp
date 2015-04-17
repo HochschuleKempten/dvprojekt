@@ -42,7 +42,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zs.AddPlacement(m_zTrasse3);
 	m_zs.AddPlacement(m_zTrasse4);
 
-	m_zTrasse1->Init(VModelPowerLine::PYLONTYPE::ANGLE, VModelPowerLine::SOUTH);
+	m_zTrasse1->Init(VModelPowerLine::PYLONTYPE::STRAIGHT, VModelPowerLine::SOUTH);
 	m_zTrasse2->Init(VModelPowerLine::PYLONTYPE::CROSS);
 	m_zTrasse3->Init(VModelPowerLine::PYLONTYPE::CROSS, VModelPowerLine::DIRECTION::EAST);
 	m_zTrasse4->Init(VModelPowerLine::PYLONTYPE::ANGLE, VModelPowerLine::EAST);

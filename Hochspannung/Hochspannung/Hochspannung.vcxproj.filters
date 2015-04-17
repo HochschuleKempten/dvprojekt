@@ -213,7 +213,7 @@
     </ClInclude>
     <ClInclude Include="network\NetworkService.h">
       <Filter>network\Headerdateien</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="view\VCity.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -276,6 +276,9 @@
     </ClInclude>
     <ClInclude Include="view\VModelCity.h">
       <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewModel.h">
+      <Filter>view\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -392,7 +395,7 @@
     </ClCompile>
     <ClCompile Include="network\NetworkService.cpp">
       <Filter>network\Quelldateien</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="view\VCity.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>

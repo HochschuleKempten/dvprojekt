@@ -19,10 +19,10 @@ VModelPowerLine::~VModelPowerLine(void)
 	m_connections[SOUTH].clear();
 	m_connections[EAST].clear();
 	m_connections[NORTH].clear();
-	delete &m_connections[WEST];
-	delete &m_connections[SOUTH];
-	delete &m_connections[EAST];
-	delete &m_connections[NORTH];
+	//delete &m_connections[WEST];	//TODO (Trasse) fix error on closing
+	//delete &m_connections[SOUTH];
+	//delete &m_connections[EAST];
+	//delete &m_connections[NORTH];
 	m_connections.clear();
 }
 

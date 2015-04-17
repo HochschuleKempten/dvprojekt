@@ -17,7 +17,7 @@ public:
 	virtual ~IVPowerLine()
 	{}
 
-	virtual void initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y) = 0;
+	virtual void initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y, const int orientation) = 0;
 };
 
 NAMESPACE_LOGIC_E

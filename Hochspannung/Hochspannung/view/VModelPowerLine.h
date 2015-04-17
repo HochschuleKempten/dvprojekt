@@ -1,10 +1,11 @@
+#include "IViewModel.h"
 #include "VGeneral.h"
 #include "Helper.h"
-#include <array>
 
 NAMESPACE_VIEW_B
 
-class VModelPowerLine : public CPlacement
+
+class VModelPowerLine : public IViewModel
 {
 public:
 	enum PYLONTYPE {
@@ -46,8 +47,8 @@ public:
 		return bConnectedNorth;
 	};
 
-	float getHeight(); // including foundation
-	float getWidth();  // width of the foundation
+	virtual float getHeight() override; // including foundation
+	virtual float getWidth() override;  // width of the foundation
 
 private:
 	void InitArm();
@@ -111,5 +112,6 @@ private:
 	bool bConnectedEast         = false;
 	bool bConnectedNorth        = false;
 };
+
 
 NAMESPACE_VIEW_E

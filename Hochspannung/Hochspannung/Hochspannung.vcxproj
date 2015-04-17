@@ -190,6 +190,7 @@
     <ClInclude Include="view\IViewBuilding.h" />
     <ClInclude Include="view\IViewGUIContainer.h" />
     <ClInclude Include="view\IViewGUIObject.h" />
+    <ClInclude Include="view\IViewModel.h" />
     <ClInclude Include="view\IViewObject.h" />
     <ClInclude Include="view\IViewObserver.h" />
     <ClInclude Include="view\IViewSubject.h" />

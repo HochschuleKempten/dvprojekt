@@ -27,16 +27,15 @@ public:
 		: ILBuilding(lField),
 		vPowerLine(vPowerLine),
 		orientation(orientation)
-	{};
+	{}
 
 	virtual ~ILPowerLine()
-	{
-	};
+	{}
 
 	int getPowerLineOrientation()
 	{
 		return orientation;
-	};
+	}
 
 };
 
