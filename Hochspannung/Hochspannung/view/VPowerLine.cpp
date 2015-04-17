@@ -9,7 +9,7 @@ NAMESPACE_VIEW_B
 VPowerLine::VPowerLine(VMaster* vMaster, LPowerLine* lpowerLine)
 	: IViewBuilding(vMaster, &m_zp), IVPowerLine(lpowerLine)
 {
-	m_zp.Init();
+	m_zp.Init(VModelPowerLine::PYLONTYPE::ANGLE);
 	m_zp.RotateX(CASTS<float>(M_PI / 2.0f));
 	m_zp.ScaleDelta(2.0f);
 	m_zp.TranslateZDelta(0.5f);

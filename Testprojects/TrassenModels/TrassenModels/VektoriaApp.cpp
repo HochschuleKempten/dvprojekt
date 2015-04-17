@@ -89,10 +89,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	splash.Show();
 
 
-    // display the window on the screen
-    ShowWindow(hWnd, nCmdShow);
+	// display the window on the screen
+	ShowWindow(hWnd, nCmdShow);
   
-    // Game Init
+	// Game Init
 	g_pgame = (CGame*)(new CGame());
 	RECT rect;
 	GetClientRect(hWnd, &rect);
