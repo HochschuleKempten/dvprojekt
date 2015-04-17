@@ -32,7 +32,7 @@ void VField::initField(const int rowIdx, const int colIdx)
 	m_zp.SetName(stream.str().c_str());
 
 	m_zm = VMaterialLoader::fieldMaterials[VMaterialLoader::FieldPair(lField->getFieldType(), lField->getFieldLevel())];
-	ASSERT(m_zm.m_ptextureDiffuse != nullptr, "Could not load the material for the field");
+	ASSERT(m_zm.m_ptextureDiffuse != nullptr, "Could not load the material for the field " << lField->getFieldType());
 	
 	m_zg.Init(vPlayingField->size, &m_zm);
 	m_zp.AddGeo(&m_zg);

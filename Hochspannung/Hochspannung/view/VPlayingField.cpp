@@ -52,7 +52,7 @@ void VPlayingField::buildPlayingField()
 	int square = CASTS<int>(sqrt(m_zpPlacementHolders.size()));
 	for (int holder = 0; holder < CASTS<int>(m_zpPlacementHolders.size()); holder++) {
 		std::stringstream stream;
-		stream << "holder = " << holder;
+		stream << "#holder = " << holder;
 		m_zpPlacementHolders[holder].SetName(stream.str().c_str());
 		m_zp.AddPlacement(&m_zpPlacementHolders[holder]);
 
@@ -68,12 +68,17 @@ void VPlayingField::buildPlayingField()
 	float rows = CASTS<float>(vFields.getRows());
 	m_zp.TranslateDelta(CASTS<float>(-fieldSize * rows), CASTS<float>(fieldSize * rows), CASTS<float>(-fieldSize * rows * 1.5));
 
-	m_zp.SetName("Placement VPlayingField");
+	m_zp.SetName("#Placement VPlayingField");
 }
 
 void VPlayingField::objectRemoved(const int x, const int y)
 {
 	vFields[x][y].removeBuilding();
+}
+
+void VPlayingField::messageBuildingFailed(const std::string& message)
+{
+	DEBUG_OUTPUT("BuildMessage: " << message);
 }
 
 

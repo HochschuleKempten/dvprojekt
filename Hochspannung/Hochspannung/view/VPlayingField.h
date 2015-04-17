@@ -58,6 +58,8 @@ public:
 	virtual void buildPlayingField();
 
 	virtual void objectRemoved(const int x, const int y);
+
+	virtual void messageBuildingFailed(const std::string& message);
 };
 
 

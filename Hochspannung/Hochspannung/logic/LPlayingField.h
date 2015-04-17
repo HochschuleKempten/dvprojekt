@@ -50,6 +50,7 @@ public:
 	void removeBuilding(const int x, const int y);
 	void upgradeBuilding(const int x, const int y);
 	LMaster* getLMaster();
+	IVPlayingField* getVPlayingField();
 
 	void setVertexConnected(const bool b);
 private:

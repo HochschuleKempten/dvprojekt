@@ -16,6 +16,8 @@ private:
 	VMaterialLoader operator=(const VMaterialLoader&&) = delete;
 	~VMaterialLoader() = delete;
 
+	static void setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName);
+
 public:
 	static void init();
 

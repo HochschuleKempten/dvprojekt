@@ -95,7 +95,7 @@ void LPlayingField::createFields()
 	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].setBuilding<LCoalPowerPlant>(firstPowerPlantPositionX, firstPowerPlantPositionY);
 
 
-	std::vector<LField::FieldType> fieldTypes = { LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::COAL, LField::FieldType::GRASS, LField::FieldType::MOUNTAIN, LField::FieldType::OIL, LField::FieldType::WATER, LField::FieldType::GRASS };
+	std::vector<LField::FieldType> fieldTypes = { LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::COAL, LField::FieldType::GRASS, LField::FieldType::MOUNTAIN, LField::FieldType::GRASS, LField::FieldType::WATER, LField::FieldType::GRASS, LField::FieldType::AIR, LField::FieldType::SOLAR };
 	std::vector<LField::FieldLevel> fieldLevels = { LField::FieldLevel::LEVEL1, LField::FieldLevel::LEVEL2, LField::FieldLevel::LEVEL3 };
 
 	std::srand(CASTS<unsigned int>(std::time(0)));
@@ -134,6 +134,11 @@ void LPlayingField::createFields()
 LMaster* LPlayingField::getLMaster()
 {
 	return lMaster;
+}
+
+IVPlayingField* LPlayingField::getVPlayingField()
+{
+	return vPlayingField.get();
 }
 
 struct pLine

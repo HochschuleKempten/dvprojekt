@@ -11,41 +11,27 @@ CMaterial VMaterialLoader::materialMainMenue;
 CMaterial VMaterialLoader::materialMainMenueHover;
 CMaterial VMaterialLoader::materialIngameCraft;
 
+void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
+{
+	std::string textureDiffuse = std::string("textures/texture_terrain_") + textureName + std::string("_diffuse.png");
+	std::string textureSpecular = std::string("textures/texture_terrain_") + textureName + std::string("_specular.png");
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+}
+
 void VMaterialLoader::init()
 {
-	fieldMaterials[FieldPair(LField::WATER, LField::LEVEL1)].MakeTextureDiffuse("textures/texture_terrain_water_diffuse.png");
-	fieldMaterials[FieldPair(LField::WATER, LField::LEVEL1)].MakeTextureSpecular("textures/texture_terrain_water_specular.png");
-	fieldMaterials[FieldPair(LField::WATER, LField::LEVEL2)].MakeTextureDiffuse("textures/texture_terrain_water_diffuse.png");
-	fieldMaterials[FieldPair(LField::WATER, LField::LEVEL2)].MakeTextureSpecular("textures/texture_terrain_water_specular.png");
-	fieldMaterials[FieldPair(LField::WATER, LField::LEVEL3)].MakeTextureDiffuse("textures/texture_terrain_water_diffuse.png");
-	fieldMaterials[FieldPair(LField::WATER, LField::LEVEL3)].MakeTextureSpecular("textures/texture_terrain_water_specular.png");
-	fieldMaterials[FieldPair(LField::OIL, LField::LEVEL1)].MakeTextureDiffuse("textures/black_image.jpg");
-	fieldMaterials[FieldPair(LField::OIL, LField::LEVEL2)].MakeTextureDiffuse("textures/black_image.jpg");
-	fieldMaterials[FieldPair(LField::OIL, LField::LEVEL3)].MakeTextureDiffuse("textures/black_image.jpg");
-	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL1)].MakeTextureDiffuse("textures/texture_terrain_base_diffuse.png");
-	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL1)].MakeTextureSpecular("textures/texture_terrain_base_specular.png");
-	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL2)].MakeTextureDiffuse("textures/texture_terrain_base_diffuse.png");
-	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL2)].MakeTextureSpecular("textures/texture_terrain_base_specular.png");
-	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL3)].MakeTextureDiffuse("textures/texture_terrain_base_diffuse.png");
-	fieldMaterials[FieldPair(LField::GRASS, LField::LEVEL3)].MakeTextureSpecular("textures/texture_terrain_base_specular.png");
-	fieldMaterials[FieldPair(LField::COAL, LField::LEVEL1)].MakeTextureDiffuse("textures/texture_terrain_coal_diffuse.png");
-	fieldMaterials[FieldPair(LField::COAL, LField::LEVEL1)].MakeTextureSpecular("textures/texture_terrain_coal_specular.png");
-	fieldMaterials[FieldPair(LField::COAL, LField::LEVEL2)].MakeTextureDiffuse("textures/texture_terrain_coal_diffuse.png");
-	fieldMaterials[FieldPair(LField::COAL, LField::LEVEL2)].MakeTextureSpecular("textures/texture_terrain_coal_specular.png");
-	fieldMaterials[FieldPair(LField::COAL, LField::LEVEL3)].MakeTextureDiffuse("textures/texture_terrain_coal_diffuse.png");
-	fieldMaterials[FieldPair(LField::COAL, LField::LEVEL3)].MakeTextureSpecular("textures/texture_terrain_coal_specular.png");
-	fieldMaterials[FieldPair(LField::MOUNTAIN, LField::LEVEL1)].MakeTextureDiffuse("textures/texture_terrain_mountain_diffuse.png");
-	fieldMaterials[FieldPair(LField::MOUNTAIN, LField::LEVEL1)].MakeTextureSpecular("textures/texture_terrain_mountain_specular.png");
-	fieldMaterials[FieldPair(LField::MOUNTAIN, LField::LEVEL2)].MakeTextureDiffuse("textures/exture_terrain_mountain_diffuse.png");
-	fieldMaterials[FieldPair(LField::MOUNTAIN, LField::LEVEL2)].MakeTextureSpecular("textures/texture_terrain_mountain_specular.png");
-	fieldMaterials[FieldPair(LField::MOUNTAIN, LField::LEVEL3)].MakeTextureDiffuse("textures/exture_terrain_mountain_diffuse.png");
-	fieldMaterials[FieldPair(LField::MOUNTAIN, LField::LEVEL3)].MakeTextureSpecular("textures/texture_terrain_mountain_specular.png");
-	fieldMaterials[FieldPair(LField::CITY, LField::LEVEL1)].MakeTextureDiffuse("textures/texture_terrain_city_diffuse.png");
-	fieldMaterials[FieldPair(LField::CITY, LField::LEVEL1)].MakeTextureSpecular("textures/texture_terrain_city_specular.png");
-	fieldMaterials[FieldPair(LField::CITY, LField::LEVEL2)].MakeTextureDiffuse("textures/texture_terrain_city_diffuse.png");
-	fieldMaterials[FieldPair(LField::CITY, LField::LEVEL2)].MakeTextureSpecular("textures/texture_terrain_city_specular.png");
-	fieldMaterials[FieldPair(LField::CITY, LField::LEVEL3)].MakeTextureDiffuse("textures/texture_terrain_city_diffuse.png");
-	fieldMaterials[FieldPair(LField::CITY, LField::LEVEL3)].MakeTextureSpecular("textures/texture_terrain_city_specular.png");
+	setFieldMaterialHelper(LField::WATER, "water");
+	setFieldMaterialHelper(LField::AIR, "air");
+	setFieldMaterialHelper(LField::SOLAR, "solar");
+	setFieldMaterialHelper(LField::COAL, "coal");
+	setFieldMaterialHelper(LField::GRASS, "base");
+	setFieldMaterialHelper(LField::MOUNTAIN, "mountain");
+	setFieldMaterialHelper(LField::CITY, "city");
 
 	materialCoalPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
 	materialHydroelectricPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");

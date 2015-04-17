@@ -45,7 +45,7 @@ void VUI::initUI()
 	
 	m_zs.AddPlacement(&m_zpCamera);
 	m_zpCamera.AddCamera(&m_zc);
-	m_zpCamera.SetName("Placement Camera");
+	m_zpCamera.SetName("#Placement Camera");
 
 	m_zpCamera.TranslateZ(50.0);
 	m_zpCamera.RotateXDelta(0.3 * PI);

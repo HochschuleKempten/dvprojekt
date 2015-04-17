@@ -10,6 +10,8 @@ class LPlayingField;
 class LPowerLine;
 class LCity;
 class LCoalPowerPlant;
+class LWindmillPowerPlant;
+class LSolarPowerPlant;
 
 class LField
 {
@@ -18,8 +20,10 @@ public:
 	{
 		CITY     = 0,
 		WATER    = -1,
-		GRASS    = -2,
-		MOUNTAIN = -3,
+		AIR      = -2,
+		SOLAR    = -3,
+		GRASS    = -100,
+		MOUNTAIN = -101,
 		COAL     = 100,
 		OIL      = 50
 	};
@@ -42,30 +46,32 @@ private:
 
 private:
 	//TODO (All) where can power lines be placed? (grass, solar, ...)
-	template<typename T>
-	bool checkBuildingType()
+	template<typename T> bool checkBuildingType()
 	{
 		ASSERT(false, "Unknown field type");
 	}
-	template<>
-	bool checkBuildingType<LCoalPowerPlant>()
+	template<> bool checkBuildingType<LCoalPowerPlant>()
 	{
 		return fieldType == COAL;
 	}
-	template<>
-	bool checkBuildingType<LCity>()
+	template<> bool checkBuildingType<LWindmillPowerPlant>()
+	{
+		return fieldType == AIR;
+	}
+	template<> bool checkBuildingType<LSolarPowerPlant>()
+	{
+		return fieldType == SOLAR;
+	}
+	template<> bool checkBuildingType<LCity>()
 	{
 		return fieldType == CITY;
 	}
-	template<>
-	bool checkBuildingType<LPowerLine>()
+	template<> bool checkBuildingType<LPowerLine>()
 	{
 		return fieldType == GRASS;
 	}
 
 public:
-
-	// initializes this field with isPlacingAllowed = true!
 	LField();
 	~LField();
 	
@@ -74,15 +80,19 @@ public:
 	template <typename T, typename... Args>
 	bool setBuilding(const int x, const int y, const Args... arguments)
 	{
-		//TODO (ALL) How to inform UI that building can not be placed (building exists or building not possible)
-		if (!buildingPlaced && checkBuildingType<T>())
-		{
-			lBuilding = new T(this, x, y, arguments...);
-			buildingPlaced = true;
-			return true;
+		//TODO (L) introduce building names 
+		if (buildingPlaced) {
+			lPlayingField->getVPlayingField()->messageBuildingFailed(std::string("Ein ") + getClassName(T) +  std::string(" kann hier nicht platziert werden, da auf dem Feld ") + std::to_string(fieldType) +  std::string(" bereits ein Gebäude steht."));
+			return false;
+		}
+		if (!checkBuildingType<T>()) {
+			lPlayingField->getVPlayingField()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann nicht auf einem Feld vom Typ ") + std::to_string(fieldType) + std::string(" platziert werden"));
+			return false;
 		}
 
-		return false;
+		lBuilding = new T(this, x, y, arguments...);
+		buildingPlaced = true;
+		return true;
 	}
 
 	// this must be called after construction of this object
