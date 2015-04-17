@@ -96,6 +96,7 @@ void VUI::handleInput(float fTimeDelta)
 					int x = std::stoi(koord[1]);
 					int y = std::stoi(koord[2]);
 
+					//TODO (V) will the power lines be connected automatically or must the user do the connection by itself
 					vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y, ILPowerLine::EAST);
 				}
 

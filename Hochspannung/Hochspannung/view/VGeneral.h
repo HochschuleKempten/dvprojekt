@@ -8,6 +8,16 @@
 
 #include "../logic/LUtility.h"
 
+//Include only if no precompiled header is set
+#ifndef _VECTOR_
+#include <vector>
+#include <map>
+#include <list>
+#include <string>
+#include <sstream>
+#include <memory>
+#endif
+
 using namespace Vektoria;
 
 #define NAMESPACE_VIEW_B namespace HighVoltage{

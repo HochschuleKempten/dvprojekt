@@ -56,12 +56,12 @@ ILBuilding* LField::getBuilding()
 
 void LField::setIsPlacingAllowed(bool allowed)
 {
-	placingAllowed = allowed;
+	buildingPlaced = allowed;
 }
 
 bool LField::isPlacingAllowed()
 {
-	return placingAllowed;
+	return buildingPlaced;
 }
 
 LPlayingField* LField::getLPlayingField()

@@ -21,11 +21,7 @@ private:
 	Graph powerLineGraph;
 	bool plVertexConnected = false;
 
-private:
-	void createFields();
-
 public:
-
 	LPlayingField(LMaster* lMaster);
 	~LPlayingField();
 
@@ -38,9 +34,15 @@ public:
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
 
-		//todo (L) call generatePowerLineGraph() and calculateEnergyValueCity() when building something
-
-		return getField(x, y)->setBuilding<T>(x, y, arguments...);
+		if (getField(x, y)->setBuilding<T>(x, y, arguments...)) {
+			//TODO (L) No method like addBuildingToGraph possible?
+			generatePowerLineGraph();
+			calculateEnergyValueCity();
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	
@@ -51,6 +53,7 @@ public:
 
 	void setVertexConnected(const bool b);
 private:
+	void createFields();
 	void generatePowerLineGraph();
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const int x, const int y);

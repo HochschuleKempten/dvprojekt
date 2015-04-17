@@ -1,11 +1,15 @@
 #pragma once
 
 #include "LGeneral.h"
+#include "LUtility.h"
 
 NAMESPACE_LOGIC_B
 
 class ILBuilding;
 class LPlayingField;
+class LPowerLine;
+class LCity;
+class LCoalPowerPlant;
 
 class LField
 {
@@ -30,11 +34,34 @@ public:
 private:
 	ILBuilding* lBuilding = nullptr;
 	LPlayingField* lPlayingField = nullptr;
-	bool placingAllowed = true;
+	bool buildingPlaced = false;
 	FieldType fieldType = GRASS;
 	FieldLevel fieldLevel = LEVEL1;
 	int energyStock = 0;
 	int energyLeft = 0;
+
+private:
+	//TODO (All) where can power lines be placed? (grass, solar, ...)
+	template<typename T>
+	bool checkBuildingType()
+	{
+		ASSERT(false, "Unknown field type");
+	}
+	template<>
+	bool checkBuildingType<LCoalPowerPlant>()
+	{
+		return fieldType == COAL;
+	}
+	template<>
+	bool checkBuildingType<LCity>()
+	{
+		return fieldType == CITY;
+	}
+	template<>
+	bool checkBuildingType<LPowerLine>()
+	{
+		return fieldType == GRASS;
+	}
 
 public:
 
@@ -47,10 +74,11 @@ public:
 	template <typename T, typename... Args>
 	bool setBuilding(const int x, const int y, const Args... arguments)
 	{
-		if (placingAllowed)
+		//TODO (ALL) How to inform UI that building can not be placed (building exists or building not possible)
+		if (!buildingPlaced && checkBuildingType<T>())
 		{
 			lBuilding = new T(this, x, y, arguments...);
-			placingAllowed = false;
+			buildingPlaced = true;
 			return true;
 		}
 
