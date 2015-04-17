@@ -1,8 +1,11 @@
 #include "VScreenMainMenue.h"
 
 NAMESPACE_VIEW_B
+	VScreenMainMenue::VScreenMainMenue()
+	{
+	}
 
-VScreenMainMenue::VScreenMainMenue(CFrame* frame)
+	VScreenMainMenue::VScreenMainMenue(CFrame* frame)
 {
 	m_camera.Init();
 	m_viewport.InitFull(&m_camera);
@@ -22,8 +25,8 @@ VScreenMainMenue::VScreenMainMenue(CFrame* frame)
 
 	addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.27, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, IViewUIObserver::SWITCH_TO_SPIELMODUS);
-	getContainer("Menue")->addButton(CFloatRect(0.33, 0.42, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueOptionen, &VMaterialLoader::materialButtonMainMenueOptionenHover, IViewUIObserver::MainOptions);
-	getContainer("Menue")->addButton(CFloatRect(0.33, 0.57, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, IViewUIObserver::NOTHING);
+	getContainer("Menue")->addButton(CFloatRect(0.33, 0.42, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueOptionen, &VMaterialLoader::materialButtonMainMenueOptionenHover, IViewUIObserver::SWITCH_TO_OPTIONS);
+	getContainer("Menue")->addButton(CFloatRect(0.33, 0.57, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, IViewUIObserver::SWITCH_TO_CREDITS);
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.72, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, IViewUIObserver::QUIT_GAME);
 	
 

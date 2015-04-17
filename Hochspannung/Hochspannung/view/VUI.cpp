@@ -10,12 +10,15 @@
 #include "VScreenMainMenue.h"
 #include "VScreenIngame.h"
 #include "VScreenSpielmodusWahl.h"
-
+#include "VScreenLobby.h"
+#include "VScreenCredits.h"
+#include "VScreenOptions.h"
 
 #include "VIdentifier.h"
 #include "../logic/LWindmillPowerPlant.h"
 #include "../logic/ILPowerLine.h"
 #include "../logic/LMaster.h"
+
 
 
 NAMESPACE_VIEW_B
@@ -49,7 +52,13 @@ void VUI::initUI()
 	addScreen("MainMenue", IViewScreen::MainMenue);
 	
 	addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
+
+	addScreen("Lobby", IViewScreen::Lobby);
 	
+	addScreen("Credits", IViewScreen::Credits);
+
+	addScreen("Options", IViewScreen::Options);
+
 	addScreen("Ingame", IViewScreen::Ingame);
 	
 	switchScreen("MainMenue");
@@ -139,9 +148,7 @@ void VUI::onNotify(IViewUIObserver::Event evente)
 		vMaster->lMaster->startNewGame();
 		switchScreen("Ingame"); //TODO Button Action erweitern um switchscreen event damit Screen nicht hardcoded Ingame sein muss
 		break;
-	case IViewUIObserver::MainOptions:
-		DEBUG_OUTPUT("Open Options from MainMenue.........\n");
-		break;
+
 	case IViewUIObserver::QUIT_GAME:
 		isQuit = true;
 		PostQuitMessage(0);
@@ -152,9 +159,21 @@ void VUI::onNotify(IViewUIObserver::Event evente)
 		
 		switchScreen("Spielmoduswahl");
 		break;
+	case IViewUIObserver::SWITCH_TO_LOBBY:
+
+		switchScreen("Lobby");
+		break;
 	case IViewUIObserver::SWITCH_TO_MAINMENUE:
 
 		switchScreen("MainMenue");
+		break;
+	case IViewUIObserver::SWITCH_TO_CREDITS:
+
+		switchScreen("Credits");
+		break;
+	case IViewUIObserver::SWITCH_TO_OPTIONS:
+
+		switchScreen("Options");
 		break;
 	default:
 		DEBUG_OUTPUT("Keine Lösung gefunden\n");
@@ -175,11 +194,23 @@ void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
 		m_screens[sName] = new VScreenSpielmodusWahl(&vMaster->m_zf);
 		m_screens[sName]->addObserver(this);
 		break;
+	case IViewScreen::Lobby:
+		m_screens[sName] = new VScreenLobby(&vMaster->m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
 	case IViewScreen::ScreenType::Ingame:
 		m_screens[sName] = new VScreenIngame(&vMaster->m_zf,&vMaster->m_zr,&m_zs,&m_zpCamera);
 		m_screens[sName]->addObserver(this);
 		break;
-
+	case IViewScreen::Options: 
+		m_screens[sName] = new VScreenOptions(&vMaster->m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::Credits: 
+		m_screens[sName] = new VScreenCredits(&vMaster->m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	default: break;
 	}
 }
 
@@ -224,14 +255,21 @@ void VUI::aktualisiereInfo(const int& wert)
 void VUI::tick(const float fTimeDelta)
 {
 	handleInput(fTimeDelta);
-
+	
 	float CurPosX;
 	float CurPosY;
 	m_zkCursor.GetFractional(CurPosX, CurPosY, false);
-	map<string, IViewGUIContainer*> tempGuicontainer;
-	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+	
+	if (!m_zkCursor.ButtonPressedLeft())
+	{
+		m_BlockCursorLeftPressed = false;
+	}
+	
 	for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++)
 	{
+		map<string, IViewGUIContainer*> tempGuicontainer;
+		map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+		
 		if (m_iterScreens->second->isOn())
 		{
 			m_iterScreens->second->checkShortcut(&m_zkKeyboard);
@@ -247,10 +285,16 @@ void VUI::tick(const float fTimeDelta)
 					for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
 					{
 						(*tempIter)->checkHover(CurPosX, CurPosY);
-						(*tempIter)->checkPressed(CurPosX, CurPosY, m_zkCursor.ButtonPressedLeft());
+						
+						if (!m_BlockCursorLeftPressed && m_zkCursor.ButtonPressedLeft())
+						{
+							(*tempIter)->checkPressed(CurPosX, CurPosY, m_zkCursor.ButtonPressedLeft());
+						}
+					
 						if (m_screenChanged)
 						{
 							m_screenChanged = false;
+							m_BlockCursorLeftPressed = true;
 							return;
 						}
 						if (isQuit)return;
@@ -261,6 +305,7 @@ void VUI::tick(const float fTimeDelta)
 			if (isQuit)return;
 		}
 	}
+	
 }
 
 

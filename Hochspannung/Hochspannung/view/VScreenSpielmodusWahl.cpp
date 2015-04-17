@@ -23,7 +23,7 @@ VScreenSpielmodusWahl::VScreenSpielmodusWahl(CFrame* frame)
 
 	addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.27, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueEinzelspieler, &VMaterialLoader::materialButtonMainMenueEinzelspielerHover, IViewUIObserver::NOTHING);
-	getContainer("Menue")->addButton(CFloatRect(0.33, 0.42, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueMehrspieler, &VMaterialLoader::materialButtonMainMenueMehrspielerHover, IViewUIObserver::START_GAME);
+	getContainer("Menue")->addButton(CFloatRect(0.33, 0.42, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueMehrspieler, &VMaterialLoader::materialButtonMainMenueMehrspielerHover, IViewUIObserver::SWITCH_TO_LOBBY);
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.57, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, IViewUIObserver::SWITCH_TO_MAINMENUE);
 
 

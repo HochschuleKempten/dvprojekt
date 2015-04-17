@@ -10,10 +10,10 @@ public:
 	VScreenIngame(CViewport* viewp,CFrame* frame);
 	VScreenIngame();
 	~VScreenIngame();
-	void onNotify(IViewUIObserver::Event events);
-	void VScreenIngame::switchOn();
-	void VScreenIngame::switchOff();
-	void checkShortcut(CDeviceKeyboard* keyboard);
+	void onNotify(IViewUIObserver::Event events) override;
+	void switchOn() override;
+	void switchOff() override;
+	void checkShortcut(CDeviceKeyboard* keyboard) override;
 private:
 	CCamera m_zc;
 	CPlacement* m_zpCamera;
@@ -24,8 +24,16 @@ private:
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;
-	CCamera m_miniMap;
+	COverlay m_bottomBarBorderTop;
+	COverlay m_bottomBarBorderBottom;
+	COverlay m_bottomBarBorderLeft;
+	COverlay m_bottomBarBorderRight;
+	COverlay m_bottomBarSeperatorMenueInfofeld;
+	COverlay m_bottomBarSeperatorMenueMinimap;
+
+	CCamera m_CamMiniMap;
 	CViewport m_minimap;
+	CPlacement m_zpMinimapCam;
 
 	bool bK = false;
 };

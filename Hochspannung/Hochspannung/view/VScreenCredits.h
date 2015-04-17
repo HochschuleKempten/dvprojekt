@@ -1,22 +1,17 @@
 #pragma once
 #include "IViewScreen.h"
-
 NAMESPACE_VIEW_B
-
-class VScreenMainMenue :
+class VScreenCredits :
 	public IViewScreen
 {
 public:
-	VScreenMainMenue();
-	VScreenMainMenue(CFrame* frame);
-	~VScreenMainMenue();
-
+	VScreenCredits();
+	VScreenCredits(CFrame* frame);
+	~VScreenCredits();
 	void onNotify(IViewUIObserver::Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
+	
 private:
-	COverlay* m_flash;
 	CBackground* m_background;
-	COverlay* m_headline;
 };
-
 NAMESPACE_VIEW_E

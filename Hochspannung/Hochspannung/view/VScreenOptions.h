@@ -2,21 +2,17 @@
 #include "IViewScreen.h"
 
 NAMESPACE_VIEW_B
-
-class VScreenMainMenue :
+class VScreenOptions :
 	public IViewScreen
 {
 public:
-	VScreenMainMenue();
-	VScreenMainMenue(CFrame* frame);
-	~VScreenMainMenue();
-
+	VScreenOptions();
+	VScreenOptions(CFrame* frame);
+	~VScreenOptions();
 	void onNotify(IViewUIObserver::Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
-private:
-	COverlay* m_flash;
-	CBackground* m_background;
-	COverlay* m_headline;
-};
 
+private:
+	CBackground* m_background;
+};
 NAMESPACE_VIEW_E

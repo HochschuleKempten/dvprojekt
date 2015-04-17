@@ -33,6 +33,7 @@ private:
 	bool isQuit;
 	bool m_screenChanged = false;
 	void handleInput(float fTimeDelta);
+	bool m_BlockCursorLeftPressed=false;
 
 public:
 	VUI(VMaster* vMaster, LUI* lUi);
@@ -41,7 +42,7 @@ public:
 
 	void initUI();
 
-	virtual void tick(const float fTimeDelta);
+	virtual void tick(const float fTimeDelta) override;
 	
 
 	void addScreen(string sName, IViewScreen::ScreenType);
@@ -49,7 +50,7 @@ public:
 	void switchScreen(string switchTo);
 	IViewScreen* getScreen(string sName);
 
-	virtual void onNotify(IViewUIObserver::Event);
+	virtual void onNotify(IViewUIObserver::Event) override;
 
 	void aktualisiereGeld(const int& wert);
 	void aktualisiereBev(const int& wert);

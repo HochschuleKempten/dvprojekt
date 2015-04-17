@@ -229,9 +229,6 @@
     <ClInclude Include="view\IViewObject.h">
       <Filter>view\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="view\IViewObserver.h">
-      <Filter>view\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="view\IViewSubject.h">
       <Filter>view\Interfaces</Filter>
     </ClInclude>
@@ -271,17 +268,29 @@
     <ClInclude Include="view\VDialog.h">
       <Filter>view</Filter>
     </ClInclude>
-    <ClInclude Include="view\VScreenIngame.h">
-      <Filter>view</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VScreenMainMenue.h">
-      <Filter>view</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VScreenSpielmodusWahl.h">
-      <Filter>view</Filter>
-    </ClInclude>
     <ClInclude Include="view\IViewScreen.h">
       <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenCredits.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenMainMenue.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenIngame.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenSpielmodusWahl.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewUIObserver.h">
+      <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenOptions.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenLobby.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -443,6 +452,15 @@
     </ClCompile>
     <ClCompile Include="view\VDialog.cpp">
       <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenCredits.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenOptions.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenLobby.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

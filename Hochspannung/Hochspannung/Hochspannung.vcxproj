@@ -181,9 +181,9 @@
     <ClInclude Include="view\IViewGUIContainer.h" />
     <ClInclude Include="view\IViewGUIObject.h" />
     <ClInclude Include="view\IViewObject.h" />
-    <ClInclude Include="view\IViewObserver.h" />
     <ClInclude Include="view\IViewScreen.h" />
     <ClInclude Include="view\IViewSubject.h" />
+    <ClInclude Include="view\IViewUIObserver.h" />
     <ClInclude Include="view\LargeOfficeBuilding.h" />
     <ClInclude Include="view\OfficeTowerViewingDeck.h" />
     <ClInclude Include="view\SmallOfficeBuilding.h" />
@@ -207,8 +207,11 @@
     <ClInclude Include="view\VMaster.h" />
     <ClInclude Include="view\VCoalPowerPlant.h" />
     <ClInclude Include="view\VPowerLine.h" />
+    <ClInclude Include="view\VScreenCredits.h" />
     <ClInclude Include="view\VScreenIngame.h" />
+    <ClInclude Include="view\VScreenLobby.h" />
     <ClInclude Include="view\VScreenMainMenue.h" />
+    <ClInclude Include="view\VScreenOptions.h" />
     <ClInclude Include="view\VScreenSpielmodusWahl.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
     <ClInclude Include="view\VUI.h" />
@@ -262,8 +265,11 @@
     <ClCompile Include="view\VMaster.cpp" />
     <ClCompile Include="view\VCoalPowerPlant.cpp" />
     <ClCompile Include="view\VPowerLine.cpp" />
+    <ClCompile Include="view\VScreenCredits.cpp" />
     <ClCompile Include="view\VScreenIngame.cpp" />
+    <ClCompile Include="view\VScreenLobby.cpp" />
     <ClCompile Include="view\VScreenMainMenue.cpp" />
+    <ClCompile Include="view\VScreenOptions.cpp" />
     <ClCompile Include="view\VScreenSpielmodusWahl.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
     <ClCompile Include="view\VUI.cpp" />

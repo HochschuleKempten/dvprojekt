@@ -29,7 +29,8 @@ public:
 		Options,
 		Credits,
 		Ingame,
-		Spielmoduswahl
+		Spielmoduswahl,
+		Lobby
 	};
 
 	virtual void switchOn()

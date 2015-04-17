@@ -43,6 +43,7 @@ public:
 	//Ingame
 	static CMaterial materialIngameCraft;
 	static CMaterial materialDialogBackground;
+	static CMaterial materialIngameBorder;
 
 	//Allgemein
 		//Buttons
