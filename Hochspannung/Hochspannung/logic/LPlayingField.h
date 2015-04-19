@@ -8,6 +8,7 @@ NAMESPACE_LOGIC_B
 
 class LMaster;
 class IVPlayingField;
+class LPowerLine;
 
 class LPlayingField
 {
@@ -20,6 +21,7 @@ private:
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
 	bool plVertexConnected = false;
+	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
 
 public:
 	LPlayingField(LMaster* lMaster);
@@ -35,9 +37,19 @@ public:
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
 
 		if (getField(x, y)->setBuilding<T>(x, y, arguments...)) {
-			//TODO (L) No method like addBuildingToGraph possible?
-			generatePowerLineGraph();
-			calculateEnergyValueCity();
+			//TODO (L) No method like addBuildingToGraph possible? - (IP) done
+			LPowerLine* powerLine = dynamic_cast<LPowerLine*>(getField(x, y)->getBuilding());
+			if (powerLine != nullptr)
+			{
+				addPowerLineToGraph(x, y, powerLine->getPowerLineOrientation());
+			}
+
+			//todo (L) when?
+			if (cityPosition.first > -1 && cityPosition.second > -1)
+			{
+				calculateEnergyValueCity();
+			}
+
 			return true;
 		}
 		else {
@@ -55,12 +67,13 @@ public:
 	void setVertexConnected(const bool b);
 private:
 	void createFields();
-	void generatePowerLineGraph();
+	//void generatePowerLineGraph();
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const int x, const int y);
-	bool powerlinesConnected(const int start, const int destination);
+	bool powerlinesConnected(const int start, const int orientation);
 	void calculateEnergyValueCity();
 	std::vector<int> getConnectedPowerLines(const int x, const int y);
+	void addPowerLineToGraph(const int x, const int y, const int orientation);
 };
 
 NAMESPACE_LOGIC_E
