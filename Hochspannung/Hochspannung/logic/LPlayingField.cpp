@@ -75,19 +75,49 @@ void LPlayingField::upgradeBuilding(const int x, const int y)
 	// ToDo (FL) Discuss case player doesn't have enough money
 }
 
+std::pair<int, int> LPlayingField::retrieveFreeCoordinates()
+{
+	std::srand(CASTS<unsigned int>(std::time(0)));
+	int count = 0;
+	while (count++ < 20) {
+		int x = rand() % fieldLength;
+		int y = rand() % fieldLength;
+
+		if (std::find(usedCoordinates.begin(), usedCoordinates.end(), std::pair<int, int>(x, y)) == usedCoordinates.end()) {
+			//Coordinate is unused
+			usedCoordinates.emplace_back(x, y);
+			return usedCoordinates.back();
+		}
+	}
+
+	ASSERT(true, "No coordinates could be delivered. This should not happen.");
+}
+
+std::pair<int, int> LPlayingField::retrieveFreeCoordinates(const int x, const int y)
+{
+	ASSERT(std::find(usedCoordinates.begin(), usedCoordinates.end(), std::pair<int, int>(x, y)) == usedCoordinates.end(), "The coordinates requested are already used.");
+	usedCoordinates.emplace_back(x, y);
+	return usedCoordinates.back();
+}
+
+
 void LPlayingField::createFields()
 {
 	int cityPositionX = 5;// fieldLength * 0.5 + rand() % 3;
 	int cityPositionY = 5;// fieldLength * 0.25 + rand() % 3;
+	usedCoordinates.emplace_back(cityPositionX, cityPositionY);
 
 	int firstPowerLinePositionX = cityPositionX;
 	int firstPowerLinePositionY = cityPositionY +1;
+	usedCoordinates.emplace_back(firstPowerLinePositionX, firstPowerLinePositionY);
 
 	int secondPowerLinePositionX = firstPowerLinePositionX +1;
 	int secondPowerLinePositionY = firstPowerLinePositionY;
+	usedCoordinates.emplace_back(secondPowerLinePositionX, secondPowerLinePositionY);
 		
 	int firstPowerPlantPositionX = secondPowerLinePositionX;
 	int firstPowerPlantPositionY = secondPowerLinePositionY + 1;
+	usedCoordinates.emplace_back(firstPowerPlantPositionX, firstPowerPlantPositionY);
 
 	fieldArray[cityPositionX][cityPositionY].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
 	placeBuilding<LCity>(cityPositionX, cityPositionY);
@@ -104,38 +134,49 @@ void LPlayingField::createFields()
 	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].init(LField::FieldType::COAL, LField::FieldLevel::LEVEL1);
 	placeBuilding<LCoalPowerPlant>(firstPowerPlantPositionX, firstPowerPlantPositionY);
 
-	std::vector<LField::FieldType> fieldTypes = { LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::GRASS, LField::FieldType::COAL, LField::FieldType::GRASS, LField::FieldType::MOUNTAIN, LField::FieldType::GRASS, LField::FieldType::WATER, LField::FieldType::GRASS, LField::FieldType::AIR, LField::FieldType::SOLAR };
-	std::vector<LField::FieldLevel> fieldLevels = { LField::FieldLevel::LEVEL1, LField::FieldLevel::LEVEL2, LField::FieldLevel::LEVEL3 };
+	std::vector<LField::FieldType> fieldTypes = { LField::MOUNTAIN, LField::AIR, LField::SOLAR, LField::WATER, LField::COAL };
+	std::vector<LField::FieldLevel> fieldLevels = { LField::LEVEL1, LField::LEVEL2, LField::LEVEL3 };
 
-	std::srand(CASTS<unsigned int>(std::time(0)));
+	int windmillPowerPlantPositionX = 2;
+	int windmillPowerPlantPositionY = 0;
+	usedCoordinates.emplace_back(windmillPowerPlantPositionX, windmillPowerPlantPositionY);
+	fieldArray[windmillPowerPlantPositionX][windmillPowerPlantPositionY].init(LField::AIR, LField::LEVEL1);
 
-	for (int x = 0; x < fieldLength; x++)
-	{
-		for (int y = 0; y < fieldLength; y++)
-		{
-			if (x == cityPositionX && y == cityPositionX)
-			{
+	//Set grass around the city
+	const int freeSpaceAroundCity = 1;
+	for (int x = -freeSpaceAroundCity; x <= freeSpaceAroundCity; x++) {
+		for (int y = -freeSpaceAroundCity; y <= freeSpaceAroundCity; y++) {
+			if (x == 0 || y == 0) {
 				continue;
 			}
 
-			if (x == firstPowerLinePositionX && y == firstPowerLinePositionY)
-			{
-				continue;
-			}
-
-			if (x == secondPowerLinePositionX && y == secondPowerLinePositionY)
-			{
-				continue;
-			}
-
-			if (x == firstPowerPlantPositionX && y == firstPowerPlantPositionY)
-			{
-				continue;
-			}
-
-			int type = rand() % fieldTypes.size();
+			std::pair<int, int> coordinates = retrieveFreeCoordinates(x, y);
 			int level = rand() % fieldLevels.size();
-			fieldArray[x][y].init(fieldTypes[type], fieldLevels[level]);
+			fieldArray[cityPosition.first + coordinates.first][cityPosition.second + coordinates.second].init(LField::GRASS, fieldLevels[level]);
+		}
+	}
+
+	//Fill with the requested number of power plants
+	const int numberOfPowerPlants = 10;
+	for (int i = 0; i < numberOfPowerPlants; i++) {
+		std::pair<int, int> newCoordinates = retrieveFreeCoordinates();
+		int type = rand() % fieldTypes.size();
+		int level = rand() % fieldLevels.size();
+		fieldArray[newCoordinates.first][newCoordinates.second].init(fieldTypes[type], fieldLevels[level]);
+	}
+
+	//Fill the rest with grass
+	for (int x = 0; x < fieldLength; x++) {
+		for (int y = 0; y < fieldLength; y++) {
+			if (std::find(usedCoordinates.begin(), usedCoordinates.end(), std::pair<int, int>(x, y)) != usedCoordinates.end()) {
+				//Coordinate already assigned
+				continue;
+			}
+			else {
+				int level = rand() % fieldLevels.size();
+				std::pair<int, int> coordinates = retrieveFreeCoordinates(x, y);
+				fieldArray[coordinates.first][coordinates.second].init(LField::GRASS, fieldLevels[level]);
+			}
 		}
 	}
 }
@@ -300,10 +341,6 @@ void LPlayingField::calculateEnergyValueCity()
 	}
 
 	CASTD<LCity*>(getField(cityPosition.first, cityPosition.second)->getBuilding())->setEnergy(energyValue);
-
-#ifdef _DEBUG
-	std::cout << "Energy value: "<<CASTD<LCity*>(getField(cityPosition.first, cityPosition.second)->getBuilding())->getEnergy() << std::endl;
-#endif
 }
 
 std::vector<int> LPlayingField::getConnectedPowerLines(const int x, const int y)

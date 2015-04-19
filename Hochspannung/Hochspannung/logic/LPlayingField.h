@@ -22,6 +22,7 @@ private:
 	Graph powerLineGraph;
 	bool plVertexConnected = false;
 	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
+	std::vector<std::pair<int, int>> usedCoordinates;
 
 public:
 	LPlayingField(LMaster* lMaster);
@@ -74,6 +75,8 @@ private:
 	void calculateEnergyValueCity();
 	std::vector<int> getConnectedPowerLines(const int x, const int y);
 	void addPowerLineToGraph(const int x, const int y, const int orientation);
+	std::pair<int, int> retrieveFreeCoordinates();
+	std::pair<int, int> retrieveFreeCoordinates(const int x, const int y);
 };
 
 NAMESPACE_LOGIC_E

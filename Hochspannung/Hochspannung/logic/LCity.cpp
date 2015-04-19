@@ -20,6 +20,7 @@ LCity::~LCity()
 
 void LCity::setEnergy(const int energy)
 {
+	DEBUG_OUTPUT("City new energy value = " << energy);
 	this->energy = energy;
 }
 

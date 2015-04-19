@@ -11,7 +11,9 @@ NAMESPACE_VIEW_B
 class VPowerLine : public IVPowerLine, public IViewBuilding
 {
 private:
-	VModelPowerLine m_zp;
+	CGeoCylinder m_zg;
+	CPlacement m_zp;
+	//VModelPowerLine m_zp;
 
 public:
 	VPowerLine(VMaster *vMaster, LPowerLine* lPlant);

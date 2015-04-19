@@ -47,7 +47,7 @@ void VPlayingField::initPlayingField(const std::shared_ptr<IVPlayingField>& objP
 
 void VPlayingField::buildPlayingField()
 {
-	m_zp.Fasten(); // direkt das oberste fasten????????
+	//m_zp.Fasten(); // direkt das oberste fasten????????
 
 	int square = CASTS<int>(sqrt(m_zpPlacementHolders.size()));
 	for (int holder = 0; holder < CASTS<int>(m_zpPlacementHolders.size()); holder++) {
