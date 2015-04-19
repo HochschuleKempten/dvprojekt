@@ -70,7 +70,7 @@ private:
 	//void generatePowerLineGraph();
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const int x, const int y);
-	bool powerlinesConnected(const int start, const int orientation);
+	bool powerlinesConnected(const int start, const int destination);
 	void calculateEnergyValueCity();
 	std::vector<int> getConnectedPowerLines(const int x, const int y);
 	void addPowerLineToGraph(const int x, const int y, const int orientation);
