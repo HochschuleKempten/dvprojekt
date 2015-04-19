@@ -143,6 +143,8 @@ void VScreenIngame::switchOff()
 
 void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 {
+	
+	//keyboard->GetChar(keyboard->GetKey());
 	if (!keyboard->KeyPressed(DIK_ESCAPE))
 	{
 		bK = false;

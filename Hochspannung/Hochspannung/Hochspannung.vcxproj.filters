@@ -292,6 +292,9 @@
     <ClInclude Include="view\VScreenLobby.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\VTextfield.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -460,6 +463,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VScreenLobby.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VTextfield.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

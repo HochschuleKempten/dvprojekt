@@ -1,5 +1,6 @@
 #include "VGroup.h"
 #include "VButton.h"
+#include "VTextfield.h"
 NAMESPACE_VIEW_B
 
 VGroup::VGroup()
@@ -22,24 +23,31 @@ VGroup::~VGroup()
 
 void VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction)
 {
-	VButton* vButton = new VButton(m_viewport,rect, MaterialNormal, MaterialHover, clickAction);
+	auto* vButton = new VButton(m_viewport,rect, MaterialNormal, MaterialHover, clickAction);
 	
 	vButton->addObserver(this);
 	
 	m_guiObjects.push_back(vButton);
+	
 }
 
-void VGroup::onNotify(IViewUIObserver::Event events)
-{
-	OutputDebugString("Nachricht bei Group-Observer angekommen\n");
-	switch (events)
+void VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder)
 	{
-	default:
-		OutputDebugString("Group keine Lösung. Benachrichtigt alle Beobachter\n");
-		notify(events);
+		auto* textfield = new VTextfield(m_viewport, rect, MaterialNormal, MaterialHover, MaterialActive, MaxChars,Placeholder);
+		
+		textfield->addObserver(this);
+
+		m_guiObjects.push_back(textfield);
 		
 	}
 
+	void VGroup::onNotify(Event events)
+{
+	switch (events)
+	{
+	default:
+		notify(events);		
+	}
 }
 
 list<IViewGUIObject*> VGroup::getGuiObjectList()

@@ -2,13 +2,11 @@
 NAMESPACE_VIEW_B
 
 VButton::VButton() :
-m_zfrRect(CFloatRect(0, 0, 0, 0)),
 m_bHasHover(false)
 {
 
 }
 VButton::VButton(CViewport* viewport, CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) :
-m_zfrRect(CFloatRect(0, 0, 0, 0)),
 m_bHasHover(false),
 action(IViewUIObserver::NOTHING)
 {
@@ -48,41 +46,12 @@ void VButton::onMouseOut(void)
 }
 void VButton::onMouseClickLeft(void)
 {
-	notify(IViewUIObserver::START_GAME);
-	//ToDo
+	notify(action);
+	
 }
 void VButton::onMouseClickRight(void)
 {
 	//ToDo
-}
-
-
-void VButton::checkHover(const float& fPosX, const float& fPosY)
-{
-
-	//Prüfe ob X-Koordinate innerhalb des Buttons
-	if ((fPosX > m_zfrRect.GetXPos()) && (fPosX < (m_zfrRect.GetXPos() + m_zfrRect.GetXSize())))
-	{
-		//Prüfe ob Y-Koordinate innerhalb des Buttons
-		if ((fPosY >  m_zfrRect.GetYPos()) && (fPosY < (m_zfrRect.GetYPos() + m_zfrRect.GetYSize())))
-		{
-			//Koordinaten sind auf Button
-			onMouseOver();
-		}
-		else
-		{
-			//X-Koordinate passt aber Y-Koordinate nicht
-			//Koordinaten sind auf Button
-			onMouseOut();
-
-		}
-	}
-	else
-	{
-		//X-Koordinate passt nicht
-		onMouseOut();
-	}
-
 }
 
 
@@ -107,31 +76,7 @@ CFloatRect VButton::getRectangle()
 	return m_zfrRect;
 }
 
-
-void VButton::checkPressed(const float& fPosX, const float& fPosY, const bool& bLeftpressed)
-{
-	if (bLeftpressed)
-	{
-		if ((fPosX > m_zfrRect.GetXPos()) && (fPosX < (m_zfrRect.GetXPos() + m_zfrRect.GetXSize())))
-		{
-			//Prüfe ob Y-Koordinate innerhalb des Buttons
-			if ((fPosY >  m_zfrRect.GetYPos()) && (fPosY < (m_zfrRect.GetYPos() + m_zfrRect.GetYSize())))
-			{
-				OutputDebugString("Button Clickevent ausgelöst\n ");
-				OutputDebugString("button->Benachrichtige alle Beobachter\n");
-				notify(action);
-
-			}
-
-		}
-		else
-		{
-			return;
-		}
-	}
-}
-
-void VButton::switchOn()
+	void VButton::switchOn()
 {
 	m_zoNormal->SwitchOn();
 	m_zoHover->SwitchOff();

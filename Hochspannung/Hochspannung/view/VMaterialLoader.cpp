@@ -13,6 +13,10 @@ CMaterial VMaterialLoader::materialIngameCraft;
 CMaterial VMaterialLoader::materialDialogBackground;
 CMaterial VMaterialLoader::materialIngameBorder;
 
+CMaterial VMaterialLoader::materialRed;
+CMaterial VMaterialLoader::materialBlue;
+CMaterial VMaterialLoader::materialGreen;
+
 //Buttons
 
 CMaterial VMaterialLoader::materialButtonMainMenueNeuesSpiel;
@@ -83,6 +87,11 @@ void VMaterialLoader::init()
 
 	materialButtonBack.MakeTextureSprite("textures\\Buttons\\ButtonBack.png");
 	materialButtonBackHover.MakeTextureSprite("textures\\Buttons\\ButtonBackHover.png");
+
+	//Test
+	materialRed.MakeTextureSprite("textures\\red_image.jpg");
+	materialBlue.MakeTextureSprite("textures\\blue_image.jpg");
+	materialGreen.MakeTextureSprite("textures\\green_image.jpg");
 
 }
 

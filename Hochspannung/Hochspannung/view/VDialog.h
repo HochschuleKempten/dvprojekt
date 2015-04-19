@@ -8,12 +8,13 @@ public:
 	VDialog();
 	VDialog(CFloatRect floatRect, CViewport* viewport, CMaterial* MaterialNormal);
 	~VDialog();
-	void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction);
-	void onNotify(IViewUIObserver::Event);
-	list<IViewGUIObject*> getGuiObjectList();
-	virtual void switchOn();
+	void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) override;
+	void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder) override;
+	void onNotify(Event events) override;
+	list<IViewGUIObject*> getGuiObjectList() override;
+	void switchOn() override;
 
-	virtual void switchOff();
+	void switchOff() override;
 	
 private:
 	CFloatRect m_rect;

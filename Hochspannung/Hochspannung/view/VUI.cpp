@@ -137,46 +137,46 @@ void VUI::handleInput(float fTimeDelta)
 
 
 
-void VUI::onNotify(IViewUIObserver::Event evente)
+void VUI::onNotify(Event evente)
 {
-	DEBUG_OUTPUT("Nachricht bei GUI-Observer angekommen\n");
 	switch (evente)
 	{
 
-	case IViewUIObserver::START_GAME:
-		DEBUG_OUTPUT("STARTING GAME.........\n");
+	case START_GAME:
 		vMaster->lMaster->startNewGame();
-		switchScreen("Ingame"); //TODO Button Action erweitern um switchscreen event damit Screen nicht hardcoded Ingame sein muss
+		switchScreen("Ingame");
 		break;
 
-	case IViewUIObserver::QUIT_GAME:
+	case QUIT_GAME:
 		isQuit = true;
 		PostQuitMessage(0);
-		DEBUG_OUTPUT("Quit Game.........\n");
+		break;
+
+	case SEARCH_IP:
 		break;
 		
-	case IViewUIObserver::SWITCH_TO_SPIELMODUS:
+	case SWITCH_TO_SPIELMODUS:
 		
 		switchScreen("Spielmoduswahl");
 		break;
-	case IViewUIObserver::SWITCH_TO_LOBBY:
+	case SWITCH_TO_LOBBY:
 
 		switchScreen("Lobby");
 		break;
-	case IViewUIObserver::SWITCH_TO_MAINMENUE:
+	case SWITCH_TO_MAINMENUE:
 
 		switchScreen("MainMenue");
 		break;
-	case IViewUIObserver::SWITCH_TO_CREDITS:
+	case SWITCH_TO_CREDITS:
 
 		switchScreen("Credits");
 		break;
-	case IViewUIObserver::SWITCH_TO_OPTIONS:
+	case SWITCH_TO_OPTIONS:
 
 		switchScreen("Options");
 		break;
 	default:
-		DEBUG_OUTPUT("Keine Lösung gefunden\n");
+		break;
 	}
 
 }
@@ -260,37 +260,44 @@ void VUI::tick(const float fTimeDelta)
 	float CurPosY;
 	m_zkCursor.GetFractional(CurPosX, CurPosY, false);
 	
+	//One Click
 	if (!m_zkCursor.ButtonPressedLeft())
 	{
 		m_BlockCursorLeftPressed = false;
 	}
-	
+	//For all screens...
 	for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++)
 	{
 		map<string, IViewGUIContainer*> tempGuicontainer;
 		map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
-		
+		//Check if screen is on
 		if (m_iterScreens->second->isOn())
 		{
+			//Check for shortcuts
 			m_iterScreens->second->checkShortcut(&m_zkKeyboard);
+			
 			tempGuicontainer = m_iterScreens->second->getGuiContainerMap();
 			list<IViewGUIObject*>tempList;
 			list<IViewGUIObject*>::iterator tempIter;
+			//For all containers in the screen
 			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
 			{
+				//Check if screen is on
 				if (tempIterGuicontainer->second->isOn())
 				{
 					tempList = tempIterGuicontainer->second->getGuiObjectList();
-
+					//for all GUI-Objects in the container
 					for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
 					{
+						//check if cursor is over
 						(*tempIter)->checkHover(CurPosX, CurPosY);
 						
-						if (!m_BlockCursorLeftPressed && m_zkCursor.ButtonPressedLeft())
+						if (!m_BlockCursorLeftPressed)
 						{
-							(*tempIter)->checkPressed(CurPosX, CurPosY, m_zkCursor.ButtonPressedLeft());
+							//check for events
+							(*tempIter)->checkEvent(&m_zkCursor, &m_zkKeyboard);
 						}
-					
+						//if screen was changed
 						if (m_screenChanged)
 						{
 							m_screenChanged = false;

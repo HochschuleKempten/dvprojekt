@@ -18,22 +18,20 @@ public:
 	~VButton();
 	
 	
-	void checkHover(const float& fPosX, const float& fPosY);
-	void checkPressed(const float& fPosX, const float& fPosY, const bool& bLeftpressed);
 	
 	
-
-	void onMouseOver(void);
-	void onMouseOut(void);
-	void onMouseClickLeft(void);
-	void onMouseClickRight(void);
-
+	virtual void switchOn() override final;
+	virtual void switchOff() override final;
+	
+	virtual void onMouseOver(void) override final;
+	virtual void onMouseOut(void) override final;
+	virtual void onMouseClickLeft(void) override final;
+	virtual void onMouseClickRight(void) override final;
 	
 
 	bool bGetHasHover();
 
-	void switchOn();
-	void switchOff();
+	
 	
 	//Getter
 
@@ -49,8 +47,6 @@ private:
 
 	COverlay* m_zoNormal;
 	COverlay* m_zoHover;
-	
-	CFloatRect m_zfrRect; 
 	
 	bool m_bHasHover;
 

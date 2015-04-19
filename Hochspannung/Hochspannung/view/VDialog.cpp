@@ -1,4 +1,5 @@
 #include "VDialog.h"
+#include "VTextfield.h"
 NAMESPACE_VIEW_B
 
 VDialog::VDialog()
@@ -37,7 +38,16 @@ void VDialog::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* M
 	m_guiObjects.push_back(vButton);
 }
 
-void VDialog::onNotify(IViewUIObserver::Event events)
+void VDialog::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder)
+	{
+		auto* textfield = new VTextfield(m_viewport, createRelativeRectangle(&m_rect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
+
+		textfield->addObserver(this);
+
+		m_guiObjects.push_back(textfield);
+	}
+
+	void VDialog::onNotify(IViewUIObserver::Event events)
 {
 	OutputDebugString("Nachricht bei Group-Observer angekommen\n");
 	switch (events)

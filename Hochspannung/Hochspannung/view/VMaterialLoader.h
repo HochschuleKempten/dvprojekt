@@ -49,6 +49,10 @@ public:
 		//Buttons
 	static CMaterial materialButtonBack;
 	static CMaterial materialButtonBackHover;
+
+	static CMaterial materialRed;
+	static CMaterial materialBlue;
+	static CMaterial materialGreen;
 	
 };
 

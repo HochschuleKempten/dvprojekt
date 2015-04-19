@@ -30,6 +30,7 @@ public:
 		return m_bOn;
 	}
 	virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) = 0;
+	virtual void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder) = 0;
 	virtual list<IViewGUIObject*> getGuiObjectList()=0;
 	virtual ~IViewGUIContainer(){};
 protected:
