@@ -13,7 +13,7 @@ class VMaster;
 /**
  * @brief The VUI class is responsible for representing the interface to the user and handles the user input.
  *
- * The Vektoria-Objects can have a name (.setName()). This is needed to find out what elements have been clicked by the user.
+ * The Vektoria-Objects can have a name (<code>.setName()</code>). This is needed to find out what elements have been clicked by the user.
  * To distinct between needed names for the game logic and names for debugging purposes, all debug names shall start with a # to
  * introduce a comment in the name system.
  */

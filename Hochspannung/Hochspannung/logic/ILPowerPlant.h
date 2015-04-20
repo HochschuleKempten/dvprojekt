@@ -8,7 +8,7 @@ class IVPowerPlant;
 class ILPowerPlant : public ILBuilding
 {
 protected:
-	static const int energyValue = 100;
+	static const int energyValue = 200;
 	std::shared_ptr<IVPowerPlant> vPowerPlant;
 
 public:

@@ -22,6 +22,8 @@ public:
 	virtual ~VCity();
 
 	virtual void initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const int y);
+	virtual void updatePopulation(const int population) override;
+	virtual void updateEnergy(const int energy) override;
 };
 
 

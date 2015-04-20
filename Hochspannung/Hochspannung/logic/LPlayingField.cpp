@@ -2,7 +2,6 @@
 #include "LPlayer.h"
 #include "LPowerLine.h"
 #include "LMaster.h"
-#include "IVPlayingField.h"
 #include "IVMaster.h"
 #include "IVFactory.h"
 #include "LUtility.h"
@@ -10,11 +9,9 @@
 #include <boost/graph/breadth_first_search.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include "LCoalPowerPlant.h"
-#ifdef _DEBUG
-#include <iostream>
-#endif
 
 NAMESPACE_LOGIC_B
+
 
 using namespace boost;
 
@@ -447,5 +444,6 @@ void LPlayingField::addPowerLineToGraph(const int x, const int y, const int orie
 		}
 	}
 }
+
 
 NAMESPACE_LOGIC_E

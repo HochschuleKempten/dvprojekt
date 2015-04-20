@@ -1,13 +1,12 @@
 #include "LMaster.h"
 #include "LPlayingField.h"
 #include "IVMaster.h"
-#include "LPlayer.h"
 
 NAMESPACE_LOGIC_B
 
+
 LMaster::LMaster(IVMaster& vMaster)
-	: vMaster(vMaster),
-	lPlayer(new LPlayer())
+: vMaster(vMaster), lPlayer(*this)
 {
 	vMaster.registerObserver(this);
 }
@@ -15,7 +14,6 @@ LMaster::LMaster(IVMaster& vMaster)
 LMaster::~LMaster()
 {
 	delete lPlayingField;
-	delete lPlayer;
 }
 
 void LMaster::startNewGame()
@@ -23,6 +21,11 @@ void LMaster::startNewGame()
 	if (lPlayingField == nullptr) {
 		lPlayingField = new LPlayingField(this);
 	}
+}
+
+void LMaster::gameLost()
+{
+	vMaster.gameOver();
 }
 
 void LMaster::tick(const float fTimeDelta)
@@ -42,7 +45,8 @@ IVMaster* LMaster::getVMaster()
 
 LPlayer* LMaster::getPlayer()
 {
-	return lPlayer;
+	return &lPlayer;
 }
+
 
 NAMESPACE_LOGIC_E

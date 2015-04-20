@@ -45,6 +45,12 @@ IVFactory* VMaster::getFactory()
 	return &factory;
 }
 
+void VMaster::gameOver()
+{
+	DEBUG_OUTPUT("Game is over");
+	//TODO (V) do something useful here when UI is ready
+}
+
 VPlayingField* VMaster::getPlayingField()
 {
 	ASSERT(vPlayingField != nullptr, "VPlayingField is not initialized");
@@ -63,5 +69,9 @@ void VMaster::resize(int width, int heigth)
 	m_zf.ReSize(width, heigth);
 }
 
+void VMaster::updateMoney(const int money)
+{
+	DEBUG_OUTPUT("New money: " << money);
+}
 
 NAMESPACE_VIEW_E

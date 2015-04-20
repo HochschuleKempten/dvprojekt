@@ -33,11 +33,15 @@ public:
 	void tick(float fTime, float fTimeDelta);
 
 	virtual IVFactory* getFactory();
+	virtual void gameOver() override;
+
 	VPlayingField* getPlayingField();
 
 	void setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField);
 	
 	void resize(int width, int height);
+
+	virtual void updateMoney(const int money) override;
 
 	friend class VUI;
 };

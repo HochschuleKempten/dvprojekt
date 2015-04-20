@@ -175,9 +175,6 @@
     <ClInclude Include="view\VButton.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\VGroup.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\VScreen.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -279,6 +276,9 @@
     </ClInclude>
     <ClInclude Include="view\IViewModel.h">
       <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VGroup.h">
+      <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

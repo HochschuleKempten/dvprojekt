@@ -30,5 +30,14 @@ void VCity::initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const i
 	SET_NAME_AND_COORDINATES(VIdentifier::VCity);
 }
 
+void VCity::updatePopulation(const int population)
+{
+	DEBUG_OUTPUT("Current population: " << population);
+}
+
+void VCity::updateEnergy(const int energy)
+{
+	DEBUG_OUTPUT("City new energy value = " << energy);
+}
 
 NAMESPACE_VIEW_E

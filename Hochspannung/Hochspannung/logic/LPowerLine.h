@@ -11,6 +11,8 @@ public:
 	// set orientation of the powerline with the bitwise operator (|) (example: PowerLineOrientation::NORTH|PowerLineOrientation::EAST)
 	LPowerLine(LField* lField, const int x, const int y, const int orientation);
 	~LPowerLine();
+
+	static const int cost = 100;
 };
 
 NAMESPACE_LOGIC_E
