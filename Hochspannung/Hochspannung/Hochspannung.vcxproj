@@ -214,6 +214,7 @@
     <ClInclude Include="view\VScreenOptions.h" />
     <ClInclude Include="view\VScreenSpielmodusWahl.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
+    <ClInclude Include="view\VText.h" />
     <ClInclude Include="view\VTextfield.h" />
     <ClInclude Include="view\VUI.h" />
     <ClInclude Include="view\VWindmillPowerPlant.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="view\VScreenOptions.cpp" />
     <ClCompile Include="view\VScreenSpielmodusWahl.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
+    <ClCompile Include="view\VText.cpp" />
     <ClCompile Include="view\VTextfield.cpp" />
     <ClCompile Include="view\VUI.cpp" />
     <ClCompile Include="view\VWindmillPowerPlant.cpp" />

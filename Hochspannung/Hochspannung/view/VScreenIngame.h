@@ -14,6 +14,11 @@ public:
 	void switchOn() override;
 	void switchOff() override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
+
+	//Schnittstellenmethoden
+	void updateMoney(const int& wert);
+	
+	void updatePopulation(const int& wert);
 private:
 	CCamera m_zc;
 	CPlacement* m_zpCamera;

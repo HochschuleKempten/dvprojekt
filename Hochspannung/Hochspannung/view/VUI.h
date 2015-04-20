@@ -52,9 +52,9 @@ public:
 
 	virtual void onNotify(IViewUIObserver::Event) override;
 
-	void aktualisiereGeld(const int& wert);
-	void aktualisiereBev(const int& wert);
-	void aktualisiereInfo(const int& wert);
+	void updateMoney(const int& wert);
+	void updatePopulation(const int& wert);
+	void updateInfofield(const int& wert);
 };
 
 

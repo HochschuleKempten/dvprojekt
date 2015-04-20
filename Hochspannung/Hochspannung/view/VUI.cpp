@@ -25,7 +25,7 @@ NAMESPACE_VIEW_B
 
 
 VUI::VUI(VMaster* vMaster, LUI* lUi)
-	: vMaster(vMaster), IVUI(lUi), isQuit(false)
+	: IVUI(lUi), vMaster(vMaster), isQuit(false)
 {
 	vMaster->setVUI(this);
 	vMaster->registerObserver(this);
@@ -218,12 +218,10 @@ void VUI::switchScreen(string switchTo)
 {
 	map<string, IViewScreen*>::iterator it = m_screens.find(switchTo);
 	ASSERT(it != m_screens.end(),"Screen not available");
-
+	
 	for (it = m_screens.begin(); it != m_screens.end(); it++)
 	{
-		it->second;
 		it->second->switchOff();
-
 	}
 
 	m_screens[switchTo]->switchOn();
@@ -238,16 +236,16 @@ IViewScreen* VUI::getScreen(string sName)
 	return	m_screens[sName];
 }
 
-void VUI::aktualisiereGeld(const int& wert)
+void VUI::updateMoney(const int& wert)
 {
-
+	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
 }
-void VUI::aktualisiereBev(const int& wert)
+void VUI::updatePopulation(const int& wert)
 {
-
+	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
 }
 
-void VUI::aktualisiereInfo(const int& wert)
+void VUI::updateInfofield(const int& wert)
 {
 
 }
@@ -277,8 +275,8 @@ void VUI::tick(const float fTimeDelta)
 			m_iterScreens->second->checkShortcut(&m_zkKeyboard);
 			
 			tempGuicontainer = m_iterScreens->second->getGuiContainerMap();
-			list<IViewGUIObject*>tempList;
-			list<IViewGUIObject*>::iterator tempIter;
+			vector<IViewGUIObject*>tempList;
+			vector<IViewGUIObject*>::iterator tempIter;
 			//For all containers in the screen
 			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
 			{

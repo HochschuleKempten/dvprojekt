@@ -1,5 +1,6 @@
 #include "VScreenIngame.h"
 #include "VMaster.h"
+#include "VText.h"
 NAMESPACE_VIEW_B
 
 VScreenIngame::VScreenIngame()
@@ -20,7 +21,9 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_zpMinimapCam.AddCamera(&m_CamMiniMap);
 	
 	m_CamMiniMap.SetOrthoOn();
-	m_CamMiniMap.SetFov(1.5);
+	//m_CamMiniMap.SetFov(1.5);
+	//m_zpMinimapCam.TranslateZ(10);
+	m_zpMinimapCam.Scale(50);
 	m_zpMinimapCam.RotateXDelta(0);
 	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.8, 0.76, 0.195, 0.235));
 	
@@ -91,8 +94,10 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	
 	m_topBar.SetLayer(0.7);
 
-	
-	
+	addContainer(IViewGUIContainer::Group, CFloatRect(0.2, 0.0, 0.6, 0.05), "top");
+	getContainer("top")->addText(CFloatRect(0.25, 0.01, 0.10, 0.05), &VMaterialLoader::standardFont, "Bevoelkerung:");
+	getContainer("top")->addText(CFloatRect(0.351, 0.01, 0.10, 0.05), &VMaterialLoader::standardFont, "popNumber");
+
 	addContainer(IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55), "DialogBox");
 	
 	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.10, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING);
@@ -143,7 +148,12 @@ void VScreenIngame::switchOff()
 
 void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 {
+	//Test
 	
+	static int zahl = 0;
+	
+	dynamic_cast<VText*>(getContainer("top")->getGuiObjectList()[1])->updateText(static_cast<ostringstream*>(&(ostringstream() << zahl++))->str());
+
 	//keyboard->GetChar(keyboard->GetKey());
 	if (!keyboard->KeyPressed(DIK_ESCAPE))
 	{
@@ -163,4 +173,13 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	}
 	
 }
-NAMESPACE_VIEW_E
+
+	void VScreenIngame::updateMoney(const int& wert)
+	{
+	}
+
+	void VScreenIngame::updatePopulation(const int& wert)
+	{
+	}
+
+	NAMESPACE_VIEW_E

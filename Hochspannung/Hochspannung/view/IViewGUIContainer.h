@@ -31,10 +31,13 @@ public:
 	}
 	virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) = 0;
 	virtual void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder) = 0;
-	virtual list<IViewGUIObject*> getGuiObjectList()=0;
+	virtual void addText(CFloatRect rect, CWritingFont* writingFont, string text) = 0;
+	virtual  vector<IViewGUIObject*> getGuiObjectList() = 0;
 	virtual ~IViewGUIContainer(){};
 protected:
 	bool m_bOn = true;
+	vector<IViewGUIObject*> m_guiObjects;
+	vector<IViewGUIObject*>::iterator lIterGUIObjects;
 	virtual CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)
 	{
 		 

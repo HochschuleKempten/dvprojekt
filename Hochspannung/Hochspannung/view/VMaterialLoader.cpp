@@ -36,6 +36,9 @@ CMaterial VMaterialLoader::materialButtonMainMenueMehrspielerHover;
 CMaterial VMaterialLoader::materialButtonBack;
 CMaterial VMaterialLoader::materialButtonBackHover;
 
+//WritingFont
+CWritingFont VMaterialLoader::standardFont;
+
 void VMaterialLoader::init()
 {
 	fieldMaterials[FieldPair(LField::WATER, LField::LEVEL1)].MakeTextureDiffuse("textures/blue_image.jpg");
@@ -92,6 +95,10 @@ void VMaterialLoader::init()
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
 	materialBlue.MakeTextureSprite("textures\\blue_image.jpg");
 	materialGreen.MakeTextureSprite("textures\\green_image.jpg");
+
+	//Writing Font
+	standardFont.Init("textures\\FontArialShadow.png", true);
+	standardFont.SetTableSize(16, 6);
 
 }
 

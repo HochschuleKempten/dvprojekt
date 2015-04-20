@@ -1,5 +1,6 @@
 #include "VDialog.h"
 #include "VTextfield.h"
+#include "VText.h"
 NAMESPACE_VIEW_B
 
 VDialog::VDialog()
@@ -47,6 +48,15 @@ void VDialog::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial
 		m_guiObjects.push_back(textfield);
 	}
 
+	void VDialog::addText(CFloatRect rect, CWritingFont* writingFont, string text)
+	{
+		auto* texti = new VText(m_viewport, rect, writingFont, text);
+
+		texti->addObserver(this);
+
+		m_guiObjects.push_back(texti);
+	}
+
 	void VDialog::onNotify(IViewUIObserver::Event events)
 {
 	OutputDebugString("Nachricht bei Group-Observer angekommen\n");
@@ -60,7 +70,7 @@ void VDialog::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial
 
 }
 
-list<IViewGUIObject*> VDialog::getGuiObjectList()
+	vector<IViewGUIObject*> VDialog::getGuiObjectList()
 {
 	return m_guiObjects;
 }

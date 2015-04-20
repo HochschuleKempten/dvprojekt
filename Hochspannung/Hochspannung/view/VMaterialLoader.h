@@ -53,6 +53,9 @@ public:
 	static CMaterial materialRed;
 	static CMaterial materialBlue;
 	static CMaterial materialGreen;
+
+	//WritingFonts
+	static CWritingFont standardFont;
 	
 };
 

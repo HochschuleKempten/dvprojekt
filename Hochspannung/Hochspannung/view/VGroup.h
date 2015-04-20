@@ -23,15 +23,16 @@ public:
 	~VGroup();
 	void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) override;
 	void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder) override;
-	 void onNotify(IViewUIObserver::Event) override;
-	 list<IViewGUIObject*> getGuiObjectList() override;
+	void addText(CFloatRect rect, CWritingFont* writingFont, string text)override;
+	void onNotify(IViewUIObserver::Event) override;
+	 vector<IViewGUIObject*> getGuiObjectList() override;
 	 void switchOn() override;
 	 void switchOff() override;
 private:
 	CFloatRect m_rect;
 	CViewport* m_viewport;
-	list<IViewGUIObject*> m_guiObjects;
-	list<IViewGUIObject*>::iterator lIterGUIObjects;
+	//list<IViewGUIObject*> m_guiObjects;
+	//list<IViewGUIObject*>::iterator lIterGUIObjects;
 	
 	
 };

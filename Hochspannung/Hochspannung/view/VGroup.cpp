@@ -1,6 +1,7 @@
 #include "VGroup.h"
 #include "VButton.h"
 #include "VTextfield.h"
+#include "VText.h"
 NAMESPACE_VIEW_B
 
 VGroup::VGroup()
@@ -41,6 +42,15 @@ void VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial*
 		
 	}
 
+	void VGroup::addText(CFloatRect rect, CWritingFont* writingFont, string text)
+	{
+		auto* texti = new VText(m_viewport, rect,writingFont,text);
+
+		texti->addObserver(this);
+
+		m_guiObjects.push_back(texti);
+	}
+
 	void VGroup::onNotify(Event events)
 {
 	switch (events)
@@ -50,7 +60,7 @@ void VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial*
 	}
 }
 
-list<IViewGUIObject*> VGroup::getGuiObjectList()
+	vector<IViewGUIObject*> VGroup::getGuiObjectList()
 {
 	return m_guiObjects;
 }
