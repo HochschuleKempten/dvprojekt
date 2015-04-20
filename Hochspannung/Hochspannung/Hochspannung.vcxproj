@@ -87,7 +87,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>C:\local\boost_1_57_0\lib$(PlatformArchitecture)-msvc-12.0;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
@@ -192,13 +194,15 @@
     <ClInclude Include="view\IViewGUIObject.h" />
     <ClInclude Include="view\IViewModel.h" />
     <ClInclude Include="view\IViewObject.h" />
-    <ClInclude Include="view\IViewObserver.h" />
+    <ClInclude Include="view\IViewScreen.h" />
     <ClInclude Include="view\IViewSubject.h" />
+    <ClInclude Include="view\IViewUIObserver.h" />
     <ClInclude Include="view\LargeOfficeBuilding.h" />
     <ClInclude Include="view\OfficeTowerViewingDeck.h" />
     <ClInclude Include="view\SmallOfficeBuilding.h" />
     <ClInclude Include="view\TwistedTower.h" />
     <ClInclude Include="view\VCity.h" />
+    <ClInclude Include="view\VDialog.h" />
     <ClInclude Include="view\VField.h" />
     <ClInclude Include="view\VModelCity.h" />
     <ClInclude Include="view\VModelPowerLine.h" />
@@ -216,8 +220,16 @@
     <ClInclude Include="view\VMaster.h" />
     <ClInclude Include="view\VCoalPowerPlant.h" />
     <ClInclude Include="view\VPowerLine.h" />
-    <ClInclude Include="view\VScreen.h" />
+    <ClInclude Include="view\VRegister.h" />
+    <ClInclude Include="view\VScreenCredits.h" />
+    <ClInclude Include="view\VScreenIngame.h" />
+    <ClInclude Include="view\VScreenLobby.h" />
+    <ClInclude Include="view\VScreenMainMenue.h" />
+    <ClInclude Include="view\VScreenOptions.h" />
+    <ClInclude Include="view\VScreenSpielmodusWahl.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
+    <ClInclude Include="view\VText.h" />
+    <ClInclude Include="view\VTextfield.h" />
     <ClInclude Include="view\VUI.h" />
     <ClInclude Include="view\VWindmillPowerPlant.h" />
   </ItemGroup>
@@ -258,6 +270,7 @@
     <ClCompile Include="view\SmallOfficeBuilding.cpp" />
     <ClCompile Include="view\TwistedTower.cpp" />
     <ClCompile Include="view\VCity.cpp" />
+    <ClCompile Include="view\VDialog.cpp" />
     <ClCompile Include="view\VField.cpp" />
     <ClCompile Include="view\VModelCity.cpp" />
     <ClCompile Include="view\VModelPowerLine.cpp" />
@@ -273,8 +286,16 @@
     <ClCompile Include="view\VMaster.cpp" />
     <ClCompile Include="view\VCoalPowerPlant.cpp" />
     <ClCompile Include="view\VPowerLine.cpp" />
-    <ClCompile Include="view\VScreen.cpp" />
+    <ClCompile Include="view\VRegister.cpp" />
+    <ClCompile Include="view\VScreenCredits.cpp" />
+    <ClCompile Include="view\VScreenIngame.cpp" />
+    <ClCompile Include="view\VScreenLobby.cpp" />
+    <ClCompile Include="view\VScreenMainMenue.cpp" />
+    <ClCompile Include="view\VScreenOptions.cpp" />
+    <ClCompile Include="view\VScreenSpielmodusWahl.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
+    <ClCompile Include="view\VText.cpp" />
+    <ClCompile Include="view\VTextfield.cpp" />
     <ClCompile Include="view\VUI.cpp" />
     <ClCompile Include="view\VWindmillPowerPlant.cpp" />
   </ItemGroup>

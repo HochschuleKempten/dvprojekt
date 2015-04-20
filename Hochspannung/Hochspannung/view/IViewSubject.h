@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IViewObserver.h"
+#include "IViewUIObserver.h"
 
 NAMESPACE_VIEW_B
 
@@ -16,23 +16,23 @@ class IViewSubject
 public:
 	virtual ~IViewSubject(){};
 public:
-	void addObserver(IViewObserver* observer)
+	void addObserver(IViewUIObserver* observer)
 	{
 		observers_.push_back(observer);
 	}
 
-	void removeObserver(IViewObserver* observer)
+	void removeObserver(IViewUIObserver* observer)
 	{
 		// Remove from array...
 	}
 
 protected:
-	void notify(IViewObserver::Event evente)
+	void notify(IViewUIObserver::Event evente)
 	{
 		for (lIterObservers = observers_.begin(); lIterObservers != observers_.end(); lIterObservers++)
 		{
 
-			if (evente == IViewObserver::QUIT_GAME)
+			if (evente == IViewUIObserver::QUIT_GAME)
 			{
 				(*lIterObservers)->onNotify(evente);
 				break;
@@ -44,7 +44,7 @@ protected:
 		}
 	}
 private:
-	list<IViewObserver*> observers_;
-	list<IViewObserver*>::iterator lIterObservers;
+	list<IViewUIObserver*> observers_;
+	list<IViewUIObserver*>::iterator lIterObservers;
 };
 NAMESPACE_VIEW_E

@@ -1,19 +1,17 @@
 #include "VButton.h"
 NAMESPACE_VIEW_B
 
-VButton::VButton():
-m_zfrRect(CFloatRect(0,0,0,0)),
+VButton::VButton() :
 m_bHasHover(false)
 {
 
 }
-VButton::VButton(CViewport* viewport,CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewObserver::Event clickAction) :
-m_zfrRect(CFloatRect(0, 0, 0, 0)),
+VButton::VButton(CViewport* viewport, CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) :
 m_bHasHover(false),
-action(IViewObserver::NOTHING)
+action(IViewUIObserver::NOTHING)
 {
 	m_zoNormal = new COverlay();
-	m_zoNormal->Init(MaterialNormal,rect);
+	m_zoNormal->Init(MaterialNormal, rect);
 
 	m_zoHover = new COverlay();
 	m_zoHover->Init(MaterialHover, rect);
@@ -23,10 +21,10 @@ action(IViewObserver::NOTHING)
 
 	viewport->AddOverlay(getNormalOverlay());
 
-	
+
 
 	viewport->AddOverlay(getHoverOverlay());
-	
+
 
 }
 VButton::~VButton()
@@ -48,44 +46,12 @@ void VButton::onMouseOut(void)
 }
 void VButton::onMouseClickLeft(void)
 {
-	notify(IViewObserver::START_GAME);
-	//ToDo
+	notify(action);
+	
 }
 void VButton::onMouseClickRight(void)
 {
 	//ToDo
-}
-
-
-void VButton::checkHover(float fPosX, float fPosY)
-{
-
-	//Prüfe ob X-Koordinate innerhalb des Buttons
-	if ((fPosX > m_zfrRect.GetXPos()) && (fPosX < (m_zfrRect.GetXPos() + m_zfrRect.GetXSize())))
-	{
-		//Prüfe ob Y-Koordinate innerhalb des Buttons
-		if ((fPosY >  m_zfrRect.GetYPos()) && (fPosY < (m_zfrRect.GetYPos() + m_zfrRect.GetYSize())))
-		{
-			//Koordinaten sind auf Button
-			m_zoNormal->SwitchOff();
-			m_zoHover->SwitchOn();
-		}
-		else
-		{
-			//X-Koordinate passt aber Y-Koordinate nicht
-			//Koordinaten sind auf Button
-			m_zoHover->SwitchOff();
-			m_zoNormal->SwitchOn();
-			
-		}
-	}
-	else
-	{
-		//X-Koordinate passt nicht
-		m_zoHover->SwitchOff();
-		m_zoNormal->SwitchOn();
-	}
-
 }
 
 
@@ -110,28 +76,14 @@ CFloatRect VButton::getRectangle()
 	return m_zfrRect;
 }
 
-
-void VButton::checkPressed(float fPosX, float fPosY, bool bLeftpressed)
+	void VButton::switchOn()
 {
-	if (bLeftpressed)
-	{
-		if ((fPosX > m_zfrRect.GetXPos()) && (fPosX < (m_zfrRect.GetXPos() + m_zfrRect.GetXSize())))
-		{
-			//Prüfe ob Y-Koordinate innerhalb des Buttons
-			if ((fPosY >  m_zfrRect.GetYPos()) && (fPosY < (m_zfrRect.GetYPos() + m_zfrRect.GetYSize())))
-			{
-				OutputDebugString("Button Clickevent ausgelöst\n ");
-				OutputDebugString("button->Benachrichtige alle Beobachter\n");
-				notify(action);
-				
-			}
-			
-	}
-	else
-	{
-		return;
-	}
+	m_zoNormal->SwitchOn();
+	m_zoHover->SwitchOff();
 }
+void VButton::switchOff()
+{
+	m_zoNormal->SwitchOff();
+	m_zoHover->SwitchOff();
 }
-
 NAMESPACE_VIEW_E

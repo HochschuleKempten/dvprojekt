@@ -56,6 +56,18 @@
     <Filter Include="view\Quelldateien\buildings">
       <UniqueIdentifier>{1c7e80e5-10b9-4ec9-aff5-e3b04600e97d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{c604aa7f-090d-46e3-bc17-6fddcafd4c25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Headerdateien">
+      <UniqueIdentifier>{a8e2489a-d656-4831-87c2-3b9ca92908b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Quelldateien">
+      <UniqueIdentifier>{7414ecd0-5bb3-4443-bdf7-bca93a7eb47d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Interfaces">
+      <UniqueIdentifier>{7a6bb2a0-45e1-4635-8775-450615d4a7ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -172,12 +184,6 @@
     <ClInclude Include="view\VMaterialLoader.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\VButton.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VScreen.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\Helper.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -223,19 +229,7 @@
     <ClInclude Include="view\IViewBuilding.h">
       <Filter>view\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="view\IViewGUIContainer.h">
-      <Filter>view\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="view\IViewGUIObject.h">
-      <Filter>view\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="view\IViewObject.h">
-      <Filter>view\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="view\IViewObserver.h">
-      <Filter>view\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="view\IViewSubject.h">
       <Filter>view\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="logic\LIdentifier.h">
@@ -274,11 +268,56 @@
     <ClInclude Include="view\VModelCity.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\IViewModel.h">
-      <Filter>view\Interfaces</Filter>
+    <ClInclude Include="view\VTextfield.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VText.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenOptions.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenLobby.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VButton.h">
+      <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VGroup.h">
-      <Filter>view\Headerdateien\buildings</Filter>
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenCredits.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenIngame.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenMainMenue.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenSpielmodusWahl.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VDialog.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewGUIContainer.h">
+      <Filter>GUI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewGUIObject.h">
+      <Filter>GUI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewScreen.h">
+      <Filter>GUI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewSubject.h">
+      <Filter>GUI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewUIObserver.h">
+      <Filter>GUI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VRegister.h">
+      <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -360,15 +399,6 @@
     <ClCompile Include="view\VMaterialLoader.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="view\VButton.cpp">
-      <Filter>view\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VGroup.cpp">
-      <Filter>view\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VScreen.cpp">
-      <Filter>view\Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="view\Helper.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
@@ -431,6 +461,42 @@
     </ClCompile>
     <ClCompile Include="view\VModelCity.cpp">
       <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenLobby.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenOptions.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VText.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VTextfield.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VButton.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VDialog.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VGroup.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenCredits.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenIngame.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenMainMenue.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenSpielmodusWahl.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VRegister.cpp">
+      <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
