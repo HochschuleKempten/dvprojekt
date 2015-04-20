@@ -78,8 +78,8 @@ void COfficeTowerViewingDeck::AddWindows() {
 void COfficeTowerViewingDeck::InitWalls() {
 	m_zgFrame.Init(1.0F, 1.0F, .25F, &m_zm);
 
-	m_zgWall.InitTube(20.0F * fResize, 30.75F * fResize, .1F * fResize, &m_zm);
-	m_zgWallTop.InitTube(12.50F * fResize, 2.0F * fResize, .1F * fResize, &m_zm);
+	m_zgWall.InitTube(3.183F * fResize, 30.75F * fResize, .1F * fResize, &m_zm);
+	m_zgWallTop.InitTube(1.989F * fResize, 2.0F * fResize, .1F * fResize, &m_zm);
 
 	m_zgRoof.InitDomeCone(3.2F * fResize, 0.0F * fResize, 0.05 * fResize, &m_zm);
 	m_zgRoofTop.InitDomeCone(2.0F * fResize, 0.0F * fResize, 0.05 * fResize, &m_zm);
@@ -90,7 +90,7 @@ void COfficeTowerViewingDeck::InitWalls() {
 //
 //	m_zgWall.SetRoundingX(-2 * PI, 0.05F * fResize);
 //	m_zgWallTop.SetRoundingX(-2 * PI, 0.05F * fResize);
-
+//
 //}
 
 NAMESPACE_VIEW_E
