@@ -50,6 +50,24 @@
     <Filter Include="view\Quelldateien">
       <UniqueIdentifier>{ea0dc22a-dcbf-45e7-95f0-f16c228899e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="view\Headerdateien\buildings">
+      <UniqueIdentifier>{55cd1164-44c0-4458-aef7-7d915d5be0ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="view\Quelldateien\buildings">
+      <UniqueIdentifier>{1c7e80e5-10b9-4ec9-aff5-e3b04600e97d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{c604aa7f-090d-46e3-bc17-6fddcafd4c25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Headerdateien">
+      <UniqueIdentifier>{a8e2489a-d656-4831-87c2-3b9ca92908b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Quelldateien">
+      <UniqueIdentifier>{7414ecd0-5bb3-4443-bdf7-bca93a7eb47d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Interfaces">
+      <UniqueIdentifier>{7a6bb2a0-45e1-4635-8775-450615d4a7ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -139,14 +157,8 @@
     <ClInclude Include="view\VHydroelectricPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="logic\IVUI.h">
-      <Filter>logic\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="view\VUI.h">
       <Filter>view\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="logic\LUI.h">
-      <Filter>logic\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VNuclearPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
@@ -170,12 +182,6 @@
       <Filter>logic\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="view\VMaterialLoader.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VButton.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VGroup.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\Helper.h">
@@ -208,6 +214,9 @@
     <ClInclude Include="network\Node.h">
       <Filter>network\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="network\NetworkService.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
     <ClInclude Include="view\VCity.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -220,16 +229,7 @@
     <ClInclude Include="view\IViewBuilding.h">
       <Filter>view\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="view\IViewGUIContainer.h">
-      <Filter>view\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="view\IViewGUIObject.h">
-      <Filter>view\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="view\IViewObject.h">
-      <Filter>view\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="view\IViewSubject.h">
       <Filter>view\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="logic\LIdentifier.h">
@@ -238,65 +238,86 @@
     <ClInclude Include="view\VModelWindmillPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="logic\LGeneral.h">
+      <Filter>logic</Filter>
+    </ClInclude>
     <ClInclude Include="view\Appartments.h">
-      <Filter>view</Filter>
+      <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
     <ClInclude Include="view\Gebaeude02.h">
-      <Filter>view</Filter>
+      <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
     <ClInclude Include="view\Gebaeude03.h">
-      <Filter>view</Filter>
+      <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
     <ClInclude Include="view\Gebauede01.h">
-      <Filter>view</Filter>
+      <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
     <ClInclude Include="view\LargeOfficeBuilding.h">
-      <Filter>view</Filter>
+      <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
     <ClInclude Include="view\OfficeTowerViewingDeck.h">
-      <Filter>view</Filter>
+      <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
     <ClInclude Include="view\SmallOfficeBuilding.h">
-      <Filter>view</Filter>
+      <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
     <ClInclude Include="view\TwistedTower.h">
-      <Filter>view</Filter>
+      <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
     <ClInclude Include="view\VModelCity.h">
-      <Filter>view</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VDialog.h">
-      <Filter>view</Filter>
-    </ClInclude>
-    <ClInclude Include="view\IViewScreen.h">
-      <Filter>view\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VScreenCredits.h">
       <Filter>view\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VScreenMainMenue.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VScreenIngame.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VScreenSpielmodusWahl.h">
-      <Filter>view\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="view\IViewUIObserver.h">
-      <Filter>view\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VScreenOptions.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="view\VScreenLobby.h">
-      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VTextfield.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VText.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenOptions.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenLobby.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VButton.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VGroup.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenCredits.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenIngame.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenMainMenue.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenSpielmodusWahl.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VDialog.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewGUIContainer.h">
+      <Filter>GUI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewGUIObject.h">
+      <Filter>GUI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewScreen.h">
+      <Filter>GUI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewSubject.h">
+      <Filter>GUI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewUIObserver.h">
+      <Filter>GUI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VRegister.h">
+      <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -360,9 +381,6 @@
     <ClCompile Include="view\VUI.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="logic\LUI.cpp">
-      <Filter>logic\Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="view\VNuclearPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
@@ -379,12 +397,6 @@
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VMaterialLoader.cpp">
-      <Filter>view\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VButton.cpp">
-      <Filter>view\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VGroup.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\Helper.cpp">
@@ -411,6 +423,9 @@
     <ClCompile Include="network\Node.cpp">
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="network\NetworkService.cpp">
+      <Filter>network\Quelldateien</Filter>
+    </ClCompile>
     <ClCompile Include="view\VCity.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
@@ -421,58 +436,67 @@
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\Appartments.cpp">
-      <Filter>view</Filter>
+      <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
     <ClCompile Include="view\Gebaeude02.cpp">
-      <Filter>view</Filter>
+      <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
     <ClCompile Include="view\Gebaeude03.cpp">
-      <Filter>view</Filter>
+      <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
     <ClCompile Include="view\Gebauede01.cpp">
-      <Filter>view</Filter>
+      <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
     <ClCompile Include="view\LargeOfficeBuilding.cpp">
-      <Filter>view</Filter>
+      <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
     <ClCompile Include="view\OfficeTowerViewingDeck.cpp">
-      <Filter>view</Filter>
+      <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
     <ClCompile Include="view\SmallOfficeBuilding.cpp">
-      <Filter>view</Filter>
+      <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
     <ClCompile Include="view\TwistedTower.cpp">
-      <Filter>view</Filter>
+      <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
     <ClCompile Include="view\VModelCity.cpp">
-      <Filter>view</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VScreenIngame.cpp">
       <Filter>view\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VScreenMainMenue.cpp">
-      <Filter>view\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VScreenSpielmodusWahl.cpp">
-      <Filter>view\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VDialog.cpp">
-      <Filter>view\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VScreenCredits.cpp">
-      <Filter>view\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VScreenOptions.cpp">
-      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VScreenLobby.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="view\VTextfield.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="view\VScreenOptions.cpp">
+      <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VText.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VTextfield.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VButton.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VDialog.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VGroup.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenCredits.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenIngame.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenMainMenue.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenSpielmodusWahl.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VRegister.cpp">
+      <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -17,9 +17,7 @@ private:
 
 public:
 	VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant);
-
-	virtual ~VCoalPowerPlant()
-	{}
+	virtual ~VCoalPowerPlant();
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y);
 };

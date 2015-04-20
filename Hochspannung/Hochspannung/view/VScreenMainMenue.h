@@ -11,7 +11,7 @@ public:
 	VScreenMainMenue(CFrame* frame);
 	~VScreenMainMenue();
 
-	void onNotify(IViewUIObserver::Event events)override;
+	void onNotify(Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
 private:
 	COverlay* m_flash;

@@ -8,11 +8,12 @@ VScreenIngame::VScreenIngame()
 }
 VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlacement* camplacement)
 {
+	m_viewport = new CViewport();
 	//Standard Init
 	m_scene = scene;
 	m_zpCamera = camplacement;
 	m_zc.Init();
-	m_viewport.InitFull(&m_zc);
+	m_viewport->InitFull(&m_zc);
 	
 	//Minimap
 	m_CamMiniMap.Init();
@@ -27,13 +28,13 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_zpMinimapCam.RotateXDelta(0);
 	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.8, 0.76, 0.195, 0.235));
 	
-	frame->AddViewport(&m_viewport);
+	frame->AddViewport(m_viewport);
 	frame->AddViewport(&m_minimap);
 	
 	//Scene "3D-World"
 	root->AddScene(scene);
 	m_zb.InitFull("textures/black_image.jpg");
-	m_viewport.AddBackground(&m_zb);
+	m_viewport->AddBackground(&m_zb);
 	
 	m_scene->AddPlacement(m_zpCamera);
 	m_zpCamera->AddCamera(&m_zc);
@@ -52,10 +53,10 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	//Bottom Bar
 
 	m_bottomBar.Init("textures\\MainMenueBackground.png", CFloatRect(0.0, 0.75, 1.0, 0.25));
-	m_viewport.AddOverlay(&m_bottomBar);
+	m_viewport->AddOverlay(&m_bottomBar);
 	m_bottomBar.SetLayer(0.8);
 
-	addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
+	addContainer(m_viewport,IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
 	getContainer("Menue")->addButton(CFloatRect(0.23, 0.82, 0.05, 0.07), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING);
 	getContainer("Menue")->addButton(CFloatRect(0.23, 0.91, 0.05, 0.07), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, NOTHING);
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.82, 0.05, 0.07), &VMaterialLoader::materialButtonMainMenueOptionen, &VMaterialLoader::materialButtonMainMenueOptionenHover, NOTHING);
@@ -81,37 +82,34 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_bottomBarSeperatorMenueMinimap.SetLayer(0.7);
 
 
-	m_viewport.AddOverlay(&m_bottomBarBorderTop);
-	m_viewport.AddOverlay(&m_bottomBarBorderBottom);
-	m_viewport.AddOverlay(&m_bottomBarBorderLeft);
-	m_viewport.AddOverlay(&m_bottomBarBorderRight);
-	m_viewport.AddOverlay(&m_bottomBarSeperatorMenueInfofeld);
-	m_viewport.AddOverlay(&m_bottomBarSeperatorMenueMinimap);
+	m_viewport->AddOverlay(&m_bottomBarBorderTop);
+	m_viewport->AddOverlay(&m_bottomBarBorderBottom);
+	m_viewport->AddOverlay(&m_bottomBarBorderLeft);
+	m_viewport->AddOverlay(&m_bottomBarBorderRight);
+	m_viewport->AddOverlay(&m_bottomBarSeperatorMenueInfofeld);
+	m_viewport->AddOverlay(&m_bottomBarSeperatorMenueMinimap);
 	
 	//Top Bar
 	m_topBar.Init("textures\\MainMenueBackground.png", CFloatRect(0.2, 0.0, 0.6, 0.05));
-	m_viewport.AddOverlay(&m_topBar);
+	m_viewport->AddOverlay(&m_topBar);
 	
 	m_topBar.SetLayer(0.7);
 
-	addContainer(IViewGUIContainer::Group, CFloatRect(0.2, 0.0, 0.6, 0.05), "top");
+	addContainer(m_viewport, IViewGUIContainer::Group, CFloatRect(0.2, 0.0, 0.6, 0.05), "top");
 	getContainer("top")->addText(CFloatRect(0.25, 0.01, 0.10, 0.05), &VMaterialLoader::standardFont, "Bevoelkerung:");
 	getContainer("top")->addText(CFloatRect(0.351, 0.01, 0.10, 0.05), &VMaterialLoader::standardFont, "popNumber");
 
-	addContainer(IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55), "DialogBox");
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55), "DialogBox");
 	
 	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.10, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING);
 	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.27, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME);
 	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.44, 0.80, 0.15), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE);
 	
-	m_viewport.SwitchOff();
+	m_viewport->SwitchOff();
 getContainer("DialogBox")->switchOff();
 
 }
-VScreenIngame::VScreenIngame(CViewport* viewp, CFrame* frame)
-{
-	frame->AddViewport(&m_viewport);
-}
+
 VScreenIngame::~VScreenIngame()
 {
 	for (m_IterGuicontainer = m_Guicontainer.begin(); m_IterGuicontainer != m_Guicontainer.end(); ++m_IterGuicontainer)
@@ -119,6 +117,8 @@ VScreenIngame::~VScreenIngame()
 		delete m_IterGuicontainer->second;
 	}
 	m_Guicontainer.clear();
+
+	delete m_viewport;
 }
 
 void VScreenIngame::onNotify(IViewUIObserver::Event events)
@@ -132,7 +132,7 @@ void VScreenIngame::onNotify(IViewUIObserver::Event events)
 }
 void VScreenIngame::switchOn()
 {
-	m_viewport.SwitchOn();
+	m_viewport->SwitchOn();
 	m_minimap.SwitchOn();
 	m_scene->SwitchOn();
 	
@@ -140,7 +140,7 @@ void VScreenIngame::switchOn()
 }
 void VScreenIngame::switchOff()
 {
-	m_viewport.SwitchOff();
+	m_viewport->SwitchOff();
 	m_minimap.SwitchOff();
 	m_scene->SwitchOff();
 	m_isOn = false;

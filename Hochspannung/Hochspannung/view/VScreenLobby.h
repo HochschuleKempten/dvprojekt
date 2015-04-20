@@ -8,7 +8,7 @@ public:
 	VScreenLobby();
 	VScreenLobby(CFrame* frame);
 	~VScreenLobby();
-	void onNotify(IViewUIObserver::Event events)override;
+	void onNotify(Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
 
 private:

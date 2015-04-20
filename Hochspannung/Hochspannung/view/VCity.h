@@ -2,15 +2,17 @@
 
 #include "../logic/IVCity.h"
 #include "IViewBuilding.h"
-
-class LCity;
+#include "VModelCity.h"
 
 NAMESPACE_VIEW_B
 
 
+class LCity;
+
 class VCity : public IVCity, public IViewBuilding
 {
 private:
+	//VModelCity m_zp;
 	CPlacement m_zp;
 	CMaterial m_zm;
 	CGeoEllipsoid m_zg;

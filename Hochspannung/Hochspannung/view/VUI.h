@@ -1,16 +1,21 @@
 #pragma once
 
-#include "../logic/IVUI.h"
-#include "../logic/IVTickObserver.h"
 #include "VGeneral.h"
+
 #include "IViewUIObserver.h"
 #include "IViewScreen.h"
+
+#include "../logic/IVTickObserver.h"
+
+
 NAMESPACE_VIEW_B
 
 
 class VMaster;
 
-class VUI : public IVUI, public IVTickObserver,public IViewUIObserver
+
+class VUI : public IVTickObserver, public IViewUIObserver
+
 {
 	friend class VMaster;
 
@@ -36,9 +41,8 @@ private:
 	bool m_BlockCursorLeftPressed=false;
 
 public:
-	VUI(VMaster* vMaster, LUI* lUi);
-	inline virtual ~VUI()
-	{}
+	VUI(VMaster* vMaster);
+	virtual ~VUI();
 
 	void initUI();
 

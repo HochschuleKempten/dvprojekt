@@ -16,8 +16,7 @@ private:
 
 public:
 	VOilRefinery(VMaster *vMaster, LOilRefinery* lPlant);
-	virtual ~VOilRefinery()
-	{}
+	virtual ~VOilRefinery();
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y);
 };

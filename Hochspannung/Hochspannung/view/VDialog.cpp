@@ -7,7 +7,7 @@ VDialog::VDialog()
 {
 }
 
-VDialog::VDialog(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground)
+VDialog::VDialog(CViewport* viewport, CFloatRect floatRect, CMaterial* materialBackground)
 {
 	
 	m_viewport = viewport;
@@ -29,9 +29,6 @@ VDialog::~VDialog()
 
 void VDialog::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction)
 {
-	/*CFloatRect rectRelative;
-	rectRelative = CFloatRect(m_rect.GetXPos() + (m_rect.GetXSize() * rect.GetXPos()), m_rect.GetYPos() + (m_rect.GetYSize() * rect.GetYPos()),m_rect.GetXSize()*rect.GetXSize(), m_rect.GetYSize()*rect.GetYSize());
-*/
 	VButton* vButton = new VButton(m_viewport, createRelativeRectangle(&m_rect,&rect), MaterialNormal, MaterialHover, clickAction);
 
 	vButton->addObserver(this);
@@ -50,7 +47,7 @@ void VDialog::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial
 
 	void VDialog::addText(CFloatRect rect, CWritingFont* writingFont, string text)
 	{
-		auto* texti = new VText(m_viewport, rect, writingFont, text);
+		auto* texti = new VText(m_viewport, createRelativeRectangle(&m_rect, &rect), writingFont, text);
 
 		texti->addObserver(this);
 
@@ -59,21 +56,15 @@ void VDialog::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial
 
 	void VDialog::onNotify(IViewUIObserver::Event events)
 {
-	OutputDebugString("Nachricht bei Group-Observer angekommen\n");
 	switch (events)
 	{
 	default:
-		OutputDebugString("Group keine Lösung. Benachrichtigt alle Beobachter\n");
-		notify(events);
+			notify(events);
 
 	}
 
 }
 
-	vector<IViewGUIObject*> VDialog::getGuiObjectList()
-{
-	return m_guiObjects;
-}
 
 void VDialog::switchOn()
 {
@@ -92,7 +83,7 @@ void VDialog::switchOff()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
-		//(*lIterGUIObjects)->switchOff();
+		
 		(*lIterGUIObjects)->switchOff();
 		
 	}

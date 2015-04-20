@@ -1,6 +1,8 @@
 #pragma once
-
 #include <memory>
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
 
 class ILPowerPlant;
 
@@ -18,3 +20,5 @@ public:
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y) = 0;
 };
+
+NAMESPACE_LOGIC_E

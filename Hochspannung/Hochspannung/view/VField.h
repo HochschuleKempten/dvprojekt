@@ -1,14 +1,12 @@
 #pragma once
 
-#include <memory>
 #include "IViewBuilding.h"
-#include <string>
-
-class LField;
+#include <memory>
 
 NAMESPACE_VIEW_B
 
 
+class LField;
 class VPlayingField;
 
 class VField

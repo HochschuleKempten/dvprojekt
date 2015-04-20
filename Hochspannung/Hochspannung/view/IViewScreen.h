@@ -35,24 +35,25 @@ public:
 
 	virtual void switchOn()
 	{
-		m_viewport.SwitchOn();
+		m_viewport->SwitchOn();
 		m_isOn = true;
 	}
 	virtual void switchOff()
 	{
-		m_viewport.SwitchOff();
+		m_viewport->SwitchOff();
 		m_isOn = false;
 	}
-	inline void addContainer(const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName)
+	inline void addContainer(CViewport* viewport,const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName)
 	{
+		m_viewport = viewport;
 		switch (containerType)
 		{
 		case IViewGUIContainer::Group:
-			m_Guicontainer[sName] = new VGroup(floatRect, &m_viewport);
+			m_Guicontainer[sName] = new VGroup(m_viewport,floatRect);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		case IViewGUIContainer::Dialog:
-			m_Guicontainer[sName] = new VDialog(floatRect, &m_viewport, &VMaterialLoader::materialDialogBackground);
+			m_Guicontainer[sName] = new VDialog(m_viewport,floatRect,&VMaterialLoader::materialDialogBackground);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		}
@@ -75,7 +76,7 @@ protected:
 	map<string, IViewGUIContainer*> m_Guicontainer;
 	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
 	
-	CViewport m_viewport;
+	CViewport* m_viewport;
 	CCamera m_camera;
 	ScreenType m_screenType;
 	bool m_isOn = false;

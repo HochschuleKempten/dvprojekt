@@ -8,7 +8,7 @@ VGroup::VGroup()
 {
 }
 
-VGroup::VGroup(CFloatRect floatRect,CViewport* viewport)
+VGroup::VGroup(CViewport* viewport, CFloatRect floatRect)
 {
 	m_viewport = viewport;
 	m_rect = floatRect;
@@ -22,34 +22,6 @@ VGroup::~VGroup()
 	}
 }
 
-void VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction)
-{
-	auto* vButton = new VButton(m_viewport,rect, MaterialNormal, MaterialHover, clickAction);
-	
-	vButton->addObserver(this);
-	
-	m_guiObjects.push_back(vButton);
-	
-}
-
-void VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder)
-	{
-		auto* textfield = new VTextfield(m_viewport, rect, MaterialNormal, MaterialHover, MaterialActive, MaxChars,Placeholder);
-		
-		textfield->addObserver(this);
-
-		m_guiObjects.push_back(textfield);
-		
-	}
-
-	void VGroup::addText(CFloatRect rect, CWritingFont* writingFont, string text)
-	{
-		auto* texti = new VText(m_viewport, rect,writingFont,text);
-
-		texti->addObserver(this);
-
-		m_guiObjects.push_back(texti);
-	}
 
 	void VGroup::onNotify(Event events)
 {
@@ -60,10 +32,6 @@ void VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial*
 	}
 }
 
-	vector<IViewGUIObject*> VGroup::getGuiObjectList()
-{
-	return m_guiObjects;
-}
 
 void VGroup::switchOn()
 {

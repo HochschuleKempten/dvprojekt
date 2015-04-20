@@ -7,9 +7,10 @@ NAMESPACE_VIEW_B
 
 	VScreenMainMenue::VScreenMainMenue(CFrame* frame)
 {
+	m_viewport = new CViewport();
 	m_camera.Init();
-	m_viewport.InitFull(&m_camera);
-	frame->AddViewport(&m_viewport);
+	m_viewport->InitFull(&m_camera);
+	frame->AddViewport(m_viewport);
 
 	m_flash = new COverlay();
 	m_background = new CBackground();
@@ -19,11 +20,11 @@ NAMESPACE_VIEW_B
 	m_flash->Init("textures\\Blitz.png", CFloatRect(0.75, 0.2, 0.20, 0.7));
 	m_headline->Init("textures\\Hochvolt.png", CFloatRect(0.20, 0.05, 0.6, 0.15));
 
-	m_viewport.AddOverlay(m_flash);
-	m_viewport.AddBackground(m_background);
-	m_viewport.AddOverlay(m_headline);
+	m_viewport->AddOverlay(m_flash);
+	m_viewport->AddBackground(m_background);
+	m_viewport->AddOverlay(m_headline);
 
-	addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
+	addContainer(m_viewport,IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.27, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, IViewUIObserver::SWITCH_TO_SPIELMODUS);
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.42, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueOptionen, &VMaterialLoader::materialButtonMainMenueOptionenHover, IViewUIObserver::SWITCH_TO_OPTIONS);
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.57, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, IViewUIObserver::SWITCH_TO_CREDITS);
@@ -44,6 +45,7 @@ VScreenMainMenue::~VScreenMainMenue()
 	delete m_flash;
 	delete m_background;
 	delete m_headline;
+	delete m_viewport;
 }
 
 void VScreenMainMenue::onNotify(IViewUIObserver::Event events)

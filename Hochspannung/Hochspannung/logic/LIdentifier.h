@@ -1,9 +1,12 @@
+#pragma once
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
+
 namespace LIdentifier
 {
 	enum LIdentifier
 	{
-		//todo (L) use these identifiers
-
 		LCoalPowerPlant = 0,
 		LHydroelectricPowerPlant = 1,
 		LNuclearPowerPlant = 2,
@@ -13,3 +16,5 @@ namespace LIdentifier
 		LWindmillPowerPlant = 6
 	};
 }
+
+NAMESPACE_LOGIC_E

@@ -1,7 +1,9 @@
 #pragma once
-
 #include <list>
 #include "IVTickObserver.h"
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
 
 class IVFactory;
 
@@ -18,7 +20,7 @@ protected:
 	}
 
 public:
-	virtual ~IVMaster()
+	inline virtual ~IVMaster()
 	{}
 
 	inline void registerObserver(IVTickObserver* observer)
@@ -33,3 +35,5 @@ public:
 
 	virtual IVFactory* getFactory() = 0;
 };
+
+NAMESPACE_LOGIC_E

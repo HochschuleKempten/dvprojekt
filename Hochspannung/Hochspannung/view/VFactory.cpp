@@ -7,14 +7,21 @@
 #include "VSolarPowerPlant.h"
 #include "VWindmillPowerPlant.h"
 #include "VPowerline.h"
-#include "VUI.h"
+#include "VCity.h"
 
 NAMESPACE_VIEW_B
 
 
-IVPlayingField* VFactory::createPlayingField(LPlayingField* field)
+VFactory::VFactory(VMaster* vMaster)
+: vMaster(vMaster)
+{}
+
+VFactory::~VFactory()
+{}
+
+std::shared_ptr<IVPlayingField> VFactory::createPlayingField(LPlayingField* field)
 {
-	return new VPlayingField(vMaster, field);
+	return shared_ptr<IVPlayingField>(new VPlayingField(vMaster, field));
 }
 
 std::shared_ptr<IVPowerPlant> VFactory::createCoalPowerPlant(LCoalPowerPlant* powerPlant)
@@ -52,9 +59,9 @@ std::shared_ptr<IVPowerLine> VFactory::createPowerLine(LPowerLine* powerLine)
 	return std::shared_ptr<IVPowerLine>(new VPowerLine(vMaster, powerLine));
 }
 
-IVUI* VFactory::createUi(LUI* lUi)
+std::shared_ptr<IVCity> VFactory::createCity(LCity* city)
 {
-	return new VUI(vMaster, lUi);
+	return std::shared_ptr<IVCity>(new VCity(vMaster, city));
 }
 
 

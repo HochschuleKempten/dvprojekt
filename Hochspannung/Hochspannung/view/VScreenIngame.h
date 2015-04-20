@@ -7,10 +7,10 @@ class VScreenIngame :
 public:
 	
 	VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlacement* camplacement);
-	VScreenIngame(CViewport* viewp,CFrame* frame);
+	
 	VScreenIngame();
 	~VScreenIngame();
-	void onNotify(IViewUIObserver::Event events) override;
+	void onNotify(Event events) override;
 	void switchOn() override;
 	void switchOff() override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;

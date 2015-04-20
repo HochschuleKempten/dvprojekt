@@ -5,8 +5,10 @@
 #include "IVFactory.h"
 #include "IVPowerPlant.h"
 
-LSolarPowerPlant::LSolarPowerPlant(const int costs, const int energyValue, LField* lField, const int x, const int y)
-	:ILPowerPlant(costs, energyValue, lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createSolarPowerPlant(this))
+NAMESPACE_LOGIC_B
+
+LSolarPowerPlant::LSolarPowerPlant(LField* lField, const int x, const int y)
+	:ILPowerPlant(lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createSolarPowerPlant(this))
 {
 	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }
@@ -16,7 +18,4 @@ LSolarPowerPlant::~LSolarPowerPlant()
 {
 }
 
-int LSolarPowerPlant::getID()
-{
-	return id;
-}
+NAMESPACE_LOGIC_E

@@ -1,6 +1,7 @@
 #include "VNuclearPowerPlant.h"
 #include "VPlayingField.h"
 #include "VIdentifier.h"
+#include "VMaster.h"
 
 NAMESPACE_VIEW_B
 
