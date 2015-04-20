@@ -5,6 +5,7 @@
 #include <deque>
 #include "Message.h"
 #include "TransferObject.h"
+#include "Pinger.h"
 
 namespace Network {
 
@@ -69,6 +70,10 @@ public:
 	* @return true, if a next action is available, false otherwise.
 	*/
 	bool isActionAvailable();
+
+	void startPing(std::string stIP);
+	void stopPing();
+	int getLatency();
 
 protected:
 
@@ -142,8 +147,9 @@ protected:
 
 	CMessage m_messageRead;
 	std::deque<CMessage> m_dequeMessagesToWrite;
-	
 	std::deque<CTransferObject> m_dequeActionsToExecute;
+
+	CPinger m_pinger;
 };
 
 }

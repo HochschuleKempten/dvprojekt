@@ -165,9 +165,11 @@
     <ClInclude Include="logic\LUtility.h" />
     <ClInclude Include="logic\LWindmillPowerPlant.h" />
     <ClInclude Include="network\Client.h" />
+    <ClInclude Include="network\IcmpMessage.h" />
     <ClInclude Include="network\NetworkService.h" />
     <ClInclude Include="network\Node.h" />
     <ClInclude Include="network\Message.h" />
+    <ClInclude Include="network\Pinger.h" />
     <ClInclude Include="network\Server.h" />
     <ClInclude Include="network\TransferObject.h" />
     <ClInclude Include="resource.h" />
@@ -227,9 +229,11 @@
     <ClCompile Include="logic\LUI.cpp" />
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="network\Client.cpp" />
+    <ClCompile Include="network\IcmpMessage.cpp" />
     <ClCompile Include="network\NetworkService.cpp" />
     <ClCompile Include="network\Node.cpp" />
     <ClCompile Include="network\Message.cpp" />
+    <ClCompile Include="network\Pinger.cpp" />
     <ClCompile Include="network\Server.cpp" />
     <ClCompile Include="network\TransferObject.cpp" />
     <ClCompile Include="stdafx.cpp" />

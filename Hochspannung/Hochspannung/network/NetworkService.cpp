@@ -63,6 +63,14 @@ State CNetworkService::getConnectionState() {
 	return m_ConnectionState;
 }
 
+int CNetworkService::getLatency() {
+	if (getConnectionState() == CONNECTED) {
+		return m_pNode->getLatency();
+	} else {
+		return -1;
+	}
+}
+
 void CNetworkService::sendStartGame() {
 	sendAsMessage(Action::START_GAME);
 }

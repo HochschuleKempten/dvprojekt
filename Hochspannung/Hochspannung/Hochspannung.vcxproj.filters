@@ -213,7 +213,7 @@
     </ClInclude>
     <ClInclude Include="network\NetworkService.h">
       <Filter>network\Headerdateien</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="view\VCity.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -273,6 +273,12 @@
     </ClInclude>
     <ClInclude Include="view\VModelCity.h">
       <Filter>view</Filter>
+    </ClInclude>
+    <ClInclude Include="network\IcmpMessage.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="network\Pinger.h">
+      <Filter>network\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -392,7 +398,7 @@
     </ClCompile>
     <ClCompile Include="network\NetworkService.cpp">
       <Filter>network\Quelldateien</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="view\VCity.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
@@ -428,6 +434,12 @@
     </ClCompile>
     <ClCompile Include="view\VModelCity.cpp">
       <Filter>view</Filter>
+    </ClCompile>
+    <ClCompile Include="network\IcmpMessage.cpp">
+      <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\Pinger.cpp">
+      <Filter>network\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

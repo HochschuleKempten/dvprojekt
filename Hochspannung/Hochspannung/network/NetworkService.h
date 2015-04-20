@@ -67,6 +67,12 @@ public:
 	State getConnectionState();
 
 	/**
+	* @brief Returns the current latency to the remote computer if connected.
+	* @return the current latenzy (in ms) or -1 if not connected
+	*/
+	int getLatency();
+
+	/**
 	 * @brief Send the command to start the game.
 	 */
 	void sendStartGame();

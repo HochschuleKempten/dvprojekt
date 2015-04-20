@@ -9,7 +9,7 @@
 namespace Network {
 
 CNode::CNode() :
-m_ioService(io_service()), m_socket(m_ioService), m_timer(m_ioService), m_bConnected(false) {
+m_ioService(io_service()), m_socket(m_ioService), m_timer(m_ioService), m_bConnected(false), m_pinger(CPinger(m_ioService)) {
 }
 
 CNode::~CNode() {
@@ -66,6 +66,21 @@ void CNode::write(const CMessage& message) {
 			do_write();
 		}
 	});
+}
+
+CTransferObject CNode::getNextActionToExecute() {
+	CTransferObject transferObject;
+
+	if (!m_dequeActionsToExecute.empty()) {
+		transferObject = m_dequeActionsToExecute.front();
+		m_dequeActionsToExecute.pop_front();
+	}
+
+	return transferObject;
+}
+
+bool CNode::isActionAvailable() {
+	return !m_dequeActionsToExecute.empty();
 }
 
 void CNode::do_write() {
@@ -184,19 +199,16 @@ void CNode::handleConnectionError(const error_code& ec) {
 	}
 }
 
-CTransferObject CNode::getNextActionToExecute() {
-	CTransferObject transferObject;
-
-	if (!m_dequeActionsToExecute.empty()) {
-		transferObject = m_dequeActionsToExecute.front();
-		m_dequeActionsToExecute.pop_front();
-	}
-
-	return transferObject;
+void CNode::startPing(std::string stIP) {
+	m_pinger.start(stIP);
 }
 
-bool CNode::isActionAvailable() {
-	return !m_dequeActionsToExecute.empty();
+void CNode::stopPing() {
+	m_pinger.stop();
+}
+
+int CNode::getLatency() {
+	return m_pinger.getLatestLatency();
 }
 
 std::string CNode::retrieveString(const char* mes, unsigned int maxLen) {
