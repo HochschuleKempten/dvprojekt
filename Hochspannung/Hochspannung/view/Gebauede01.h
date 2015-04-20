@@ -1,11 +1,11 @@
 #pragma once
 
+
 #include "VGeneral.h"
 
 NAMESPACE_VIEW_B
 
-
-class Gebauede01
+class Gebauede01 : public CPlacement
 {
 
 private:
@@ -30,16 +30,15 @@ private:
 
 
 
-	CPlacement m_zpGebauede01;
-
-
 public:
 
 	Gebauede01();
 	~Gebauede01();
 
-		CPlacement*getPlacement();
+		
 };
+
+
 
 
 NAMESPACE_VIEW_E

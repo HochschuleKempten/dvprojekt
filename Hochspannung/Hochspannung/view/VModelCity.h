@@ -21,30 +21,12 @@ public:
 
 	void TranslateBuildings();
 	void InitBuildings();
-	void GetPlacements();
 	void AddPlacements();
 	
 
 private:
 
-	CPlacement* m_zpgebaeude1_01;
-	CPlacement* m_zpgebaeude1_02;
-
-	CPlacement* m_zpgebaeude2_01;
-	CPlacement* m_zpgebaeude2_02;
-	CPlacement* m_zpgebaeude3_01;
-
-	CPlacement* m_zpgebaeude3_02;
-
-	CPlacement* m_zpOfficeTower_01;
-	CPlacement* m_zpOfficeTower_02;
-	CPlacement* m_zpAppartment_01;
-	CPlacement* m_zpAppartment_02;
-	CPlacement* m_zpAppartment_03;
-	CPlacement* m_zpSmallOfficeBuilding_01;
-	CPlacement* m_zpSmallOfficeBuilding_02;
-	CPlacement* m_zpLargeOfficeBuilding_01;
-	CPlacement* m_zpLargeOfficeBuilding_02;
+	
 	
 	Gebauede01* gebaeude1_01;
 	Gebauede01* gebaeude1_02;

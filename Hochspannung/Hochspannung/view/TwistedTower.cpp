@@ -1,21 +1,11 @@
+
 #include "TwistedTower.h"
 
 NAMESPACE_VIEW_B
 
-
 CTwistedTower::CTwistedTower(void)
 {
-	// Hier eventuelle Vorinitialisierungen Deiner Vektoria-Objekte einfügen:
 
-	//m_hwnd = hwnd;
-	//m_bReSized = false;
-	// Hier die Initialisierung Deiner Vektoria-Objekte einfügen:
-	//m_zr.Init(psplash);
-	//m_zc.Init();
-	//m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput);
-	//m_zf.AddDeviceKeyboard(&m_zdk);
-	//m_zv.InitFull(&m_zc);
-	//m_zl.Init(CHVector(1, 1, 1), CColor(1, 1, 1));
 	this->fResize = fResize;
 
 	//Window 
@@ -33,18 +23,12 @@ CTwistedTower::CTwistedTower(void)
 
 
 	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
-	//m_zr.AddFrameHere(&m_zf);
-	//m_zf.AddViewport(&m_zv);
-	//m_zr.AddScene(&m_zs);
+
 
 	//Placements
 	AddPlacements();
 
-	//m_zs.AddParallelLight(&m_zl);
-
-	//m_zpCamera.Translate(0, 0, 5);
-	//m_zpCamera.AddCamera(&m_zc);
-
+	
 	//Rotations
 	RotateAll();
 
@@ -55,38 +39,10 @@ CTwistedTower::CTwistedTower(void)
 
 CTwistedTower::~CTwistedTower(void)
 {
-	// Hier eventuelle Nachinitialisierungen Deiner Vektoria-Objekte einfügen:
-}
-/*
-void CTwistedTower::Init(HWND hwnd, CSplash * psplash)
-{
-}
-
-void CTwistedTower::Tick(float fTime, float fTimeDelta)
-{	// Hier die Echtzeit-Veränderungen einfügen:
-
-m_zdk.PlaceWASD(m_zpCamera, fTimeDelta);
-m_zdk.SetWASDRotationSensitivity(2);
-m_zdk.SetWASDTranslationSensitivity(2.0F);
-m_zr.Tick(fTimeDelta);
-}
-
-void CTwistedTower::Fini()
-{
-// Hier die Finalisierung Deiner Vektoria-Objekte einfügen:
-}
-
-void CTwistedTower::WindowReSize(int iNewWidth, int iNewHeight)
-{
-// Windows ReSize wird immer automatisch aufgerufen, wenn die Fenstergröße verändert wurde.
-// Hier kannst Du dann die Auflösung des Viewports neu einstellen:
 
 }
-*/
 
-CPlacement*CTwistedTower::getPlacement(){
-	return &m_zpTwistedTower;
-}
+
 
 void CTwistedTower::InitWindows() {
 
@@ -118,7 +74,7 @@ void CTwistedTower::AddWindows() {
 
 void CTwistedTower::InitWalls() {
 
-	//m_zgGround.Init(40.0F, 0.1F, 40.0F, &m_zm);
+	
 	m_zgRoof.Init(3.0F, 0.1F, 2.598F, &m_zm);
 
 	m_zgWallNorth.Init(3, 5, 0.2, &m_zm);
@@ -129,14 +85,14 @@ void CTwistedTower::InitWalls() {
 
 void CTwistedTower::AddPlacements() {
 
-	//m_zs.AddPlacement(&m_zpGround);
-	m_zpTwistedTower.AddPlacement(&m_zpRoof);
 
-	//m_zs.AddPlacement(&m_zpCamera);
+	AddPlacement(&m_zpRoof);
 
-	m_zpTwistedTower.AddPlacement(&m_zpWallNorth);
-	m_zpTwistedTower.AddPlacement(&m_zpWallEast);
-	m_zpTwistedTower.AddPlacement(&m_zpWallWest);
+	
+
+	AddPlacement(&m_zpWallNorth);
+	AddPlacement(&m_zpWallEast);
+	AddPlacement(&m_zpWallWest);
 
 }
 
@@ -163,6 +119,5 @@ void CTwistedTower::TranslateAll() {
 	m_zpWallWest.AddGeo(&m_zgWallWest);
 
 }
-
 
 NAMESPACE_VIEW_E

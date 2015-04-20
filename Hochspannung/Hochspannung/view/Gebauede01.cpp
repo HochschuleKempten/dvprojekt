@@ -1,13 +1,11 @@
 #include "Gebauede01.h"
 
 NAMESPACE_VIEW_B
-
-
 Gebauede01::Gebauede01()
 {
 	
-	m_zpGebauede01.AddPlacement(&m_zpWall);
-	m_zpGebauede01.AddPlacement(&m_zpWallKuppel);
+	AddPlacement(&m_zpWall);
+	AddPlacement(&m_zpWallKuppel);
 	
 	m_zpWall.AddPlacement(&m_zpWallKuppel);
 
@@ -36,14 +34,14 @@ Gebauede01::Gebauede01()
 
 
 	//GeoKörper
-	m_zWall.InitTube(25, 80, 0.2, &m_zmWall);
-	m_zWallKuppel.InitDome(25, 0.2, &m_zmWallKuppel);
+	m_zWall.InitTube(2.5, 8, 0.2, &m_zmWall);
+	m_zWallKuppel.InitDome(2.5, 0.2, &m_zmWallKuppel);
 
 
 
 	//Ops
 	m_zpWall.Translate(0, 0, 0);
-	m_zpWallKuppel.Translate(0, 80, 0);
+	m_zpWallKuppel.Translate(0, 8, 0);
 	
 	
 	
@@ -52,12 +50,6 @@ Gebauede01::Gebauede01()
 
 Gebauede01::~Gebauede01()
 {
-}
-
-
-CPlacement*Gebauede01::getPlacement(){
-	
-	return &m_zpGebauede01;
 }
 
 
