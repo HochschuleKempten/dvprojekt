@@ -38,7 +38,11 @@ public:
 	Building02();
 	~Building02();
 
-	
+	void InitWindows();
+	void AddWindows();
+	void InitWalls();
+	void AddPlacements();
+	void TranslateAll();
 };
 
 

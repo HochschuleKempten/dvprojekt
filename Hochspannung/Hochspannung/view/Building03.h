@@ -42,6 +42,12 @@ public:
 	Building03();
 	~Building03();
 
+	void InitWindows();
+	void AddWindows();
+	void InitWalls();
+	void AddPlacements();
+	void TranslateAll();
+
 };
 
 

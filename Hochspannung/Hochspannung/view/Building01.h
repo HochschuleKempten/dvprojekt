@@ -34,6 +34,11 @@ public:
 
 	Building01();
 	~Building01();
+	void InitWindows();
+	void AddWindows();
+	void InitWalls();
+	void AddPlacements();
+	void TranslateAll();
 
 		
 };
