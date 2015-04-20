@@ -70,13 +70,61 @@ void VUI::initUI()
 
 void VUI::handleInput(float fTimeDelta)
 {
-	m_zkKeyboard.PlaceWASD(m_zpCamera, fTimeDelta);
+	//m_zkKeyboard.PlaceWASD(m_zpCamera, fTimeDelta);
 
 	//TODO (JS) make power line clickable
 
+
+	//Left + Right: 
+	if (m_zkKeyboard.KeyPressed(DIK_A) == true)
+	{
+		m_zpCamera.TranslateXDelta(-0.5);
+	}
+	if (m_zkKeyboard.KeyPressed(DIK_D))
+	{
+		m_zpCamera.TranslateXDelta(0.5);
+	}
+
+	//Back + Forward
+	if (m_zkKeyboard.KeyPressed(DIK_S) == true)
+	{
+		m_zpCamera.TranslateYDelta(-0.5);
+	}
+	if (m_zkKeyboard.KeyPressed(DIK_W))
+	{
+		m_zpCamera.TranslateYDelta(0.5);
+	}
+
+	//Zoom In + Out
+	if (m_zkKeyboard.KeyPressed(DIK_UP) == true)
+	{
+		m_zpCamera.TranslateZDelta(-0.5);
+	}
+	if (m_zkKeyboard.KeyPressed(DIK_DOWN))
+	{
+		m_zpCamera.TranslateZDelta(0.5);
+	}
+
+	// Rotate around the field
+	//if (m_zkKeyboard.KeyPressed(DIK_RIGHT) == true)
+	//{
+	//	m_zpCamera.RotateZDelta(-0.05);
+	//}
+	//if (m_zkKeyboard.KeyPressed(DIK_LEFT))
+	//{
+	//	m_zpCamera.RotateZDelta(0.05);
+	//}
+
+
+
+
+
+
+
+
 	/* Picking */
 	static bool pickingActive = false;
-
+	 
 	if (m_zkCursor.ButtonPressedLeft()) {
 		if (!pickingActive) {
 
