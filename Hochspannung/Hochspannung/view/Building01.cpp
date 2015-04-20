@@ -1,7 +1,7 @@
-#include "Gebauede01.h"
+#include "Building01.h"
 
 NAMESPACE_VIEW_B
-Gebauede01::Gebauede01()
+Building01::Building01()
 {
 	
 	AddPlacement(&m_zpWall);
@@ -48,7 +48,7 @@ Gebauede01::Gebauede01()
 }
 
 
-Gebauede01::~Gebauede01()
+Building01::~Building01()
 {
 }
 

@@ -253,15 +253,6 @@
     <ClInclude Include="view\Appartments.h">
       <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
-    <ClInclude Include="view\Gebaeude02.h">
-      <Filter>view\Headerdateien\buildings</Filter>
-    </ClInclude>
-    <ClInclude Include="view\Gebaeude03.h">
-      <Filter>view\Headerdateien\buildings</Filter>
-    </ClInclude>
-    <ClInclude Include="view\Gebauede01.h">
-      <Filter>view\Headerdateien\buildings</Filter>
-    </ClInclude>
     <ClInclude Include="view\LargeOfficeBuilding.h">
       <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
@@ -279,6 +270,15 @@
     </ClInclude>
     <ClInclude Include="view\IViewModel.h">
       <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Building01.h">
+      <Filter>view\Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Building02.h">
+      <Filter>view\Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Building03.h">
+      <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -408,15 +408,6 @@
     <ClCompile Include="view\Appartments.cpp">
       <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
-    <ClCompile Include="view\Gebaeude02.cpp">
-      <Filter>view\Quelldateien\buildings</Filter>
-    </ClCompile>
-    <ClCompile Include="view\Gebaeude03.cpp">
-      <Filter>view\Quelldateien\buildings</Filter>
-    </ClCompile>
-    <ClCompile Include="view\Gebauede01.cpp">
-      <Filter>view\Quelldateien\buildings</Filter>
-    </ClCompile>
     <ClCompile Include="view\LargeOfficeBuilding.cpp">
       <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
@@ -431,6 +422,15 @@
     </ClCompile>
     <ClCompile Include="view\VModelCity.cpp">
       <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Building01.cpp">
+      <Filter>view\Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Building02.cpp">
+      <Filter>view\Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Building03.cpp">
+      <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

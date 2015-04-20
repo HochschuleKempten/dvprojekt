@@ -19,12 +19,12 @@ VModelCity::~VModelCity(void)
 
 void VModelCity::InitBuildings() {
 
-	gebaeude1_01 = new Gebauede01;
-	gebaeude1_02 = new Gebauede01;
-	gebaeude2_01 = new Gebaeude02;
-	gebaeude2_02 = new Gebaeude02;
-	gebaeude3_01 = new Gebaeude03;
-	gebaeude3_02 = new Gebaeude03;
+	Building1_01 = new Building01;
+	Building1_02 = new Building01;
+	Building2_01 = new Building02;
+	Building2_02 = new Building02;
+	Building3_01 = new Building03;
+	Building3_02 = new Building03;
 	appartment_01 = new CAppartments(1.0F);
 	appartment_02 = new CAppartments(1.0F);
 	appartment_03 = new CAppartments(1.0F);
@@ -41,12 +41,12 @@ void VModelCity::InitBuildings() {
 
 void VModelCity::AddPlacements() {
 
-	AddPlacement(gebaeude1_01);
-	AddPlacement(gebaeude1_02);
-	AddPlacement(gebaeude2_01);
-	AddPlacement(gebaeude2_02);
-	AddPlacement(gebaeude3_01);
-	AddPlacement(gebaeude3_02);
+	AddPlacement(Building1_01);
+	AddPlacement(Building1_02);
+	AddPlacement(Building2_01);
+	AddPlacement(Building2_02);
+	AddPlacement(Building3_01);
+	AddPlacement(Building3_02);
 	AddPlacement(appartment_01);
 	AddPlacement(appartment_02);
 	AddPlacement(appartment_03);
@@ -60,12 +60,12 @@ void VModelCity::AddPlacements() {
 }
 void VModelCity::TranslateBuildings() {
 
-	gebaeude1_01->Translate(15, 0, 0);
-	gebaeude1_02->Translate(-15, 0, 7.5);
-	gebaeude2_01->Translate(-10, 0, 0);
-	gebaeude2_02->Translate(0, 0, 7.5);
-	gebaeude3_01->Translate(0, 0, 0);
-	gebaeude3_01->Translate(20, 0, 0);
+	Building1_01->Translate(15, 0, 0);
+	Building1_02->Translate(-15, 0, 7.5);
+	Building2_01->Translate(-10, 0, 0);
+	Building2_02->Translate(0, 0, 7.5);
+	Building3_01->Translate(0, 0, 0);
+	Building3_01->Translate(20, 0, 0);
 	appartment_01->Translate(0, 0, -7.5);
 	appartment_02->Translate(-10, 0, 15);
 	appartment_03->Translate(0, 0, -9);

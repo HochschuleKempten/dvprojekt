@@ -7,7 +7,7 @@ NAMESPACE_VIEW_B
 
 
 
-class Gebaeude02 : public CPlacement
+class Building02: public CPlacement
 {
 private:
 
@@ -35,8 +35,8 @@ private:
 
 
 public:
-	Gebaeude02();
-	~Gebaeude02();
+	Building02();
+	~Building02();
 
 	
 };

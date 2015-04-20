@@ -4,7 +4,7 @@
 #include "VGeneral.h"
 
 NAMESPACE_VIEW_B
-class Gebaeude03 : public CPlacement
+class Building03 : public CPlacement
 {
 private:
 
@@ -39,8 +39,8 @@ private:
 
 public:
 
-	Gebaeude03();
-	~Gebaeude03();
+	Building03();
+	~Building03();
 
 };
 
