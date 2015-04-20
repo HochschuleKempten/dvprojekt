@@ -37,27 +37,35 @@ void VModelPowerLine::SetPosition(int x, int y) {
 
 void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFoundationWidth, float fPylonHeight)
 {
-	m_zmGrey.MakeTextureDiffuse("textures\\grey_image.jpg");
+	m_zmGrey.MakeTextureDiffuse("textures\\texture_concrete_diffuse.png");
+	m_zmGrey.MakeTextureBump("textures\\texture_concrete_normal.png");
+	m_zmGrey.MakeTextureSpecular("textures\\texture_concrete_specular.png");
 	m_zmBlack.MakeTextureDiffuse("textures\\black_image.jpg");
 
 	// set necessary attributes depending on foundationWidth and pylonHeight
-	m_fFoundationWidth    = fFoundationWidth;
-	m_fFoundationHeight   = fFoundationWidth * 0.1f;
-	m_fPylonHeight        = fPylonHeight;
-	m_fPoleDistance       = fFoundationWidth * 0.8f;
-	m_fPoleThickness      = m_fPoleDistance * 0.1f;
-	m_fStrutHeight        = fPylonHeight * 0.1f;
-	m_fStrutLength        = sqrtf(powf(m_fPoleDistance, 2) + powf(m_fStrutHeight, 2));
-	m_fStrutAngle         = asinf(m_fStrutHeight / m_fStrutLength);;
-	m_fStrutThickness     = m_fPoleDistance * 0.08f;
-	m_iStrutsCount        = (int)(m_fPylonHeight / m_fStrutHeight);
-	m_ePylonType          = ePylonType;
-	m_eDirection          = eDirection;
-	m_fArmLength          = m_fPylonHeight * 0.3f;
-	m_fConnectorLength    = m_fStrutHeight;
+	m_fFoundationWidth		= fFoundationWidth;
+	m_fFoundationHeight		= fFoundationWidth * 0.1f;
+	m_fPylonHeight			= fPylonHeight;
+	m_fPoleDistance			= fFoundationWidth * 0.8f;
+	m_fPoleThickness		= m_fPoleDistance * 0.1f;
+	m_fStrutHeight			= fPylonHeight * 0.1f;
+	m_fStrutLength			= sqrtf(powf(m_fPoleDistance, 2) + powf(m_fStrutHeight, 2));
+	m_fStrutAngle			= asinf(m_fStrutHeight / m_fStrutLength);;
+	m_fStrutThickness		= m_fPoleDistance * 0.08f;
+	m_iStrutsCount			= (int)(m_fPylonHeight / m_fStrutHeight);
+	m_ePylonType			= ePylonType;
+	m_eDirection			= eDirection;
+	
+	m_fArmLength			= m_fPylonHeight * 0.3f;
+	m_fLowerArmPosition		= 2 * m_iArmPosition * m_fStrutHeight;
+	m_fUpperArmPosition		= m_fLowerArmPosition + m_fStrutHeight * 2.0f;
+	m_fUpperArmLength		= sqrt(pow(m_fStrutHeight, 2) + pow(m_fArmLength, 2));
+	m_fArmAngle				= asinf(m_fStrutHeight / m_fUpperArmLength);
+
+	m_fConnectorLength = m_fStrutHeight;
 	m_fConnectorThickness = m_fConnectorLength * 0.1f;
-	m_fRingRadius		  =	m_fConnectorThickness;
-	m_fRingThickness	  =	m_fConnectorThickness / 4.0f;
+	m_fRingRadius = m_fConnectorThickness;
+	m_fRingThickness = m_fConnectorThickness / 4.0f;
 
 	// init geometries (foundation, pole, strut)
 	m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &m_zmGrey);
@@ -65,9 +73,11 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
 	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), &m_zmBlack);
 	m_zgSphere.Init(2 * m_fPoleThickness, &m_zmBlack);
-	m_zgArm.Init(CHVector(m_fPoleDistance * 4, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
+	m_zgArm.Init(CHVector(m_fArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
+	m_zgUpperArm.Init(CHVector(m_fUpperArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
 	m_zgConnector.Init(m_fConnectorThickness, m_fConnectorThickness, m_fConnectorLength, &m_zmBlack);
 	m_zgRing.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmBlack);
+	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), &m_zmBlack);
 
 	// init ring vector
 	for (int i = 0; i < 16; i++)
@@ -117,13 +127,37 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 		m_zpSphere[i].TranslateYDelta(m_fPylonHeight);
 		m_zpPole[i].AddPlacement(&m_zpSphere[i]);
 
+		// adding bottom arm poles
+		m_zpLeftArmPole[i].AddGeo(&m_zgArm);
+		m_zpLeftArmPole[i].TranslateDelta(-m_fArmLength - m_fPoleDistance, m_fLowerArmPosition, -m_fPoleDistance);
+		m_zpArm[i].AddPlacement(&m_zpLeftArmPole[i]);
+
+		m_zpRightArmPole[i].AddGeo(&m_zgArm);
+		m_zpRightArmPole[i].TranslateDelta(-m_fArmLength - m_fPoleDistance, m_fLowerArmPosition, m_fPoleDistance);
+		m_zpArm[i].AddPlacement(&m_zpRightArmPole[i]);
+
+		// adding arm connection
+		m_zpArmConnection.AddGeo(&m_zgArmConnection);
+		m_zpArmConnection.Translate(-m_fArmLength + m_fStrutThickness * 2.0f, 0, m_fPoleDistance);
+		m_zpLeftArmPole[i].AddPlacement(&m_zpArmConnection);
+
+		// adding upper arm poles
+		m_zpUpperLeftArmPole[i].RotateZDelta(m_fArmAngle);
+		m_zpUpperLeftArmPole[i].AddGeo(&m_zgUpperArm);
+		m_zpUpperLeftArmPole[i].TranslateDelta(-m_fArmLength - m_fPoleDistance, m_fUpperArmPosition, -m_fPoleDistance);
+		m_zpUpperLeftArmPole[i].TranslateYDelta(-m_fStrutHeight);
+		m_zpArm[i].AddPlacement(&m_zpUpperLeftArmPole[i]); 
+
+		m_zpUpperRightArmPole[i].RotateZDelta(m_fArmAngle);
+		m_zpUpperRightArmPole[i].AddGeo(&m_zgUpperArm);
+		m_zpUpperRightArmPole[i].TranslateDelta(-m_fArmLength - m_fPoleDistance, m_fUpperArmPosition, m_fPoleDistance);
+		m_zpUpperRightArmPole[i].TranslateYDelta(-m_fStrutHeight);
+		m_zpArm[i].AddPlacement(&m_zpUpperRightArmPole[i]);
+
 		// adding arms
-		m_zpArm[i].AddGeo(&m_zgArm);
-		m_zpArm[i].RotateYDelta(0.122f);
-		m_zpArm[i].TranslateDelta(-4 * m_fPoleDistance - m_fPoleDistance, 2 * m_iArmPosition * m_fStrutHeight, -m_fPoleDistance / 2.0f);
 		m_zpArm[i].RotateYDelta(i * HALFPI);
 		m_zpFoundation.AddPlacement(&m_zpArm[i]);
-
+		
 		// adding connectors for arms
 		m_zpTriangleConnector = m_zgConnector.CopyToTriangleList();
 		m_zpTriangleConnector->Subdivide(m_fConnectorLength * 0.1f);
@@ -139,15 +173,20 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 		m_zpConnector[i * 4 + 2]->Translate(dividedArm * 3.0f, -m_fConnectorLength, 0);
 		m_zpConnector[i * 4 + 3]->Translate(dividedArm * 2.0f, -m_fConnectorLength, 0);
 
-		m_zpArm[i].AddPlacement(m_zpConnector[i * 4]);
-		m_zpArm[i].AddPlacement(m_zpConnector[i * 4 + 1]);
-		m_zpArm[i].AddPlacement(m_zpConnector[i * 4 + 2]);
-		m_zpArm[i].AddPlacement(m_zpConnector[i * 4 + 3]);
+		m_zpLeftArmPole[i].AddPlacement(m_zpConnector[i * 4]);
+		m_zpLeftArmPole[i].AddPlacement(m_zpConnector[i * 4 + 1]);
+		m_zpLeftArmPole[i].AddPlacement(m_zpConnector[i * 4 + 2]);
+		m_zpLeftArmPole[i].AddPlacement(m_zpConnector[i * 4 + 3]);
+
+		m_zpRightArmPole[i].AddPlacement(m_zpConnector[i * 4]);
+		m_zpRightArmPole[i].AddPlacement(m_zpConnector[i * 4 + 1]);
+		m_zpRightArmPole[i].AddPlacement(m_zpConnector[i * 4 + 2]);
+		m_zpRightArmPole[i].AddPlacement(m_zpConnector[i * 4 + 3]);
 
 		// add rings to connectors
 		m_zpRing[i]->AddGeo(&m_zgRing);
 		m_zpRing[i]->RotateXDelta(HALFPI);
-		m_zpRing[i]->TranslateDelta(0, -m_fRingRadius, 0);
+		m_zpRing[i]->TranslateDelta(0,0 -m_fRingRadius, 0);
 		m_zpConnector[i * 4]->AddPlacement(m_zpRing[i]);
 		m_zpConnector[i * 4 + 1]->AddPlacement(m_zpRing[i]);
 		m_zpConnector[i * 4 + 2]->AddPlacement(m_zpRing[i]);
