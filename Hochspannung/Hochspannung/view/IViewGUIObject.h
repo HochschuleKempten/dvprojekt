@@ -79,5 +79,6 @@ public:
 	virtual void onMouseClickRight(void) = 0;
 protected:
 	CFloatRect m_zfrRect=CFloatRect(0,0,0,0);
+
 };
 NAMESPACE_VIEW_E

@@ -12,6 +12,7 @@ CMaterial VMaterialLoader::materialMainMenueHover;
 CMaterial VMaterialLoader::materialIngameCraft;
 CMaterial VMaterialLoader::materialDialogBackground;
 CMaterial VMaterialLoader::materialIngameBorder;
+CMaterial VMaterialLoader::materialTopbar;
 
 CMaterial VMaterialLoader::materialRed;
 CMaterial VMaterialLoader::materialBlue;
@@ -35,9 +36,15 @@ CMaterial VMaterialLoader::materialButtonMainMenueMehrspielerHover;
 
 CMaterial VMaterialLoader::materialButtonBack;
 CMaterial VMaterialLoader::materialButtonBackHover;
+CMaterial VMaterialLoader::materialBottombarBorderTop;
+CMaterial VMaterialLoader::materialVerticalBorder;
+CMaterial VMaterialLoader::materialLobbyBigDialog;
+CMaterial VMaterialLoader::materialBuildingButton;
+CMaterial VMaterialLoader::materialBuildingButtonHover;
 
 //WritingFont
 CWritingFont VMaterialLoader::standardFont;
+CWritingFont VMaterialLoader::GoldFont;
 
 void VMaterialLoader::init()
 {
@@ -107,6 +114,13 @@ void VMaterialLoader::init()
 	materialButtonBack.MakeTextureSprite("textures\\Buttons\\ButtonBack.png");
 	materialButtonBackHover.MakeTextureSprite("textures\\Buttons\\ButtonBackHover.png");
 
+	materialTopbar.MakeTextureSprite("textures\\topbar.png");
+	materialBottombarBorderTop.MakeTextureSprite("textures\\bottombarBorderTopBlue.png");
+	materialVerticalBorder.MakeTextureSprite("textures\\VerticalBorder.png");
+	materialLobbyBigDialog.MakeTextureSprite("textures\\LobbyBigDialog.png");
+	materialBuildingButton.MakeTextureSprite("textures\\BuildingButton.png");
+	materialBuildingButtonHover.MakeTextureSprite("textures\\BuildingButtonHover.png");
+	
 	//Test
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
 	materialBlue.MakeTextureSprite("textures\\blue_image.jpg");
@@ -115,7 +129,8 @@ void VMaterialLoader::init()
 	//Writing Font
 	standardFont.Init("textures\\FontArialShadow.png", true);
 	standardFont.SetTableSize(16, 6);
-
+	GoldFont.Init("textures\\FontArialShadowGold.png", true);
+	GoldFont.SetTableSize(16, 6);
 }
 
 

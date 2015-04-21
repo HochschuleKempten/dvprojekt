@@ -31,43 +31,45 @@ public:
 	{
 		return m_bOn;
 	}
-	virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction)
+	virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction,string sName)
 	{
-		auto* vButton = new VButton(m_viewport, rect, MaterialNormal, MaterialHover, clickAction);
+		m_guiObjects[sName] = new VButton(m_viewport, rect, MaterialNormal, MaterialHover, clickAction);
 
-		vButton->addObserver(this);
+		m_guiObjects[sName]->addObserver(this);
 
-		m_guiObjects.push_back(vButton);
 		
 	}
-	virtual void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder)
+	virtual void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder,string sName)
 	{
-		auto* textfield = new VTextfield(m_viewport, rect, MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
+		m_guiObjects[sName] = new VTextfield(m_viewport, rect, MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
 
-		textfield->addObserver(this);
+		m_guiObjects[sName]->addObserver(this);
 
-		m_guiObjects.push_back(textfield);
+		
 	}
-	virtual void addText( CFloatRect rect, CWritingFont* writingFont, string text)
+	virtual void addText( CFloatRect rect, CWritingFont* writingFont, string text,string sName)
 	{
-		auto* texti = new VText(m_viewport, rect, writingFont, text);
+		m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text);
 
-		texti->addObserver(this);
+		m_guiObjects[sName]->addObserver(this);
 
-		m_guiObjects.push_back(texti);
 	}
 	
 	virtual ~IViewGUIContainer(){};
 
-	vector<IViewGUIObject*> getGuiObjectList()
+	map<string, IViewGUIObject*> getGuiObjectList()
 	{
 		return m_guiObjects;
+	}
+	IViewGUIObject* getGuiObject(string sName)
+	{
+		return m_guiObjects[sName];
 	}
 protected:
 	bool m_bOn = true;
 	CViewport* m_viewport;
-	vector<IViewGUIObject*> m_guiObjects;
-	vector<IViewGUIObject*>::iterator lIterGUIObjects;
+	map<string,IViewGUIObject*> m_guiObjects;
+	map<string,IViewGUIObject*>::iterator lIterGUIObjects;
 	
 	virtual CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)
 	{

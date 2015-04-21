@@ -20,7 +20,7 @@ VScreenCredits::VScreenCredits()
 		m_viewport->AddBackground(m_background);
 
 		addContainer(m_viewport,IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
-		getContainer("Menue")->addButton(CFloatRect(0.65, 0.83, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover,SWITCH_TO_MAINMENUE);
+		getContainer("Menue")->addButton(CFloatRect(0.65, 0.83, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover,SWITCH_TO_MAINMENUE,"BackMainMenue");
 	}
 
 	VScreenCredits::~VScreenCredits()
@@ -34,7 +34,7 @@ VScreenCredits::VScreenCredits()
 	delete m_viewport;
 }
 
-	void VScreenCredits::onNotify(IViewUIObserver::Event events)
+	void VScreenCredits::onNotify(Event events)
 {
 	switch (events)
 	{
@@ -49,7 +49,7 @@ VScreenCredits::VScreenCredits()
 {
 	if (keyboard->KeyPressed(DIK_ESCAPE))
 	{
-		notify(IViewUIObserver::SWITCH_TO_MAINMENUE);
+		notify(SWITCH_TO_MAINMENUE);
 	}
 	
 }

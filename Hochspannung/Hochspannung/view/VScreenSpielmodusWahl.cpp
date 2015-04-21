@@ -23,9 +23,9 @@ VScreenSpielmodusWahl::VScreenSpielmodusWahl(CFrame* frame)
 
 
 	addContainer(m_viewport,IViewGUIContainer::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
-	getContainer("Menue")->addButton(CFloatRect(0.33, 0.27, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueEinzelspieler, &VMaterialLoader::materialButtonMainMenueEinzelspielerHover, IViewUIObserver::NOTHING);
-	getContainer("Menue")->addButton(CFloatRect(0.33, 0.42, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueMehrspieler, &VMaterialLoader::materialButtonMainMenueMehrspielerHover, IViewUIObserver::SWITCH_TO_LOBBY);
-	getContainer("Menue")->addButton(CFloatRect(0.33, 0.57, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, IViewUIObserver::SWITCH_TO_MAINMENUE);
+	getContainer("Menue")->addButton(CFloatRect(0.33, 0.27, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueEinzelspieler, &VMaterialLoader::materialButtonMainMenueEinzelspielerHover, NOTHING,"buttonSwitchToSinglePlayer");
+	getContainer("Menue")->addButton(CFloatRect(0.33, 0.42, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueMehrspieler, &VMaterialLoader::materialButtonMainMenueMehrspielerHover, SWITCH_TO_LOBBY, "buttonSwitchToMultiplayerPlayer");
+	getContainer("Menue")->addButton(CFloatRect(0.33, 0.57, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE,"buttonBackMainMenue");
 
 
 
@@ -46,7 +46,7 @@ VScreenSpielmodusWahl::~VScreenSpielmodusWahl()
 	delete m_viewport;
 }
 
-void VScreenSpielmodusWahl::onNotify(IViewUIObserver::Event events)
+void VScreenSpielmodusWahl::onNotify(Event events)
 {
 	switch (events)
 	{
@@ -61,7 +61,7 @@ void VScreenSpielmodusWahl::checkShortcut(CDeviceKeyboard* keyboard)
 {
 	if (keyboard->KeyPressed(DIK_ESCAPE))
 	{
-		notify(IViewUIObserver::SWITCH_TO_MAINMENUE);
+		notify(SWITCH_TO_MAINMENUE);
 	}
 }
 NAMESPACE_VIEW_E

@@ -55,10 +55,11 @@ public:
 	IViewScreen* getScreen(string sName);
 
 	virtual void onNotify(IViewUIObserver::Event) override;
+	void resize(int width, int height);
 
-	void updateMoney(const int& wert);
-	void updatePopulation(const int& wert);
-	void updateInfofield(const int& wert);
+	void updateMoney(const int wert);
+	void updatePopulation(const int wert);
+	void updateInfofield(const int wert);
 };
 
 

@@ -18,8 +18,9 @@ VGroup::~VGroup()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
-		delete(*lIterGUIObjects);
+		delete lIterGUIObjects->second;
 	}
+	m_guiObjects.clear();
 }
 
 
@@ -37,7 +38,7 @@ void VGroup::switchOn()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
-		(*lIterGUIObjects)->switchOn();
+		lIterGUIObjects->second->switchOn();
 	}
 
 	m_bOn = true;
@@ -47,7 +48,7 @@ void VGroup::switchOff()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
-		(*lIterGUIObjects)->switchOff();
+		lIterGUIObjects->second->switchOff();
 	}
 
 	m_bOn = false;

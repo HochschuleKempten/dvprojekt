@@ -43,9 +43,6 @@ void VUI::initUI()
 
 	vMaster->m_zr.AddFrameHere(&vMaster->m_zf);
 
-	
-	
-
 
 	//Camera (WASD) settings
 	m_zkKeyboard.SetWASDTranslationSensitivity(20.0);
@@ -185,8 +182,11 @@ void VUI::onNotify(Event evente)
 
 }
 
+	void VUI::resize(int width, int height)
+	{
+	}
 
-void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
+	void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
 {
 	switch (screenType)
 	{
@@ -240,24 +240,28 @@ IViewScreen* VUI::getScreen(string sName)
 	return	m_screens[sName];
 }
 
-void VUI::updateMoney(const int& wert)
+void VUI::updateMoney(const int wert)
 {
 	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
 }
-void VUI::updatePopulation(const int& wert)
+void VUI::updatePopulation(const int wert)
 {
 	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
 }
 
-void VUI::updateInfofield(const int& wert)
+void VUI::updateInfofield(const int wert)
 {
 
 }
 
 void VUI::tick(const float fTimeDelta)
 {
+	/*static unsigned int money = 0;
+	static unsigned int pop = 0;
 	handleInput(fTimeDelta);
-	
+	updateMoney(money++);
+	updatePopulation(pop++);*/
+
 	float CurPosX;
 	float CurPosY;
 	m_zkCursor.GetFractional(CurPosX, CurPosY, false);
@@ -279,8 +283,8 @@ void VUI::tick(const float fTimeDelta)
 			m_iterScreens->second->checkShortcut(&m_zkKeyboard);
 			
 			tempGuicontainer = m_iterScreens->second->getGuiContainerMap();
-			vector<IViewGUIObject*>tempList;
-			vector<IViewGUIObject*>::iterator tempIter;
+			map<string,IViewGUIObject*>tempList;
+			map<string,IViewGUIObject*>::iterator tempIter;
 			//For all containers in the screen
 			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
 			{
@@ -291,13 +295,14 @@ void VUI::tick(const float fTimeDelta)
 					//for all GUI-Objects in the container
 					for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
 					{
+					
 						//check if cursor is over
-						(*tempIter)->checkHover(CurPosX, CurPosY);
+						tempIter->second->checkHover(CurPosX, CurPosY);
 						
 						if (!m_BlockCursorLeftPressed)
 						{
 							//check for events
-							(*tempIter)->checkEvent(&m_zkCursor, &m_zkKeyboard);
+							tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
 						}
 						//if screen was changed
 						if (m_screenChanged)

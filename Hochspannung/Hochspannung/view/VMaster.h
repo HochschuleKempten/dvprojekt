@@ -32,7 +32,7 @@ public:
 	void initScene(HWND hwnd, CSplash* psplash);
 	void tick(float fTime, float fTimeDelta);
 
-	virtual IVFactory* getFactory();
+	virtual IVFactory* getFactory() override;
 	VPlayingField* getPlayingField();
 
 	void setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField);
