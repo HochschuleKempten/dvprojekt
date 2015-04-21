@@ -15,6 +15,24 @@ NAMESPACE_LOGIC_B
 
 using namespace boost;
 
+template<typename Graph>
+static std::vector<int> strongConnectedSearch(const Graph& g, const int startIdx)
+{
+	std::vector<int> component(num_vertices(g)), discover_time(num_vertices(g));
+	strong_components(g, make_iterator_property_map(component.begin(), get(vertex_index, g)));
+
+	int mainComponent = component[startIdx];
+	std::vector<int> vertices;
+
+	for (size_t i = 0; i < component.size(); i++) {
+		if (component[i] == mainComponent && i != startIdx) {
+			vertices.push_back(i);
+		}
+	}
+
+	return vertices;
+}
+
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this] (LField& f) {
 		f.setLPlayingField(this);
