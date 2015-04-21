@@ -131,9 +131,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Appartments.h" />
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude02.h" />
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude03.h" />
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebauede01.h" />
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Building01.h" />
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Building02.h" />
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Building03.h" />
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.h" />
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\OfficeTowerViewingDeck.h" />
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\SmallOfficeBuilding.h" />
@@ -146,9 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Appartments.cpp" />
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude02.cpp" />
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude03.cpp" />
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebauede01.cpp" />
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Building01.cpp" />
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Building02.cpp" />
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Building03.cpp" />
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.cpp" />
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\OfficeTowerViewingDeck.cpp" />
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\SmallOfficeBuilding.cpp" />
