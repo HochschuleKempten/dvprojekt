@@ -1,7 +1,6 @@
 #include "VCity.h"
 #include "VPlayingField.h"
 #include "VIdentifier.h"
-#include "VMaterialLoader.h"
 #include "VMaster.h"
 #include "../logic/LCity.h"
 #include "VUI.h"
@@ -17,8 +16,8 @@ VCity::VCity(VMaster *vMaster, LCity* lCity)
 	//m_zp.AddGeo(&m_zg);
 
 	m_zp.RotateX(CASTS<float>(M_PI / 2.0));
-	m_zp.ScaleDelta(0.01f);
-	m_zp.TranslateZDelta(7.0f);
+	m_zp.ScaleDelta(0.1f);
+	m_zp.TranslateZDelta(0.5f);
 }
 
 VCity::~VCity()

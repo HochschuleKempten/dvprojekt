@@ -71,8 +71,8 @@ void VMaster::setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingFie
 
 void VMaster::resize(int width, int heigth)
 {
-	//m_zf.ReSize(width, heigth);
-	//vUi.resize(width, heigth);
+	m_zf.ReSize(width, heigth);
+	vUi.resize(width, heigth);
 }
 
 void VMaster::updateMoney(const int money)

@@ -5,7 +5,6 @@ class VScreenIngame :
 	public IViewScreen
 {
 public:
-	
 	VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlacement* camplacement);
 	
 	VScreenIngame();
@@ -19,6 +18,7 @@ public:
 	void updateMoney(const int wert);
 	
 	void updatePopulation(const int wert);
+
 private:
 	CCamera m_zc;
 	CPlacement* m_zpCamera;

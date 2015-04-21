@@ -19,11 +19,11 @@ int LPlayer::getMoney() const
 	return money;
 }
 
-void HighVoltage::LPlayer::substractMoney(const int amount)
+void LPlayer::substractMoney(const int amount)
 {
 	money -= amount;
 	lMaster.getVMaster()->updateMoney(money);
-	ASSERT(money > 0, "The player has not enough money");
+	ASSERT(money >= 0, "The player has not enough money");
 }
 
 

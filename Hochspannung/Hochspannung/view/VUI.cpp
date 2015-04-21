@@ -2,9 +2,6 @@
 #include "VMaster.h"
 #include "VPlayingField.h"
 #include "VPowerLine.h"
-#include "VCoalPowerPlant.h"
-#include "VHydroelectricPowerPlant.h"
-#include "VMaterialLoader.h"
 #include "IViewScreen.h"
 
 #include "VScreenMainMenue.h"

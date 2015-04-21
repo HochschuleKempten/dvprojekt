@@ -39,11 +39,11 @@ public:
 	{
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
-
+		
 		//Check costs
 		//todo (IP) getPlayers(): get current player
-		if (lMaster->getPlayers()[1].getMoney() < T::cost) {
-			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") + std::to_string(lMaster->getPlayers()[1].getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") + std::to_string(T::cost) + std::string(" benötigt."));
+		if (lMaster->getPlayer(1)->getMoney() < T::cost) {
+			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") + std::to_string(lMaster->getPlayer(1)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") + std::to_string(T::cost) + std::string(" benötigt."));
 			return false;
 		}
 
@@ -65,7 +65,7 @@ public:
 				calculateEnergyValueCity();
 			}
 
-			lMaster->getPlayers()->substractMoney(T::cost);
+			lMaster->getPlayer(1)->substractMoney(T::cost);
 
 			return true;
 		}

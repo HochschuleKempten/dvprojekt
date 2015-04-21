@@ -29,11 +29,11 @@ public:
 
 	void startNewGame();
 	void gameLost();
-	virtual void tick(const float fTimeDelta);
+	virtual void tick(const float fTimeDelta) override;
 
 	LPlayingField* getLPlayingField();
 	IVMaster* getVMaster();
-	LPlayer* getPlayers();
+	LPlayer* getPlayer(const int idxPlayer);
 
 };
 

@@ -7,7 +7,6 @@
 #include "LUtility.h"
 #include "LCity.h"
 #include <boost/graph/breadth_first_search.hpp>
-#include <boost/graph/graph_traits.hpp>
 #include "LCoalPowerPlant.h"
 #include <boost/graph/strong_components.hpp>
 
@@ -83,7 +82,7 @@ void LPlayingField::removeBuilding(const int x, const int y)
 void LPlayingField::upgradeBuilding(const int x, const int y)
 {
 	//todo (IP) getPlayers(): get current player
-	if (lMaster->getPlayers()[1].getMoney() > 50000)
+	if (lMaster->getPlayer(1)->getMoney() > 50000)
 	{
 		getField(x, y)->getBuilding()->upgrade();
 	}
@@ -247,9 +246,8 @@ void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordina
 				continue;
 			}
 
-			std::pair<int, int> coordinates = retrieveFreeCoordinates(x, y);
 			int level = rand() % fieldLevels.size();
-			fieldArray[cityPosition.first + coordinates.first][cityPosition.second + coordinates.second].init(LField::GRASS, fieldLevels[level]);
+			fieldArray[coordinates.first + x][coordinates.second + y].init(LField::GRASS, fieldLevels[level]);
 		}
 	}
 }
@@ -270,6 +268,7 @@ std::pair<int, int> LPlayingField::retrieveFreeCoordinates()
 	}
 
 	ASSERT(true, "No coordinates could be delivered. This should not happen.");
+	return {};
 }
 
 std::pair<int, int> LPlayingField::retrieveFreeCoordinates(const int x, const int y)

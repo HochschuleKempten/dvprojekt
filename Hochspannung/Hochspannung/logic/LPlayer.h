@@ -1,13 +1,10 @@
 #pragma once
 #include "LGeneral.h"
-#include "LUtility.h"
 
 NAMESPACE_LOGIC_B
 
 
 class LMaster;
-
-
 
 class LPlayer
 {

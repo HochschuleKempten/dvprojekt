@@ -30,11 +30,9 @@ private:
 	std::map<std::string, IViewScreen*> m_screens;
 	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
 
-	CCamera m_zc;
 	CPlacement m_zpCamera;
 	CScene m_zs;
 	CParallelLight m_zl;
-	CBackground m_zb;
 
 	bool isQuit;
 	bool m_screenChanged = false;

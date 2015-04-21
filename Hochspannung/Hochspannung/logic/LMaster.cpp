@@ -44,9 +44,10 @@ IVMaster* LMaster::getVMaster()
 	return &vMaster;
 }
 
-LPlayer* LMaster::getPlayers()
+LPlayer* LMaster::getPlayer(const int idxPlayer)
 {
-	return lPlayer;
+	ASSERT(idxPlayer >= 0 && idxPlayer <= 1, "Wrong idx for player");
+	return &lPlayer[idxPlayer];
 }
 
 

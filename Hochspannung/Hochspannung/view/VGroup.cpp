@@ -9,9 +9,9 @@ VGroup::VGroup()
 }
 
 VGroup::VGroup(CViewport* viewport, CFloatRect floatRect)
+	: m_rect(floatRect)
 {
 	m_viewport = viewport;
-	m_rect = floatRect;
 }
 
 VGroup::~VGroup()

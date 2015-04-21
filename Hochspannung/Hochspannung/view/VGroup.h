@@ -1,9 +1,7 @@
 #pragma once
 
 #include "IViewGUIContainer.h"
-#include "IViewGUIObject.h"
 #include "IViewUIObserver.h"
-#include "IViewSubject.h"
 
 
 
