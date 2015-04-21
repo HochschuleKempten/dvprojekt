@@ -24,6 +24,9 @@ private:
 	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
 	std::vector<std::pair<int, int>> usedCoordinates;
 
+	std::vector<LField::FieldType> fieldTypes;
+	std::vector<LField::FieldLevel> fieldLevels;
+
 public:
 	LPlayingField(LMaster* lMaster);
 	~LPlayingField();
@@ -48,11 +51,11 @@ public:
 			LPowerLine* powerLine = dynamic_cast<LPowerLine*>(getField(x, y)->getBuilding());
 			if (powerLine != nullptr)
 			{
-				addPowerLineToGraph(x, y, powerLine->getPowerLineOrientation());
+				addBuildingToGraph(x, y, powerLine->getPowerLineOrientation());
 			}
 			else
 			{
-				addPowerLineToGraph(x, y, LPowerLine::NORTH | LPowerLine::EAST | LPowerLine::SOUTH | LPowerLine::WEST);
+				addBuildingToGraph(x, y, LPowerLine::NORTH | LPowerLine::EAST | LPowerLine::SOUTH | LPowerLine::WEST);
 			}
 
 			//todo (L) when?
@@ -83,8 +86,10 @@ private:
 	int convertIndex(const int x, const int y);
 	std::pair<int, int> convertIndex(const int idx);
 	void calculateEnergyValueCity();
-	void addPowerLineToGraph(const int x, const int y, const int orientation);
+	void addBuildingToGraph(const int x, const int y, const int orientation);
 	
+	void placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space);
+
 	/**
 	 * @brief Generates new random coordinates which are not used yet.
 	 *

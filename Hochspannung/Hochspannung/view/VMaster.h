@@ -14,6 +14,8 @@ class VPlayingField;
 
 class VMaster : public IVMaster
 {
+	friend class VUI;
+
 private:
 	CRoot m_zr;
 	CFrame m_zf;
@@ -42,8 +44,6 @@ public:
 	void resize(int width, int height);
 
 	virtual void updateMoney(const int money) override;
-
-	friend class VUI;
 };
 
 
