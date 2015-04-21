@@ -13,6 +13,7 @@ public:
 
 private:
 	CBackground* m_background;
+	COverlay* m_bigDialog;
 
 };
 

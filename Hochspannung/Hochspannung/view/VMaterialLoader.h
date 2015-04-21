@@ -48,6 +48,12 @@ public:
 	static CMaterial materialIngameCraft;
 	static CMaterial materialDialogBackground;
 	static CMaterial materialIngameBorder;
+	static CMaterial materialTopbar;
+	static CMaterial materialBottombarBorderTop;
+	static CMaterial materialVerticalBorder;
+	static CMaterial materialLobbyBigDialog;
+	static CMaterial materialBuildingButton;
+	static CMaterial materialBuildingButtonHover;
 
 	//Allgemein
 		//Buttons
@@ -60,6 +66,7 @@ public:
 
 	//WritingFonts
 	static CWritingFont standardFont;
+	static CWritingFont GoldFont;
 	
 };
 

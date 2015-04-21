@@ -22,39 +22,40 @@ VDialog::~VDialog()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
-		delete(*lIterGUIObjects);
+		delete lIterGUIObjects->second;
 	}
+	m_guiObjects.clear();
 	delete m_background;
 }
 
-void VDialog::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction)
+void VDialog::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction,string sName)
 {
-	VButton* vButton = new VButton(m_viewport, createRelativeRectangle(&m_rect,&rect), MaterialNormal, MaterialHover, clickAction);
+	m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_rect, &rect), MaterialNormal, MaterialHover, clickAction);
 
-	vButton->addObserver(this);
+	m_guiObjects[sName]->addObserver(this);
 
-	m_guiObjects.push_back(vButton);
+	
 }
 
-void VDialog::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder)
+void VDialog::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder, string sName)
 	{
-		auto* textfield = new VTextfield(m_viewport, createRelativeRectangle(&m_rect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
+		m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_rect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
 
-		textfield->addObserver(this);
+		m_guiObjects[sName]->addObserver(this);
 
-		m_guiObjects.push_back(textfield);
+		
 	}
 
-	void VDialog::addText(CFloatRect rect, CWritingFont* writingFont, string text)
+void VDialog::addText(CFloatRect rect, CWritingFont* writingFont, string text, string sName)
 	{
-		auto* texti = new VText(m_viewport, createRelativeRectangle(&m_rect, &rect), writingFont, text);
+		m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_rect, &rect), writingFont, text);
 
-		texti->addObserver(this);
+		m_guiObjects[sName]->addObserver(this);
 
-		m_guiObjects.push_back(texti);
+	
 	}
 
-	void VDialog::onNotify(IViewUIObserver::Event events)
+	void VDialog::onNotify(Event events)
 {
 	switch (events)
 	{
@@ -70,7 +71,7 @@ void VDialog::switchOn()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
-		(*lIterGUIObjects)->switchOn();
+		lIterGUIObjects->second->switchOn();
 		
 	}
 	m_background->SwitchOn();
@@ -84,7 +85,7 @@ void VDialog::switchOff()
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
 		
-		(*lIterGUIObjects)->switchOff();
+		lIterGUIObjects->second->switchOff();
 		
 	}
 	m_background->SwitchOff();

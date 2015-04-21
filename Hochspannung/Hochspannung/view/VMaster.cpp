@@ -58,6 +58,11 @@ VPlayingField* VMaster::getPlayingField()
 	return vPlayingField.get();
 }
 
+VUI* HighVoltage::VMaster::getVUi()
+{
+	return &vUi;
+}
+
 void VMaster::setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField)
 {
 	this->vPlayingField = vPlayingField;
@@ -67,11 +72,13 @@ void VMaster::setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingFie
 void VMaster::resize(int width, int heigth)
 {
 	m_zf.ReSize(width, heigth);
+	vUi.resize(width, heigth);
 }
 
 void VMaster::updateMoney(const int money)
 {
-	DEBUG_OUTPUT("New money: " << money);
+	vUi.updateMoney(money);
 }
+
 
 NAMESPACE_VIEW_E

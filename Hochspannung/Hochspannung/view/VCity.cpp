@@ -4,6 +4,7 @@
 #include "VMaterialLoader.h"
 #include "VMaster.h"
 #include "../logic/LCity.h"
+#include "VUI.h"
 
 NAMESPACE_VIEW_B
 
@@ -32,7 +33,7 @@ void VCity::initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const i
 
 void VCity::updatePopulation(const int population)
 {
-	DEBUG_OUTPUT("Current population: " << population);
+	vMaster->getVUi()->updatePopulation(population);
 }
 
 void VCity::updateEnergy(const int energy)

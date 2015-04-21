@@ -1,6 +1,7 @@
 #include "VScreenIngame.h"
 #include "VMaster.h"
 #include "VText.h"
+#include <time.h>
 NAMESPACE_VIEW_B
 
 VScreenIngame::VScreenIngame()
@@ -26,7 +27,7 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	//m_zpMinimapCam.TranslateZ(10);
 	m_zpMinimapCam.Scale(50);
 	m_zpMinimapCam.RotateXDelta(0);
-	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.8, 0.76, 0.195, 0.235));
+	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.7999, 0.7645, 0.195, 0.235));
 	
 	frame->AddViewport(m_viewport);
 	frame->AddViewport(&m_minimap);
@@ -57,22 +58,22 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_bottomBar.SetLayer(0.8);
 
 	addContainer(m_viewport,IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
-	getContainer("Menue")->addButton(CFloatRect(0.23, 0.82, 0.05, 0.07), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING);
-	getContainer("Menue")->addButton(CFloatRect(0.23, 0.91, 0.05, 0.07), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, NOTHING);
-	getContainer("Menue")->addButton(CFloatRect(0.33, 0.82, 0.05, 0.07), &VMaterialLoader::materialButtonMainMenueOptionen, &VMaterialLoader::materialButtonMainMenueOptionenHover, NOTHING);
-	getContainer("Menue")->addButton(CFloatRect(0.33, 0.91, 0.05, 0.07), &VMaterialLoader::materialButtonMainMenueEinzelspieler, &VMaterialLoader::materialButtonMainMenueEinzelspielerHover, NOTHING);
-	getContainer("Menue")->addButton(CFloatRect(0.43, 0.82, 0.05, 0.07), &VMaterialLoader::materialButtonMainMenueMehrspieler, &VMaterialLoader::materialButtonMainMenueMehrspielerHover, NOTHING);
-	getContainer("Menue")->addButton(CFloatRect(0.43, 0.91, 0.05, 0.07), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, NOTHING);
-	getContainer("Menue")->addButton(CFloatRect(0.54, 0.85, 0.10, 0.10), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, NOTHING);
+	getContainer("Menue")->addButton(CFloatRect(0.23, 0.82, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING,"windmill");
+	getContainer("Menue")->addButton(CFloatRect(0.23, 0.82 + 0.022 + 0.07, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING,"coalPowerPlant");
+	getContainer("Menue")->addButton(CFloatRect(0.33, 0.82, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING, "oilPowerPlant");
+	getContainer("Menue")->addButton(CFloatRect(0.33, 0.82 + 0.022 + 0.07, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING, "nuclearPowerPlant");
+	getContainer("Menue")->addButton(CFloatRect(0.43, 0.82, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING,"hydroPowerPlant");
+	getContainer("Menue")->addButton(CFloatRect(0.43, 0.82 + 0.022 + 0.07, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING, "photovoltaicPowerPlant");
+	getContainer("Menue")->addButton(CFloatRect(0.54, 0.85, 0.10, 0.10), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING,"powerLine");
 
 	
 	//Boarder BottomBar
-	m_bottomBarBorderTop.Init(&VMaterialLoader::materialIngameBorder, CFloatRect(0.0, 0.75, 1.0, 0.01));
-	m_bottomBarBorderBottom.Init(&VMaterialLoader::materialIngameBorder, CFloatRect(0.0, 0.99, 1.0, 0.01));
-	m_bottomBarBorderLeft.Init(&VMaterialLoader::materialIngameBorder, CFloatRect(0.0, 0.75, 0.01, 0.25));
-	m_bottomBarBorderRight.Init(&VMaterialLoader::materialIngameBorder, CFloatRect(0.99, 0.75, 0.01, 0.25));
-	m_bottomBarSeperatorMenueInfofeld.Init(&VMaterialLoader::materialIngameBorder, CFloatRect(0.20, 0.75, 0.01, 0.25));
-	m_bottomBarSeperatorMenueMinimap.Init(&VMaterialLoader::materialIngameBorder, CFloatRect(0.79, 0.75, 0.01, 0.25));
+	m_bottomBarBorderTop.Init(&VMaterialLoader::materialBottombarBorderTop, CFloatRect(0.0, 0.75, 1.0, 0.01));
+	m_bottomBarBorderBottom.Init(&VMaterialLoader::materialIngameBorder, CFloatRect(0.0, 0.0, 1.0, -0.01));
+	m_bottomBarBorderLeft.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.0, 0.7495, 0.006, 0.25));
+	m_bottomBarBorderRight.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.99, 0.7495, 0.006, 0.25));
+	m_bottomBarSeperatorMenueInfofeld.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.20, 0.7495, 0.006, 0.25));
+	m_bottomBarSeperatorMenueMinimap.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.79, 0.7495, 0.006, 0.25));
 
 	m_bottomBarBorderTop.SetLayer(0.7);
 	m_bottomBarBorderBottom.SetLayer(0.7);
@@ -90,20 +91,24 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_viewport->AddOverlay(&m_bottomBarSeperatorMenueMinimap);
 	
 	//Top Bar
-	m_topBar.Init("textures\\MainMenueBackground.png", CFloatRect(0.2, 0.0, 0.6, 0.05));
+	m_topBar.Init(&VMaterialLoader::materialTopbar, CFloatRect(0.2, 0.0, 0.6, 0.05));
 	m_viewport->AddOverlay(&m_topBar);
 	
 	m_topBar.SetLayer(0.7);
 
 	addContainer(m_viewport, IViewGUIContainer::Group, CFloatRect(0.2, 0.0, 0.6, 0.05), "top");
-	getContainer("top")->addText(CFloatRect(0.25, 0.01, 0.10, 0.05), &VMaterialLoader::standardFont, "Bevoelkerung:");
-	getContainer("top")->addText(CFloatRect(0.351, 0.01, 0.10, 0.05), &VMaterialLoader::standardFont, "popNumber");
+	getContainer("top")->addText(CFloatRect(0.25, 0.005, 0.1, 0.05), &VMaterialLoader::standardFont, "Bevoelkerung:","population");
+	getContainer("top")->addText(CFloatRect(0.351, 0.005, 0.1, 0.05), &VMaterialLoader::standardFont, "0000","popValue");
+	getContainer("top")->addText(CFloatRect(0.60, 0.005, 0.07, 0.05), &VMaterialLoader::GoldFont, "Geld:","money");
+	getContainer("top")->addText(CFloatRect(0.671, 0.005, 0.1, 0.05), &VMaterialLoader::GoldFont, "0000","moneyValue");
 
+	
+	
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55), "DialogBox");
 	
-	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.10, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING);
-	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.27, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME);
-	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.44, 0.80, 0.15), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE);
+	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.10, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING,"MenueButtonContinue");
+	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.27, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME,"MenueButtonQuit");
+	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.44, 0.80, 0.15), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "MenueButtonBack");
 	
 	m_viewport->SwitchOff();
 getContainer("DialogBox")->switchOff();
@@ -121,7 +126,7 @@ VScreenIngame::~VScreenIngame()
 	delete m_viewport;
 }
 
-void VScreenIngame::onNotify(IViewUIObserver::Event events)
+void VScreenIngame::onNotify(Event events)
 {
 	switch (events)
 	{
@@ -149,11 +154,16 @@ void VScreenIngame::switchOff()
 void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 {
 	//Test
-	
+	/*time_t t;
+
+	time(&t);
+	srand(static_cast<unsigned int>(t)*50);
 	static int zahl = 0;
+	static int imoney = 0;
 	
 	dynamic_cast<VText*>(getContainer("top")->getGuiObjectList()[1])->updateText(static_cast<ostringstream*>(&(ostringstream() << zahl++))->str());
-
+	dynamic_cast<VText*>(getContainer("top")->getGuiObjectList()[3])->updateText(static_cast<ostringstream*>(&(ostringstream() << imoney+rand()))->str());
+*/
 	//keyboard->GetChar(keyboard->GetKey());
 	if (!keyboard->KeyPressed(DIK_ESCAPE))
 	{
@@ -174,12 +184,15 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	
 }
 
-	void VScreenIngame::updateMoney(const int& wert)
+//TODO
+	void VScreenIngame::updateMoney(const int wert)
 	{
+		dynamic_cast<VText*>(getContainer("top")->getGuiObject("moneyValue"))->updateText(std::to_string(wert));
 	}
 
-	void VScreenIngame::updatePopulation(const int& wert)
+	void VScreenIngame::updatePopulation(const int wert)
 	{
+		dynamic_cast<VText*>(getContainer("top")->getGuiObject("popValue"))->updateText(std::to_string(wert));
 	}
 
 	NAMESPACE_VIEW_E

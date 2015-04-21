@@ -20,7 +20,7 @@ VScreenOptions::VScreenOptions(CFrame* frame)
 	m_viewport->AddBackground(m_background);
 
 	addContainer(m_viewport,IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
-	getContainer("Menue")->addButton(CFloatRect(0.65, 0.83, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, IViewUIObserver::SWITCH_TO_MAINMENUE);
+	getContainer("Menue")->addButton(CFloatRect(0.65, 0.83, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE,"buttonBackMainMenue");
 
 }
 
@@ -35,7 +35,7 @@ VScreenOptions::~VScreenOptions()
 	delete m_viewport;
 }
 
-	void VScreenOptions::onNotify(IViewUIObserver::Event events)
+	void VScreenOptions::onNotify(Event events)
 	{
 		switch (events)
 		{
@@ -50,7 +50,7 @@ VScreenOptions::~VScreenOptions()
 	{
 		if (keyboard->KeyPressed(DIK_ESCAPE))
 		{
-			notify(IViewUIObserver::SWITCH_TO_MAINMENUE);
+			notify(SWITCH_TO_MAINMENUE);
 		}
 	}
 

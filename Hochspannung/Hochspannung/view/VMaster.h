@@ -32,10 +32,10 @@ public:
 	void initScene(HWND hwnd, CSplash* psplash);
 	void tick(float fTime, float fTimeDelta);
 
-	virtual IVFactory* getFactory();
 	virtual void gameOver() override;
-
+	virtual IVFactory* getFactory() override;
 	VPlayingField* getPlayingField();
+	VUI* getVUi();
 
 	void setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField);
 	
