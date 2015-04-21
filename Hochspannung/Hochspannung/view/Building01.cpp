@@ -37,8 +37,8 @@ void Building01::AddWindows(){
 
 void Building01::InitWalls(){
 
-	m_zWall.InitTube(2.5, 8, 0.2, &m_zmWall);
-	m_zWallKuppel.InitDome(2.5, 0.2, &m_zmWallKuppel);
+	m_zWall.InitTube(3.5, 10, 0.2, &m_zmWall);
+	m_zWallKuppel.InitDome(3.5,0.2, &m_zmWallKuppel);
 }
 void Building01::AddPlacements(){
 
@@ -53,7 +53,7 @@ void Building01::AddPlacements(){
 void Building01::TranslateAll(){
 
 	m_zpWall.Translate(0, 0, 0);
-	m_zpWallKuppel.Translate(0, 8, 0);
+	m_zpWallKuppel.Translate(0, 10, 0);
 }
 
 NAMESPACE_VIEW_E
