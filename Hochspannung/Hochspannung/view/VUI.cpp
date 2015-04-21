@@ -64,6 +64,7 @@ void VUI::handleInput(float fTimeDelta)
 	if (m_zkKeyboard.KeyPressed(DIK_A) == true)
 	{
 		m_zpCamera.TranslateXDelta(-0.5);
+
 	}
 	if (m_zkKeyboard.KeyPressed(DIK_D))
 	{
@@ -89,6 +90,19 @@ void VUI::handleInput(float fTimeDelta)
 	{
 		m_zpCamera.TranslateZDelta(0.5);
 	}
+
+	float zDelta = GET_WHEEL_DELTA_WPARAM(WHEEL_DELTA);
+
+	if (zDelta != 0)
+	{
+	  // m_zpCamera.RotateZDelta(-0.05);
+	}
+
+	//if (m_zkMouse.ButtonPressed(DIMOUSE_WHEEL) == true)
+	//{	
+	//	//long delta = ?
+	//	
+	//}
 
 	// Rotate around the field
 	//if (m_zkKeyboard.KeyPressed(DIK_RIGHT) == true)
