@@ -1,9 +1,9 @@
 #pragma once
 
 #include "VGeneral.h"
-#include "Gebauede01.h"
-#include "Gebaeude02.h"
-#include "Gebaeude03.h"
+#include "Building01.h"
+#include "Building02.h"
+#include "Building03.h"
 #include "Appartments.h"
 #include "LargeOfficeBuilding.h"
 #include "SmallOfficeBuilding.h"
@@ -21,37 +21,19 @@ public:
 
 	void TranslateBuildings();
 	void InitBuildings();
-	void GetPlacements();
 	void AddPlacements();
 	
 
 private:
 
-	CPlacement* m_zpgebaeude1_01;
-	CPlacement* m_zpgebaeude1_02;
-
-	CPlacement* m_zpgebaeude2_01;
-	CPlacement* m_zpgebaeude2_02;
-	CPlacement* m_zpgebaeude3_01;
-
-	CPlacement* m_zpgebaeude3_02;
-
-	CPlacement* m_zpOfficeTower_01;
-	CPlacement* m_zpOfficeTower_02;
-	CPlacement* m_zpAppartment_01;
-	CPlacement* m_zpAppartment_02;
-	CPlacement* m_zpAppartment_03;
-	CPlacement* m_zpSmallOfficeBuilding_01;
-	CPlacement* m_zpSmallOfficeBuilding_02;
-	CPlacement* m_zpLargeOfficeBuilding_01;
-	CPlacement* m_zpLargeOfficeBuilding_02;
 	
-	Gebauede01* gebaeude1_01;
-	Gebauede01* gebaeude1_02;
-	Gebaeude02* gebaeude2_01;
-	Gebaeude02* gebaeude2_02;
-	Gebaeude03* gebaeude3_01;
-	Gebaeude03* gebaeude3_02;
+	
+	Building01* Building1_01;
+	Building01* Building1_02;
+	Building02* Building2_01;
+	Building02* Building2_02;
+	Building03* Building3_01;
+	Building03* Building3_02;
 	CAppartments* appartment_01;
 	CAppartments* appartment_02;
 	CAppartments* appartment_03;

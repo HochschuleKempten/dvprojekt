@@ -36,8 +36,6 @@ void VUI::initUI()
 	vMaster->m_zf.AddDeviceCursor(&m_zkCursor);
 	vMaster->m_zf.AddDeviceMouse(&m_zkMouse);
 
-	vMaster->m_zr.AddFrameHere(&vMaster->m_zf);
-
 	m_zs.AddParallelLight(&m_zl);
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
 	CColor(1.0f, 1.0f, 1.0f));
@@ -232,7 +230,7 @@ void VUI::resize(int width, int height)
 {
 }
 
-	void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
+void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
 {
 	switch (screenType)
 	{

@@ -30,7 +30,6 @@ private:
 	std::map<std::string, IViewScreen*> m_screens;
 	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
 
-	CViewport m_zv;
 	CCamera m_zc;
 	CPlacement m_zpCamera;
 	CScene m_zs;

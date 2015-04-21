@@ -185,9 +185,9 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="view\Appartments.h" />
-    <ClInclude Include="view\Gebaeude02.h" />
-    <ClInclude Include="view\Gebaeude03.h" />
-    <ClInclude Include="view\Gebauede01.h" />
+    <ClInclude Include="view\Building02.h" />
+    <ClInclude Include="view\Building03.h" />
+    <ClInclude Include="view\Building01.h" />
     <ClInclude Include="view\Helper.h" />
     <ClInclude Include="view\IViewBuilding.h" />
     <ClInclude Include="view\IViewGUIContainer.h" />
@@ -261,9 +261,9 @@
     </ClCompile>
     <ClCompile Include="VektoriaApp.cpp" />
     <ClCompile Include="view\Appartments.cpp" />
-    <ClCompile Include="view\Gebaeude02.cpp" />
-    <ClCompile Include="view\Gebaeude03.cpp" />
-    <ClCompile Include="view\Gebauede01.cpp" />
+    <ClCompile Include="view\Building02.cpp" />
+    <ClCompile Include="view\Building03.cpp" />
+    <ClCompile Include="view\Building01.cpp" />
     <ClCompile Include="view\Helper.cpp" />
     <ClCompile Include="view\LargeOfficeBuilding.cpp" />
     <ClCompile Include="view\OfficeTowerViewingDeck.cpp" />

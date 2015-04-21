@@ -59,7 +59,7 @@
 
 #include "../../../Hochspannung/Hochspannung/view/VModelCity.h"
 
-using namespace HighVoltage::view;
+using namespace HighVoltage;
 using namespace Vektoria;
 
 
