@@ -6,7 +6,7 @@ NAMESPACE_LOGIC_B
 
 
 LMaster::LMaster(IVMaster& vMaster)
-: vMaster(vMaster), lPlayer(*this)
+: vMaster(vMaster), lPlayer{ (*this), (*this) }
 {
 	vMaster.registerObserver(this);
 }
@@ -43,9 +43,9 @@ IVMaster* LMaster::getVMaster()
 	return &vMaster;
 }
 
-LPlayer* LMaster::getPlayer()
+LPlayer* LMaster::getPlayers()
 {
-	return &lPlayer;
+	return lPlayer;
 }
 
 

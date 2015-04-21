@@ -11,6 +11,7 @@ class ILBuilding
 	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 protected:
 	LField* lField;
+	LPlayer::PlayerNumber playerNumber;
 
 public:
 	ILBuilding(LField* lField)
@@ -25,6 +26,16 @@ public:
 	{}
 
 	static const int cost = 10;
+
+	void setPlayerNumber(const LPlayer::PlayerNumber playerNumber)
+	{
+		this->playerNumber = playerNumber;
+	}
+
+	LPlayer::PlayerNumber getPlayerNumber() const //todo (L) const everywhere where needed
+	{
+		return playerNumber;
+	}
 };
 
 

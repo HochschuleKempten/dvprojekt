@@ -14,7 +14,7 @@ class LMaster : public IVTickObserver
 private:
 	IVMaster& vMaster;
 	LPlayingField* lPlayingField = nullptr;
-	LPlayer lPlayer;
+	LPlayer lPlayer[2];
 
 private:
 	//Objects of this class should not be copied
@@ -33,7 +33,7 @@ public:
 
 	LPlayingField* getLPlayingField();
 	IVMaster* getVMaster();
-	LPlayer* getPlayer();
+	LPlayer* getPlayers();
 
 };
 

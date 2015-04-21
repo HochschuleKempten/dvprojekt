@@ -7,8 +7,17 @@ NAMESPACE_LOGIC_B
 
 class LMaster;
 
+
+
 class LPlayer
 {
+public:
+	enum PlayerNumber
+	{
+		PlayerOne = 0,
+		PlayerTwo = 2
+	};
+
 private:
 	int money = 2700;
 	LMaster& lMaster;
