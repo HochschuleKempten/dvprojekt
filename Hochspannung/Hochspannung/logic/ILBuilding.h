@@ -11,7 +11,7 @@ class ILBuilding
 	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 protected:
 	LField* lField;
-	LPlayer::PlayerNumber playerNumber;
+	LPlayer::PlayerNumber playerNumber = LPlayer::PlayerNumber::PlayerOne; //todo (L)
 
 public:
 	ILBuilding(LField* lField)

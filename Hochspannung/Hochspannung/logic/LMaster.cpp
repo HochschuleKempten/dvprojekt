@@ -14,6 +14,7 @@ LMaster::LMaster(IVMaster& vMaster)
 LMaster::~LMaster()
 {
 	delete lPlayingField;
+	delete [] lPlayer;
 }
 
 void LMaster::startNewGame()
