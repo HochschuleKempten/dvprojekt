@@ -47,15 +47,15 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 	m_zpGondel.TranslateDelta(CHVector(0.0f, 7.2f, -0.0f));
 	m_zpGondel.AddGeo(&m_zgGondel);
 
-	m_zpRotorblatt1.Translate(CHVector(0.0f, 9.3f, 1.2f));
+	m_zpRotorblatt1.Translate(CHVector(0.0f, 9.3f, 0.8f));
 	m_zpRotorblatt1.AddGeo(&m_zgRotorblatt);
 
 	m_zpRotorblatt2.RotateZDelta((2 * PI) / 3);
-	m_zpRotorblatt2.TranslateDelta(CHVector(-1.5f, 6.3f, 1.2f));
+	m_zpRotorblatt2.TranslateDelta(CHVector(-1.5f, 6.3f, 0.75f));
 	m_zpRotorblatt2.AddGeo(&m_zgRotorblatt);
 
 	m_zpRotorblatt3.RotateZ(2 * (2 * PI) / 3);
-	m_zpRotorblatt3.TranslateDelta(CHVector(1.5f, 6.3f, 1.2f));
+	m_zpRotorblatt3.TranslateDelta(CHVector(1.5f, 6.3f, 0.75f));
 	m_zpRotorblatt3.AddGeo(&m_zgRotorblatt);
 
 	m_zpBasis.TranslateDelta(CHVector(0.0f, -7.0f, 0.0f));
