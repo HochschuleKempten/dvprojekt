@@ -19,13 +19,13 @@ public:
 
 	map<DIRECTION, vector<VModelPowerLine *>> * Connections();
 	VModelPowerLine::PYLONTYPE PylonType();
-	CHVector * ConnectorPositions();
+	vector<CHVector> * ConnectorPositions(VModelPowerLine::DIRECTION armPosition);
 	CPlacement * Connectors();
 
 	void Init(PYLONTYPE ePylonType = STRAIGHT, DIRECTION eDirection = NORTH, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
 	void SetPosition(int x, int y);
 	bool ConnectTo(VModelPowerLine *pPylon);
-	bool AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition);
+	USHORT AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition);
 	bool DisconnectFrom(VModelPowerLine * pPylon);
 	bool DisconnectAll();
 
@@ -51,9 +51,12 @@ public:
 
 private:
 	void InitArm();
-	vector<DIRECTION> DetermineArm(VModelPowerLine *pPylon);
-	map<DIRECTION, vector<VModelPowerLine *> > m_connections;
-
+	std::vector<DIRECTION> DetermineArm(VModelPowerLine *pPylon);
+	std::vector<CPlacement*> m_zpConnector;
+	std::vector<CPlacement*> m_zpRing;
+	std::map<DIRECTION, std::vector<VModelPowerLine *> > m_connections;
+	std::map<DIRECTION, std::vector<CHVector>> m_vConnectorPositions;
+	std::map<DIRECTION, std::vector<CPlacement*>> m_zpLine;
 	SHORT * GridPosition();
 	DIRECTION Direction();
 
@@ -81,47 +84,47 @@ private:
 	CPlacement m_zpUpperRightArmPole[4];
 	CPlacement m_zpPole[4];
 	CPlacement m_zpRoof[4];
-	std::vector<CPlacement*> m_zpConnector;
-	std::vector<CPlacement*> m_zpRing;
-	CPlacement m_zpLine[8];
+
+
+	//CPlacement m_zpLine[8];
 	CPlacement m_zpSphere[5];
 	CPlacement * m_zpStruts = NULL;
 
 	CTriangleList *m_zpTriangleConnector;
 	CTriangleList *m_zpTriangleRing;
 
-	CHVector m_vConnectorPositions[4];
 	SHORT m_iGridPosition[2];
-	USHORT m_iMaxConnectionsPerConnector = 2;
 	bool m_bConnectedPositions[4];
 
-	SHORT m_iArmPosition		= 9;
-	SHORT m_iStrutsCount		= 0;
-	PYLONTYPE m_ePylonType      = STRAIGHT;
-	DIRECTION m_eDirection      = NORTH;
-	float m_fFoundationHeight   = 0;
-	float m_fFoundationWidth    = 0;
-	float m_fPoleDistance       = 0;
-	float m_fPoleThickness      = 0;
-	float m_fPylonHeight        = 0;
-	float m_fStrutAngle         = 0;
-	float m_fStrutHeight        = 0;
-	float m_fStrutLength        = 0;
-	float m_fStrutThickness     = 0;
-	float m_fArmLength          = 0;
-	float m_fConnectorLength    = 0;
-	float m_fConnectorThickness = 0;
-	float m_fRingRadius			= 0;
-	float m_fRingThickness		= 0;
-	float m_fArmAngle			= 0;
-	float m_fUpperArmLength		= 0;
-	float m_fLowerArmPosition	= 0;
-	float m_fUpperArmPosition	= 0;
-	float m_fOppositeLeg		= 0;
-	bool bConnectedWest         = false;
-	bool bConnectedSouth        = false;
-	bool bConnectedEast         = false;
-	bool bConnectedNorth        = false;
+	USHORT m_iMaxConnectionsPerConnector = 2;
+	USHORT m_iConnectorPerArm            = 4;
+	SHORT m_iArmPosition		         = 9;
+	SHORT m_iStrutsCount		         = 0;
+	PYLONTYPE m_ePylonType               = STRAIGHT;
+	DIRECTION m_eDirection               = NORTH;
+	float m_fFoundationHeight            = 0;
+	float m_fFoundationWidth             = 0;
+	float m_fPoleDistance                = 0;
+	float m_fPoleThickness               = 0;
+	float m_fPylonHeight                 = 0;
+	float m_fStrutAngle                  = 0;
+	float m_fStrutHeight                 = 0;
+	float m_fStrutLength                 = 0;
+	float m_fStrutThickness              = 0;
+	float m_fArmLength                   = 0;
+	float m_fConnectorLength             = 0;
+	float m_fConnectorThickness          = 0;
+	float m_fRingRadius			         = 0;
+	float m_fRingThickness		         = 0;
+	float m_fArmAngle			         = 0;
+	float m_fUpperArmLength		         = 0;
+	float m_fLowerArmPosition	         = 0;
+	float m_fUpperArmPosition	         = 0;
+	float m_fOppositeLeg		         = 0;
+	bool bConnectedWest                  = false;
+	bool bConnectedSouth                 = false;
+	bool bConnectedEast                  = false;
+	bool bConnectedNorth                 = false;
 };
 
 NAMESPACE_VIEW_E

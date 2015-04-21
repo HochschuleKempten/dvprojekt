@@ -7,10 +7,14 @@ NAMESPACE_VIEW_B
 VModelPowerLine::VModelPowerLine(void)
 {
 	// set number of connections to zero
-	m_connections[WEST] = *new vector < VModelPowerLine * > ;
+	m_connections[WEST]  = *new vector < VModelPowerLine * > ;
 	m_connections[SOUTH] = *new vector < VModelPowerLine * > ;
-	m_connections[EAST] = *new vector < VModelPowerLine * > ;
+	m_connections[EAST]  = *new vector < VModelPowerLine * > ;
 	m_connections[NORTH] = *new vector < VModelPowerLine * > ;
+	m_zpLine[WEST] = *new vector < CPlacement* > ;
+	m_zpLine[SOUTH] = *new vector < CPlacement* > ;
+	m_zpLine[EAST] = *new vector < CPlacement* > ;
+	m_zpLine[NORTH] = *new vector < CPlacement* > ;
 }
 
 VModelPowerLine::~VModelPowerLine(void)
@@ -24,6 +28,8 @@ VModelPowerLine::~VModelPowerLine(void)
 	delete &m_connections[EAST];
 	delete &m_connections[NORTH];
 	m_connections.clear();
+
+	// TODO: add clean up for lines
 }
 
 void VModelPowerLine::SetPosition(int x, int y) {
@@ -62,10 +68,10 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_fUpperArmLength		= sqrt(pow(m_fStrutHeight, 2) + pow(m_fArmLength, 2));
 	m_fArmAngle				= asinf(m_fStrutHeight / m_fUpperArmLength);
 
-	m_fConnectorLength = m_fStrutHeight;
+	m_fConnectorLength    = m_fStrutHeight;
 	m_fConnectorThickness = m_fConnectorLength * 0.1f;
-	m_fRingRadius = m_fConnectorThickness;
-	m_fRingThickness = m_fConnectorThickness / 4.0f;
+	m_fRingRadius         = m_fConnectorThickness;
+	m_fRingThickness      = m_fConnectorThickness / 4.0f;
 
 	// init geometries (foundation, pole, strut)
 	m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &m_zmGrey);
@@ -80,8 +86,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), &m_zmBlack);
 
 	// init ring vector
-	for (int i = 0; i < 16; i++)
-	{
+	for (int i = 0; i < 16; i++) {
 		m_zpRing.push_back(new CPlacement);
 		m_zpConnector.push_back(new CPlacement);
 	}
@@ -93,8 +98,9 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	}
 
 	// preparing spheres
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 5; i++) {
 		m_zpSphere[i].AddGeo(&m_zgSphere);
+	}
 
 	int index1, index2;
 	float iYTranslation;
@@ -214,7 +220,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 
 
 void VModelPowerLine::InitArm() {
-	for (int i = 0; i < 4; i++) {
+	//for (int i = 0; i < 4; i++) {
 		switch (m_ePylonType) {
 		case STRAIGHT:
 			if (m_eDirection == NORTH || m_eDirection == SOUTH)
@@ -273,7 +279,7 @@ void VModelPowerLine::InitArm() {
 			}
 			break;
 		}
-	}
+	//}
 }
 
 VModelPowerLine::DIRECTION VModelPowerLine::Direction() {
@@ -293,11 +299,11 @@ float VModelPowerLine::getHeight() {
 	return m_fPylonHeight;
 }
 
-CHVector * VModelPowerLine::ConnectorPositions() {
-	for (int i = 0; i < 4; i++){
-		m_vConnectorPositions[i] = this->GetTranslation() + m_zpFoundation.GetTranslation() + m_zpArm[i].GetTranslation() + m_zpConnector[i]->GetTranslation();
+std::vector<CHVector> * VModelPowerLine::ConnectorPositions(VModelPowerLine::DIRECTION armPosition) {
+	for (int i = 0; i < 4; i++) {
+		m_vConnectorPositions[armPosition].push_back(this->GetTranslation() + m_zpFoundation.GetTranslation() + m_zpArm[i].GetTranslation() + m_zpConnector[i]->GetTranslation());
 	}
-	return m_vConnectorPositions;
+	return &m_vConnectorPositions[armPosition];
 }
 
 //CPlacement * VModelPowerLine::Connectors() {
@@ -309,57 +315,66 @@ bool * VModelPowerLine::ConnectedPositions() {
 }
 
 bool VModelPowerLine::ConnectTo(VModelPowerLine *pPylon) {
-	// get possible connectors pairs based on pylon type, direction and position
-	// check whether pairs are free (1 connector has max. capacity of 2 connections - 1 in and 1 out)
+	// get possible arm pairs based on pylon type, direction and position
 	vector<DIRECTION> vec_aArmPairs = DetermineArm(pPylon);
-	if (vec_aArmPairs.size() < 1 || !AddConnection(pPylon, vec_aArmPairs[0]))
+	if (vec_aArmPairs.size() < 1)
 		return false;
 
-	// calculate distance between 2 power lines
-	CHVector * vpConnectorPositions = pPylon->ConnectorPositions();
-	CHVector * m_vConnectorPositions = this->ConnectorPositions();
+	// try to logically add a new connection
+	SHORT connectedPosition = -1;
+	SHORT iArm = 0;
+	for (USHORT i = 0; i < vec_aArmPairs.size() && connectedPosition == -1; i++) {
+		connectedPosition = AddConnection(pPylon, vec_aArmPairs[i]);
+		iArm = i;
+	}
+	if (connectedPosition < 0)
+		return false;
 
-	CHVector vTranslation1 = m_vConnectorPositions[vec_aArmPairs[0]];
-	CHVector vTranslation2 = vpConnectorPositions[vec_aArmPairs[0]];
+	// get all the connector positions for the available arm pair
+	CHVector vTranslation1 = pPylon->ConnectorPositions(vec_aArmPairs[iArm])->at(connectedPosition);
+	CHVector vTranslation2 = this->ConnectorPositions(vec_aArmPairs[iArm])->at(connectedPosition);
 
-	//float distance = vTranslation1.Dist(vTranslation2);
+	// below are geometry part of the connection //
 	float distance = this->GetTranslation().Dist(pPylon->GetTranslation());
 	float angle    = vTranslation1.Angle(vTranslation2);
 
 	// generate line
 	CGeoCylinder * gLine = new CGeoCylinder;
 	gLine->Init(m_fConnectorThickness * 0.5f, m_fConnectorThickness * 0.5f, distance, &m_zmGrey);
-	m_zpLine[vec_aArmPairs[0]].AddGeo(gLine);
-
+	m_zpLine.at(vec_aArmPairs[iArm]).push_back(new CPlacement);
+	CPlacement * newLine = m_zpLine.at(vec_aArmPairs[iArm]).back();
+	newLine->AddGeo(gLine);
 
 	// rotate in right direction
-	if (vec_aArmPairs[0] == SOUTH && (m_iGridPosition[0] < pPylon->GridPosition()[0])) {
-		m_zpLine[vec_aArmPairs[0]].RotateX(HALFPI);
+	if (vec_aArmPairs[iArm] == SOUTH && (m_iGridPosition[0] < pPylon->GridPosition()[0])) {
+		newLine->RotateX(HALFPI);
 	}
-	else if (vec_aArmPairs[0] == SOUTH && (m_iGridPosition[0] > pPylon->GridPosition()[0])) {
-		m_zpLine[vec_aArmPairs[0]].RotateX(HALFPI);
+	else if (vec_aArmPairs[iArm] == SOUTH && (m_iGridPosition[0] > pPylon->GridPosition()[0])) {
+		newLine->RotateX(HALFPI);
 	}
-	else if (vec_aArmPairs[0] == NORTH && (m_iGridPosition[0] > pPylon->GridPosition()[0])) {
-		m_zpLine[vec_aArmPairs[0]].RotateX(HALFPI);
+	else if (vec_aArmPairs[iArm] == NORTH && (m_iGridPosition[0] > pPylon->GridPosition()[0])) {
+		newLine->RotateX(HALFPI);
 	}
-	else if (vec_aArmPairs[0] == NORTH && (m_iGridPosition[0] < pPylon->GridPosition()[0])) {
-		m_zpLine[vec_aArmPairs[0]].RotateX(-HALFPI);
+	else if (vec_aArmPairs[iArm] == NORTH && (m_iGridPosition[0] < pPylon->GridPosition()[0])) {
+		newLine->RotateX(-HALFPI);
 	}
-	else if (vec_aArmPairs[0] == WEST && (m_iGridPosition[1] < pPylon->GridPosition()[1])) {
-		m_zpLine[vec_aArmPairs[0]].RotateX(HALFPI);
+	else if (vec_aArmPairs[iArm] == WEST && (m_iGridPosition[1] < pPylon->GridPosition()[1])) {
+		newLine->RotateX(HALFPI);
 	}
-	else if (vec_aArmPairs[0] == WEST && (m_iGridPosition[1] > pPylon->GridPosition()[1])) {
-		m_zpLine[vec_aArmPairs[0]].RotateX(-HALFPI);
+	else if (vec_aArmPairs[iArm] == WEST && (m_iGridPosition[1] > pPylon->GridPosition()[1])) {
+		newLine->RotateX(-HALFPI);
 	}
-	else if (vec_aArmPairs[0] == EAST && (m_iGridPosition[1] > pPylon->GridPosition()[1])) {
-		m_zpLine[vec_aArmPairs[0]].RotateX(HALFPI);
+	else if (vec_aArmPairs[iArm] == EAST && (m_iGridPosition[1] > pPylon->GridPosition()[1])) {
+		newLine->RotateX(HALFPI);
 	}
-	else if (vec_aArmPairs[0] == EAST && (m_iGridPosition[1] < pPylon->GridPosition()[1])) {
-		m_zpLine[vec_aArmPairs[0]].RotateX(-HALFPI);
+	else if (vec_aArmPairs[iArm] == EAST && (m_iGridPosition[1] < pPylon->GridPosition()[1])) {
+		newLine->RotateX(-HALFPI);
 	}
 
 	// move the arms up and down if necessary (so cables won't cross)
-	m_zpConnector[vec_aArmPairs[0]]->AddPlacement(&m_zpLine[vec_aArmPairs[0]]);
+
+
+	m_zpConnector[vec_aArmPairs[iArm] * 4 + connectedPosition]->AddPlacement(newLine);
 
 	return true;
 }
@@ -368,16 +383,16 @@ map<VModelPowerLine::DIRECTION, vector<VModelPowerLine *>> * VModelPowerLine::Co
 	return &m_connections;
 }
 
-bool VModelPowerLine::AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition) {
-	// see whether connector capacity is available
-	if ((m_connections[eConnectorPosition].size() >= m_iMaxConnectionsPerConnector) || ((*pPylon->Connections())[eConnectorPosition].size() >= m_iMaxConnectionsPerConnector)) {
-		return false;
+USHORT VModelPowerLine::AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition) {
+	// see whether connector capacity is reached
+	if ((m_connections[eConnectorPosition].size() >= m_iConnectorPerArm) || ((*pPylon->Connections())[eConnectorPosition].size() >= m_iConnectorPerArm)) {
+		return -1;
 	}
 
 	m_connections[eConnectorPosition].push_back(pPylon);
 	(*pPylon->Connections())[eConnectorPosition].push_back(this);
 
-	return true;
+	return m_connections[eConnectorPosition].size() - 1;
 }
 
 VModelPowerLine::PYLONTYPE VModelPowerLine::PylonType() {
