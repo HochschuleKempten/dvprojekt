@@ -62,12 +62,8 @@ int LPlayingField::getFieldLength()
 
 void LPlayingField::removeBuilding(const int x, const int y)
 {
-	//if the building is a power line, remove all existing outgoing edges from the corresponding vertex
-	LPowerLine* powerLine = dynamic_cast<LPowerLine*>(getField(x, y)->getBuilding());
-	if (powerLine != nullptr)
-	{
-		powerLineGraph.m_vertices[convertIndex(x, y)].m_out_edges.clear();
-	}
+	//remove all outgoing edges
+	powerLineGraph.m_vertices[convertIndex(x, y)].m_out_edges.clear();
 
 	if (getField(x, y)->removeBuilding()) 
 	{
