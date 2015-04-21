@@ -21,7 +21,6 @@ private:
 
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
-	bool plVertexConnected = false;
 	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
 	std::vector<std::pair<int, int>> usedCoordinates;
 
@@ -51,6 +50,10 @@ public:
 			{
 				addPowerLineToGraph(x, y, powerLine->getPowerLineOrientation());
 			}
+			else
+			{
+				addPowerLineToGraph(x, y, LPowerLine::NORTH | LPowerLine::EAST | LPowerLine::SOUTH | LPowerLine::WEST);
+			}
 
 			//todo (L) when?
 			if (cityPosition.first > -1 && cityPosition.second > -1)
@@ -74,15 +77,12 @@ public:
 	LMaster* getLMaster();
 	IVPlayingField* getVPlayingField();
 
-	void setVertexConnected(const bool b);
 private:
 	void createFields();
-	//void generatePowerLineGraph();
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const int x, const int y);
-	bool powerlinesConnected(const int start, const int destination);
+	std::pair<int, int> convertIndex(const int idx);
 	void calculateEnergyValueCity();
-	std::vector<int> getConnectedPowerLines(const int x, const int y);
 	void addPowerLineToGraph(const int x, const int y, const int orientation);
 	
 	/**
