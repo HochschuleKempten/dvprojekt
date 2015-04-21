@@ -41,8 +41,9 @@ public:
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
 
 		//Check costs
-		if (lMaster->getPlayer()->getMoney() < T::cost) {
-			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") + std::to_string(lMaster->getPlayer()->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") + std::to_string(T::cost) + std::string(" benötigt."));
+		//todo (IP) getPlayers(): get current player
+		if (lMaster->getPlayers()[1].getMoney() < T::cost) {
+			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") + std::to_string(lMaster->getPlayers()[1].getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") + std::to_string(T::cost) + std::string(" benötigt."));
 			return false;
 		}
 
@@ -64,7 +65,7 @@ public:
 				calculateEnergyValueCity();
 			}
 
-			lMaster->getPlayer()->substractMoney(T::cost);
+			lMaster->getPlayers()->substractMoney(T::cost);
 
 			return true;
 		}

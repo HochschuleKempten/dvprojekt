@@ -6,7 +6,7 @@ NAMESPACE_LOGIC_B
 
 
 LMaster::LMaster(IVMaster& vMaster)
-: vMaster(vMaster), lPlayer{ (*this), (*this) }
+: vMaster(vMaster), lPlayer(new LPlayer[2]{(*this), (*this)})
 {
 	vMaster.registerObserver(this);
 }

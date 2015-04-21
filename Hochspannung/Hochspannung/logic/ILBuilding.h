@@ -1,8 +1,8 @@
 #pragma once
 #include "LGeneral.h"
+#include "LPlayer.h"
 
 NAMESPACE_LOGIC_B
-
 
 class LField;
 

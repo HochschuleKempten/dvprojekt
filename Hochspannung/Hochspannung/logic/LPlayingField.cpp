@@ -82,7 +82,8 @@ void LPlayingField::removeBuilding(const int x, const int y)
 
 void LPlayingField::upgradeBuilding(const int x, const int y)
 {
-	if (lMaster->getPlayer()->getMoney() > 50000)
+	//todo (IP) getPlayers(): get current player
+	if (lMaster->getPlayers()[1].getMoney() > 50000)
 	{
 		getField(x, y)->getBuilding()->upgrade();
 	}

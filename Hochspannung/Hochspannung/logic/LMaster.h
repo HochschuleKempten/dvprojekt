@@ -1,20 +1,20 @@
 #pragma once
 #include "IVTickObserver.h"
 #include "LGeneral.h"
-#include "LPlayer.h"
 
 NAMESPACE_LOGIC_B
 
 
 class IVMaster;
 class LPlayingField;
+class LPlayer;
 
 class LMaster : public IVTickObserver
 {
 private:
 	IVMaster& vMaster;
 	LPlayingField* lPlayingField = nullptr;
-	LPlayer lPlayer[2];
+	LPlayer* lPlayer = nullptr;
 
 private:
 	//Objects of this class should not be copied
