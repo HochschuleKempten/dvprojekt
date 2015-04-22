@@ -72,6 +72,7 @@ public:
 		return m_isOn;
 	}
 	virtual void checkShortcut(CDeviceKeyboard* keyboard)=0;
+	//virtual void resize(int width, int height);
 protected:	
 	map<string, IViewGUIContainer*> m_Guicontainer;
 	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
@@ -81,4 +82,7 @@ protected:
 	ScreenType m_screenType;
 	bool m_isOn = false;
 };
-NAMESPACE_VIEW_E
+
+	
+
+	NAMESPACE_VIEW_E

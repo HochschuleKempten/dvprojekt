@@ -184,7 +184,11 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	
 }
 
-//TODO
+	//void VScreenIngame::resize(int width, int height)
+	//{
+	//}
+
+	//TODO
 	void VScreenIngame::updateMoney(const int wert)
 	{
 		dynamic_cast<VText*>(getContainer("top")->getGuiObject("moneyValue"))->updateText(std::to_string(wert));

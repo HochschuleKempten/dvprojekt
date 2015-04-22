@@ -17,6 +17,7 @@ public:
 
 	void switchOff() override;
 	
+	void addContainer(const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName) override;
 private:
 	CFloatRect m_rect;
 	CViewport* m_viewport;

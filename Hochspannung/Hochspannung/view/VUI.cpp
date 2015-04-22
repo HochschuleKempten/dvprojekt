@@ -179,7 +179,7 @@ void VUI::onNotify(Event evente)
 	default:
 		break;
 	}
-
+	
 }
 
 	void VUI::resize(int width, int height)
@@ -254,13 +254,66 @@ void VUI::updateInfofield(const int wert)
 
 }
 
+void VUI::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
+{
+	float CurPosX;
+	float CurPosY;
+	m_zkCursor.GetFractional(CurPosX, CurPosY, false);
+	map<string, IViewGUIContainer*> tempmapGuicontainer;
+	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+	map<string, IViewGUIObject*>tempList;
+	map<string, IViewGUIObject*>::iterator tempIter;
+
+	tempmapGuicontainer = tempGuicontainer->getGuiContainerMap();
+
+	for (tempIterGuicontainer = tempmapGuicontainer.begin(); tempIterGuicontainer != tempmapGuicontainer.end(); tempIterGuicontainer++)
+	{
+		//Check if Container is on
+		if (tempIterGuicontainer->second->isOn())
+		{
+			
+			tempList = tempIterGuicontainer->second->getGuiObjectList();
+			//for all GUI-Objects in the container
+			for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
+			{
+
+				//check if cursor is over
+				tempIter->second->checkHover(CurPosX, CurPosY);
+
+				if (!m_BlockCursorLeftPressed)
+				{
+					//check for events
+					tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
+				}
+
+				//if screen was changed
+				if (m_screenChanged)
+				{
+					m_screenChanged = false;
+					m_BlockCursorLeftPressed = true;
+					return;
+				}
+			}
+			if (tempIterGuicontainer->second->getGuiContainerMap().size()!=0)
+		{
+			checkGUIContainer(tempIterGuicontainer->second);
+		}
+		}
+
+		
+	}
+}
+
+
 void VUI::tick(const float fTimeDelta)
 {
 	/*static unsigned int money = 0;
 	static unsigned int pop = 0;
-	handleInput(fTimeDelta);
+	
 	updateMoney(money++);
 	updatePopulation(pop++);*/
+
+	handleInput(fTimeDelta);
 
 	float CurPosX;
 	float CurPosY;
@@ -281,46 +334,54 @@ void VUI::tick(const float fTimeDelta)
 		{
 			//Check for shortcuts
 			m_iterScreens->second->checkShortcut(&m_zkKeyboard);
-			
+
 			tempGuicontainer = m_iterScreens->second->getGuiContainerMap();
-			map<string,IViewGUIObject*>tempList;
-			map<string,IViewGUIObject*>::iterator tempIter;
+			map<string, IViewGUIObject*>tempList;
+			map<string, IViewGUIObject*>::iterator tempIter;
 			//For all containers in the screen
 			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
 			{
-				//Check if screen is on
-				if (tempIterGuicontainer->second->isOn())
-				{
-					tempList = tempIterGuicontainer->second->getGuiObjectList();
-					//for all GUI-Objects in the container
-					for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
+
+					//Check if Container is on
+					if (tempIterGuicontainer->second->isOn())
 					{
-					
-						//check if cursor is over
-						tempIter->second->checkHover(CurPosX, CurPosY);
-						
-						if (!m_BlockCursorLeftPressed)
+						tempList = tempIterGuicontainer->second->getGuiObjectList();
+						//for all GUI-Objects in the container
+						for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
 						{
-							//check for events
-							tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
-						}
-						//if screen was changed
-						if (m_screenChanged)
-						{
-							m_screenChanged = false;
-							m_BlockCursorLeftPressed = true;
-							return;
+
+							//check if cursor is over
+							tempIter->second->checkHover(CurPosX, CurPosY);
+
+							if (!m_BlockCursorLeftPressed)
+							{
+								//check for events
+								tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
+							}
+							//if screen was changed
+							if (m_screenChanged)
+							{
+								m_screenChanged = false;
+								m_BlockCursorLeftPressed = true;
+								return;
+							}
+
+							if (isQuit)return;
 						}
 						if (isQuit)return;
-					}
-					if (isQuit)return;
+					}	
+					if (tempIterGuicontainer->second->getGuiContainerMap().size() != 0)
+				{
+					checkGUIContainer(tempIterGuicontainer->second);
 				}
+				}
+				if (isQuit)return;
+
+			
 			}
-			if (isQuit)return;
 		}
 	}
-	
-}
+
 
 
 NAMESPACE_VIEW_E

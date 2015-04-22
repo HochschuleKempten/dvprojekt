@@ -6,6 +6,7 @@
 #include "VTextfield.h"
 #include "VText.h"
 
+
 NAMESPACE_VIEW_B
 
 //---------------------------------------------------
@@ -55,7 +56,23 @@ public:
 
 	}
 	
+	virtual void addContainer(const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName)
+	{
+		
+	};
+	
+
 	virtual ~IViewGUIContainer(){};
+
+	IViewGUIContainer* getContainer(string sName)
+	{
+		ASSERT(m_Guicontainer.find(sName) != m_Guicontainer.end(), "GUIContainer not available");
+		return m_Guicontainer[sName];
+	}
+	map<string, IViewGUIContainer*>getGuiContainerMap()
+	{
+		return m_Guicontainer;
+	}
 
 	map<string, IViewGUIObject*> getGuiObjectList()
 	{
@@ -66,11 +83,15 @@ public:
 		return m_guiObjects[sName];
 	}
 protected:
+
 	bool m_bOn = true;
 	CViewport* m_viewport;
 	map<string,IViewGUIObject*> m_guiObjects;
 	map<string,IViewGUIObject*>::iterator lIterGUIObjects;
 	
+	map<string, IViewGUIContainer*> m_Guicontainer;
+	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
+
 	virtual CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)
 	{
 		 

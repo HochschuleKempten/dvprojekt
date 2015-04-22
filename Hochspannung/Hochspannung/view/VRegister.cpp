@@ -1,15 +1,24 @@
 #include "VRegister.h"
+#include "VGroup.h"
+#include "VDialog.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
 VRegister::VRegister()
 {
 }
 
-	VRegister::VRegister(CFloatRect floatRect, CViewport* viewport, CMaterial* MaterialNormal)
-	{
-	}
+VRegister::VRegister(CFloatRect floatRect, CViewport* viewport, CMaterial* MaterialNormal)
+{
+		m_viewport = viewport;
+		m_rect = floatRect;
+		m_background = new COverlay();
+		m_background->SetLayer(0.9);
+		//m_background->Init(materialBackground, m_rect);
+		m_viewport->AddOverlay(m_background);
+}
 
-	VRegister::~VRegister()
+VRegister::~VRegister()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
@@ -51,6 +60,21 @@ VRegister::VRegister()
 		default:
 				notify(events);
 
+		}
+	}
+
+	void VRegister::addContainer(const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName)
+	{
+		switch (containerType)
+		{
+		case IViewGUIContainer::Group:
+			m_Guicontainer[sName] = new VGroup(m_viewport, floatRect);
+			m_Guicontainer[sName]->addObserver(this);
+			break;
+		case IViewGUIContainer::Dialog:
+			m_Guicontainer[sName] = new VDialog(m_viewport, floatRect, &VMaterialLoader::materialDialogBackground);
+			m_Guicontainer[sName]->addObserver(this);
+			break;
 		}
 	}
 

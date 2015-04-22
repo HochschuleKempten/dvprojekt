@@ -77,6 +77,7 @@ public:
 	virtual void onMouseOut(void) = 0;
 	virtual void onMouseClickLeft(void) = 0;
 	virtual void onMouseClickRight(void) = 0;
+	//virtual void resize(int width, int height);
 protected:
 	CFloatRect m_zfrRect=CFloatRect(0,0,0,0);
 
