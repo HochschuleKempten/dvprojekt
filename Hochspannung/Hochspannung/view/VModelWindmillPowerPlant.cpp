@@ -5,9 +5,8 @@ NAMESPACE_VIEW_B
 
 VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 {
-	this->AddPlacement(&m_zpWindkraftanlage);
-	m_zpWindkraftanlage.AddPlacement(&m_zpBasis);
-	m_zpWindkraftanlage.AddPlacement(&m_zpKopf);
+	m_zpMain.AddPlacement(&m_zpBasis);
+	m_zpMain.AddPlacement(&m_zpKopf);
 	m_zpBasis.AddPlacement(&m_zpTurm);
 	m_zpBasis.AddPlacement(&m_zpFundament);
 	m_zpBasis.AddPlacement(&m_zpNetzanschluss);

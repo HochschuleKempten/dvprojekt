@@ -80,7 +80,7 @@ inline std::string getFileBase(const std::string &str)
 /*
  * @def ASSERT(cond, msgExpr)
  * Use this macro to check conditions at runtime in debug mode
- * Type in the conditition the behaviour you desire (the assertion fails if your condition fails)
+ * Type in the condition the behavior you desire (the assertion fails if your condition fails)
  */
 #define ASSERT(cond, msgExpr) if(!(cond)) { \
 								 std::stringstream s; \
@@ -115,6 +115,12 @@ inline std::string getFileBase(const std::string &str)
 #else
 #define CASTD static_cast
 #endif //_DEBUG
+
+#define NON_COPYABLE(className) private: \
+									className(const className&) = delete; \
+									className(const className&&) = delete; \
+									className& operator=(const className&) = delete; \
+									className& operator=(const className&&) = delete;
 
 #ifdef _DEBUG
 /**

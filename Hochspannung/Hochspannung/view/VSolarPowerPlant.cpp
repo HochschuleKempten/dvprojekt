@@ -7,7 +7,7 @@ NAMESPACE_VIEW_B
 
 
 VSolarPowerPlant::VSolarPowerPlant(VMaster* vMaster, LSolarPowerPlant* lPlant)
-	: IViewBuilding(vMaster, &m_zp), IVPowerPlant(lPlant)
+	: IVPowerPlant(lPlant), IViewBuilding(vMaster, &m_zp)
 {
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
 	m_zg.Init(CHVector(1.5f, 2.6f, 0.8f), &m_zm);
@@ -22,7 +22,7 @@ void VSolarPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPt
 {
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	SET_NAME_AND_COORDINATES(VIdentifier::VSolarPowerPlant);
+	//SET_NAME_AND_COORDINATES(VIdentifier::VSolarPowerPlant);
 }
 
 

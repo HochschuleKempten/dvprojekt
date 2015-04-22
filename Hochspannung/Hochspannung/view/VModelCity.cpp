@@ -2,6 +2,7 @@
 
 NAMESPACE_VIEW_B
 
+
 VModelCity::VModelCity(void)
 {
 	
@@ -37,27 +38,26 @@ void VModelCity::InitBuildings() {
 
 }
 
-
-
 void VModelCity::AddPlacements() {
 
-	AddPlacement(Building1_01);
-	AddPlacement(Building1_02);
-	AddPlacement(Building2_01);
-	AddPlacement(Building2_02);
-	AddPlacement(Building3_01);
-	AddPlacement(Building3_02);
-	AddPlacement(appartment_01);
-	AddPlacement(appartment_02);
-	AddPlacement(appartment_03);
-	AddPlacement(largeOfficeBuilding_01);
-	AddPlacement(largeOfficeBuilding_02);
-	AddPlacement(officeTower_01);
-	AddPlacement(officeTower_02);
-	AddPlacement(smallOffice_01);
-	AddPlacement(smallOffice_02);
+	m_zpMain.AddPlacement(Building1_01);
+	m_zpMain.AddPlacement(Building1_02);
+	m_zpMain.AddPlacement(Building2_01);
+	m_zpMain.AddPlacement(Building2_02);
+	m_zpMain.AddPlacement(Building3_01);
+	m_zpMain.AddPlacement(Building3_02);
+	m_zpMain.AddPlacement(appartment_01);
+	m_zpMain.AddPlacement(appartment_02);
+	m_zpMain.AddPlacement(appartment_03);
+	m_zpMain.AddPlacement(largeOfficeBuilding_01);
+	m_zpMain.AddPlacement(largeOfficeBuilding_02);
+	m_zpMain.AddPlacement(officeTower_01);
+	m_zpMain.AddPlacement(officeTower_02);
+	m_zpMain.AddPlacement(smallOffice_01);
+	m_zpMain.AddPlacement(smallOffice_02);
 
 }
+
 void VModelCity::TranslateBuildings() {
 
 	Building1_01->Translate(15, 0, 0);
