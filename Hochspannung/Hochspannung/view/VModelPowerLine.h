@@ -1,144 +1,117 @@
+#include "IViewModel.h"
 #include "VGeneral.h"
 #include "Helper.h"
 
 NAMESPACE_VIEW_B
 
-class VModelPowerLine : public CPlacement
+
+class VModelPowerLine : public IViewModel
 {
 public:
+	enum PYLONTYPE {
+		STRAIGHT, CROSS, ANGLE
+	};
+	enum DIRECTION {
+		WEST, SOUTH, EAST, NORTH
+	};
+
 	VModelPowerLine(void);
 	~VModelPowerLine(void);
 
-	void Init();
+	map<DIRECTION, vector<VModelPowerLine *>> * Connections();
+	VModelPowerLine::PYLONTYPE PylonType();
+	CHVector * ConnectorPositions();
+	CPlacement * Connectors();
+
+	void Init(PYLONTYPE ePylonType = STRAIGHT, DIRECTION eDirection = NORTH, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
+	void SetPosition(int x, int y);
+	bool ConnectTo(VModelPowerLine *pPylon);
+	bool AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition);
+	bool DisconnectFrom(VModelPowerLine * pPylon);
+	bool DisconnectAll();
+
+
+	bool ConnectedWest() {
+		return bConnectedWest;
+	};
+
+	bool * ConnectedPositions();
+
+	bool ConnectedSouth() {
+		return bConnectedSouth;
+	};
+	bool ConnectedEast() {
+		return bConnectedEast;
+	};
+	bool ConnectedNorth() {
+		return bConnectedNorth;
+	};
+
+	virtual float getHeight() override; // including foundation
+	virtual float getWidth() override;  // width of the foundation
+
 private:
-	CHelper m_Helper;
+	void InitArm();
+	vector<DIRECTION> DetermineArm(VModelPowerLine *pPylon);
+	map<DIRECTION, vector<VModelPowerLine *> > m_connections;
 
-	//vectors for foundation
-	CHVector m_zvFoundation1;		//for edge length
-	CHVector m_zvFoundation2;		//for placement
-
-	//vector for base poles
-	CHVector m_zgvPoles;
-	CHVector m_zpvPole1;
-	CHVector m_zpvPole2;
-	CHVector m_zpvPole3;
-	CHVector m_zpvPole4;
-
-	//vector for upper poles
-	CHVector m_zpvUpperPole1;
-	CHVector m_zpvUpperPole2;
-	CHVector m_zpvUpperPole3;
-	CHVector m_zpvUpperPole4;
-
-	CHVector m_zgvUpperPole1;
-	CHVector m_zgvUpperPole2;
-
-	////vector for basis poles
-	CHVector m_zgvBasisPoles;
+	SHORT * GridPosition();
+	DIRECTION Direction();
 
 	CMaterial m_zmBlack;
 	CMaterial m_zmGrey;
 
+	// new pylon modeling (10.4.2015)
+	CGeoCube m_zgArm;
 	CGeoCube m_zgFoundation;
-	
+	CGeoCube m_zgPole;
+	CGeoCube m_zgRoof;
+	CGeoCube m_zgStrut;
+	CGeoSphere m_zgSphere;
+	CGeoCylinder m_zgConnector;
+	CGeoTube m_zgRing;
+
 	CPlacement m_zpFoundation;
+	CPlacement m_zpArm[4];
+	CPlacement m_zpPole[4];
+	CPlacement m_zpRoof[4];
+	std::vector<CPlacement*> m_zpConnector;
+	std::vector<CPlacement*> m_zpRing;
+	CPlacement m_zpLine[8];
+	CPlacement m_zpSphere[5];
+	CPlacement * m_zpStruts = NULL;
 
-	CPlacement m_zpBasis;
-	CPlacement m_zpHead;
-	CPlacement m_zpRightConduit;
-	CPlacement m_zpLeftConduit;
+	CTriangleList *m_zpTriangleConnector;
+	CTriangleList *m_zpTriangleRing;
 
-	//base poles
-	CGeoCube m_zgPole1;
-	CGeoCube m_zgPole2;
-	CGeoCube m_zgPole3;
-	CGeoCube m_zgPole4;
+	CHVector m_vConnectorPositions[4];
+	SHORT m_iGridPosition[2];
+	USHORT m_iMaxConnectionsPerConnector = 2;
+	bool m_bConnectedPositions[4];
 
-	CPlacement m_zpPole1;
-	CPlacement m_zpPole2;
-	CPlacement m_zpPole3;
-	CPlacement m_zpPole4;
-
-	//upper poles
-	CGeoCube m_zgUpperPole1;
-	CGeoCube m_zgUpperPole2;
-	CGeoCube m_zgUpperPole3;
-	CGeoCube m_zgUpperPole4;
-
-	CPlacement m_zpUpperPole1;
-	CPlacement m_zpUpperPole2;
-	CPlacement m_zpUpperPole3;
-	CPlacement m_zpUpperPole4;
-
-	//geo and placement for basis poles
-	CGeoCube m_zgBasisPoles[10];
-	CGeoCube m_zgBasisPole1;
-	CGeoCube m_zgBasisPole2;
-	CGeoCube m_zgBasisPole3;
-	CGeoCube m_zgBasisPole4;
-	CGeoCube m_zgBasisPole5;
-	CGeoCube m_zgBasisPole6;
-	CGeoCube m_zgBasisPole7;
-	CGeoCube m_zgBasisPole8;
-	CGeoCube m_zgBasisPole9;
-	CGeoCube m_zgBasisPole10;
-
-	CPlacement m_zpBasisPoles[10];
-	CPlacement m_zpBasisPole1;
-	CPlacement m_zpBasisPole2;
-	CPlacement m_zpBasisPole3;
-	CPlacement m_zpBasisPole4;
-	CPlacement m_zpBasisPole5;
-	CPlacement m_zpBasisPole6;
-	CPlacement m_zpBasisPole7;
-	CPlacement m_zpBasisPole8;
-	CPlacement m_zpBasisPole9;
-	CPlacement m_zpBasisPole10;
-
-	//placement for basis poles -> right/left/front/back
-	CPlacement m_zpFrontPoles;
-	CPlacement m_zpBackPoles;
-	CPlacement m_zpLeftPoles;
-	CPlacement m_zpRightPoles;
-
-	//poles for roof
-	CGeoCube m_zgRoofPole1;
-	CGeoCube m_zgRoofPole2;
-	CGeoCube m_zgRoofPole3;
-	CGeoCube m_zgRoofPole4;
-
-	CPlacement m_zpRoofPole1;
-	CPlacement m_zpRoofPole2;
-	CPlacement m_zpRoofPole3;
-	CPlacement m_zpRoofPole4;
-
-	//poles for right conduit
-	CGeoCube m_zgRightConduit1;
-	CGeoCube m_zgRightConduit2;
-	CGeoCube m_zgRightConduit3;
-	CGeoCube m_zgRightConduit4;
-
-	CPlacement m_zpRightConduit1;
-	CPlacement m_zpRightConduit2;
-	CPlacement m_zpRightConduit3;
-	CPlacement m_zpRightConduit4;
-
-	void placeFoundation(void);
-	void placeBasis(void);
-	void placeHead(void);
-	void placeConduit(void);
-
-
-	void makeWall(void);
-
-	CGeoWall m_zgBaseWall;
-	CPlacement m_zpBaseWall;
-	CGeoWindow m_zgWindowTri;
-	CGeoWindow m_zgWindowRect;
-
-	float m_fWidth = 1.0f;
-	float m_fHeight = 2.0f;
-	float m_fThickness = 0.05f;
+	SHORT m_iArmPosition       = 9;
+	SHORT m_iStrutsCount       = 0;
+	PYLONTYPE m_ePylonType      = STRAIGHT;
+	DIRECTION m_eDirection      = NORTH;
+	float m_fFoundationHeight   = 0;
+	float m_fFoundationWidth    = 0;
+	float m_fPoleDistance       = 0;
+	float m_fPoleThickness      = 0;
+	float m_fPylonHeight        = 0;
+	float m_fStrutAngle         = 0;
+	float m_fStrutHeight        = 0;
+	float m_fStrutLength        = 0;
+	float m_fStrutThickness     = 0;
+	float m_fArmLength          = 0;
+	float m_fConnectorLength    = 0;
+	float m_fConnectorThickness = 0;
+	float m_fRingRadius = 0;
+	float m_fRingThickness = 0;
+	bool bConnectedWest         = false;
+	bool bConnectedSouth        = false;
+	bool bConnectedEast         = false;
+	bool bConnectedNorth        = false;
 };
+
 
 NAMESPACE_VIEW_E

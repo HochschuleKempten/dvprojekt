@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 #include "LGeneral.h"
 
 NAMESPACE_LOGIC_B
@@ -19,10 +18,11 @@ public:
 	{}
 
 	virtual void initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr) = 0;
-
 	virtual void buildPlayingField() = 0;
 
 	virtual void objectRemoved(const int x, const int y) = 0;
+	
+	virtual void messageBuildingFailed(const std::string& message) = 0;
 };
 
 NAMESPACE_LOGIC_E

@@ -1,11 +1,11 @@
 #include "VScreenMainMenue.h"
 
 NAMESPACE_VIEW_B
-	VScreenMainMenue::VScreenMainMenue()
-	{
-	}
+VScreenMainMenue::VScreenMainMenue()
+{
+}
 
-	VScreenMainMenue::VScreenMainMenue(CFrame* frame)
+VScreenMainMenue::VScreenMainMenue(CFrame* frame)
 {
 	m_viewport = new CViewport();
 	m_camera.Init();

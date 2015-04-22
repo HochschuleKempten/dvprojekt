@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 #include "LGeneral.h"
 
 NAMESPACE_LOGIC_B

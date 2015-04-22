@@ -128,6 +128,8 @@ public:
 	bool SubGeo(CGeo * pgeo); // Hängt die Geometrie wieder von der aktuellen Geometrie ab, gibt true aus, wenns geklappt hat
 	CGeos * m_pgeos;
 
+//	bool m_bChangedMaterial;
+
 #ifdef NETWORKMASTER
 	unsigned int GetidId();
 

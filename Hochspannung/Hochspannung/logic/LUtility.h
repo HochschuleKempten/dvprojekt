@@ -59,13 +59,18 @@ inline std::string getClassName(const std::type_info& typeInfo)
 
 #define getClassName(type) getClassName(typeid(type))
 
+inline std::string getFileBase(const std::string &str)
+{
+	return str.substr(str.find_last_of("\\") + 1);
+}
+
 #ifdef _DEBUG
 /*
 * @def DEBUG_OUTPUT(msgExpr)
 * Useful macro to print something to the visual studio output window
 */
 #define DEBUG_OUTPUT(msgExpr) { std::stringstream s; \
-                                s << __FILE__ << "(" << __LINE__ << "): " << msgExpr << std::endl; \
+                                s << getFileBase(__FILE__) << "(" << __LINE__ << "): " << msgExpr << std::endl; \
                                 OutputDebugString(s.str().c_str()); }
 #else
 #define DEBUG_OUTPUT(msgExpr)
@@ -79,7 +84,7 @@ inline std::string getClassName(const std::type_info& typeInfo)
  */
 #define ASSERT(cond, msgExpr) if(!(cond)) { \
 								 std::stringstream s; \
-                                 s << __FILE__ << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; \
+                                 s << getFileBase(__FILE__) << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; \
 								 OutputDebugString("EXCEPTION! "); \
 								 OutputDebugString(s.str().c_str()); \
 								 OutputDebugString("\n"); \

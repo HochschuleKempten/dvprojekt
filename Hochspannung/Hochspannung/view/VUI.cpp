@@ -2,9 +2,6 @@
 #include "VMaster.h"
 #include "VPlayingField.h"
 #include "VPowerLine.h"
-#include "VCoalPowerPlant.h"
-#include "VHydroelectricPowerPlant.h"
-#include "VMaterialLoader.h"
 #include "IViewScreen.h"
 
 #include "VScreenMainMenue.h"
@@ -13,21 +10,16 @@
 #include "VScreenLobby.h"
 #include "VScreenCredits.h"
 #include "VScreenOptions.h"
-
 #include "VIdentifier.h"
 #include "../logic/LWindmillPowerPlant.h"
 #include "../logic/ILPowerLine.h"
 #include "../logic/LMaster.h"
 
-
-
 NAMESPACE_VIEW_B
-
 
 
 VUI::VUI(VMaster* vMaster)
 	: vMaster(vMaster), isQuit(false)
-
 {
 	vMaster->registerObserver(this);
 }
@@ -41,39 +33,87 @@ void VUI::initUI()
 	vMaster->m_zf.AddDeviceCursor(&m_zkCursor);
 	vMaster->m_zf.AddDeviceMouse(&m_zkMouse);
 
-	vMaster->m_zr.AddFrameHere(&vMaster->m_zf);
-
-
-	//Camera (WASD) settings
-	m_zkKeyboard.SetWASDTranslationSensitivity(20.0);
-	m_zkKeyboard.SetWASDRotationSensitivity(2.0);
-	m_zkKeyboard.SetWASDLevelMin(100.0);
-	m_zkKeyboard.SetWASDLevelMax(200.0);
+	m_zs.AddParallelLight(&m_zl);
+	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
+	CColor(1.0f, 1.0f, 1.0f));
 
 	addScreen("MainMenue", IViewScreen::MainMenue);
-	
 	addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
-
 	addScreen("Lobby", IViewScreen::Lobby);
-	
 	addScreen("Credits", IViewScreen::Credits);
-
 	addScreen("Options", IViewScreen::Options);
-
 	addScreen("Ingame", IViewScreen::Ingame);
 	
+	//TODO (V) Sometimes no main screen appears
 	switchScreen("MainMenue");
 }
 
 void VUI::handleInput(float fTimeDelta)
 {
-	m_zkKeyboard.PlaceWASD(m_zpCamera, fTimeDelta);
+	//m_zkKeyboard.PlaceWASD(m_zpCamera, fTimeDelta);
 
 	//TODO (JS) make power line clickable
 
+
+	//Left + Right: 
+	if (m_zkKeyboard.KeyPressed(DIK_A) == true)
+	{
+		m_zpCamera.TranslateXDelta(-0.5);
+
+	}
+	if (m_zkKeyboard.KeyPressed(DIK_D))
+	{
+		m_zpCamera.TranslateXDelta(0.5);
+	}
+
+	//Back + Forward
+	if (m_zkKeyboard.KeyPressed(DIK_S) == true)
+	{
+		m_zpCamera.TranslateYDelta(-0.5);
+	}
+	if (m_zkKeyboard.KeyPressed(DIK_W))
+	{
+		m_zpCamera.TranslateYDelta(0.5);
+	}
+
+	//Zoom In + Out
+	if (m_zkKeyboard.KeyPressed(DIK_UP) == true)
+	{
+		m_zpCamera.TranslateZDelta(-0.5);
+	}
+	if (m_zkKeyboard.KeyPressed(DIK_DOWN))
+	{
+		m_zpCamera.TranslateZDelta(0.5);
+	}
+
+	float zDelta = GET_WHEEL_DELTA_WPARAM(WHEEL_DELTA);
+
+	if (zDelta != 0)
+	{
+	  // m_zpCamera.RotateZDelta(-0.05);
+	}
+
+	//if (m_zkMouse.ButtonPressed(DIMOUSE_WHEEL) == true)
+	//{	
+	//	//long delta = ?
+	//	
+	//}
+
+	// Rotate around the field
+	//if (m_zkKeyboard.KeyPressed(DIK_RIGHT) == true)
+	//{
+	//	m_zpCamera.RotateZDelta(-0.05);
+	//}
+	//if (m_zkKeyboard.KeyPressed(DIK_LEFT))
+	//{
+	//	m_zpCamera.RotateZDelta(0.05);
+	//}
+
+
+
 	/* Picking */
 	static bool pickingActive = false;
-
+	 
 	if (m_zkCursor.ButtonPressedLeft()) {
 		if (!pickingActive) {
 
@@ -93,7 +133,8 @@ void VUI::handleInput(float fTimeDelta)
 					int x = std::stoi(koord[1]);
 					int y = std::stoi(koord[2]);
 
-					vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y, ILPowerLine::EAST);
+					//TODO (V) will the power lines be connected automatically or must the user do the connection by itself
+					vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y, LPowerLine::NORTH | LPowerLine::EAST | LPowerLine::SOUTH | LPowerLine::WEST);
 				}
 
 			}
@@ -182,11 +223,11 @@ void VUI::onNotify(Event evente)
 	
 }
 
-	void VUI::resize(int width, int height)
-	{
-	}
+void VUI::resize(int width, int height)
+{
+}
 
-	void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
+void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
 {
 	switch (screenType)
 	{
@@ -307,12 +348,7 @@ void VUI::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 
 void VUI::tick(const float fTimeDelta)
 {
-	/*static unsigned int money = 0;
-	static unsigned int pop = 0;
 	
-	updateMoney(money++);
-	updatePopulation(pop++);*/
-
 	handleInput(fTimeDelta);
 
 	float CurPosX;

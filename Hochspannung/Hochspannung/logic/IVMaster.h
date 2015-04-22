@@ -1,5 +1,4 @@
 #pragma once
-#include <list>
 #include "IVTickObserver.h"
 #include "LGeneral.h"
 
@@ -34,6 +33,8 @@ public:
 	}
 
 	virtual IVFactory* getFactory() = 0;
+	virtual void gameOver() = 0;
+	virtual void updateMoney(const int money) = 0;
 };
 
 NAMESPACE_LOGIC_E

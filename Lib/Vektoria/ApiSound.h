@@ -54,6 +54,9 @@ public:
 	virtual void SetVolume(float & frVolume, int & idSound) = 0; // Modifiziert die Lautstärke (0.0F=aus 1.0F= volles Rohr) 
 	virtual void SetRadius(float & fRadius, int & idSound) = 0; // Modifiziert den Wirkradius in Units eines 3D-Klanges 
 	virtual void SetDoppler(float & fFactor, int & idSound) = 0; // fFactor=1.0: physikalisch richtiger Doppler-Effekt, fFactor=0.0: kein Doppler-Effekt; Default = 1.0F
+	virtual void SetFrequency(float & fFrequency, int & idSound) = 0;  // Setzt die Frequenz in Hertz
+	virtual void SetPan(float & fPan, int & idSound) = 0; // Stereoballanceeinstellungen zwischen links und rechts (-1 = links, 0= Mitte, 1 = rechts) 
+	virtual void ResetFrequency(int & idSound) = 0;  // Setzt die Frequenz zurück auf die originale Einstellung des Soundfiles
 
 	// Sound-LoD-Funktionen:
 	virtual void PauseCauseLoD(int & iAudio, int & idSound) = 0; // Pausiert den Zuhörer beim 3D-Audio wegen LoD 

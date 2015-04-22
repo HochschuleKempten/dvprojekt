@@ -1,6 +1,4 @@
-#include "StdAfx.h"
 #include "Game.h"
-#include <sstream>
 #include "view\VPlayingField.h"
 
 CGame::CGame(void)

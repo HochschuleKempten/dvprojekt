@@ -54,6 +54,9 @@ namespace Vektoria
 		void SetVolume(float & frVolume); // Modifiziert die Lautstärke (0.0F=aus 1.0F= volles Rohr) 
 		void SetRadius(float & fRadius); // Modifiziert den Wirkradius in Units eines 3D-Klanges 
 		void SetDoppler(float & fFactor); // fFactor=1.0: physikalisch richtiger Doppler-Effekt, fFactor=0.0: kein Doppler-Effekt; Default = 1.0F
+		void SetFrequency(float & fFrequency); // Setzt die Frequenz in Hertz
+		void SetPan(float & ftPan); // Stereoeinstellungen zwischen links und rechts (-1 = links, 0= Mitte, 1 = rechts) 
+		void ResetFrequency(); // Setzt die Frequenz auf die originale Frequenz 
 
 		void PauseCauseLoD(int & iAudio); // Pausiert den Zuhörer beim 3D-Audio wegen LoD 
 		void ContinueCauseLoD(int & iAudio);  // Setzt den Zuhörer beim 3D-Audio nach LoD-Eintritt wieder fort 
@@ -79,11 +82,18 @@ namespace Vektoria
 		bool m_bHaveToLoop;
 		bool m_bHaveToStart;
 		bool m_bHaveToStop;
+
 		bool m_bHaveToSetVolume;
+		bool m_bHaveToSetFrequency;
+		bool m_bHaveToSetPan;
+
 		int * m_aeStatus; // 0 = not initialized, 1 = gestartet, 2 = looping, 3 = stopped, 4 = paused while started, 5 = paused  while looping
 
 		IDirectSoundBuffer* m_lpDSB;
 		long m_lVolume;
+		long m_lFrequency;
+		long m_lPan;
+
 		bool CreateSecondaryBuffer(int iAudio);
 		int  m_iAllocStep;
 		// Neu für 3D audio: 
@@ -156,11 +166,12 @@ public:
 	void SetVolume(float & frVolume, int & idSound); // Modifiziert die Lautstärke (0.0F=aus 1.0F= volles Rohr) 
 	void SetRadius(float & fRadius, int & idSound); // Modifiziert den Wirkradius in Units eines 3D-Klanges 
 	void SetDoppler(float & fFactor, int & idSound); // fFactor=1.0: physikalisch richtiger Doppler-Effekt, fFactor=0.0: kein Doppler-Effekt; Default = 1.0F
+	void SetFrequency(float & fFrequency, int & idSound); // Setzt die Frequenz in Herz
+	void ResetFrequency(int & idSound); // Setzt die Frequenz auf die originale Frequenz 
+	void SetPan(float & ftPan, int & idSound); // Setzt den Pan 
 
 	void PauseCauseLoD(int & iAudio, int & idSound); // Pausiert den Zuhörer beim 3D-Audio wegen LoD 
 	void ContinueCauseLoD(int & iAudio, int & idSound);  // Setzt den Zuhörer beim 3D-Audio nach LoD-Eintritt wieder fort 
-
-
 
 	bool m_bFirstCommit;
 	IDirectSound8* m_lpDS;

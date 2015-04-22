@@ -25,18 +25,17 @@ protected:
 public:
 	ILPowerLine(const int orientation, LField* lField, const std::shared_ptr<IVPowerLine>& vPowerLine)
 		: ILBuilding(lField),
-		vPowerLine(vPowerLine),
-		orientation(orientation)
-	{};
+		orientation(orientation),
+		vPowerLine(vPowerLine)
+	{}
 
-	virtual ~ILPowerLine()
-	{
-	};
+	virtual ~ILPowerLine() override
+	{}
 
 	int getPowerLineOrientation()
 	{
 		return orientation;
-	};
+	}
 
 };
 

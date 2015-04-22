@@ -33,8 +33,8 @@ namespace Vektoria
 
 		ID3D11ShaderResourceView* m_pCurrTextureSRV;
 
-		SPPRenderTarget m_renderTargetBlurDepth;
-		SPPRenderTarget m_renderTargetDoF;
+		SPPRENDERTARGET m_renderTargetBlurDepth;
+		SPPRENDERTARGET m_renderTargetDoF;
 
 		CGeometryUtil* m_pGeoUtil;
 		ID3D11DeviceContext* m_pContext;

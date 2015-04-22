@@ -3,6 +3,7 @@
 #include "PostBloom.h"
 #include "PostGodRays.h"
 #include "PostDoF.h"
+#include "PostLuma.h"
 
 namespace Vektoria
 {
@@ -45,6 +46,7 @@ namespace Vektoria
 		CPostGodRays m_postGodRays;
 		CPostBloom m_postBloom;
 		CPostDoF m_postDof;
+		CPostLuma m_postLuma;
 		bool m_bIsInitialized;
 	};
 }

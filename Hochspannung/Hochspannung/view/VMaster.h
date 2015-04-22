@@ -14,6 +14,8 @@ class VPlayingField;
 
 class VMaster : public IVMaster
 {
+	friend class VUI;
+
 private:
 	CRoot m_zr;
 	CFrame m_zf;
@@ -32,14 +34,16 @@ public:
 	void initScene(HWND hwnd, CSplash* psplash);
 	void tick(float fTime, float fTimeDelta);
 
+	virtual void gameOver() override;
 	virtual IVFactory* getFactory() override;
 	VPlayingField* getPlayingField();
+	VUI* getVUi();
 
 	void setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField);
 	
 	void resize(int width, int height);
 
-	friend class VUI;
+	virtual void updateMoney(const int money) override;
 };
 
 

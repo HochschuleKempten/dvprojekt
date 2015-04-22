@@ -11,13 +11,15 @@ NAMESPACE_VIEW_B
 class VPowerLine : public IVPowerLine, public IViewBuilding
 {
 private:
-	VModelPowerLine m_zp;
+	CGeoCylinder m_zg;
+	CPlacement m_zp;
+	//VModelPowerLine m_zp;
 
 public:
 	VPowerLine(VMaster *vMaster, LPowerLine* lPlant);
 	virtual ~VPowerLine();
 
-	virtual void initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y);
+	virtual void initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y, const int orientation) override;
 };
 
 

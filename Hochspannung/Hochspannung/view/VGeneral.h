@@ -7,8 +7,13 @@
 #pragma warning ( pop )
 
 #include "../logic/LUtility.h"
+#include <vector>
+#include <map>
+#include <list>
+#include <string>
+#include <sstream>
+#include <memory>
 
-using namespace Vektoria;
-
-#define NAMESPACE_VIEW_B namespace HighVoltage{ //namespace view{
+#define NAMESPACE_VIEW_B namespace HighVoltage{ \
+                         using namespace Vektoria;
 #define NAMESPACE_VIEW_E }

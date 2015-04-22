@@ -26,8 +26,8 @@ namespace Vektoria
 		ID3D11VertexShader* m_pGodRayVertex;
 		ID3D11PixelShader* m_pGodRayPrePixel[3];
 		ID3D11PixelShader* m_pGodRayAccumPixel;
-		SPPRenderTarget m_renderTargetDepth;
-		SPPRenderTarget m_renderTargetGodRay;
+		SPPRENDERTARGET m_renderTargetDepth;
+		SPPRENDERTARGET m_renderTargetGodRay;
 
 		ID3D11ShaderResourceView* m_pCurrTextureSRV;
 

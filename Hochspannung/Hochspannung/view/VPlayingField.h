@@ -4,7 +4,6 @@
 #include "../logic/LPlayingField.h"
 #include "../logic/Array2D.h"
 #include "IViewObject.h"
-#include <memory>
 #include "VField.h"
 
 NAMESPACE_VIEW_B
@@ -59,6 +58,8 @@ public:
 	virtual void buildPlayingField();
 
 	virtual void objectRemoved(const int x, const int y);
+
+	virtual void messageBuildingFailed(const std::string& message);
 };
 
 

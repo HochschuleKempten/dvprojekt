@@ -32,12 +32,12 @@ namespace Vektoria
 		ID3D11PixelShader* m_pBloomBlurPixel;
 		ID3D11PixelShader* m_pLuminancePixel;
 		ID3D11PixelShader* m_pAdaptLuminance;
-		SPPRenderTarget m_renderTargetBloomTexture;
-		SPPRenderTarget m_renderTargetBloomBlur;
-		SPPRenderTarget m_renderTargetBloomAccum;
+		SPPRENDERTARGET m_renderTargetBloomTexture;
+		SPPRENDERTARGET m_renderTargetBloomBlur;
+		SPPRENDERTARGET m_renderTargetBloomAccum;
 
-		SPPRenderTarget m_renderTargetLuminance;
-		SPPRenderTarget m_renderTargetAdaptLuminance[2];
+		SPPRENDERTARGET m_renderTargetLuminance;
+		SPPRENDERTARGET m_renderTargetAdaptLuminance[2];
 
 		CGeometryUtil* m_pGeoUtil;
 		ID3D11DeviceContext* m_pContext;

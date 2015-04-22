@@ -1,21 +1,23 @@
 #pragma once
 
 #include "VGeneral.h"
-
 #include "IViewUIObserver.h"
 #include "IViewScreen.h"
-
 #include "../logic/IVTickObserver.h"
-
 
 NAMESPACE_VIEW_B
 
 
 class VMaster;
 
-
+/**
+ * @brief The VUI class is responsible for representing the interface to the user and handles the user input.
+ *
+ * The Vektoria-Objects can have a name (<code>.setName()</code>). This is needed to find out what elements have been clicked by the user.
+ * To distinct between needed names for the game logic and names for debugging purposes, all debug names shall start with a # to
+ * introduce a comment in the name system.
+ */
 class VUI : public IVTickObserver, public IViewUIObserver
-
 {
 	friend class VMaster;
 
@@ -28,12 +30,10 @@ private:
 	std::map<std::string, IViewScreen*> m_screens;
 	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
 
-	CViewport m_zv;
-	CCamera m_zc;
+	//TODO (V) resize viewports?
 	CPlacement m_zpCamera;
 	CScene m_zs;
 	CParallelLight m_zl;
-	CBackground m_zb;
 
 	bool isQuit;
 	bool m_screenChanged = false;

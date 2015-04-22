@@ -1,11 +1,13 @@
 #pragma once
 
+
 #include "VGeneral.h"
 
 NAMESPACE_VIEW_B
 
 
-class Gebaeude02
+
+class Building02: public CPlacement
 {
 private:
 
@@ -17,7 +19,7 @@ private:
 	CPlacement m_zpWallEast;
 	CPlacement m_zpWallSouth;
 
-	CGeoWall *pm_zWallNSWE;
+	
 
 	CGeoCube m_zgDach;
 	CPlacement m_zpDach;
@@ -31,13 +33,18 @@ private:
 	CGeoWall m_zgWallGlass;
 	CMaterial m_zmWallGlass;
 
-	CPlacement m_zpGebaeude02;
-public:
-	Gebaeude02();
-	~Gebaeude02();
 
-	CPlacement *getPlacement();
+public:
+	Building02();
+	~Building02();
+
+	void InitWindows();
+	void AddWindows();
+	void InitWalls();
+	void AddPlacements();
+	void TranslateAll();
 };
+
 
 
 NAMESPACE_VIEW_E

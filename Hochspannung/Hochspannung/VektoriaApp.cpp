@@ -71,8 +71,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		WS_OVERLAPPEDWINDOW,    /* default window */
 		CW_USEDEFAULT,          /* Windows decides the position */
 		CW_USEDEFAULT,          /* where the window ends up on the screen */
-		1920,                   /* The programs width */
-		1080,                   /* and height in pixels */
+		1280,                   /* The programs width */
+		720,                   /* and height in pixels */
 		HWND_DESKTOP,           /* The window is a child-window to desktop */
 		NULL,                   /* No menu */
 		hInstance,              /* Program Instance handler */

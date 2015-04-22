@@ -54,6 +54,9 @@ public:
 	void RotateZ(float fa);		// Generiert Rotationsquaternion um z-Achse mit Winkel fa
 	void Rotate(float fx, float fy, float fz, float fa); // Generiert beliebiges Rotationsquaternion um die Drehachse fx, fy, fz mit Winkel fa
 	void Rotate(CHVector & v, float fa); // Generiert beliebiges Rotationsquaternion um die Drehachse v mit Winkel fa
+	void RotateDelta(CQuaternion qRot); // Addiert die Rotation von qRot auf das aktuelle Rotationsquaternion, ACHTUNG: Noch ungetetstet!!!
+
+
 
 	void Lerp(CQuaternion qFrom, CQuaternion qTo, float fr); // Lineare Interpolation zwischen zwei Quaternionen
 	void Slerp(CQuaternion qFrom, CQuaternion qTo, float fr); // Spherische Interpolation zwischen zwei Quaternionen

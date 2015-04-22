@@ -12,10 +12,17 @@
 
 
 
-// TODO: Hier auf zusätzliche Header, die das Programm erfordert, verweisen.
+// Hier auf zusätzliche Header, die das Programm erfordert, verweisen.
 
+#include <boost\asio.hpp>
 #include <vector>
 #include <map>
 #include <list>
 #include <string>
+#include <sstream>
 #include <memory>
+#include "logic/LUtility.h"
+
+#include <boost\thread\thread.hpp>
+#include <boost\asio\ip\tcp.hpp>
+#include <boost\asio\deadline_timer.hpp>
