@@ -4,7 +4,6 @@
 #include "IVMaster.h"
 #include "IVFactory.h"
 #include "IVPowerLine.h"
-#include "LUtility.h"
 
 NAMESPACE_LOGIC_B
 
@@ -18,5 +17,6 @@ LPowerLine::LPowerLine(LField* lField, const int x, const int y, const int orien
 LPowerLine::~LPowerLine()
 {
 }
+
 
 NAMESPACE_LOGIC_E

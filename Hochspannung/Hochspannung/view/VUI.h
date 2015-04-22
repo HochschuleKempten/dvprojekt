@@ -19,6 +19,7 @@ class VMaster;
  */
 class VUI : public IVTickObserver, public IViewUIObserver
 {
+	NON_COPYABLE(VUI);
 	friend class VMaster;
 
 private:

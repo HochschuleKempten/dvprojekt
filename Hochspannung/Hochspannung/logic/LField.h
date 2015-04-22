@@ -15,6 +15,8 @@ class LSolarPowerPlant;
 
 class LField
 {
+	NON_COPYABLE(LField);
+
 public:
 	enum FieldType
 	{

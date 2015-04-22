@@ -9,6 +9,8 @@ class VMaster;
 
 class IViewObject
 {
+	NON_COPYABLE(IViewObject);
+
 protected:
 	VMaster* vMaster;
 	CPlacement* placementPointer;

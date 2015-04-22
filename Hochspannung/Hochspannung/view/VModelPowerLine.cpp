@@ -52,7 +52,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_fPoleThickness      = m_fPoleDistance * 0.1f;
 	m_fStrutHeight        = fPylonHeight * 0.1f;
 	m_fStrutLength        = sqrtf(powf(m_fPoleDistance, 2) + powf(m_fStrutHeight, 2));
-	m_fStrutAngle         = asinf(m_fStrutHeight / m_fStrutLength);;
+	m_fStrutAngle         = asinf(m_fStrutHeight / m_fStrutLength);
 	m_fStrutThickness     = m_fPoleDistance * 0.08f;
 	m_iStrutsCount        = CASTS<int>(m_fPylonHeight / m_fStrutHeight);
 	m_ePylonType          = ePylonType;

@@ -114,10 +114,10 @@ void LPlayingField::createFields()
 	cityPosition = std::make_pair(cityPositionX, cityPositionY);
 
 	fieldArray[firstPowerLinePositionX][firstPowerLinePositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(firstPowerLinePositionX, firstPowerLinePositionY, LPowerLine::NORTH | LPowerLine::EAST | LPowerLine::SOUTH | LPowerLine::WEST);
+	placeBuilding<LPowerLine>(firstPowerLinePositionX, firstPowerLinePositionY, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
 
 	fieldArray[secondPowerLinePositionX][secondPowerLinePositionY].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(secondPowerLinePositionX, secondPowerLinePositionY, LPowerLine::NORTH | LPowerLine::EAST | LPowerLine::SOUTH | LPowerLine::WEST);
+	placeBuilding<LPowerLine>(secondPowerLinePositionX, secondPowerLinePositionY, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
 
 	fieldArray[firstPowerPlantPositionX][firstPowerPlantPositionY].init(LField::FieldType::COAL, LField::FieldLevel::LEVEL1);
 	placeBuilding<LCoalPowerPlant>(firstPowerPlantPositionX, firstPowerPlantPositionY);
@@ -200,7 +200,7 @@ void LPlayingField::calculateEnergyValueCity()
 
 void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)
 {
-	if (orientation & LPowerLine::PowerLineOrientation::NORTH)
+	if (orientation & ILBuilding::NORTH)
 	{
 		if (checkIndex(x - 1, y))
 		{
@@ -208,7 +208,7 @@ void LPlayingField::addBuildingToGraph(const int x, const int y, const int orien
 		}
 	}
 
-	if (orientation & LPowerLine::PowerLineOrientation::EAST)
+	if (orientation & ILBuilding::EAST)
 	{
 		if (checkIndex(x, y + 1))
 		{
@@ -216,7 +216,7 @@ void LPlayingField::addBuildingToGraph(const int x, const int y, const int orien
 		}
 	}
 
-	if (orientation & LPowerLine::PowerLineOrientation::SOUTH)
+	if (orientation & ILBuilding::SOUTH)
 	{
 		if (checkIndex(x + 1, y))
 		{
@@ -224,7 +224,7 @@ void LPlayingField::addBuildingToGraph(const int x, const int y, const int orien
 		}
 	}
 
-	if (orientation & LPowerLine::PowerLineOrientation::WEST)
+	if (orientation & ILBuilding::WEST)
 	{
 		if (checkIndex(x, y - 1))
 		{

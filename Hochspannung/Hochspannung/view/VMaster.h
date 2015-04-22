@@ -14,6 +14,7 @@ class VPlayingField;
 
 class VMaster : public IVMaster
 {
+	NON_COPYABLE(VMaster);
 	friend class VUI;
 
 private:

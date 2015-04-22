@@ -8,6 +8,8 @@ class LMaster;
 
 class LPlayer
 {
+	NON_COPYABLE(LPlayer);
+
 public:
 	enum PlayerNumber
 	{
