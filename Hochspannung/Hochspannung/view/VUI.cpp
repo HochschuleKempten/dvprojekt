@@ -14,6 +14,7 @@
 #include "../logic/LWindmillPowerPlant.h"
 #include "../logic/ILPowerLine.h"
 #include "../logic/LMaster.h"
+#include <Vektoria/Placements.h>
 
 NAMESPACE_VIEW_B
 
@@ -122,6 +123,23 @@ void VUI::handleInput(float fTimeDelta)
 				return;
 			}
 			
+			CPlacements placements;
+			m_zkCursor.PickPlacements(&placements);
+			for (int i = 0; i < placements.m_iPlacements; i++)
+			{
+				std::vector<std::string> nameParts = split(placements.m_applacement[i]->GetName(), ';');
+				if (nameParts.size() > 0 && nameParts[0].at(0) != '#')
+				{
+					//At this point only valid names remains
+					ASSERT(nameParts.size() == 3, "Not enough arguments in the placement name");
+					
+					if (std::stoi(nameParts[0]) == VIdentifier::VPlayingField)
+					{
+						DEBUG_OUTPUT("picked object (Placements) = " << placements.m_applacement[i]->GetName());
+					}
+				}
+			}
+
 			DEBUG_OUTPUT("picked object = " << pickedPlacement->GetName());
 			std::vector<std::string> koord = split(pickedPlacement->GetName(), ';');
 

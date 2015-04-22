@@ -8,8 +8,6 @@ class LMaster;
 
 class LPlayer
 {
-	NON_COPYABLE(LPlayer);
-
 public:
 	enum PlayerNumber
 	{
@@ -19,10 +17,10 @@ public:
 
 private:
 	int money = 2700;
-	LMaster& lMaster;
+	LMaster* lMaster;
 
 public:
-	LPlayer(LMaster& lMaster);
+	LPlayer(LMaster* lMaster);
 	~LPlayer();
 	int getMoney() const;
 	void substractMoney(const int amount);

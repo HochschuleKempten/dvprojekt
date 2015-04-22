@@ -25,8 +25,8 @@ static std::vector<int> strongConnectedSearch(const Graph& g, const int startIdx
 	std::vector<int> vertices;
 
 	for (size_t i = 0; i < component.size(); i++) {
-		if (component[i] == mainComponent && i != startIdx) {
-			vertices.push_back(i);
+		if (component[i] == mainComponent && i != CASTS<size_t>(startIdx)) {
+			vertices.push_back(CASTS<int>(i));
 		}
 	}
 

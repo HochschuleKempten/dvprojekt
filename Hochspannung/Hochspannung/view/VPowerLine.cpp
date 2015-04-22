@@ -8,7 +8,8 @@ NAMESPACE_VIEW_B
 
 
 VPowerLine::VPowerLine(VMaster* vMaster, LPowerLine* lpowerLine)
-	: IVPowerLine(lpowerLine), IViewBuilding(vMaster, viewModel.getMainPlacement())
+: IVPowerLine(lpowerLine), IViewBuilding(vMaster, viewModel.getMainPlacement())
+//	: IVPowerLine(lpowerLine), IViewBuilding(vMaster, &m_zp)
 {}
 
 VPowerLine::~VPowerLine()

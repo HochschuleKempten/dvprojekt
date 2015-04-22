@@ -116,11 +116,11 @@ inline std::string getFileBase(const std::string &str)
 #define CASTD static_cast
 #endif //_DEBUG
 
-#define NON_COPYABLE(className); private: \
+#define NON_COPYABLE(className) private: \
 									className(const className&) = delete; \
 									className(const className&&) = delete; \
 									className& operator=(const className&) = delete; \
-									className& operator=(const className&&) = delete;
+									className& operator=(const className&&) = delete
 
 #ifdef _DEBUG
 /**

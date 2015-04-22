@@ -16,7 +16,7 @@ class LMaster : public IVTickObserver
 private:
 	IVMaster& vMaster;
 	LPlayingField* lPlayingField = nullptr;
-	LPlayer* lPlayer = nullptr;
+	std::vector<LPlayer> lPlayers;
 
 public:
 	LMaster(IVMaster& vMaster);
