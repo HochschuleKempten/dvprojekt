@@ -52,11 +52,14 @@ public:
 private:
 	void InitArm();
 	std::vector<DIRECTION> DetermineArm(VModelPowerLine *pPylon);
-	std::vector<CPlacement*> m_zpConnector;
-	std::vector<CPlacement*> m_zpRing;
+	//TODO (Pylon) consider using normal variable types instead of pointers here (less heap allocations)
+	//You may be able to use std::vector<CPlacement> as well
+	std::vector <CPlacement> m_zpConnector;
+	std::vector<CPlacement> m_zpRing;
+	std::map<DIRECTION, std::vector<CPlacement>> m_zpLine;
 	std::map<DIRECTION, std::vector<VModelPowerLine *> > m_connections;
 	std::map<DIRECTION, std::vector<CHVector>> m_vConnectorPositions;
-	std::map<DIRECTION, std::vector<CPlacement*>> m_zpLine;
+	//std::map<DIRECTION, std::vector<CPlacement*>> m_zpLine;
 	SHORT * GridPosition();
 	DIRECTION Direction();
 
@@ -84,17 +87,6 @@ private:
 	CPlacement m_zpUpperRightArmPole[4];
 	CPlacement m_zpPole[4];
 	CPlacement m_zpRoof[4];
-<<<<<<< HEAD
-
-
-	//CPlacement m_zpLine[8];
-=======
-	//TODO (Trasse) consider using normal variable types instead of pointers here (less heap allocations)
-	//You may be able to use std::vector<CPlacement> as well
-	std::vector<CPlacement*> m_zpConnector;
-	std::vector<CPlacement*> m_zpRing;
-	CPlacement m_zpLine[8];
->>>>>>> master
 	CPlacement m_zpSphere[5];
 	CPlacement * m_zpStruts = nullptr;
 

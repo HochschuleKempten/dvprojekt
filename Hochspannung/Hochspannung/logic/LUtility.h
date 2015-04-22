@@ -1,5 +1,6 @@
 #ifndef _LUTILITY_H_
 #define _LUTILITY_H_
+#define _USE_MATH_DEFINES
 
 #include <vector>
 #include <string>
@@ -9,6 +10,7 @@
 #include <Windows.h>
 #include <fcntl.h>
 #include <io.h>
+#include <math.h>
 
 inline std::vector<std::string> split(const std::string& str, const char delimiter)
 {
@@ -70,8 +72,8 @@ inline std::string getFileBase(const std::string &str)
 * Useful macro to print something to the visual studio output window
 */
 #define DEBUG_OUTPUT(msgExpr) { std::stringstream s; \
-                                s << getFileBase(__FILE__) << "(" << __LINE__ << "): " << msgExpr << std::endl; \
-                                OutputDebugString(s.str().c_str()); }
+								s << getFileBase(__FILE__) << "(" << __LINE__ << "): " << msgExpr << std::endl; \
+								OutputDebugString(s.str().c_str()); }
 #else
 #define DEBUG_OUTPUT(msgExpr)
 #endif //_DEBUG
@@ -84,12 +86,12 @@ inline std::string getFileBase(const std::string &str)
  */
 #define ASSERT(cond, msgExpr) if(!(cond)) { \
 								 std::stringstream s; \
-                                 s << getFileBase(__FILE__) << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; \
+								 s << getFileBase(__FILE__) << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; \
 								 OutputDebugString("EXCEPTION! "); \
 								 OutputDebugString(s.str().c_str()); \
 								 OutputDebugString("\n"); \
 								 throw std::string(s.str()); \
-                              }
+							  }
 #else
 #define ASSERT(cond, msgExpr)
 #endif //_DEBUG
@@ -151,3 +153,11 @@ inline void redirectIOToConsole()
 #endif // _DEBUG
 
 #endif //_LUTILITY_H_
+
+inline float AngleToRad(float fAngle) {
+	return (2.0f * M_PI * fAngle) / 360.0f;
+}
+
+inline float RadToAngle(float fRadiant) {
+	return (360.0f * fRadiant) / M_PI_2;
+}
