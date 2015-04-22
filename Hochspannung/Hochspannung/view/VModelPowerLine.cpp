@@ -1,6 +1,4 @@
 #include "VModelPowerLine.h"
-#include "Helper.h"
-//TODO (Pylon) please move methods from your helper class to LUtility
 
 NAMESPACE_VIEW_B
 
@@ -132,7 +130,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 
 		// adding roof
 		m_zpRoof[i].RotateZDelta(-asinf((m_fPoleDistance + m_fPoleThickness) / (2 * (m_fStrutHeight - m_fStrutThickness))));
-		m_zpRoof[i].RotateYDelta(CHelper::AngleToRad(45));
+		m_zpRoof[i].RotateYDelta(AngleToRad(45));
 		m_zpRoof[i].TranslateDelta(m_fPoleDistance * 0.5f, m_fPylonHeight + m_fStrutHeight * 1.1f, -4 * m_fPoleThickness);
 		m_zpPole[i].AddPlacement(&m_zpRoof[i]);
 		m_zpSphere[i].TranslateYDelta(m_fPylonHeight);

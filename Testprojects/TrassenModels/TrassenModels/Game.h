@@ -57,6 +57,7 @@
 #include "Vektoria\Root.h"
 #include "VektoriaMath\Util.h"
 #include "../../../Hochspannung/Hochspannung/view/VModelPowerLine.h"
+#include "../../../Hochspannung/Hochspannung/logic/LUtility.h"
 #include "TextureTester.h"
 
 using namespace Vektoria;
@@ -74,7 +75,7 @@ public:
 	void Fini();
 
 	void WindowReSize(int iNewWidth, int iNewHeight); // WindowsReSize wird immer dann aufgerufen, wenn der Benutzer die Fenstergröße verändert hat
-
+	
 private:
 	CRoot m_zr;
 	CScene m_zs;

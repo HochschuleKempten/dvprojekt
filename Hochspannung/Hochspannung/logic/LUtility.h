@@ -152,8 +152,6 @@ inline void redirectIOToConsole()
 }
 #endif // _DEBUG
 
-#endif //_LUTILITY_H_
-
 inline float AngleToRad(float fAngle) {
 	return (2.0f * M_PI * fAngle) / 360.0f;
 }
@@ -161,3 +159,4 @@ inline float AngleToRad(float fAngle) {
 inline float RadToAngle(float fRadiant) {
 	return (360.0f * fRadiant) / M_PI_2;
 }
+#endif //_LUTILITY_H_

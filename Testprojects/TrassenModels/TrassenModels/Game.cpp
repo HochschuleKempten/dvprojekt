@@ -28,15 +28,17 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zf.AddViewport(&m_zv);
 	m_zr.AddScene(&m_zs);
 
-	m_zs.AddPlacement(&m_zp);
+	//m_zs.AddPlacement(&m_zp);
 	m_zs.AddPlacement(&m_zpCamera);
 	m_zs.AddParallelLight(&m_zl);
 	m_zpCamera.AddCamera(&m_zc);
-	//m_zpCamera.RotateXDelta(CHelper::AngleToRad(-30));
-	m_zpCamera.RotateXDelta(1.5f);
+	m_zpCamera.RotateXDelta(AngleToRad(-30));
 	m_zpCamera.TranslateZDelta(2.0f);
 	m_zpCamera.TranslateYDelta(2.5f);
 	m_zpCamera.SetFrustumCullingOn();
+
+
+	
 
 	m_zs.AddPlacement(m_zTrasse1->getMainPlacement());
 	m_zs.AddPlacement(m_zTrasse2->getMainPlacement());
@@ -48,11 +50,6 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zTrasse3->Init(VModelPowerLine::PYLONTYPE::CROSS, VModelPowerLine::DIRECTION::EAST);
 	m_zTrasse4->Init(VModelPowerLine::PYLONTYPE::ANGLE, VModelPowerLine::EAST);
 
-	//m_zTrasse1->Translate(CHVector(-1.0f, 0, 1));
-	//m_zTrasse2->Translate(CHVector(0, 0, 0));
-	//m_zTrasse3->Translate(CHVector(1, 0, 1));
-	//m_zTrasse4->Translate(CHVector(2, 0, -1));
-
 	m_zTrasse1->SetPosition(-1, 0);
 	m_zTrasse2->SetPosition(1, 0);
 	m_zTrasse3->SetPosition(3, 0);
@@ -63,8 +60,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zTrasse2->ConnectTo(m_zTrasse3);
 	m_zTrasse2->ConnectTo(m_zTrasse4);
 	m_zTrasse4->ConnectTo(m_zTrasse2);
-	//m_zTrasse3->ConnectTo(m_zTrasse4);
-
+	m_zTrasse3->ConnectTo(m_zTrasse4);
 	//m_zTester->Init(&m_zs);
 }
 
@@ -83,7 +79,7 @@ void CGame::Fini()
 
 void CGame::WindowReSize(int iNewWidth, int iNewHeight)
 {
-	// Windows ReSize wird immer automatisch aufgerufen, wenn die Fenstergröße verändert wurde.
+	// Windows ReSize wird immer automatisch aufgerufen,		 wenn die Fenstergröße verändert wurde.
 	// Hier kannst Du dann die Auflösung des Viewports neu einstellen:
 
 }
