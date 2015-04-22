@@ -1,5 +1,8 @@
 #pragma once
-#include <memory>
+#include "LGeneral.h"
+#include "LPlayer.h"
+
+NAMESPACE_LOGIC_B
 
 class LField;
 
@@ -7,29 +10,33 @@ class ILBuilding
 {
 	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 protected:
-	int costs;
 	LField* lField;
+	LPlayer::PlayerNumber playerNumber = LPlayer::PlayerNumber::PlayerOne; //todo (L)
 
 public:
-	ILBuilding(const int costs, LField* lField)
-		:costs(costs),
-		lField(lField)
-	{
-	};
+	ILBuilding(LField* lField)
+		: lField(lField)
+	{}
 
 	virtual ~ILBuilding()
-	{
-	};
-
-	int getCosts()
-	{
-		return costs;
-	};
+	{}
 
 	//todo (L) implement this in the buildings that can be upgraded
 	virtual void upgrade() 
-	{
-	};
+	{}
 
-	virtual int getID() = 0;
+	static const int cost = 10;
+
+	void setPlayerNumber(const LPlayer::PlayerNumber playerNumber)
+	{
+		this->playerNumber = playerNumber;
+	}
+
+	LPlayer::PlayerNumber getPlayerNumber() const //todo (L) const everywhere where needed
+	{
+		return playerNumber;
+	}
 };
+
+
+NAMESPACE_LOGIC_E

@@ -24,10 +24,11 @@ private:
 		inline Array1D(T* row, const size_t cols)
 			: row(row), cols(cols)
 		{}
-#endif
+#else
 		inline Array1D(T* row)
 			: row(row)
 		{}
+#endif
 		inline ~Array1D()
 		{}
 

@@ -10,7 +10,7 @@
 #include <fcntl.h>
 #include <io.h>
 
-inline std::vector<std::string> split(std::string str, const char delimiter)
+inline std::vector<std::string> split(const std::string& str, const char delimiter)
 {
 	std::vector<std::string> internal;
 	std::stringstream ss(str); // Turn the string into a stream.
@@ -25,6 +25,8 @@ inline std::vector<std::string> split(std::string str, const char delimiter)
 
 /**
  * @brief returns the class name for an identifier.
+ * 
+ * Make sure you use the appropriate macro instead of this function.
  *
  * Example usage:
  * @code
@@ -33,6 +35,8 @@ inline std::vector<std::string> split(std::string str, const char delimiter)
  * getClassName(*this);
  * getClassName(VPlayingField);
  * @endcode
+ *
+ * @param typeInfo The type you want the class name be retrieved from (from the macro).
  */
 inline std::string getClassName(const std::type_info& typeInfo)
 {
@@ -55,17 +59,22 @@ inline std::string getClassName(const std::type_info& typeInfo)
 
 #define getClassName(type) getClassName(typeid(type))
 
+inline std::string getFileBase(const std::string &str)
+{
+	return str.substr(str.find_last_of("\\") + 1);
+}
+
 #ifdef _DEBUG
 /*
 * @def DEBUG_OUTPUT(msgExpr)
 * Useful macro to print something to the visual studio output window
 */
 #define DEBUG_OUTPUT(msgExpr) { std::stringstream s; \
-                                s << __FILE__ << "(" << __LINE__ << "): " << msgExpr << std::endl; \
+                                s << getFileBase(__FILE__) << "(" << __LINE__ << "): " << msgExpr << std::endl; \
                                 OutputDebugString(s.str().c_str()); }
 #else
 #define DEBUG_OUTPUT(msgExpr)
-#endif
+#endif //_DEBUG
 
 #ifdef _DEBUG
 /*
@@ -75,7 +84,7 @@ inline std::string getClassName(const std::type_info& typeInfo)
  */
 #define ASSERT(cond, msgExpr) if(!(cond)) { \
 								 std::stringstream s; \
-                                 s << __FILE__ << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; \
+                                 s << getFileBase(__FILE__) << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; \
 								 OutputDebugString("EXCEPTION! "); \
 								 OutputDebugString(s.str().c_str()); \
 								 OutputDebugString("\n"); \
@@ -83,14 +92,36 @@ inline std::string getClassName(const std::type_info& typeInfo)
                               }
 #else
 #define ASSERT(cond, msgExpr)
-#endif
+#endif //_DEBUG
+
+#ifdef _DEBUG
+#include <boost\numeric\conversion\cast.hpp>
+/*
+* @def CASTS
+* This macro performs a (static) cast between types. In DEBUG mode this is done using <code>boost::numeric_cast</code> with runtime checks
+* and in RELEASE mode this is just done using normal <code>CASTS</code> (without the cost of runtime checks).
+*/
+#define CASTS boost::numeric_cast
+#else
+#define CASTS static_cast
+#endif //_DEBUG
+
+#ifdef _DEBUG
+/*
+* @def CASTD
+* This macro performs a dynamic cast in debug mode (with type checks) and a static cast in release mode (without any checks).
+*/
+#define CASTD dynamic_cast
+#else
+#define CASTD static_cast
+#endif //_DEBUG
 
 #ifdef _DEBUG
 /**
  * Call this method at application startup to redirect stdout to a newly created console (if there´s not already one)
  */
-inline void redirectIOToConsole() {
-
+inline void redirectIOToConsole()
+{
 	int hConsoleHandle;
 	long lStdHandle;
 	CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
@@ -111,6 +142,6 @@ inline void redirectIOToConsole() {
 	*stdout = *pFile;
 	setvbuf(stdout, NULL, _IONBF, 0);
 }
-#endif // DEBUG
+#endif // _DEBUG
 
 #endif //_LUTILITY_H_

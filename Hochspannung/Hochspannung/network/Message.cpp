@@ -1,4 +1,5 @@
 #include "Message.h"
+#include "../logic/LUtility.h"
 
 namespace Network {
 

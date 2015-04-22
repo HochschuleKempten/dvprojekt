@@ -1,15 +1,30 @@
 #include "LPlayer.h"
+#include "LMaster.h"
+#include "IVMaster.h"
 
-LPlayer::LPlayer()
+NAMESPACE_LOGIC_B
+
+
+LPlayer::LPlayer(LMaster& lMaster)
+	: lMaster(lMaster)
 {
 }
-
 
 LPlayer::~LPlayer()
 {
 }
 
-int LPlayer::getMoney()
+int LPlayer::getMoney() const
 {
 	return money;
 }
+
+void LPlayer::substractMoney(const int amount)
+{
+	money -= amount;
+	lMaster.getVMaster()->updateMoney(money);
+	ASSERT(money >= 0, "The player has not enough money");
+}
+
+
+NAMESPACE_LOGIC_E

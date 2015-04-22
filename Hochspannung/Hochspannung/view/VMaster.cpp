@@ -10,19 +10,17 @@ NAMESPACE_VIEW_B
 
 
 VMaster::VMaster()
-	: factory(this)
+	: factory(this), vUi(this)
 {
 	VMaterialLoader::init();
 }
 
+VMaster::~VMaster()
+{}
+
 void VMaster::setLMaster(LMaster* lMaster)
 {
 	this->lMaster = lMaster;
-}
-
-void VMaster::setVUI(VUI* vUi)
-{
-	this->vUi = vUi;
 }
 
 void VMaster::initScene(HWND hwnd, CSplash* psplash)
@@ -31,7 +29,7 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 	m_zf.Init(hwnd);
 	m_zr.AddFrameHere(&m_zf);
 	
-	vUi->initUI();
+	vUi.initUI();
 }
 
 void VMaster::tick(float fTime, float fTimeDelta)
@@ -47,24 +45,40 @@ IVFactory* VMaster::getFactory()
 	return &factory;
 }
 
+void VMaster::gameOver()
+{
+	DEBUG_OUTPUT("Game is over");
+	//TODO (V) do something useful here when UI is ready
+}
+
 VPlayingField* VMaster::getPlayingField()
 {
 	ASSERT(vPlayingField != nullptr, "VPlayingField is not initialized");
 
-	return vPlayingField;
+	return vPlayingField.get();
 }
 
-void VMaster::setVPlayingField(VPlayingField* vPlayingField)
+VUI* HighVoltage::VMaster::getVUi()
+{
+	return &vUi;
+}
+
+void VMaster::setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField)
 {
 	this->vPlayingField = vPlayingField;
-	vUi->m_zs.AddPlacement(vPlayingField->getPlacement());
+	vUi.m_zs.AddPlacement(vPlayingField->getPlacement());
 }
 
 void VMaster::resize(int width, int heigth)
 {
 	m_zf.ReSize(width, heigth);
+	vUi.resize(width, heigth);
 }
 
+void VMaster::updateMoney(const int money)
+{
+	vUi.updateMoney(money);
+}
 
 
 NAMESPACE_VIEW_E

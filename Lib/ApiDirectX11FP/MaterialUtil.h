@@ -1,9 +1,11 @@
 #pragma once
 
 #include "DirectX11FP.h"
+#include "PostProcessorStep.h"
 
 namespace Vektoria
 {
+
 	struct STEXTUREINFO
 	{
 		char acPath[MAX_PATH];
@@ -30,7 +32,7 @@ namespace Vektoria
 		float fDiffuseSharpness;
 		float fBumpStrength;
 		float frTransparency;
-		XMFLOAT4 d3dxcolorSSS;			// Materialfarbe des Subsurface
+		XMFLOAT4 d3dxcolorSSS;			// Materialfarbe das Subsurface
 		XMFLOAT4 f4SSSBRDFParams;		// Parameter für BRDF/SSS
 		unsigned uImage;
 		unsigned uGlow;
@@ -56,10 +58,17 @@ namespace Vektoria
 		unsigned uiyPos;
 		unsigned uixPics;
 		unsigned uiyPics;
-		float fSpecularRoughness;
-		float fSpecularIOR;
-		unsigned uPad0;
-		unsigned uPad1;
+		float fRoughness;
+		float fIOR;
+		float fSpecular;
+		float fMetallic;
+		float fSubSurface;
+		float fAnistropic;
+		float fSheen;
+		float fSheenTint;
+		float fClearCoat;
+		float fClearCoatGloss;
+		float fSpecularTint;
 		ETextureAddressMode eTextureAddressMode;
 	};
 
@@ -69,7 +78,7 @@ namespace Vektoria
 		CMaterialUtil();
 		~CMaterialUtil();
 
-		void Init(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext);
+		void Init(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext, CDXUtilities* pUtils, CShaderCache* pShaderCache);
 		void Fini();
 
 		void CreateMaterial(CMaterial * pmaterial);
@@ -84,6 +93,8 @@ namespace Vektoria
 		int TexturePathExists(char *acPath);
 		bool CreateTexture(CTexture * ptexture, int eDefaultImage, int & iTexture);
 		bool DeleteTexture(int iTexture);
+		void CreateLEANMap(int idMaterial);
+		void GenerateLEANMap(int idMaterial);
 
 		int m_iMaterials;
 		int m_iMaterialAllocs;
@@ -93,11 +104,15 @@ namespace Vektoria
 		STEXTUREINFO* m_atextureinfo;
 		SMATERIALINFO* m_amaterialinfo;
 		SMATERIALPARAMETERS_HOST* m_amaterialparameters;
+		SPPRENDERTARGET m_aleanMap[1024];
 
 		ID3D11Buffer *m_pbufferTexInfo;
-
+		
 		ID3D11Device* m_pdevice;
 		ID3D11DeviceContext* m_pdevicecontext;
+		CDXUtilities* m_pUtils;
+		CShaderCache* m_pShaderCache;
+		ID3D11ComputeShader* m_pLEANMapCompute;
 	};
 }
 

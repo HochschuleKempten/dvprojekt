@@ -1,25 +1,15 @@
+
 #include "LargeOfficeBuilding.h"
 
 NAMESPACE_VIEW_B
-
-
 CLargeOfficeBuilding::CLargeOfficeBuilding(float fResize)
 {
-	// Hier eventuelle Vorinitialisierungen Deiner Vektoria-Objekte einfügen:
-	//m_hwnd = hwnd;
-	//m_bReSized = false;
-	// Hier die Initialisierung Deiner Vektoria-Objekte einfügen:
-	//m_zr.Init(psplash);
-	//m_zc.Init();
-	//m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput);
-	//m_zf.AddDeviceKeyboard(&m_zdk);
-	//m_zv.InitFull(&m_zc);
-	//m_zl.Init(CHVector(1, 1, 1), CColor(1, 1, 1));
+	
 	this->fResize = fResize;
 
 	//window 
 	InitWindows();
-	//Add Door to Wall
+	
 	//Add Windows
 	AddWindows();
 
@@ -28,21 +18,11 @@ CLargeOfficeBuilding::CLargeOfficeBuilding(float fResize)
 	InitWalls();
 
 	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
-	//m_zmGround.MakeTextureDiffuse("textures\\green_image.jpg");
-	//m_zmGlass.MakeTextureDiffuse("textures\\blue_image.jpg");
 
-	//m_zr.AddFrameHere(&m_zf);
-	//m_zf.AddViewport(&m_zv);
-	//m_zr.AddScene(&m_zs);
-
-	//Placements
-	//m_zs.AddPlacement(&m_zpCamera);
-	//m_zs.AddParallelLight(&m_zl);
 
 	AddPlacements();
 
-	//m_zpCamera.Translate(0, 0, 5);
-	//m_zpCamera.AddCamera(&m_zc);
+
 
 	//Rotations
 	RotateAll();
@@ -54,40 +34,12 @@ CLargeOfficeBuilding::CLargeOfficeBuilding(float fResize)
 
 CLargeOfficeBuilding::~CLargeOfficeBuilding(void)
 {
-	// Hier eventuelle Nachinitialisierungen Deiner Vektoria-Objekte einfügen:
 }
 
-/*
-void CLargeOfficeBuilding::Init(HWND hwnd, CSplash * psplash)
-{
 
-}
 
-void CLargeOfficeBuilding::Tick(float fTime, float fTimeDelta)
-{	// Hier die Echtzeit-Veränderungen einfügen:
 
-	m_zdk.PlaceWASD(m_zpCamera, fTimeDelta);
-	m_zdk.SetWASDRotationSensitivity(2);
-	m_zdk.SetWASDTranslationSensitivity(2.0F);
-	m_zr.Tick(fTimeDelta);
-}
 
-void CLargeOfficeBuilding::Fini()
-{
-	// Hier die Finalisierung Deiner Vektoria-Objekte einfügen:
-}
-
-void CLargeOfficeBuilding::WindowReSize(int iNewWidth, int iNewHeight)
-{
-	// Windows ReSize wird immer automatisch aufgerufen, wenn die Fenstergröße verändert wurde.
-	// Hier kannst Du dann die Auflösung des Viewports neu einstellen:
-
-}
-*/
-
-CPlacement*CLargeOfficeBuilding::getPlacement(){
-	return &m_zpLargeOfficeBuilding;
-}
 
 void CLargeOfficeBuilding::InitWindows() {
 
@@ -145,32 +97,31 @@ void CLargeOfficeBuilding::InitWalls() {
 	m_zgRoof1.Init(1.0F * fResize, 0.1F * fResize, 5.0 * fResize, &m_zm);
 	m_zgRoof2.Init(1.0F * fResize, 0.1F * fResize, 5.0 * fResize, &m_zm);
 
-	//m_zgGround.Init(40.0F, 0.1F, 40.0F, &m_zm);
+	
 
 }
 
 void CLargeOfficeBuilding::AddPlacements() {
 
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpWallNorth0);
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpWallNorth1);
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpWallNorth2);
+	AddPlacement(&m_zpWallNorth0);
+	AddPlacement(&m_zpWallNorth1);
+	AddPlacement(&m_zpWallNorth2);
 
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpWallWest);
+	AddPlacement(&m_zpWallWest);
 
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpWallEast0);
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpWallEast1);
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpWallEast2);
+	AddPlacement(&m_zpWallEast0);
+	AddPlacement(&m_zpWallEast1);
+	AddPlacement(&m_zpWallEast2);
 
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpWallSouth0);
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpWallSouth1);
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpWallSouth2);
+	AddPlacement(&m_zpWallSouth0);
+	AddPlacement(&m_zpWallSouth1);
+	AddPlacement(&m_zpWallSouth2);
 
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpRoof0);
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpRoof1);
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpRoof2);
+	AddPlacement(&m_zpRoof0);
+	AddPlacement(&m_zpRoof1);
+	AddPlacement(&m_zpRoof2);
 
-	//m_zpLargeOfficeBuilding.AddPlacement(&m_zpGround);
-	m_zpLargeOfficeBuilding.AddPlacement(&m_zpDoor);
+	AddPlacement(&m_zpDoor);
 
 }
 
@@ -214,8 +165,7 @@ void CLargeOfficeBuilding::TranslateAll() {
 	m_zpWallEast2.TranslateDelta(CHVector(5.0 * fResize, 0.0F * fResize, 0.0F * fResize));
 	m_zpWallEast2.AddGeo(&m_zgWallEast2);
 
-	//m_zpGround.Translate(CHVector(-20.0F, 0, -20.0F));
-	//m_zpGround.AddGeo(&m_zgGround);
+
 
 	m_zpRoof0.Translate(CHVector(0 * fResize, 7.9F * fResize, -5.0F * fResize));
 	m_zpRoof0.AddGeo(&m_zgRoof0);
@@ -225,6 +175,5 @@ void CLargeOfficeBuilding::TranslateAll() {
 	m_zpRoof2.AddGeo(&m_zgRoof2);
 
 }
-
 
 NAMESPACE_VIEW_E

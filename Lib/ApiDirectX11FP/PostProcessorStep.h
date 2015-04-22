@@ -1,32 +1,36 @@
 #pragma once
 
 #include "DirectX11FP.h"
-#include "../ApiUtils/DXUtilities.h"
+#include "..\ApiUtils\DXUtilities.h"
 
 namespace Vektoria
 {
 	class CGeometryUtil;
 
-	struct SPPRenderTarget
+	struct SPPRENDERTARGET
 	{
 		void Release()
 		{
 			SEC_RELEASE(m_pColorTexture);
 			SEC_RELEASE(m_pColorSRV);
 			SEC_RELEASE(m_pColorRTV);
+			SEC_RELEASE(m_pColorUAV);
 
 			SEC_RELEASE(m_pDepthTexture);
 			SEC_RELEASE(m_pDepthDSV);
 			SEC_RELEASE(m_pDepthSRV);
+			SEC_RELEASE(m_pDepthUAV);
 		}
 
 		ID3D11Texture2D* m_pColorTexture;
 		ID3D11ShaderResourceView* m_pColorSRV;
 		ID3D11RenderTargetView* m_pColorRTV;
+		ID3D11UnorderedAccessView* m_pColorUAV;
 
 		ID3D11Texture2D* m_pDepthTexture;
 		ID3D11ShaderResourceView* m_pDepthSRV;
 		ID3D11DepthStencilView* m_pDepthDSV;
+		ID3D11UnorderedAccessView* m_pDepthUAV;
 	};
 
 	class CPostProcessorStep

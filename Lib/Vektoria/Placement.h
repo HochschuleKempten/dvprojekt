@@ -39,6 +39,7 @@ class CScenes;
 class CPlacement : public CNode3D
 {
 	friend class CPlacements;
+	friend class CPhysical;
 	friend class CWribel;
 	friend class CWribels;
 	friend class CNode3D;
@@ -50,7 +51,9 @@ private:
 	void DontDraw(bool &bTickTack); 
 	void Draw(CCamera * pcamera, CHMat & mGlobalFather, int & itFatherIsInFrustum, bool & bTickTack);
 	bool m_bTickTack;
+
 	CPlacement * PickPlacement(CRay & r, float & fMin, float & fMax);
+	void PickPlacements(CRay & r, CPlacements * pzps);
 
 public:
 	CPlacement();

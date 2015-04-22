@@ -1,50 +1,56 @@
 #include "VGroup.h"
 #include "VButton.h"
+#include "VTextfield.h"
+#include "VText.h"
 NAMESPACE_VIEW_B
 
 VGroup::VGroup()
 {
 }
 
-VGroup::VGroup(CFloatRect floatRect,CViewport& viewport)
+VGroup::VGroup(CViewport* viewport, CFloatRect floatRect)
+	: m_rect(floatRect)
 {
-	m_viewport = &viewport;
-	m_rect = floatRect;
+	m_viewport = viewport;
 }
 
 VGroup::~VGroup()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
-		delete(*lIterGUIObjects);
+		delete lIterGUIObjects->second;
 	}
+	m_guiObjects.clear();
 }
 
-void VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewObserver::Event clickAction)
-{
-	VButton* vButton = new VButton(m_viewport,rect, MaterialNormal, MaterialHover, clickAction);
-	
-	vButton->addObserver(this);
-	
-	m_guiObjects.push_back(vButton);
-}
 
-void VGroup::onNotify(IViewObserver::Event events)
+	void VGroup::onNotify(Event events)
 {
-	OutputDebugString("Nachricht bei Group-Observer angekommen\n");
 	switch (events)
 	{
 	default:
-		OutputDebugString("Group keine Lösung. Benachrichtigt alle Beobachter\n");
-		notify(events);
-		
+		notify(events);		
+	}
+}
+
+
+void VGroup::switchOn()
+{
+	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
+	{
+		lIterGUIObjects->second->switchOn();
 	}
 
+	m_bOn = true;
 }
 
-list<IViewGUIObject*> VGroup::getGuiObjectList()
+void VGroup::switchOff()
 {
-	return m_guiObjects;
-}
+	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
+	{
+		lIterGUIObjects->second->switchOff();
+	}
 
+	m_bOn = false;
+}
 NAMESPACE_VIEW_E

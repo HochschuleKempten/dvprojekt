@@ -1,6 +1,7 @@
 #pragma once
+#include "LGeneral.h"
 
-#include <memory>
+NAMESPACE_LOGIC_B
 
 class LPowerLine;
 
@@ -16,5 +17,7 @@ public:
 	virtual ~IVPowerLine()
 	{}
 
-	virtual void initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y) = 0;
+	virtual void initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y, const int orientation) = 0;
 };
+
+NAMESPACE_LOGIC_E

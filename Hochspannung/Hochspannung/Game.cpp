@@ -1,10 +1,8 @@
-#include "StdAfx.h"
 #include "Game.h"
-#include <sstream>
 #include "view\VPlayingField.h"
 
 CGame::CGame(void)
-	: lMaster(&vMaster)
+	: lMaster(vMaster)
 {
 
 #ifdef _DEBUG

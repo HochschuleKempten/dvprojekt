@@ -2,9 +2,14 @@
 #include "VMaster.h"
 #include "VPlayingField.h"
 #include "VPowerLine.h"
-#include "VCoalPowerPlant.h"
-#include "VHydroelectricPowerPlant.h"
-#include "VMaterialLoader.h"
+#include "IViewScreen.h"
+
+#include "VScreenMainMenue.h"
+#include "VScreenIngame.h"
+#include "VScreenSpielmodusWahl.h"
+#include "VScreenLobby.h"
+#include "VScreenCredits.h"
+#include "VScreenOptions.h"
 #include "VIdentifier.h"
 #include "../logic/LWindmillPowerPlant.h"
 #include "../logic/ILPowerLine.h"
@@ -13,12 +18,14 @@
 NAMESPACE_VIEW_B
 
 
-VUI::VUI(VMaster* vMaster, LUI* lUi)
-	: vMaster(vMaster), IVUI(lUi), isQuit(false)
+VUI::VUI(VMaster* vMaster)
+	: vMaster(vMaster), isQuit(false)
 {
-	vMaster->setVUI(this);
 	vMaster->registerObserver(this);
 }
+
+VUI::~VUI()
+{}
 
 void VUI::initUI()
 {
@@ -26,55 +33,87 @@ void VUI::initUI()
 	vMaster->m_zf.AddDeviceCursor(&m_zkCursor);
 	vMaster->m_zf.AddDeviceMouse(&m_zkMouse);
 
-	//Camera (WASD) settings
-	m_zkKeyboard.SetWASDTranslationSensitivity(20.0);
-	m_zkKeyboard.SetWASDRotationSensitivity(2.0);
-	m_zkKeyboard.SetWASDLevelMin(100.0);
-	m_zkKeyboard.SetWASDLevelMax(200.0);
-
-	m_zc.Init();
-	m_zv.InitFull(&m_zc);
-	vMaster->m_zr.AddFrameHere(&vMaster->m_zf);
-	vMaster->m_zf.AddViewport(&m_zv);
-	vMaster->m_zr.AddScene(&m_zs);
-	m_zs.SwitchOff();
-	m_zb.InitFull("textures/black_image.jpg");
-	m_zv.AddBackground(&m_zb);
-	
-	m_zs.AddPlacement(&m_zpCamera);
-	m_zpCamera.AddCamera(&m_zc);
-	m_zpCamera.SetName("Placement Camera");
-
-	m_zpCamera.TranslateZ(50.0);
-	m_zpCamera.RotateXDelta(0.3 * PI);
-
 	m_zs.AddParallelLight(&m_zl);
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
 	CColor(1.0f, 1.0f, 1.0f));
 
-	addScreen("MainMenue", VScreen::MainMenue);
-	getScreen("MainMenue")->addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Bottom");
-	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33f, 0.27f, 0.33f, 0.14f), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::START_GAME);
-	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33f, 0.42f, 0.33f, 0.14f), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::MainOptions);
-	getScreen("MainMenue")->getContainer("Bottom")->addButton(CFloatRect(0.33f, 0.57f, 0.33f, 0.14f), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenueHover, IViewObserver::QUIT_GAME);
-
-	addScreen("Ingame", VScreen::Ingame);
-	getScreen("Ingame")->addContainer(IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "craft");
-	getScreen("Ingame")->getContainer("craft")->addButton(CFloatRect(0.0f, 0.75f, 0.20f, 0.25f), &VMaterialLoader::materialMainMenue, &VMaterialLoader::materialMainMenue, IViewObserver::NOTHING);
-	getScreen("Ingame")->getContainer("craft")->addButton(CFloatRect(0.2f, 0.75f, 0.60f, 0.25f), &VMaterialLoader::materialIngameCraft, &VMaterialLoader::materialIngameCraft, IViewObserver::NOTHING);
-
+	addScreen("MainMenue", IViewScreen::MainMenue);
+	addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
+	addScreen("Lobby", IViewScreen::Lobby);
+	addScreen("Credits", IViewScreen::Credits);
+	addScreen("Options", IViewScreen::Options);
+	addScreen("Ingame", IViewScreen::Ingame);
+	
+	//TODO (V) Sometimes no main screen appears
 	switchScreen("MainMenue");
 }
 
 void VUI::handleInput(float fTimeDelta)
 {
-	m_zkKeyboard.PlaceWASD(m_zpCamera, fTimeDelta);
+	//m_zkKeyboard.PlaceWASD(m_zpCamera, fTimeDelta);
 
 	//TODO (JS) make power line clickable
 
+
+	//Left + Right: 
+	if (m_zkKeyboard.KeyPressed(DIK_A) == true)
+	{
+		m_zpCamera.TranslateXDelta(-0.5);
+
+	}
+	if (m_zkKeyboard.KeyPressed(DIK_D))
+	{
+		m_zpCamera.TranslateXDelta(0.5);
+	}
+
+	//Back + Forward
+	if (m_zkKeyboard.KeyPressed(DIK_S) == true)
+	{
+		m_zpCamera.TranslateYDelta(-0.5);
+	}
+	if (m_zkKeyboard.KeyPressed(DIK_W))
+	{
+		m_zpCamera.TranslateYDelta(0.5);
+	}
+
+	//Zoom In + Out
+	if (m_zkKeyboard.KeyPressed(DIK_UP) == true)
+	{
+		m_zpCamera.TranslateZDelta(-0.5);
+	}
+	if (m_zkKeyboard.KeyPressed(DIK_DOWN))
+	{
+		m_zpCamera.TranslateZDelta(0.5);
+	}
+
+	float zDelta = GET_WHEEL_DELTA_WPARAM(WHEEL_DELTA);
+
+	if (zDelta != 0)
+	{
+	  // m_zpCamera.RotateZDelta(-0.05);
+	}
+
+	//if (m_zkMouse.ButtonPressed(DIMOUSE_WHEEL) == true)
+	//{	
+	//	//long delta = ?
+	//	
+	//}
+
+	// Rotate around the field
+	//if (m_zkKeyboard.KeyPressed(DIK_RIGHT) == true)
+	//{
+	//	m_zpCamera.RotateZDelta(-0.05);
+	//}
+	//if (m_zkKeyboard.KeyPressed(DIK_LEFT))
+	//{
+	//	m_zpCamera.RotateZDelta(0.05);
+	//}
+
+
+
 	/* Picking */
 	static bool pickingActive = false;
-
+	 
 	if (m_zkCursor.ButtonPressedLeft()) {
 		if (!pickingActive) {
 
@@ -94,7 +133,8 @@ void VUI::handleInput(float fTimeDelta)
 					int x = std::stoi(koord[1]);
 					int y = std::stoi(koord[2]);
 
-					vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y, ILPowerLine::EAST);
+					//TODO (V) will the power lines be connected automatically or must the user do the connection by itself
+					vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y, LPowerLine::NORTH | LPowerLine::EAST | LPowerLine::SOUTH | LPowerLine::WEST);
 				}
 
 			}
@@ -137,110 +177,190 @@ void VUI::handleInput(float fTimeDelta)
 	}
 }
 
-void VUI::onNotify(IViewObserver::Event evente)
+
+
+void VUI::onNotify(Event evente)
 {
-	DEBUG_OUTPUT("Nachricht bei GUI-Observer angekommen\n");
 	switch (evente)
 	{
-	case IViewObserver::START_GAME:
-		DEBUG_OUTPUT("STARTING GAME.........\n");
+
+	case START_GAME:
 		vMaster->lMaster->startNewGame();
-		switchScreen("Ingame"); //TODO Button Action erweitern um switchscreen event damit Screen nicht hardcoded Ingame sein muss
+		switchScreen("Ingame");
 		break;
-	case IViewObserver::MainOptions:
-		DEBUG_OUTPUT("Open Options from MainMenue.........\n");
-		//m_writing.PrintF("Change Screen to Options");
-		break;
-	case IViewObserver::QUIT_GAME:
+
+	case QUIT_GAME:
 		isQuit = true;
 		PostQuitMessage(0);
-		DEBUG_OUTPUT("Quit Game.........\n");
 		break;
-		// Handle other events, and update heroIsOnBridge_...
+
+	case SEARCH_IP:
+		break;
+		
+	case SWITCH_TO_SPIELMODUS:
+		
+		switchScreen("Spielmoduswahl");
+		break;
+	case SWITCH_TO_LOBBY:
+
+		switchScreen("Lobby");
+		break;
+	case SWITCH_TO_MAINMENUE:
+
+		switchScreen("MainMenue");
+		break;
+	case SWITCH_TO_CREDITS:
+
+		switchScreen("Credits");
+		break;
+	case SWITCH_TO_OPTIONS:
+
+		switchScreen("Options");
+		break;
 	default:
-		DEBUG_OUTPUT("Keine Lösung gefunden\n");
+		break;
 	}
 
 }
 
-void VUI::addScreen(string sName, VScreen::ScreenType screenType)
+void VUI::resize(int width, int height)
 {
-	if (screenType==VScreen::ScreenType::Ingame)
+}
+
+void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
+{
+	switch (screenType)
 	{
-		m_screens[sName] = new VScreen(&m_zv,screenType, &vMaster->m_zf);
+	case IViewScreen::ScreenType::MainMenue:
+		m_screens[sName] = new VScreenMainMenue(&vMaster->m_zf);
 		m_screens[sName]->addObserver(this);
-	}
-	else
-	{
-		m_screens[sName] = new VScreen(screenType, &vMaster->m_zf);
+		break;
+	case IViewScreen::ScreenType::Spielmoduswahl:
+		m_screens[sName] = new VScreenSpielmodusWahl(&vMaster->m_zf);
 		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::Lobby:
+		m_screens[sName] = new VScreenLobby(&vMaster->m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::ScreenType::Ingame:
+		m_screens[sName] = new VScreenIngame(&vMaster->m_zf,&vMaster->m_zr,&m_zs,&m_zpCamera);
+		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::Options: 
+		m_screens[sName] = new VScreenOptions(&vMaster->m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::Credits: 
+		m_screens[sName] = new VScreenCredits(&vMaster->m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	default: break;
 	}
 }
 
 void VUI::switchScreen(string switchTo)
 {
-	map<string, VScreen*>::iterator it = m_screens.find(switchTo);
+	map<string, IViewScreen*>::iterator it = m_screens.find(switchTo);
 	ASSERT(it != m_screens.end(),"Screen not available");
-
+	
 	for (it = m_screens.begin(); it != m_screens.end(); it++)
 	{
 		it->second->switchOff();
-
 	}
-	
+
 	m_screens[switchTo]->switchOn();
-
-	if (getScreen(switchTo)->m_screenType == VScreen::ScreenType::Ingame)
-	{
-		m_zs.SwitchOn();
-		m_zv.SwitchOn();
-
-	}
-	else
-	{
-		m_zs.SwitchOff();
-		m_zv.SwitchOff();
-	}
+	m_screenChanged = true;
 
 }
 
-VScreen* VUI::getScreen(string sName)
+
+IViewScreen* VUI::getScreen(string sName)
 {
-	ASSERT(m_screens.find(sName) != m_screens.end(), "Screen not available");
+	ASSERT(m_screens.find(sName) != m_screens.end(), "Screen"<< sName<< "not available");
 	return	m_screens[sName];
+}
+
+void VUI::updateMoney(const int wert)
+{
+	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
+}
+void VUI::updatePopulation(const int wert)
+{
+	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
+}
+
+void VUI::updateInfofield(const int wert)
+{
+
 }
 
 void VUI::tick(const float fTimeDelta)
 {
+	/*static unsigned int money = 0;
+	static unsigned int pop = 0;
+	updateMoney(money++);
+	updatePopulation(pop++);*/
 	handleInput(fTimeDelta);
 
 	float CurPosX;
 	float CurPosY;
 	m_zkCursor.GetFractional(CurPosX, CurPosY, false);
-	map<string, IViewGUIContainer*> tempGuicontainer;
-	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+	
+	//One Click
+	if (!m_zkCursor.ButtonPressedLeft())
+	{
+		m_BlockCursorLeftPressed = false;
+	}
+	//For all screens...
 	for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++)
 	{
+		map<string, IViewGUIContainer*> tempGuicontainer;
+		map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+		//Check if screen is on
 		if (m_iterScreens->second->isOn())
 		{
+			//Check for shortcuts
+			m_iterScreens->second->checkShortcut(&m_zkKeyboard);
+			
 			tempGuicontainer = m_iterScreens->second->getGuiContainerMap();
-			list<IViewGUIObject*>tempList;
-			list<IViewGUIObject*>::iterator tempIter;
+			map<string,IViewGUIObject*>tempList;
+			map<string,IViewGUIObject*>::iterator tempIter;
+			//For all containers in the screen
 			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
 			{
-				tempList = tempIterGuicontainer->second->getGuiObjectList();
-
-				for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
+				//Check if screen is on
+				if (tempIterGuicontainer->second->isOn())
 				{
-					(*tempIter)->checkHover(CurPosX, CurPosY);
-					(*tempIter)->checkPressed(CurPosX, CurPosY, m_zkCursor.ButtonPressedLeft());
-					if (isQuit)break;
+					tempList = tempIterGuicontainer->second->getGuiObjectList();
+					//for all GUI-Objects in the container
+					for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
+					{
+					
+						//check if cursor is over
+						tempIter->second->checkHover(CurPosX, CurPosY);
+						
+						if (!m_BlockCursorLeftPressed)
+						{
+							//check for events
+							tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
+						}
+						//if screen was changed
+						if (m_screenChanged)
+						{
+							m_screenChanged = false;
+							m_BlockCursorLeftPressed = true;
+							return;
+						}
+						if (isQuit)return;
+					}
+					if (isQuit)return;
 				}
-				if (isQuit)break;
 			}
-			if (isQuit)break;
+			if (isQuit)return;
 		}
 	}
+	
 }
 
 

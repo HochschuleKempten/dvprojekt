@@ -1,26 +1,32 @@
 #include "LMaster.h"
 #include "LPlayingField.h"
-#include "LUI.h"
 #include "IVMaster.h"
-#include "LPlayer.h"
 
-LMaster::LMaster(IVMaster* vMaster)
-	: vMaster(vMaster),
-	lPlayer(new LPlayer()),
-	lUi(this)
+NAMESPACE_LOGIC_B
+
+
+LMaster::LMaster(IVMaster& vMaster)
+: vMaster(vMaster), lPlayer(new LPlayer[2]{(*this), (*this)})
 {
-	vMaster->registerObserver(this);
+	vMaster.registerObserver(this);
 }
 
 LMaster::~LMaster()
 {
 	delete lPlayingField;
+	delete [] lPlayer;
 }
 
 void LMaster::startNewGame()
 {
-	lPlayingField = new LPlayingField(this);
-	lPlayingField->initVPlayingField();
+	if (lPlayingField == nullptr) {
+		lPlayingField = new LPlayingField(this);
+	}
+}
+
+void LMaster::gameLost()
+{
+	vMaster.gameOver();
 }
 
 void LMaster::tick(const float fTimeDelta)
@@ -35,10 +41,14 @@ LPlayingField* LMaster::getLPlayingField()
 
 IVMaster* LMaster::getVMaster()
 {
-	return vMaster;
+	return &vMaster;
 }
 
-LPlayer* LMaster::getPlayer()
+LPlayer* LMaster::getPlayer(const int idxPlayer)
 {
-	return lPlayer;
+	ASSERT(idxPlayer >= 0 && idxPlayer <= 1, "Wrong idx for player");
+	return &lPlayer[idxPlayer];
 }
+
+
+NAMESPACE_LOGIC_E

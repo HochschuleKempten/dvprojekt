@@ -60,14 +60,14 @@
 #include "TextureTester.h"
 
 using namespace Vektoria;
-using namespace HighVoltage::view;
+using namespace HighVoltage;
 
 
 class CGame
 {
 public:
-    CGame(void);
-    ~CGame(void);
+	CGame(void);
+	~CGame(void);
 
 	void Init(HWND hwnd, CSplash * psplash);
 	void Tick(float fTime, float fTimeDelta);
@@ -86,8 +86,18 @@ private:
 	CCamera m_zc;
 	CParallelLight m_zl;
 	CDeviceKeyboard m_zdk;
-	VModelPowerLine *m_zTrasse = new VModelPowerLine();
+	VModelPowerLine *m_zTrasse1 = new VModelPowerLine();
+	VModelPowerLine *m_zTrasse2 = new VModelPowerLine();
+	VModelPowerLine *m_zTrasse3 = new VModelPowerLine();
+	VModelPowerLine *m_zTrasse4 = new VModelPowerLine();
 	CTextureTester *m_zTester = new CTextureTester();
+
+	CGeoCube cube;
+	CMaterial material;
+	CPlacement placement1;
+	CPlacement placement2;
+
+	float a = 0;
 };
 
 

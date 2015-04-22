@@ -1,27 +1,63 @@
 #include "LCity.h"
+#include "LPlayingField.h"
+#include "LMaster.h"
+#include "IVMaster.h"
+#include "IVFactory.h"
+#include "IVCity.h"
+
+NAMESPACE_LOGIC_B
 
 
-LCity::LCity()
+LCity::LCity(LField* lField, const int x, const int y)
+	: ILBuilding(lField), vCity(lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createCity(this))
 {
+	vCity->initCity(vCity, x, y);
+	lField->getLPlayingField()->getLMaster()->getVMaster()->registerObserver(this);
 }
-
 
 LCity::~LCity()
 {
 }
 
-void LCity::addEnergy(const int energy)
+void LCity::tick(const float fTimeDelta)
 {
-	this->energy += energy;
+	static float timeLastCheck = 0;
+
+	//Handle the population increase
+	if (timeLastCheck > 1) {
+		int seconds = CASTS<int>(timeLastCheck);
+		ASSERT(seconds >= 1, "The number of seconds is invalid.");
+
+		setPopulationTotal(populationTotal + seconds * populationIncrease);
+
+		timeLastCheck = 0;
+	}
+
+	//Check energy storage
+	int superplus = energy - (populationTotal * consumptionCitizen);
+	if (superplus < 0) {
+		//Player has lost
+		lField->getLPlayingField()->getLMaster()->gameLost();
+	}
+
+	timeLastCheck += fTimeDelta;
 }
 
-void LCity::removeEnergy(const int energy)
+void LCity::setEnergy(const int energy)
 {
-	//todo (IP) what if energy value is < 0?
-	this->energy -= energy;
+	this->energy = energy;
+	vCity->updateEnergy(energy);
 }
 
-int LCity::getEnergy()
+int LCity::getEnergy() const
 {
 	return energy;
 }
+
+void LCity::setPopulationTotal(const int populationTotal)
+{
+	this->populationTotal = populationTotal;
+	vCity->updatePopulation(populationTotal);
+}
+
+NAMESPACE_LOGIC_E
