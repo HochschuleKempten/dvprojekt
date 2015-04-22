@@ -71,9 +71,29 @@ public:
 	*/
 	bool isActionAvailable();
 
+	/**
+	* @brief Start to ping the specified ip.
+	* @param stIP the address to ping.
+	*/
 	void startPing(std::string stIP);
+
+	/**
+	* @brief Stop the pinging.
+	*/
 	void stopPing();
+
+	/**
+	* @brief Returns the latency.
+	* @return the result of the last ping in milliseconds or -1 if a timeout occurred.
+	*/
 	int getLatency();
+
+	/**
+	* @brief The handler for the connection checking operation.
+	* Don´t this call directly!
+	* @param the error code.
+	*/
+	void checkConnectionHandler(const error_code& error);
 
 protected:
 
@@ -135,21 +155,21 @@ protected:
 	 * @param maxLen the maximum length of the message
 	 * @return std::string
 	 */
-	std::string retrieveString(const char* mes, unsigned int maxLen);
+	std::string retrieveString(char* mes, unsigned int maxLen);
 
 	io_service m_ioService;
-
 	boost::thread m_thread;
 	ip::tcp::socket m_socket;
-	deadline_timer m_timer;
 
 	bool m_bConnected;
+	bool m_bCheckResponseReceived;
 
 	CMessage m_messageRead;
-	std::deque<CMessage> m_dequeMessagesToWrite;
+	std::deque<CMessage> m_dequeMessagesToWrite;	
 	std::deque<CTransferObject> m_dequeActionsToExecute;
 
-	CPinger m_pinger;
+	CPinger* m_pPinger;
+	deadline_timer m_connectionTimer;
 };
 
 }

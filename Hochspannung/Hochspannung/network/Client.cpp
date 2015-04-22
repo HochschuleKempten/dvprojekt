@@ -29,6 +29,7 @@ bool CClient::setServerData(std::string stIP, std::string usPort) {
 
 bool CClient::connect() {
 	if (m_bEndpointValid) {
+		std::cout << "Trying to connect to server..." << std::endl;
 		async_connect(m_socket,
 			m_endpointIterator,
 			boost::bind(&CClient::connectCompleteHandler, this, placeholders::error, placeholders::iterator)
@@ -42,10 +43,14 @@ bool CClient::connect() {
 
 void CClient::connectCompleteHandler(const error_code& ec, ip::tcp::resolver::iterator iterator) {
 	if (!ec) {
+		//m_socket.set_option(ip::tcp::no_delay(true));
 		std::cout << "Connected to server " << m_socket.remote_endpoint() << std::endl;
 
 		m_bConnected = true;
 		readHeader();
+
+		m_connectionTimer.expires_from_now(boost::posix_time::seconds(0));
+		m_connectionTimer.async_wait(boost::bind(&CNode::checkConnectionHandler, this, placeholders::error));
 	} else {
 		handleConnectionError(ec);
 	}

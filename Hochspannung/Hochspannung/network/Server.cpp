@@ -27,11 +27,16 @@ bool CServer::connect() {
 
 void CServer::acceptCompleteHandler(const error_code& ec) {
 	if (!ec) {
+		m_socket.set_option(ip::tcp::no_delay(true));
+
 		std::cout << "Connected to client " << m_socket.remote_endpoint() << std::endl;
 
 		m_acceptor.close();
 		m_bConnected = true;
 		readHeader();
+
+		m_connectionTimer.expires_from_now(boost::posix_time::seconds(0));
+		m_connectionTimer.async_wait(boost::bind(&CNode::checkConnectionHandler, this, placeholders::error));
 	} else {
 		handleConnectionError(ec);
 	}

@@ -4,15 +4,25 @@
 #include <boost\asio\placeholders.hpp>
 #include <boost\lexical_cast.hpp>
 #include <vector>
-#include "..\logic\LUtility.h"
 
 namespace Network {
 
 CNode::CNode() :
-m_ioService(io_service()), m_socket(m_ioService), m_timer(m_ioService), m_bConnected(false), m_pinger(CPinger(m_ioService)) {
+m_ioService(io_service()), m_socket(m_ioService), m_bConnected(false), m_bCheckResponseReceived(true), m_connectionTimer(m_ioService) {
+
+	try {
+		m_pPinger = new CPinger(m_ioService);
+	} catch (boost::system::system_error error) {
+		if (error.code().value() == WSAEACCES) {
+			std::cout << "Please restart the program as admin to use the ping." << std::endl;
+		} else {
+			std::cout << error.what() << std::endl;
+		}
+	}
 }
 
 CNode::~CNode() {
+	delete m_pPinger;
 	m_thread.join();
 }
 
@@ -23,7 +33,7 @@ bool CNode::start() {
 				m_thread = boost::thread([this]() {
 					try {
 						m_ioService.run();
-					} catch (...) {
+					} catch (boost::system::system_error error) {
 						std::cout << "Unexpected Exception occurred while running io_service!" << std::endl;
 					}
 				});
@@ -37,15 +47,11 @@ bool CNode::start() {
 }
 
 void CNode::stop() {
+	m_connectionTimer.cancel();
 	m_ioService.post([this]() {
-		m_socket.shutdown(ip::tcp::socket::shutdown_both);
 		m_socket.close();
 	});
 	m_thread.join();
-
-	m_bConnected = false;
-
-	std::cout << "Connection closed" << std::endl;
 }
 
 void CNode::restart() {
@@ -66,21 +72,6 @@ void CNode::write(const CMessage& message) {
 			do_write();
 		}
 	});
-}
-
-CTransferObject CNode::getNextActionToExecute() {
-	CTransferObject transferObject;
-
-	if (!m_dequeActionsToExecute.empty()) {
-		transferObject = m_dequeActionsToExecute.front();
-		m_dequeActionsToExecute.pop_front();
-	}
-
-	return transferObject;
-}
-
-bool CNode::isActionAvailable() {
-	return !m_dequeActionsToExecute.empty();
 }
 
 void CNode::do_write() {
@@ -128,9 +119,20 @@ void CNode::readHeaderCompleteHandler(const error_code& ec, std::size_t /*length
 
 void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
+
+		std::cout << m_messageRead.getBody() << std::endl;
+
+
 		const char* pcMessage = m_messageRead.getBody();
-		std::string stMessage = retrieveString(pcMessage, 512);
-		std::vector<std::string> transferObjectMember = split(stMessage, ';');
+		std::string stMessage = retrieveString((char*)pcMessage, 512);
+
+		std::vector<std::string> transferObjectMember;
+		std::stringstream ss(stMessage); // Turn the string into a stream.
+		std::string tok;
+
+		while (getline(ss, tok, ';')) {
+			transferObjectMember.push_back(tok);
+		}
 
 		CTransferObject transferObject(
 			static_cast<Action>(boost::lexical_cast<int>(transferObjectMember.at(0))), 
@@ -140,7 +142,17 @@ void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*length*/
 			transferObjectMember.at(4)
 		);
 
-		m_dequeActionsToExecute.push_back(transferObject);
+		switch (transferObject.getAction()) {
+		case Action::CHECK_CONNECTION:
+			write(CMessage((boost::lexical_cast<std::string>(Action::CHECK_RESPONSE) + ";-1;-1;-1;;").c_str()));
+			break;
+		case Action::CHECK_RESPONSE:
+			m_bCheckResponseReceived = true;
+			break;
+		default:
+			m_dequeActionsToExecute.push_back(transferObject);
+			break;
+		}
 
 		readHeader();
 	} else {
@@ -155,63 +167,84 @@ void CNode::handleConnectionError(const error_code& ec) {
 			// no error
 			break;
 
-		case ERROR_CONNECTION_REFUSED: // Connection refused
+		case ERROR_CONNECTION_REFUSED:
 			m_bConnected = false;
-			std::cout << "Connection refused by remote computer -> Trying again..." << std::endl;
-
-			m_timer.expires_from_now(boost::posix_time::seconds(1));
-			m_timer.wait();
-			connect(); // try to reconnect
+			std::cout << "Connection refused by remote computer." << std::endl;
 			break;
 
-		case WSAECONNRESET: // Remote computer closed node
+		case WSAECONNRESET:
 			m_bConnected = false;
-			std::cout << "Connection was closed by remote host -> Trying to reconnect..." << std::endl;
-
-			m_timer.expires_from_now(boost::posix_time::seconds(1));
-			m_timer.wait();
-			connect(); // try to reconnect
+			std::cout << "Connection was closed by remote host." << std::endl;
 			break;
 
 		case ERROR_SEM_TIMEOUT: // Connection attempt timed out
-			m_bConnected = false;;
-			std::cout << "Connection attempt timed out -> Trying again..." << std::endl;
+			m_bConnected = false;
+			std::cout << "Connection attempt timed out." << std::endl;
+			break;
 
-			connect(); // try to reconnect
+		case ERROR_CONNECTION_ABORTED:
+			m_bConnected = false;
+			std::cout << "Connection was closed locally." << std::endl;
 			break;
 
 		default:
 			m_bConnected = false;
 			std::cout << "System Error: " << ec.message() << std::endl;
-
-			m_ioService.post([this]() {
-				m_socket.close();
-			}); // close connection, just to be sure
 			break;
 		}
 	} else {
 		m_bConnected = false;
 		std::cout << "Error: " << ec.message() << std::endl;
-
-		m_ioService.post([this]() {
-			m_socket.close();
-		}); // close connection, just to be sure
 	}
 }
 
+CTransferObject CNode::getNextActionToExecute() {
+	CTransferObject transferObject;
+
+	if (!m_dequeActionsToExecute.empty()) {
+		transferObject = m_dequeActionsToExecute.front();
+		m_dequeActionsToExecute.pop_front();
+	}
+
+	return transferObject;
+}
+
+bool CNode::isActionAvailable() {
+	return !m_dequeActionsToExecute.empty();
+}
+
 void CNode::startPing(std::string stIP) {
-	m_pinger.start(stIP);
+	m_pPinger->start(stIP);
 }
 
 void CNode::stopPing() {
-	m_pinger.stop();
+	m_pPinger->stop();
 }
 
 int CNode::getLatency() {
-	return m_pinger.getLatestLatency();
+	return m_pPinger->getLatestLatency();
 }
 
-std::string CNode::retrieveString(const char* mes, unsigned int maxLen) {
+void CNode::checkConnectionHandler(const error_code& error) {
+	if (!error) {
+		if (m_bCheckResponseReceived) {
+			m_bCheckResponseReceived = false;
+			std::string stMessage = boost::lexical_cast<std::string>(Action::CHECK_CONNECTION) + ";-1;-1;-1;;";
+			CMessage message(stMessage.c_str());
+			write(message);
+
+			m_connectionTimer.expires_from_now(boost::posix_time::seconds(2));
+			m_connectionTimer.async_wait(boost::bind(&CNode::checkConnectionHandler, this, placeholders::error));
+		} else {
+			m_bConnected = false;
+			std::cout << "Connection lost." << std::endl;
+		}
+	} else if (error != error::operation_aborted) {
+		std::cout << error.message() << std::endl;
+	}
+}
+
+std::string CNode::retrieveString(char* mes, unsigned int maxLen) {
 	size_t len = 0;
 	while ((len < maxLen) && (mes[len] != '\0')) {
 		len++;

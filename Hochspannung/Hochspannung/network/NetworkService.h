@@ -61,44 +61,54 @@ public:
 	void close();
 
 	/**
+	 * @brief Reconnect to the server or restart the server.
+	 */
+	void restart();
+
+	/**
 	 * @brief Returns the current connection state (Not solid atm!).
 	 * @return the current connection state.
 	 */
 	State getConnectionState();
 
 	/**
-	* @brief Returns the current latency to the remote computer if connected.
-	* @return the current latenzy (in ms) or -1 if not connected
-	*/
+	 * @brief Returns the current latency to the remote computer if connected.
+	 * @return the current latenzy (in ms) or -1 if not connected
+	 */
 	int getLatency();
 
 	/**
 	 * @brief Send the command to start the game.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendStartGame();
+	bool sendStartGame();
 
 	/**
 	 * @brief Send the command to stop the game.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendStopGame();
+	bool sendStopGame();
 
 	/**
 	 * @brief Send the command to pause the game.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendPauseGame();
+	bool sendPauseGame();
 
 	/**
 	 * @brief Send the command to continue the game.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendContinueGame();
+	bool sendContinueGame();
 
 	/**
 	 * @brief Send the command to set a new object.
 	 * @param iObjectId the objects ID.
 	 * @param iCoordX the x coordinate where the new object should be set.
 	 * @param iCoordY the y coordinate where the new object should be set.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendSetObject(int iObjectID, int iCoordX, int iCoordY);
+	bool sendSetObject(int iObjectID, int iCoordX, int iCoordY);
 
 	/**
 	 * @brief Send the command to move an object.
@@ -107,16 +117,26 @@ public:
 	 * @param iCoordYSouce the source y coordinate.
 	 * @param iCoordXDest the destination x coordinate.
 	 * @param iCoordYDest the destination y coordinate.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	//void sendMoveObject(int iObjectID, int iCoordXSource, int iCoordYSouce, int iCoordXDest, int iCoordYDest);
+	//bool sendMoveObject(int iObjectID, int iCoordXSource, int iCoordYSouce, int iCoordXDest, int iCoordYDest);
 
 	/**
 	 * @brief Send the command to delete an object.
 	 * @param iObjectId the objects ID.
 	 * @param iCoordX the x coordinate of the object that should be deleted.
 	 * @param iCoordY the y coordinate of the object that should be deleted.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendDeleteObject(int iObjectID, int iCoordX, int iCoordY);
+	bool sendDeleteObject(int iObjectID, int iCoordX, int iCoordY);
+
+	/**
+	* @brief Send the command to set the mapsize.
+	* @param iSizeX the maps size in x direction.
+	* @param iSizeY the maps size in y direction.
+	* @return true if message could be sent, false otherwise.
+	*/
+	bool sendSetMapsize(int iSizeX, int iSizeY);
 
 	/**
 	 * @brief Returns the next action from deque, if available.
@@ -137,9 +157,10 @@ private:
 	 * @param iObjectID the objects ID.
 	 * @param iCoordX the x coordinate.
 	 * @param iCoordY the y coordinate.
-	 * @param stValue any other value to send.
+	 * @param sValue any other value to send.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string stValue = "");
+	bool sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = "");
 
 	CNode* m_pNode = 0;
 	State m_ConnectionState;

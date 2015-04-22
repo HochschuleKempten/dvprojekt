@@ -16,7 +16,10 @@ enum Action {
 	PAUSE_GAME,
 	CONTINUE_GAME,
 
-	SET_MAPSIZE
+	SET_MAPSIZE,
+
+	CHECK_CONNECTION,
+	CHECK_RESPONSE
 };
 
 class CTransferObject {
