@@ -61,7 +61,8 @@ namespace Vektoria
 
 
 
-		CPlacement * PickPlacment(CRay & r);
+		CPlacement * PickPlacement(CRay & r);
+		void PickPlacements(CRay & r, CPlacements * zps);
 
 
 		CPlacements * m_pplacements;

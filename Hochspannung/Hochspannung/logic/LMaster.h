@@ -17,6 +17,7 @@ private:
 	LPlayer* lPlayer = nullptr;
 
 private:
+	//TODO (JS) non_copyable objects
 	//Objects of this class should not be copied
 	//LMaster(const LMaster&) = delete;
 	//LMaster(const LMaster&&) = delete;

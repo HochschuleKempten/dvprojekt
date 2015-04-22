@@ -35,7 +35,7 @@ public:
 	CCamera * PickCamera(); // Gibt die Kamera aus, die mit dem sichtbaren Viewport verbunden ist, welches unter dem Cursor liegt, falls kein Viewport gefunden wurde ist das Ergebnis NULL
 	CScene * PickScene(); // Gibt die Szene aus, welche das sichtbare Viewport zeigt, welches unter dem Cursor liegt, falls keine Szene gefunden wurde ist das Ergebnis NULL
 	CPlacement * PickPlacement(); // Gibt dasjenige näheste Placement mit der niedersten Hierarchiestufe aus, welches unter dem Cursor liegt, falls kein Placment gefunden wurde ist das Ergebnis NULL
-// 	CPlacements * PickPlacements(); // Gibt alle Placements aus, welches unter dem Cursor liegen, falls kein Placment gefunden wurde ist das Ergebnis NULL
+	void PickPlacements(CPlacements * pzps); // Gibt alle Placements in pzps aus, welches unter dem Cursor liegen. Achtung zps muss muss ein Pointer auf ein instanzieertes Placement-Objekt sein. 
 	CGeo * PickGeo(CHVector & vIntersection, float & fDistanceSquare); // Gibt dasjenige Geo mit der niedersten Hierarchiestufe aus, welches unter dem Cursor liegt, falls kein Geo gefunden wurde ist das Ergebnis NULL, vIntersection ist der genaue Schnittpunkt, fDistanceSquare ist das Quadrat der Entfernung zwischen Strahlursprung und Schnittpunkt, kann bei großen Geometrien einige Millisekunden dauern, ist dafür sehr exakt
 	
 	void SetFrame(HWND & hwnd, int & ixFrameSize, int & iyFrameSize);

@@ -14,9 +14,9 @@ namespace Vektoria
 
 enum EAxis
 {
-	sAxisX = 0,
-	sAxisY,
-	sAxisZ,
+	eAxisX = 0,
+	eAxisY,
+	eAxisZ
 };
 
 class CHVector

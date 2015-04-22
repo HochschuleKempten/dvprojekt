@@ -2955,3 +2955,25 @@ CScene und CPlacement haben jetzt die Möglichkeit, FrustumCullung und BVH-Berech
 	void SetBVHExactCalculationByFather();// schaltet den genauen/schnellen Berechnungsmodus für die Bounding Volume Hierarchie auf Überschreibung duch die Vorfahren
 
 
+2015-04-16 TB:
+- Integration der Ändereungen in die Head-version
+- Audio-Klassen unterstützen jetzt auch Frequenzänderungen und Stereoballanceänderungen des Sounds, dafür folgende neue Methoden in CAudio:
+	void SetFrequency(float fFrequency); // Setzt die Frequenz in Hertz, wenn nicht aufgerufen wird die originale Frequenz des Samples genommen
+	void SetPan(float ftPan); // Stereoeinstellungen zwischen links und rechts (-1 = links, 0= Mitte, 1 = rechts) 
+	void ResetFrequency(); // Setzt die Frequenz wieder auf die originale Frequenz des Samples
+- Umbenennung von sAxisX, sAxisX, sAxisZ in eAxisX, eAxisX, eAxisZ (Der Namenskonsistenz wegen)
+- Neue Klasse CPhysical für die physikalische Animation
+- Auf CPhysicals können einfache kräfte appliziert werden, fdafür folgende Funktionen:
+	void ApplyForce(CHVector v); // Appliziert eine Kraft auf den Partikel, kann mehrfach angewendet werden
+	void ApplyGravity(); // Applziert die normale Gravitationskraft auf das Partikel
+
+- Alle CEmitter-Klassen und Apps von Michael Rücker gelöscht
+- Neue CEmitter-Klasse geschrieben
+
+2015-04-19 TB:
+Bugfix: CGeoCube::InitByAABB war versehentlich global
+
+2015-04-20 TB:
+Neue Pickingroutine in CDeviceCursor:
+	void PickPlacements(CPlacements * pzps); // Gibt alle Placements in pzps aus, welches unter dem Cursor liegen. Achtung, pzps muss muss ein Pointer auf ein instanziertes Placement-Objekt sein. 
+

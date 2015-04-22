@@ -30,6 +30,7 @@ private:
 	std::map<std::string, IViewScreen*> m_screens;
 	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
 
+	//TODO (V) resize viewports?
 	CPlacement m_zpCamera;
 	CScene m_zs;
 	CParallelLight m_zl;

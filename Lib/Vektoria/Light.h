@@ -26,8 +26,8 @@ struct SShadowParameter
 
 	SShadowParameter() :
 		fPointBlurSize(2.5f),
-		fPointShadowBias(10.f),
-		fSpotShadowBias(1.2f)
+		fPointShadowBias(100.f),
+		fSpotShadowBias(12.f)
 	{}
 };
 

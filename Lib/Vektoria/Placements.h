@@ -28,6 +28,7 @@ public:
 	void Add(CPlacements * pplacements); // addiert gleich eine ganze Reihe von Placments dazu
 
 	bool Sub(CPlacement * pplacement);
+	void Clear();
 
 	CPlacement * Make();
 	bool Kill(CPlacement * pplacement);
