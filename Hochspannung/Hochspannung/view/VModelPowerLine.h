@@ -1,10 +1,10 @@
+#include "IViewModel.h"
 #include "VGeneral.h"
-#include "Helper.h"
-#include <array>
 
 NAMESPACE_VIEW_B
 
-class VModelPowerLine : public CPlacement
+
+class VModelPowerLine : public IViewModel
 {
 public:
 	enum PYLONTYPE {
@@ -14,9 +14,9 @@ public:
 		WEST, SOUTH, EAST, NORTH
 	};
 
+public:
 	VModelPowerLine(void);
-	~VModelPowerLine(void);
-
+	virtual ~VModelPowerLine(void) override;
 	map<DIRECTION, vector<VModelPowerLine *>> * Connections();
 	VModelPowerLine::PYLONTYPE PylonType();
 	vector<CHVector> * ConnectorPositions(VModelPowerLine::DIRECTION armPosition);
@@ -46,8 +46,8 @@ public:
 		return bConnectedNorth;
 	};
 
-	float getHeight(); // including foundation
-	float getWidth();  // width of the foundation
+	virtual float getHeight() override; // including foundation
+	virtual float getWidth() override;  // width of the foundation
 
 private:
 	void InitArm();
@@ -84,11 +84,19 @@ private:
 	CPlacement m_zpUpperRightArmPole[4];
 	CPlacement m_zpPole[4];
 	CPlacement m_zpRoof[4];
+<<<<<<< HEAD
 
 
 	//CPlacement m_zpLine[8];
+=======
+	//TODO (Trasse) consider using normal variable types instead of pointers here (less heap allocations)
+	//You may be able to use std::vector<CPlacement> as well
+	std::vector<CPlacement*> m_zpConnector;
+	std::vector<CPlacement*> m_zpRing;
+	CPlacement m_zpLine[8];
+>>>>>>> master
 	CPlacement m_zpSphere[5];
-	CPlacement * m_zpStruts = NULL;
+	CPlacement * m_zpStruts = nullptr;
 
 	CTriangleList *m_zpTriangleConnector;
 	CTriangleList *m_zpTriangleRing;
@@ -126,5 +134,6 @@ private:
 	bool bConnectedEast                  = false;
 	bool bConnectedNorth                 = false;
 };
+
 
 NAMESPACE_VIEW_E

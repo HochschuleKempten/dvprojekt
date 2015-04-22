@@ -1,7 +1,17 @@
 #pragma once
 
+#include "LGeneral.h"
+#include "LUtility.h"
+
+NAMESPACE_LOGIC_B
+
 class ILBuilding;
 class LPlayingField;
+class LPowerLine;
+class LCity;
+class LCoalPowerPlant;
+class LWindmillPowerPlant;
+class LSolarPowerPlant;
 
 class LField
 {
@@ -10,8 +20,10 @@ public:
 	{
 		CITY     = 0,
 		WATER    = -1,
-		GRASS    = -2,
-		MOUNTAIN = -3,
+		AIR      = -2,
+		SOLAR    = -3,
+		GRASS    = -100,
+		MOUNTAIN = -101,
 		COAL     = 100,
 		OIL      = 50
 	};
@@ -24,17 +36,42 @@ public:
 	};
 
 private:
-	ILBuilding* lBuilding;
+	ILBuilding* lBuilding = nullptr;
 	LPlayingField* lPlayingField = nullptr;
-	bool placingAllowed;
-	FieldType fieldType;
-	FieldLevel fieldLevel;
-	int energyStock;
-	int energyLeft;
+	bool buildingPlaced = false;
+	FieldType fieldType = GRASS;
+	FieldLevel fieldLevel = LEVEL1;
+	int energyStock = 0;
+	int energyLeft = 0;
+
+private:
+	//TODO (All) where can power lines be placed? (grass, solar, ...)
+	template<typename T> bool checkBuildingType()
+	{
+		ASSERT(false, "Unknown field type");
+	}
+	template<> bool checkBuildingType<LCoalPowerPlant>()
+	{
+		return fieldType == COAL;
+	}
+	template<> bool checkBuildingType<LWindmillPowerPlant>()
+	{
+		return fieldType == AIR;
+	}
+	template<> bool checkBuildingType<LSolarPowerPlant>()
+	{
+		return fieldType == SOLAR;
+	}
+	template<> bool checkBuildingType<LCity>()
+	{
+		return fieldType == CITY;
+	}
+	template<> bool checkBuildingType<LPowerLine>()
+	{
+		return fieldType == GRASS;
+	}
 
 public:
-
-	// initializes this field with isPlacingAllowed = true!
 	LField();
 	~LField();
 	
@@ -43,14 +80,19 @@ public:
 	template <typename T, typename... Args>
 	bool setBuilding(const int x, const int y, const Args... arguments)
 	{
-		if (placingAllowed)
-		{
-			lBuilding = new T(100, 20, this, x, y, arguments...); //TODO (IP) where should cost and energy values come from? -> IP: will be saved as static const values in the classes
-			placingAllowed = false;
-			return true;
+		//TODO (L) introduce building names 
+		if (buildingPlaced) {
+			lPlayingField->getVPlayingField()->messageBuildingFailed(std::string("Ein ") + getClassName(T) +  std::string(" kann hier nicht platziert werden, da auf dem Feld ") + std::to_string(fieldType) +  std::string(" bereits ein Gebäude steht."));
+			return false;
+		}
+		if (!checkBuildingType<T>()) {
+			lPlayingField->getVPlayingField()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann nicht auf einem Feld vom Typ ") + std::to_string(fieldType) + std::string(" platziert werden"));
+			return false;
 		}
 
-		return false;
+		lBuilding = new T(this, x, y, arguments...);
+		buildingPlaced = true;
+		return true;
 	}
 
 	// this must be called after construction of this object
@@ -63,3 +105,5 @@ public:
 	bool isPlacingAllowed();
 	LPlayingField* getLPlayingField();
 };
+
+NAMESPACE_LOGIC_E

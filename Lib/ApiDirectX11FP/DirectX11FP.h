@@ -139,22 +139,6 @@ namespace Vektoria
 		int iBuffer[3];
 	};
 
-	struct SVIEWPORTSTYLE_BUFFER_HOST
-	{
-		XMFLOAT4 d3dxcolorOutline;		// Kontur-Viewportfarbe
-		XMFLOAT4 d3dxcolorFogParams;		// Nebel-Parameter
-		XMFLOAT4X4 mColorModification; // Farbveraenderungsmatrix
-
-		unsigned uStyleColor;
-		unsigned uStyleHalfTransparent;
-		unsigned uStylePopart;
-		unsigned uStyleOutlining;
-		unsigned uStyleMonochrome;
-		unsigned uStyleOwn;
-		unsigned uStyleFog;
-		unsigned uPad0;
-	};
-
 #pragma pack(push, 1)
 	struct SMATERIALPARAMETERS
 	{
@@ -189,20 +173,21 @@ namespace Vektoria
 		unsigned uiyPos;
 		unsigned uixPics;
 		unsigned uiyPics;
-		float fSpecularRoughness;
-		float fSpecularIOR;
-		unsigned uPad0;
-		unsigned uPad1;
+		float fRoughness;
+		float fIOR;
+		float fSpecular;
+		float fMetallic;
+		float fSubSurface;
+		float fAnistropic;
+		float fSheen;
+		float fSheenTint;
+		float fClearCoat;
+		float fClearCoatGloss;
+		float fSpecularTint;
 		unsigned uTextureAddressMode;
 	};
-
 	struct SPOSTPROCESSING_BUFFER
 	{
-		XMVECTOR d3dxcolor;
-		float fBlurStrength;
-		unsigned uBlur;
-		unsigned uEnhancedEdges;
-		unsigned uMeanFilter;
 		float fBloomOriginalIntensity;
 		float fBloomIntensity;
 		float fBloomOriginalSaturation;
@@ -215,8 +200,11 @@ namespace Vektoria
 		float fBloomBlurDistance;
 		float fDoFNear;
 		float fDoFFar;
-		XMVECTOR f2RayLightPos;
-		XMVECTOR f2rcpFrame;
+		float fRcpFrameX;
+		float fRcpFrameY;
+		unsigned uPad5;
+		unsigned uPad6;
+		XMVECTOR f4GodRayPos;
 		XMVECTOR f4rcpFrameOpt;
 		XMVECTOR f4DoFParams;
 	};
@@ -402,7 +390,6 @@ namespace Vektoria
 		ID3D11Buffer *m_pbufferProjectionMatrix;
 		ID3D11Buffer *m_pbufferTexInfo;
 		ID3D11Buffer *m_pbufferGPU;
-		SVIEWPORTSTYLE_BUFFER_HOST m_viewportstylebuffer;
 
 		ID3D11SamplerState * m_psamplerstateActive;
 

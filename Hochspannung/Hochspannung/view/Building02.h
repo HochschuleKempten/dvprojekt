@@ -1,0 +1,50 @@
+#pragma once
+
+
+#include "VGeneral.h"
+
+NAMESPACE_VIEW_B
+
+
+
+class Building02: public CPlacement
+{
+private:
+
+	CGeoWall m_zWallNorth;
+	CPlacement m_zpWallNorth;
+	CMaterial m_zmWallNorth;
+
+	CPlacement m_zpWallWest;
+	CPlacement m_zpWallEast;
+	CPlacement m_zpWallSouth;
+
+	
+
+	CGeoCube m_zgDach;
+	CPlacement m_zpDach;
+	CMaterial m_zmDach;
+
+	CGeoWindow m_zgWindow;
+	CGeoWindow m_zgWindowInlay;
+
+	CGeoWall m_zgWallFrame;
+	CMaterial m_zmWallFrame;
+	CGeoWall m_zgWallGlass;
+	CMaterial m_zmWallGlass;
+
+
+public:
+	Building02();
+	~Building02();
+
+	void InitWindows();
+	void AddWindows();
+	void InitWalls();
+	void AddPlacements();
+	void TranslateAll();
+};
+
+
+
+NAMESPACE_VIEW_E

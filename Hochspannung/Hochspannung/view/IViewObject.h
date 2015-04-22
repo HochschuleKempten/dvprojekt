@@ -10,21 +10,21 @@ class VMaster;
 class IViewObject
 {
 protected:
-	CPlacement* m_zp = nullptr;
 	VMaster* vMaster;
+	CPlacement* placementPointer;
 
 public:
-	inline IViewObject(VMaster* vMaster, CPlacement* m_zp)
-		: vMaster(vMaster), m_zp(m_zp)
+	inline IViewObject(VMaster* vMaster, CPlacement* placementPointer)
+		: vMaster(vMaster), placementPointer(placementPointer)
 	{}
 	inline virtual ~IViewObject()
 	{}
 
 	inline CPlacement* getPlacement()
 	{
-		ASSERT(m_zp != nullptr, "The placement is not initialized");
+		ASSERT(placementPointer != nullptr, "The placement is not initialized");
 
-		return m_zp;
+		return placementPointer;
 	}
 };
 

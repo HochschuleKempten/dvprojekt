@@ -39,15 +39,6 @@
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Appartments.h">
       <Filter>Headerdateien\buildings</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude02.h">
-      <Filter>Headerdateien\buildings</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude03.h">
-      <Filter>Headerdateien\buildings</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Gebauede01.h">
-      <Filter>Headerdateien\buildings</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.h">
       <Filter>Headerdateien\buildings</Filter>
     </ClInclude>
@@ -58,6 +49,15 @@
       <Filter>Headerdateien\buildings</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\TwistedTower.h">
+      <Filter>Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Building01.h">
+      <Filter>Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Building02.h">
+      <Filter>Headerdateien\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Building03.h">
       <Filter>Headerdateien\buildings</Filter>
     </ClInclude>
   </ItemGroup>
@@ -77,15 +77,6 @@
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Appartments.cpp">
       <Filter>Quelldateien\buildings</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude02.cpp">
-      <Filter>Quelldateien\buildings</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebaeude03.cpp">
-      <Filter>Quelldateien\buildings</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Gebauede01.cpp">
-      <Filter>Quelldateien\buildings</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.cpp">
       <Filter>Quelldateien\buildings</Filter>
     </ClCompile>
@@ -96,6 +87,15 @@
       <Filter>Quelldateien\buildings</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\TwistedTower.cpp">
+      <Filter>Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Building01.cpp">
+      <Filter>Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Building02.cpp">
+      <Filter>Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Building03.cpp">
       <Filter>Quelldateien\buildings</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,29 +2,43 @@
 #include <boost\asio\write.hpp>
 #include <boost\asio\read.hpp>
 #include <boost\asio\placeholders.hpp>
+#include <boost\lexical_cast.hpp>
+#include <vector>
+#include "..\logic\LUtility.h"
+
+namespace Network {
 
 CNode::CNode() :
-m_io_service(io_service()), m_socket(m_io_service), m_bConnected(false) {
+m_ioService(io_service()), m_socket(m_ioService), m_timer(m_ioService), m_bConnected(false) {
 }
 
 CNode::~CNode() {
 	m_thread.join();
 }
 
-void CNode::start() {
+bool CNode::start() {
 	if (!isConnected()) {
-		connect();
+		if (connect()) {
+			if (!m_thread.try_join_for(boost::chrono::duration<int>())) {
+				m_thread = boost::thread([this]() {
+					try {
+						m_ioService.run();
+					} catch (...) {
+						std::cout << "Unexpected Exception occurred while running io_service!" << std::endl;
+					}
+				});
+			}
 
-		if (!m_thread.try_join_for(boost::chrono::duration<int>())) {
-			m_thread = boost::thread([this]() {
-				m_io_service.run();
-			});
+			return true;
 		}
 	}
+	
+	return false;
 }
 
 void CNode::stop() {
-	m_io_service.post([this]() {
+	m_ioService.post([this]() {
+		m_socket.shutdown(ip::tcp::socket::shutdown_both);
 		m_socket.close();
 	});
 	m_thread.join();
@@ -44,8 +58,9 @@ bool CNode::isConnected() {
 }
 
 void CNode::write(const CMessage& message) {
-	m_io_service.post([this, message]() {
+	m_ioService.post([this, message]() {
 		bool write_in_progress = !m_dequeMessagesToWrite.empty();
+		m_dequeMessagesToWrite.push_back(message);
 
 		if (!write_in_progress) {
 			do_write();
@@ -62,7 +77,7 @@ void CNode::do_write() {
 
 void CNode::readHeader() {
 	async_read(m_socket,
-		buffer(m_messageRead.getData(), CMessage::headerLength),
+		buffer(m_messageRead.getData(), CMessage::iHeaderLength),
 		boost::bind(&CNode::readHeaderCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 }
@@ -74,7 +89,7 @@ void CNode::readBody() {
 	);
 }
 
-void CNode::writeCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+void CNode::writeCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
 		m_dequeMessagesToWrite.pop_front();
 
@@ -86,7 +101,7 @@ void CNode::writeCompleteHandler(const boost::system::error_code& ec, std::size_
 	}
 }
 
-void CNode::readHeaderCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+void CNode::readHeaderCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
 		if (m_messageRead.decodeHeader()) { // message is to long
 			readBody();
@@ -96,11 +111,21 @@ void CNode::readHeaderCompleteHandler(const boost::system::error_code& ec, std::
 	}
 }
 
-void CNode::readBodyCompleteHandler(const boost::system::error_code& ec, std::size_t length) {
+void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
-		std::cout << ">>";
-		std::cout.write(m_messageRead.getBody(), m_messageRead.getBodyLength());
-		std::cout << "\n";
+		const char* pcMessage = m_messageRead.getBody();
+		std::string stMessage = retrieveString(pcMessage, 512);
+		std::vector<std::string> transferObjectMember = split(stMessage, ';');
+
+		CTransferObject transferObject(
+			static_cast<Action>(boost::lexical_cast<int>(transferObjectMember.at(0))), 
+			boost::lexical_cast<int>(transferObjectMember.at(1)), 
+			boost::lexical_cast<int>(transferObjectMember.at(2)), 
+			boost::lexical_cast<int>(transferObjectMember.at(3)), 
+			transferObjectMember.at(4)
+		);
+
+		m_dequeActionsToExecute.push_back(transferObject);
 
 		readHeader();
 	} else {
@@ -108,21 +133,78 @@ void CNode::readBodyCompleteHandler(const boost::system::error_code& ec, std::si
 	}
 }
 
-void CNode::handleConnectionError(const boost::system::error_code& ec) {
-	switch (ec.value()) {
-	case 0:
-		// no error
-		break;
+void CNode::handleConnectionError(const error_code& ec) {
+	if (ec.category() == boost::system::system_category()) {
+		switch (ec.value()) {
+		case ERROR_SUCCESS:
+			// no error
+			break;
 
-	case boost::asio::error::connection_reset:
+		case ERROR_CONNECTION_REFUSED: // Connection refused
+			m_bConnected = false;
+			std::cout << "Connection refused by remote computer -> Trying again..." << std::endl;
+
+			m_timer.expires_from_now(boost::posix_time::seconds(1));
+			m_timer.wait();
+			connect(); // try to reconnect
+			break;
+
+		case WSAECONNRESET: // Remote computer closed node
+			m_bConnected = false;
+			std::cout << "Connection was closed by remote host -> Trying to reconnect..." << std::endl;
+
+			m_timer.expires_from_now(boost::posix_time::seconds(1));
+			m_timer.wait();
+			connect(); // try to reconnect
+			break;
+
+		case ERROR_SEM_TIMEOUT: // Connection attempt timed out
+			m_bConnected = false;;
+			std::cout << "Connection attempt timed out -> Trying again..." << std::endl;
+
+			connect(); // try to reconnect
+			break;
+
+		default:
+			m_bConnected = false;
+			std::cout << "System Error: " << ec.message() << std::endl;
+
+			m_ioService.post([this]() {
+				m_socket.close();
+			}); // close connection, just to be sure
+			break;
+		}
+	} else {
 		m_bConnected = false;
-		std::cout << "Lost connection -> Trying to reconnect..." << std::endl;
-		connect(); // try to reconnect
-		break;
-
-	default:
 		std::cout << "Error: " << ec.message() << std::endl;
-		m_socket.close(); // close connection, just to be sure
-		break;
+
+		m_ioService.post([this]() {
+			m_socket.close();
+		}); // close connection, just to be sure
 	}
+}
+
+CTransferObject CNode::getNextActionToExecute() {
+	CTransferObject transferObject;
+
+	if (!m_dequeActionsToExecute.empty()) {
+		transferObject = m_dequeActionsToExecute.front();
+		m_dequeActionsToExecute.pop_front();
+	}
+
+	return transferObject;
+}
+
+bool CNode::isActionAvailable() {
+	return !m_dequeActionsToExecute.empty();
+}
+
+std::string CNode::retrieveString(const char* mes, unsigned int maxLen) {
+	size_t len = 0;
+	while ((len < maxLen) && (mes[len] != '\0')) {
+		len++;
+	}
+	return std::string(mes, len);
+}
+
 }

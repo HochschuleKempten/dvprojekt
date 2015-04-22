@@ -1,12 +1,30 @@
 #pragma once
+#include "LGeneral.h"
+
+NAMESPACE_LOGIC_B
+
+
+class LMaster;
+
 class LPlayer
 {
+public:
+	enum PlayerNumber
+	{
+		PlayerOne = 0,
+		PlayerTwo = 2
+	};
+
 private:
-	int money;
+	int money = 2700;
+	LMaster& lMaster;
 
 public:
-	LPlayer();
+	LPlayer(LMaster& lMaster);
 	~LPlayer();
-	int getMoney();
+	int getMoney() const;
+	void substractMoney(const int amount);
 };
 
+
+NAMESPACE_LOGIC_E

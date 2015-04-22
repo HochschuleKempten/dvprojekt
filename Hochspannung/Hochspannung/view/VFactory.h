@@ -1,6 +1,7 @@
 #pragma once
-#include "../logic/IVFactory.h"
+
 #include "VGeneral.h"
+#include "../logic/IVFactory.h"
 
 NAMESPACE_VIEW_B
 
@@ -13,13 +14,10 @@ private:
 	VMaster* vMaster;
 
 public:
-	VFactory(VMaster* vMaster)
-		: vMaster(vMaster)
-	{}
-	virtual ~VFactory()
-	{}
+	VFactory(VMaster* vMaster);
+	virtual ~VFactory();
 
-	virtual IVPlayingField* createPlayingField(LPlayingField* field);
+	virtual std::shared_ptr<IVPlayingField> createPlayingField(LPlayingField* field);
 
 	virtual std::shared_ptr<IVPowerPlant> createCoalPowerPlant(LCoalPowerPlant* powerPlant);
 
@@ -35,7 +33,7 @@ public:
 
 	virtual std::shared_ptr<IVPowerLine> createPowerLine(LPowerLine* powerLine);
 
-	virtual IVUI* createUi(LUI* lUi);
+	virtual std::shared_ptr<IVCity> createCity(LCity* city);
 };
 
 

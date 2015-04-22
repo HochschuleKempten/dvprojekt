@@ -58,6 +58,7 @@
     <Import Project="..\VektoriaSettings32_2Up.props" />
     <Import Project="..\WarningImprovements.props" />
     <Import Project="..\BoostSettings.props" />
+    <Import Project="..\MulticoreBuild.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -65,6 +66,7 @@
     <Import Project="..\VektoriaSettings64_2Up.props" />
     <Import Project="..\WarningImprovements.props" />
     <Import Project="..\BoostSettings.props" />
+    <Import Project="..\MulticoreBuild.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -72,6 +74,7 @@
     <Import Project="..\VektoriaSettings32_2Up.props" />
     <Import Project="..\WarningImprovements.props" />
     <Import Project="..\BoostSettings.props" />
+    <Import Project="..\MulticoreBuild.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -79,11 +82,14 @@
     <Import Project="..\VektoriaSettings64_2Up.props" />
     <Import Project="..\WarningImprovements.props" />
     <Import Project="..\BoostSettings.props" />
+    <Import Project="..\MulticoreBuild.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>C:\local\boost_1_57_0\lib$(PlatformArchitecture)-msvc-12.0;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
@@ -94,6 +100,8 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_MBCS;_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -102,8 +110,10 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions), _DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -114,6 +124,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -126,6 +138,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -145,11 +159,11 @@
     <ClInclude Include="logic\IVPowerLine.h" />
     <ClInclude Include="logic\IVPowerPlant.h" />
     <ClInclude Include="logic\IVTickObserver.h" />
-    <ClInclude Include="logic\IVUI.h" />
     <ClInclude Include="logic\LCity.h" />
     <ClInclude Include="logic\LField.h" />
     <ClInclude Include="logic\LCoalPowerPlant.h" />
     <ClInclude Include="logic\ILPowerPlant.h" />
+    <ClInclude Include="logic\LGeneral.h" />
     <ClInclude Include="logic\LHydroelectricPowerPlant.h" />
     <ClInclude Include="logic\LIdentifier.h" />
     <ClInclude Include="logic\LMaster.h" />
@@ -159,10 +173,10 @@
     <ClInclude Include="logic\LPlayingField.h" />
     <ClInclude Include="logic\LSolarPowerPlant.h" />
     <ClInclude Include="logic\LPowerLine.h" />
-    <ClInclude Include="logic\LUI.h" />
     <ClInclude Include="logic\LUtility.h" />
     <ClInclude Include="logic\LWindmillPowerPlant.h" />
     <ClInclude Include="network\Client.h" />
+    <ClInclude Include="network\NetworkService.h" />
     <ClInclude Include="network\Node.h" />
     <ClInclude Include="network\Message.h" />
     <ClInclude Include="network\Server.h" />
@@ -171,21 +185,24 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="view\Appartments.h" />
-    <ClInclude Include="view\Gebaeude02.h" />
-    <ClInclude Include="view\Gebaeude03.h" />
-    <ClInclude Include="view\Gebauede01.h" />
+    <ClInclude Include="view\Building02.h" />
+    <ClInclude Include="view\Building03.h" />
+    <ClInclude Include="view\Building01.h" />
     <ClInclude Include="view\Helper.h" />
     <ClInclude Include="view\IViewBuilding.h" />
     <ClInclude Include="view\IViewGUIContainer.h" />
     <ClInclude Include="view\IViewGUIObject.h" />
+    <ClInclude Include="view\IViewModel.h" />
     <ClInclude Include="view\IViewObject.h" />
-    <ClInclude Include="view\IViewObserver.h" />
+    <ClInclude Include="view\IViewScreen.h" />
     <ClInclude Include="view\IViewSubject.h" />
+    <ClInclude Include="view\IViewUIObserver.h" />
     <ClInclude Include="view\LargeOfficeBuilding.h" />
     <ClInclude Include="view\OfficeTowerViewingDeck.h" />
     <ClInclude Include="view\SmallOfficeBuilding.h" />
     <ClInclude Include="view\TwistedTower.h" />
     <ClInclude Include="view\VCity.h" />
+    <ClInclude Include="view\VDialog.h" />
     <ClInclude Include="view\VField.h" />
     <ClInclude Include="view\VModelCity.h" />
     <ClInclude Include="view\VModelPowerLine.h" />
@@ -203,8 +220,16 @@
     <ClInclude Include="view\VMaster.h" />
     <ClInclude Include="view\VCoalPowerPlant.h" />
     <ClInclude Include="view\VPowerLine.h" />
-    <ClInclude Include="view\VScreen.h" />
+    <ClInclude Include="view\VRegister.h" />
+    <ClInclude Include="view\VScreenCredits.h" />
+    <ClInclude Include="view\VScreenIngame.h" />
+    <ClInclude Include="view\VScreenLobby.h" />
+    <ClInclude Include="view\VScreenMainMenue.h" />
+    <ClInclude Include="view\VScreenOptions.h" />
+    <ClInclude Include="view\VScreenSpielmodusWahl.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
+    <ClInclude Include="view\VText.h" />
+    <ClInclude Include="view\VTextfield.h" />
     <ClInclude Include="view\VUI.h" />
     <ClInclude Include="view\VWindmillPowerPlant.h" />
   </ItemGroup>
@@ -221,25 +246,31 @@
     <ClCompile Include="logic\LPlayingField.cpp" />
     <ClCompile Include="logic\LSolarPowerPlant.cpp" />
     <ClCompile Include="logic\LPowerLine.cpp" />
-    <ClCompile Include="logic\LUI.cpp" />
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="network\Client.cpp" />
+    <ClCompile Include="network\NetworkService.cpp" />
     <ClCompile Include="network\Node.cpp" />
     <ClCompile Include="network\Message.cpp" />
     <ClCompile Include="network\Server.cpp" />
     <ClCompile Include="network\TransferObject.cpp" />
-    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="VektoriaApp.cpp" />
     <ClCompile Include="view\Appartments.cpp" />
-    <ClCompile Include="view\Gebaeude02.cpp" />
-    <ClCompile Include="view\Gebaeude03.cpp" />
-    <ClCompile Include="view\Gebauede01.cpp" />
+    <ClCompile Include="view\Building02.cpp" />
+    <ClCompile Include="view\Building03.cpp" />
+    <ClCompile Include="view\Building01.cpp" />
     <ClCompile Include="view\Helper.cpp" />
     <ClCompile Include="view\LargeOfficeBuilding.cpp" />
     <ClCompile Include="view\OfficeTowerViewingDeck.cpp" />
     <ClCompile Include="view\SmallOfficeBuilding.cpp" />
     <ClCompile Include="view\TwistedTower.cpp" />
     <ClCompile Include="view\VCity.cpp" />
+    <ClCompile Include="view\VDialog.cpp" />
     <ClCompile Include="view\VField.cpp" />
     <ClCompile Include="view\VModelCity.cpp" />
     <ClCompile Include="view\VModelPowerLine.cpp" />
@@ -255,8 +286,16 @@
     <ClCompile Include="view\VMaster.cpp" />
     <ClCompile Include="view\VCoalPowerPlant.cpp" />
     <ClCompile Include="view\VPowerLine.cpp" />
-    <ClCompile Include="view\VScreen.cpp" />
+    <ClCompile Include="view\VRegister.cpp" />
+    <ClCompile Include="view\VScreenCredits.cpp" />
+    <ClCompile Include="view\VScreenIngame.cpp" />
+    <ClCompile Include="view\VScreenLobby.cpp" />
+    <ClCompile Include="view\VScreenMainMenue.cpp" />
+    <ClCompile Include="view\VScreenOptions.cpp" />
+    <ClCompile Include="view\VScreenSpielmodusWahl.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
+    <ClCompile Include="view\VText.cpp" />
+    <ClCompile Include="view\VTextfield.cpp" />
     <ClCompile Include="view\VUI.cpp" />
     <ClCompile Include="view\VWindmillPowerPlant.cpp" />
   </ItemGroup>

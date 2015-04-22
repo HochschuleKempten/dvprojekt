@@ -71,6 +71,7 @@ class CPlacement;
 #define S_KIND_N 140
 #define S_KIND_OVERLAY 150
 #define S_KIND_PLACEMENT 160
+#define S_KIND_PHYSICAL 161
 #define S_KIND_Q 170
 #define S_KIND_ROOT 180
 #define S_KIND_SCENE 190

@@ -1,19 +1,33 @@
 #pragma once
+#include "ILBuilding.h"
+#include "IVTickObserver.h"
+
+NAMESPACE_LOGIC_B
+
 
 class IVCity;
 
-class LCity
-{ //todo (IP)  create this
+class LCity : public ILBuilding, public IVTickObserver
+{
 private:
+	int populationIncrease = 1;	//x peoples per second
+	int consumptionCitizen = 1; //x watt per citizen
+	int populationTotal = 100;
 	int energy = 0;
-	IVCity* vCity;
+	std::shared_ptr<IVCity> vCity;
 
 public:
-	LCity();
+	LCity(LField* lField, const int x, const int y);
 	~LCity();
 
-	void addEnergy(const int energy);
-	void removeEnergy(const int energy);
-	int getEnergy();
+	virtual void tick(const float fTimeDelta) override;
+
+	void setEnergy(const int energy);
+	int getEnergy() const;
+	void setPopulationTotal(const int populationTotal);
+
+	static const int cost = 0;
 };
 
+
+NAMESPACE_LOGIC_E

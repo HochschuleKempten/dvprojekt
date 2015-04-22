@@ -140,8 +140,17 @@ namespace Vektoria
 		void SetColorAmbient(CColor color);
 		void SetBumpStrength(float fBumpStrength);
 		void SetSpecularSharpness(float fSpecularSharpness);
-		void SetSpecularRoughness(float fRoughness);
+		void SetRoughness(float fRoughness);
 		void SetIndexOfRefraction(float fIOR);
+		void SetSpecular(float fSpecular);
+		void SetSpecularTint(float fSpeculatTint);
+		void SetMetallic(float fMetallic);
+		void SetSubsurface(float fSubsurface);
+		void SetAnisotropic(float fAnistropic);
+		void SetSheen(float fSheen);
+		void SetSheenTint(float fSheenTint);
+		void SetClearCoat(float fClearCoat);
+		void SetClearCoatGloss(float fClearCoatGloss);
 		void SetDiffuseSharpness(float fDiffuseSharpness);
 		void SetTransparency(float frTransparancy);
 		void SetAbsoluteMaterialThickness(float fThickness); // Absolute Materialdicke für Subsurfacescattering
@@ -186,8 +195,17 @@ namespace Vektoria
 		float m_fBRDFReflectance;
 		float m_fRimLightStr;
 		float m_fEnviromentInt;
-		float m_fSpecularRoughness;
-		float m_fSpecularIOR;
+		float m_fRoughness;
+		float m_fIOR;
+		float m_fSpecular;
+		float m_fSpecularTint;
+		float m_fMetallic;
+		float m_fSubsurface;
+		float m_fAnistropic;
+		float m_fSheen;
+		float m_fSheenTint;
+		float m_fClearCoat;
+		float m_fClearCoatGloss;
 
 		int m_iFlagsDiffuse;
 		int m_iFlagsGlow;

@@ -1,8 +1,10 @@
 #pragma once
 
 #include"VButton.h"
-#include"IViewObserver.h"
+#include"IViewUIObserver.h"
 #include"IViewSubject.h"
+#include "VTextfield.h"
+#include "VText.h"
 
 NAMESPACE_VIEW_B
 
@@ -13,20 +15,68 @@ NAMESPACE_VIEW_B
 // Autor: Patrick Benkowitsch
 //---------------------------------------------------
 
-class IViewGUIContainer:public IViewObserver,public IViewSubject
+class IViewGUIContainer:public IViewUIObserver,public IViewSubject
 {
 public:
 	enum ContainerType
 	{
 		Group,
+		Dialog
 
 	};
 
-	virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewObserver::Event clickAction) = 0;
-	virtual list<IViewGUIObject*> getGuiObjectList()=0;
+	virtual void switchOn()=0;
+	virtual void switchOff() = 0;
+	virtual bool isOn()
+	{
+		return m_bOn;
+	}
+	virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction,string sName)
+	{
+		m_guiObjects[sName] = new VButton(m_viewport, rect, MaterialNormal, MaterialHover, clickAction);
+
+		m_guiObjects[sName]->addObserver(this);
+
+		
+	}
+	virtual void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder,string sName)
+	{
+		m_guiObjects[sName] = new VTextfield(m_viewport, rect, MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
+
+		m_guiObjects[sName]->addObserver(this);
+
+		
+	}
+	virtual void addText( CFloatRect rect, CWritingFont* writingFont, string text,string sName)
+	{
+		m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text);
+
+		m_guiObjects[sName]->addObserver(this);
+
+	}
+	
 	virtual ~IViewGUIContainer(){};
-private:
-	list<VButton> cgButtons;
+
+	map<string, IViewGUIObject*> getGuiObjectList()
+	{
+		return m_guiObjects;
+	}
+	IViewGUIObject* getGuiObject(string sName)
+	{
+		return m_guiObjects[sName];
+	}
+protected:
+	bool m_bOn = true;
+	CViewport* m_viewport;
+	map<string,IViewGUIObject*> m_guiObjects;
+	map<string,IViewGUIObject*>::iterator lIterGUIObjects;
+	
+	virtual CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)
+	{
+		 
+		return CFloatRect(RelativeToRect->GetXPos() + (RelativeToRect->GetXSize() * RelativeRect->GetXPos()), RelativeToRect->GetYPos() + (RelativeToRect->GetYSize() * RelativeRect->GetYPos()),
+			RelativeToRect->GetXSize()*RelativeRect->GetXSize(), RelativeToRect->GetYSize()*RelativeRect->GetYSize());
+	}
 };
 
 NAMESPACE_VIEW_E

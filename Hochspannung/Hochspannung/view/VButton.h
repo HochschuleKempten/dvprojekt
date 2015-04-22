@@ -14,20 +14,19 @@ class VButton:public IViewGUIObject{
 public:
 	
 	VButton();
-	VButton(CViewport* viewport,CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewObserver::Event clickAction);
+	VButton(CViewport* viewport,CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction);
 	~VButton();
 	
 	
-	void checkHover(float fPosX, float fPosY);
-	void checkPressed(float fCursorPosX, float fCursorPosY, bool bLeftpressed);
 	
 	
-
-	void onMouseOver(void);
-	void onMouseOut(void);
-	void onMouseClickLeft(void);
-	void onMouseClickRight(void);
-
+	virtual void switchOn() override final;
+	virtual void switchOff() override final;
+	
+	virtual void onMouseOver(void) override final;
+	virtual void onMouseOut(void) override final;
+	virtual void onMouseClickLeft(void) override final;
+	virtual void onMouseClickRight(void) override final;
 	
 
 	bool bGetHasHover();
@@ -49,12 +48,9 @@ private:
 	COverlay* m_zoNormal;
 	COverlay* m_zoHover;
 	
-	CFloatRect m_zfrRect; 
-	string m_slabel;
-	
 	bool m_bHasHover;
 
-	IViewObserver::Event action;
+	IViewUIObserver::Event action;
 	
 
 

@@ -50,12 +50,17 @@ public:
 	void SetVolume(float frVolume); // Modifiziert die Lautstärke (0.0F=aus 1.0F= volles Rohr) 
 	void SetRadius(float fRadius); // Modifiziert den Wirkradius in Units eines 3D-Klanges 
 	void SetDoppler(float fFactor); // fFactor=1.0: physikalisch richtiger Doppler-Effekt, fFactor=0.0: kein Doppler-Effekt; Default = 1.0F
+	void SetFrequency(float fFrequency); // Setzt die Frequenz in Hertz, wenn nicht aufgerufen wird die originale Frequenz des Samples genommen
+	void SetPan(float ftPan); // Stereoeinstellungen zwischen links und rechts (-1 = links, 0= Mitte, 1 = rechts) 
+	void ResetFrequency(); // Setzt die Frequenz wieder auf die originale Frequenz des Samples
 
 	bool Is3D(); // Gibt true aus, wenn 3D-Audio, ansonsten false 
 
 	bool m_bDoppler; // true, wenn Doppler-Effekt berechnet werden soll
 	float m_fRadius;  // Eingestellter Wirkradius in Units eines 3D-Klanges, Default = 1.0F 
 	float m_frVolume; // eingestellte Lautstärke (0.0F=aus 1.0F= volles Rohr), Default = 1.0F 
+	float m_fFrequency; // Frequenz in Herz, wenn nicht aufgerufen wird die originale Frequenz des Samples genommen
+	float m_ftPan;	// eingestellte Stereoballance (-1.0F=links, 0.0= normal bzw. Mitte, 1.0F= rechts), Default = 1.0F 
 	float m_fDopplerFactor;
 
 	bool m_bHaveToLoop;
@@ -65,6 +70,8 @@ public:
 	bool m_bHaveToSetDoppler;
 	bool m_bHaveToSetRadius;
 	bool m_bHaveToSetVolume;
+	bool m_bHaveToSetPan;
+	bool m_bHaveToSetFrequency;
 	void PauseCauseLoD(int iAudio); // Pausiert den Zuhörer beim 3D-Audio wegen LoD 
 	void ContinueCauseLoD(int iAudio);  // Setzt den Zuhörer beim 3D-Audio nach LoD-Eintritt wieder fort 
 

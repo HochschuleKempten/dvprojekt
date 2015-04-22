@@ -2,24 +2,25 @@
 
 #include "../logic/IVCity.h"
 #include "IViewBuilding.h"
-
-class LCity;
+#include "VModelCity.h"
 
 NAMESPACE_VIEW_B
 
 
+class LCity;
+
 class VCity : public IVCity, public IViewBuilding
 {
 private:
-	CPlacement m_zp;
-	CMaterial m_zm;
-	CGeoEllipsoid m_zg;
+	VModelCity viewModel;
 
 public:
 	VCity(VMaster *vMaster, LCity* lCity);
-	virtual ~VCity();
+	virtual ~VCity() override;
 
-	virtual void initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const int y);
+	virtual void initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const int y) override;
+	virtual void updatePopulation(const int population) override;
+	virtual void updateEnergy(const int energy) override;
 };
 
 

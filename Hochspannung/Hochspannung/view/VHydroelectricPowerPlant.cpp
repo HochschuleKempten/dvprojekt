@@ -2,23 +2,27 @@
 #include "VPlayingField.h"
 #include "VMaterialLoader.h"
 #include "VIdentifier.h"
+#include "VMaster.h"
 
 NAMESPACE_VIEW_B
 
 
 VHydroelectricPowerPlant::VHydroelectricPowerPlant(VMaster* vMaster, LHydroelectricPowerPlant* lPlant)
-	: IViewBuilding(vMaster, &m_zp), IVPowerPlant(lPlant)
+	: IVPowerPlant(lPlant), IViewBuilding(vMaster, &m_zp)
 {
 	m_zg.Init(CHVector(1.5f, 2.6f, 0.8f), &VMaterialLoader::materialHydroelectricPowerPlant);
 	m_zp.Init();
 	m_zp.AddGeo(&m_zg);
 }
 
+VHydroelectricPowerPlant::~VHydroelectricPowerPlant()
+{}
+
 void VHydroelectricPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	SET_NAME_AND_COORDINATES(VIdentifier::VHydroelectricPowerPlant);
+	//SET_NAME_AND_COORDINATES(VIdentifier::VHydroelectricPowerPlant);
 }
 
 

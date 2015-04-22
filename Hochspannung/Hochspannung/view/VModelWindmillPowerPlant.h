@@ -1,11 +1,19 @@
 #pragma once
 
 #include "VGeneral.h"
+#include "IViewModel.h"
 
 NAMESPACE_VIEW_B
 
 
-class VModelWindmillPowerPlant : public CPlacement
+/**
+ * @brief The VModelWindmillPowerPlant class holds the model for the windmill power plant.
+ *
+ * The image shows the internal hierarchy of the scenegraph and the structure of the model.
+ *
+ * @image html images/VModelWindmillPowerPlant.png "Scenegraph and structure of the model"
+ */
+class VModelWindmillPowerPlant : public IViewModel
 {
 private:
 	CPlacement m_zpWindkraftanlage;
@@ -29,7 +37,17 @@ private:
 
 public:
 	VModelWindmillPowerPlant();
-	~VModelWindmillPowerPlant();
+	virtual ~VModelWindmillPowerPlant() override;
+
+	//TODO (Windkraftwerk) implement this
+	virtual float getHeight() override
+	{
+		return 0.0f;
+	}
+	virtual float getWidth() override
+	{
+		return 0.0f;
+	}
 
 	inline void rotate(const float angle)
 	{

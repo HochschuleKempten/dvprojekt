@@ -1,13 +1,21 @@
 #include "VModelPowerLine.h"
+#include "Helper.h"
+//TODO (Trasse) please move methods from your helper class to LUtility
 
 NAMESPACE_VIEW_B
+
 
 #define SIZEOF_ARRAY(array) (sizeof(array) / sizeof(*array))
 
 VModelPowerLine::VModelPowerLine(void)
 {
 	// set number of connections to zero
+<<<<<<< HEAD
 	m_connections[WEST]  = *new vector < VModelPowerLine * > ;
+=======
+	//TODO (Trasse) sure this here is what you want?
+	m_connections[WEST] = *new vector < VModelPowerLine * > ;
+>>>>>>> master
 	m_connections[SOUTH] = *new vector < VModelPowerLine * > ;
 	m_connections[EAST]  = *new vector < VModelPowerLine * > ;
 	m_connections[NORTH] = *new vector < VModelPowerLine * > ;
@@ -23,10 +31,10 @@ VModelPowerLine::~VModelPowerLine(void)
 	m_connections[SOUTH].clear();
 	m_connections[EAST].clear();
 	m_connections[NORTH].clear();
-	delete &m_connections[WEST];
-	delete &m_connections[SOUTH];
-	delete &m_connections[EAST];
-	delete &m_connections[NORTH];
+	//delete &m_connections[WEST];	//TODO (Trasse) fix error on closing
+	//delete &m_connections[SOUTH];
+	//delete &m_connections[EAST];
+	//delete &m_connections[NORTH];
 	m_connections.clear();
 
 	// TODO: add clean up for lines
@@ -37,8 +45,8 @@ void VModelPowerLine::SetPosition(int x, int y) {
 	m_iGridPosition[1] = y;
 
 	// translate
-	TranslateXDelta((float)x);
-	TranslateZDelta((float)y);
+	m_zpMain.TranslateXDelta(CASTS<float>(x));
+	m_zpMain.TranslateZDelta(CASTS<float>(y));
 }
 
 void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFoundationWidth, float fPylonHeight)
@@ -49,6 +57,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_zmBlack.MakeTextureDiffuse("textures\\black_image.jpg");
 
 	// set necessary attributes depending on foundationWidth and pylonHeight
+<<<<<<< HEAD
 	m_fFoundationWidth		= fFoundationWidth;
 	m_fFoundationHeight		= fFoundationWidth * 0.1f;
 	m_fPylonHeight			= fPylonHeight;
@@ -68,6 +77,21 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_fUpperArmLength		= sqrt(pow(m_fStrutHeight, 2) + pow(m_fArmLength, 2));
 	m_fArmAngle				= asinf(m_fStrutHeight / m_fUpperArmLength);
 
+=======
+	m_fFoundationWidth    = fFoundationWidth;
+	m_fFoundationHeight   = fFoundationWidth * 0.1f;
+	m_fPylonHeight        = fPylonHeight;
+	m_fPoleDistance       = fFoundationWidth * 0.8f;
+	m_fPoleThickness      = m_fPoleDistance * 0.1f;
+	m_fStrutHeight        = fPylonHeight * 0.1f;
+	m_fStrutLength        = sqrtf(powf(m_fPoleDistance, 2) + powf(m_fStrutHeight, 2));
+	m_fStrutAngle         = asinf(m_fStrutHeight / m_fStrutLength);;
+	m_fStrutThickness     = m_fPoleDistance * 0.08f;
+	m_iStrutsCount        = CASTS<int>(m_fPylonHeight / m_fStrutHeight);
+	m_ePylonType          = ePylonType;
+	m_eDirection          = eDirection;
+	m_fArmLength          = m_fPylonHeight * 0.3f;
+>>>>>>> master
 	m_fConnectorLength    = m_fStrutHeight;
 	m_fConnectorThickness = m_fConnectorLength * 0.1f;
 	m_fRingRadius         = m_fConnectorThickness;
@@ -215,7 +239,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 
 	m_zpFoundation.AddGeo(&m_zgFoundation);
 	//m_zpFoundation.RotateY(m_eDirection * HALFPI);
-	this->AddPlacement(&m_zpFoundation);
+	m_zpMain.AddPlacement(&m_zpFoundation);
 }
 
 
@@ -295,13 +319,20 @@ float VModelPowerLine::getWidth() {
 }
 
 
-float VModelPowerLine::getHeight() {
+float VModelPowerLine::getHeight()
+{
 	return m_fPylonHeight;
 }
 
+<<<<<<< HEAD
 std::vector<CHVector> * VModelPowerLine::ConnectorPositions(VModelPowerLine::DIRECTION armPosition) {
 	for (int i = 0; i < 4; i++) {
 		m_vConnectorPositions[armPosition].push_back(this->GetTranslation() + m_zpFoundation.GetTranslation() + m_zpArm[i].GetTranslation() + m_zpConnector[i]->GetTranslation());
+=======
+CHVector * VModelPowerLine::ConnectorPositions() {
+	for (int i = 0; i < 4; i++){
+		m_vConnectorPositions[i] = m_zpMain.GetTranslation() + m_zpFoundation.GetTranslation() + m_zpArm[i].GetTranslation() + m_zpConnector[i]->GetTranslation();
+>>>>>>> master
 	}
 	return &m_vConnectorPositions[armPosition];
 }
@@ -334,8 +365,13 @@ bool VModelPowerLine::ConnectTo(VModelPowerLine *pPylon) {
 	CHVector vTranslation1 = pPylon->ConnectorPositions(vec_aArmPairs[iArm])->at(connectedPosition);
 	CHVector vTranslation2 = this->ConnectorPositions(vec_aArmPairs[iArm])->at(connectedPosition);
 
+<<<<<<< HEAD
 	// below are geometry part of the connection //
 	float distance = this->GetTranslation().Dist(pPylon->GetTranslation());
+=======
+	//float distance = vTranslation1.Dist(vTranslation2);
+	float distance = m_zpMain.GetTranslation().Dist(pPylon->getMainPlacement()->GetTranslation());
+>>>>>>> master
 	float angle    = vTranslation1.Angle(vTranslation2);
 
 	// generate line
@@ -575,5 +611,6 @@ bool VModelPowerLine::DisconnectFrom(VModelPowerLine * pPylon) {
 bool VModelPowerLine::DisconnectAll() {
 	return false;
 }
+
 
 NAMESPACE_VIEW_E

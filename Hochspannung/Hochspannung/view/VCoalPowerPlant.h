@@ -2,7 +2,6 @@
 
 #include "../logic/IVPowerPlant.h"
 #include "../logic/LCoalPowerPlant.h"
-#include "../logic/Array2D.h"
 #include "VMaster.h"
 #include "IViewBuilding.h"
 
@@ -17,11 +16,9 @@ private:
 
 public:
 	VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant);
+	virtual ~VCoalPowerPlant();
 
-	virtual ~VCoalPowerPlant()
-	{}
-
-	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y);
+	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y) override;
 };
 
 
