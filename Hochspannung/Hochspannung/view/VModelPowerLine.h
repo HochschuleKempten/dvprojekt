@@ -20,7 +20,6 @@ public:
 	map<DIRECTION, vector<VModelPowerLine *>> * Connections();
 	VModelPowerLine::PYLONTYPE PylonType();
 	vector<CHVector> * ConnectorPositions(VModelPowerLine::DIRECTION armPosition);
-	CPlacement * Connectors();
 
 	void Init(PYLONTYPE ePylonType = STRAIGHT, DIRECTION eDirection = NORTH, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
 	void SetPosition(int x, int y);
@@ -28,23 +27,6 @@ public:
 	USHORT AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition);
 	bool DisconnectFrom(VModelPowerLine * pPylon);
 	bool DisconnectAll();
-
-
-	bool ConnectedWest() {
-		return bConnectedWest;
-	};
-
-	bool * ConnectedPositions();
-
-	bool ConnectedSouth() {
-		return bConnectedSouth;
-	};
-	bool ConnectedEast() {
-		return bConnectedEast;
-	};
-	bool ConnectedNorth() {
-		return bConnectedNorth;
-	};
 
 	virtual float getHeight() override; // including foundation
 	virtual float getWidth() override;  // width of the foundation
@@ -130,10 +112,6 @@ private:
 	float m_fLowerArmPosition	         = 0;
 	float m_fUpperArmPosition	         = 0;
 	float m_fOppositeLeg		         = 0;
-	bool bConnectedWest                  = false;
-	bool bConnectedSouth                 = false;
-	bool bConnectedEast                  = false;
-	bool bConnectedNorth                 = false;
 };
 
 
