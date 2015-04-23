@@ -138,7 +138,7 @@ void VScreenIngame::onNotify(Event events)
 void VScreenIngame::switchOn()
 {
 	m_viewport->SwitchOn();
-	m_minimap.SwitchOn();
+	//m_minimap.SwitchOn();
 	m_scene->SwitchOn();
 	
 	m_isOn = true;

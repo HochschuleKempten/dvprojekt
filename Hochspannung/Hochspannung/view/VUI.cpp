@@ -113,8 +113,8 @@ void VUI::handleInput(float fTimeDelta)
 
 			if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
 				vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(pickedElements[VIdentifier::VPlayingField][0],
-																		pickedElements[VIdentifier::VPlayingField][1],
-																		ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+				                                                        pickedElements[VIdentifier::VPlayingField][1],
+				                                                        ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
 			}
 
 			clickActive = true;
@@ -125,15 +125,15 @@ void VUI::handleInput(float fTimeDelta)
 
 			if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
 				vMaster->getPlayingField()->tryBuildOnField<LWindmillPowerPlant>(pickedElements[VIdentifier::VPlayingField][0],
-																				 pickedElements[VIdentifier::VPlayingField][1]);
+				                                                                 pickedElements[VIdentifier::VPlayingField][1]);
 			}
 			else if (pickedElements.count(VIdentifier::VPowerLine) > 0) {
 				vMaster->getPlayingField()->tryRemoveObject(pickedElements[VIdentifier::VPowerLine][0],
-															pickedElements[VIdentifier::VPowerLine][1]);
+				                                            pickedElements[VIdentifier::VPowerLine][1]);
 			}
 			else if (pickedElements.count(VIdentifier::VWindmillPowerPlant) > 0) {
 				vMaster->getPlayingField()->tryRemoveObject(pickedElements[VIdentifier::VWindmillPowerPlant][0],
-															pickedElements[VIdentifier::VWindmillPowerPlant][1]);
+				                                            pickedElements[VIdentifier::VWindmillPowerPlant][1]);
 			}
 
 			clickActive = true;
@@ -151,7 +151,7 @@ std::map<int, std::vector<int>> VUI::pickElements()
 	CPlacements placements;
 	CPlacement* singlePlacement = m_zkCursor.PickPlacement();
 	m_zkCursor.PickPlacements(&placements);
-	
+
 	//The two placements pick different things, so they have to be merged together
 	if (singlePlacement != nullptr) {
 		placements.Add(singlePlacement);

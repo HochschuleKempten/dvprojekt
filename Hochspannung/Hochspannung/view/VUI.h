@@ -24,12 +24,6 @@ class VUI : public IVTickObserver, public IViewUIObserver
 
 private:
 	VMaster* vMaster;
-	CDeviceKeyboard m_zkKeyboard;
-	CDeviceCursor m_zkCursor;
-	CDeviceMouse m_zkMouse;
-
-	std::map<std::string, IViewScreen*> m_screens;
-	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
 
 	//TODO (V) resize viewports?
 	CRoot m_zr;
@@ -37,6 +31,12 @@ private:
 	CScene m_zs;
 	CPlacement m_zpCamera;
 	CParallelLight m_zl;
+	CDeviceKeyboard m_zkKeyboard;
+	CDeviceCursor m_zkCursor;
+	CDeviceMouse m_zkMouse;
+
+	std::map<std::string, IViewScreen*> m_screens;
+	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
 
 	bool isQuit;
 	bool m_screenChanged = false;
@@ -48,21 +48,16 @@ private:
 
 public:
 	VUI(VMaster* vMaster);
-	virtual ~VUI();
-
-	void initUI(HWND hwnd, CSplash* psplash);
+	virtual ~VUI() override;
 
 	virtual void tick(const float fTimeDelta) override;
-
+	virtual void onNotify(IViewUIObserver::Event) override;
 
 	void addScreen(string sName, IViewScreen::ScreenType);
-
 	void switchScreen(string switchTo);
 	IViewScreen* getScreen(string sName);
-
-	virtual void onNotify(IViewUIObserver::Event) override;
+	void initUI(HWND hwnd, CSplash* psplash);
 	void resize(int width, int height);
-
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
 	void updateInfofield(const int wert);

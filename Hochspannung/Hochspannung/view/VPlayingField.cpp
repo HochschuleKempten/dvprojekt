@@ -69,14 +69,26 @@ void VPlayingField::buildPlayingField()
 
 				vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
 				m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);
-				m_zpPlacementHolders[holder].FixAndFasten();
+				m_zpPlacementHolders[holder].Fasten();
 				m_zpPlacementHolders[holder].SetFrustumCullingOn();
 			}
 		}
 	}
 
+	//for (int rowIdx = 0; rowIdx < lPlayingField->getFieldLength(); rowIdx++) {
+	//	for (int colIdx = 0; colIdx < lPlayingField->getFieldLength(); colIdx++) {
+	//		vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
+	//		m_zp.AddPlacement(&vFields[rowIdx][colIdx].m_zp);
+	//		//m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);
+	//		//m_zpPlacementHolders[holder].Fasten();
+	//		//m_zpPlacementHolders[holder].SetFrustumCullingOn();
+	//	}
+	//}
+
 	float rows = CASTS<float>(vFields.getRows());
 	m_zp.TranslateDelta(CASTS<float>(-fieldSize * rows), CASTS<float>(fieldSize * rows), CASTS<float>(-fieldSize * rows * 1.5));
+	//m_zp.SetFrustumCullingOn();
+	//m_zp.Fasten();
 
 	m_zp.SetName("#Placement VPlayingField");
 }

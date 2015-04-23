@@ -16,7 +16,7 @@ public:
 	};
 
 private:
-	int money = 2700;
+	int money = 5700;
 	LMaster* lMaster;
 
 public:
