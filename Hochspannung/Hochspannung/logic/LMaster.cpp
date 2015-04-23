@@ -18,7 +18,8 @@ LMaster::~LMaster()
 
 void LMaster::startNewGame()
 {
-	if (lPlayingField == nullptr) {
+	if (lPlayingField == nullptr)
+	{
 		lPlayingField = new LPlayingField(this);
 	}
 }
@@ -30,7 +31,6 @@ void LMaster::gameLost()
 
 void LMaster::tick(const float fTimeDelta)
 {
-
 }
 
 LPlayingField* LMaster::getLPlayingField()

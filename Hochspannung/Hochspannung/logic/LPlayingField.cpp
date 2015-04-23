@@ -8,6 +8,7 @@
 #include "LCity.h"
 #include <boost/graph/breadth_first_search.hpp>
 #include "LCoalPowerPlant.h"
+#include "LWindmillPowerPlant.h"
 #include <boost/graph/strong_components.hpp>
 
 NAMESPACE_LOGIC_B
@@ -15,7 +16,7 @@ NAMESPACE_LOGIC_B
 
 using namespace boost;
 
-template<typename Graph>
+template <typename Graph>
 static std::vector<int> strongConnectedSearch(const Graph& g, const int startIdx)
 {
 	std::vector<int> component(num_vertices(g)), discover_time(num_vertices(g));
@@ -35,16 +36,16 @@ static std::vector<int> strongConnectedSearch(const Graph& g, const int startIdx
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster), fieldArray(fieldLength, fieldLength, [this] (LField& f) {
-		f.setLPlayingField(this);
-	}),
-	powerLineGraph(fieldLength*fieldLength),
-	fieldTypes({ LField::MOUNTAIN, LField::AIR, LField::SOLAR, LField::WATER, LField::COAL }),
-	fieldLevels({ LField::LEVEL1, LField::LEVEL2, LField::LEVEL3 })
+		                               f.setLPlayingField(this);
+	                               }),
+	  powerLineGraph(fieldLength * fieldLength),
+	  fieldTypes({LField::MOUNTAIN, LField::AIR, LField::SOLAR, LField::WATER, LField::COAL}),
+	  fieldLevels({LField::LEVEL1, LField::LEVEL2, LField::LEVEL3})
 {
 	vPlayingField = lMaster->getVMaster()->getFactory()->createPlayingField(this);
-	vPlayingField->initPlayingField(vPlayingField);	//Sets the shared_ptr (need to be done before the fields can be created)
-	createFields();									//Create the fields (also places some buildings)
-	vPlayingField->buildPlayingField();				//Now build the playing field
+	vPlayingField->initPlayingField(vPlayingField); //Sets the shared_ptr (need to be done before the fields can be created)
+	createFields(); //Create the fields (also places some buildings)
+	vPlayingField->buildPlayingField(); //Now build the playing field
 }
 
 LPlayingField::~LPlayingField()
@@ -66,12 +67,10 @@ void LPlayingField::removeBuilding(const int x, const int y)
 	//remove all outgoing edges
 	powerLineGraph.m_vertices[convertIndex(x, y)].m_out_edges.clear();
 
-	if (getField(x, y)->removeBuilding()) 
-	{
+	if (getField(x, y)->removeBuilding()) {
 		vPlayingField->objectRemoved(x, y);
 	}
-	else 
-	{
+	else {
 		//TODO (All) how to handle error checks?
 	}
 
@@ -82,8 +81,7 @@ void LPlayingField::removeBuilding(const int x, const int y)
 void LPlayingField::upgradeBuilding(const int x, const int y)
 {
 	//todo (IP) getPlayers(): get current player
-	if (lMaster->getPlayer(1)->getMoney() > 50000)
-	{
+	if (lMaster->getPlayer(1)->getMoney() > 50000) {
 		getField(x, y)->getBuilding()->upgrade();
 	}
 	// ToDo (FL) Discuss case player doesn't have enough money
@@ -96,13 +94,13 @@ void LPlayingField::createFields()
 	usedCoordinates.emplace_back(cityPositionX, cityPositionY);
 
 	int firstPowerLinePositionX = cityPositionX;
-	int firstPowerLinePositionY = cityPositionY +1;
+	int firstPowerLinePositionY = cityPositionY + 1;
 	usedCoordinates.emplace_back(firstPowerLinePositionX, firstPowerLinePositionY);
 
-	int secondPowerLinePositionX = firstPowerLinePositionX +1;
+	int secondPowerLinePositionX = firstPowerLinePositionX + 1;
 	int secondPowerLinePositionY = firstPowerLinePositionY;
 	usedCoordinates.emplace_back(secondPowerLinePositionX, secondPowerLinePositionY);
-		
+
 	int firstPowerPlantPositionX = secondPowerLinePositionX;
 	int firstPowerPlantPositionY = secondPowerLinePositionY + 1;
 	usedCoordinates.emplace_back(firstPowerPlantPositionX, firstPowerPlantPositionY);
@@ -126,6 +124,7 @@ void LPlayingField::createFields()
 	int windmillPowerPlantPositionY = 0;
 	usedCoordinates.emplace_back(windmillPowerPlantPositionX, windmillPowerPlantPositionY);
 	fieldArray[windmillPowerPlantPositionX][windmillPowerPlantPositionY].init(LField::AIR, LField::LEVEL1);
+	placeBuilding<LWindmillPowerPlant>(windmillPowerPlantPositionX, windmillPowerPlantPositionY);
 
 	//TODO (JS) grass around buildings
 
@@ -174,7 +173,7 @@ bool LPlayingField::checkIndex(const int x, const int y)
 
 int LPlayingField::convertIndex(const int x, const int y)
 {
-	return (x*fieldLength + y);
+	return x * fieldLength + y;
 }
 
 void LPlayingField::calculateEnergyValueCity()
@@ -184,13 +183,11 @@ void LPlayingField::calculateEnergyValueCity()
 	std::vector<int> vec = strongConnectedSearch(powerLineGraph, convertIndex(cityPosition.first, cityPosition.second));
 	std::pair<int, int> coord;
 
-	for (size_t i = 0; i < vec.size(); i++)
-	{
+	for (size_t i = 0; i < vec.size(); i++) {
 		coord = convertIndex(vec[i]);
 		ILPowerPlant* pP = dynamic_cast<ILPowerPlant*>(getField(coord.first, coord.second)->getBuilding());
 
-		if (pP != nullptr)
-		{
+		if (pP != nullptr) {
 			energyValue += pP->getEnergyValue();
 		}
 	}
@@ -200,34 +197,26 @@ void LPlayingField::calculateEnergyValueCity()
 
 void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)
 {
-	if (orientation & ILBuilding::NORTH)
-	{
-		if (checkIndex(x - 1, y))
-		{
+	if (orientation & ILBuilding::NORTH) {
+		if (checkIndex(x - 1, y)) {
 			add_edge(convertIndex(x, y), convertIndex(x - 1, y), powerLineGraph);
 		}
 	}
 
-	if (orientation & ILBuilding::EAST)
-	{
-		if (checkIndex(x, y + 1))
-		{
+	if (orientation & ILBuilding::EAST) {
+		if (checkIndex(x, y + 1)) {
 			add_edge(convertIndex(x, y), convertIndex(x, y + 1), powerLineGraph);
 		}
 	}
 
-	if (orientation & ILBuilding::SOUTH)
-	{
-		if (checkIndex(x + 1, y))
-		{
+	if (orientation & ILBuilding::SOUTH) {
+		if (checkIndex(x + 1, y)) {
 			add_edge(convertIndex(x, y), convertIndex(x + 1, y), powerLineGraph);
 		}
 	}
 
-	if (orientation & ILBuilding::WEST)
-	{
-		if (checkIndex(x, y - 1))
-		{
+	if (orientation & ILBuilding::WEST) {
+		if (checkIndex(x, y - 1)) {
 			add_edge(convertIndex(x, y), convertIndex(x, y - 1), powerLineGraph);
 		}
 	}
@@ -268,7 +257,7 @@ std::pair<int, int> LPlayingField::retrieveFreeCoordinates()
 	}
 
 	ASSERT(true, "No coordinates could be delivered. This should not happen.");
-	return {};
+	return{};
 }
 
 std::pair<int, int> LPlayingField::retrieveFreeCoordinates(const int x, const int y)

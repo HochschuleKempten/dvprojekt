@@ -23,12 +23,12 @@ VField::~VField()
 
 void VField::setHoverOn()
 {
-	m_zmNormal.SetTextureGlowWhite();
+	m_zmNormal.SetColorAmbient(CColor(1.0, 0.0, 0.0));
 }
 
 void VField::setHoverOff()
 {
-	
+	m_zmNormal.SetColorAmbient(CColor(0.0, 0.0, 0.0));
 }
 
 void VField::initField(const int rowIdx, const int colIdx)

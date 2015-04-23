@@ -42,7 +42,13 @@ void VPlayingField::placeObject(const std::shared_ptr<IViewBuilding>& objPtr, co
 
 void VPlayingField::hoverField(const int x, const int y)
 {
-	
+	static std::pair<int, int> previousHover(x, y);
+
+	vFields[previousHover.first][previousHover.second].setHoverOff();
+	vFields[x][y].setHoverOn();
+
+	previousHover.first = x;
+	previousHover.second = y;
 }
 
 void VPlayingField::initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr)
@@ -63,7 +69,7 @@ void VPlayingField::buildPlayingField()
 
 				vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
 				m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);
-				m_zpPlacementHolders[holder].Fasten();
+				m_zpPlacementHolders[holder].FixAndFasten();
 				m_zpPlacementHolders[holder].SetFrustumCullingOn();
 			}
 		}

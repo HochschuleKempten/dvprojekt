@@ -32,23 +32,28 @@ private:
 	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
 
 	//TODO (V) resize viewports?
-	CPlacement m_zpCamera;
+	CRoot m_zr;
+	CFrame m_zf;
 	CScene m_zs;
+	CPlacement m_zpCamera;
 	CParallelLight m_zl;
 
 	bool isQuit;
 	bool m_screenChanged = false;
+	bool m_BlockCursorLeftPressed = false;
+
+private:
 	void handleInput(float fTimeDelta);
-	bool m_BlockCursorLeftPressed=false;
+	std::map<int, std::vector<int>> pickElements();
 
 public:
 	VUI(VMaster* vMaster);
 	virtual ~VUI();
 
-	void initUI();
+	void initUI(HWND hwnd, CSplash* psplash);
 
 	virtual void tick(const float fTimeDelta) override;
-	
+
 
 	void addScreen(string sName, IViewScreen::ScreenType);
 
