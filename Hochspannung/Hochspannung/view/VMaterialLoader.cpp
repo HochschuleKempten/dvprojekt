@@ -48,8 +48,8 @@ CWritingFont VMaterialLoader::GoldFont;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
-	std::string textureDiffuse = std::string("textures/texture_terrain_") + textureName + std::string("_diffuse.png");
-	std::string textureSpecular = std::string("textures/texture_terrain_") + textureName + std::string("_specular.png");
+	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
+	std::string textureSpecular = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_specular.png");
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
@@ -67,6 +67,7 @@ void VMaterialLoader::init()
 	setFieldMaterialHelper(LField::GRASS, "base");
 	setFieldMaterialHelper(LField::MOUNTAIN, "mountain");
 	setFieldMaterialHelper(LField::CITY, "city");
+	setFieldMaterialHelper(LField::OIL, "oil");
 
 	materialCoalPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
 	materialHydroelectricPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
