@@ -37,9 +37,6 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zpCamera.TranslateYDelta(2.5f);
 	m_zpCamera.SetFrustumCullingOn();
 
-
-	
-
 	m_zs.AddPlacement(m_zTrasse1->getMainPlacement());
 	m_zs.AddPlacement(m_zTrasse2->getMainPlacement());
 	m_zs.AddPlacement(m_zTrasse3->getMainPlacement());
@@ -55,12 +52,12 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zTrasse3->SetPosition(3, 0);
 	m_zTrasse4->SetPosition(2, -2);
 
-	m_zTrasse1->ConnectTo(m_zTrasse2);
-	m_zTrasse1->ConnectTo(m_zTrasse2);
-	m_zTrasse2->ConnectTo(m_zTrasse3);
-	m_zTrasse2->ConnectTo(m_zTrasse4);
-	m_zTrasse4->ConnectTo(m_zTrasse2);
-	m_zTrasse3->ConnectTo(m_zTrasse4);
+	//m_zTrasse1->ConnectTo(m_zTrasse2);
+	//m_zTrasse1->ConnectTo(m_zTrasse2);
+	//m_zTrasse2->ConnectTo(m_zTrasse3);
+	//m_zTrasse2->ConnectTo(m_zTrasse4);
+	//m_zTrasse4->ConnectTo(m_zTrasse2);
+	//m_zTrasse3->ConnectTo(m_zTrasse4);
 	//m_zTester->Init(&m_zs);
 }
 

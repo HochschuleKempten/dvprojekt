@@ -54,8 +54,12 @@ private:
 	std::vector<DIRECTION> DetermineArm(VModelPowerLine *pPylon);
 	//TODO (Pylon) consider using normal variable types instead of pointers here (less heap allocations)
 	//You may be able to use std::vector<CPlacement> as well
-	std::vector <CPlacement> m_zpConnector;
+	std::vector<CPlacement> m_zpIsolator;
+	std::vector<CPlacement> m_zpIsolatorLoD1;
+	std::vector<CPlacement> m_zpIsolatorLoD2;
 	std::vector<CPlacement> m_zpRing;
+	std::vector<CPlacement> m_zpRingLoD1;
+	std::vector<CPlacement> m_zpRingLoD2;
 	std::map<DIRECTION, std::vector<CPlacement>> m_zpLine;
 	std::map<DIRECTION, std::vector<VModelPowerLine *> > m_connections;
 	std::map<DIRECTION, std::vector<CHVector>> m_vConnectorPositions;
@@ -75,8 +79,10 @@ private:
 	CGeoCube m_zgRoof;
 	CGeoCube m_zgStrut;
 	CGeoSphere m_zgSphere;
-	CGeoCylinder m_zgConnector;
-	CGeoTube m_zgRing;
+	CGeoCylinder m_zgIsolatorLoD1;
+	CGeoCylinder m_zgIsolatorLoD2;
+	CGeoTube m_zgRingLoD1;
+	CGeoTube m_zgRingLoD2;
 
 	CPlacement m_zpFoundation;
 	CPlacement m_zpArmConnection;
@@ -88,10 +94,13 @@ private:
 	CPlacement m_zpPole[4];
 	CPlacement m_zpRoof[4];
 	CPlacement m_zpSphere[5];
-	CPlacement * m_zpStruts = nullptr;
+	CPlacement *m_zpStruts = nullptr;
 
-	CTriangleList *m_zpTriangleConnector;
-	CTriangleList *m_zpTriangleRing;
+	CTriangleList *m_zpTriangleIsolatorLoD1;
+	CTriangleList *m_zpTriangleIsolatorLoD2;
+	CTriangleList *m_zpTriangleRingLoD1;
+	CTriangleList *m_zpTriangleRingLoD2;
+
 
 	SHORT m_iGridPosition[2];
 	bool m_bConnectedPositions[4];
@@ -112,8 +121,8 @@ private:
 	float m_fStrutLength                 = 0;
 	float m_fStrutThickness              = 0;
 	float m_fArmLength                   = 0;
-	float m_fConnectorLength             = 0;
-	float m_fConnectorThickness          = 0;
+	float m_fIsolatorLength				 = 0;
+	float m_fIsolatorThickness           = 0;
 	float m_fRingRadius			         = 0;
 	float m_fRingThickness		         = 0;
 	float m_fArmAngle			         = 0;
