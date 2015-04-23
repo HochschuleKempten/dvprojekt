@@ -39,7 +39,7 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 	                               }),
 	  powerLineGraph(fieldLength * fieldLength),
 	  isCoordinateUsed(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
-	  fieldTypes({LField::MOUNTAIN, LField::AIR, LField::SOLAR, LField::WATER, LField::COAL}),
+	  fieldTypes({LField::MOUNTAIN, LField::AIR, LField::SOLAR, LField::WATER, LField::COAL, LField::OIL}),
 	  fieldLevels({LField::LEVEL1, LField::LEVEL2, LField::LEVEL3})
 {
 	//At the beginning every field is unused
