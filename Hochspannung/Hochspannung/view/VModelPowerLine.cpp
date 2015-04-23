@@ -98,6 +98,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	m_zpStruts = new CPlacement[m_iStrutsCount * 8];
 	for (int i = 0; i < m_iStrutsCount * 8; i++) {
 		m_zpStruts[i].AddGeo(&m_zgStrut);
+		m_zpStruts[i].FixAndFasten();
 	}
 
 	// preparing spheres
@@ -110,7 +111,9 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 	// adding struts to poles
 	for (int i = 0; i < 4; i++) {
 		m_zpPole[i].AddGeo(&m_zgPole);
+		m_zpPole[i].FixAndFasten();
 		m_zpRoof[i].AddGeo(&m_zgRoof);
+		m_zpPole[i].FixAndFasten();
 
 		//// adding struts
 		for (int j = 0; j < m_iStrutsCount; j++) {
@@ -127,6 +130,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 			m_zpStruts[index1].TranslateDelta(m_fPoleDistance, iYTranslation, 0);
 			m_zpStruts[index2].TranslateDelta(m_fPoleDistance, iYTranslation, 0);
 		}
+		m_zpPole[i].FixAndFasten();
 
 		// adding roof
 		m_zpRoof[i].RotateZDelta(-asinf((m_fPoleDistance + m_fPoleThickness) / (2 * (m_fStrutHeight - m_fStrutThickness))));
@@ -135,6 +139,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 		m_zpPole[i].AddPlacement(&m_zpRoof[i]);
 		m_zpSphere[i].TranslateYDelta(m_fPylonHeight);
 		m_zpPole[i].AddPlacement(&m_zpSphere[i]);
+		m_zpRoof[i].FixAndFasten();
 
 		// adding bottom arm poles
 		m_zpLeftArmPole[i].AddGeo(&m_zgArm);
@@ -162,6 +167,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 		m_zpUpperRightArmPole[i].TranslateDelta(-m_fArmLength - m_fPoleDistance, m_fUpperArmPosition, m_fPoleDistance);
 		m_zpUpperRightArmPole[i].TranslateYDelta(-m_fStrutHeight);
 		m_zpArm[i].AddPlacement(&m_zpUpperRightArmPole[i]);
+		m_zpArm[i].FixAndFasten();
 
 		// adding arms
 		m_zpArm[i].RotateYDelta(i * HALFPI);
@@ -186,16 +192,19 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 		m_zpLeftArmPole[i].AddPlacement(&m_zpConnector[i * 4 + 1]);
 		m_zpLeftArmPole[i].AddPlacement(&m_zpConnector[i * 4 + 2]);
 		m_zpLeftArmPole[i].AddPlacement(&m_zpConnector[i * 4 + 3]);
+		//m_zpLeftArmPole[i].FixAndFasten();
 
 		m_zpRightArmPole[i].AddPlacement(&m_zpConnector[i * 4]);
 		m_zpRightArmPole[i].AddPlacement(&m_zpConnector[i * 4 + 1]);
 		m_zpRightArmPole[i].AddPlacement(&m_zpConnector[i * 4 + 2]);
 		m_zpRightArmPole[i].AddPlacement(&m_zpConnector[i * 4 + 3]);
+		//m_zpRightArmPole[i].FixAndFasten();
 
 		// add rings to connectors
 		m_zpRing[i].AddGeo(&m_zgRing);
 		m_zpRing[i].RotateXDelta(HALFPI);
 		m_zpRing[i].TranslateDelta(0,0 -m_fRingRadius, 0);
+		m_zpRing[i].SetFrustumCullingOn();	
 		m_zpConnector[i * 4].AddPlacement(&m_zpRing[i]);
 		m_zpConnector[i * 4 + 1].AddPlacement(&m_zpRing[i]);
 		m_zpConnector[i * 4 + 2].AddPlacement(&m_zpRing[i]);
@@ -203,6 +212,7 @@ void VModelPowerLine::Init(PYLONTYPE ePylonType, DIRECTION eDirection, float fFo
 
 		// rotate modeled pole and add it to foundation
 		m_zpPole[i].RotateYDelta(i * HALFPI);
+		m_zpPole[i].FixAndFasten();
 		m_zpFoundation.AddPlacement(&m_zpPole[i]);
 	}
 
@@ -311,13 +321,6 @@ std::vector<CHVector> * VModelPowerLine::ConnectorPositions(VModelPowerLine::DIR
 	return &m_vConnectorPositions[armPosition];
 }
 
-//CPlacement * VModelPowerLine::Connectors() {
-//	return m_zpConnector;
-//}
-
-bool * VModelPowerLine::ConnectedPositions() {
-	return m_bConnectedPositions;
-}
 
 bool VModelPowerLine::ConnectTo(VModelPowerLine *pPylon) {
 	// get possible arm pairs based on pylon type, direction and position
@@ -340,9 +343,8 @@ bool VModelPowerLine::ConnectTo(VModelPowerLine *pPylon) {
 	CHVector vTranslation2 = this->ConnectorPositions(vec_aArmPairs[iArm])->at(connectedPosition);
 
 	// below are geometry part of the connection //
-	//float distance = vTranslation1.Dist(vTranslation2);
 	float distance = m_zpMain.GetTranslation().Dist(pPylon->getMainPlacement()->GetTranslation());
-	float angle    = vTranslation1.Angle(vTranslation2);
+	//float angle    = vTranslation1.Angle(vTranslation2);
 
 	// generate line
 	CGeoCylinder * gLine = new CGeoCylinder;
