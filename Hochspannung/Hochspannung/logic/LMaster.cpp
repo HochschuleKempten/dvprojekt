@@ -6,7 +6,7 @@ NAMESPACE_LOGIC_B
 
 
 LMaster::LMaster(IVMaster& vMaster)
-: vMaster(vMaster), lPlayer(new LPlayer[2]{(*this), (*this)})
+	: vMaster(vMaster), lPlayers({this, this})
 {
 	vMaster.registerObserver(this);
 }
@@ -14,7 +14,6 @@ LMaster::LMaster(IVMaster& vMaster)
 LMaster::~LMaster()
 {
 	delete lPlayingField;
-	delete [] lPlayer;
 }
 
 void LMaster::startNewGame()
@@ -47,7 +46,7 @@ IVMaster* LMaster::getVMaster()
 LPlayer* LMaster::getPlayer(const int idxPlayer)
 {
 	ASSERT(idxPlayer >= 0 && idxPlayer <= 1, "Wrong idx for player");
-	return &lPlayer[idxPlayer];
+	return &lPlayers[idxPlayer];
 }
 
 

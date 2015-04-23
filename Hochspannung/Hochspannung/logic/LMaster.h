@@ -11,18 +11,12 @@ class LPlayer;
 
 class LMaster : public IVTickObserver
 {
+	NON_COPYABLE(LMaster);
+
 private:
 	IVMaster& vMaster;
 	LPlayingField* lPlayingField = nullptr;
-	LPlayer* lPlayer = nullptr;
-
-private:
-	//TODO (JS) non_copyable objects
-	//Objects of this class should not be copied
-	//LMaster(const LMaster&) = delete;
-	//LMaster(const LMaster&&) = delete;
-	//LMaster& operator=(const LMaster&) = delete;
-	//LMaster& operator=(const LMaster&&) = delete;
+	std::vector<LPlayer> lPlayers;
 
 public:
 	LMaster(IVMaster& vMaster);

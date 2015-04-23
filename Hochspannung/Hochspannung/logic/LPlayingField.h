@@ -13,6 +13,8 @@ class LPowerLine;
 
 class LPlayingField
 {
+	NON_COPYABLE(LPlayingField);
+
 private:
 	const int fieldLength = 10; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster = nullptr;
@@ -48,16 +50,7 @@ public:
 		}
 
 		if (getField(x, y)->setBuilding<T>(x, y, arguments...)) {
-			//TODO (L) No method like addBuildingToGraph possible? - (IP) done
-			LPowerLine* powerLine = dynamic_cast<LPowerLine*>(getField(x, y)->getBuilding());
-			if (powerLine != nullptr)
-			{
-				addBuildingToGraph(x, y, powerLine->getPowerLineOrientation());
-			}
-			else
-			{
-				addBuildingToGraph(x, y, LPowerLine::NORTH | LPowerLine::EAST | LPowerLine::SOUTH | LPowerLine::WEST);
-			}
+			addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
 			//todo (L) when?
 			if (cityPosition.first > -1 && cityPosition.second > -1)

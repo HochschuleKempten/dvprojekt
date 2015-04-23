@@ -159,7 +159,7 @@ void CNode::handleConnectionError(const error_code& ec) {
 			break;
 
 		case ERROR_SEM_TIMEOUT: // Connection attempt timed out
-			m_bConnected = false;;
+			m_bConnected = false;
 			std::cout << "Connection attempt timed out -> Trying again..." << std::endl;
 
 			connect(); // try to reconnect

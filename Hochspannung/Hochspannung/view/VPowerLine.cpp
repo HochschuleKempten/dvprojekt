@@ -8,7 +8,8 @@ NAMESPACE_VIEW_B
 
 
 VPowerLine::VPowerLine(VMaster* vMaster, LPowerLine* lpowerLine)
-	: IVPowerLine(lpowerLine), IViewBuilding(vMaster, viewModel.getMainPlacement())
+: IVPowerLine(lpowerLine), IViewBuilding(vMaster, viewModel.getMainPlacement())
+//	: IVPowerLine(lpowerLine), IViewBuilding(vMaster, &m_zp)
 {}
 
 VPowerLine::~VPowerLine()
@@ -22,31 +23,31 @@ void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const
 	//m_zp.TranslateZDelta(0.5);
 
 	switch (orientation) {
-		case LPowerLine::NORTH | LPowerLine::SOUTH:
+		case ILBuilding::NORTH | ILBuilding::SOUTH:
 			viewModel.Init(VModelPowerLine::STRAIGHT, VModelPowerLine::NORTH);
 			break;
 
-		case LPowerLine::EAST | LPowerLine::WEST:
+		case ILBuilding::EAST | ILBuilding::WEST:
 			viewModel.Init(VModelPowerLine::STRAIGHT, VModelPowerLine::EAST);
 			break;
 
-		case LPowerLine::NORTH | LPowerLine::EAST:
+		case ILBuilding::NORTH | ILBuilding::EAST:
 			viewModel.Init(VModelPowerLine::ANGLE, VModelPowerLine::EAST);
 			break;
 
-		case LPowerLine::SOUTH | LPowerLine::EAST:
+		case ILBuilding::SOUTH | ILBuilding::EAST:
 			viewModel.Init(VModelPowerLine::ANGLE, VModelPowerLine::SOUTH);
 			break;
 
-		case LPowerLine::SOUTH | LPowerLine::WEST:
+		case ILBuilding::SOUTH | ILBuilding::WEST:
 			viewModel.Init(VModelPowerLine::ANGLE, VModelPowerLine::WEST);
 			break;
 
-		case LPowerLine::NORTH | LPowerLine::WEST:
+		case ILBuilding::NORTH | ILBuilding::WEST:
 			viewModel.Init(VModelPowerLine::ANGLE, VModelPowerLine::NORTH);
 			break;
 
-		case LPowerLine::NORTH | LPowerLine::EAST | LPowerLine::SOUTH | LPowerLine::WEST:
+		case ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST:
 			viewModel.Init(VModelPowerLine::CROSS);
 			break;
 

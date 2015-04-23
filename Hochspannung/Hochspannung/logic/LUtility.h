@@ -120,7 +120,7 @@ inline std::string getFileBase(const std::string &str)
 									className(const className&) = delete; \
 									className(const className&&) = delete; \
 									className& operator=(const className&) = delete; \
-									className& operator=(const className&&) = delete;
+									className& operator=(const className&&) = delete
 
 #ifdef _DEBUG
 /**
