@@ -2,7 +2,6 @@
 
 #include "../logic/IVTransformerStation.h"
 #include "IViewBuilding.h"
-#include "VModelCity.h"   // Use City Model untill we have a TransformerStation Model
 
 NAMESPACE_VIEW_B
 
@@ -12,7 +11,8 @@ class LTransformerStation;
 class VTransformerStation : public IVTransformerStation, public IViewBuilding
 {
 private:
-	VModelCity viewModel;
+	CPlacement m_zp;
+	CGeoCube m_zg;
 
 public:
 	VTransformerStation(VMaster *vMaster, LTransformerStation* lTransformerStation);

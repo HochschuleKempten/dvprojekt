@@ -60,8 +60,9 @@ void VPlayingField::buildPlayingField()
 {
 	int square = CASTS<int>(sqrt(m_zpPlacementHolders.size()));
 	for (int holder = 0; holder < CASTS<int>(m_zpPlacementHolders.size()); holder++) {
-		std::string name = std::string("#holder = ") + std::to_string(holder);
-		m_zpPlacementHolders[holder].SetName(name.c_str());
+		DEBUG_EXPRESSION(std::string name = std::string("#holder = ") + std::to_string(holder));
+		DEBUG_EXPRESSION(m_zpPlacementHolders[holder].SetName(name.c_str()));
+		
 		m_zp.AddPlacement(&m_zpPlacementHolders[holder]);
 
 		for (int rowIdx = (holder % square) * 5; rowIdx < ((holder % square) + 1) * 5; rowIdx++) {
@@ -86,14 +87,20 @@ void VPlayingField::buildPlayingField()
 	//}
 
 	float rows = CASTS<float>(vFields.getRows());
-	//m_zp.TranslateDelta(CASTS<float>(-fieldSize * rows), CASTS<float>(fieldSize * rows), CASTS<float>(-fieldSize * rows * 1.5));
-		
 	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->city_position().first), CASTS<float>(fieldSize * lPlayingField->city_position().second), CASTS<float>(fieldSize * rows * 0.5));
      
 	//m_zp.SetFrustumCullingOn();
 	//m_zp.Fasten();
 
-	m_zp.SetName("#Placement VPlayingField");
+	DEBUG_EXPRESSION(m_zp.SetName("#Placement VPlayingField"));
+
+#ifdef _DEBUG
+	for (int rowIdx = 0; rowIdx < lPlayingField->getFieldLength(); rowIdx++) {
+		for (int colIdx = 0; colIdx < lPlayingField->getFieldLength(); colIdx++) {
+			ASSERT(vFields[rowIdx][colIdx].initDone, "Not every field is initialized");
+		}
+	}
+#endif
 }
 
 void VPlayingField::objectRemoved(const int x, const int y)

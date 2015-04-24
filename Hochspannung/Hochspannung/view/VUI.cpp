@@ -42,6 +42,8 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
 	          CColor(1.0f, 1.0f, 1.0f));
 
+	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
+
 	addScreen("MainMenue", IViewScreen::MainMenue);
 	addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
 	addScreen("Lobby", IViewScreen::Lobby);
@@ -107,6 +109,21 @@ void VUI::handleInput(float fTimeDelta)
 		}
 
 		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
+	}
+
+	/*
+	(0,0)=(x,y)
+	  #----> x (1,0)
+	  |
+	  |
+	  y
+	(0,1)
+	*/
+	float cursorX, cursorY;
+	bool insideFrame = m_zkCursor.GetFractional(cursorX, cursorY);
+	if (!insideFrame || cursorY < 0.0f || cursorY > 0.80f) {	//TODO (JS) fill with correct values when available
+		//Restrict picking when not in window or cursor is only over UI
+		return;
 	}
 
 	std::map<int, std::vector<int>> pickedElements = pickElements();
