@@ -9,6 +9,8 @@
 #include <boost/graph/breadth_first_search.hpp>
 #include "LCoalPowerPlant.h"
 #include <boost/graph/strong_components.hpp>
+#include <random>
+#include <chrono>
 
 NAMESPACE_LOGIC_B
 
@@ -117,12 +119,15 @@ void LPlayingField::createFields()
 	placeGrassAroundPosition<true>(firstPowerPlantCoordinates, 1);
 
 	//Fill with the requested number of power plants
-	const int numberOfPowerPlants = 8;
+	unsigned int seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+	std::mt19937 g1(seed1);
+	const int numberOfPowerPlants = (fieldLength * fieldLength) / 8;
 	for (int i = 0; i < numberOfPowerPlants; i++) {
 		std::pair<int, int> newCoordinates = retrieveFreeCoordinates();
-		int type = rand() % fieldTypes.size();
-		int level = rand() % fieldLevels.size();
+		int type = g1() % fieldTypes.size();
+		int level = g1() % fieldLevels.size();
 		fieldArray[newCoordinates.first][newCoordinates.second].init(fieldTypes[type], fieldLevels[level]);
+		DEBUG_OUTPUT("power plant placed " << i << ": " << type << ", " << level << " at " << newCoordinates.first << ":" << newCoordinates.second);
 
 		placeGrassAroundPosition<true>(newCoordinates, 1);
 	}
@@ -183,6 +188,9 @@ void LPlayingField::calculateEnergyValueCity()
 
 void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)
 {
+	//TODO (All) Currently normal buildings can be used as powerlines. If we do not want this we need to fix it
+	//A solution would be to make the insert routine different for buildings and powerlines (by the use of templates of course)
+
 	if (orientation & ILBuilding::NORTH) {
 		if (checkIndex(x - 1, y)) {
 			add_edge(convertIndex(x, y), convertIndex(x - 1, y), powerLineGraph);
@@ -247,11 +255,15 @@ void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordina
 
 std::pair<int, int> LPlayingField::retrieveFreeCoordinates()
 {
-	std::srand(CASTS<unsigned int>(std::time(0)));
+	unsigned int seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+	std::mt19937 g1(seed1);
+
+	const int maxTries = 30;
 	int count = 0;
-	while (count++ < 20) {
-		int x = rand() % fieldLength;
-		int y = rand() % fieldLength;
+
+	while (count++ < maxTries) {
+		int x = g1() % fieldLength;
+		int y = g1() % fieldLength;
 
 		std::pair<int, int> coordinates(x, y);
 
@@ -261,7 +273,7 @@ std::pair<int, int> LPlayingField::retrieveFreeCoordinates()
 		}
 	}
 
-	ASSERT(true, "No coordinates could be delivered. This should not happen.");
+	ASSERT(count < maxTries, "No coordinates could be delivered. This should not happen.");
 	return{};
 }
 

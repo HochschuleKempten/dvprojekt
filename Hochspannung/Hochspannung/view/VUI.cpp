@@ -55,29 +55,31 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 
 void VUI::handleInput(float fTimeDelta)
 {
+	const float cameraStength = 1.1;
+
 	//Left + Right: 
 	if (m_zkKeyboard.KeyPressed(DIK_A) == true) {
-		m_zpCamera.TranslateXDelta(-0.5);
+		m_zpCamera.TranslateXDelta(-cameraStength);
 
 	}
 	if (m_zkKeyboard.KeyPressed(DIK_D)) {
-		m_zpCamera.TranslateXDelta(0.5);
+		m_zpCamera.TranslateXDelta(cameraStength);
 	}
 
 	//Back + Forward
 	if (m_zkKeyboard.KeyPressed(DIK_S) == true) {
-		m_zpCamera.TranslateYDelta(-0.5);
+		m_zpCamera.TranslateYDelta(-cameraStength);
 	}
 	if (m_zkKeyboard.KeyPressed(DIK_W)) {
-		m_zpCamera.TranslateYDelta(0.5);
+		m_zpCamera.TranslateYDelta(cameraStength);
 	}
 
 	//Zoom In + Out
 	if (m_zkKeyboard.KeyPressed(DIK_UP) == true) {
-		m_zpCamera.TranslateZDelta(-0.5);
+		m_zpCamera.TranslateZDelta(-cameraStength);
 	}
 	if (m_zkKeyboard.KeyPressed(DIK_DOWN)) {
-		m_zpCamera.TranslateZDelta(0.5);
+		m_zpCamera.TranslateZDelta(cameraStength);
 	}
 
 	float zDelta = GET_WHEEL_DELTA_WPARAM(WHEEL_DELTA);
@@ -156,7 +158,7 @@ std::map<int, std::vector<int>> VUI::pickElements()
 	if (singlePlacement != nullptr) {
 		placements.Add(singlePlacement);
 	}
-
+	//TODO (JS) check duplicate
 	//Now iterate over every found placement
 	for (int i = 0; i < placements.m_iPlacements; i++) {
 		std::vector<std::string> nameParts = split(placements.m_applacement[i]->GetName(), ';');

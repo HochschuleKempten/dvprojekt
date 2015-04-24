@@ -41,7 +41,8 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_zpCamera->AddCamera(&m_zc);
 
 	m_zpCamera->TranslateZ(50.0);
-	m_zpCamera->RotateXDelta(0.3 * PI);
+	m_zpCamera->RotateXDelta(0.15 * PI);
+	m_zpCamera->RotateZDelta(0.15);
 
 	m_scene->AddParallelLight(&m_zl);
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),

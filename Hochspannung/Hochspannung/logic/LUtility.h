@@ -95,6 +95,12 @@ inline std::string getFileBase(const std::string &str)
 #endif //_DEBUG
 
 #ifdef _DEBUG
+#define DEBUG_EXPRESSION(expr) expr
+#else
+#define DEBUG_EXPRESSION(expr)
+#endif //_DEBUG
+
+#ifdef _DEBUG
 #include <boost\numeric\conversion\cast.hpp>
 /*
 * @def CASTS

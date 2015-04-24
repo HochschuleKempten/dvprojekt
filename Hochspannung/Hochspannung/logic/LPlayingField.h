@@ -31,7 +31,7 @@ class LPlayingField
 	NON_COPYABLE(LPlayingField);
 
 private:
-	const int fieldLength = 10; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
+	const int fieldLength = 20; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster = nullptr;
 	std::shared_ptr<IVPlayingField> vPlayingField = nullptr;
 	Array2D<LField> fieldArray;

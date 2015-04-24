@@ -33,6 +33,8 @@ void VField::setHoverOff()
 
 void VField::initField(const int rowIdx, const int colIdx)
 {
+	ASSERT(!initDone, "VField << " << rowIdx << ", " << colIdx << " is initalized twice");
+
 	lField = vPlayingField->lPlayingField->getField(rowIdx, colIdx);
 
 	static std::stringstream stream;	//Create only one object
@@ -50,6 +52,8 @@ void VField::initField(const int rowIdx, const int colIdx)
 	m_zp.RotateZ(M_PI);
 	m_zp.TranslateXDelta(CASTS<float>(colIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0)));
 	m_zp.TranslateYDelta(CASTS<float>(rowIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0) * -1));
+
+	DEBUG_EXPRESSION(initDone = true);
 }
 
 void VField::removeBuilding()
