@@ -91,7 +91,7 @@ void VUI::handleInput(float fTimeDelta)
 	{
 	  float delta = m_zkMouse.GetRelativeZ() - mouseWheelPosition;	
 
-		if (delta < 0.0)
+		if (delta > 0.0)
 		{
 			m_zpCamera.TranslateZDelta(-cameraStength * 4);
 		}
