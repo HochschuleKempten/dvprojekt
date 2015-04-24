@@ -154,19 +154,26 @@ void VUI::handleInput(float fTimeDelta)
 std::map<int, std::vector<int>> VUI::pickElements()
 {
 	std::map<int, std::vector<int>> pickedElements;
+	std::unordered_set<CPlacement*> pickedPlacements;
 
-	CPlacements placements;
+	//Pick everything
 	CPlacement* singlePlacement = m_zkCursor.PickPlacement();
+	CPlacements placements;
 	m_zkCursor.PickPlacements(&placements);
 
+	//Merge the found placements together in a set (to avoid duplicates)
+	for (int i = 0; i < placements.m_iPlacements; i++) {
+		pickedPlacements.insert(placements.m_applacement[i]);
+	}
 	//The two placements pick different things, so they have to be merged together
 	if (singlePlacement != nullptr) {
-		placements.Add(singlePlacement);
+		pickedPlacements.insert(singlePlacement);
 	}
-	//TODO (JS) check duplicate
+
 	//Now iterate over every found placement
-	for (int i = 0; i < placements.m_iPlacements; i++) {
-		std::vector<std::string> nameParts = split(placements.m_applacement[i]->GetName(), ';');
+	for (CPlacement* p : pickedPlacements)
+	{
+		std::vector<std::string> nameParts = split(p->GetName(), ';');
 
 		if (nameParts.size() > 0 && nameParts[0].at(0) != '#') {
 			//At this point only valid names remain

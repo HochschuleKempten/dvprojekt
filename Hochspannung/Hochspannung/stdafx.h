@@ -22,6 +22,7 @@
 #include <sstream>
 #include <memory>
 #include "logic/LUtility.h"
+#include "logic/cpplinq.hpp"
 
 #include <boost\thread\thread.hpp>
 #include <boost\asio\ip\tcp.hpp>
