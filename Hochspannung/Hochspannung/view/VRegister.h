@@ -1,5 +1,6 @@
 #pragma once
 #include "IViewGUIContainer.h"
+#include "VTab.h"
 
 NAMESPACE_VIEW_B
 
@@ -8,7 +9,7 @@ class VRegister :
 {
 public:
 	VRegister();
-	VRegister(CFloatRect floatRect, CViewport* viewport, CMaterial* MaterialNormal);
+	VRegister(CFloatRect floatRect, CViewport* viewport);
 	~VRegister();
 
 	void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction,string sName) override;
@@ -19,14 +20,14 @@ public:
 	void switchOn() override;
 
 	void switchOff() override;
-
+	void addTab(CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* background, Event events, string sName);
+	void calcButtonSize();
+	void SwitchToTab(string sName);
+	VTab* getTab(string sName);
 private:
-	CFloatRect m_rect;
-	CViewport* m_viewport;
+	map<string, VTab*> m_tabs;
 	COverlay* m_background;
 
-	map<string, IViewGUIContainer*> m_Guicontainer;
-	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
 };
 
 NAMESPACE_VIEW_E

@@ -101,9 +101,8 @@ void VTextfield::checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)
 			deleteChar();
 			pressedBefore = true;
 		}
-		if (!pressedBefore && keyboard->GetKey() != 0 )// Zahlen und Punkte: && ((keyboard->GetKey() >= 2 && keyboard->GetKey() <= 11) || keyboard->GetKey()==52)
+		if (!pressedBefore && keyboard->GetKey() != 0 )
 		{
-			//int key = keyboard->GetKey();
 			AddChar(keyboard->GetChar(keyboard->GetKey()));
 			pressedBefore = true;
 		}
@@ -113,16 +112,18 @@ void VTextfield::checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)
 
 void VTextfield::switchOn()
 {
+	m_bisOn = true;
 	m_zoNormal->SwitchOn();
 	m_zoActive->SwitchOff();
 	m_zoHover->SwitchOff();
-	//m_writingfont->SwitchOn;
+	//m_writingfont->SwitchOn();
 	m_writing->SwitchOn();
 	m_bIsActive = false;
 }
 
 void VTextfield::switchOff()
 {
+	m_bisOn = false;
 	m_zoNormal->SwitchOff();
 	m_zoActive->SwitchOff();
 	m_zoHover->SwitchOff();

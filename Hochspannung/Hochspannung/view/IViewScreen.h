@@ -6,6 +6,7 @@
 #include "VGroup.h"
 #include "VMaterialLoader.h"
 #include "VDialog.h"
+#include "VRegister.h"
 
 NAMESPACE_VIEW_B
 //---------------------------------------------------
@@ -56,6 +57,10 @@ public:
 			m_Guicontainer[sName] = new VDialog(m_viewport,floatRect,&VMaterialLoader::materialDialogBackground);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
+		case IViewGUIContainer::Register:
+			m_Guicontainer[sName] = new VRegister(floatRect, viewport);
+			m_Guicontainer[sName]->addObserver(this);
+			break;
 		}
 	}
 	IViewGUIContainer* getContainer(string sName)
@@ -72,7 +77,10 @@ public:
 		return m_isOn;
 	}
 	virtual void checkShortcut(CDeviceKeyboard* keyboard)=0;
-	//virtual void resize(int width, int height);
+	virtual void resize(int width, int height)
+	{
+		m_viewport->ReSize();
+	}
 protected:	
 	map<string, IViewGUIContainer*> m_Guicontainer;
 	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;

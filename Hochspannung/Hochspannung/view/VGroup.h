@@ -11,7 +11,9 @@
 //
 // Autor: Patrick Benkowitsch
 //---------------------------------------------------
-NAMESPACE_VIEW_B
+NAMESPACE_VIEW_B 
+
+class VTab;
 
 class VGroup:public IViewGUIContainer
 {
@@ -25,8 +27,9 @@ public:
 	void onNotify(Event) override;
 	 void switchOn() override;
 	 void switchOff() override;
+	
 private:
-	CFloatRect m_rect;
+	
 	//list<IViewGUIObject*> m_guiObjects;
 	//list<IViewGUIObject*>::iterator lIterGUIObjects;
 	

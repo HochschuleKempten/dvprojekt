@@ -38,7 +38,7 @@ void VUI::initUI()
 	CColor(1.0f, 1.0f, 1.0f));
 
 	addScreen("MainMenue", IViewScreen::MainMenue);
-	addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
+	//addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
 	addScreen("Lobby", IViewScreen::Lobby);
 	addScreen("Credits", IViewScreen::Credits);
 	addScreen("Options", IViewScreen::Options);
@@ -197,10 +197,10 @@ void VUI::onNotify(Event evente)
 	case SEARCH_IP:
 		break;
 		
-	case SWITCH_TO_SPIELMODUS:
+	/*case SWITCH_TO_SPIELMODUS:
 		
 		switchScreen("Spielmoduswahl");
-		break;
+		break;*/
 	case SWITCH_TO_LOBBY:
 
 		switchScreen("Lobby");
@@ -225,6 +225,11 @@ void VUI::onNotify(Event evente)
 
 void VUI::resize(int width, int height)
 {
+	
+	/*for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++)
+	{
+		m_iterScreens->second->resize(width, height);
+	}*/
 }
 
 void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
@@ -235,10 +240,10 @@ void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
 		m_screens[sName] = new VScreenMainMenue(&vMaster->m_zf);
 		m_screens[sName]->addObserver(this);
 		break;
-	case IViewScreen::ScreenType::Spielmoduswahl:
+	/*case IViewScreen::ScreenType::Spielmoduswahl:
 		m_screens[sName] = new VScreenSpielmodusWahl(&vMaster->m_zf);
 		m_screens[sName]->addObserver(this);
-		break;
+		break;*/
 	case IViewScreen::Lobby:
 		m_screens[sName] = new VScreenLobby(&vMaster->m_zf);
 		m_screens[sName]->addObserver(this);
@@ -317,25 +322,26 @@ void VUI::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 			//for all GUI-Objects in the container
 			for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
 			{
+				if (tempIter->second->isOn())
+				{//check if cursor is over
+					tempIter->second->checkHover(CurPosX, CurPosY);
 
-				//check if cursor is over
-				tempIter->second->checkHover(CurPosX, CurPosY);
+					if (!m_BlockCursorLeftPressed)
+					{
+						//check for events
+						tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
+					}
 
-				if (!m_BlockCursorLeftPressed)
-				{
-					//check for events
-					tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
-				}
-
-				//if screen was changed
-				if (m_screenChanged)
-				{
-					m_screenChanged = false;
-					m_BlockCursorLeftPressed = true;
-					return;
+					//if screen was changed
+					if (m_screenChanged)
+					{
+						m_screenChanged = false;
+						m_BlockCursorLeftPressed = true;
+						return;
+					}
 				}
 			}
-			if (tempIterGuicontainer->second->getGuiContainerMap().size()!=0)
+			if (tempIterGuicontainer->second->getGuiContainerMap().size()>0)
 		{
 			checkGUIContainer(tempIterGuicontainer->second);
 		}
@@ -348,7 +354,6 @@ void VUI::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 
 void VUI::tick(const float fTimeDelta)
 {
-	
 	handleInput(fTimeDelta);
 
 	float CurPosX;
@@ -386,27 +391,29 @@ void VUI::tick(const float fTimeDelta)
 						for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
 						{
 
-							//check if cursor is over
-							tempIter->second->checkHover(CurPosX, CurPosY);
-
-							if (!m_BlockCursorLeftPressed)
+							if (tempIter->second->isOn())
 							{
-								//check for events
-								tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
-							}
-							//if screen was changed
-							if (m_screenChanged)
-							{
-								m_screenChanged = false;
-								m_BlockCursorLeftPressed = true;
-								return;
-							}
+								//check if cursor is over
+							//	tempIter->second->checkHover(CurPosX, CurPosY);
 
+								if (!m_BlockCursorLeftPressed)
+								{
+									//check for events
+									tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
+								}
+								//if screen was changed
+								if (m_screenChanged)
+								{
+									m_screenChanged = false;
+									m_BlockCursorLeftPressed = true;
+									return;
+								}
+							}
 							if (isQuit)return;
 						}
 						if (isQuit)return;
 					}	
-					if (tempIterGuicontainer->second->getGuiContainerMap().size() != 0)
+					if (tempIterGuicontainer->second->getGuiContainerMap().size() > 0)
 				{
 					checkGUIContainer(tempIterGuicontainer->second);
 				}

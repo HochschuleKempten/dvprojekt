@@ -9,9 +9,9 @@ VGroup::VGroup()
 }
 
 VGroup::VGroup(CViewport* viewport, CFloatRect floatRect)
-	: m_rect(floatRect)
 {
 	m_viewport = viewport;
+	m_zfRect = floatRect;
 }
 
 VGroup::~VGroup()
@@ -53,4 +53,7 @@ void VGroup::switchOff()
 
 	m_bOn = false;
 }
-NAMESPACE_VIEW_E
+
+	
+
+	NAMESPACE_VIEW_E

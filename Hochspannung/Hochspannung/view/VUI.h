@@ -54,7 +54,7 @@ public:
 	void switchScreen(string switchTo);
 	IViewScreen* getScreen(string sName);
 
-	virtual void onNotify(IViewUIObserver::Event) override;
+	virtual void onNotify(Event) override;
 	void resize(int width, int height);
 
 	void updateMoney(const int wert);

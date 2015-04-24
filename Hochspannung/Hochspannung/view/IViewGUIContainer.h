@@ -22,7 +22,8 @@ public:
 	enum ContainerType
 	{
 		Group,
-		Dialog
+		Dialog,
+		Register
 
 	};
 
@@ -86,6 +87,7 @@ protected:
 
 	bool m_bOn = true;
 	CViewport* m_viewport;
+	CFloatRect m_zfRect;
 	map<string,IViewGUIObject*> m_guiObjects;
 	map<string,IViewGUIObject*>::iterator lIterGUIObjects;
 	

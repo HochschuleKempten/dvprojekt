@@ -77,9 +77,30 @@ public:
 	virtual void onMouseOut(void) = 0;
 	virtual void onMouseClickLeft(void) = 0;
 	virtual void onMouseClickRight(void) = 0;
+	virtual bool isOn()
+	{
+		return m_bisOn;
+	}
+	virtual CFloatRect getRectangle()
+	{
+		return m_zfrRect;
+	}
+	virtual void setRectangle(CFloatRect tempRect)
+	{
+		m_zfrRect=tempRect;
+	}
+	virtual void setLayer(float layer)
+	{
+		
+	}
+	virtual void updateRectangle(CFloatRect rect)
+	{
+
+	}
 	//virtual void resize(int width, int height);
 protected:
 	CFloatRect m_zfrRect=CFloatRect(0,0,0,0);
+	bool m_bisOn=true;
 
 };
 NAMESPACE_VIEW_E
