@@ -39,6 +39,13 @@ private:
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
 	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
+public:
+	const std::pair<int, int>& city_position() const
+	{
+		return cityPosition;
+	}
+
+private:
 	std::unordered_map<std::pair<int, int>, bool, LPlayingFieldHasher> isCoordinateUsed;	//Checks if a pair is used
 
 	std::vector<LField::FieldType> fieldTypes;
