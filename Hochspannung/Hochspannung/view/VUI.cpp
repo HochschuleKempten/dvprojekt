@@ -58,51 +58,48 @@ void VUI::handleInput(float fTimeDelta)
 	const float cameraStength = 1.1;
 
 	//Left + Right: 
-	if (m_zkKeyboard.KeyPressed(DIK_A) == true) {
+	if (m_zkKeyboard.KeyPressed(DIK_A) == true) 
+	{
 		m_zpCamera.TranslateXDelta(-cameraStength);
-
 	}
-	if (m_zkKeyboard.KeyPressed(DIK_D)) {
+	if (m_zkKeyboard.KeyPressed(DIK_D))
+	{
 		m_zpCamera.TranslateXDelta(cameraStength);
 	}
 
 	//Back + Forward
-	if (m_zkKeyboard.KeyPressed(DIK_S) == true) {
+	if (m_zkKeyboard.KeyPressed(DIK_S) == true)
+	{
 		m_zpCamera.TranslateYDelta(-cameraStength);
 	}
-	if (m_zkKeyboard.KeyPressed(DIK_W)) {
+	if (m_zkKeyboard.KeyPressed(DIK_W))
+	{
 		m_zpCamera.TranslateYDelta(cameraStength);
 	}
 
 	//Zoom In + Out
-	if (m_zkKeyboard.KeyPressed(DIK_UP) == true) {
-		m_zpCamera.TranslateZDelta(-cameraStength);
+	if (m_zkKeyboard.KeyPressed(DIK_UP) == true) 
+	{
+		m_zpCamera.TranslateZDelta(-cameraStength * 4);
 	}
-	if (m_zkKeyboard.KeyPressed(DIK_DOWN)) {
-		m_zpCamera.TranslateZDelta(cameraStength);
+	if (m_zkKeyboard.KeyPressed(DIK_DOWN)) 
+	{
+		m_zpCamera.TranslateZDelta(cameraStength * 4);
 	}
+	
+	if (m_zkMouse.GetRelativeZ() != mouseWheelPosition)
+	{
+	  float delta = m_zkMouse.GetRelativeZ() - mouseWheelPosition;	
 
-	float zDelta = GET_WHEEL_DELTA_WPARAM(WHEEL_DELTA);
-
-	if (zDelta != 0) {
-		// m_zpCamera.RotateZDelta(-0.05);
+		if (delta > 0.0)
+		{
+			m_zpCamera.TranslateZDelta(-cameraStength * 4);
+		}
+		else
+		{
+			m_zpCamera.TranslateZDelta(cameraStength * 4);
+		}
 	}
-
-	//if (m_zkMouse.ButtonPressed(DIMOUSE_WHEEL) == true)
-	//{	
-	//	//long delta = ?
-	//	
-	//}
-
-	// Rotate around the field
-	//if (m_zkKeyboard.KeyPressed(DIK_RIGHT) == true)
-	//{
-	//	m_zpCamera.RotateZDelta(-0.05);
-	//}
-	//if (m_zkKeyboard.KeyPressed(DIK_LEFT))
-	//{
-	//	m_zpCamera.RotateZDelta(0.05);
-	//}
 
 	std::map<int, std::vector<int>> pickedElements = pickElements();
 	if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
