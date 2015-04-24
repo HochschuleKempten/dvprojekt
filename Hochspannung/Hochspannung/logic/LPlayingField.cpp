@@ -6,6 +6,7 @@
 #include "IVFactory.h"
 #include "LUtility.h"
 #include "LCity.h"
+#include "LTransformerSation.h"
 #include <boost/graph/breadth_first_search.hpp>
 #include "LCoalPowerPlant.h"
 #include <boost/graph/strong_components.hpp>
@@ -103,6 +104,7 @@ void LPlayingField::createFields()
 	std::pair<int, int> firstPowerLineCoordinates = retrieveFreeCoordinates(cityPosition.first, cityPosition.second + 1);
 	std::pair<int, int> secondPowerLineCoordinates = retrieveFreeCoordinates(firstPowerLineCoordinates.first + 1, firstPowerLineCoordinates.second);
 	std::pair<int, int> firstPowerPlantCoordinates = retrieveFreeCoordinates(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second + 1);
+	std::pair<int, int> transformerStationPosition = retrieveFreeCoordinates();
 
 	fieldArray[cityPosition.first][cityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
 	placeBuilding<LCity>(cityPosition.first, cityPosition.second);
@@ -117,6 +119,9 @@ void LPlayingField::createFields()
 	fieldArray[firstPowerPlantCoordinates.first][firstPowerPlantCoordinates.second].init(LField::FieldType::COAL, LField::FieldLevel::LEVEL1);
 	placeBuilding<LCoalPowerPlant>(firstPowerPlantCoordinates.first, firstPowerPlantCoordinates.second);
 	placeGrassAroundPosition<true>(firstPowerPlantCoordinates, 1);
+
+	fieldArray[transformerStationPosition.first][transformerStationPosition.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
+	placeBuilding<LTransformerStation>(transformerStationPosition.first, transformerStationPosition.second);
 
 	//Fill with the requested number of power plants
 	unsigned int seed1 = std::chrono::system_clock::now().time_since_epoch().count();
