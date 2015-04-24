@@ -154,7 +154,7 @@ void VUI::handleInput(float fTimeDelta)
 std::map<int, std::vector<int>> VUI::pickElements()
 {
 	std::map<int, std::vector<int>> pickedElements;
-	std::unordered_set<CPlacement*> pickedPlacements;
+	std::unordered_set<CPlacement*> pickedPlacements;	//A set is duplicate free and works out of the box for pointer types
 
 	//Pick everything
 	CPlacement* singlePlacement = m_zkCursor.PickPlacement();
