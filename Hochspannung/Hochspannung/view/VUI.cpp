@@ -60,7 +60,7 @@ void VUI::handleInput(float fTimeDelta)
 	const float cameraStength = 1.1;
 
 	//Left + Right: 
-	if (m_zkKeyboard.KeyPressed(DIK_A) == true) 
+	if (m_zkKeyboard.KeyPressed(DIK_A)) 
 	{
 		m_zpCamera.TranslateXDelta(-cameraStength);
 	}
@@ -70,7 +70,7 @@ void VUI::handleInput(float fTimeDelta)
 	}
 
 	//Back + Forward
-	if (m_zkKeyboard.KeyPressed(DIK_S) == true)
+	if (m_zkKeyboard.KeyPressed(DIK_S))
 	{
 		m_zpCamera.TranslateYDelta(-cameraStength);
 	}
@@ -80,13 +80,21 @@ void VUI::handleInput(float fTimeDelta)
 	}
 
 	//Zoom In + Out
-	if (m_zkKeyboard.KeyPressed(DIK_UP) == true) 
+	if (m_zkKeyboard.KeyPressed(DIK_UP)) 
 	{
-		m_zpCamera.TranslateZDelta(-cameraStength * 4);
+		if (mouseWheelPosition > -18)
+		{
+			m_zpCamera.TranslateZDelta(-cameraStength * 4);
+			mouseWheelPosition += -cameraStength * 4;
+		}
 	}
 	if (m_zkKeyboard.KeyPressed(DIK_DOWN)) 
 	{
+		if (mouseWheelPosition < 180)
+		{
 		m_zpCamera.TranslateZDelta(cameraStength * 4);
+		mouseWheelPosition += cameraStength * 4;
+		}
 	}
 	
 	if (m_zkMouse.GetRelativeZ() != 0.0)
@@ -101,7 +109,7 @@ void VUI::handleInput(float fTimeDelta)
 		}
 		else
 		{
-			if (mouseWheelPosition < 200)
+			if (mouseWheelPosition < 180)
 			{
 				m_zpCamera.TranslateZDelta(cameraStength * 4);
 				mouseWheelPosition += cameraStength * 4;
