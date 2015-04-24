@@ -36,6 +36,8 @@ public:
 	virtual std::shared_ptr<IVPowerLine> createPowerLine(LPowerLine* powerLine) override;
 
 	virtual std::shared_ptr<IVCity> createCity(LCity* city) override;
+
+	virtual std::shared_ptr<IVTransformerStation> createTransformerStation(LTransformerStation* transformerStation) override;
 };
 
 
