@@ -87,18 +87,26 @@ void VUI::handleInput(float fTimeDelta)
 		m_zpCamera.TranslateZDelta(cameraStength * 4);
 	}
 	
-	if (m_zkMouse.GetRelativeZ() != mouseWheelPosition)
+	if (m_zkMouse.GetRelativeZ() != 0.0)
 	{
-	  float delta = m_zkMouse.GetRelativeZ() - mouseWheelPosition;	
-
-		if (delta > 0.0)
+		if (m_zkMouse.GetRelativeZ() > 0.0)
 		{
-			m_zpCamera.TranslateZDelta(-cameraStength * 4);
+			if (mouseWheelPosition > -18)
+			{
+				m_zpCamera.TranslateZDelta(-cameraStength * 4);
+				mouseWheelPosition += -cameraStength * 4;
+			}
 		}
 		else
 		{
-			m_zpCamera.TranslateZDelta(cameraStength * 4);
+			if (mouseWheelPosition < 200)
+			{
+				m_zpCamera.TranslateZDelta(cameraStength * 4);
+				mouseWheelPosition += cameraStength * 4;
+			}
 		}
+
+		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
 	}
 
 	std::map<int, std::vector<int>> pickedElements = pickElements();
