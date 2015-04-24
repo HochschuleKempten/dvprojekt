@@ -325,6 +325,15 @@
     <ClInclude Include="logic\cpplinq.hpp">
       <Filter>logic</Filter>
     </ClInclude>
+    <ClInclude Include="logic\LTransformerSation.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVTransformerStation.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VTransformerStation.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -503,6 +512,12 @@
     </ClCompile>
     <ClCompile Include="view\Building03.cpp">
       <Filter>view\Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LTransformerStation.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VTransformerStation.cpp">
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
