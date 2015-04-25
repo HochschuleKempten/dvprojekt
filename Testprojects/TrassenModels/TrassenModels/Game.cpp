@@ -39,18 +39,19 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 
 	m_zs.AddPlacement(m_zTrasse1->getMainPlacement());
 	m_zs.AddPlacement(m_zTrasse2->getMainPlacement());
-	m_zs.AddPlacement(m_zTrasse3->getMainPlacement());
-	m_zs.AddPlacement(m_zTrasse4->getMainPlacement());
+	//m_zs.AddPlacement(m_zTrasse3->getMainPlacement());
+	//m_zs.AddPlacement(m_zTrasse4->getMainPlacement());
 
-	m_zTrasse1->Init(VModelPowerLine::PYLONTYPE::STRAIGHT);
-	m_zTrasse2->Init(VModelPowerLine::PYLONTYPE::CROSS);
-	m_zTrasse3->Init(VModelPowerLine::PYLONTYPE::CROSS, VModelPowerLine::DIRECTION::EAST);
-	m_zTrasse4->Init(VModelPowerLine::PYLONTYPE::ANGLE, VModelPowerLine::EAST);
+	m_zTrasse1->Init(DIRECTION::SOUTH | DIRECTION::EAST);
+	m_zTrasse2->Init(DIRECTION::EAST | DIRECTION::WEST | DIRECTION::SOUTH | DIRECTION::NORTH);
+	//m_zTrasse2->Init(VModelPowerLine::PYLONTYPE::CROSS);
+	//m_zTrasse3->Init(VModelPowerLine::PYLONTYPE::CROSS);
+	//m_zTrasse4->Init(VModelPowerLine::PYLONTYPE::ANGLE, VModelPowerLine::DIRECTION::EAST);
 
 	m_zTrasse1->SetPosition(-1, 0);
 	m_zTrasse2->SetPosition(1, 0);
-	m_zTrasse3->SetPosition(3, 0);
-	m_zTrasse4->SetPosition(2, -2);
+	//m_zTrasse3->SetPosition(3, 0);
+	//m_zTrasse4->SetPosition(2, -2);
 
 	//m_zTrasse1->ConnectTo(m_zTrasse2);
 	//m_zTrasse1->ConnectTo(m_zTrasse2);

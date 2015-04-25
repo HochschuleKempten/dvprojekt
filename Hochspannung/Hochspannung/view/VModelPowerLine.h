@@ -3,30 +3,36 @@
 
 NAMESPACE_VIEW_B
 
+enum DIRECTION
+{
+	NORTH = 0x1,
+	EAST = 0x2,
+	SOUTH = 0x4,
+	WEST = 0x8
+};
+
+enum PYLONTYPE
+{
+	STRAIGHT, CROSS, ANGLE
+};
 
 class VModelPowerLine : public IViewModel
 {
 public:
-	enum PYLONTYPE {
-		STRAIGHT, CROSS, ANGLE
-	};
-	enum DIRECTION {
-		WEST, SOUTH, EAST, NORTH
-	};
-
-public:
+	friend DIRECTION operator|(DIRECTION a, DIRECTION b);
 	VModelPowerLine(void);
 	virtual ~VModelPowerLine(void) override;
 	map<DIRECTION, vector<VModelPowerLine *>> * Connections();
 	VModelPowerLine::PYLONTYPE PylonType();
-	vector<CHVector> * ConnectorPositions(VModelPowerLine::DIRECTION armPosition);
+	vector<CHVector> * ConnectorPositions(DIRECTION armPosition);
 
-	void Init(PYLONTYPE ePylonType = STRAIGHT, DIRECTION eDirection = NORTH, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
+	//void Init(PYLONTYPE ePylonType = STRAIGHT, DIRECTION eDirection = NORTH, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
+	void Init(DIRECTION eDirection, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
 	void SetPosition(int x, int y);
-	bool ConnectTo(VModelPowerLine *pPylon);
-	USHORT AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition);
-	bool DisconnectFrom(VModelPowerLine * pPylon);
-	bool DisconnectAll();
+	//bool ConnectTo(VModelPowerLine *pPylon);
+	//USHORT AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition);
+	//bool DisconnectFrom(VModelPowerLine * pPylon);
+	//bool DisconnectAll();
 
 	virtual float getHeight() override; // including foundation
 	virtual float getWidth() override;  // width of the foundation
@@ -92,7 +98,7 @@ private:
 	SHORT m_iArmPosition		         = 9;
 	SHORT m_iStrutsCount		         = 0;
 	PYLONTYPE m_ePylonType               = STRAIGHT;
-	DIRECTION m_eDirection               = NORTH;
+	DIRECTION m_eDirection				 = NORTH;
 	float m_fFoundationHeight            = 0;
 	float m_fFoundationWidth             = 0;
 	float m_fPoleDistance                = 0;
@@ -113,6 +119,5 @@ private:
 	float m_fUpperArmPosition	         = 0;
 	float m_fOppositeLeg		         = 0;
 };
-
 
 NAMESPACE_VIEW_E
