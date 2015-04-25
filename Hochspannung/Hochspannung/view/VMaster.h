@@ -14,12 +14,10 @@ class VPlayingField;
 
 class VMaster : public IVMaster
 {
+	NON_COPYABLE(VMaster);
 	friend class VUI;
 
 private:
-	CRoot m_zr;
-	CFrame m_zf;
-	
 	VFactory factory;
 	VUI vUi;
 	LMaster* lMaster = nullptr;

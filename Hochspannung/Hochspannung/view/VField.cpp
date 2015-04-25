@@ -21,6 +21,16 @@ VField::~VField()
 	}
 }
 
+void VField::setHoverOn()
+{
+	m_zmNormal.SetColorAmbient(CColor(1.0, 0.0, 0.0));
+}
+
+void VField::setHoverOff()
+{
+	m_zmNormal.SetColorAmbient(CColor(0.0, 0.0, 0.0));
+}
+
 void VField::initField(const int rowIdx, const int colIdx)
 {
 	lField = vPlayingField->lPlayingField->getField(rowIdx, colIdx);
@@ -31,10 +41,10 @@ void VField::initField(const int rowIdx, const int colIdx)
 	stream << VIdentifier::VPlayingField << ";" << rowIdx << ";" << colIdx;
 	m_zp.SetName(stream.str().c_str());
 
-	m_zm = VMaterialLoader::fieldMaterials[VMaterialLoader::FieldPair(lField->getFieldType(), lField->getFieldLevel())];
-	ASSERT(m_zm.m_ptextureDiffuse != nullptr, "Could not load the material for the field " << lField->getFieldType());
+	m_zmNormal = VMaterialLoader::fieldMaterials[VMaterialLoader::FieldPair(lField->getFieldType(), lField->getFieldLevel())];
+	ASSERT(m_zmNormal.m_ptextureDiffuse != nullptr, "Could not load the material for the field " << lField->getFieldType());
 	
-	m_zg.Init(vPlayingField->size, &m_zm);
+	m_zg.Init(vPlayingField->size, &m_zmNormal);
 	m_zp.AddGeo(&m_zg);
 
 	m_zp.RotateZ(M_PI);

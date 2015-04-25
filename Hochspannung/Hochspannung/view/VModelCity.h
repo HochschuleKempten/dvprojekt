@@ -8,26 +8,32 @@
 #include "LargeOfficeBuilding.h"
 #include "SmallOfficeBuilding.h"
 #include "OfficeTowerViewingDeck.h"
-#include "TwistedTower.h"
+#include "IViewModel.h"
 
 NAMESPACE_VIEW_B
 
 
-class VModelCity : public CPlacement
+class VModelCity : public IViewModel
 {
 public:
 	VModelCity(void);
-	~VModelCity(void);
+	virtual ~VModelCity(void) override;
 
 	void TranslateBuildings();
 	void InitBuildings();
 	void AddPlacements();
 	
+	//TODO (City) implement these methods
+	virtual float getHeight() override
+	{
+		return 0.0f;
+	}
+	virtual float getWidth() override
+	{
+		return 0.0f;
+	}
 
 private:
-
-	
-	
 	Building01* Building1_01;
 	Building01* Building1_02;
 	Building02* Building2_01;

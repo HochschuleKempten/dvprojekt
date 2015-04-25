@@ -23,21 +23,7 @@ VScreenCredits::VScreenCredits()
 		getContainer("Menue")->addButton(CFloatRect(0.65, 0.83, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover,SWITCH_TO_MAINMENUE,"BackMainMenue");
 
 
-		//addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0, 0.7F, 1.0F, 0.3F), "iwas");
-		//getContainer("iwas")->addContainer(IViewGUIContainer::ContainerType::Dialog, CFloatRect(0, 0.7F, 1.0F, 0.3F), "neues");
-		//getContainer("iwas")->getContainer("neues")->addButton(CFloatRect(0.25, 0.63, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "BackMainMenue");;
-		addContainer(m_viewport, IViewGUIContainer::ContainerType::Register, CFloatRect(0.1, 0.1F, 0.4F, 0.3F), "Register");
-		dynamic_cast<VRegister*>(getContainer("Register"))->addTab(&VMaterialLoader::materialButtonMainMenueCredits, 
-			&VMaterialLoader::materialButtonMainMenueCreditsHover, &VMaterialLoader::materialRed,SWITCH_TO_REGISTER_BUILDING,"TabBuilding");
-		dynamic_cast<VRegister*>(getContainer("Register"))->addTab(&VMaterialLoader::materialButtonMainMenueCredits,
-			&VMaterialLoader::materialButtonMainMenueCreditsHover, &VMaterialLoader::materialRed, SWITCH_TO_REGISTER_SABOTAGE, "TabSabotage");
-		dynamic_cast<VRegister*>(getContainer("Register"))->addTab(&VMaterialLoader::materialButtonMainMenueCredits,
-			&VMaterialLoader::materialButtonMainMenueCreditsHover, &VMaterialLoader::materialRed, SWITCH_TO_REGISTER_STATISTICS, "TabStatistics");
 
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.65, 0.83, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "BackMainMenue");
-		
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOff();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOff();
 	}
 
 	VScreenCredits::~VScreenCredits()
@@ -55,21 +41,7 @@ VScreenCredits::VScreenCredits()
 {
 	switch (events)
 	{
-	case SWITCH_TO_REGISTER_BUILDING:
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->switchOn();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOff();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOff();
-		break;
-	case SWITCH_TO_REGISTER_SABOTAGE:
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->switchOff();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOn();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOff();
-		break;
-	case SWITCH_TO_REGISTER_STATISTICS:
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->switchOff();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOff();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOn();
-		break;
+	
 	default:
 		notify(events);
 		break;

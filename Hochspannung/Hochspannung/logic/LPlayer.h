@@ -16,11 +16,11 @@ public:
 	};
 
 private:
-	int money = 2700;
-	LMaster& lMaster;
+	int money = 5700;
+	LMaster* lMaster;
 
 public:
-	LPlayer(LMaster& lMaster);
+	LPlayer(LMaster* lMaster);
 	~LPlayer();
 	int getMoney() const;
 	void substractMoney(const int amount);

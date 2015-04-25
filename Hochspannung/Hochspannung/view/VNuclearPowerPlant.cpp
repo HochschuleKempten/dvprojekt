@@ -7,7 +7,7 @@ NAMESPACE_VIEW_B
 
 
 VNuclearPowerPlant::VNuclearPowerPlant(VMaster* vMaster, LNuclearPowerPlant* lPlant)
-	: IViewBuilding(vMaster, &m_zp), IVPowerPlant(lPlant)
+	: IVPowerPlant(lPlant), IViewBuilding(vMaster, &m_zp)
 {
 	m_zm.MakeTextureDiffuse("textures\\_original.jpg");
 	m_zg.Init(CHVector(1.5f, 2.6f, 0.8f), &m_zm);
@@ -19,7 +19,7 @@ void VNuclearPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& obj
 {
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	SET_NAME_AND_COORDINATES(VIdentifier::VNuclearPowerPlant);
+	//SET_NAME_AND_COORDINATES(VIdentifier::VNuclearPowerPlant);
 }
 
 

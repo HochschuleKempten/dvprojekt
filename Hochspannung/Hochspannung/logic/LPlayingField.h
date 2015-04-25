@@ -8,11 +8,28 @@
 
 NAMESPACE_LOGIC_B
 
+
+struct LPlayingFieldHasher
+{
+	int fieldLength;
+
+	explicit LPlayingFieldHasher(const int fieldLength)
+		: fieldLength(fieldLength)
+	{}
+
+	std::size_t operator()(const std::pair<int, int>& coordinates) const
+	{
+		return coordinates.first * fieldLength + coordinates.second;
+	}
+};
+
 class LMaster;
 class LPowerLine;
 
 class LPlayingField
 {
+	NON_COPYABLE(LPlayingField);
+
 private:
 	const int fieldLength = 10; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster = nullptr;
@@ -22,7 +39,7 @@ private:
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
 	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
-	std::vector<std::pair<int, int>> usedCoordinates;
+	std::unordered_map<std::pair<int, int>, bool, LPlayingFieldHasher> isCoordinateUsed;	//Checks if a pair is used
 
 	std::vector<LField::FieldType> fieldTypes;
 	std::vector<LField::FieldLevel> fieldLevels;
@@ -48,16 +65,7 @@ public:
 		}
 
 		if (getField(x, y)->setBuilding<T>(x, y, arguments...)) {
-			//TODO (L) No method like addBuildingToGraph possible? - (IP) done
-			LPowerLine* powerLine = dynamic_cast<LPowerLine*>(getField(x, y)->getBuilding());
-			if (powerLine != nullptr)
-			{
-				addBuildingToGraph(x, y, powerLine->getPowerLineOrientation());
-			}
-			else
-			{
-				addBuildingToGraph(x, y, LPowerLine::NORTH | LPowerLine::EAST | LPowerLine::SOUTH | LPowerLine::WEST);
-			}
+			addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
 			//todo (L) when?
 			if (cityPosition.first > -1 && cityPosition.second > -1)
@@ -89,6 +97,15 @@ private:
 	void calculateEnergyValueCity();
 	void addBuildingToGraph(const int x, const int y, const int orientation);
 	
+	/**
+	 * @brief Sets grass on every field around the given coordinates.
+	 *
+	 * @param coordinates base field to place grass around
+	 * @param space adjusts the range of grass (number of fields for each side)
+	 *
+	 * @tparam cross specifies if all fields around should be set to grass or just the even ones (i. e. not the diagonal ones when set to <code>true</code>)
+	 */
+	template<bool cross = false>
 	void placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space);
 
 	/**
@@ -106,9 +123,11 @@ private:
 	 * 
 	 * @param x the first coordinate
 	 * @param y the second coordinate
+	 *
 	 * @return coordinate pair (x,y)
 	 */
 	std::pair<int, int> retrieveFreeCoordinates(const int x, const int y);
 };
+
 
 NAMESPACE_LOGIC_E

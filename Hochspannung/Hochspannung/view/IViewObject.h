@@ -9,9 +9,11 @@ class VMaster;
 
 class IViewObject
 {
+	NON_COPYABLE(IViewObject);
+
 protected:
-	CPlacement* placementPointer = nullptr;
 	VMaster* vMaster;
+	CPlacement* placementPointer;
 
 public:
 	inline IViewObject(VMaster* vMaster, CPlacement* placementPointer)

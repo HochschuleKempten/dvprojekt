@@ -5,16 +5,26 @@
 NAMESPACE_VIEW_B
 
 
-class IViewModel : public CPlacement
+class IViewModel
 {
+	NON_COPYABLE(IViewModel);
+	
+protected:
+	CPlacement m_zpMain;
+
 public:
 	inline IViewModel()
 	{}
-	inline virtual ~IViewModel()
+	virtual inline ~IViewModel()
 	{}
 
 	virtual float getHeight() = 0;
 	virtual float getWidth() = 0;
+
+	inline CPlacement* getMainPlacement()
+	{
+		return &m_zpMain;
+	}
 };
 
 

@@ -7,7 +7,7 @@ NAMESPACE_VIEW_B
 
 
 VCoalPowerPlant::VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant)
-	: IViewBuilding(vMaster, &m_zp), IVPowerPlant(lPlant)
+	: IVPowerPlant(lPlant), IViewBuilding(vMaster, &m_zp)
 {
 	m_zg.Init(2.0, 2.0, &VMaterialLoader::materialCoalPowerPlant, 24, true);
 	m_zp.Init();
@@ -21,7 +21,7 @@ void VCoalPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr
 {
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	SET_NAME_AND_COORDINATES(VIdentifier::VCoalPowerPlant);
+	//SET_NAME_AND_COORDINATES(VIdentifier::VCoalPowerPlant);
 }
 
 

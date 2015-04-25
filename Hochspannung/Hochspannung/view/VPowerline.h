@@ -13,7 +13,7 @@ class VPowerLine : public IVPowerLine, public IViewBuilding
 private:
 	CGeoCylinder m_zg;
 	CPlacement m_zp;
-	//VModelPowerLine m_zp;
+	//VModelPowerLine viewModel;
 
 public:
 	VPowerLine(VMaster *vMaster, LPowerLine* lPlant);

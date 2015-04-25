@@ -57,15 +57,6 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_viewport->AddOverlay(&m_bottomBar);
 	m_bottomBar.SetLayer(0.8);
 
-	addContainer(m_viewport,IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
-	getContainer("Menue")->addButton(CFloatRect(0.23, 0.82, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING,"windmill");
-	getContainer("Menue")->addButton(CFloatRect(0.23, 0.82 + 0.022 + 0.07, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING,"coalPowerPlant");
-	getContainer("Menue")->addButton(CFloatRect(0.33, 0.82, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING, "oilPowerPlant");
-	getContainer("Menue")->addButton(CFloatRect(0.33, 0.82 + 0.022 + 0.07, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING, "nuclearPowerPlant");
-	getContainer("Menue")->addButton(CFloatRect(0.43, 0.82, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING,"hydroPowerPlant");
-	getContainer("Menue")->addButton(CFloatRect(0.43, 0.82 + 0.022 + 0.07, 0.04, 0.04 * 1.7), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING, "photovoltaicPowerPlant");
-	getContainer("Menue")->addButton(CFloatRect(0.54, 0.85, 0.10, 0.10), &VMaterialLoader::materialBuildingButton, &VMaterialLoader::materialBuildingButtonHover, NOTHING,"powerLine");
-
 	
 	//Boarder BottomBar
 	m_bottomBarBorderTop.Init(&VMaterialLoader::materialBottombarBorderTop, CFloatRect(0.0, 0.75, 1.0, 0.01));
@@ -102,8 +93,33 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	getContainer("top")->addText(CFloatRect(0.60, 0.005, 0.07, 0.05), &VMaterialLoader::GoldFont, "Geld:","money");
 	getContainer("top")->addText(CFloatRect(0.671, 0.005, 0.1, 0.05), &VMaterialLoader::GoldFont, "0000","moneyValue");
 
+	//Baumenü Register
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::Register, CFloatRect(0.206, 0.76F, 0.584F, 0.24F), "Register");
+	dynamic_cast<VRegister*>(getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonCraftmenu,
+		&VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::materialRed, SWITCH_TO_REGISTER_BUILDING, "TabBuilding");
+	dynamic_cast<VRegister*>(getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonSabotage,
+		&VMaterialLoader::materialIngameButtonSabotageHover, &VMaterialLoader::materialGreen, SWITCH_TO_REGISTER_SABOTAGE, "TabSabotage");
+	dynamic_cast<VRegister*>(getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonStatistics,
+		&VMaterialLoader::materialIngameButtonStatisticsHover, &VMaterialLoader::materialBlue, SWITCH_TO_REGISTER_STATISTICS, "TabStatistics");
+
 	
-	
+
+	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.025, 0.075, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonWindmill, &VMaterialLoader::materialCraftmenuButtonWindmillHover, SELECT_BUILDING_WINDMILL, "windmill");
+	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.275, 0.075, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, &VMaterialLoader::materialCraftmenuButtonHydroPowerplantHover, SELECT_BUILDING_HYDROPOWERPLANT, "hydroPowerPlant");
+	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.525, 0.075, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, &VMaterialLoader::materialCraftmenuButtonSolarPowerplantHover, SELECT_BUILDING_SOLARPOWERPLANT, "solarPowerPlant");
+	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.025, 0.525, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, &VMaterialLoader::materialCraftmenuButtonNuclearPowerplantHover, SELECT_BUILDING_NUCLEARPOWERPLANT, "nuclearPowerPlant");
+	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.275, 0.525, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, &VMaterialLoader::materialCraftmenuButtonCoalPowerplantHover, SELECT_BUILDING_COALPOWERPLANT, "coalPowerPlant");
+	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.525, 0.525, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, &VMaterialLoader::materialCraftmenuButtonOilPowerplantHover, SELECT_BUILDING_OILPOWERPLANT, "oilPowerPlant");
+	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.775, 0.525, 0.20, 0.4), &VMaterialLoader::materialCraftmenuButtonPowerline, &VMaterialLoader::materialCraftmenuButtonPowerlineHover, SELECT_BUILDING_POWERLINE, "powerLine");
+
+
+
+
+
+	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOff();
+	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOff();
+
+	//Dialogbox
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55), "DialogBox");
 	
 	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.10, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING,"MenueButtonContinue");
@@ -130,6 +146,21 @@ void VScreenIngame::onNotify(Event events)
 {
 	switch (events)
 	{
+	case SWITCH_TO_REGISTER_BUILDING:
+		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->switchOn();
+		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOff();
+		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOff();
+		break;
+	case SWITCH_TO_REGISTER_SABOTAGE:
+		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->switchOff();
+		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOn();
+		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOff();
+		break;
+	case SWITCH_TO_REGISTER_STATISTICS:
+		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->switchOff();
+		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOff();
+		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOn();
+		break;
 	default:
 		notify(events);
 		break;
@@ -138,7 +169,7 @@ void VScreenIngame::onNotify(Event events)
 void VScreenIngame::switchOn()
 {
 	m_viewport->SwitchOn();
-	m_minimap.SwitchOn();
+	//m_minimap.SwitchOn();
 	m_scene->SwitchOn();
 	
 	m_isOn = true;

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Game.h"
+#include "../../../Hochspannung/Hochspannung/view/Helper.h"
 
 CGame::CGame(void)
 {
@@ -37,10 +38,10 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zpCamera.TranslateYDelta(2.5f);
 	m_zpCamera.SetFrustumCullingOn();
 
-	m_zs.AddPlacement(m_zTrasse1);
-	m_zs.AddPlacement(m_zTrasse2);
-	m_zs.AddPlacement(m_zTrasse3);
-	m_zs.AddPlacement(m_zTrasse4);
+	m_zs.AddPlacement(m_zTrasse1->getMainPlacement());
+	m_zs.AddPlacement(m_zTrasse2->getMainPlacement());
+	m_zs.AddPlacement(m_zTrasse3->getMainPlacement());
+	m_zs.AddPlacement(m_zTrasse4->getMainPlacement());
 
 	m_zTrasse1->Init(VModelPowerLine::PYLONTYPE::STRAIGHT, VModelPowerLine::SOUTH);
 	m_zTrasse2->Init(VModelPowerLine::PYLONTYPE::CROSS);

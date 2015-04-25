@@ -5,7 +5,7 @@
 NAMESPACE_LOGIC_B
 
 
-LPlayer::LPlayer(LMaster& lMaster)
+LPlayer::LPlayer(LMaster* lMaster)
 	: lMaster(lMaster)
 {
 }
@@ -22,7 +22,7 @@ int LPlayer::getMoney() const
 void LPlayer::substractMoney(const int amount)
 {
 	money -= amount;
-	lMaster.getVMaster()->updateMoney(money);
+	lMaster->getVMaster()->updateMoney(money);
 	ASSERT(money >= 0, "The player has not enough money");
 }
 

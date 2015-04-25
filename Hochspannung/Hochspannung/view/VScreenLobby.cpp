@@ -29,7 +29,7 @@ VScreenLobby::VScreenLobby(CFrame* frame)
 	getContainer("Menue")->addButton(CFloatRect(0.65, 0.19, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING,"iwas");
 	getContainer("Menue")->addTextfield(CFloatRect(0.02, 0.06, 0.30, 0.08), &VMaterialLoader::materialIngameBorder, &VMaterialLoader::materialRed, &VMaterialLoader::materialGreen,30,"Suche IP-Adresse...","textfieldIP");
 
-	getContainer("Menue")->getGuiObject("textfieldIP")->switchOff();
+//	getContainer("Menue")->getGuiObject("textfieldIP")->switchOff();
 
 	//CWritingFont* m_writingfont = new CWritingFont();
 	//m_writingfont->Init("textures\\FontArialShadow.png", true);

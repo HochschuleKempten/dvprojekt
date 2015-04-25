@@ -1,6 +1,5 @@
 #include "IViewModel.h"
 #include "VGeneral.h"
-#include "Helper.h"
 
 NAMESPACE_VIEW_B
 
@@ -15,9 +14,9 @@ public:
 		WEST, SOUTH, EAST, NORTH
 	};
 
+public:
 	VModelPowerLine(void);
-	~VModelPowerLine(void);
-
+	virtual ~VModelPowerLine(void) override;
 	map<DIRECTION, vector<VModelPowerLine *>> * Connections();
 	VModelPowerLine::PYLONTYPE PylonType();
 	CHVector * ConnectorPositions();
@@ -75,11 +74,13 @@ private:
 	CPlacement m_zpArm[4];
 	CPlacement m_zpPole[4];
 	CPlacement m_zpRoof[4];
+	//TODO (Trasse) consider using normal variable types instead of pointers here (less heap allocations)
+	//You may be able to use std::vector<CPlacement> as well
 	std::vector<CPlacement*> m_zpConnector;
 	std::vector<CPlacement*> m_zpRing;
 	CPlacement m_zpLine[8];
 	CPlacement m_zpSphere[5];
-	CPlacement * m_zpStruts = NULL;
+	CPlacement * m_zpStruts = nullptr;
 
 	CTriangleList *m_zpTriangleConnector;
 	CTriangleList *m_zpTriangleRing;
