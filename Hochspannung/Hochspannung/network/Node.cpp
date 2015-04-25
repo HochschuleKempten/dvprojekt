@@ -8,17 +8,20 @@
 namespace Network {
 
 CNode::CNode() :
-m_ioService(io_service()), m_socket(m_ioService), m_bConnected(false), m_bCheckResponseReceived(true), m_connectionTimer(m_ioService) {
+m_ioService(io_service()), m_socketTcp(m_ioService), m_socketUdp(m_ioService), 
+m_localEndpointTcp(ip::tcp::endpoint(ip::tcp::v4(), m_usPortTcp)),
+m_localEndpointUdp(ip::udp::endpoint(ip::udp::v4(), m_usPortUdp)),
+m_connectionTimer(m_ioService), m_bConnected(false), m_bCheckResponseReceived(true) {
 
-	try {
-		m_pPinger = new CPinger(m_ioService);
-	} catch (boost::system::system_error error) {
-		if (error.code().value() == WSAEACCES) {
-			std::cout << "Please restart the program as admin to use the ping." << std::endl;
-		} else {
-			std::cout << error.what() << std::endl;
-		}
-	}
+	//try {
+	//	m_pPinger = new CPinger(m_ioService);
+	//} catch (boost::system::system_error error) {
+	//	if (error.code().value() == WSAEACCES) {
+	//		std::cout << "Please restart the program as admin to use the ping." << std::endl;
+	//	} else {
+	//		std::cout << error.what() << std::endl;
+	//	}
+	//}
 }
 
 CNode::~CNode() {
@@ -29,6 +32,7 @@ CNode::~CNode() {
 bool CNode::start() {
 	if (!isConnected()) {
 		if (connect()) {
+			// start the thread if not already running
 			if (!m_thread.try_join_for(boost::chrono::duration<int>())) {
 				m_thread = boost::thread([this]() {
 					try {
@@ -48,10 +52,13 @@ bool CNode::start() {
 
 void CNode::stop() {
 	m_connectionTimer.cancel();
+	//stopPing();
 	m_ioService.post([this]() {
-		m_socket.close();
+		m_socketTcp.close();
+		m_socketUdp.close();
 	});
 	m_thread.join();
+	m_bConnected = false;
 }
 
 void CNode::restart() {
@@ -75,21 +82,21 @@ void CNode::write(const CMessage& message) {
 }
 
 void CNode::do_write() {
-	async_write(m_socket,
+	async_write(m_socketTcp,
 		buffer(m_dequeMessagesToWrite.front().getData(), m_dequeMessagesToWrite.front().getLength()),
 		boost::bind(&CNode::writeCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 }
 
 void CNode::readHeader() {
-	async_read(m_socket,
+	async_read(m_socketTcp,
 		buffer(m_messageRead.getData(), CMessage::iHeaderLength),
 		boost::bind(&CNode::readHeaderCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 }
 
 void CNode::readBody() {
-	async_read(m_socket,
+	async_read(m_socketTcp,
 		buffer(m_messageRead.getBody(), m_messageRead.getBodyLength()),
 		boost::bind(&CNode::readBodyCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
@@ -174,17 +181,26 @@ void CNode::handleConnectionError(const error_code& ec) {
 
 		case WSAECONNRESET:
 			m_bConnected = false;
+			m_connectionTimer.cancel();
 			std::cout << "Connection was closed by remote host." << std::endl;
 			break;
 
-		case ERROR_SEM_TIMEOUT: // Connection attempt timed out
+		case ERROR_SEM_TIMEOUT:
 			m_bConnected = false;
 			std::cout << "Connection attempt timed out." << std::endl;
 			break;
 
 		case ERROR_CONNECTION_ABORTED:
 			m_bConnected = false;
-			std::cout << "Connection was closed locally." << std::endl;
+			m_connectionTimer.cancel();
+			std::cout << "Connection was aborted by the local system." << std::endl;
+			break;
+		
+		case ERROR_OPERATION_ABORTED:
+			// If you end up here without any previously requested close operations, check the threads.
+			// But in most cases this error is thrown because a socket is closed and all pending handler are canceled.
+			m_bConnected = false;
+			//std::cout << "The operation has been aborted." << std::endl;
 			break;
 
 		default:

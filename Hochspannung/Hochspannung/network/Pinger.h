@@ -41,4 +41,6 @@ private:
 	int m_iLatestLatency;
 };
 
+
+
 }

@@ -25,8 +25,7 @@ enum Action {
 class CTransferObject {
 public:
 
-	CTransferObject(Action action = UNDEFINED, int iTransObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string stValue = "");
-
+	CTransferObject(Action action = UNDEFINED, int iTransObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = "");
 	~CTransferObject();
 
 	Action getAction();
@@ -42,14 +41,14 @@ public:
 	void setCoordY(int iCoordY);
 
 	std::string getValue();
-	void setValue(std::string stValue);
+	void setValue(std::string sValue);
 
 private:
 	Action m_Action;
 	int m_iTransObjectID;
 	int m_iCoordX;
 	int m_iCoordY;
-	std::string m_stValue;
+	std::string m_sValue;
 	// to be continued...
 
 };

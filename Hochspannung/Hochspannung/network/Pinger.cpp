@@ -92,6 +92,7 @@ void CPinger::receiveCompleteHandler(const error_code& error, std::size_t bytesT
 void CPinger::timoutHandler(const error_code& error) {
 	if (!error) {
 		std::cout << "Timeout" << std::endl;
+		m_iLatestLatency = -1;
 		// send next ping (at least 1 sec after last send)
 		m_timer.expires_at(m_timeSent + boost::posix_time::seconds(1));
 		m_timer.async_wait(boost::bind(&CPinger::ping, this));

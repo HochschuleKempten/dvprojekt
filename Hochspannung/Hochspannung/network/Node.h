@@ -18,6 +18,17 @@ using boost::system::error_code;
  */
 class CNode {
 public:
+
+	/**
+	 * Fixed tcp port.
+	 */
+	const static unsigned short m_usPortTcp = 2345;
+
+	/**
+	 * Fixed udp port.
+	 */
+	const static unsigned short m_usPortUdp = 14999;
+
 	/**
 	 * @brief Default constructor.
 	 */
@@ -40,7 +51,7 @@ public:
 	 * @brief Stop the node.
 	 * Closes any active connection and stops sending/reciving messages.
 	 */
-	void stop();
+	virtual void stop();
 
 	/**
 	 * @brief Restart the node.
@@ -66,33 +77,33 @@ public:
 	CTransferObject getNextActionToExecute();
 
 	/**
-	* @brief Returns if a next action is available.
-	* @return true, if a next action is available, false otherwise.
-	*/
+	 * @brief Returns if a next action is available.
+	 * @return true, if a next action is available, false otherwise.
+	 */
 	bool isActionAvailable();
-
+	
 	/**
-	* @brief Start to ping the specified ip.
-	* @param stIP the address to ping.
-	*/
+	 * @brief Start to ping the specified ip.
+	 * @param stIP the address to ping.
+	 */
 	void startPing(std::string stIP);
 
 	/**
-	* @brief Stop the pinging.
-	*/
+	 * @brief Stop the pinging.
+	 */
 	void stopPing();
 
 	/**
-	* @brief Returns the latency.
-	* @return the result of the last ping in milliseconds or -1 if a timeout occurred.
-	*/
+	 * @brief Returns the latency.
+	 * @return the result of the last ping in milliseconds or -1 if a timeout occurred.
+	 */
 	int getLatency();
 
 	/**
-	* @brief The handler for the connection checking operation.
-	* Don´t this call directly!
-	* @param the error code.
-	*/
+	 * @brief The handler for the connection checking operation. 
+	 * Don´t this call directly!
+	 * @param the error code.
+	 */
 	void checkConnectionHandler(const error_code& error);
 
 protected:
@@ -159,7 +170,11 @@ protected:
 
 	io_service m_ioService;
 	boost::thread m_thread;
-	ip::tcp::socket m_socket;
+	ip::tcp::socket m_socketTcp;
+	ip::udp::socket m_socketUdp;
+	ip::tcp::endpoint m_localEndpointTcp;
+	ip::udp::endpoint m_localEndpointUdp;
+	ip::udp::endpoint m_remoteEndpointUdp;
 
 	bool m_bConnected;
 	bool m_bCheckResponseReceived;

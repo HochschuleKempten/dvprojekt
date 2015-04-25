@@ -10,6 +10,12 @@ enum State {
 	PENDING
 };
 
+enum Type {
+	NONE,
+	SERVER,
+	CLIENT
+};
+
 class CNetworkService {
 
 private:
@@ -25,11 +31,6 @@ private:
 
 public:
 	/**
-	 * Fixed server port.
-	 */
-	const static unsigned short usPort = 2345;
-
-	/**
 	 * @brief Default deconstructor.
 	 */
 	~CNetworkService();
@@ -42,18 +43,32 @@ public:
 
 	/**
 	 * @brief Start a server to host a game.
-	 * If a game is already hosted or a connection to another server exists, nothing is done and false returned.
+	 * If a game is already hosted, nothing is done and false returned.
+	 * If a connection to another server exists, the connection is closed before the server is started.
 	 * @return true, if succesful, false otherwise.
 	 */
 	bool host();
 
 	/**
 	 * @brief Connect to a server hosting a game.
-	 * If a game is already hosted or a connection to another server exists, nothing is done and false returned.
+	 * If a game is currently hosted, the server is closed before trying to connect to the new server.
+	 * If a connection to a server already exists, the connection is rebuild with the new adddress.
 	 * @param stIP the IP of the server to connect to.
 	 * @return true, if succesful, false otherwise.
 	 */
 	bool connect(std::string stIP);
+
+	/**
+	 * @brief Searches asynchronously for game server in the local network.
+	 * Closes any active connection or server.
+	 */
+	void searchGames();
+
+	/**
+	 * @brief Returns a list of found games in the local network.
+	 * @return the list containing information of every hosted game found in the network.
+	 */
+	std::vector<CGameObject> getGameList();
 
 	/**
 	 * @brief Close the active server or connection.
@@ -70,6 +85,12 @@ public:
 	 * @return the current connection state.
 	 */
 	State getConnectionState();
+
+	/**
+	* @brief Returns the current type.
+	* @return the current type.
+	*/
+	Type getType();
 
 	/**
 	 * @brief Returns the current latency to the remote computer if connected.
@@ -131,11 +152,11 @@ public:
 	bool sendDeleteObject(int iObjectID, int iCoordX, int iCoordY);
 
 	/**
-	* @brief Send the command to set the mapsize.
-	* @param iSizeX the maps size in x direction.
-	* @param iSizeY the maps size in y direction.
-	* @return true if message could be sent, false otherwise.
-	*/
+	 * @brief Send the command to set the mapsize.
+	 * @param iSizeX the maps size in x direction.
+	 * @param iSizeY the maps size in y direction.
+	 * @return true if message could be sent, false otherwise.
+	 */
 	bool sendSetMapsize(int iSizeX, int iSizeY);
 
 	/**
@@ -163,7 +184,8 @@ private:
 	bool sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = "");
 
 	CNode* m_pNode = 0;
-	State m_ConnectionState;
+	State m_connectionState;
+	Type m_type;
 };
 
 }

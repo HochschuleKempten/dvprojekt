@@ -325,6 +325,12 @@
     <ClInclude Include="network\Pinger.h">
       <Filter>network\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\IViewModel.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="network\GameObject.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -508,6 +514,9 @@
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="network\Pinger.cpp">
+      <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\GameObject.cpp">
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

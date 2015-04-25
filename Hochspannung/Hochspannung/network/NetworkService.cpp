@@ -4,7 +4,7 @@
 namespace Network {
 
 CNetworkService::CNetworkService() :
-m_ConnectionState(CLOSED) {
+m_connectionState(CLOSED), m_type(NONE) {
 }
 
 CNetworkService::CNetworkService(const CNetworkService&) {
@@ -20,29 +20,62 @@ CNetworkService& CNetworkService::instance() {
 }
 
 bool CNetworkService::host() {
-	if (m_pNode == 0) {
-		m_pNode = new CServer(usPort);
-
-		if (m_pNode->start()) {
-			m_ConnectionState = PENDING;
-			return true;
-		}
+	if (m_type == CLIENT) {
+		close();
 	}
 
-	return false;
+	if (m_pNode == 0) {
+		m_pNode = new CServer();
+		m_type = SERVER;
+	}
+
+	if (m_pNode->start()) {
+		m_connectionState = PENDING;
+		return true;
+	} else {
+		return false;
+	}
 }
 
 bool CNetworkService::connect(std::string stIP) {
-	if (m_pNode == 0) {
-		m_pNode = new CClient(stIP, usPort);
-
-		if (m_pNode->start()) {
-			m_ConnectionState = PENDING;
-			return true;
-		}
+	if (m_type != NONE) {
+		close();
 	}
-	
-	return false;
+
+	if (m_pNode == 0) {
+		m_pNode = new CClient(stIP);
+		m_type = CLIENT;
+	}
+
+	if (m_pNode->start()) {
+		m_connectionState = PENDING;
+		return true;
+	} else {
+		return false;
+	}
+}
+
+void CNetworkService::searchGames() {
+	if (m_type == CLIENT) {
+		m_pNode->stop();
+	} else 	if (m_type == SERVER) {
+		close();
+	}
+
+	if (m_pNode == 0) {
+		m_pNode = new CClient();
+		m_type = CLIENT;
+	}
+
+	static_cast<CClient*>(m_pNode)->searchGames();
+}
+
+std::vector<CGameObject> CNetworkService::getGameList() {
+	if (m_pNode != 0 && m_type == CLIENT) {
+		return static_cast<CClient*>(m_pNode)->getGameList();
+	} else {
+		return std::vector<CGameObject>();
+	}
 }
 
 void CNetworkService::close() {
@@ -50,7 +83,8 @@ void CNetworkService::close() {
 		m_pNode->stop();
 		delete m_pNode;
 		m_pNode = 0;
-		m_ConnectionState = CLOSED;
+		m_type = NONE;
+		m_connectionState = CLOSED;
 	}
 }
 
@@ -61,12 +95,16 @@ void CNetworkService::restart() {
 }
 
 State CNetworkService::getConnectionState() {
-	// just a workaround for the moment
+	// just a workaround at the moment
 	if (m_pNode != 0 && m_pNode->isConnected()) {
-		m_ConnectionState = CONNECTED;
+		m_connectionState = CONNECTED;
 	}
 
-	return m_ConnectionState;
+	return m_connectionState;
+}
+
+Type CNetworkService::getType() {
+	return m_type;
 }
 
 int CNetworkService::getLatency() {
@@ -117,7 +155,6 @@ bool CNetworkService::isActionAvailable() {
 }
 
 bool CNetworkService::sendAsMessage(Action action, int iObjectID, int iCoordX, int iCoordY, std::string sValue) {
-
 	if (getConnectionState() == CONNECTED) {
 		// transforms the action to string
 		// delimiter is a semicolon
