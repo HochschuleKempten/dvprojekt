@@ -93,6 +93,9 @@ private:
 	VModelPowerLine *m_zTrasse4 = new VModelPowerLine();
 	CTextureTester *m_zTester = new CTextureTester();
 
+	VModelPowerLine *m_zTrassen;
+
+
 	CGeoCube cube;
 	CMaterial material;
 	CPlacement placement1;

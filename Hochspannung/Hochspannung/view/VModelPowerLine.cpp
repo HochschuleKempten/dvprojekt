@@ -5,9 +5,9 @@ NAMESPACE_VIEW_B
 
 #define SIZEOF_ARRAY(array) (sizeof(array) / sizeof(*array))
 
-inline DIRECTION operator|(DIRECTION a, DIRECTION b)
+inline VModelPowerLine::DIRECTION operator|(VModelPowerLine::DIRECTION a, VModelPowerLine::DIRECTION b)
 {
-	return static_cast<DIRECTION>(static_cast<int>(a) | static_cast<int>(b));
+	return static_cast<VModelPowerLine::DIRECTION>(static_cast<int>(a) | static_cast<int>(b));
 }
 
 VModelPowerLine::VModelPowerLine(void)
@@ -90,9 +90,11 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 	m_zgArm.Init(CHVector(m_fArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
 	m_zgUpperArm.Init(CHVector(m_fUpperArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
 	m_zgIsolatorLoD1.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmBlack);
-	m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmBlack, 4);
+	m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmBlack, 4, false, false);
+	m_zgIsolatorLoD3.Init(CHVector(m_fIsolatorThickness, m_fIsolatorLength, m_fIsolatorThickness), &m_zmBlack);
 	m_zgRingLoD1.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmBlack);
-	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmBlack, 6, 6);
+	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmBlack, 6, 6, false);
+	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), &m_zmBlack);
 	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), &m_zmBlack);
 
 	// init ring vector
@@ -100,9 +102,11 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 		m_zpRing.push_back(*new CPlacement);
 		m_zpRingLoD1.push_back(*new CPlacement);
 		m_zpRingLoD2.push_back(*new CPlacement);
+		m_zpRingLoD3.push_back(*new CPlacement);
 		m_zpIsolator.push_back(*new CPlacement);
 		m_zpIsolatorLoD1.push_back(*new CPlacement);
 		m_zpIsolatorLoD2.push_back(*new CPlacement);
+		m_zpIsolatorLoD3.push_back(*new CPlacement);
 	}
 
 	// preparing struts (rotate)
@@ -110,6 +114,7 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 	for (int i = 0; i < m_iStrutsCount * 8; i++) {
 		m_zpStruts[i].AddGeo(&m_zgStrut);
 		m_zpStruts[i].FixAndFasten();
+		if (i % 2) m_zpStruts[i].SetLoD(0, 5);
 	}
 
 	// preparing spheres
@@ -140,6 +145,8 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 
 			m_zpStruts[index1].TranslateDelta(m_fPoleDistance, iYTranslation, 0);
 			m_zpStruts[index2].TranslateDelta(m_fPoleDistance, iYTranslation, 0);
+			//m_zpStruts[index1].SetLoD(0, 5.0f);
+			m_zpStruts[index2].SetLoD(0, 2.0f);
 		}
 		m_zpPole[i].FixAndFasten();
 
@@ -192,21 +199,28 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 		m_zpTriangleIsolatorLoD2->Subdivide(m_fIsolatorLength * 0.2f);
 		m_zpTriangleIsolatorLoD2->WaveY(0.5f, 0.01f, 0);
 
+		//m_zpTriangleIsolatorLoD3 = m_zgIsolatorLoD2.CopyToTriangleList();
+		//m_zpTriangleIsolatorLoD3->Subdivide(m_fIsolatorLength * 0.2f);
+		//m_zpTriangleIsolatorLoD3->WaveY(0.5f, 0.01f, 0);
+
 		float dividedArm = m_fArmLength / 4.0f;
 
 		m_zpIsolatorLoD1[i].SetLoD(0, 1.0f);
-		m_zpIsolatorLoD2[i].SetLoD(1.0f, 10.0f);
+		m_zpIsolatorLoD2[i].SetLoD(1.0f, 3.0f);
+		m_zpIsolatorLoD3[i].SetLoD(3.0f, 10.0f);
 
 		for (int j = 0; j < 4; j++)
 		{
 			m_zpIsolatorLoD1[i * 4 + j].AddGeo(m_zpTriangleIsolatorLoD1);
 			m_zpIsolatorLoD2[i * 4 + j].AddGeo(m_zpTriangleIsolatorLoD2);
+			m_zpIsolatorLoD3[i * 4 + j].AddGeo(m_zpTriangleIsolatorLoD2);
 		}
 
 		for (int j = 0; j < 4; j++)
 		{
 			m_zpIsolator[i * 4 + j].AddPlacement(&m_zpIsolatorLoD1[i]);
 			m_zpIsolator[i * 4 + j].AddPlacement(&m_zpIsolatorLoD2[i]);
+			m_zpIsolator[i * 4 + j].AddPlacement(&m_zpIsolatorLoD3[i]);
 		}
 
 		m_zpIsolator[i * 4].Translate(dividedArm * -3.0f, -m_fIsolatorLength, 0);
@@ -230,9 +244,13 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 		m_zpRingLoD2[i].AddGeo(&m_zgRingLoD2);
 		m_zpRing[i].AddPlacement(&m_zpRingLoD2[i]);
 
-		m_zpRingLoD1[i].SetLoD(0, 1.0f);
-		m_zpRingLoD2[i].SetLoD(1.0f, 10.0f);
+		m_zpRingLoD3[i].AddGeo(&m_zgRingLoD3);
+		m_zpRing[i].AddPlacement(&m_zpRingLoD3[i]);
 
+		m_zpRingLoD1[i].SetLoD(0, 0.5f);
+		m_zpRingLoD2[i].SetLoD(0.5f, 3.0f);
+		m_zpRingLoD3[i].SetLoD(3.0f, 10.0f);
+		
 		m_zpRing[i].RotateXDelta(HALFPI);
 		m_zpRing[i].TranslateDelta(0,0 -m_fRingRadius, 0);
 		m_zpRing[i].SetFrustumCullingOn();	
@@ -265,130 +283,25 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 
 
 void VModelPowerLine::InitArm() {
-	//for (int i = 0; i < 4; i++) {
-		/*switch (m_ePylonType) {
-		case STRAIGHT:
-			if (m_eDirection == NORTH || m_eDirection == SOUTH)
-			{
-				m_zpArm[0].SwitchOff();
-				m_zpArm[1].SwitchOn();
-				m_zpArm[2].SwitchOff();
-				m_zpArm[3].SwitchOn();
-			}
-			else if (m_eDirection == WEST || m_eDirection == EAST)
-			{
-				m_zpArm[0].SwitchOn();
-				m_zpArm[1].SwitchOff();
-				m_zpArm[2].SwitchOn();
-				m_zpArm[3].SwitchOff();
-			}
-			break;
-		case CROSS:
-			m_zpArm[0].TranslateYDelta(-m_fStrutHeight  * 2.0f);
-			m_zpArm[2].TranslateYDelta(-m_fStrutHeight * 2.0f);
-			m_zpArm[0].SwitchOn();
-			m_zpArm[1].SwitchOn();
-			m_zpArm[2].SwitchOn();
-			m_zpArm[3].SwitchOn();
+	std::bitset<4> direction = m_eDirection;
+	for (int i = 0; i < 4; i++) {
+		direction[i] ? m_zpArm[i].SwitchOn() : m_zpArm[i].SwitchOff();
+	}
 
-			break;
-		case ANGLE:
-			switch (m_eDirection)
-			{
-			case VModelPowerLine::WEST:
-				m_zpArm[0].SwitchOn();
-				m_zpArm[1].SwitchOn();
-				m_zpArm[2].SwitchOff();
-				m_zpArm[3].SwitchOff();
-				break;
-			case VModelPowerLine::SOUTH:
-				m_zpArm[0].SwitchOff();
-				m_zpArm[1].SwitchOn();
-				m_zpArm[2].SwitchOn();
-				m_zpArm[3].SwitchOff();
-				break;
-			case VModelPowerLine::EAST:
-				m_zpArm[0].SwitchOff();
-				m_zpArm[1].SwitchOff();
-				m_zpArm[2].SwitchOn();
-				m_zpArm[3].SwitchOn();
-				break;
-			case VModelPowerLine::NORTH:
-				m_zpArm[0].SwitchOn();
-				m_zpArm[1].SwitchOff();
-				m_zpArm[2].SwitchOff();
-				m_zpArm[3].SwitchOn();
-				break;
-			default:
-				break;
-			}
-			break;
-		}*/
+	//if (m_eDirection == (DIRECTION::EAST | DIRECTION::WEST | DIRECTION::SOUTH | DIRECTION::NORTH))
+	//{
+	//	m_zpArm[0].TranslateYDelta(-m_fStrutHeight  * 2.0f);
+	//	m_zpArm[2].TranslateYDelta(-m_fStrutHeight * 2.0f);
+	//	//m_zpArm[0].SwitchOn();
+	//	//m_zpArm[1].SwitchOn();
+	//	//m_zpArm[2].SwitchOn();
+	//	//m_zpArm[3].SwitchOn();
 	//}
-
-	// this did not work with switch ...
-	if (m_eDirection == (DIRECTION::NORTH | DIRECTION::SOUTH))
-	{
-		m_zpArm[0].SwitchOn();
-		m_zpArm[1].SwitchOff();
-		m_zpArm[2].SwitchOn();
-		m_zpArm[3].SwitchOff();
-	}
-
-	if (m_eDirection == (DIRECTION::EAST | DIRECTION::WEST))
-	{
-		m_zpArm[0].SwitchOff();
-		m_zpArm[1].SwitchOn();
-		m_zpArm[2].SwitchOff();
-		m_zpArm[3].SwitchOn();
-	}
-
-	if (m_eDirection == (DIRECTION::NORTH | DIRECTION::WEST))
-	{
-		m_zpArm[0].SwitchOn();
-		m_zpArm[1].SwitchOff();
-		m_zpArm[2].SwitchOff();
-		m_zpArm[3].SwitchOn();
-	}
-
-	if (m_eDirection == (DIRECTION::NORTH | DIRECTION::EAST))
-	{
-		m_zpArm[0].SwitchOff();
-		m_zpArm[1].SwitchOff();
-		m_zpArm[2].SwitchOn();
-		m_zpArm[3].SwitchOn();
-	}
-
-	if (m_eDirection == (DIRECTION::SOUTH | DIRECTION::WEST))
-	{
-		m_zpArm[0].SwitchOn();
-		m_zpArm[1].SwitchOn();
-		m_zpArm[2].SwitchOff();
-		m_zpArm[3].SwitchOff();
-	}
-
-	if (m_eDirection == (DIRECTION::SOUTH | DIRECTION::EAST))
-	{
-		m_zpArm[0].SwitchOff();
-		m_zpArm[1].SwitchOn();
-		m_zpArm[2].SwitchOn();
-		m_zpArm[3].SwitchOff();
-	}
-
-	if (m_eDirection == (DIRECTION::EAST | DIRECTION::WEST | DIRECTION::SOUTH | DIRECTION::NORTH))
-	{
-		m_zpArm[0].TranslateYDelta(-m_fStrutHeight  * 2.0f);
-		m_zpArm[2].TranslateYDelta(-m_fStrutHeight * 2.0f);
-		m_zpArm[0].SwitchOn();
-		m_zpArm[1].SwitchOn();
-		m_zpArm[2].SwitchOn();
-		m_zpArm[3].SwitchOn();
-	}
 }
 
-//VModelPowerLine::DIRECTION VModelPowerLine::Direction() {
-//	return m_eDirection;
-//}
+VModelPowerLine::DIRECTION VModelPowerLine::Direction() {
+	return m_eDirection;
+}
 
 //SHORT * VModelPowerLine::GridPosition() {
 //	return m_iGridPosition;
