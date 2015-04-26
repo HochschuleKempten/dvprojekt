@@ -49,8 +49,6 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 
 	m_zTrasse1->SetPosition(-1, 0);
 	m_zTrasse2->SetPosition(1, 0);
-
-
 	//m_zTrasse3->SetPosition(3, 0);
 	//m_zTrasse4->SetPosition(2, -2);
 

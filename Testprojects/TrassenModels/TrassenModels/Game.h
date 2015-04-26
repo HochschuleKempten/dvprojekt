@@ -87,10 +87,10 @@ private:
 	CCamera m_zc;
 	CParallelLight m_zl;
 	CDeviceKeyboard m_zdk;
-	VModelPowerLine *m_zTrasse1 = new VModelPowerLine();
-	VModelPowerLine *m_zTrasse2 = new VModelPowerLine();
-	VModelPowerLine *m_zTrasse3 = new VModelPowerLine();
-	VModelPowerLine *m_zTrasse4 = new VModelPowerLine();
+	VModelPowerLine *m_zTrasse1 = new VModelPowerLine(1.0f);
+	VModelPowerLine *m_zTrasse2 = new VModelPowerLine(1.0f);
+	VModelPowerLine *m_zTrasse3 = new VModelPowerLine(1.0f);
+	VModelPowerLine *m_zTrasse4 = new VModelPowerLine(1.0f);
 	CTextureTester *m_zTester = new CTextureTester();
 
 	VModelPowerLine *m_zTrassen;

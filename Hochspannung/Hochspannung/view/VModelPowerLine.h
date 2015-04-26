@@ -21,13 +21,13 @@ public:
 	};
 
 	friend DIRECTION operator|(DIRECTION a, DIRECTION b);
+	VModelPowerLine(float fFieldSize);
 	VModelPowerLine(void);
 	virtual ~VModelPowerLine(void) override;
 	map<DIRECTION, vector<VModelPowerLine *>> * Connections();
 	VModelPowerLine::PYLONTYPE PylonType();
 	vector<CHVector> * ConnectorPositions(VModelPowerLine::DIRECTION armPosition);
 
-	//void Init(PYLONTYPE ePylonType = STRAIGHT, DIRECTION eDirection = NORTH, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
 	void Init(VModelPowerLine::DIRECTION eDirection, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
 	void SetPosition(int x, int y);
 	//bool ConnectTo(VModelPowerLine *pPylon);
@@ -39,7 +39,6 @@ public:
 	virtual float getWidth() override;  // width of the foundation
 
 private:
-	void InitArm();
 	std::vector<VModelPowerLine::DIRECTION> DetermineArm(VModelPowerLine *pPylon);
 	//TODO (Pylon) consider using normal variable types instead of pointers here (less heap allocations)
 	//You may be able to use std::vector<CPlacement> as well
@@ -51,13 +50,10 @@ private:
 	std::vector<CPlacement> m_zpRingLoD1;
 	std::vector<CPlacement> m_zpRingLoD2;
 	std::vector<CPlacement> m_zpRingLoD3;
-	std::map<VModelPowerLine::DIRECTION, std::vector<CPlacement>> m_zpLine;
-	//std::map<DIRECTION, std::vector<CPlacement*>> m_zpLine;
-	std::map<VModelPowerLine::DIRECTION, std::vector<VModelPowerLine *> > m_connections;
+	CPlacement m_zpLine[8];
 	std::map<VModelPowerLine::DIRECTION, std::vector<CHVector>> m_vConnectorPositions;
 	SHORT * GridPosition();
 	VModelPowerLine::DIRECTION Direction();
-
 	CMaterial m_zmBlack;
 	CMaterial m_zmGrey;
 
@@ -70,9 +66,10 @@ private:
 	CGeoCube m_zgRoof;
 	CGeoCube m_zgStrut;
 	CGeoSphere m_zgSphere;
+	CGeoCylinder m_zgLine;
 	CGeoCylinder m_zgIsolatorLoD1;
 	CGeoCylinder m_zgIsolatorLoD2;
-	CGeoCube m_zgIsolatorLoD3;
+	CGeoCylinder m_zgIsolatorLoD3;
 	CGeoTube m_zgRingLoD1;
 	CGeoTube m_zgRingLoD2;
 	CGeoCube m_zgRingLoD3;
@@ -106,6 +103,7 @@ private:
 	SHORT m_iStrutsCount		                         = 0;
 	PYLONTYPE m_ePylonType                               = STRAIGHT;
 	VModelPowerLine::DIRECTION m_eDirection				 = DIRECTION::NORTH | DIRECTION::SOUTH;
+	float m_fFieldSize                                   = 0;
 	float m_fFoundationHeight                            = 0;
 	float m_fFoundationWidth                             = 0;
 	float m_fPoleDistance                                = 0;
