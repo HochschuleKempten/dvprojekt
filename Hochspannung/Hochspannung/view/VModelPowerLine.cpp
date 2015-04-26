@@ -70,29 +70,18 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 	m_zgSphere.Init(2 * m_fPoleThickness, &m_zmBlack);
 	m_zgArm.Init(CHVector(m_fArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
 	m_zgUpperArm.Init(CHVector(m_fUpperArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
+	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), &m_zmBlack);
 	m_zgIsolatorLoD1.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmBlack);
 	m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmBlack, 6, false, false);
 	m_zgIsolatorLoD3.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmBlack, 4, false, false);
 	m_zgRingLoD1.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmBlack);
 	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmBlack, 5, 5, false);
 	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), &m_zmBlack);
-	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), &m_zmBlack);
 	m_zgLine.Init(m_fRingThickness, m_fRingThickness, m_fArmLength, &m_zmGrey, 4, false, false);
 
-	// init ring vector
-	for (int i = 0; i < 16; i++) {
-		m_zpRing.push_back(*new CPlacement);
-		m_zpRingLoD1.push_back(*new CPlacement);
-		m_zpRingLoD2.push_back(*new CPlacement);
-		m_zpRingLoD3.push_back(*new CPlacement);
-		m_zpIsolator.push_back(*new CPlacement);
-		m_zpIsolatorLoD1.push_back(*new CPlacement);
-		m_zpIsolatorLoD2.push_back(*new CPlacement);
-		m_zpIsolatorLoD3.push_back(*new CPlacement);
-	}
 
 	// preparing struts (rotate)
-	m_zpStruts = new CPlacement[m_iStrutsCount * 8];
+	//m_zpStruts = new CPlacement[m_iStrutsCount * 8];
 	for (int i = 0; i < m_iStrutsCount * 8; i++) {
 		m_zpStruts[i].AddGeo(&m_zgStrut);
 	}
@@ -132,8 +121,8 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 		m_zpRoof[i].RotateYDelta(AngleToRad(45));
 		m_zpRoof[i].TranslateDelta(m_fPoleDistance * 0.5f, m_fPylonHeight + m_fStrutHeight * 1.1f, -4 * m_fPoleThickness);
 		m_zpPole[i].AddPlacement(&m_zpRoof[i]);
-		m_zpSphere[i].TranslateYDelta(m_fPylonHeight);
 		m_zpPole[i].AddPlacement(&m_zpSphere[i]);
+		m_zpSphere[i].TranslateYDelta(m_fPylonHeight);
 
 		// adding bottom arm poles
 		m_zpLeftArmPole[i].AddGeo(&m_zgArm);
@@ -177,16 +166,9 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 
 		m_zpTriangleIsolatorLoD3 = m_zgIsolatorLoD3.CopyToTriangleList();
 		m_zpTriangleIsolatorLoD3->Subdivide(m_fIsolatorLength * 0.5f);
-		m_zpTriangleIsolatorLoD3->WaveY(0.5f, 0.01f, 0);
+		m_zpTriangleIsolatorLoD3->WaveY(0.3f, 0.01f, 0);
 
 		float dividedArm = m_fArmLength * 0.25f;
-
-		m_zpIsolatorLoD1[i].SetLoD(0, 1.0f);
-		m_zpIsolatorLoD2[i].SetLoD(1.0f, 3.0f);
-		m_zpIsolatorLoD3[i].SetLoD(3.0f, 10.0f);
-		m_zpRingLoD1[i].SetLoD(0, 0.5f);
-		m_zpRingLoD2[i].SetLoD(0.5f, 3.0f);
-		m_zpRingLoD3[i].SetLoD(3.0f, 10.0f);
 
 		for (int j = 0; j < 4; j++)
 		{
@@ -230,12 +212,19 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 		// switch on/off unnecessary arms and cables
 		direction[i] ? m_zpArm[i].SwitchOn() : m_zpArm[i].SwitchOff();
 
+		// set level of details
+		m_zpIsolatorLoD1[i].SetLoD(0, 1.0f);
+		m_zpIsolatorLoD2[i].SetLoD(1.0f, 5.0f);
+		m_zpIsolatorLoD3[i].SetLoD(5.0f, 7.0f);
+		m_zpRingLoD1[i].SetLoD(0, 0.75f);
+		m_zpRingLoD2[i].SetLoD(0.75f, 5.0f);
+		m_zpRingLoD3[i].SetLoD(5.0f, 7.0f);
+
 		// rotate modeled pole and add it to foundation
 		m_zpPole[i].RotateYDelta(i * HALFPI);
 		m_zpFoundation.AddPlacement(&m_zpPole[i]);
 
 	}
-
 	// finally move the 4 poles into place
 	m_zpPole[0].TranslateDelta(-m_fPoleDistance, m_fPylonHeight, m_fPoleDistance);
 	m_zpPole[1].TranslateDelta(m_fPoleDistance, m_fPylonHeight, m_fPoleDistance);

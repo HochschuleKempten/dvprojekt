@@ -21,37 +21,28 @@ public:
 	};
 
 	friend DIRECTION operator|(DIRECTION a, DIRECTION b);
-	VModelPowerLine(float fFieldSize);
 	VModelPowerLine(void);
+	VModelPowerLine(float fFieldSize);
 	virtual ~VModelPowerLine(void) override;
-	map<DIRECTION, vector<VModelPowerLine *>> * Connections();
-	VModelPowerLine::PYLONTYPE PylonType();
-	vector<CHVector> * ConnectorPositions(VModelPowerLine::DIRECTION armPosition);
 
 	void Init(VModelPowerLine::DIRECTION eDirection, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
 	void SetPosition(int x, int y);
-	//bool ConnectTo(VModelPowerLine *pPylon);
-	//USHORT AddConnection(VModelPowerLine * pPylon, DIRECTION eConnectorPosition);
-	//bool DisconnectFrom(VModelPowerLine * pPylon);
-	//bool DisconnectAll();
 
 	virtual float getHeight() override; // including foundation
 	virtual float getWidth() override;  // width of the foundation
 
 private:
 	std::vector<VModelPowerLine::DIRECTION> DetermineArm(VModelPowerLine *pPylon);
-	//TODO (Pylon) consider using normal variable types instead of pointers here (less heap allocations)
-	//You may be able to use std::vector<CPlacement> as well
-	std::vector<CPlacement> m_zpIsolator;
-	std::vector<CPlacement> m_zpIsolatorLoD1;
-	std::vector<CPlacement> m_zpIsolatorLoD2;
-	std::vector<CPlacement> m_zpIsolatorLoD3;
-	std::vector<CPlacement> m_zpRing;
-	std::vector<CPlacement> m_zpRingLoD1;
-	std::vector<CPlacement> m_zpRingLoD2;
-	std::vector<CPlacement> m_zpRingLoD3;
+	CPlacement m_zpIsolator[16];
+	CPlacement m_zpIsolatorLoD1[16];
+	CPlacement m_zpIsolatorLoD2[16];
+	CPlacement m_zpIsolatorLoD3[16];
+	CPlacement m_zpRing[16];
+	CPlacement m_zpRingLoD1[16];
+	CPlacement m_zpRingLoD2[16];
+	CPlacement m_zpRingLoD3[16];
 	CPlacement m_zpLine[8];
-	std::map<VModelPowerLine::DIRECTION, std::vector<CHVector>> m_vConnectorPositions;
+	
 	SHORT * GridPosition();
 	VModelPowerLine::DIRECTION Direction();
 	CMaterial m_zmBlack;
@@ -84,7 +75,7 @@ private:
 	CPlacement m_zpPole[4];
 	CPlacement m_zpRoof[4];
 	CPlacement m_zpSphere[5];
-	CPlacement *m_zpStruts = nullptr;
+	CPlacement m_zpStruts[80];
 
 	CTriangleList *m_zpTriangleIsolatorLoD1;
 	CTriangleList *m_zpTriangleIsolatorLoD2;
@@ -95,10 +86,7 @@ private:
 
 
 	SHORT m_iGridPosition[2];
-	bool m_bConnectedPositions[4];
 
-	USHORT m_iMaxConnectionsPerConnector                 = 2;
-	USHORT m_iConnectorPerArm                            = 4;
 	SHORT m_iArmPosition		                         = 8;
 	SHORT m_iStrutsCount		                         = 0;
 	PYLONTYPE m_ePylonType                               = STRAIGHT;
