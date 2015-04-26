@@ -20,19 +20,19 @@ public:
 		STRAIGHT, CROSS, ANGLE
 	};
 
-	friend DIRECTION operator|(DIRECTION a, DIRECTION b);
+	friend VModelPowerLine::DIRECTION operator|(VModelPowerLine::DIRECTION a, VModelPowerLine::DIRECTION b);
+	VModelPowerLine::DIRECTION Direction();
 	VModelPowerLine(void);
 	VModelPowerLine(float fFieldSize);
 	virtual ~VModelPowerLine(void) override;
 
-	void Init(VModelPowerLine::DIRECTION eDirection, float fFoundationWidth = 0.1f, float fPylonHeight = 1.0f);
+	void Init(VModelPowerLine::DIRECTION eDirection, float fPylonHeight = 1.0f);
 	void SetPosition(int x, int y);
-
+	SHORT * GetPosition();
 	virtual float getHeight() override; // including foundation
 	virtual float getWidth() override;  // width of the foundation
 
 private:
-	std::vector<VModelPowerLine::DIRECTION> DetermineArm(VModelPowerLine *pPylon);
 	CPlacement m_zpIsolator[16];
 	CPlacement m_zpIsolatorLoD1[16];
 	CPlacement m_zpIsolatorLoD2[16];
@@ -41,14 +41,12 @@ private:
 	CPlacement m_zpRingLoD1[16];
 	CPlacement m_zpRingLoD2[16];
 	CPlacement m_zpRingLoD3[16];
-	CPlacement m_zpLine[8];
+	CPlacement m_zpLine[4];
 	
-	SHORT * GridPosition();
-	VModelPowerLine::DIRECTION Direction();
+	
 	CMaterial m_zmBlack;
 	CMaterial m_zmGrey;
 
-	// new pylon modeling (10.4.2015)
 	CGeoCube m_zgArm;
 	CGeoCube m_zgUpperArm;
 	CGeoCube m_zgFoundation;
@@ -85,7 +83,7 @@ private:
 	CTriangleList *m_zpTriangleRingLoD3;
 
 
-	SHORT m_iGridPosition[2];
+	SHORT m_saGridPosition[2];
 
 	SHORT m_iArmPosition		                         = 8;
 	SHORT m_iStrutsCount		                         = 0;

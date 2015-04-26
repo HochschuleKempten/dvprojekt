@@ -23,15 +23,15 @@ VModelPowerLine::~VModelPowerLine(void) {
 }
 
 void VModelPowerLine::SetPosition(int x, int y) {
-	m_iGridPosition[0] = x;
-	m_iGridPosition[1] = y;
+	m_saGridPosition[0] = x;
+	m_saGridPosition[1] = y;
 
 	// translate
 	m_zpMain.TranslateXDelta(CASTS<float>(x));
 	m_zpMain.TranslateZDelta(CASTS<float>(y));
 }
 
-void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float fPylonHeight)
+void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 {
 	m_zmGrey.MakeTextureDiffuse("textures\\texture_concrete_diffuse.png");
 	m_zmGrey.MakeTextureBump("textures\\texture_concrete_normal.png");
@@ -39,10 +39,10 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 	m_zmBlack.MakeTextureDiffuse("textures\\black_image.jpg");
 
 	// set necessary attributes depending on foundationWidth and pylonHeight
-	m_fFoundationWidth		= m_fFieldSize * 0.3f;
-	m_fFoundationHeight		= fFoundationWidth * 0.3f;
+	m_fFoundationWidth		= m_fFieldSize * 0.2f;
+	m_fFoundationHeight		= m_fFoundationWidth * 0.2f;
 	m_fPylonHeight			= fPylonHeight;
-	m_fPoleDistance			= fFoundationWidth * 0.8f;
+	m_fPoleDistance         = m_fFoundationWidth * 0.4f;
 	m_fPoleThickness		= m_fPoleDistance * 0.1f;
 	m_fStrutHeight			= fPylonHeight * 0.1f;
 	m_fStrutLength			= sqrtf(powf(m_fPoleDistance, 2) + powf(m_fStrutHeight, 2));
@@ -77,7 +77,7 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 	m_zgRingLoD1.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmBlack);
 	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmBlack, 5, 5, false);
 	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), &m_zmBlack);
-	m_zgLine.Init(m_fRingThickness, m_fRingThickness, m_fArmLength, &m_zmGrey, 4, false, false);
+	m_zgLine.Init(m_fRingRadius * 0.8f, m_fRingRadius * 0.8f, m_fFieldSize - m_fArmLength * 0.5f, &m_zmGrey, 16, false, false);
 
 
 	// preparing struts (rotate)
@@ -209,6 +209,12 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 		m_zpRing[i].TranslateDelta(0, -m_fRingRadius, 0);
 		m_zpRing[i].SetFrustumCullingOn();
 
+		// add lines
+		m_zpLine[i].AddGeo(&m_zgLine);
+		m_zpLine[i].RotateZDelta(HALFPI);
+		m_zpLine[i].TranslateYDelta(-m_fRingRadius);
+		m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpLine[i]);
+
 		// switch on/off unnecessary arms and cables
 		direction[i] ? m_zpArm[i].SwitchOn() : m_zpArm[i].SwitchOff();
 
@@ -225,6 +231,7 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 		m_zpFoundation.AddPlacement(&m_zpPole[i]);
 
 	}
+
 	// finally move the 4 poles into place
 	m_zpPole[0].TranslateDelta(-m_fPoleDistance, m_fPylonHeight, m_fPoleDistance);
 	m_zpPole[1].TranslateDelta(m_fPoleDistance, m_fPylonHeight, m_fPoleDistance);
@@ -235,14 +242,13 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fFoundationWidth, float f
 	m_zpMain.AddPlacement(&m_zpFoundation);
 }
 
+SHORT * VModelPowerLine::GetPosition() {
+	return m_saGridPosition;
+}
+
 VModelPowerLine::DIRECTION VModelPowerLine::Direction() {
 	return m_eDirection;
 }
-
-
-//SHORT * VModelPowerLine::GridPosition() {
-//	return m_iGridPosition;
-//}
 
 float VModelPowerLine::getWidth() {
 	return m_fFoundationWidth;
