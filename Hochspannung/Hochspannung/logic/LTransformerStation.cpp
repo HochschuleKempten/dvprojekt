@@ -31,8 +31,10 @@ void LTransformerStation::tick(const float fTimeDelta)
 		int seconds = CASTS<int>(timeLastCheck);
 		ASSERT(seconds >= 1, "The number of seconds is invalid.");
 
-		performDisposal();
-
+		if (lField->getLPlayingField()->isMarctplaceConnected)
+		{
+			performDisposal();
+		}
 		timeLastCheck = 0;
 	}
 
