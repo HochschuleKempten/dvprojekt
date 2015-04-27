@@ -7,7 +7,7 @@ VTextfield::VTextfield()
 
 }
 
-VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive,const int& MaxChars,const string& Placeholder)
+VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars,const string& Placeholder)
 	:
 	m_bIsActive(false),
 	m_sInputtext(std::string())

@@ -6,7 +6,7 @@ m_bHasHover(false)
 {
 
 }
-VButton::VButton(CViewport* viewport, CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) :
+VButton::VButton(CViewport* viewport,  CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) :
 m_bHasHover(false),
 action(IViewUIObserver::NOTHING)
 {

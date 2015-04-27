@@ -30,6 +30,7 @@ VScreenMainMenue::VScreenMainMenue(CFrame* frame)
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.57, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, SWITCH_TO_CREDITS, "buttonSwitchToCredits");
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.72, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "buttonQuitGame");
 	
+	
 
 }
 

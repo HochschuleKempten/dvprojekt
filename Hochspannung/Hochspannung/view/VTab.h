@@ -13,7 +13,7 @@ public:
 	void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder, string sName) override;
 	void addText(CFloatRect rect, CWritingFont* writingFont, string text, string sName)override;
 	void onNotify(Event events) override;
-	void addContainer(const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName) override;
+	void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName) override;
 	void switchOn() override;
 
 	void switchOff() override;

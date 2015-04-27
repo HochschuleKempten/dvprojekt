@@ -9,6 +9,8 @@
 #include "VRegister.h"
 
 NAMESPACE_VIEW_B
+
+
 //---------------------------------------------------
 // IScreen Interface
 // Beschreibung:
@@ -79,7 +81,8 @@ public:
 	virtual void checkShortcut(CDeviceKeyboard* keyboard)=0;
 	virtual void resize(int width, int height)
 	{
-		m_viewport->ReSize();
+		//m_viewport->CalcSize();
+		m_viewport->ReSize(0, 0, width, height);
 	}
 protected:	
 	map<string, IViewGUIContainer*> m_Guicontainer;

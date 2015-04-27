@@ -14,7 +14,7 @@ class VButton:public IViewGUIObject{
 public:
 	
 	VButton();
-	VButton(CViewport* viewport,CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction);
+	VButton(CViewport* viewport,CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction);
 	~VButton();
 	
 	
@@ -39,7 +39,7 @@ public:
 	COverlay* getHoverOverlay();
 	COverlay *getNormalOverlay();
 	
-	CFloatRect getRectangle();
+	CFloatRect getRectangle() override;
 	
 	
 	//ClickAction getAction();

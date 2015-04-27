@@ -204,6 +204,7 @@
     <ClInclude Include="view\VCity.h" />
     <ClInclude Include="view\VDialog.h" />
     <ClInclude Include="view\VField.h" />
+    <ClInclude Include="view\VGUIArea.h" />
     <ClInclude Include="view\VModelCity.h" />
     <ClInclude Include="view\VModelPowerLine.h" />
     <ClInclude Include="view\VButton.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="view\VCity.cpp" />
     <ClCompile Include="view\VDialog.cpp" />
     <ClCompile Include="view\VField.cpp" />
+    <ClCompile Include="view\VGUIArea.cpp" />
     <ClCompile Include="view\VModelCity.cpp" />
     <ClCompile Include="view\VModelPowerLine.cpp" />
     <ClCompile Include="view\VButton.cpp" />

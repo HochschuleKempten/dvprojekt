@@ -250,10 +250,10 @@ void VUI::resize(int width, int height)
 {
 
 	
-	/*for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++)
+	for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++)
 	{
 		m_iterScreens->second->resize(width, height);
-	}*/
+	}
 
 	m_zf.ReSize(width, height);
 

@@ -52,7 +52,7 @@ public:
 
 	virtual void tick(const float fTimeDelta) override;
 
-	virtual void onNotify(Event) override;
+	virtual void onNotify(Event events) override;
 
 	void addScreen(string sName, IViewScreen::ScreenType);
 	void switchScreen(string switchTo);

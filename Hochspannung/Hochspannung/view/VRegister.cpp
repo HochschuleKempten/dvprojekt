@@ -80,7 +80,7 @@ VRegister::~VRegister()
 		}
 	}
 
-	void VRegister::addContainer(const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName)
+	void VRegister::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
 	{
 		switch (containerType)
 		{

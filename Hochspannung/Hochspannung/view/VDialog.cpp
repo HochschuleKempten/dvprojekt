@@ -95,7 +95,7 @@ void VDialog::switchOff()
 	m_bOn = false;
 }
 
-void VDialog::addContainer(const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName)
+void VDialog::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
 {
 	switch (containerType)
 	{

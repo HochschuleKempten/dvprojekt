@@ -57,7 +57,7 @@ public:
 
 	}
 	
-	virtual void addContainer(const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName)
+	virtual void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
 	{
 		
 	};
