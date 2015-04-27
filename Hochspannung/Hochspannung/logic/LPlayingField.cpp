@@ -42,6 +42,7 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 	                               }),
 	  powerLineGraph(fieldLength * fieldLength),
 	  isCoordinateUsed(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
+	  connectedBuildings(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
 	  fieldTypes({LField::MOUNTAIN, LField::AIR, LField::SOLAR, LField::WATER, LField::COAL, LField::OIL}),
 	  fieldLevels({LField::LEVEL1, LField::LEVEL2, LField::LEVEL3})
 {
@@ -65,6 +66,38 @@ LPlayingField::~LPlayingField()
 LField* LPlayingField::getField(const int x, const int y)
 {
 	return &fieldArray[x][y];
+}
+
+bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second)
+{
+	//Store always the lower idx as first parameter
+	//This is necessary, so if I check the connection between 1 and 2 it should be the same as 2 and 1
+	int firstIndex = convertIndex(first);
+	int secondIndex = convertIndex(second);
+	if (firstIndex < secondIndex) {
+		std::swap(firstIndex, secondIndex);
+	}
+
+	//The idx pair is already in the set, so there is a connection
+	if (connectedBuildings.count(std::pair<int, int>(firstIndex, secondIndex)) > 0) {
+		return true;
+	}
+
+	//The idx is not in the set, so check the connection in the graph
+	std::vector<int> buildingsConnectedWithCity = strongConnectedSearch(powerLineGraph, convertIndex(cityPosition));
+	bool connected = std::find(buildingsConnectedWithCity.begin(), buildingsConnectedWithCity.end(), convertIndex(transformerStationPosition)) != buildingsConnectedWithCity.end();
+
+	//The idx are now connected, store them in the set, so that the information can be used later
+	if (connected) {
+		connectedBuildings.emplace(firstIndex, secondIndex);
+	}
+
+	return connected;
+}
+
+bool LPlayingField::isMarctplaceConnected()
+{
+	return checkConnectionBuildings(cityPosition, transformerStationPosition);
 }
 
 int LPlayingField::getFieldLength()
@@ -104,7 +137,7 @@ void LPlayingField::createFields()
 	std::pair<int, int> firstPowerLineCoordinates = retrieveFreeCoordinates(cityPosition.first, cityPosition.second + 1);
 	std::pair<int, int> secondPowerLineCoordinates = retrieveFreeCoordinates(firstPowerLineCoordinates.first + 1, firstPowerLineCoordinates.second);
 	std::pair<int, int> firstPowerPlantCoordinates = retrieveFreeCoordinates(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second + 1);
-	std::pair<int, int> transformerStationPosition = retrieveFreeCoordinates();
+	transformerStationPosition = retrieveFreeCoordinates();
 
 	fieldArray[cityPosition.first][cityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
 	placeBuilding<LCity>(cityPosition.first, cityPosition.second);
@@ -167,6 +200,11 @@ bool LPlayingField::checkIndex(const int x, const int y)
 	return (x >= 0) && (x < fieldLength) && (y >= 0) && (y < fieldLength);
 }
 
+int LPlayingField::convertIndex(const std::pair<int, int>& coordinates)
+{
+	return convertIndex(coordinates.first, coordinates.second);
+}
+
 int LPlayingField::convertIndex(const int x, const int y)
 {
 	return x * fieldLength + y;
@@ -176,7 +214,7 @@ void LPlayingField::calculateEnergyValueCity()
 {
 	int energyValue = 0;
 
-	std::vector<int> vec = strongConnectedSearch(powerLineGraph, convertIndex(cityPosition.first, cityPosition.second));
+	std::vector<int> vec = strongConnectedSearch(powerLineGraph, convertIndex(cityPosition));
 	std::pair<int, int> coord;
 
 	for (size_t i = 0; i < vec.size(); i++) {
