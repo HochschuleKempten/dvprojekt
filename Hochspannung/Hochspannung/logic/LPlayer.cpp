@@ -19,6 +19,12 @@ int LPlayer::getMoney() const
 	return money;
 }
 
+void LPlayer::addMoney(const int amount)
+{
+	money += amount;
+	lMaster->getVMaster()->updateMoney(money);
+}
+
 void LPlayer::substractMoney(const int amount)
 {
 	money -= amount;

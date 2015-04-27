@@ -45,22 +45,29 @@ private:
 private:
 	void handleInput(float fTimeDelta);
 	std::map<int, std::vector<int>> pickElements();
+	float mouseWheelPosition = 0.0F;
 
 public:
 	VUI(VMaster* vMaster);
 	virtual ~VUI() override;
 
 	virtual void tick(const float fTimeDelta) override;
-	virtual void onNotify(IViewUIObserver::Event) override;
+
+	virtual void onNotify(Event events) override;
 
 	void addScreen(string sName, IViewScreen::ScreenType);
 	void switchScreen(string switchTo);
 	IViewScreen* getScreen(string sName);
+
+
 	void initUI(HWND hwnd, CSplash* psplash);
+
 	void resize(int width, int height);
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
 	void updateInfofield(const int wert);
+
+	void checkGUIContainer(IViewGUIContainer* guiContainer);
 };
 
 

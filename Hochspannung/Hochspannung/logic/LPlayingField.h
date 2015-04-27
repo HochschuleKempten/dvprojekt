@@ -4,6 +4,8 @@
 #include "LField.h"
 #include "IVPlayingField.h"
 #include "LPlayer.h"
+#include "ILBuilding.h"
+#include "LCity.h"
 #include <boost/graph/adjacency_list.hpp>
 
 NAMESPACE_LOGIC_B
@@ -31,7 +33,7 @@ class LPlayingField
 	NON_COPYABLE(LPlayingField);
 
 private:
-	const int fieldLength = 10; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
+	const int fieldLength = 20; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster = nullptr;
 	std::shared_ptr<IVPlayingField> vPlayingField = nullptr;
 	Array2D<LField> fieldArray;
@@ -39,7 +41,10 @@ private:
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
 	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
+	std::pair<int, int> transformerStationPosition = std::make_pair(-1, -1);
+
 	std::unordered_map<std::pair<int, int>, bool, LPlayingFieldHasher> isCoordinateUsed;	//Checks if a pair is used
+	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> connectedBuildings;		//Stores the 1D coordinates for each pair of buildings which are connected
 
 	std::vector<LField::FieldType> fieldTypes;
 	std::vector<LField::FieldLevel> fieldLevels;
@@ -74,6 +79,7 @@ public:
 			}
 
 			lMaster->getPlayer(1)->substractMoney(T::cost);
+			DEBUG_OUTPUT("Marktplace connected = " << isTransformstationConnected());
 
 			return true;
 		}
@@ -82,16 +88,28 @@ public:
 		}
 	}
 	
-	
+	bool checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second);
+	bool isTransformstationConnected();
+
 	int getFieldLength();
 	void removeBuilding(const int x, const int y);
 	void upgradeBuilding(const int x, const int y);
 	LMaster* getLMaster();
 	IVPlayingField* getVPlayingField();
 
+	const std::pair<int, int>& getCityPosition() const
+	{
+		return cityPosition;
+	}
+	LCity* getCity()
+	{
+		return CASTD<LCity*>(getField(cityPosition.first, cityPosition.second)->getBuilding());
+	}
+
 private:
 	void createFields();
 	bool checkIndex(const int x, const int y);
+	int convertIndex(const std::pair<int, int>& coordinates);
 	int convertIndex(const int x, const int y);
 	std::pair<int, int> convertIndex(const int idx);
 	void calculateEnergyValueCity();

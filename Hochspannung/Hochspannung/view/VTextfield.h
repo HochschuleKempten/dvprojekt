@@ -8,7 +8,7 @@ class VTextfield :
 public:
 	VTextfield();
 	//VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const float textSize);
-	VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder);
+	VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const string& Placeholder);
 	~VTextfield();
 
 	virtual void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard) override;

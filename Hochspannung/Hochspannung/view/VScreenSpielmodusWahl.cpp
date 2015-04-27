@@ -22,12 +22,12 @@ VScreenSpielmodusWahl::VScreenSpielmodusWahl(CFrame* frame)
 	m_viewport->AddOverlay(m_headline);
 
 
-	addContainer(m_viewport,IViewGUIContainer::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
+	/*addContainer(m_viewport,IViewGUIContainer::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.27, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueEinzelspieler, &VMaterialLoader::materialButtonMainMenueEinzelspielerHover, NOTHING,"buttonSwitchToSinglePlayer");
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.42, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueMehrspieler, &VMaterialLoader::materialButtonMainMenueMehrspielerHover, SWITCH_TO_LOBBY, "buttonSwitchToMultiplayerPlayer");
 	getContainer("Menue")->addButton(CFloatRect(0.33, 0.57, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE,"buttonBackMainMenue");
 
-
+*/
 
 }
 

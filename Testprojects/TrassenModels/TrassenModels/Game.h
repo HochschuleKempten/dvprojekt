@@ -57,6 +57,7 @@
 #include "Vektoria\Root.h"
 #include "VektoriaMath\Util.h"
 #include "../../../Hochspannung/Hochspannung/view/VModelPowerLine.h"
+#include "../../../Hochspannung/Hochspannung/logic/LUtility.h"
 #include "TextureTester.h"
 
 using namespace Vektoria;
@@ -74,7 +75,7 @@ public:
 	void Fini();
 
 	void WindowReSize(int iNewWidth, int iNewHeight); // WindowsReSize wird immer dann aufgerufen, wenn der Benutzer die Fenstergröße verändert hat
-
+	
 private:
 	CRoot m_zr;
 	CScene m_zs;
@@ -86,11 +87,14 @@ private:
 	CCamera m_zc;
 	CParallelLight m_zl;
 	CDeviceKeyboard m_zdk;
-	VModelPowerLine *m_zTrasse1 = new VModelPowerLine();
-	VModelPowerLine *m_zTrasse2 = new VModelPowerLine();
-	VModelPowerLine *m_zTrasse3 = new VModelPowerLine();
-	VModelPowerLine *m_zTrasse4 = new VModelPowerLine();
+	VModelPowerLine *m_zTrasse1 = new VModelPowerLine(1.0f);
+	VModelPowerLine *m_zTrasse2 = new VModelPowerLine(1.0f);
+	VModelPowerLine *m_zTrasse3 = new VModelPowerLine(1.0f);
+	VModelPowerLine *m_zTrasse4 = new VModelPowerLine(1.0f);
 	CTextureTester *m_zTester = new CTextureTester();
+
+	VModelPowerLine *m_zTrassen;
+
 
 	CGeoCube cube;
 	CMaterial material;
