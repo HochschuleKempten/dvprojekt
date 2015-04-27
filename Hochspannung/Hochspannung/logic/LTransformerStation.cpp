@@ -5,6 +5,7 @@
 #include "IVFactory.h"
 #include "IVTransformerStation.h"
 
+
 NAMESPACE_LOGIC_B
 
 
@@ -21,6 +22,33 @@ LTransformerStation::~LTransformerStation()
 
 void LTransformerStation::tick(const float fTimeDelta)
 {	
+	static float timeLastCheck = 0;
+	
+	energySurplus = lField->getLPlayingField()->getCity()->getEnergySurplus();
+
+	//Handle Disposal
+	if (timeLastCheck > 1) {
+		int seconds = CASTS<int>(timeLastCheck);
+		ASSERT(seconds >= 1, "The number of seconds is invalid.");
+
+		performDisposal();
+
+		timeLastCheck = 0;
+	}
+
+	timeLastCheck += fTimeDelta;
+
+
+}
+
+void LTransformerStation::performDisposal()
+{
+	if (energySurplus > 0)
+	{
+		//TODO (L) how to get the Player ID dynamicly?
+
+		lField->getLPlayingField()->getLMaster()->getPlayer(1)->addMoney(amount);
+	}
 }
 
 

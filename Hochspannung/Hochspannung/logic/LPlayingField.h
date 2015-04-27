@@ -4,6 +4,8 @@
 #include "LField.h"
 #include "IVPlayingField.h"
 #include "LPlayer.h"
+#include "ILBuilding.h"
+#include "LCity.h"
 #include <boost/graph/adjacency_list.hpp>
 
 NAMESPACE_LOGIC_B
@@ -43,6 +45,11 @@ public:
 	const std::pair<int, int>& city_position() const
 	{
 		return cityPosition;
+	}
+
+	 LCity* getCity()
+	{		
+		return CASTD<LCity*>(getField(cityPosition.first, cityPosition.second)->getBuilding());
 	}
 
 private:

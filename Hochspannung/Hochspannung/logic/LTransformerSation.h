@@ -8,10 +8,13 @@ NAMESPACE_LOGIC_B
 class IVTransformerStation;
 
 class LTransformerStation : public ILBuilding, public IVTickObserver
-{
+	{
 private:
 	// TODO(MBR) what private members are needed?
 	std::shared_ptr<IVTransformerStation> vTransformerSation;
+	bool hasConnection;
+	int amount = 1;
+	int energySurplus = 0;
 
 public:
 	LTransformerStation(LField* lField, const int x, const int y);
@@ -19,5 +22,7 @@ public:
 
 	virtual void tick(const float fTimeDelta) override;
 	// TODO(MBR) what methods are needed (also see IVTransformerStation)?
+
+	void performDisposal();
  };
 };
