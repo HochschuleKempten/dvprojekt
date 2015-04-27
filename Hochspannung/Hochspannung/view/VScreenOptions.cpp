@@ -54,4 +54,8 @@ VScreenOptions::~VScreenOptions()
 		}
 	}
 
+	void VScreenOptions::checkSpecialEvent(CDeviceCursor* cursor)
+	{
+	}
+
 	NAMESPACE_VIEW_E

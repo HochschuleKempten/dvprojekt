@@ -65,6 +65,7 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_bottomBarBorderRight.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.99, 0.7495, 0.006, 0.25));
 	m_bottomBarSeperatorMenueInfofeld.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.20, 0.7495, 0.006, 0.25));
 	m_bottomBarSeperatorMenueMinimap.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.79, 0.7495, 0.006, 0.25));
+	m_bottomBarSeperatorMenueEnergy.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.735, 0.7495, 0.006, 0.25));
 
 	m_bottomBarBorderTop.SetLayer(0.7);
 	m_bottomBarBorderBottom.SetLayer(0.7);
@@ -72,7 +73,7 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_bottomBarBorderRight.SetLayer(0.7);
 	m_bottomBarSeperatorMenueInfofeld.SetLayer(0.7);
 	m_bottomBarSeperatorMenueMinimap.SetLayer(0.7);
-
+	m_bottomBarSeperatorMenueEnergy.SetLayer(0.7);
 
 	m_viewport->AddOverlay(&m_bottomBarBorderTop);
 	m_viewport->AddOverlay(&m_bottomBarBorderBottom);
@@ -80,21 +81,20 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_viewport->AddOverlay(&m_bottomBarBorderRight);
 	m_viewport->AddOverlay(&m_bottomBarSeperatorMenueInfofeld);
 	m_viewport->AddOverlay(&m_bottomBarSeperatorMenueMinimap);
-	
+	m_viewport->AddOverlay(&m_bottomBarSeperatorMenueEnergy);
 	/********************************************************TOP AREA***************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.2, 0.0, 0.6, 0.05),&VMaterialLoader::materialTopbar, "Topbar");
-	getContainer("Topbar")->addText(CFloatRect(0.25, 0.3, 0.1, 0.2), &VMaterialLoader::standardFont, "Bevoelkerung:", "population");
-	getContainer("Topbar")->addText(CFloatRect(0.351, 0.5, 0.1, 0.5), &VMaterialLoader::standardFont, "0000", "popValue");
-	getContainer("Topbar")->addText(CFloatRect(0.60, 0.5, 0.07, 0.5), &VMaterialLoader::GoldFont, "Geld:", "money");
-	getContainer("Topbar")->addText(CFloatRect(0.671, 0.5, 0.1, 0.5), &VMaterialLoader::GoldFont, "0000", "moneyValue");
+	getContainer("Topbar")->addText(CFloatRect(0.05, 0.2, 0.2, 0.6), &VMaterialLoader::standardFont, "Bevoelkerung:", "population");
+	getContainer("Topbar")->addText(CFloatRect(0.251, 0.2, 0.2, 0.6), &VMaterialLoader::standardFont, "0000", "popValue");
+	getContainer("Topbar")->addText(CFloatRect(0.55, 0.2, 0.2, 0.6), &VMaterialLoader::GoldFont, "Geld:", "money");
+	getContainer("Topbar")->addText(CFloatRect(0.751, 0.2, 0.2, 0.6), &VMaterialLoader::GoldFont, "0000", "moneyValue");
 
 
 	/********************************************************BOTTOM AREA*************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0, 0.75F, 1.0F, 0.25F), "BottomBar");
 	//Baumenü Register
 	
-	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.206, 0.03F, 0.584F, 0.98F), "Register");
-	getContainer("BottomBar")->getContainer("Register");
+	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.206, 0.035F, 0.530F, 0.95F), "Register");
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonCraftmenu,
 		&VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::materialRed, SWITCH_TO_REGISTER_BUILDING, "TabBuilding");
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonSabotage,
@@ -112,20 +112,31 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.525, 0.525, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, &VMaterialLoader::materialCraftmenuButtonOilPowerplantHover, SELECT_BUILDING_OILPOWERPLANT, "oilPowerPlant");
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.775, 0.525, 0.20, 0.4), &VMaterialLoader::materialCraftmenuButtonPowerline, &VMaterialLoader::materialCraftmenuButtonPowerlineHover, SELECT_BUILDING_POWERLINE, "powerLine");
 
-
-
-
-
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
 
+
+	/********************************************************Infofield AREA*************************************************************/
+	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.00, 0.03F, 0.20F, 1.0F), &VMaterialLoader::materialBlue, "Infofield");
+	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.01, 0.3, 0.80, 0.1), &VMaterialLoader::standardFont, "Infofeld:", "infoText");
+	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText")->setLayer(0.2);
+	getContainer("BottomBar")->getContainer("Infofield")->setLayer(0.2);
 	//Dialogbox
+	
+	/***********************************************************Dialog******************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55),&VMaterialLoader::materialDialogBackground, "DialogBox");
 	
+
 	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.10, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING,"MenueButtonContinue");
 	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.27, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME,"MenueButtonQuit");
 	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.44, 0.80, 0.15), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "MenueButtonBack");
 	
+
+	/********************************************************Energy AREA*************************************************************/
+	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialGreen, "Energy");
+	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1);
+
+
 	m_viewport->SwitchOff();
 getContainer("DialogBox")->switchOff();
 
@@ -185,6 +196,7 @@ void VScreenIngame::switchOff()
 void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 {
 	
+
 	if (!keyboard->KeyPressed(DIK_ESCAPE))
 	{
 		bK = false;
@@ -204,6 +216,22 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	
 }
 
+	void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
+	{/*
+		static string hover = "Hover Windmill";
+		static string standard = "infofeld";
+		float curPosX;
+		float curPosY;
+		cursor->GetFractional(curPosX, curPosY);
+		if (dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("windmill")->checkHover(curPosX, curPosY))
+		{
+			
+			updateInfofeld(hover);
+		}
+		else
+			updateInfofeld(standard);*/
+	}
+
 	void VScreenIngame::updateMoney(const int wert)
 	{
 		dynamic_cast<VText*>(getContainer("Topbar")->getGuiObject("moneyValue"))->updateText(std::to_string(wert));
@@ -212,6 +240,11 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	void VScreenIngame::updatePopulation(const int wert)
 	{
 		dynamic_cast<VText*>(getContainer("Topbar")->getGuiObject("popValue"))->updateText(std::to_string(wert));
+	}
+
+	void VScreenIngame::updateInfofeld(string& neuerText)
+	{
+		dynamic_cast<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
 	}
 
 	CFloatRect VScreenIngame::getTopSpace()

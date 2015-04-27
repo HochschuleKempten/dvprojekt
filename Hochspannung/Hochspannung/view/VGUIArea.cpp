@@ -80,8 +80,12 @@ void VGUIArea::onNotify(Event events)
 
 }
 
+	void VGUIArea::setLayer(float layer)
+	{
+		m_background->SetLayer(layer);
+	}
 
-void VGUIArea::switchOn()
+	void VGUIArea::switchOn()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{

@@ -19,6 +19,8 @@ public:
 	void addText(CFloatRect rect, CWritingFont* writingFont, string text, string sName)override;
 	void onNotify(Event events) override;
 
+	void setLayer(float layer) override;
+
 	void switchOn() override;
 
 	void switchOff() override;

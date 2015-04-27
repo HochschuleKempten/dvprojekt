@@ -67,4 +67,9 @@ void VScreenMainMenue::checkShortcut(CDeviceKeyboard* keyboard)
 
 	}
 }
-NAMESPACE_VIEW_E
+
+	void VScreenMainMenue::checkSpecialEvent(CDeviceCursor* cursor)
+	{
+	}
+
+	NAMESPACE_VIEW_E

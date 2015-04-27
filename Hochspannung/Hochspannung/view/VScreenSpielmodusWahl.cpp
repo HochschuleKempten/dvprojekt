@@ -64,4 +64,9 @@ void VScreenSpielmodusWahl::checkShortcut(CDeviceKeyboard* keyboard)
 		notify(SWITCH_TO_MAINMENUE);
 	}
 }
-NAMESPACE_VIEW_E
+
+	void VScreenSpielmodusWahl::checkSpecialEvent(CDeviceCursor* cursor)
+	{
+	}
+
+	NAMESPACE_VIEW_E

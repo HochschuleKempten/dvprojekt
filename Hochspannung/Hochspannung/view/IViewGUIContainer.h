@@ -64,6 +64,8 @@ public:
 	virtual void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName) = 0;
 	
 
+	virtual void setLayer(float layer)
+	{}
 	
 	
 

@@ -13,6 +13,7 @@ public:
 
 	void onNotify(Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
+	void checkSpecialEvent(CDeviceCursor* cursor)override;
 private:
 	COverlay* m_flash;
 	CBackground* m_background;

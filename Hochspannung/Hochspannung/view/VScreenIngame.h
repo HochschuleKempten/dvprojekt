@@ -14,12 +14,15 @@ public:
 	void switchOn() override;
 	void switchOff() override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
+	void checkSpecialEvent(CDeviceCursor* cursor)override;
 //	void resize(int width, int height)override;
 
 	//Schnittstellenmethoden
 	void updateMoney(const int wert);
 	
 	void updatePopulation(const int wert);
+
+	void updateInfofeld(string& neuerText);
 
 	CFloatRect getTopSpace();
 	
@@ -42,6 +45,7 @@ private:
 	COverlay m_bottomBarBorderRight;
 	COverlay m_bottomBarSeperatorMenueInfofeld;
 	COverlay m_bottomBarSeperatorMenueMinimap;
+	COverlay m_bottomBarSeperatorMenueEnergy;
 
 	CCamera m_CamMiniMap;
 	CViewport m_minimap;

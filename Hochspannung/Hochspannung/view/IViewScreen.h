@@ -107,6 +107,7 @@ public:
 		return m_isOn;
 	}
 	virtual void checkShortcut(CDeviceKeyboard* keyboard)=0;
+	virtual void checkSpecialEvent(CDeviceCursor* cursor) = 0;
 	virtual void resize(int width, int height)
 	{
 		//m_viewport->CalcSize();

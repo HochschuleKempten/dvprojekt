@@ -12,6 +12,7 @@ public:
 
 	void onNotify(IViewUIObserver::Event events);
 	void checkShortcut(CDeviceKeyboard* keyboard);
+	void checkSpecialEvent(CDeviceCursor* cursor)override;
 private:
 	COverlay* m_flash;
 	CBackground* m_background;
