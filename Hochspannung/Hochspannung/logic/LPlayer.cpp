@@ -19,6 +19,11 @@ int LPlayer::getMoney() const
 	return money;
 }
 
+void LPlayer::addMoney(int amount)
+{
+	money += amount;
+}
+
 void LPlayer::substractMoney(const int amount)
 {
 	money -= amount;
