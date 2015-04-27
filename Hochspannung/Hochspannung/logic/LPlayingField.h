@@ -41,6 +41,7 @@ private:
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
 	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
+	std::pair<int, int> transformerStationPosition = std::make_pair(-1, -1);
 public:
 	const std::pair<int, int>& city_position() const
 	{
@@ -54,6 +55,7 @@ public:
 
 private:
 	std::unordered_map<std::pair<int, int>, bool, LPlayingFieldHasher> isCoordinateUsed;	//Checks if a pair is used
+	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> connectedBuildings;		//Stores the 1D coordinates for each pair of buildings which are connected
 
 	std::vector<LField::FieldType> fieldTypes;
 	std::vector<LField::FieldLevel> fieldLevels;
@@ -88,6 +90,7 @@ public:
 			}
 
 			lMaster->getPlayer(1)->substractMoney(T::cost);
+			DEBUG_OUTPUT("Marktplace connected = " << isMarctplaceConnected());
 
 			return true;
 		}
@@ -96,7 +99,9 @@ public:
 		}
 	}
 	
-	
+	bool checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second);
+	bool isMarctplaceConnected();
+
 	int getFieldLength();
 	void removeBuilding(const int x, const int y);
 	void upgradeBuilding(const int x, const int y);
@@ -106,6 +111,7 @@ public:
 private:
 	void createFields();
 	bool checkIndex(const int x, const int y);
+	int convertIndex(const std::pair<int, int>& coordinates);
 	int convertIndex(const int x, const int y);
 	std::pair<int, int> convertIndex(const int idx);
 	void calculateEnergyValueCity();
