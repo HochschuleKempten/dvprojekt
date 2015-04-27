@@ -205,6 +205,7 @@
     <ClInclude Include="view\VDialog.h" />
     <ClInclude Include="view\VField.h" />
     <ClInclude Include="view\VModelCity.h" />
+    <ClInclude Include="view\VModelNuclearPowerPlant.h" />
     <ClInclude Include="view\VModelPowerLine.h" />
     <ClInclude Include="view\VButton.h" />
     <ClInclude Include="view\VFactory.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="view\VHydroelectricPowerPlant.h" />
     <ClInclude Include="view\VIdentifier.h" />
     <ClInclude Include="view\VMaterialLoader.h" />
+    <ClInclude Include="view\VModelSolarPowerPlant.h" />
     <ClInclude Include="view\VModelWindmillPowerPlant.h" />
     <ClInclude Include="view\VNuclearPowerPlant.h" />
     <ClInclude Include="view\VOilRefinery.h" />
@@ -273,12 +275,14 @@
     <ClCompile Include="view\VDialog.cpp" />
     <ClCompile Include="view\VField.cpp" />
     <ClCompile Include="view\VModelCity.cpp" />
+    <ClCompile Include="view\VModelNuclearPowerPlant.cpp" />
     <ClCompile Include="view\VModelPowerLine.cpp" />
     <ClCompile Include="view\VButton.cpp" />
     <ClCompile Include="view\VFactory.cpp" />
     <ClCompile Include="view\VGroup.cpp" />
     <ClCompile Include="view\VHydroelectricPowerPlant.cpp" />
     <ClCompile Include="view\VMaterialLoader.cpp" />
+    <ClCompile Include="view\VModelSolarPowerPlant.cpp" />
     <ClCompile Include="view\VModelWindmillPowerPlant.cpp" />
     <ClCompile Include="view\VNuclearPowerPlant.cpp" />
     <ClCompile Include="view\VOilRefinery.cpp" />
