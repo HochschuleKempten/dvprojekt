@@ -45,7 +45,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zTrasse1->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST | VModelPowerLine::DIRECTION::SOUTH | VModelPowerLine::DIRECTION::NORTH);
 	m_zTrasse2->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST | VModelPowerLine::DIRECTION::SOUTH | VModelPowerLine::DIRECTION::NORTH);
 	m_zTrasse3->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST | VModelPowerLine::DIRECTION::SOUTH | VModelPowerLine::DIRECTION::NORTH);
-	m_zTrasse4->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST | VModelPowerLine::DIRECTION::SOUTH | VModelPowerLine::DIRECTION::NORTH);
+	m_zTrasse4->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST);
 
 	m_zTrasse1->SetPosition(-1, 0);
 	m_zTrasse2->SetPosition(1, 0);

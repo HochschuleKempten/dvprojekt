@@ -153,10 +153,10 @@ inline void redirectIOToConsole()
 #endif // _DEBUG
 
 inline float AngleToRad(float fAngle) {
-	return CASTS<float>((M_PI_2 * fAngle) / 360.0);
+	return CASTS<float>(((2.0f * M_PI) / 360.0f) * fAngle);
 }
 
 inline float RadToAngle(float fRadiant) {
-	return CASTS<float>((360.0f * fRadiant) / M_PI_2);
+	return CASTS<float>((360.0f / (2.0f * M_PI)) * fRadiant);
 }
 #endif //_LUTILITY_H_

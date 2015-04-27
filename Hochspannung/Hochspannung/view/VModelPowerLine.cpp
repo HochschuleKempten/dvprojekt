@@ -63,11 +63,13 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_fRingThickness     = m_fIsolatorThickness * 0.25f;
 
 	// init geometries (foundation, pole, strut)
+	m_zSweepMats.Make(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+	m_zgSweep.InitCircle(&m_zmGrey, 32, m_zSweepMats);
+
 	m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &m_zmGrey);
 	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), &m_zmBlack);
 	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
 	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), &m_zmBlack);
-	m_zgSphere.Init(2 * m_fPoleThickness, &m_zmBlack);
 	m_zgArm.Init(CHVector(m_fArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
 	m_zgUpperArm.Init(CHVector(m_fUpperArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
 	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), &m_zmBlack);
@@ -84,11 +86,6 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	//m_zpStruts = new CPlacement[m_iStrutsCount * 8];
 	for (int i = 0; i < m_iStrutsCount * 8; i++) {
 		m_zpStruts[i].AddGeo(&m_zgStrut);
-	}
-
-	// preparing spheres
-	for (int i = 0; i < 5; i++) {
-		m_zpSphere[i].AddGeo(&m_zgSphere);
 	}
 
 	int index1, index2;
@@ -121,8 +118,6 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 		m_zpRoof[i].RotateYDelta(AngleToRad(45));
 		m_zpRoof[i].TranslateDelta(m_fPoleDistance * 0.5f, m_fPylonHeight + m_fStrutHeight * 1.1f, -4 * m_fPoleThickness);
 		m_zpPole[i].AddPlacement(&m_zpRoof[i]);
-		m_zpPole[i].AddPlacement(&m_zpSphere[i]);
-		m_zpSphere[i].TranslateYDelta(m_fPylonHeight);
 
 		// adding bottom arm poles
 		m_zpLeftArmPole[i].AddGeo(&m_zgArm);
