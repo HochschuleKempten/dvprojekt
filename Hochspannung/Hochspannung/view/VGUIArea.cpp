@@ -69,7 +69,15 @@ void VGUIArea::addText(CFloatRect rect, CWritingFont* writingFont, string text, 
 
 }
 
-void VGUIArea::onNotify(Event events)
+	void VGUIArea::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, string sName)
+	{
+			m_Overlays[sName] = new COverlay();
+			m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
+			m_viewport->AddOverlay(m_Overlays[sName]);
+			m_Overlays[sName]->SetLayer(0.1);
+	}
+
+	void VGUIArea::onNotify(Event events)
 {
 	switch (events)
 	{

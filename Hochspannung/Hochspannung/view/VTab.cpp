@@ -62,7 +62,14 @@ void VTab::addText(CFloatRect rect, CWritingFont* writingFont, string text, stri
 
 }
 
-void VTab::onNotify(Event events)
+	void VTab::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, string sName)
+	{
+			m_Overlays[sName] = new COverlay();
+			m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
+			m_viewport->AddOverlay(m_Overlays[sName]);
+	}
+
+	void VTab::onNotify(Event events)
 {
 	switch (events)
 	{

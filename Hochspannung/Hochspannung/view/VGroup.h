@@ -13,7 +13,7 @@
 //---------------------------------------------------
 NAMESPACE_VIEW_B 
 
-class VTab;
+
 
 class VGroup:public IViewGUIContainer
 {

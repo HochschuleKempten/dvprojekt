@@ -23,11 +23,11 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_zpMinimapCam.AddCamera(&m_CamMiniMap);
 	
 	m_CamMiniMap.SetOrthoOn();
-	//m_CamMiniMap.SetFov(1.5);
-	//m_zpMinimapCam.TranslateZ(10);
+	m_CamMiniMap.SetFov(1.5);
+	m_zpMinimapCam.TranslateZ(10);
 	m_zpMinimapCam.Scale(50);
 	m_zpMinimapCam.RotateXDelta(0);
-	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.7999, 0.7645, 0.195, 0.235));
+	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.8, 0.765, 0.195, 0.23));
 	
 	frame->AddViewport(m_viewport);
 	frame->AddViewport(&m_minimap);
@@ -54,48 +54,34 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 
 	//Bottom Bar
 
-	m_bottomBar.Init("textures\\MainMenueBackground.png", CFloatRect(0.0, 0.75, 1.0, 0.25));
+	/*m_bottomBar.Init("textures\\MainMenueBackground.png", CFloatRect(0.0, 0.75, 1.0, 0.25));
 	m_viewport->AddOverlay(&m_bottomBar);
-	m_bottomBar.SetLayer(0.8);
+	m_bottomBar.SetLayer(0.8);*/
 
 	
-	//Boarder BottomBar
-	m_bottomBarBorderTop.Init(&VMaterialLoader::materialBottombarBorderTop, CFloatRect(0.0, 0.75, 1.0, 0.01));
-	m_bottomBarBorderBottom.Init(&VMaterialLoader::materialIngameBorder, CFloatRect(0.0, 0.0, 1.0, -0.01));
-	m_bottomBarBorderLeft.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.0, 0.7495, 0.006, 0.25));
-	m_bottomBarBorderRight.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.99, 0.7495, 0.006, 0.25));
-	m_bottomBarSeperatorMenueInfofeld.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.20, 0.7495, 0.006, 0.25));
-	m_bottomBarSeperatorMenueMinimap.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.79, 0.7495, 0.006, 0.25));
-	m_bottomBarSeperatorMenueEnergy.Init(&VMaterialLoader::materialVerticalBorder, CFloatRect(0.735, 0.7495, 0.006, 0.25));
-
-	m_bottomBarBorderTop.SetLayer(0.7);
-	m_bottomBarBorderBottom.SetLayer(0.7);
-	m_bottomBarBorderLeft.SetLayer(0.7);
-	m_bottomBarBorderRight.SetLayer(0.7);
-	m_bottomBarSeperatorMenueInfofeld.SetLayer(0.7);
-	m_bottomBarSeperatorMenueMinimap.SetLayer(0.7);
-	m_bottomBarSeperatorMenueEnergy.SetLayer(0.7);
-
-	m_viewport->AddOverlay(&m_bottomBarBorderTop);
-	m_viewport->AddOverlay(&m_bottomBarBorderBottom);
-	m_viewport->AddOverlay(&m_bottomBarBorderLeft);
-	m_viewport->AddOverlay(&m_bottomBarBorderRight);
-	m_viewport->AddOverlay(&m_bottomBarSeperatorMenueInfofeld);
-	m_viewport->AddOverlay(&m_bottomBarSeperatorMenueMinimap);
-	m_viewport->AddOverlay(&m_bottomBarSeperatorMenueEnergy);
+	
 	/********************************************************TOP AREA***************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.2, 0.0, 0.6, 0.05),&VMaterialLoader::materialTopbar, "Topbar");
-	getContainer("Topbar")->addText(CFloatRect(0.05, 0.2, 0.2, 0.6), &VMaterialLoader::standardFont, "Bevoelkerung:", "population");
-	getContainer("Topbar")->addText(CFloatRect(0.251, 0.2, 0.2, 0.6), &VMaterialLoader::standardFont, "0000", "popValue");
-	getContainer("Topbar")->addText(CFloatRect(0.55, 0.2, 0.2, 0.6), &VMaterialLoader::GoldFont, "Geld:", "money");
-	getContainer("Topbar")->addText(CFloatRect(0.751, 0.2, 0.2, 0.6), &VMaterialLoader::GoldFont, "0000", "moneyValue");
+	getContainer("Topbar")->addText(CFloatRect(0.05, 0.2, 0.2, 0.7), &VMaterialLoader::standardFont, "Bevoelkerung:", "population");
+	getContainer("Topbar")->addText(CFloatRect(0.251, 0.2, 0.2, 0.65), &VMaterialLoader::standardFont, "0000", "popValue");
+	getContainer("Topbar")->addText(CFloatRect(0.55, 0.2, 0.2, 0.65), &VMaterialLoader::GoldFont, "Geld:", "money");
+	getContainer("Topbar")->addText(CFloatRect(0.751, 0.2, 0.2, 0.65), &VMaterialLoader::GoldFont, "0000", "moneyValue");
 
 
 	/********************************************************BOTTOM AREA*************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0, 0.75F, 1.0F, 0.25F), "BottomBar");
+	
+	getContainer("BottomBar")->addOverlay(CFloatRect(0.0, 0.0, 1, 0.05), &VMaterialLoader::materialBottombarBorderTop, false,"BottomTopBorder");
+	getContainer("BottomBar")->addOverlay(CFloatRect(0.0, 0.95, 1, 0.05), &VMaterialLoader::materialBottombarBorderTop, false, "BottomBottomBorder");
+	getContainer("BottomBar")->addOverlay(CFloatRect(0.0, 0.05, 0.01, 0.95), &VMaterialLoader::materialVerticalBorder, false, "BottomLeftBorder");
+	getContainer("BottomBar")->addOverlay(CFloatRect(0.21, 0.05, 0.01, 0.95), &VMaterialLoader::materialVerticalBorder, false, "BottomMenueInfofeldBorder");
+	getContainer("BottomBar")->addOverlay(CFloatRect(0.73, 0.05, 0.01, 0.95), &VMaterialLoader::materialVerticalBorder, false, "BottomMenueSeperatorMenueEnergy");
+	getContainer("BottomBar")->addOverlay(CFloatRect(0.79, 0.05, 0.01, 0.95), &VMaterialLoader::materialVerticalBorder, false, "BottomMenueSeperatorEnergyMinimap");
+	getContainer("BottomBar")->addOverlay(CFloatRect(0.99, 0.05, 0.01, 0.95), &VMaterialLoader::materialVerticalBorder, false, "BottomMenueLeftBorder");
+
 	//Baumenü Register
 	
-	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.206, 0.035F, 0.530F, 0.95F), "Register");
+	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.22, 0.05F, 0.51F, 0.90F), "Register");
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonCraftmenu,
 		&VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::materialRed, SWITCH_TO_REGISTER_BUILDING, "TabBuilding");
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonSabotage,
@@ -118,11 +104,11 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 
 
 	/********************************************************Infofield AREA*************************************************************/
-	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.00, 0.03F, 0.20F, 1.0F), &VMaterialLoader::materialBlue, "Infofield");
-	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.01, 0.3, 0.80, 0.1), &VMaterialLoader::standardFont, "Infofeld:", "infoText");
+	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.01, 0.05F, 0.20F, 1.0F), &VMaterialLoader::materialBlue, "Infofield");
+	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.01, 0.3, 0.80, 0.1), &VMaterialLoader::standardFont, "Infofeld", "infoText");
 	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText")->setLayer(0.2);
 	getContainer("BottomBar")->getContainer("Infofield")->setLayer(0.2);
-	//Dialogbox
+	
 	
 	/***********************************************************Dialog******************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55),&VMaterialLoader::materialDialogBackground, "DialogBox");

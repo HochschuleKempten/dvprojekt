@@ -57,11 +57,17 @@ public:
 		m_guiObjects[sName]->addObserver(this);
 
 	}
+	virtual void addOverlay(CFloatRect rect, CMaterial* MaterialNormal,bool bChromaKeying, string sName)
+	{
+		m_Overlays[sName] = new COverlay();
+		m_Overlays[sName]->Init(MaterialNormal, rect);
+		m_viewport->AddOverlay(m_Overlays[sName]);
+	}
 	
-	virtual void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName) = 0;
+	virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const string& sName) = 0;
 	
 
-	virtual void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName) = 0;
+	virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName) = 0;
 	
 
 	virtual void setLayer(float layer)
@@ -79,6 +85,16 @@ public:
 	map<string, IViewGUIContainer*>getGuiContainerMap()
 	{
 		return m_Guicontainer;
+	}
+
+	COverlay* getOverlay(string sName)
+	{
+		ASSERT(m_Overlays.find(sName) != m_Overlays.end(), "Overlay not available");
+		return m_Overlays[sName];
+	}
+	map<string, COverlay*>getOverlayMap()
+	{
+		return m_Overlays;
 	}
 
 	map<string, IViewGUIObject*> getGuiObjectList()
@@ -106,6 +122,9 @@ protected:
 	
 	map<string, IViewGUIContainer*> m_Guicontainer;
 	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
+
+	map<string, COverlay*> m_Overlays;
+	map<string, COverlay*>::iterator m_IterOverlays;
 
 	virtual CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)
 	{
