@@ -95,7 +95,7 @@ bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, c
 	return connected;
 }
 
-bool LPlayingField::isMarctplaceConnected()
+bool LPlayingField::isTransformstationConnected()
 {
 	return checkConnectionBuildings(cityPosition, transformerStationPosition);
 }
@@ -226,7 +226,7 @@ void LPlayingField::calculateEnergyValueCity()
 		}
 	}
 
-	CASTD<LCity*>(getField(cityPosition.first, cityPosition.second)->getBuilding())->setEnergy(energyValue);
+	getCity()->setEnergy(energyValue);
 }
 
 void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)

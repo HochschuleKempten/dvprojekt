@@ -24,14 +24,12 @@ void LTransformerStation::tick(const float fTimeDelta)
 {	
 	static float timeLastCheck = 0;
 	
-	energySurplus = lField->getLPlayingField()->getCity()->getEnergySurplus();
-
 	//Handle Disposal
 	if (timeLastCheck > 1) {
 		int seconds = CASTS<int>(timeLastCheck);
 		ASSERT(seconds >= 1, "The number of seconds is invalid.");
 
-		if (lField->getLPlayingField()->isMarctplaceConnected())
+		if (lField->getLPlayingField()->isTransformstationConnected())
 		{
 			performDisposal();
 		}
@@ -39,17 +37,15 @@ void LTransformerStation::tick(const float fTimeDelta)
 	}
 
 	timeLastCheck += fTimeDelta;
-
-
 }
 
 void LTransformerStation::performDisposal()
 {
-	if (energySurplus > 0)
+	int superplus = lField->getLPlayingField()->getCity()->getEnergySurplus();
+	if (superplus > 0)
 	{
 		//TODO (L) how to get the Player ID dynamicly?
-
-		lField->getLPlayingField()->getLMaster()->getPlayer(1)->addMoney(amount);
+		lField->getLPlayingField()->getLMaster()->getPlayer(1)->addMoney(CASTS<int>(superplus * moneyPerWatt));
 	}
 }
 
