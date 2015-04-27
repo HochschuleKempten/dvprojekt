@@ -331,14 +331,14 @@
     <ClInclude Include="view\VTransformerStation.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\IViewModel.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\VTab.h">
       <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\IViewModel.h">
+      <Filter>view\Interfaces</Filter>
+    </ClInclude>
     <ClInclude Include="view\VGUIArea.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -524,12 +524,12 @@
     </ClCompile>
     <ClCompile Include="view\VTransformerStation.cpp">
       <Filter>view\Quelldateien</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="view\VTab.cpp">
       <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VGUIArea.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
