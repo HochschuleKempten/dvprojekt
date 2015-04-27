@@ -21,6 +21,10 @@ public:
 	
 	void updatePopulation(const int wert);
 
+	CFloatRect getTopSpace();
+	
+	CFloatRect getBottomSpace();
+	
 	
 private:
 	CCamera m_zc;

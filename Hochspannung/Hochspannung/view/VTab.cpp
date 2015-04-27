@@ -2,9 +2,18 @@
 #include "VGroup.h"
 #include "VDialog.h"
 #include "VMaterialLoader.h"
+#include "VRegister.h"
+#include "VGUIArea.h"
 
 NAMESPACE_VIEW_B
-VTab::VTab(CViewport* viewport, CFloatRect floatRect, CMaterial* materialBackground)
+
+	VTab::VTab(CViewport* viewport, CFloatRect rect)
+	{
+		m_viewport = viewport;
+		m_zfRect = rect;
+	}
+
+	VTab::VTab(CViewport* viewport, CFloatRect floatRect, CMaterial* materialBackground)
 {
 	m_viewport = viewport;
 	m_zfRect = floatRect;
@@ -12,6 +21,7 @@ VTab::VTab(CViewport* viewport, CFloatRect floatRect, CMaterial* materialBackgro
 	m_background->SetLayer(0.7);
 	m_background->Init(materialBackground, m_zfRect);
 	m_viewport->AddOverlay(m_background);
+	m_hasBackground = true;
 }
 
 
@@ -23,6 +33,7 @@ VTab::~VTab()
 		delete lIterGUIObjects->second;
 	}
 	m_guiObjects.clear();
+	if (m_hasBackground) delete m_background;
 }
 
 void VTab::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, string sName)
@@ -60,31 +71,62 @@ void VTab::onNotify(Event events)
 
 	}
 }
+void VTab::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
+{
+	switch (containerType)
+	{
+	case Group:
+		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case Dialog:
+		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case Register:
+		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, MaterialNormal);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case GUIArea:
+		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	default: break;
+	}
+}
 
 void VTab::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
 {
 	switch (containerType)
 	{
 	case Group:
-		m_Guicontainer[sName] = new VGroup(m_viewport, floatRect);
+		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case Dialog:
-		m_Guicontainer[sName] = new VDialog(m_viewport, floatRect, &VMaterialLoader::materialDialogBackground);
+		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
 		m_Guicontainer[sName]->addObserver(this);
 		break;
+	case Register:
+		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case GUIArea:
+		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	default: break;
 	}
 }
 
-
-void VTab::switchOn()
+	void VTab::switchOn()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
 		lIterGUIObjects->second->switchOn();
 
 	}
-	m_background->SwitchOn();
+	if (m_hasBackground)m_background->SwitchOn();
 
 	m_bOn = true;
 }
@@ -98,7 +140,7 @@ void VTab::switchOff()
 		lIterGUIObjects->second->switchOff();
 
 	}
-	m_background->SwitchOff();
+	if (m_hasBackground)m_background->SwitchOff();
 	m_bOn = false;
 }
 NAMESPACE_VIEW_E

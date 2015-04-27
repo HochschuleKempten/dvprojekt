@@ -2,6 +2,7 @@
 #include "VGroup.h"
 #include "VDialog.h"
 #include "VMaterialLoader.h"
+#include "VGUIArea.h"
 
 NAMESPACE_VIEW_B
 VRegister::VRegister()
@@ -12,21 +13,30 @@ VRegister::VRegister(CFloatRect floatRect, CViewport* viewport)
 {
 		m_viewport = viewport;
 		m_zfRect = floatRect;
-		m_background = new COverlay();
-		m_background->SetLayer(0.9);
-		m_background->Init(&VMaterialLoader::materialBlue,m_zfRect);
-		//float breiteButton = floatRect.GetXSize() / anzahlRegisterkarten;
-		m_viewport->AddOverlay(m_background);
+		
 
 }
 
-VRegister::~VRegister()
+	VRegister::VRegister(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground)
+	{
+		m_viewport = viewport;
+		m_zfRect = floatRect;
+		m_background = new COverlay();
+		m_background->SetLayer(0.9);
+		m_background->Init(materialBackground, m_zfRect);
+		//float breiteButton = floatRect.GetXSize() / anzahlRegisterkarten;
+		m_viewport->AddOverlay(m_background);
+		m_hasBackground = true;
+	}
+
+	VRegister::~VRegister()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
 		delete lIterGUIObjects->second;
 	}
 	m_guiObjects.clear();
+	if (m_hasBackground) delete m_background;
 }
 
 	void VRegister::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, string sName)
@@ -80,21 +90,53 @@ VRegister::~VRegister()
 		}
 	}
 
+	void VRegister::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
+	{
+		switch (containerType)
+		{
+		case Group:
+			m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect,&floatRect), MaterialNormal);
+			m_Guicontainer[sName]->addObserver(this);
+			break;
+		case Dialog:
+			m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+			m_Guicontainer[sName]->addObserver(this);
+			break;
+		case Register: 
+			m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect),m_viewport, MaterialNormal);
+			m_Guicontainer[sName]->addObserver(this);
+			break;
+		case GUIArea:
+			m_Guicontainer[sName] = new VGUIArea(m_viewport,createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+			m_Guicontainer[sName]->addObserver(this);
+			break;
+		default: break;
+		}
+	}
+
 	void VRegister::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
 	{
 		switch (containerType)
 		{
 		case Group:
-			m_Guicontainer[sName] = new VGroup(m_viewport, floatRect);
+			m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		case Dialog:
-			m_Guicontainer[sName] = new VDialog(m_viewport, floatRect, &VMaterialLoader::materialDialogBackground);
+			m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
 			m_Guicontainer[sName]->addObserver(this);
 			break;
+		case Register:
+			m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport);
+			m_Guicontainer[sName]->addObserver(this);
+			break;
+		case GUIArea:
+			m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
+			m_Guicontainer[sName]->addObserver(this);
+			break;
+		default: break;
 		}
 	}
-
 
 	void VRegister::switchOn()
 	{
@@ -103,7 +145,7 @@ VRegister::~VRegister()
 			lIterGUIObjects->second->switchOn();
 
 		}
-		m_background->SwitchOn();
+		if(m_hasBackground)m_background->SwitchOn();
 
 		m_bOn = true;
 	}
@@ -117,7 +159,7 @@ VRegister::~VRegister()
 			lIterGUIObjects->second->switchOff();
 
 		}
-		m_background->SwitchOff();
+		if (m_hasBackground)m_background->SwitchOff();
 		m_bOn = false;
 	}
 
@@ -127,7 +169,6 @@ VRegister::~VRegister()
 	m_tabs[sName] = dynamic_cast<VTab*>(m_Guicontainer[sName]);
 	m_Guicontainer[sName]->addObserver(this);
 
-	//addButton(createRelativeRectangle(&m_zfRect, &CFloatRect(0, 0.0, 0.5, 0.1)), MaterialNormal, MaterialHover, events, sName);
 	addButton(CFloatRect(0, 0.0, 0.5, 0.1), MaterialNormal, MaterialHover, events, sName);
 
 	calcButtonSize();

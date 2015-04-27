@@ -23,7 +23,8 @@ public:
 	{
 		Group,
 		Dialog,
-		Register
+		Register,
+		GUIArea
 
 	};
 
@@ -57,10 +58,13 @@ public:
 
 	}
 	
-	virtual void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
-	{
-		
-	};
+	virtual void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName) = 0;
+	
+
+	virtual void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName) = 0;
+	
+
+	
 	
 
 	virtual ~IViewGUIContainer(){};
@@ -83,10 +87,17 @@ public:
 	{
 		return m_guiObjects[sName];
 	}
+
+	CFloatRect getRectangle()
+	{
+		return m_zfRect;
+	}
 protected:
 
 	bool m_bOn = true;
+	bool m_hasBackground = false;
 	CViewport* m_viewport;
+	COverlay* m_background;
 	CFloatRect m_zfRect;
 	map<string,IViewGUIObject*> m_guiObjects;
 	map<string,IViewGUIObject*>::iterator lIterGUIObjects;

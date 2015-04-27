@@ -62,6 +62,7 @@ public:
 		float fPosX;
 		float fPosY;
 		cursor->GetFractional(fPosX, fPosY, false);
+		if (checkHover(fPosX, fPosY) && cursor->ButtonPressedLeft()) OutputDebugString("Button pressed");
 		if (checkHover(fPosX,fPosY))
 		{
 			if(cursor->ButtonPressedLeft())
@@ -97,10 +98,13 @@ public:
 	{
 
 	}
+
+	string sObjectName = "";
 	//virtual void resize(int width, int height);
 protected:
 	CFloatRect m_zfrRect=CFloatRect(0,0,0,0);
 	bool m_bisOn=true;
+	
 
 };
 NAMESPACE_VIEW_E

@@ -3,6 +3,8 @@
 #include "VText.h"
 #include "VGroup.h"
 #include "VMaterialLoader.h"
+#include "VRegister.h"
+#include "VGUIArea.h"
 NAMESPACE_VIEW_B
 
 VDialog::VDialog()
@@ -18,17 +20,23 @@ VDialog::VDialog(CViewport* viewport, CFloatRect floatRect, CMaterial* materialB
 	m_background->SetLayer(0.9);
 	m_background->Init(materialBackground, m_zfRect);
 	m_viewport->AddOverlay(m_background);
-
+	m_hasBackground = true;
 }
 
-VDialog::~VDialog()
+	VDialog::VDialog(CViewport* viewport, CFloatRect floatRect)
+	{
+		m_viewport = viewport;
+		m_zfRect = floatRect;
+	}
+
+	VDialog::~VDialog()
 {
 	for (lIterGUIObjects = m_guiObjects.begin(); lIterGUIObjects != m_guiObjects.end(); ++lIterGUIObjects)
 	{
 		delete lIterGUIObjects->second;
 	}
 	m_guiObjects.clear();
-	delete m_background;
+	if (m_hasBackground) delete m_background;
 }
 
 void VDialog::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction,string sName)
@@ -37,7 +45,7 @@ void VDialog::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* M
 
 	m_guiObjects[sName]->addObserver(this);
 
-	
+	m_guiObjects[sName]->sObjectName = sName;
 }
 
 void VDialog::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder, string sName)
@@ -77,7 +85,7 @@ void VDialog::switchOn()
 		lIterGUIObjects->second->switchOn();
 		
 	}
-	m_background->SwitchOn();
+	if (m_hasBackground)m_background->SwitchOn();
 
 	m_bOn = true;
 
@@ -91,22 +99,56 @@ void VDialog::switchOff()
 		lIterGUIObjects->second->switchOff();
 		
 	}
-	m_background->SwitchOff();
+	if (m_hasBackground)m_background->SwitchOff();
 	m_bOn = false;
+}
+
+void VDialog::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
+{
+	switch (containerType)
+	{
+	case Group:
+		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case Dialog:
+		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case Register:
+		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, MaterialNormal);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case GUIArea:
+		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	default: break;
+	}
 }
 
 void VDialog::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
 {
 	switch (containerType)
 	{
-	case IViewGUIContainer::Group:
-		m_Guicontainer[sName] = new VGroup(m_viewport, floatRect);
+	case Group:
+		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
 		m_Guicontainer[sName]->addObserver(this);
 		break;
-	case IViewGUIContainer::Dialog:
-		m_Guicontainer[sName] = new VDialog(m_viewport, floatRect, &VMaterialLoader::materialDialogBackground);
+	case Dialog:
+		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
 		m_Guicontainer[sName]->addObserver(this);
 		break;
+	case Register:
+		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case GUIArea:
+		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	default: break;
 	}
 }
+
 NAMESPACE_VIEW_E

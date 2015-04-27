@@ -415,7 +415,7 @@ void VUI::tick(const float fTimeDelta)
 			//For all containers in the screen
 			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
 			{
-
+				
 					//Check if Container is on
 					if (tempIterGuicontainer->second->isOn())
 					{
@@ -431,7 +431,7 @@ void VUI::tick(const float fTimeDelta)
 
 								if (!m_BlockCursorLeftPressed)
 								{
-									//check for events
+										//check for events
 									tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
 								}
 								//if screen was changed

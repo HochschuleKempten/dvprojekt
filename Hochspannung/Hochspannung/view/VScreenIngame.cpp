@@ -81,46 +81,46 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 	m_viewport->AddOverlay(&m_bottomBarSeperatorMenueInfofeld);
 	m_viewport->AddOverlay(&m_bottomBarSeperatorMenueMinimap);
 	
-	//Top Bar
-	m_topBar.Init(&VMaterialLoader::materialTopbar, CFloatRect(0.2, 0.0, 0.6, 0.05));
-	m_viewport->AddOverlay(&m_topBar);
-	
-	m_topBar.SetLayer(0.7);
+	/********************************************************TOP AREA***************************************************************/
+	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.2, 0.0, 0.6, 0.05),&VMaterialLoader::materialTopbar, "Topbar");
+	getContainer("Topbar")->addText(CFloatRect(0.25, 0.3, 0.1, 0.2), &VMaterialLoader::standardFont, "Bevoelkerung:", "population");
+	getContainer("Topbar")->addText(CFloatRect(0.351, 0.5, 0.1, 0.5), &VMaterialLoader::standardFont, "0000", "popValue");
+	getContainer("Topbar")->addText(CFloatRect(0.60, 0.5, 0.07, 0.5), &VMaterialLoader::GoldFont, "Geld:", "money");
+	getContainer("Topbar")->addText(CFloatRect(0.671, 0.5, 0.1, 0.5), &VMaterialLoader::GoldFont, "0000", "moneyValue");
 
-	addContainer(m_viewport, IViewGUIContainer::Group, CFloatRect(0.2, 0.0, 0.6, 0.05), "top");
-	getContainer("top")->addText(CFloatRect(0.25, 0.005, 0.1, 0.05), &VMaterialLoader::standardFont, "Bevoelkerung:","population");
-	getContainer("top")->addText(CFloatRect(0.351, 0.005, 0.1, 0.05), &VMaterialLoader::standardFont, "0000","popValue");
-	getContainer("top")->addText(CFloatRect(0.60, 0.005, 0.07, 0.05), &VMaterialLoader::GoldFont, "Geld:","money");
-	getContainer("top")->addText(CFloatRect(0.671, 0.005, 0.1, 0.05), &VMaterialLoader::GoldFont, "0000","moneyValue");
 
+	/********************************************************BOTTOM AREA*************************************************************/
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0, 0.75F, 1.0F, 0.25F), "BottomBar");
 	//Baumenü Register
-	addContainer(m_viewport, IViewGUIContainer::ContainerType::Register, CFloatRect(0.206, 0.76F, 0.584F, 0.24F), "Register");
-	dynamic_cast<VRegister*>(getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonCraftmenu,
+	
+	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.206, 0.03F, 0.584F, 0.98F), "Register");
+	getContainer("BottomBar")->getContainer("Register");
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonCraftmenu,
 		&VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::materialRed, SWITCH_TO_REGISTER_BUILDING, "TabBuilding");
-	dynamic_cast<VRegister*>(getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonSabotage,
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonSabotage,
 		&VMaterialLoader::materialIngameButtonSabotageHover, &VMaterialLoader::materialGreen, SWITCH_TO_REGISTER_SABOTAGE, "TabSabotage");
-	dynamic_cast<VRegister*>(getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonStatistics,
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonStatistics,
 		&VMaterialLoader::materialIngameButtonStatisticsHover, &VMaterialLoader::materialBlue, SWITCH_TO_REGISTER_STATISTICS, "TabStatistics");
 
 	
-
-	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.025, 0.075, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonWindmill, &VMaterialLoader::materialCraftmenuButtonWindmillHover, SELECT_BUILDING_WINDMILL, "windmill");
-	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.275, 0.075, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, &VMaterialLoader::materialCraftmenuButtonHydroPowerplantHover, SELECT_BUILDING_HYDROPOWERPLANT, "hydroPowerPlant");
-	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.525, 0.075, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, &VMaterialLoader::materialCraftmenuButtonSolarPowerplantHover, SELECT_BUILDING_SOLARPOWERPLANT, "solarPowerPlant");
-	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.025, 0.525, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, &VMaterialLoader::materialCraftmenuButtonNuclearPowerplantHover, SELECT_BUILDING_NUCLEARPOWERPLANT, "nuclearPowerPlant");
-	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.275, 0.525, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, &VMaterialLoader::materialCraftmenuButtonCoalPowerplantHover, SELECT_BUILDING_COALPOWERPLANT, "coalPowerPlant");
-	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.525, 0.525, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, &VMaterialLoader::materialCraftmenuButtonOilPowerplantHover, SELECT_BUILDING_OILPOWERPLANT, "oilPowerPlant");
-	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.775, 0.525, 0.20, 0.4), &VMaterialLoader::materialCraftmenuButtonPowerline, &VMaterialLoader::materialCraftmenuButtonPowerlineHover, SELECT_BUILDING_POWERLINE, "powerLine");
-
-
+	//CraftMenu
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.025, 0.075, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonWindmill, &VMaterialLoader::materialCraftmenuButtonWindmillHover, SELECT_BUILDING_WINDMILL, "windmill");
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.275, 0.075, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, &VMaterialLoader::materialCraftmenuButtonHydroPowerplantHover, SELECT_BUILDING_HYDROPOWERPLANT, "hydroPowerPlant");
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.525, 0.075, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, &VMaterialLoader::materialCraftmenuButtonSolarPowerplantHover, SELECT_BUILDING_SOLARPOWERPLANT, "solarPowerPlant");
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.025, 0.525, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, &VMaterialLoader::materialCraftmenuButtonNuclearPowerplantHover, SELECT_BUILDING_NUCLEARPOWERPLANT, "nuclearPowerPlant");
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.275, 0.525, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, &VMaterialLoader::materialCraftmenuButtonCoalPowerplantHover, SELECT_BUILDING_COALPOWERPLANT, "coalPowerPlant");
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.525, 0.525, 0.2, 0.4), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, &VMaterialLoader::materialCraftmenuButtonOilPowerplantHover, SELECT_BUILDING_OILPOWERPLANT, "oilPowerPlant");
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.775, 0.525, 0.20, 0.4), &VMaterialLoader::materialCraftmenuButtonPowerline, &VMaterialLoader::materialCraftmenuButtonPowerlineHover, SELECT_BUILDING_POWERLINE, "powerLine");
 
 
 
-	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOff();
-	dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOff();
+
+
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
 
 	//Dialogbox
-	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55), "DialogBox");
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55),&VMaterialLoader::materialDialogBackground, "DialogBox");
 	
 	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.10, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING,"MenueButtonContinue");
 	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.27, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME,"MenueButtonQuit");
@@ -147,19 +147,19 @@ void VScreenIngame::onNotify(Event events)
 	switch (events)
 	{
 	case SWITCH_TO_REGISTER_BUILDING:
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->switchOn();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOff();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOff();
+		dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->switchOn();
+		dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
+		dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
 		break;
 	case SWITCH_TO_REGISTER_SABOTAGE:
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->switchOff();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOn();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOff();
+		dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->switchOff();
+		dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabSabotage")->switchOn();
+		dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
 		break;
 	case SWITCH_TO_REGISTER_STATISTICS:
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabBuilding")->switchOff();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabSabotage")->switchOff();
-		dynamic_cast<VRegister*>(getContainer("Register"))->getTab("TabStatistics")->switchOn();
+		dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->switchOff();
+		dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
+		dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabStatistics")->switchOn();
 		break;
 	default:
 		notify(events);
@@ -184,18 +184,7 @@ void VScreenIngame::switchOff()
 
 void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 {
-	//Test
-	/*time_t t;
-
-	time(&t);
-	srand(static_cast<unsigned int>(t)*50);
-	static int zahl = 0;
-	static int imoney = 0;
 	
-	dynamic_cast<VText*>(getContainer("top")->getGuiObjectList()[1])->updateText(static_cast<ostringstream*>(&(ostringstream() << zahl++))->str());
-	dynamic_cast<VText*>(getContainer("top")->getGuiObjectList()[3])->updateText(static_cast<ostringstream*>(&(ostringstream() << imoney+rand()))->str());
-*/
-	//keyboard->GetChar(keyboard->GetKey());
 	if (!keyboard->KeyPressed(DIK_ESCAPE))
 	{
 		bK = false;
@@ -215,19 +204,24 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	
 }
 
-	//void VScreenIngame::resize(int width, int height)
-	//{
-	//}
-
-	//TODO
 	void VScreenIngame::updateMoney(const int wert)
 	{
-		dynamic_cast<VText*>(getContainer("top")->getGuiObject("moneyValue"))->updateText(std::to_string(wert));
+		dynamic_cast<VText*>(getContainer("Topbar")->getGuiObject("moneyValue"))->updateText(std::to_string(wert));
 	}
 
 	void VScreenIngame::updatePopulation(const int wert)
 	{
-		dynamic_cast<VText*>(getContainer("top")->getGuiObject("popValue"))->updateText(std::to_string(wert));
+		dynamic_cast<VText*>(getContainer("Topbar")->getGuiObject("popValue"))->updateText(std::to_string(wert));
+	}
+
+	CFloatRect VScreenIngame::getTopSpace()
+	{
+		return getContainer("Topbar")->getRectangle();
+	}
+
+	CFloatRect VScreenIngame::getBottomSpace()
+	{
+		return getContainer("BottomBar")->getRectangle();
 	}
 
 	NAMESPACE_VIEW_E
