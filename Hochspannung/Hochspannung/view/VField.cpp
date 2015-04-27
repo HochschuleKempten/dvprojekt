@@ -33,13 +33,12 @@ void VField::setHoverOff()
 
 void VField::initField(const int rowIdx, const int colIdx)
 {
+	ASSERT(!initDone, "VField << " << rowIdx << ", " << colIdx << " is initalized twice");
+
 	lField = vPlayingField->lPlayingField->getField(rowIdx, colIdx);
 
-	static std::stringstream stream;	//Create only one object
-	stream.str("");
-	stream.clear();
-	stream << VIdentifier::VPlayingField << ";" << rowIdx << ";" << colIdx;
-	m_zp.SetName(stream.str().c_str());
+	std::string name = std::to_string(VIdentifier::VPlayingField) + ";" + std::to_string(rowIdx) + ";" + std::to_string(colIdx);
+	m_zp.SetName(name.c_str());
 
 	m_zmNormal = VMaterialLoader::fieldMaterials[VMaterialLoader::FieldPair(lField->getFieldType(), lField->getFieldLevel())];
 	ASSERT(m_zmNormal.m_ptextureDiffuse != nullptr, "Could not load the material for the field " << lField->getFieldType());
@@ -50,6 +49,8 @@ void VField::initField(const int rowIdx, const int colIdx)
 	m_zp.RotateZ(M_PI);
 	m_zp.TranslateXDelta(CASTS<float>(colIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0)));
 	m_zp.TranslateYDelta(CASTS<float>(rowIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0) * -1));
+
+	DEBUG_EXPRESSION(initDone = true);
 }
 
 void VField::removeBuilding()

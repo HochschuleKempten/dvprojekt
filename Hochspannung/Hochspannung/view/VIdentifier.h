@@ -17,7 +17,8 @@ namespace VIdentifier
 		VWindmillPowerPlant = 113,
 		VSolarPowerPlant = 114,
 		VOilRefinery = 115,
-		VNuclearPowerPlant = 116
+		VNuclearPowerPlant = 116,
+		VTransformerStation = 117
 	};
 }
 

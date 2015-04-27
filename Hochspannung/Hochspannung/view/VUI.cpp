@@ -42,6 +42,8 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
 	          CColor(1.0f, 1.0f, 1.0f));
 
+	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
+
 	addScreen("MainMenue", IViewScreen::MainMenue);
 	//addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
 	addScreen("Lobby", IViewScreen::Lobby);
@@ -55,52 +57,82 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 
 void VUI::handleInput(float fTimeDelta)
 {
-	//Left + Right: 
-	if (m_zkKeyboard.KeyPressed(DIK_A) == true) {
-		m_zpCamera.TranslateXDelta(-0.5);
+	const float cameraStength = 1.1;
 
+	//Left + Right: 
+	if (m_zkKeyboard.KeyPressed(DIK_A)) 
+	{
+		m_zpCamera.TranslateXDelta(-cameraStength);
 	}
-	if (m_zkKeyboard.KeyPressed(DIK_D)) {
-		m_zpCamera.TranslateXDelta(0.5);
+	if (m_zkKeyboard.KeyPressed(DIK_D))
+	{
+		m_zpCamera.TranslateXDelta(cameraStength);
 	}
 
 	//Back + Forward
-	if (m_zkKeyboard.KeyPressed(DIK_S) == true) {
-		m_zpCamera.TranslateYDelta(-0.5);
+	if (m_zkKeyboard.KeyPressed(DIK_S))
+	{
+		m_zpCamera.TranslateYDelta(-cameraStength);
 	}
-	if (m_zkKeyboard.KeyPressed(DIK_W)) {
-		m_zpCamera.TranslateYDelta(0.5);
+	if (m_zkKeyboard.KeyPressed(DIK_W))
+	{
+		m_zpCamera.TranslateYDelta(cameraStength);
 	}
 
 	//Zoom In + Out
-	if (m_zkKeyboard.KeyPressed(DIK_UP) == true) {
-		m_zpCamera.TranslateZDelta(-0.5);
+	if (m_zkKeyboard.KeyPressed(DIK_UP)) 
+	{
+		if (mouseWheelPosition > -18)
+		{
+			m_zpCamera.TranslateZDelta(-cameraStength * 4);
+			mouseWheelPosition += -cameraStength * 4;
+		}
 	}
-	if (m_zkKeyboard.KeyPressed(DIK_DOWN)) {
-		m_zpCamera.TranslateZDelta(0.5);
+	if (m_zkKeyboard.KeyPressed(DIK_DOWN)) 
+	{
+		if (mouseWheelPosition < 180)
+		{
+		m_zpCamera.TranslateZDelta(cameraStength * 4);
+		mouseWheelPosition += cameraStength * 4;
+		}
+	}
+	
+	if (m_zkMouse.GetRelativeZ() != 0.0)
+	{
+		if (m_zkMouse.GetRelativeZ() > 0.0)
+		{
+			if (mouseWheelPosition > -18)
+			{
+				m_zpCamera.TranslateZDelta(-cameraStength * 4);
+				mouseWheelPosition += -cameraStength * 4;
+			}
+		}
+		else
+		{
+			if (mouseWheelPosition < 180)
+			{
+				m_zpCamera.TranslateZDelta(cameraStength * 4);
+				mouseWheelPosition += cameraStength * 4;
+			}
+		}
+
+		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
 	}
 
-	float zDelta = GET_WHEEL_DELTA_WPARAM(WHEEL_DELTA);
-
-	if (zDelta != 0) {
-		// m_zpCamera.RotateZDelta(-0.05);
+	/*
+	(0,0)=(x,y)
+	  #----> x (1,0)
+	  |
+	  |
+	  y
+	(0,1)
+	*/
+	float cursorX, cursorY;
+	bool insideFrame = m_zkCursor.GetFractional(cursorX, cursorY);
+	if (!insideFrame || cursorY < 0.0f || cursorY > 0.80f) {	//TODO (JS) fill with correct values when available
+		//Restrict picking when not in window or cursor is only over UI
+		return;
 	}
-
-	//if (m_zkMouse.ButtonPressed(DIMOUSE_WHEEL) == true)
-	//{	
-	//	//long delta = ?
-	//	
-	//}
-
-	// Rotate around the field
-	//if (m_zkKeyboard.KeyPressed(DIK_RIGHT) == true)
-	//{
-	//	m_zpCamera.RotateZDelta(-0.05);
-	//}
-	//if (m_zkKeyboard.KeyPressed(DIK_LEFT))
-	//{
-	//	m_zpCamera.RotateZDelta(0.05);
-	//}
 
 	std::map<int, std::vector<int>> pickedElements = pickElements();
 	if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
@@ -147,19 +179,26 @@ void VUI::handleInput(float fTimeDelta)
 std::map<int, std::vector<int>> VUI::pickElements()
 {
 	std::map<int, std::vector<int>> pickedElements;
+	std::unordered_set<CPlacement*> pickedPlacements;	//A set is duplicate free and works out of the box for pointer types
 
-	CPlacements placements;
+	//Pick everything
 	CPlacement* singlePlacement = m_zkCursor.PickPlacement();
+	CPlacements placements;
 	m_zkCursor.PickPlacements(&placements);
 
+	//Merge the found placements together in a set (to avoid duplicates)
+	for (int i = 0; i < placements.m_iPlacements; i++) {
+		pickedPlacements.insert(placements.m_applacement[i]);
+	}
 	//The two placements pick different things, so they have to be merged together
 	if (singlePlacement != nullptr) {
-		placements.Add(singlePlacement);
+		pickedPlacements.insert(singlePlacement);
 	}
 
 	//Now iterate over every found placement
-	for (int i = 0; i < placements.m_iPlacements; i++) {
-		std::vector<std::string> nameParts = split(placements.m_applacement[i]->GetName(), ';');
+	for (CPlacement* p : pickedPlacements)
+	{
+		std::vector<std::string> nameParts = split(p->GetName(), ';');
 
 		if (nameParts.size() > 0 && nameParts[0].at(0) != '#') {
 			//At this point only valid names remain

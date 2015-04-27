@@ -60,4 +60,9 @@ void LCity::setPopulationTotal(const int populationTotal)
 	vCity->updatePopulation(populationTotal);
 }
 
+int LCity::getEnergySurplus()
+{
+	return energy - populationTotal;
+}
+
 NAMESPACE_LOGIC_E

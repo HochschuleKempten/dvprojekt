@@ -45,6 +45,7 @@ private:
 private:
 	void handleInput(float fTimeDelta);
 	std::map<int, std::vector<int>> pickElements();
+	float mouseWheelPosition = 0.0F;
 
 public:
 	VUI(VMaster* vMaster);

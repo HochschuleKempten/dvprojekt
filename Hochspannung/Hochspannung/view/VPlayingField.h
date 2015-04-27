@@ -59,6 +59,10 @@ public:
 	virtual void buildPlayingField() override;
 	virtual void objectRemoved(const int x, const int y) override;
 	virtual void messageBuildingFailed(const std::string& message) override;
+	float getFieldSize() const
+	{
+		return fieldSize;
+	}
 };
 
 
