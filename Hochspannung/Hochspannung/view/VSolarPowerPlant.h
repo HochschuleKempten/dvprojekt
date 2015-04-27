@@ -3,7 +3,6 @@
 #include "../logic/IVPowerPlant.h"
 #include "../logic/LSolarPowerPlant.h"
 #include "IViewBuilding.h"
-#include "VModelSolarPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
@@ -11,7 +10,9 @@ NAMESPACE_VIEW_B
 class VSolarPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:
-	VModelSolarPowerPlant viewModel;
+	CPlacement m_zp;
+	CMaterial m_zm;
+	CGeoEllipsoid m_zg;
 
 public:
 	VSolarPowerPlant(VMaster *vMaster, LSolarPowerPlant* lPlant);
