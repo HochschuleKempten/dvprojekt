@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VGeneral.h"
+#include <array>
 
 NAMESPACE_VIEW_B
 
