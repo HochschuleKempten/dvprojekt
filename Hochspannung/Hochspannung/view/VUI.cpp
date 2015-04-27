@@ -45,7 +45,7 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
 
 	addScreen("MainMenue", IViewScreen::MainMenue);
-	addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
+	//addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
 	addScreen("Lobby", IViewScreen::Lobby);
 	addScreen("Credits", IViewScreen::Credits);
 	addScreen("Options", IViewScreen::Options);
@@ -219,79 +219,116 @@ std::map<int, std::vector<int>> VUI::pickElements()
 
 void VUI::onNotify(Event evente)
 {
-	switch (evente) {
 
-		case START_GAME:
-			vMaster->lMaster->startNewGame();
-			switchScreen("Ingame");
-			break;
+	switch (evente)
+	{
 
-		case QUIT_GAME:
-			isQuit = true;
-			PostQuitMessage(0);
-			break;
+	case START_GAME:
+		vMaster->lMaster->startNewGame();
+		switchScreen("Ingame");
+		
+		break;
 
-		case SEARCH_IP:
-			break;
+	case QUIT_GAME:
+		isQuit = true;
+		PostQuitMessage(0);
+		break;
 
-		case SWITCH_TO_SPIELMODUS:
+	case SEARCH_IP:
+		break;
+		
+	/*case SWITCH_TO_SPIELMODUS:
+		
+		switchScreen("Spielmoduswahl");
+		break;*/
+	case SWITCH_TO_LOBBY:
 
-			switchScreen("Spielmoduswahl");
-			break;
-		case SWITCH_TO_LOBBY:
+		switchScreen("Lobby");
+		break;
+	case SWITCH_TO_MAINMENUE:
 
-			switchScreen("Lobby");
-			break;
-		case SWITCH_TO_MAINMENUE:
+		switchScreen("MainMenue");
+		break;
+	case SWITCH_TO_CREDITS:
 
-			switchScreen("MainMenue");
-			break;
-		case SWITCH_TO_CREDITS:
+		switchScreen("Credits");
+		break;
+	case SWITCH_TO_OPTIONS:
 
-			switchScreen("Credits");
-			break;
-		case SWITCH_TO_OPTIONS:
+		switchScreen("Options");
+		break;
 
-			switchScreen("Options");
-			break;
-		default:
-			break;
+	case SELECT_BUILDING_WINDMILL:
+		//TODO BuildMenue Button Windmill 
+		break;
+	case	SELECT_BUILDING_COALPOWERPLANT:
+		//TODO BuildMenue Button CoalPowerplant 
+		break;
+	case	SELECT_BUILDING_OILPOWERPLANT:
+		//TODO BuildMenue Button Oilpowerplant
+		break;
+	case	SELECT_BUILDING_NUCLEARPOWERPLANT:
+		//TODO BuildMenue Button Nuclearpowerplant
+		break;
+	case	SELECT_BUILDING_HYDROPOWERPLANT:
+		//TODO BuildMenue Button Hydropowerplant
+		break;
+	case	SELECT_BUILDING_SOLARPOWERPLANT:
+		//TODO BuildMenue Button Solarpowerplant
+		break;
+	case	SELECT_BUILDING_POWERLINE:
+		//TODO BuildMenue Button Powerline
+		break;
+	default:
+		break;
 	}
+	
 }
 
 void VUI::resize(int width, int height)
 {
+
+	
+	for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++)
+	{
+		m_iterScreens->second->resize(width, height);
+	}
+
 	m_zf.ReSize(width, height);
+
 }
 
 void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
 {
-	switch (screenType) {
-		case IViewScreen::ScreenType::MainMenue:
-			m_screens[sName] = new VScreenMainMenue(&m_zf);
-			m_screens[sName]->addObserver(this);
-			break;
-		case IViewScreen::ScreenType::Spielmoduswahl:
-			m_screens[sName] = new VScreenSpielmodusWahl(&m_zf);
-			m_screens[sName]->addObserver(this);
-			break;
-		case IViewScreen::Lobby:
-			m_screens[sName] = new VScreenLobby(&m_zf);
-			m_screens[sName]->addObserver(this);
-			break;
-		case IViewScreen::ScreenType::Ingame:
-			m_screens[sName] = new VScreenIngame(&m_zf, &m_zr, &m_zs, &m_zpCamera);
-			m_screens[sName]->addObserver(this);
-			break;
-		case IViewScreen::Options:
-			m_screens[sName] = new VScreenOptions(&m_zf);
-			m_screens[sName]->addObserver(this);
-			break;
-		case IViewScreen::Credits:
-			m_screens[sName] = new VScreenCredits(&m_zf);
-			m_screens[sName]->addObserver(this);
-			break;
-		default: break;
+
+	switch (screenType)
+	{
+	case IViewScreen::ScreenType::MainMenue:
+		m_screens[sName] = new VScreenMainMenue(&m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	/*case IViewScreen::ScreenType::Spielmoduswahl:
+		m_screens[sName] = new VScreenSpielmodusWahl(&vMaster->m_zf);
+		m_screens[sName]->addObserver(this);
+		break;*/
+	case IViewScreen::Lobby:
+		m_screens[sName] = new VScreenLobby(&m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::ScreenType::Ingame:
+		m_screens[sName] = new VScreenIngame(&m_zf,&m_zr,&m_zs,&m_zpCamera);
+		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::Options: 
+		m_screens[sName] = new VScreenOptions(&m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::Credits: 
+		m_screens[sName] = new VScreenCredits(&m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	default: break;
+
 	}
 }
 
@@ -328,9 +365,68 @@ void VUI::updatePopulation(const int wert)
 void VUI::updateInfofield(const int wert)
 {}
 
+void VUI::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
+{
+	float CurPosX;
+	float CurPosY;
+	m_zkCursor.GetFractional(CurPosX, CurPosY, false);
+	map<string, IViewGUIContainer*> tempmapGuicontainer;
+	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+	map<string, IViewGUIObject*>tempList;
+	map<string, IViewGUIObject*>::iterator tempIter;
+
+	tempmapGuicontainer = tempGuicontainer->getGuiContainerMap();
+
+	for (tempIterGuicontainer = tempmapGuicontainer.begin(); tempIterGuicontainer != tempmapGuicontainer.end(); tempIterGuicontainer++)
+	{
+		//Check if Container is on
+		if (tempIterGuicontainer->second->isOn())
+		{
+			
+			tempList = tempIterGuicontainer->second->getGuiObjectList();
+			//for all GUI-Objects in the container
+			for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
+			{
+				if (tempIter->second->isOn())
+				{//check if cursor is over
+					tempIter->second->checkHover(CurPosX, CurPosY);
+
+					if (!m_BlockCursorLeftPressed)
+					{
+						//check for events
+						tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
+					}
+
+					//if screen was changed
+					if (m_screenChanged)
+					{
+						m_screenChanged = false;
+						m_BlockCursorLeftPressed = true;
+						return;
+					}
+					
+				}
+			}
+			if (tempIterGuicontainer->second->getGuiContainerMap().size()>0)
+		{
+			checkGUIContainer(tempIterGuicontainer->second);
+		}
+		}
+
+		
+	}
+	if (m_zkCursor.ButtonPressedLeft())
+	{
+		m_BlockCursorLeftPressed = true;
+	}
+}
+
+
 void VUI::tick(const float fTimeDelta)
 {
+
 	m_zr.Tick(const_cast<float&>(fTimeDelta));
+
 
 	handleInput(fTimeDelta);
 
@@ -352,38 +448,62 @@ void VUI::tick(const float fTimeDelta)
 			m_iterScreens->second->checkShortcut(&m_zkKeyboard);
 
 			tempGuicontainer = m_iterScreens->second->getGuiContainerMap();
-			map<string, IViewGUIObject*> tempList;
+
+			map<string, IViewGUIObject*>tempList;
 			map<string, IViewGUIObject*>::iterator tempIter;
 			//For all containers in the screen
-			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++) {
-				//Check if screen is on
-				if (tempIterGuicontainer->second->isOn()) {
-					tempList = tempIterGuicontainer->second->getGuiObjectList();
-					//for all GUI-Objects in the container
-					for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++) {
+			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
+			{
+				
+					//Check if Container is on
+					if (tempIterGuicontainer->second->isOn())
+					{
+						tempList = tempIterGuicontainer->second->getGuiObjectList();
+						//for all GUI-Objects in the container
+						for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
+						{
 
-						//check if cursor is over
-						tempIter->second->checkHover(CurPosX, CurPosY);
+							if (tempIter->second->isOn())
+							{
+								//check if cursor is over
+							//	tempIter->second->checkHover(CurPosX, CurPosY);
 
-						if (!m_BlockCursorLeftPressed) {
-							//check for events
-							tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
-						}
-						//if screen was changed
-						if (m_screenChanged) {
-							m_screenChanged = false;
-							m_BlockCursorLeftPressed = true;
-							return;
+								if (!m_BlockCursorLeftPressed)
+								{
+										//check for events
+									tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
+								}
+								//if screen was changed
+								if (m_screenChanged)
+								{
+									m_screenChanged = false;
+									m_BlockCursorLeftPressed = true;
+									return;
+								}
+								
+							}
+							if (isQuit)return;
+
 						}
 						if (isQuit)return;
-					}
-					if (isQuit)return;
+					}	
+					if (tempIterGuicontainer->second->getGuiContainerMap().size() > 0)
+				{
+					checkGUIContainer(tempIterGuicontainer->second);
 				}
+				}
+				if (isQuit)return;
+
+			
 			}
-			if (isQuit)return;
 		}
+	if (m_zkCursor.ButtonPressedLeft())
+	{
+		m_BlockCursorLeftPressed = true;
 	}
-}
+	}
+
+
 
 
 NAMESPACE_VIEW_E

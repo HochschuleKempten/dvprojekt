@@ -21,6 +21,9 @@ VScreenCredits::VScreenCredits()
 
 		addContainer(m_viewport,IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
 		getContainer("Menue")->addButton(CFloatRect(0.65, 0.83, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover,SWITCH_TO_MAINMENUE,"BackMainMenue");
+
+
+
 	}
 
 	VScreenCredits::~VScreenCredits()
@@ -38,7 +41,7 @@ VScreenCredits::VScreenCredits()
 {
 	switch (events)
 	{
-
+	
 	default:
 		notify(events);
 		break;
