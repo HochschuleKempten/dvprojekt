@@ -56,7 +56,7 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 
 void VUI::handleInput(float fTimeDelta)
 {
-	const float cameraStength = 1.1;
+	const float cameraStength = 1.1f;
 
 	//Left + Right: 
 	if (m_zkKeyboard.KeyPressed(DIK_A)) 
