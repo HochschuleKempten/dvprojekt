@@ -197,10 +197,12 @@ std::map<int, std::vector<int>> VUI::pickElements()
 		pickedPlacements.insert(singlePlacement);
 	}
 
+	DEBUG_OUTPUT("Picking started");
 	//Now iterate over every found placement
 	for (CPlacement* p : pickedPlacements)
 	{
 		std::vector<std::string> nameParts = split(p->GetName(), ';');
+		DEBUG_OUTPUT("placement = " << p->GetName());
 
 		if (nameParts.size() > 0 && nameParts[0].at(0) != '#') {
 			//At this point only valid names remain

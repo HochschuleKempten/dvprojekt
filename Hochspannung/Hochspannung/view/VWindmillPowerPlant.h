@@ -8,7 +8,7 @@
 
 NAMESPACE_VIEW_B
 
-//TODO (JS) make model smaller
+
 class VWindmillPowerPlant : public IVPowerPlant, public IViewBuilding, public IVTickObserver
 {
 private:

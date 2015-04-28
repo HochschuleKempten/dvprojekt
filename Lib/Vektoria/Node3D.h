@@ -24,7 +24,6 @@ class CNode3D : public CNode , public CIntersectable
 {
 	friend class CNodes;
 	friend class CCamera;
-	friend class CDrawables;
 	friend class CEmitter;
 	friend class CPlacements;
 	friend class CPlacement;

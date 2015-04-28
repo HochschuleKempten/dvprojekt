@@ -30,7 +30,7 @@ public:
 	void Fini();
 
 	float Angle(CPlane & plane); // Berechnet den Schnittwinkel zwischen zwei Ebenen
-	CRay Intersect(CPlane & plane); // Berechnet die Schnittgerade zweier Ebenen
+	// CRay Intersect(CPlane & plane); // Berechnet die Schnittgerade zweier Ebenen
 	CHVector Intersect(CPlane & plane2, CPlane & plane3); // Berechnet den Schnittpunkt dreier Ebenen
 	CHVector Intersect(CRay & ray); // Berechnet Schnittpunkt eines Strahls mit der Ebene // noch ungetestet
 	void Move(float f); // Transliert entlang der Normalen

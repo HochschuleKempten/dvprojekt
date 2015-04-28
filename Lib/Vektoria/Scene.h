@@ -72,12 +72,14 @@ namespace Vektoria
 		//	void SetRoot(CRoot * proot);
 //		CRoot * m_proot;
 
-
+		
 
 #ifdef NETWORKMASTER
 		unsigned int GetidId();
 #endif
 	private:
+		void CopyDownwards();// Kopiert alle Eigenschaften des Placements rekursiv in der Hierarchie hinunter, belässt die Eigenschaften, wo ein Entry-Flag gesetzt wurde
+
 		bool m_bFirstTick;
 		CCameras m_cameras; // hier müssen alle Cameras verzeichnet sein, welche irgendwo die Szene betrachten
 #ifdef NETWORKMASTER
