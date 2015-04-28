@@ -522,10 +522,9 @@
     <ClCompile Include="view\Building03.cpp">
       <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="network\GameObject.cpp">
       <Filter>network\Quelldateien</Filter>
-=======
+	</ClCompile>
     <ClCompile Include="logic\LTransformerStation.cpp">
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
@@ -537,7 +536,6 @@
     </ClCompile>
     <ClCompile Include="view\VGUIArea.cpp">
       <Filter>GUI\Quelldateien</Filter>
->>>>>>> master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
