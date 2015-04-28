@@ -1,7 +1,6 @@
 #include "VScreenIngame.h"
 #include "VMaster.h"
 #include "VText.h"
-#include <time.h>
 NAMESPACE_VIEW_B
 
 VScreenIngame::VScreenIngame()
@@ -121,7 +120,8 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 
 	/********************************************************Energy AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialGreen, "Energy");
-	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1);
+	getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5, 0.4, 0.5, 0.6), &VMaterialLoader::materialRed, false, "NeededEnergy");
+	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.3);
 
 
 	m_viewport->SwitchOff();
@@ -164,6 +164,8 @@ void VScreenIngame::onNotify(Event events)
 		break;
 	}
 }
+
+
 void VScreenIngame::switchOn()
 {
 	m_viewport->SwitchOn();
