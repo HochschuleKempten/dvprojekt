@@ -51,7 +51,6 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	addScreen("Options", IViewScreen::Options);
 	addScreen("Ingame", IViewScreen::Ingame);
 
-	//TODO (V) Sometimes no main screen appears
 	switchScreen("MainMenue");
 }
 
@@ -119,6 +118,9 @@ void VUI::handleInput(float fTimeDelta)
 		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
 	}
 
+	CFloatRect topSpace = CASTD<VScreenIngame*>(m_screens["Ingame"])->getTopSpace();
+	CFloatRect bottomSpace = CASTD<VScreenIngame*>(m_screens["Ingame"])->getBottomSpace();
+
 	/*
 	(0,0)=(x,y)
 	  #----> x (1,0)
@@ -129,7 +131,7 @@ void VUI::handleInput(float fTimeDelta)
 	*/
 	float cursorX, cursorY;
 	bool insideFrame = m_zkCursor.GetFractional(cursorX, cursorY);
-	if (!insideFrame || cursorY < 0.0f || cursorY > 0.80f) {	//TODO (JS) fill with correct values when available
+	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY >(1.0f - bottomSpace.GetYSize())) {
 		//Restrict picking when not in window or cursor is only over UI
 		return;
 	}
