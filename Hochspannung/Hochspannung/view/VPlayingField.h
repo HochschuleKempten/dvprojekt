@@ -18,7 +18,7 @@ class IViewBuilding;
  *
  * @image html images/VPlayingField_hierarchy.png "Hierarchy of the playing field"
  *
- * Each holder coltrols a small field part about 5x5 placements. On each of these placements is the geo of the field
+ * Each holder controls a small field part about 5x5 placements. On each of these placements is the geo of the field
  * itself and a view object, if some was placed.
  */
 class VPlayingField : public IViewObject, public IVPlayingField
@@ -53,13 +53,16 @@ public:
 	}
 
 	void placeObject(const std::shared_ptr<IViewBuilding>& objPtr, const int x, const int y);
+	void hoverField(const int x, const int y);
 
-	virtual void initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr);
-	virtual void buildPlayingField();
-
-	virtual void objectRemoved(const int x, const int y);
-
-	virtual void messageBuildingFailed(const std::string& message);
+	virtual void initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr) override;
+	virtual void buildPlayingField() override;
+	virtual void objectRemoved(const int x, const int y) override;
+	virtual void messageBuildingFailed(const std::string& message) override;
+	float getFieldSize() const
+	{
+		return fieldSize;
+	}
 };
 
 

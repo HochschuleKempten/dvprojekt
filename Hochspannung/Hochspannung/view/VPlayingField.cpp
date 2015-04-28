@@ -40,6 +40,17 @@ void VPlayingField::placeObject(const std::shared_ptr<IViewBuilding>& objPtr, co
 	vFields[x][y].m_zp.AddPlacement(objPtr->getPlacement());
 }
 
+void VPlayingField::hoverField(const int x, const int y)
+{
+	static std::pair<int, int> previousHover(x, y);
+
+	vFields[previousHover.first][previousHover.second].setHoverOff();
+	vFields[x][y].setHoverOn();
+
+	previousHover.first = x;
+	previousHover.second = y;
+}
+
 void VPlayingField::initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr)
 {
 	vMaster->setVPlayingField(dynamic_pointer_cast<VPlayingField>(objPtr));
@@ -47,13 +58,11 @@ void VPlayingField::initPlayingField(const std::shared_ptr<IVPlayingField>& objP
 
 void VPlayingField::buildPlayingField()
 {
-	//m_zp.Fasten(); // direkt das oberste fasten????????
-
 	int square = CASTS<int>(sqrt(m_zpPlacementHolders.size()));
 	for (int holder = 0; holder < CASTS<int>(m_zpPlacementHolders.size()); holder++) {
-		std::stringstream stream;
-		stream << "#holder = " << holder;
-		m_zpPlacementHolders[holder].SetName(stream.str().c_str());
+		DEBUG_EXPRESSION(std::string name = std::string("#holder = ") + std::to_string(holder));
+		DEBUG_EXPRESSION(m_zpPlacementHolders[holder].SetName(name.c_str()));
+		
 		m_zp.AddPlacement(&m_zpPlacementHolders[holder]);
 
 		for (int rowIdx = (holder % square) * 5; rowIdx < ((holder % square) + 1) * 5; rowIdx++) {
@@ -61,14 +70,37 @@ void VPlayingField::buildPlayingField()
 
 				vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
 				m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);
+				m_zpPlacementHolders[holder].Fasten();
+				m_zpPlacementHolders[holder].SetFrustumCullingOn();
 			}
 		}
 	}
 
-	float rows = CASTS<float>(vFields.getRows());
-	m_zp.TranslateDelta(CASTS<float>(-fieldSize * rows), CASTS<float>(fieldSize * rows), CASTS<float>(-fieldSize * rows * 1.5));
+	//for (int rowIdx = 0; rowIdx < lPlayingField->getFieldLength(); rowIdx++) {
+	//	for (int colIdx = 0; colIdx < lPlayingField->getFieldLength(); colIdx++) {
+	//		vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
+	//		m_zp.AddPlacement(&vFields[rowIdx][colIdx].m_zp);
+	//		//m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);
+	//		//m_zpPlacementHolders[holder].Fasten();
+	//		//m_zpPlacementHolders[holder].SetFrustumCullingOn();
+	//	}
+	//}
 
-	m_zp.SetName("#Placement VPlayingField");
+	float rows = CASTS<float>(vFields.getRows());
+	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getCityPosition().first), CASTS<float>(fieldSize * lPlayingField->getCityPosition().second), CASTS<float>(fieldSize * rows * 0.5));
+     
+	//m_zp.SetFrustumCullingOn();
+	//m_zp.Fasten();
+
+	DEBUG_EXPRESSION(m_zp.SetName("#Placement VPlayingField"));
+
+#ifdef _DEBUG
+	for (int rowIdx = 0; rowIdx < lPlayingField->getFieldLength(); rowIdx++) {
+		for (int colIdx = 0; colIdx < lPlayingField->getFieldLength(); colIdx++) {
+			ASSERT(vFields[rowIdx][colIdx].initDone, "Not every field is initialized");
+		}
+	}
+#endif
 }
 
 void VPlayingField::objectRemoved(const int x, const int y)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VGeneral.h"
+#include "IViewModel.h"
 
 NAMESPACE_VIEW_B
 
@@ -12,10 +13,9 @@ NAMESPACE_VIEW_B
  *
  * @image html images/VModelWindmillPowerPlant.png "Scenegraph and structure of the model"
  */
-class VModelWindmillPowerPlant : public CPlacement
+class VModelWindmillPowerPlant : public IViewModel
 {
 private:
-	CPlacement m_zpWindkraftanlage;
 	CPlacement m_zpBasis;
 	CPlacement m_zpTurm;
 	CPlacement m_zpFundament;
@@ -36,7 +36,17 @@ private:
 
 public:
 	VModelWindmillPowerPlant();
-	~VModelWindmillPowerPlant();
+	virtual ~VModelWindmillPowerPlant() override;
+
+	//TODO (Windkraftwerk) implement this
+	virtual float getHeight() override
+	{
+		return 0.0f;
+	}
+	virtual float getWidth() override
+	{
+		return 0.0f;
+	}
 
 	inline void rotate(const float angle)
 	{

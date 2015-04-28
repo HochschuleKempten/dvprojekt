@@ -33,7 +33,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 
 	
 	city = new VModelCity;
-	m_zpVCity = city;
+	m_zpVCity = city->getMainPlacement();
 	m_zs.AddPlacement(m_zpVCity);
 
 	m_zpCamera.Translate(0, 50, 300);

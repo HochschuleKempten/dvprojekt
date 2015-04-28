@@ -1,5 +1,6 @@
 #ifndef _LUTILITY_H_
 #define _LUTILITY_H_
+#define _USE_MATH_DEFINES
 
 #include <vector>
 #include <string>
@@ -9,6 +10,7 @@
 #include <Windows.h>
 #include <fcntl.h>
 #include <io.h>
+#include <math.h>
 
 inline std::vector<std::string> split(const std::string& str, const char delimiter)
 {
@@ -70,26 +72,36 @@ inline std::string getFileBase(const std::string &str)
 * Useful macro to print something to the visual studio output window
 */
 #define DEBUG_OUTPUT(msgExpr) { std::stringstream s; \
-                                s << getFileBase(__FILE__) << "(" << __LINE__ << "): " << msgExpr << std::endl; \
-                                OutputDebugString(s.str().c_str()); }
+								s << getFileBase(__FILE__) << "(" << __LINE__ << "): " << msgExpr << std::endl; \
+								OutputDebugString(s.str().c_str()); }
 #else
 #define DEBUG_OUTPUT(msgExpr)
 #endif //_DEBUG
 
 #ifdef _DEBUG
 /*
+* @def DEBUG_EXPRESSION(expr)
+* This macro can be used to write single line expressions which will be evaluated only in debug mode
+*/
+#define DEBUG_EXPRESSION(expr) expr
+#else
+#define DEBUG_EXPRESSION(expr)
+#endif //_DEBUG
+
+#ifdef _DEBUG
+/*
  * @def ASSERT(cond, msgExpr)
  * Use this macro to check conditions at runtime in debug mode
- * Type in the conditition the behaviour you desire (the assertion fails if your condition fails)
+ * Type in the condition the behavior you desire (the assertion fails if your condition fails)
  */
 #define ASSERT(cond, msgExpr) if(!(cond)) { \
 								 std::stringstream s; \
-                                 s << getFileBase(__FILE__) << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; \
+								 s << getFileBase(__FILE__) << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; \
 								 OutputDebugString("EXCEPTION! "); \
 								 OutputDebugString(s.str().c_str()); \
 								 OutputDebugString("\n"); \
 								 throw std::string(s.str()); \
-                              }
+							  }
 #else
 #define ASSERT(cond, msgExpr)
 #endif //_DEBUG
@@ -98,8 +110,8 @@ inline std::string getFileBase(const std::string &str)
 #include <boost\numeric\conversion\cast.hpp>
 /*
 * @def CASTS
-* This macro performs a (static) cast between types. In DEBUG mode this is done using <code>boost::numeric_cast</code> with runtime checks
-* and in RELEASE mode this is just done using normal <code>CASTS</code> (without the cost of runtime checks).
+* This macro performs a (static) cast between types. In debug mode this is done using <code>boost::numeric_cast</code> with runtime checks
+* and in release mode this is just done using normal <code>CASTS</code> (without the cost of runtime checks).
 */
 #define CASTS boost::numeric_cast
 #else
@@ -115,6 +127,12 @@ inline std::string getFileBase(const std::string &str)
 #else
 #define CASTD static_cast
 #endif //_DEBUG
+
+#define NON_COPYABLE(className) private: \
+									className(const className&) = delete; \
+									className(const className&&) = delete; \
+									className& operator=(const className&) = delete; \
+									className& operator=(const className&&) = delete
 
 #ifdef _DEBUG
 /**
@@ -144,4 +162,11 @@ inline void redirectIOToConsole()
 }
 #endif // _DEBUG
 
+inline float AngleToRad(float fAngle) {
+	return CASTS<float>(((2.0f * M_PI) / 360.0f) * fAngle);
+}
+
+inline float RadToAngle(float fRadiant) {
+	return CASTS<float>((360.0f / (2.0f * M_PI)) * fRadiant);
+}
 #endif //_LUTILITY_H_

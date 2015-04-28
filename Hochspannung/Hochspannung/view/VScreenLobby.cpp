@@ -24,11 +24,24 @@ VScreenLobby::VScreenLobby(CFrame* frame)
 	m_viewport->AddOverlay(m_bigDialog);
 
 	addContainer(m_viewport,IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
-	getContainer("Menue")->addButton(CFloatRect(0.65, 0.83, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_SPIELMODUS,"buttonBackToPlaymode");
+	getContainer("Menue")->addButton(CFloatRect(0.65, 0.83, 0.30, 0.12), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE,"buttonBackToPlaymode");
 	getContainer("Menue")->addButton(CFloatRect(0.65, 0.05, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, START_GAME,"buttonStartGame");
 	getContainer("Menue")->addButton(CFloatRect(0.65, 0.19, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING,"iwas");
 	getContainer("Menue")->addTextfield(CFloatRect(0.02, 0.06, 0.30, 0.08), &VMaterialLoader::materialIngameBorder, &VMaterialLoader::materialRed, &VMaterialLoader::materialGreen,30,"Suche IP-Adresse...","textfieldIP");
 
+//	getContainer("Menue")->getGuiObject("textfieldIP")->switchOff();
+
+	//CWritingFont* m_writingfont = new CWritingFont();
+	//m_writingfont->Init("textures\\FontArialShadow.png", true);
+	//m_writingfont->SetTableSize(16, 6);
+	//CWriting* m_writing = new CWriting();
+	//m_writing->Init(CFloatRect(0, 0, 0.5, 0.5), 30, m_writingfont);
+	//CWriting* m_writing2 = new CWriting();
+	//m_writing2->Init(CFloatRect(0, 0, 0.5, 0.5), 30, m_writingfont);
+	////Initialize Writingfont
+	//m_viewport->AddWriting(m_writing);
+	//m_viewport->AddWriting(m_writing2);
+	//m_writing->PrintF("TestText");
 	
 }
 

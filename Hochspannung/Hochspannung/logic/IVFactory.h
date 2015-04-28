@@ -16,6 +16,8 @@ class LWindmillPowerPlant;
 class LPowerLine;
 class IVCity;
 class LCity;
+class IVTransformerStation;
+class LTransformerStation;
 
 class IVFactory
 {
@@ -32,6 +34,8 @@ public:
 	virtual std::shared_ptr<IVPowerPlant> createWindmillPowerPlant(LWindmillPowerPlant* powerPlant) = 0;
 	virtual std::shared_ptr<IVPowerLine> createPowerLine(LPowerLine* powerLine) = 0;
 	virtual std::shared_ptr<IVCity> createCity(LCity* city) = 0;
+	virtual std::shared_ptr<IVTransformerStation> createTransformerStation(LTransformerStation* transformerStation) = 0;
+
 };
 
 NAMESPACE_LOGIC_E

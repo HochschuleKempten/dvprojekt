@@ -7,12 +7,12 @@ NAMESPACE_VIEW_B
 
 
 VWindmillPowerPlant::VWindmillPowerPlant(VMaster* vMaster, LWindmillPowerPlant* lPlant)
-	: IVPowerPlant(lPlant), IViewBuilding(vMaster, &m_zp)
+	: IVPowerPlant(lPlant), IViewBuilding(vMaster, viewModel.getMainPlacement())
 {
-	m_zp.RotateX(CASTS<float>(M_PI / 2.0));
-	m_zp.RotateZDelta(M_PI);
-	m_zp.ScaleDelta(0.8f);
-	m_zp.TranslateZDelta(7.0f);
+	viewModel.getMainPlacement()->Scale(0.5f);
+	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0));
+	viewModel.getMainPlacement()->RotateZDelta(CASTS<float>(M_PI));
+	viewModel.getMainPlacement()->TranslateZDelta(7.0f);
 
 	vMaster->registerObserver(this);
 }
@@ -26,8 +26,6 @@ void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& ob
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VWindmillPowerPlant);
 }
-
-
 
 
 NAMESPACE_VIEW_E

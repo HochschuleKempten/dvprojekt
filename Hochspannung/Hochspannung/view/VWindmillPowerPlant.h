@@ -12,7 +12,7 @@ NAMESPACE_VIEW_B
 class VWindmillPowerPlant : public IVPowerPlant, public IViewBuilding, public IVTickObserver
 {
 private:
-	VModelWindmillPowerPlant m_zp;
+	VModelWindmillPowerPlant viewModel;
 
 public:
 	VWindmillPowerPlant(VMaster *vMaster, LWindmillPowerPlant* lPlant);
@@ -23,7 +23,7 @@ public:
 	inline virtual void tick(const float fTimeDelta) override
 	{
 		const double sec = 2.0;	//Number of seconds per rotation
-		m_zp.rotate(CASTS<float>((2.0 * M_PI / sec) * fTimeDelta));
+		viewModel.rotate(CASTS<float>((2.0 * M_PI / sec) * fTimeDelta));
 	}
 };
 

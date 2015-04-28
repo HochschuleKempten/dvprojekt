@@ -3,6 +3,7 @@
 
 NAMESPACE_LOGIC_B
 
+
 class IVPowerPlant;
 
 class ILPowerPlant : public ILBuilding
@@ -26,5 +27,6 @@ public:
 		return energyValue;
 	};
 };
+
 
 NAMESPACE_LOGIC_E

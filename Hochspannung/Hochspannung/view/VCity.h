@@ -12,10 +12,7 @@ class LCity;
 class VCity : public IVCity, public IViewBuilding
 {
 private:
-	VModelCity m_zp;
-	//CPlacement m_zp;
-	//CMaterial m_zm;
-	//CGeoEllipsoid m_zg;
+	VModelCity viewModel;
 
 public:
 	VCity(VMaster *vMaster, LCity* lCity);

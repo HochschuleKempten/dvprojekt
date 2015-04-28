@@ -59,6 +59,7 @@
 #include "../../../Hochspannung/Hochspannung/view/VModelWindmillPowerPlant.h"
 
 using namespace Vektoria;
+using namespace HighVoltage;
 
 
 class CGame
