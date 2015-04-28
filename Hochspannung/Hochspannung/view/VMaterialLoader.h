@@ -68,6 +68,12 @@ public:
 	static CWritingFont standardFont;
 	static CWritingFont GoldFont;
 	
+	//Trassentexturen
+	static CMaterial m_zmConcrete;
+	static CMaterial m_zmStrut;
+	static CMaterial m_zmIsolator;
+	static CMaterial m_zmRing;
+	static CMaterial m_zmCable;
 };
 
 

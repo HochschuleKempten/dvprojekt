@@ -33,8 +33,6 @@ public:
 	virtual float getWidth() override;  // width of the foundation
 
 private:
-	CHMats m_zSweepMats;
-
 	CPlacement m_zpIsolator[16];
 	CPlacement m_zpIsolatorLoD1[16];
 	CPlacement m_zpIsolatorLoD2[16];
@@ -44,10 +42,6 @@ private:
 	CPlacement m_zpRingLoD2[16];
 	CPlacement m_zpRingLoD3[16];
 	CPlacement m_zpLine[4];
-	CPlacement m_zpSweep[4];
-
-	CMaterial m_zmBlack;
-	CMaterial m_zmGrey;
 
 	CGeoCube m_zgArm;
 	CGeoCube m_zgUpperArm;
@@ -63,7 +57,6 @@ private:
 	CGeoTube m_zgRingLoD1;
 	CGeoTube m_zgRingLoD2;
 	CGeoCube m_zgRingLoD3;
-	CGeoSweep m_zgSweep;
 
 	CPlacement m_zpFoundation;
 	CPlacement m_zpArmConnection;
