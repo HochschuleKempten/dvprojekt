@@ -3,6 +3,7 @@
 #include <boost\asio\read.hpp>
 #include <boost\asio\placeholders.hpp>
 #include <boost\lexical_cast.hpp>
+#include <boost\date_time\posix_time\posix_time.hpp>
 #include <vector>
 
 namespace Network {
@@ -11,21 +12,12 @@ CNode::CNode() :
 m_ioService(io_service()), m_socketTcp(m_ioService), m_socketUdp(m_ioService), 
 m_localEndpointTcp(ip::tcp::endpoint(ip::tcp::v4(), m_usPortTcp)),
 m_localEndpointUdp(ip::udp::endpoint(ip::udp::v4(), m_usPortUdp)),
-m_connectionTimer(m_ioService), m_bConnected(false), m_bCheckResponseReceived(true) {
+m_connectionTimer(m_ioService), m_bConnected(false), m_bCheckResponseReceived(true),
+m_iLatestLatency(-1) {
 
-	//try {
-	//	m_pPinger = new CPinger(m_ioService);
-	//} catch (boost::system::system_error error) {
-	//	if (error.code().value() == WSAEACCES) {
-	//		std::cout << "Please restart the program as admin to use the ping." << std::endl;
-	//	} else {
-	//		std::cout << error.what() << std::endl;
-	//	}
-	//}
 }
 
 CNode::~CNode() {
-	delete m_pPinger;
 	m_thread.join();
 }
 
@@ -52,7 +44,6 @@ bool CNode::start() {
 
 void CNode::stop() {
 	m_connectionTimer.cancel();
-	//stopPing();
 	m_ioService.post([this]() {
 		m_socketTcp.close();
 		m_socketUdp.close();
@@ -127,9 +118,6 @@ void CNode::readHeaderCompleteHandler(const error_code& ec, std::size_t /*length
 void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
 
-		std::cout << m_messageRead.getBody() << std::endl;
-
-
 		const char* pcMessage = m_messageRead.getBody();
 		std::string stMessage = retrieveString((char*)pcMessage, 512);
 
@@ -149,11 +137,16 @@ void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*length*/
 			transferObjectMember.at(4)
 		);
 
+		boost::posix_time::ptime timeSent;
+
 		switch (transferObject.getAction()) {
 		case Action::CHECK_CONNECTION:
-			write(CMessage((boost::lexical_cast<std::string>(Action::CHECK_RESPONSE) + ";-1;-1;-1;;").c_str()));
+			write(CMessage((boost::lexical_cast<std::string>(Action::CHECK_RESPONSE) + ";-1;-1;-1;" + transferObject.getValue() + ";").c_str()));
 			break;
 		case Action::CHECK_RESPONSE:
+			timeSent = boost::posix_time::from_iso_string(transferObject.getValue());
+			m_iLatestLatency = ((boost::posix_time::microsec_clock::universal_time() - timeSent).total_milliseconds()) / 2;
+			std::cout << m_iLatestLatency << std::endl;
 			m_bCheckResponseReceived = true;
 			break;
 		default:
@@ -229,23 +222,16 @@ bool CNode::isActionAvailable() {
 	return !m_dequeActionsToExecute.empty();
 }
 
-void CNode::startPing(std::string stIP) {
-	m_pPinger->start(stIP);
-}
-
-void CNode::stopPing() {
-	m_pPinger->stop();
-}
-
 int CNode::getLatency() {
-	return m_pPinger->getLatestLatency();
+	return m_iLatestLatency;
 }
 
 void CNode::checkConnectionHandler(const error_code& error) {
 	if (!error) {
 		if (m_bCheckResponseReceived) {
 			m_bCheckResponseReceived = false;
-			std::string stMessage = boost::lexical_cast<std::string>(Action::CHECK_CONNECTION) + ";-1;-1;-1;;";
+
+			std::string stMessage = boost::lexical_cast<std::string>(Action::CHECK_CONNECTION) + ";-1;-1;-1;" + to_iso_string(boost::posix_time::microsec_clock::universal_time()) + ";";
 			CMessage message(stMessage.c_str());
 			write(message);
 
@@ -253,6 +239,7 @@ void CNode::checkConnectionHandler(const error_code& error) {
 			m_connectionTimer.async_wait(boost::bind(&CNode::checkConnectionHandler, this, placeholders::error));
 		} else {
 			m_bConnected = false;
+			m_iLatestLatency = -1;
 			std::cout << "Connection lost." << std::endl;
 		}
 	} else if (error != error::operation_aborted) {

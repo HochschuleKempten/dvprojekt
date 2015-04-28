@@ -19,13 +19,13 @@ CNetworkService& CNetworkService::instance() {
 	return instance;
 }
 
-bool CNetworkService::host() {
+bool CNetworkService::host(std::string stName) {
 	if (m_type == CLIENT) {
 		close();
 	}
 
 	if (m_pNode == 0) {
-		m_pNode = new CServer();
+		m_pNode = new CServer(stName);
 		m_type = SERVER;
 	}
 
@@ -38,6 +38,12 @@ bool CNetworkService::host() {
 }
 
 bool CNetworkService::connect(std::string stIP) {
+	//if (m_type == CLIENT) {
+	//	m_pNode->stop();
+	//	static_cast<CClient*>(m_pNode)->setServerData(stIP);
+	//} else if (m_type == SERVER) {
+	//	close();
+	//}
 	if (m_type != NONE) {
 		close();
 	}
@@ -58,7 +64,7 @@ bool CNetworkService::connect(std::string stIP) {
 void CNetworkService::searchGames() {
 	if (m_type == CLIENT) {
 		m_pNode->stop();
-	} else 	if (m_type == SERVER) {
+	} else if (m_type == SERVER) {
 		close();
 	}
 
@@ -147,11 +153,19 @@ bool CNetworkService::sendSetMapsize(int iSizeX, int iSizeY) {
 }
 
 CTransferObject CNetworkService::getNextActionToExecute() {
-	return m_pNode->getNextActionToExecute();
+	if (m_pNode != 0) {
+		return m_pNode->getNextActionToExecute();
+	} else {
+		return CTransferObject();
+	}
 }
 
 bool CNetworkService::isActionAvailable() {
-	return m_pNode->isActionAvailable();
+	if (m_pNode != 0) {
+		return m_pNode->isActionAvailable();
+	} else {
+		return false;
+	}
 }
 
 bool CNetworkService::sendAsMessage(Action action, int iObjectID, int iCoordX, int iCoordY, std::string sValue) {

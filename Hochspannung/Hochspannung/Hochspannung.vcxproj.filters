@@ -319,12 +319,6 @@
     <ClInclude Include="view\Building03.h">
       <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
-    <ClInclude Include="network\IcmpMessage.h">
-      <Filter>network\Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="network\Pinger.h">
-      <Filter>network\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\IViewModel.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -509,12 +503,6 @@
     </ClCompile>
     <ClCompile Include="view\Building03.cpp">
       <Filter>view\Quelldateien\buildings</Filter>
-    </ClCompile>
-    <ClCompile Include="network\IcmpMessage.cpp">
-      <Filter>network\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="network\Pinger.cpp">
-      <Filter>network\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="network\GameObject.cpp">
       <Filter>network\Quelldateien</Filter>

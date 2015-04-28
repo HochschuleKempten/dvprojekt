@@ -45,9 +45,10 @@ public:
 	 * @brief Start a server to host a game.
 	 * If a game is already hosted, nothing is done and false returned.
 	 * If a connection to another server exists, the connection is closed before the server is started.
+	 * @param stName the server/game name.
 	 * @return true, if succesful, false otherwise.
 	 */
-	bool host();
+	bool host(std::string stName = "Defaultname");
 
 	/**
 	 * @brief Connect to a server hosting a game.
@@ -161,7 +162,7 @@ public:
 
 	/**
 	 * @brief Returns the next action from deque, if available.
-	 * @return the first CTransferObject from the deque, or an empty object if none none is available.
+	 * @return the first CTransferObject from the deque, or an empty object if none is available.
 	 */
 	CTransferObject getNextActionToExecute();
 

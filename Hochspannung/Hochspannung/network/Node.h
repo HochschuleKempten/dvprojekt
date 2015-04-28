@@ -1,11 +1,13 @@
 #pragma once
 #include <boost\thread\thread.hpp>
+#include <boost\asio\streambuf.hpp>
 #include <boost\asio\ip\tcp.hpp>
+#include <boost\asio\ip\udp.hpp>
 #include <boost\asio\deadline_timer.hpp>
+#include <boost\asio\streambuf.hpp>
 #include <deque>
 #include "Message.h"
 #include "TransferObject.h"
-#include "Pinger.h"
 
 namespace Network {
 
@@ -81,17 +83,6 @@ public:
 	 * @return true, if a next action is available, false otherwise.
 	 */
 	bool isActionAvailable();
-	
-	/**
-	 * @brief Start to ping the specified ip.
-	 * @param stIP the address to ping.
-	 */
-	void startPing(std::string stIP);
-
-	/**
-	 * @brief Stop the pinging.
-	 */
-	void stopPing();
 
 	/**
 	 * @brief Returns the latency.
@@ -182,9 +173,11 @@ protected:
 	CMessage m_messageRead;
 	std::deque<CMessage> m_dequeMessagesToWrite;	
 	std::deque<CTransferObject> m_dequeActionsToExecute;
+	streambuf m_udpMessage;
 
-	CPinger* m_pPinger;
 	deadline_timer m_connectionTimer;
+
+	int m_iLatestLatency;
 };
 
 }

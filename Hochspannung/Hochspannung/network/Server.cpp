@@ -1,11 +1,12 @@
 #include "Server.h"
 #include <boost\asio\placeholders.hpp>
+#include <boost\property_tree\json_parser.hpp>
 #include <iostream>
 
 namespace Network {
 
-CServer::CServer() :
-CNode(), m_acceptor(m_ioService) {
+CServer::CServer(std::string stName) :
+CNode(), m_acceptor(m_ioService), m_stName(stName) {
 }
 
 CServer::~CServer() {
@@ -16,6 +17,14 @@ void CServer::stop() {
 		m_acceptor.close();
 	});
 	CNode::stop();
+}
+
+void CServer::setName(std::string stName) {
+	m_stName = stName;
+}
+
+std::string CServer::getName() {
+	return m_stName;
 }
 
 bool CServer::connect() {
@@ -33,7 +42,7 @@ bool CServer::connect() {
 	// start the udp server and wait for incoming search requests
 	m_socketUdp.open(m_localEndpointUdp.protocol());
 	m_socketUdp.bind(m_localEndpointUdp);
-	m_socketUdp.async_receive_from(buffer(m_acUdpMessage),
+	m_socketUdp.async_receive_from(m_udpMessage.prepare(512),
 		m_remoteEndpointUdp,
 		boost::bind(&CServer::udpDataRecievedHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
@@ -52,8 +61,6 @@ void CServer::acceptCompleteHandler(const error_code& error) {
 		m_bConnected = true;
 		readHeader();
 
-		//startPing(m_socketTcp.remote_endpoint().address().to_string());
-		
 		m_connectionTimer.expires_from_now(boost::posix_time::seconds(0));
 		m_connectionTimer.async_wait(boost::bind(&CNode::checkConnectionHandler, this, placeholders::error));
 	} else {
@@ -63,14 +70,30 @@ void CServer::acceptCompleteHandler(const error_code& error) {
 
 void CServer::udpDataRecievedHandler(const boost::system::error_code& error, std::size_t /*bytesTransferred*/) {
 	if (!error) {
-		// TODO check message content
+		// parse received message
+		boost::property_tree::ptree jsonTree;
+		try {
+			boost::property_tree::read_json(std::istream(&m_udpMessage), jsonTree);
 
-		std::string stMessage = "Testgame"; // TODO make variable
-		m_socketUdp.async_send_to(buffer(stMessage.c_str(), stMessage.length()), 
+			std::string stName = jsonTree.get<std::string>("Name");
+
+			if (stName == "?") {
+				std::string stMessage = "{ Name=\"" + m_stName + "\" }";
+				m_socketUdp.async_send_to(buffer(stMessage.c_str(), stMessage.length()),
+					m_remoteEndpointUdp,
+					boost::bind(&CServer::udpDataSentHandler, this, placeholders::error, placeholders::bytes_transferred)
+					);
+			}
+		} catch (boost::property_tree::json_parser_error error) {
+			// received message is invalid -> ignore it
+		}
+
+		// wait for next request
+		m_udpMessage.consume(512);
+		m_socketUdp.async_receive_from(m_udpMessage.prepare(512),
 			m_remoteEndpointUdp,
-			boost::bind(&CServer::udpDataSentHandler, this, placeholders::error, placeholders::bytes_transferred)
+			boost::bind(&CServer::udpDataRecievedHandler, this, placeholders::error, placeholders::bytes_transferred)
 		);
-
 	} else {
 		handleConnectionError(error);
 	}

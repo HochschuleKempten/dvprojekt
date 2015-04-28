@@ -14,9 +14,10 @@ using boost::system::error_code;
 class CServer : public CNode {
 public:
 	/**
-	 * @brief Default constructor.
+	 * @brief Constructor.
+	 * @param stName the server/game name.
 	 */
-	CServer();
+	CServer(std::string stName);
 
 	/**
 	 * @brief Default constructor.
@@ -29,6 +30,18 @@ public:
 	 */
 	void stop();
 
+	/**
+	 * @brief Sets the server/game name.
+	 * @param stName the server/game name.
+	 */
+	void setName(std::string stName);
+
+	/**
+	* @brief Returns the server/game name.
+	* @return the server/game name.
+	*/
+	std::string getName();
+
 private:
 	bool connect();
 
@@ -36,9 +49,8 @@ private:
 	void udpDataRecievedHandler(const boost::system::error_code& error, std::size_t bytesTransferred);
 	void udpDataSentHandler(const boost::system::error_code& error, std::size_t bytesTransferred);
 
+	std::string m_stName;
 	ip::tcp::acceptor m_acceptor;
-
-	std::array<char, 64> m_acUdpMessage;
 };
 
 }

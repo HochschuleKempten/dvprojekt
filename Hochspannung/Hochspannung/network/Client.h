@@ -56,8 +56,6 @@ private:
 	ip::tcp::endpoint m_remoteEndpointTcp;
 	bool m_bEndpointValid;
 
-	std::array<char, 64> m_acUdpMessage;
-
 	std::vector<CGameObject> m_gameList;
 };
 
