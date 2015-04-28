@@ -41,7 +41,8 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 		                               f.setLPlayingField(this);
 	                               }),
 	  powerLineGraph(fieldLength * fieldLength),
-	  isCoordinateUsed(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
+	  unusedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
+	  usedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
 	  connectedBuildings(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
 	  fieldTypes({LField::MOUNTAIN, LField::AIR, LField::SOLAR, LField::WATER, LField::COAL, LField::OIL}),
 	  fieldLevels({LField::LEVEL1, LField::LEVEL2, LField::LEVEL3})
@@ -49,13 +50,15 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 	//At the beginning every field is unused
 	for (int x = 0; x < fieldLength; x++) {
 		for (int y = 0; y < fieldLength; y++) {
-			isCoordinateUsed.emplace(std::make_pair(x, y), false);
+			unusedCoordinates.emplace(x, y);
 		}
 	}
 
 	vPlayingField = lMaster->getVMaster()->getFactory()->createPlayingField(this);
 	vPlayingField->initPlayingField(vPlayingField); //Sets the shared_ptr (need to be done before the fields can be created)
 	createFields(); //Create the fields (also places some buildings)
+	ASSERT(unusedCoordinates.empty(), "The container for the unused coordinates are not empty (There are field wich are not initialized)");
+	ASSERT(usedCoordinates.size() == fieldLength*fieldLength, "Not every cordinates are in the set for the used coordinates. This is an indication that something in the initialization process went wrong");
 	vPlayingField->buildPlayingField(); //Now build the playing field
 }
 
@@ -157,7 +160,7 @@ void LPlayingField::createFields()
 	placeBuilding<LTransformerStation>(transformerStationPosition.first, transformerStationPosition.second);
 
 	//Fill with the requested number of power plants
-	unsigned int seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+	std::chrono::system_clock::rep seed1 = std::chrono::system_clock::now().time_since_epoch().count();
 	std::mt19937 g1(seed1);
 	const int numberOfPowerPlants = (fieldLength * fieldLength) / 8;
 	for (int i = 0; i < numberOfPowerPlants; i++) {
@@ -173,7 +176,7 @@ void LPlayingField::createFields()
 	//Fill the rest with grass
 	for (int x = 0; x < fieldLength; x++) {
 		for (int y = 0; y < fieldLength; y++) {
-			if (isCoordinateUsed[std::make_pair(x, y)]) {
+			if (isCoordinateUsed(std::make_pair(x, y))) {
 				//Coordinate already assigned
 				continue;
 			}
@@ -285,7 +288,7 @@ void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordina
 				continue;
 			}
 			//Don't place something on used fields
-			if (isCoordinateUsed[std::make_pair(x, y)]) {
+			if (isCoordinateUsed(std::make_pair(x, y))) {
 				continue;
 			}
 
@@ -296,28 +299,29 @@ void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordina
 	}
 }
 
+bool LPlayingField::isCoordinateUsed(const std::pair<int, int>& coordinates) const
+{
+	return usedCoordinates.count(coordinates) > 0;
+}
+
 std::pair<int, int> LPlayingField::retrieveFreeCoordinates()
 {
-	unsigned int seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+	std::chrono::system_clock::rep seed1 = std::chrono::system_clock::now().time_since_epoch().count();
 	std::mt19937 g1(seed1);
 
-	const int maxTries = 30;
-	int count = 0;
+	//Get new idx from the unused coordinates
+	int coordinateIdx = g1() % unusedCoordinates.size();
+	auto itUnusedCoordinates = unusedCoordinates.begin();
+	
+	//Get the random coordinates
+	std::advance(itUnusedCoordinates, coordinateIdx);
+	std::pair<int, int> coordinates = *itUnusedCoordinates;
 
-	while (count++ < maxTries) {
-		int x = g1() % fieldLength;
-		int y = g1() % fieldLength;
+	//Adjust sets
+	unusedCoordinates.erase(coordinates);
+	usedCoordinates.emplace(coordinates);
 
-		std::pair<int, int> coordinates(x, y);
-
-		if (!isCoordinateUsed[coordinates]) {
-			isCoordinateUsed[coordinates] = true;
-			return coordinates;
-		}
-	}
-
-	ASSERT(count < maxTries, "No coordinates could be delivered. This should not happen.");
-	return{};
+	return coordinates;
 }
 
 std::pair<int, int> LPlayingField::retrieveFreeCoordinates(const int x, const int y)
@@ -325,9 +329,11 @@ std::pair<int, int> LPlayingField::retrieveFreeCoordinates(const int x, const in
 	std::pair<int, int> coordinates(x, y);
 
 	ASSERT(x >= 0 && x < fieldLength && y >= 0 && y < fieldLength, "The requested coordinates are out of range");
-	ASSERT(!isCoordinateUsed[coordinates], "The coordinates requested are already used.");
+	ASSERT(!isCoordinateUsed(coordinates), "The coordinates requested are already used.");
 
-	isCoordinateUsed[coordinates] = true;
+	unusedCoordinates.erase(coordinates);
+	usedCoordinates.emplace(coordinates);
+
 	return coordinates;
 }
 

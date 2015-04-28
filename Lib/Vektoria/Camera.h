@@ -61,7 +61,7 @@ public:
 	float  m_fOrthoScalingHorizontal; // Horizontaler Skalierungsfaktor bei orthogonalen Kameras
 
 
- 	void CalcRay(float & frx, float & fry, CRay & r); // Erzeugt Sichtstrahl im View Frustum
+ 	void CalcRay(float frx, float fry, CRay & r); // Erzeugt Sichtstrahl im View Frustum
 	void CalcFrustum();
 
 	CFrustum m_frustum; // TODO: ES muss eigentlich für jede Kamerainstanz ein eigenes Frustum geben!!!!!!!!

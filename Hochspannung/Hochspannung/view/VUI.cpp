@@ -50,13 +50,12 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	addScreen("Options", IViewScreen::Options);
 	addScreen("Ingame", IViewScreen::Ingame);
 
-	//TODO (V) Sometimes no main screen appears
 	switchScreen("MainMenue");
 }
 
 void VUI::handleInput(float fTimeDelta)
 {
-	const float cameraStength = 1.1;
+	const float cameraStength = 1.1f;
 
 	//Left + Right: 
 	if (m_zkKeyboard.KeyPressed(DIK_A)) 
@@ -118,6 +117,9 @@ void VUI::handleInput(float fTimeDelta)
 		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
 	}
 
+	CFloatRect topSpace = CASTD<VScreenIngame*>(m_screens["Ingame"])->getTopSpace();
+	CFloatRect bottomSpace = CASTD<VScreenIngame*>(m_screens["Ingame"])->getBottomSpace();
+
 	/*
 	(0,0)=(x,y)
 	  #----> x (1,0)
@@ -128,7 +130,7 @@ void VUI::handleInput(float fTimeDelta)
 	*/
 	float cursorX, cursorY;
 	bool insideFrame = m_zkCursor.GetFractional(cursorX, cursorY);
-	if (!insideFrame || cursorY < 0.0f || cursorY > 0.80f) {	//TODO (JS) fill with correct values when available
+	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY >(1.0f - bottomSpace.GetYSize())) {
 		//Restrict picking when not in window or cursor is only over UI
 		return;
 	}
@@ -194,10 +196,12 @@ std::map<int, std::vector<int>> VUI::pickElements()
 		pickedPlacements.insert(singlePlacement);
 	}
 
+	DEBUG_OUTPUT("Picking started");
 	//Now iterate over every found placement
 	for (CPlacement* p : pickedPlacements)
 	{
 		std::vector<std::string> nameParts = split(p->GetName(), ';');
+		DEBUG_OUTPUT("placement = " << p->GetName());
 
 		if (nameParts.size() > 0 && nameParts[0].at(0) != '#') {
 			//At this point only valid names remain

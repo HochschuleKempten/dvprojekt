@@ -18,7 +18,6 @@
 #include "DistributedGlobal.h"
 
 
-using namespace std;
 
 namespace Vektoria
 {
@@ -47,7 +46,7 @@ namespace Vektoria
 		EApiSound m_eApiSound;	// The render api
 		CApiRender* m_papirender;	// Pointer to the render api.
 		CApiSound* m_papisound;		// Pointer zur Sound-Api.
-		string sWindowName;			// The name of the frame.
+//		string sWindowName;			// The name of the frame.
 		int m_iWidthWindow;			// The with of the frame.
 		int m_iHeightWindow;		// The height of the frame.
 		bool m_bFullScreen;			// Indicates weather the frame is in full screen mode.

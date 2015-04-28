@@ -38,10 +38,6 @@ public:
 
 	void SearchForCameras(CCameras * pcameras);
 
-	void SetFrustumCullingOn();
-	void SetFrustumCullingOff();
-	void SetBVHExactCalculationOn();
-	void SetBVHExactCalculationOff();
 
 
 

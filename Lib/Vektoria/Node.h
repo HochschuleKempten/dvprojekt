@@ -85,7 +85,6 @@ class CPlacement;
 #define S_KIND_Y 250
 #define S_KIND_Z 260
 
-#define S_KIND_BLOEDE_BEZEICHNUNG_DRAWABLE 270
 
 
 static unsigned int g_id = 0; // Fortlaufende Zählung der Knotenobjekte, mir fällt leider keine besser Möglichkeit ein, als eine globale Variable
@@ -94,7 +93,6 @@ class CNode
 {
 	friend class CNodes;
 	friend class CCamera;
-	friend class CDrawables;
 	friend class CEmitter;
 	friend class CPlacements;
 	friend class CPlacement;

@@ -43,8 +43,12 @@ private:
 	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
 	std::pair<int, int> transformerStationPosition = std::make_pair(-1, -1);
 
-	std::unordered_map<std::pair<int, int>, bool, LPlayingFieldHasher> isCoordinateUsed;	//Checks if a pair is used
-	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> connectedBuildings;		//Stores the 1D coordinates for each pair of buildings which are connected
+	/** @brief Stores every unused coordinates. Is empty after correct initialization */
+	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> unusedCoordinates;
+	/** @brief Stores every used coordinate. Is full after correct initialization */
+	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> usedCoordinates;
+	/** @brief Stores the 1D coordinates for each pair of buildings which are connected */
+	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> connectedBuildings;
 
 	std::vector<LField::FieldType> fieldTypes;
 	std::vector<LField::FieldLevel> fieldLevels;
@@ -125,6 +129,8 @@ private:
 	 */
 	template<bool cross = false>
 	void placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space);
+
+	bool isCoordinateUsed(const std::pair<int, int>& coordinates) const;
 
 	/**
 	 * @brief Generates new random coordinates which are not used yet.

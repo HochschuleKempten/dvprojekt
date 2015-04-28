@@ -521,7 +521,7 @@ namespace Vektoria
 		SRenderObjectHandle CreateTriangleStrip(CTriangleStrip *ptrianglestrip);
 
 		// custom buffer handling
-		SRenderObjectHandle CreateBuffer(CDrawable *pdrawable, void *pData, D3D11_BUFFER_DESC &bd, int *pIndices = 0, int iindicesCount = 0);
+		// SRenderObjectHandle CreateBuffer(CDrawable *pdrawable, void *pData, D3D11_BUFFER_DESC &bd, int *pIndices = 0, int iindicesCount = 0);
 		HRESULT CreateSRVFromFile(char const *pFileName, ID3D11ShaderResourceView **ppSRV);
 		HRESULT CreateSamplerState(D3D11_SAMPLER_DESC const *pSamplerDesc, ID3D11SamplerState **ppSamplerState);
 		void FreeHandle(SRenderObjectHandle handle);
@@ -579,8 +579,7 @@ namespace Vektoria
 	protected:
 		void DrawTriangleList(ID3D11Buffer *pbuffer);
 		void DrawTriangleStrip(ID3D11Buffer *pbuffer, ID3D11Buffer *indexBuffer);
-		void DrawDrawable(ID3D11Buffer *buffer, ID3D11Buffer *indexBuffer, CDrawable *pdrawable);
-
+	
 		void DrawOpaqueObjects(bool bWithMaterials);
 		void DrawTransparentObjects(bool bWithMaterials);
 		void DrawPPGeometrie(CViewport* pViewport);
