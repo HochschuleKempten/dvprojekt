@@ -6,7 +6,6 @@
 
 #include "VScreenMainMenue.h"
 #include "VScreenIngame.h"
-#include "VScreenSpielmodusWahl.h"
 #include "VScreenLobby.h"
 #include "VScreenCredits.h"
 #include "VScreenOptions.h"
@@ -314,10 +313,7 @@ void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
 		m_screens[sName] = new VScreenMainMenue(&m_zf);
 		m_screens[sName]->addObserver(this);
 		break;
-	/*case IViewScreen::ScreenType::Spielmoduswahl:
-		m_screens[sName] = new VScreenSpielmodusWahl(&vMaster->m_zf);
-		m_screens[sName]->addObserver(this);
-		break;*/
+
 	case IViewScreen::Lobby:
 		m_screens[sName] = new VScreenLobby(&m_zf);
 		m_screens[sName]->addObserver(this);

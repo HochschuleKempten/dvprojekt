@@ -230,7 +230,6 @@
     <ClInclude Include="view\VScreenLobby.h" />
     <ClInclude Include="view\VScreenMainMenue.h" />
     <ClInclude Include="view\VScreenOptions.h" />
-    <ClInclude Include="view\VScreenSpielmodusWahl.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
     <ClInclude Include="view\VTab.h" />
     <ClInclude Include="view\VText.h" />
@@ -300,7 +299,6 @@
     <ClCompile Include="view\VScreenLobby.cpp" />
     <ClCompile Include="view\VScreenMainMenue.cpp" />
     <ClCompile Include="view\VScreenOptions.cpp" />
-    <ClCompile Include="view\VScreenSpielmodusWahl.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
     <ClCompile Include="view\VTab.cpp" />
     <ClCompile Include="view\VText.cpp" />

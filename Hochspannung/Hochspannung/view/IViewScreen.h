@@ -33,7 +33,6 @@ public:
 		Options,
 		Credits,
 		Ingame,
-		Spielmoduswahl,
 		Lobby
 	};
 
@@ -110,8 +109,9 @@ public:
 	virtual void checkSpecialEvent(CDeviceCursor* cursor) = 0;
 	virtual void resize(int width, int height)
 	{
-		//m_viewport->CalcSize();
-		m_viewport->ReSize(0, 0, width, height);
+		//m_viewport->SetEnhancedEdgesOn();
+		m_viewport->SetAntialiasingOn();
+		//m_viewport->ReSize(0, 0, width, height);
 	}
 	
 

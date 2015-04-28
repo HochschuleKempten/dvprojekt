@@ -286,9 +286,6 @@
     <ClInclude Include="view\VScreenMainMenue.h">
       <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\VScreenSpielmodusWahl.h">
-      <Filter>GUI\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\VDialog.h">
       <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
@@ -502,9 +499,6 @@
       <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VScreenMainMenue.cpp">
-      <Filter>GUI\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VScreenSpielmodusWahl.cpp">
       <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VRegister.cpp">
