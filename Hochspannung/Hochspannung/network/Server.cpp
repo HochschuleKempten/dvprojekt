@@ -68,32 +68,35 @@ void CServer::acceptCompleteHandler(const error_code& error) {
 	}
 }
 
-void CServer::udpDataRecievedHandler(const boost::system::error_code& error, std::size_t /*bytesTransferred*/) {
+void CServer::udpDataRecievedHandler(const boost::system::error_code& error, std::size_t bytesTransferred) {
+	// queue next message
+	m_socketUdp.async_receive_from(m_udpMessage.prepare(512),
+		m_remoteEndpointUdp,
+		boost::bind(&CServer::udpDataRecievedHandler, this, placeholders::error, placeholders::bytes_transferred)
+	);
+
 	if (!error) {
 		// parse received message
 		boost::property_tree::ptree jsonTree;
 		try {
+			m_udpMessage.commit(bytesTransferred);
 			boost::property_tree::read_json(std::istream(&m_udpMessage), jsonTree);
 
 			std::string stName = jsonTree.get<std::string>("Name");
 
 			if (stName == "?") {
-				std::string stMessage = "{ Name=\"" + m_stName + "\" }";
+				std::string stMessage = "{ \"Name\": \"" + m_stName + "\" }";
 				m_socketUdp.async_send_to(buffer(stMessage.c_str(), stMessage.length()),
 					m_remoteEndpointUdp,
 					boost::bind(&CServer::udpDataSentHandler, this, placeholders::error, placeholders::bytes_transferred)
-					);
+				);
 			}
 		} catch (boost::property_tree::json_parser_error error) {
 			// received message is invalid -> ignore it
 		}
 
-		// wait for next request
+		// clear for next message
 		m_udpMessage.consume(512);
-		m_socketUdp.async_receive_from(m_udpMessage.prepare(512),
-			m_remoteEndpointUdp,
-			boost::bind(&CServer::udpDataRecievedHandler, this, placeholders::error, placeholders::bytes_transferred)
-		);
 	} else {
 		handleConnectionError(error);
 	}
