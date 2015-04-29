@@ -23,6 +23,7 @@ public:
 	LPlayer(LMaster* lMaster);
 	~LPlayer();
 	int getMoney() const;
+	void addMoney(const int amount);
 	void substractMoney(const int amount);
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VGeneral.h"
+#include <array>
 
 NAMESPACE_VIEW_B
 
@@ -11,6 +12,7 @@ class IViewModel
 	
 protected:
 	CPlacement m_zpMain;	//TODO (JS) make this private when m_zpLOD is used
+	/** @brief Holds the different LOD levels for every model. m_zpLOD[0] is the nearest (much details) and m_zpLOD[2] is the furthest (less details) */
 	std::array<CPlacement, 3> m_zpLOD;
 
 public:
@@ -31,6 +33,10 @@ public:
 
 	virtual float getHeight() = 0;
 	virtual float getWidth() = 0;
+	virtual float getDepth()
+	{
+		return 0.0f;
+	}
 
 	inline CPlacement* getMainPlacement()
 	{

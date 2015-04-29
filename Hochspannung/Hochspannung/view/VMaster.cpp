@@ -40,7 +40,11 @@ IVFactory* VMaster::getFactory()
 
 void VMaster::gameOver()
 {
-	DEBUG_OUTPUT("Game is over");
+	static bool informed = false;
+	if (!informed) {
+		DEBUG_OUTPUT("Game is over");
+		informed = true;
+	}
 	//TODO (V) do something useful here when UI is ready
 }
 

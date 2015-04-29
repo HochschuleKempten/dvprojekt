@@ -41,20 +41,24 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 		                               f.setLPlayingField(this);
 	                               }),
 	  powerLineGraph(fieldLength * fieldLength),
-	  isCoordinateUsed(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
+	  unusedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
+	  usedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
+	  connectedBuildings(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
 	  fieldTypes({LField::MOUNTAIN, LField::AIR, LField::SOLAR, LField::WATER, LField::COAL, LField::OIL}),
 	  fieldLevels({LField::LEVEL1, LField::LEVEL2, LField::LEVEL3})
 {
 	//At the beginning every field is unused
 	for (int x = 0; x < fieldLength; x++) {
 		for (int y = 0; y < fieldLength; y++) {
-			isCoordinateUsed.emplace(std::make_pair(x, y), false);
+			unusedCoordinates.emplace(x, y);
 		}
 	}
 
 	vPlayingField = lMaster->getVMaster()->getFactory()->createPlayingField(this);
 	vPlayingField->initPlayingField(vPlayingField); //Sets the shared_ptr (need to be done before the fields can be created)
 	createFields(); //Create the fields (also places some buildings)
+	ASSERT(unusedCoordinates.empty(), "The container for the unused coordinates are not empty (There are field wich are not initialized)");
+	ASSERT(usedCoordinates.size() == fieldLength*fieldLength, "Not every cordinates are in the set for the used coordinates. This is an indication that something in the initialization process went wrong");
 	vPlayingField->buildPlayingField(); //Now build the playing field
 }
 
@@ -65,6 +69,38 @@ LPlayingField::~LPlayingField()
 LField* LPlayingField::getField(const int x, const int y)
 {
 	return &fieldArray[x][y];
+}
+
+bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second)
+{
+	//Store always the lower idx as first parameter
+	//This is necessary, so if I check the connection between 1 and 2 it should be the same as 2 and 1
+	int firstIndex = convertIndex(first);
+	int secondIndex = convertIndex(second);
+	if (firstIndex < secondIndex) {
+		std::swap(firstIndex, secondIndex);
+	}
+
+	//The idx pair is already in the set, so there is a connection
+	if (connectedBuildings.count(std::pair<int, int>(firstIndex, secondIndex)) > 0) {
+		return true;
+	}
+
+	//The idx is not in the set, so check the connection in the graph
+	std::vector<int> buildingsConnectedWithCity = strongConnectedSearch(powerLineGraph, convertIndex(cityPosition));
+	bool connected = std::find(buildingsConnectedWithCity.begin(), buildingsConnectedWithCity.end(), convertIndex(transformerStationPosition)) != buildingsConnectedWithCity.end();
+
+	//The idx are now connected, store them in the set, so that the information can be used later
+	if (connected) {
+		connectedBuildings.emplace(firstIndex, secondIndex);
+	}
+
+	return connected;
+}
+
+bool LPlayingField::isTransformstationConnected()
+{
+	return checkConnectionBuildings(cityPosition, transformerStationPosition);
 }
 
 int LPlayingField::getFieldLength()
@@ -104,7 +140,7 @@ void LPlayingField::createFields()
 	std::pair<int, int> firstPowerLineCoordinates = retrieveFreeCoordinates(cityPosition.first, cityPosition.second + 1);
 	std::pair<int, int> secondPowerLineCoordinates = retrieveFreeCoordinates(firstPowerLineCoordinates.first + 1, firstPowerLineCoordinates.second);
 	std::pair<int, int> firstPowerPlantCoordinates = retrieveFreeCoordinates(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second + 1);
-	std::pair<int, int> transformerStationPosition = retrieveFreeCoordinates();
+	transformerStationPosition = retrieveFreeCoordinates();
 
 	fieldArray[cityPosition.first][cityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
 	placeBuilding<LCity>(cityPosition.first, cityPosition.second);
@@ -124,7 +160,7 @@ void LPlayingField::createFields()
 	placeBuilding<LTransformerStation>(transformerStationPosition.first, transformerStationPosition.second);
 
 	//Fill with the requested number of power plants
-	unsigned int seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+	std::chrono::system_clock::rep seed1 = std::chrono::system_clock::now().time_since_epoch().count();
 	std::mt19937 g1(seed1);
 	const int numberOfPowerPlants = (fieldLength * fieldLength) / 8;
 	for (int i = 0; i < numberOfPowerPlants; i++) {
@@ -140,7 +176,7 @@ void LPlayingField::createFields()
 	//Fill the rest with grass
 	for (int x = 0; x < fieldLength; x++) {
 		for (int y = 0; y < fieldLength; y++) {
-			if (isCoordinateUsed[std::make_pair(x, y)]) {
+			if (isCoordinateUsed(std::make_pair(x, y))) {
 				//Coordinate already assigned
 				continue;
 			}
@@ -167,6 +203,11 @@ bool LPlayingField::checkIndex(const int x, const int y)
 	return (x >= 0) && (x < fieldLength) && (y >= 0) && (y < fieldLength);
 }
 
+int LPlayingField::convertIndex(const std::pair<int, int>& coordinates)
+{
+	return convertIndex(coordinates.first, coordinates.second);
+}
+
 int LPlayingField::convertIndex(const int x, const int y)
 {
 	return x * fieldLength + y;
@@ -176,7 +217,7 @@ void LPlayingField::calculateEnergyValueCity()
 {
 	int energyValue = 0;
 
-	std::vector<int> vec = strongConnectedSearch(powerLineGraph, convertIndex(cityPosition.first, cityPosition.second));
+	std::vector<int> vec = strongConnectedSearch(powerLineGraph, convertIndex(cityPosition));
 	std::pair<int, int> coord;
 
 	for (size_t i = 0; i < vec.size(); i++) {
@@ -188,7 +229,7 @@ void LPlayingField::calculateEnergyValueCity()
 		}
 	}
 
-	CASTD<LCity*>(getField(cityPosition.first, cityPosition.second)->getBuilding())->setEnergy(energyValue);
+	getCity()->setEnergy(energyValue);
 }
 
 void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)
@@ -247,7 +288,7 @@ void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordina
 				continue;
 			}
 			//Don't place something on used fields
-			if (isCoordinateUsed[std::make_pair(x, y)]) {
+			if (isCoordinateUsed(std::make_pair(x, y))) {
 				continue;
 			}
 
@@ -258,28 +299,29 @@ void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordina
 	}
 }
 
+bool LPlayingField::isCoordinateUsed(const std::pair<int, int>& coordinates) const
+{
+	return usedCoordinates.count(coordinates) > 0;
+}
+
 std::pair<int, int> LPlayingField::retrieveFreeCoordinates()
 {
-	unsigned int seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+	std::chrono::system_clock::rep seed1 = std::chrono::system_clock::now().time_since_epoch().count();
 	std::mt19937 g1(seed1);
 
-	const int maxTries = 30;
-	int count = 0;
+	//Get new idx from the unused coordinates
+	int coordinateIdx = g1() % unusedCoordinates.size();
+	auto itUnusedCoordinates = unusedCoordinates.begin();
+	
+	//Get the random coordinates
+	std::advance(itUnusedCoordinates, coordinateIdx);
+	std::pair<int, int> coordinates = *itUnusedCoordinates;
 
-	while (count++ < maxTries) {
-		int x = g1() % fieldLength;
-		int y = g1() % fieldLength;
+	//Adjust sets
+	unusedCoordinates.erase(coordinates);
+	usedCoordinates.emplace(coordinates);
 
-		std::pair<int, int> coordinates(x, y);
-
-		if (!isCoordinateUsed[coordinates]) {
-			isCoordinateUsed[coordinates] = true;
-			return coordinates;
-		}
-	}
-
-	ASSERT(count < maxTries, "No coordinates could be delivered. This should not happen.");
-	return{};
+	return coordinates;
 }
 
 std::pair<int, int> LPlayingField::retrieveFreeCoordinates(const int x, const int y)
@@ -287,9 +329,11 @@ std::pair<int, int> LPlayingField::retrieveFreeCoordinates(const int x, const in
 	std::pair<int, int> coordinates(x, y);
 
 	ASSERT(x >= 0 && x < fieldLength && y >= 0 && y < fieldLength, "The requested coordinates are out of range");
-	ASSERT(!isCoordinateUsed[coordinates], "The coordinates requested are already used.");
+	ASSERT(!isCoordinateUsed(coordinates), "The coordinates requested are already used.");
 
-	isCoordinateUsed[coordinates] = true;
+	unusedCoordinates.erase(coordinates);
+	usedCoordinates.emplace(coordinates);
+
 	return coordinates;
 }
 

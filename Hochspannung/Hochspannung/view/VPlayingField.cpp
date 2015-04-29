@@ -87,7 +87,7 @@ void VPlayingField::buildPlayingField()
 	//}
 
 	float rows = CASTS<float>(vFields.getRows());
-	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->city_position().first), CASTS<float>(fieldSize * lPlayingField->city_position().second), CASTS<float>(fieldSize * rows * 0.5));
+	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getCityPosition().first), CASTS<float>(fieldSize * lPlayingField->getCityPosition().second), CASTS<float>(fieldSize * rows * 0.5));
      
 	//m_zp.SetFrustumCullingOn();
 	//m_zp.Fasten();

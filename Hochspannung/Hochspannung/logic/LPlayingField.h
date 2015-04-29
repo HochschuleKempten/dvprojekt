@@ -4,6 +4,8 @@
 #include "LField.h"
 #include "IVPlayingField.h"
 #include "LPlayer.h"
+#include "ILBuilding.h"
+#include "LCity.h"
 #include <boost/graph/adjacency_list.hpp>
 
 NAMESPACE_LOGIC_B
@@ -39,14 +41,14 @@ private:
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
 	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
-public:
-	const std::pair<int, int>& city_position() const
-	{
-		return cityPosition;
-	}
+	std::pair<int, int> transformerStationPosition = std::make_pair(-1, -1);
 
-private:
-	std::unordered_map<std::pair<int, int>, bool, LPlayingFieldHasher> isCoordinateUsed;	//Checks if a pair is used
+	/** @brief Stores every unused coordinates. Is empty after correct initialization */
+	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> unusedCoordinates;
+	/** @brief Stores every used coordinate. Is full after correct initialization */
+	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> usedCoordinates;
+	/** @brief Stores the 1D coordinates for each pair of buildings which are connected */
+	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> connectedBuildings;
 
 	std::vector<LField::FieldType> fieldTypes;
 	std::vector<LField::FieldLevel> fieldLevels;
@@ -81,6 +83,7 @@ public:
 			}
 
 			lMaster->getPlayer(1)->substractMoney(T::cost);
+			DEBUG_OUTPUT("Marktplace connected = " << isTransformstationConnected());
 
 			return true;
 		}
@@ -89,16 +92,28 @@ public:
 		}
 	}
 	
-	
+	bool checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second);
+	bool isTransformstationConnected();
+
 	int getFieldLength();
 	void removeBuilding(const int x, const int y);
 	void upgradeBuilding(const int x, const int y);
 	LMaster* getLMaster();
 	IVPlayingField* getVPlayingField();
 
+	const std::pair<int, int>& getCityPosition() const
+	{
+		return cityPosition;
+	}
+	LCity* getCity()
+	{
+		return CASTD<LCity*>(getField(cityPosition.first, cityPosition.second)->getBuilding());
+	}
+
 private:
 	void createFields();
 	bool checkIndex(const int x, const int y);
+	int convertIndex(const std::pair<int, int>& coordinates);
 	int convertIndex(const int x, const int y);
 	std::pair<int, int> convertIndex(const int idx);
 	void calculateEnergyValueCity();
@@ -114,6 +129,8 @@ private:
 	 */
 	template<bool cross = false>
 	void placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space);
+
+	bool isCoordinateUsed(const std::pair<int, int>& coordinates) const;
 
 	/**
 	 * @brief Generates new random coordinates which are not used yet.

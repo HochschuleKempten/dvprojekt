@@ -41,7 +41,7 @@
 
 #include "DistributedGlobal.h"
 #include "ApiSound.h"
-
+#include "UtilLogFile.h"
 
 //---------------------------------------------------
 // CRoot: Klasse für die Wurzel des Szenegrafen-Baumes

@@ -25,11 +25,13 @@ VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, st
 
 	void VText::switchOn()
 	{
+		m_bisOn = true;
 		m_writing->SwitchOn();
 	}
 
 	void VText::switchOff()
 	{
+		m_bisOn = false;
 		m_writing->SwitchOff();
 	}
 

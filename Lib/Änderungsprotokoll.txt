@@ -2977,3 +2977,22 @@ Bugfix: CGeoCube::InitByAABB war versehentlich global
 Neue Pickingroutine in CDeviceCursor:
 	void PickPlacements(CPlacements * pzps); // Gibt alle Placements in pzps aus, welches unter dem Cursor liegen. Achtung, pzps muss muss ein Pointer auf ein instanziertes Placement-Objekt sein. 
 
+2015-04-20 TB:
+Bufgfix: SetFrustumCullingOn funtionierte nicht
+ 
+2015-04-24 TB:
+Bugfix: PickGeo funtionierte auf manchen Rechnern nicht im Release-Mode
+Neues einfach zu bedienendes Log-File-System zum besseren Debuggen erstellt
+
+2015-04-27 TB:
+Bugfix: Picking war bei großen Kameraöffnungwinkeln ungenau
+Bugfix: Löschen von using nemespace std; im Frame-Header
+Bugfix: _DEBUG war in Projekteinstellungen mit Komma getrennt
+Bugfix: CFrame::ReSize wurde nicht aufgerufen, wenn in den Vollbildmodus geswitcht wurde.
+Picking funkioniert jetzt auch im Mirrormodus und im orthogonalen Kameramodus
+Veraltete Network- und Drawable-Klassen gelöscht => Leichte Render-Beschleunigung (ca. 2%)
+Neues Debug-LogFile-System eingeführt (TODO: Error-Meldungen eintragen)
+
+2015-04-28 TB:
+Bugfix: PickPlacements lieferte nicht alle Placements zurück
+Bugfix: Game-Pointer in der Template-App war nicht auf Null initialisiert

@@ -30,9 +30,6 @@
     <ClInclude Include="TextureTester.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Helper.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -48,9 +45,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="TextureTester.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Helper.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.cpp">

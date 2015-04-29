@@ -45,22 +45,21 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
 
 	addScreen("MainMenue", IViewScreen::MainMenue);
-	addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
+	//addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
 	addScreen("Lobby", IViewScreen::Lobby);
 	addScreen("Credits", IViewScreen::Credits);
 	addScreen("Options", IViewScreen::Options);
 	addScreen("Ingame", IViewScreen::Ingame);
 
-	//TODO (V) Sometimes no main screen appears
 	switchScreen("MainMenue");
 }
 
 void VUI::handleInput(float fTimeDelta)
 {
-	const float cameraStength = 1.1;
+	const float cameraStength = 0.9f;
 
 	//Left + Right: 
-	if (m_zkKeyboard.KeyPressed(DIK_A) == true) 
+	if (m_zkKeyboard.KeyPressed(DIK_A)) 
 	{
 		m_zpCamera.TranslateXDelta(-cameraStength);
 	}
@@ -70,7 +69,7 @@ void VUI::handleInput(float fTimeDelta)
 	}
 
 	//Back + Forward
-	if (m_zkKeyboard.KeyPressed(DIK_S) == true)
+	if (m_zkKeyboard.KeyPressed(DIK_S))
 	{
 		m_zpCamera.TranslateYDelta(-cameraStength);
 	}
@@ -80,13 +79,21 @@ void VUI::handleInput(float fTimeDelta)
 	}
 
 	//Zoom In + Out
-	if (m_zkKeyboard.KeyPressed(DIK_UP) == true) 
+	if (m_zkKeyboard.KeyPressed(DIK_UP)) 
 	{
-		m_zpCamera.TranslateZDelta(-cameraStength * 4);
+		if (mouseWheelPosition > -18)
+		{
+			m_zpCamera.TranslateZDelta(-cameraStength * 4);
+			mouseWheelPosition += -cameraStength * 4;
+		}
 	}
 	if (m_zkKeyboard.KeyPressed(DIK_DOWN)) 
 	{
+		if (mouseWheelPosition < 180)
+		{
 		m_zpCamera.TranslateZDelta(cameraStength * 4);
+		mouseWheelPosition += cameraStength * 4;
+		}
 	}
 	
 	if (m_zkMouse.GetRelativeZ() != 0.0)
@@ -101,7 +108,7 @@ void VUI::handleInput(float fTimeDelta)
 		}
 		else
 		{
-			if (mouseWheelPosition < 200)
+			if (mouseWheelPosition < 180)
 			{
 				m_zpCamera.TranslateZDelta(cameraStength * 4);
 				mouseWheelPosition += cameraStength * 4;
@@ -110,6 +117,9 @@ void VUI::handleInput(float fTimeDelta)
 
 		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
 	}
+
+	CFloatRect topSpace = CASTD<VScreenIngame*>(m_screens["Ingame"])->getTopSpace();
+	CFloatRect bottomSpace = CASTD<VScreenIngame*>(m_screens["Ingame"])->getBottomSpace();
 
 	/*
 	(0,0)=(x,y)
@@ -121,7 +131,7 @@ void VUI::handleInput(float fTimeDelta)
 	*/
 	float cursorX, cursorY;
 	bool insideFrame = m_zkCursor.GetFractional(cursorX, cursorY);
-	if (!insideFrame || cursorY < 0.0f || cursorY > 0.80f) {	//TODO (JS) fill with correct values when available
+	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY >(1.0f - bottomSpace.GetYSize())) {
 		//Restrict picking when not in window or cursor is only over UI
 		return;
 	}
@@ -178,19 +188,24 @@ std::map<int, std::vector<int>> VUI::pickElements()
 	CPlacements placements;
 	m_zkCursor.PickPlacements(&placements);
 
+	//TODO (JS) merge seems obsolete now. Remove this
 	//Merge the found placements together in a set (to avoid duplicates)
 	for (int i = 0; i < placements.m_iPlacements; i++) {
 		pickedPlacements.insert(placements.m_applacement[i]);
 	}
 	//The two placements pick different things, so they have to be merged together
 	if (singlePlacement != nullptr) {
+		size_t sizeBefore = pickedPlacements.size();
 		pickedPlacements.insert(singlePlacement);
+		ASSERT(sizeBefore == pickedPlacements.size(), "PickPlacements() picked something different then PickPlacement(). This should not happen");
 	}
 
+	DEBUG_OUTPUT("Picking started");
 	//Now iterate over every found placement
 	for (CPlacement* p : pickedPlacements)
 	{
 		std::vector<std::string> nameParts = split(p->GetName(), ';');
+		DEBUG_OUTPUT("placement = " << p->GetName());
 
 		if (nameParts.size() > 0 && nameParts[0].at(0) != '#') {
 			//At this point only valid names remain
@@ -211,79 +226,116 @@ std::map<int, std::vector<int>> VUI::pickElements()
 
 void VUI::onNotify(Event evente)
 {
-	switch (evente) {
 
-		case START_GAME:
-			vMaster->lMaster->startNewGame();
-			switchScreen("Ingame");
-			break;
+	switch (evente)
+	{
 
-		case QUIT_GAME:
-			isQuit = true;
-			PostQuitMessage(0);
-			break;
+	case START_GAME:
+		vMaster->lMaster->startNewGame();
+		switchScreen("Ingame");
+		
+		break;
 
-		case SEARCH_IP:
-			break;
+	case QUIT_GAME:
+		isQuit = true;
+		PostQuitMessage(0);
+		break;
 
-		case SWITCH_TO_SPIELMODUS:
+	case SEARCH_IP:
+		break;
+		
+	/*case SWITCH_TO_SPIELMODUS:
+		
+		switchScreen("Spielmoduswahl");
+		break;*/
+	case SWITCH_TO_LOBBY:
 
-			switchScreen("Spielmoduswahl");
-			break;
-		case SWITCH_TO_LOBBY:
+		switchScreen("Lobby");
+		break;
+	case SWITCH_TO_MAINMENUE:
 
-			switchScreen("Lobby");
-			break;
-		case SWITCH_TO_MAINMENUE:
+		switchScreen("MainMenue");
+		break;
+	case SWITCH_TO_CREDITS:
 
-			switchScreen("MainMenue");
-			break;
-		case SWITCH_TO_CREDITS:
+		switchScreen("Credits");
+		break;
+	case SWITCH_TO_OPTIONS:
 
-			switchScreen("Credits");
-			break;
-		case SWITCH_TO_OPTIONS:
+		switchScreen("Options");
+		break;
 
-			switchScreen("Options");
-			break;
-		default:
-			break;
+	case SELECT_BUILDING_WINDMILL:
+		//TODO BuildMenue Button Windmill 
+		break;
+	case	SELECT_BUILDING_COALPOWERPLANT:
+		//TODO BuildMenue Button CoalPowerplant 
+		break;
+	case	SELECT_BUILDING_OILPOWERPLANT:
+		//TODO BuildMenue Button Oilpowerplant
+		break;
+	case	SELECT_BUILDING_NUCLEARPOWERPLANT:
+		//TODO BuildMenue Button Nuclearpowerplant
+		break;
+	case	SELECT_BUILDING_HYDROPOWERPLANT:
+		//TODO BuildMenue Button Hydropowerplant
+		break;
+	case	SELECT_BUILDING_SOLARPOWERPLANT:
+		//TODO BuildMenue Button Solarpowerplant
+		break;
+	case	SELECT_BUILDING_POWERLINE:
+		//TODO BuildMenue Button Powerline
+		break;
+	default:
+		break;
 	}
+	
 }
 
 void VUI::resize(int width, int height)
 {
+
+	
+	for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++)
+	{
+		m_iterScreens->second->resize(width, height);
+	}
+
 	m_zf.ReSize(width, height);
+
 }
 
 void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
 {
-	switch (screenType) {
-		case IViewScreen::ScreenType::MainMenue:
-			m_screens[sName] = new VScreenMainMenue(&m_zf);
-			m_screens[sName]->addObserver(this);
-			break;
-		case IViewScreen::ScreenType::Spielmoduswahl:
-			m_screens[sName] = new VScreenSpielmodusWahl(&m_zf);
-			m_screens[sName]->addObserver(this);
-			break;
-		case IViewScreen::Lobby:
-			m_screens[sName] = new VScreenLobby(&m_zf);
-			m_screens[sName]->addObserver(this);
-			break;
-		case IViewScreen::ScreenType::Ingame:
-			m_screens[sName] = new VScreenIngame(&m_zf, &m_zr, &m_zs, &m_zpCamera);
-			m_screens[sName]->addObserver(this);
-			break;
-		case IViewScreen::Options:
-			m_screens[sName] = new VScreenOptions(&m_zf);
-			m_screens[sName]->addObserver(this);
-			break;
-		case IViewScreen::Credits:
-			m_screens[sName] = new VScreenCredits(&m_zf);
-			m_screens[sName]->addObserver(this);
-			break;
-		default: break;
+
+	switch (screenType)
+	{
+	case IViewScreen::ScreenType::MainMenue:
+		m_screens[sName] = new VScreenMainMenue(&m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	/*case IViewScreen::ScreenType::Spielmoduswahl:
+		m_screens[sName] = new VScreenSpielmodusWahl(&vMaster->m_zf);
+		m_screens[sName]->addObserver(this);
+		break;*/
+	case IViewScreen::Lobby:
+		m_screens[sName] = new VScreenLobby(&m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::ScreenType::Ingame:
+		m_screens[sName] = new VScreenIngame(&m_zf,&m_zr,&m_zs,&m_zpCamera);
+		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::Options: 
+		m_screens[sName] = new VScreenOptions(&m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	case IViewScreen::Credits: 
+		m_screens[sName] = new VScreenCredits(&m_zf);
+		m_screens[sName]->addObserver(this);
+		break;
+	default: break;
+
 	}
 }
 
@@ -320,9 +372,68 @@ void VUI::updatePopulation(const int wert)
 void VUI::updateInfofield(const int wert)
 {}
 
+void VUI::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
+{
+	float CurPosX;
+	float CurPosY;
+	m_zkCursor.GetFractional(CurPosX, CurPosY, false);
+	map<string, IViewGUIContainer*> tempmapGuicontainer;
+	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+	map<string, IViewGUIObject*>tempList;
+	map<string, IViewGUIObject*>::iterator tempIter;
+
+	tempmapGuicontainer = tempGuicontainer->getGuiContainerMap();
+
+	for (tempIterGuicontainer = tempmapGuicontainer.begin(); tempIterGuicontainer != tempmapGuicontainer.end(); tempIterGuicontainer++)
+	{
+		//Check if Container is on
+		if (tempIterGuicontainer->second->isOn())
+		{
+			
+			tempList = tempIterGuicontainer->second->getGuiObjectList();
+			//for all GUI-Objects in the container
+			for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
+			{
+				if (tempIter->second->isOn())
+				{//check if cursor is over
+					tempIter->second->checkHover(CurPosX, CurPosY);
+
+					if (!m_BlockCursorLeftPressed)
+					{
+						//check for events
+						tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
+					}
+
+					//if screen was changed
+					if (m_screenChanged)
+					{
+						m_screenChanged = false;
+						m_BlockCursorLeftPressed = true;
+						return;
+					}
+					
+				}
+			}
+			if (tempIterGuicontainer->second->getGuiContainerMap().size()>0)
+		{
+			checkGUIContainer(tempIterGuicontainer->second);
+		}
+		}
+
+		
+	}
+	if (m_zkCursor.ButtonPressedLeft())
+	{
+		m_BlockCursorLeftPressed = true;
+	}
+}
+
+
 void VUI::tick(const float fTimeDelta)
 {
+
 	m_zr.Tick(const_cast<float&>(fTimeDelta));
+
 
 	handleInput(fTimeDelta);
 
@@ -344,38 +455,62 @@ void VUI::tick(const float fTimeDelta)
 			m_iterScreens->second->checkShortcut(&m_zkKeyboard);
 
 			tempGuicontainer = m_iterScreens->second->getGuiContainerMap();
-			map<string, IViewGUIObject*> tempList;
+
+			map<string, IViewGUIObject*>tempList;
 			map<string, IViewGUIObject*>::iterator tempIter;
 			//For all containers in the screen
-			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++) {
-				//Check if screen is on
-				if (tempIterGuicontainer->second->isOn()) {
-					tempList = tempIterGuicontainer->second->getGuiObjectList();
-					//for all GUI-Objects in the container
-					for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++) {
+			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
+			{
+				
+					//Check if Container is on
+					if (tempIterGuicontainer->second->isOn())
+					{
+						tempList = tempIterGuicontainer->second->getGuiObjectList();
+						//for all GUI-Objects in the container
+						for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++)
+						{
 
-						//check if cursor is over
-						tempIter->second->checkHover(CurPosX, CurPosY);
+							if (tempIter->second->isOn())
+							{
+								//check if cursor is over
+							//	tempIter->second->checkHover(CurPosX, CurPosY);
 
-						if (!m_BlockCursorLeftPressed) {
-							//check for events
-							tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
-						}
-						//if screen was changed
-						if (m_screenChanged) {
-							m_screenChanged = false;
-							m_BlockCursorLeftPressed = true;
-							return;
+								if (!m_BlockCursorLeftPressed)
+								{
+										//check for events
+									tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
+								}
+								//if screen was changed
+								if (m_screenChanged)
+								{
+									m_screenChanged = false;
+									m_BlockCursorLeftPressed = true;
+									return;
+								}
+								
+							}
+							if (isQuit)return;
+
 						}
 						if (isQuit)return;
-					}
-					if (isQuit)return;
+					}	
+					if (tempIterGuicontainer->second->getGuiContainerMap().size() > 0)
+				{
+					checkGUIContainer(tempIterGuicontainer->second);
 				}
+				}
+				if (isQuit)return;
+
+			
 			}
-			if (isQuit)return;
 		}
+	if (m_zkCursor.ButtonPressedLeft())
+	{
+		m_BlockCursorLeftPressed = true;
 	}
-}
+	}
+
+
 
 
 NAMESPACE_VIEW_E

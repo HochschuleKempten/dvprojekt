@@ -128,7 +128,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Helper.h" />
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="resource.h" />
@@ -137,7 +136,6 @@
     <ClInclude Include="TextureTester.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Helper.cpp" />
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="stdafx.cpp" />

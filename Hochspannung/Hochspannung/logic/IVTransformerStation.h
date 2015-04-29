@@ -11,6 +11,8 @@ protected:
 	LTransformerStation* lTransformerStation;
 
 public:
+	
+
 	inline IVTransformerStation(LTransformerStation* lTransformerStation)
 		: lTransformerStation(lTransformerStation)
 	{}
@@ -19,7 +21,7 @@ public:
 
 	virtual void initTransformerStation(const std::shared_ptr<IVTransformerStation>& objPtr, const int x, const int y) = 0;
 
-	//TODO (L) what methodes are needed? 
+	
 
 };
 

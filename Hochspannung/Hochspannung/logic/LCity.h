@@ -25,6 +25,7 @@ public:
 	void setEnergy(const int energy);
 	int getEnergy() const;
 	void setPopulationTotal(const int populationTotal);
+	int getEnergySurplus();
 
 	static const int cost = 0;
 };
