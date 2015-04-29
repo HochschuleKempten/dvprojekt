@@ -1,10 +1,13 @@
 #include "StdAfx.h"
 #include "Game.h"
-#include "../../../Hochspannung/Hochspannung/view/Helper.h"
+#include <filesystem>
+#include "../../../Hochspannung/Hochspannung/view/VMaterialLoader.h"
 
 CGame::CGame(void)
 {
 	// Hier eventuelle Vorinitialisierungen Deiner Vektoria-Objekte einfügen:
+	std::tr2::sys::current_path(std::tr2::sys::path("../../../Hochspannung/Hochspannung"));
+	VMaterialLoader::init();
 }
 
 CGame::~CGame(void)
@@ -37,7 +40,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zpCamera.TranslateZDelta(2.0f);
 	m_zpCamera.TranslateYDelta(2.5f);
 	m_zpCamera.SetFrustumCullingOn();
-	
+
 	m_zs.AddPlacement(m_zTrasse1->getMainPlacement());
 	m_zs.AddPlacement(m_zTrasse2->getMainPlacement());
 	m_zs.AddPlacement(m_zTrasse3->getMainPlacement());

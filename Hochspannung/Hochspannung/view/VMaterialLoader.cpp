@@ -67,6 +67,13 @@ CMaterial VMaterialLoader::materialCraftmenuButtonPowerlineHover;
 CWritingFont VMaterialLoader::standardFont;
 CWritingFont VMaterialLoader::GoldFont;
 
+//Trassentexturen
+CMaterial VMaterialLoader::m_zmConcrete;
+CMaterial VMaterialLoader::m_zmStrut;
+CMaterial VMaterialLoader::m_zmIsolator;
+CMaterial VMaterialLoader::m_zmRing;
+CMaterial VMaterialLoader::m_zmCable;
+
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
@@ -164,6 +171,16 @@ void VMaterialLoader::init()
 	standardFont.SetTableSize(16, 6);
 	GoldFont.Init("textures\\FontArialShadowGold.png", true);
 	GoldFont.SetTableSize(16, 6);
+
+	//Trassentexturen
+	m_zmConcrete.MakeTextureDiffuse("textures\\texture_concrete_diffuse.png");
+	m_zmConcrete.MakeTextureBump("textures\\texture_concrete_normal.png");
+	m_zmConcrete.MakeTextureSpecular("textures\\texture_concrete_specular.png");
+
+	m_zmStrut.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmRing.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmCable.MakeTextureDiffuse("textures\\white_image.jpg");
 }
 
 
