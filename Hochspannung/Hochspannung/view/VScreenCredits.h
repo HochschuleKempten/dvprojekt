@@ -10,7 +10,7 @@ public:
 	~VScreenCredits();
 	void onNotify(IViewUIObserver::Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
-	
+	void checkSpecialEvent(CDeviceCursor* cursor)override;
 private:
 	CBackground* m_background;
 };

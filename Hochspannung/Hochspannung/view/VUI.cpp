@@ -6,7 +6,6 @@
 
 #include "VScreenMainMenue.h"
 #include "VScreenIngame.h"
-#include "VScreenSpielmodusWahl.h"
 #include "VScreenLobby.h"
 #include "VScreenCredits.h"
 #include "VScreenOptions.h"
@@ -266,24 +265,31 @@ void VUI::onNotify(Event evente)
 		break;
 
 	case SELECT_BUILDING_WINDMILL:
+		updateInfofield("Windmill");
 		//TODO BuildMenue Button Windmill 
 		break;
 	case	SELECT_BUILDING_COALPOWERPLANT:
+		updateInfofield("OilPowerplant");
 		//TODO BuildMenue Button CoalPowerplant 
 		break;
 	case	SELECT_BUILDING_OILPOWERPLANT:
+		updateInfofield("CoalPowerplant");
 		//TODO BuildMenue Button Oilpowerplant
 		break;
 	case	SELECT_BUILDING_NUCLEARPOWERPLANT:
+		updateInfofield("NuclearPowerplant");
 		//TODO BuildMenue Button Nuclearpowerplant
 		break;
 	case	SELECT_BUILDING_HYDROPOWERPLANT:
+		updateInfofield("HydroPowerplant");
 		//TODO BuildMenue Button Hydropowerplant
 		break;
 	case	SELECT_BUILDING_SOLARPOWERPLANT:
+		updateInfofield("SolarPowerplant");
 		//TODO BuildMenue Button Solarpowerplant
 		break;
 	case	SELECT_BUILDING_POWERLINE:
+		updateInfofield("Powerline");
 		//TODO BuildMenue Button Powerline
 		break;
 	default:
@@ -314,10 +320,7 @@ void VUI::addScreen(string sName, IViewScreen::ScreenType screenType)
 		m_screens[sName] = new VScreenMainMenue(&m_zf);
 		m_screens[sName]->addObserver(this);
 		break;
-	/*case IViewScreen::ScreenType::Spielmoduswahl:
-		m_screens[sName] = new VScreenSpielmodusWahl(&vMaster->m_zf);
-		m_screens[sName]->addObserver(this);
-		break;*/
+
 	case IViewScreen::Lobby:
 		m_screens[sName] = new VScreenLobby(&m_zf);
 		m_screens[sName]->addObserver(this);
@@ -369,8 +372,10 @@ void VUI::updatePopulation(const int wert)
 	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
 }
 
-void VUI::updateInfofield(const int wert)
-{}
+void VUI::updateInfofield(string neuerText)
+{
+	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updateInfofeld(neuerText);
+}
 
 void VUI::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 {
@@ -453,7 +458,7 @@ void VUI::tick(const float fTimeDelta)
 		if (m_iterScreens->second->isOn()) {
 			//Check for shortcuts
 			m_iterScreens->second->checkShortcut(&m_zkKeyboard);
-
+			m_iterScreens->second->checkSpecialEvent(&m_zkCursor);
 			tempGuicontainer = m_iterScreens->second->getGuiContainerMap();
 
 			map<string, IViewGUIObject*>tempList;

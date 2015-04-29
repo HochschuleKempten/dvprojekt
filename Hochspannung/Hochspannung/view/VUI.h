@@ -65,7 +65,7 @@ public:
 	void resize(int width, int height);
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
-	void updateInfofield(const int wert);
+	void updateInfofield(string neuerText);
 
 	void checkGUIContainer(IViewGUIContainer* guiContainer);
 };

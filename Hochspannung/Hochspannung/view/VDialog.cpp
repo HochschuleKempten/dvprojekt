@@ -66,6 +66,13 @@ void VDialog::addText(CFloatRect rect, CWritingFont* writingFont, string text, s
 	
 	}
 
+	void VDialog::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, string sName)
+	{
+			m_Overlays[sName] = new COverlay();
+			m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
+			m_viewport->AddOverlay(m_Overlays[sName]);
+	}
+
 	void VDialog::onNotify(Event events)
 {
 	switch (events)

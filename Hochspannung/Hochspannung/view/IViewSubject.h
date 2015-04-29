@@ -23,13 +23,13 @@ public:
 
 	void removeObserver(IViewUIObserver* observer)
 	{
-		// Remove from array...
+		observers_.remove(observer);
 	}
 
 protected:
 	void notify(IViewUIObserver::Event evente)
 	{
-		for (lIterObservers = observers_.begin(); lIterObservers != observers_.end(); lIterObservers++)
+		for (lIterObservers = observers_.begin(); lIterObservers != observers_.end(); ++lIterObservers)
 		{
 
 			if (evente == IViewUIObserver::QUIT_GAME)

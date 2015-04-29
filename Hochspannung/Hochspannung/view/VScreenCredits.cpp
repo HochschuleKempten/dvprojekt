@@ -56,4 +56,9 @@ VScreenCredits::VScreenCredits()
 	}
 	
 }
-NAMESPACE_VIEW_E
+
+	void VScreenCredits::checkSpecialEvent(CDeviceCursor* cursor)
+	{
+	}
+
+	NAMESPACE_VIEW_E
