@@ -316,6 +316,9 @@
     <ClInclude Include="view\Building03.h">
       <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
+    <ClInclude Include="network\GameObject.h">
+      <Filter>network\Headerdateien</Filter>
+	</ClInclude>
     <ClInclude Include="logic\cpplinq.hpp">
       <Filter>logic</Filter>
     </ClInclude>
@@ -513,6 +516,9 @@
     <ClCompile Include="view\Building03.cpp">
       <Filter>view\Quelldateien\buildings</Filter>
     </ClCompile>
+    <ClCompile Include="network\GameObject.cpp">
+      <Filter>network\Quelldateien</Filter>
+	</ClCompile>
     <ClCompile Include="logic\LTransformerStation.cpp">
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>

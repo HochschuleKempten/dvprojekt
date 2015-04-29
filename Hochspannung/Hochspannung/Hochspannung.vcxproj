@@ -179,6 +179,7 @@
     <ClInclude Include="logic\LUtility.h" />
     <ClInclude Include="logic\LWindmillPowerPlant.h" />
     <ClInclude Include="network\Client.h" />
+    <ClInclude Include="network\GameObject.h" />
     <ClInclude Include="network\NetworkService.h" />
     <ClInclude Include="network\Node.h" />
     <ClInclude Include="network\Message.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="logic\LTransformerStation.cpp" />
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="network\Client.cpp" />
+    <ClCompile Include="network\GameObject.cpp" />
     <ClCompile Include="network\NetworkService.cpp" />
     <ClCompile Include="network\Node.cpp" />
     <ClCompile Include="network\Message.cpp" />

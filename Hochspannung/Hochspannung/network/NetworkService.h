@@ -10,6 +10,12 @@ enum State {
 	PENDING
 };
 
+enum Type {
+	NONE,
+	SERVER,
+	CLIENT
+};
+
 class CNetworkService {
 
 private:
@@ -25,11 +31,6 @@ private:
 
 public:
 	/**
-	 * Fixed server port.
-	 */
-	const static unsigned short usPort = 2345;
-
-	/**
 	 * @brief Default deconstructor.
 	 */
 	~CNetworkService();
@@ -42,23 +43,43 @@ public:
 
 	/**
 	 * @brief Start a server to host a game.
-	 * If a game is already hosted or a connection to another server exists, nothing is done and false returned.
+	 * If a game is already hosted, nothing is done and false returned.
+	 * If a connection to another server exists, the connection is closed before the server is started.
+	 * @param stName the server/game name.
 	 * @return true, if succesful, false otherwise.
 	 */
-	bool host();
+	bool host(std::string stName = "Defaultname");
 
 	/**
 	 * @brief Connect to a server hosting a game.
-	 * If a game is already hosted or a connection to another server exists, nothing is done and false returned.
+	 * If a game is currently hosted, the server is closed before trying to connect to the new server.
+	 * If a connection to a server already exists, the connection is rebuild with the new adddress.
 	 * @param stIP the IP of the server to connect to.
 	 * @return true, if succesful, false otherwise.
 	 */
 	bool connect(std::string stIP);
 
 	/**
+	 * @brief Searches asynchronously for game server in the local network.
+	 * Closes any active connection or server.
+	 */
+	void searchGames();
+
+	/**
+	 * @brief Returns a list of found games in the local network.
+	 * @return the list containing information of every hosted game found in the network.
+	 */
+	std::vector<CGameObject> getGameList();
+
+	/**
 	 * @brief Close the active server or connection.
 	 */
 	void close();
+
+	/**
+	 * @brief Reconnect to the server or restart the server.
+	 */
+	void restart();
 
 	/**
 	 * @brief Returns the current connection state (Not solid atm!).
@@ -67,32 +88,49 @@ public:
 	State getConnectionState();
 
 	/**
-	 * @brief Send the command to start the game.
+	* @brief Returns the current type.
+	* @return the current type.
+	*/
+	Type getType();
+
+	/**
+	 * @brief Returns the current latency to the remote computer if connected.
+	 * @return the current latenzy (in ms) or -1 if not connected
 	 */
-	void sendStartGame();
+	int getLatency();
+
+	/**
+	 * @brief Send the command to start the game.
+	 * @return true if message could be sent, false otherwise.
+	 */
+	bool sendStartGame();
 
 	/**
 	 * @brief Send the command to stop the game.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendStopGame();
+	bool sendStopGame();
 
 	/**
 	 * @brief Send the command to pause the game.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendPauseGame();
+	bool sendPauseGame();
 
 	/**
 	 * @brief Send the command to continue the game.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendContinueGame();
+	bool sendContinueGame();
 
 	/**
 	 * @brief Send the command to set a new object.
 	 * @param iObjectId the objects ID.
 	 * @param iCoordX the x coordinate where the new object should be set.
 	 * @param iCoordY the y coordinate where the new object should be set.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendSetObject(int iObjectID, int iCoordX, int iCoordY);
+	bool sendSetObject(int iObjectID, int iCoordX, int iCoordY);
 
 	/**
 	 * @brief Send the command to move an object.
@@ -101,20 +139,30 @@ public:
 	 * @param iCoordYSouce the source y coordinate.
 	 * @param iCoordXDest the destination x coordinate.
 	 * @param iCoordYDest the destination y coordinate.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	//void sendMoveObject(int iObjectID, int iCoordXSource, int iCoordYSouce, int iCoordXDest, int iCoordYDest);
+	//bool sendMoveObject(int iObjectID, int iCoordXSource, int iCoordYSouce, int iCoordXDest, int iCoordYDest);
 
 	/**
 	 * @brief Send the command to delete an object.
 	 * @param iObjectId the objects ID.
 	 * @param iCoordX the x coordinate of the object that should be deleted.
 	 * @param iCoordY the y coordinate of the object that should be deleted.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendDeleteObject(int iObjectID, int iCoordX, int iCoordY);
+	bool sendDeleteObject(int iObjectID, int iCoordX, int iCoordY);
+
+	/**
+	 * @brief Send the command to set the mapsize.
+	 * @param iSizeX the maps size in x direction.
+	 * @param iSizeY the maps size in y direction.
+	 * @return true if message could be sent, false otherwise.
+	 */
+	bool sendSetMapsize(int iSizeX, int iSizeY);
 
 	/**
 	 * @brief Returns the next action from deque, if available.
-	 * @return the first CTransferObject from the deque, or an empty object if none none is available.
+	 * @return the first CTransferObject from the deque, or an empty object if none is available.
 	 */
 	CTransferObject getNextActionToExecute();
 
@@ -131,12 +179,14 @@ private:
 	 * @param iObjectID the objects ID.
 	 * @param iCoordX the x coordinate.
 	 * @param iCoordY the y coordinate.
-	 * @param stValue any other value to send.
+	 * @param sValue any other value to send.
+	 * @return true if message could be sent, false otherwise.
 	 */
-	void sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string stValue = "");
+	bool sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = "");
 
 	CNode* m_pNode = 0;
-	State m_ConnectionState;
+	State m_connectionState;
+	Type m_type;
 };
 
 }
