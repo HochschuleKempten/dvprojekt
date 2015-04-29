@@ -7,6 +7,8 @@
 #include "ILBuilding.h"
 #include "LCity.h"
 #include <boost/graph/adjacency_list.hpp>
+#include "LPowerLine.h"
+#include "LIdentifier.h"
 
 NAMESPACE_LOGIC_B
 
@@ -54,7 +56,10 @@ private:
 	std::vector<LField::FieldLevel> fieldLevels;
 
 public:
-	LPlayingField(LMaster* lMaster);
+	bool isLocalOperation = false; //hack (IP) just for testing purpose.. maybe add another parameter to placeBuilding()?
+
+public:
+	explicit LPlayingField(LMaster* lMaster);
 	~LPlayingField();
 
 	LField* getField(const int x, const int y);
@@ -76,13 +81,67 @@ public:
 		if (getField(x, y)->setBuilding<T>(x, y, arguments...)) {
 			addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
-			//todo (L) when?
+			//assign player id
+			getField(x, y)->getBuilding()->setPlayerId(LPlayer::Local);
+
 			if (cityPosition.first > -1 && cityPosition.second > -1)
 			{
 				calculateEnergyValueCity();
 			}
 
-			lMaster->getPlayer(1)->substractMoney(T::cost);
+			//-----network-----
+			//todo (IP) send only if connected
+
+			if (!isLocalOperation) //to prevent placing loops (server places object, client gets action -> places object, sends sendSetObject again)
+			{
+
+				int objectIdentifier = 0;
+
+				LPowerLine* powerLine = dynamic_cast<LPowerLine*>(getField(x, y)->getBuilding());
+				if (powerLine != nullptr)
+				{
+					objectIdentifier = powerLine->getOrientation(); //use orientation to identify a powerline
+				}
+				else
+				{
+					std::string buildingType = getClassName(T);
+
+					if (buildingType == "LCoalPowerPlant")
+					{
+						objectIdentifier = LIdentifier::LCoalPowerPlant;
+					}
+					else if (buildingType == "LHydroelectricPowerPlant")
+					{
+						objectIdentifier = LIdentifier::LHydroelectricPowerPlant;
+					}
+					else if (buildingType == "LNuclearPowerPlant")
+					{
+						objectIdentifier = LIdentifier::LNuclearPowerPlant;
+					}
+					else if (buildingType == "LOilRefinery")
+					{
+						objectIdentifier = LIdentifier::LOilRefinery;
+					}
+					else if (buildingType == "LSolarPowerPlant")
+					{
+						objectIdentifier = LIdentifier::LSolarPowerPlant;
+					}
+					else if (buildingType == "LWindmillPowerPlant")
+					{
+						objectIdentifier = LIdentifier::LWindmillPowerPlant;
+					}
+					else if (buildingType == "LCity")
+					{
+						objectIdentifier = LIdentifier::LCity;
+					}
+				}
+
+				lMaster->sendSetObject(objectIdentifier, x, y);
+
+			}
+			//-----network-----
+
+			lMaster->getPlayer(1)->subtractMoney(T::cost);
 			DEBUG_OUTPUT("Marktplace connected = " << isTransformstationConnected());
 
 			return true;

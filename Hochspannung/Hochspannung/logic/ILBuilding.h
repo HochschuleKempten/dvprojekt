@@ -23,11 +23,11 @@ public:
 	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 protected:
 	LField* lField;
-	LPlayer::PlayerNumber playerNumber = LPlayer::PlayerNumber::PlayerOne; //todo (L)
+	LPlayer::PlayerId playerId = LPlayer::PlayerId::Local;
 	int orientation;
 
 public:
-	ILBuilding(LField* lField)
+	explicit ILBuilding(LField* lField)
 		: lField(lField)
 	{}
 
@@ -45,14 +45,14 @@ public:
 
 	static const int cost = 10;
 
-	void setPlayerNumber(const LPlayer::PlayerNumber playerNumber)
+	void setPlayerId(const LPlayer::PlayerId playerId)
 	{
-		this->playerNumber = playerNumber;
+		this->playerId = playerId;
 	}
 
-	LPlayer::PlayerNumber getPlayerNumber() const //todo (L) const everywhere where needed
+	LPlayer::PlayerId getPlayerId() const
 	{
-		return playerNumber;
+		return playerId;
 	}
 };
 

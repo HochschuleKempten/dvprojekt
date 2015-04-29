@@ -122,13 +122,26 @@ void LPlayingField::removeBuilding(const int x, const int y)
 
 	//todo (L) when?
 	calculateEnergyValueCity();
+
+	//-----network-----
+	if (!isLocalOperation)
+	{
+		lMaster->sendDeleteObject(x, y);
+	}
+	//-----network-----
 }
 
 void LPlayingField::upgradeBuilding(const int x, const int y)
 {
 	//todo (IP) getPlayers(): get current player
 	if (lMaster->getPlayer(1)->getMoney() > 50000) {
+
 		getField(x, y)->getBuilding()->upgrade();
+
+		if (!isLocalOperation)
+		{
+			//todo (IP) sendUpgrade
+		}
 	}
 	// ToDo (FL) Discuss case player doesn't have enough money
 }
