@@ -80,6 +80,16 @@ inline std::string getFileBase(const std::string &str)
 
 #ifdef _DEBUG
 /*
+* @def DEBUG_EXPRESSION(expr)
+* This macro can be used to write single line expressions which will be evaluated only in debug mode
+*/
+#define DEBUG_EXPRESSION(expr) expr
+#else
+#define DEBUG_EXPRESSION(expr)
+#endif //_DEBUG
+
+#ifdef _DEBUG
+/*
  * @def ASSERT(cond, msgExpr)
  * Use this macro to check conditions at runtime in debug mode
  * Type in the condition the behavior you desire (the assertion fails if your condition fails)
@@ -100,8 +110,8 @@ inline std::string getFileBase(const std::string &str)
 #include <boost\numeric\conversion\cast.hpp>
 /*
 * @def CASTS
-* This macro performs a (static) cast between types. In DEBUG mode this is done using <code>boost::numeric_cast</code> with runtime checks
-* and in RELEASE mode this is just done using normal <code>CASTS</code> (without the cost of runtime checks).
+* This macro performs a (static) cast between types. In debug mode this is done using <code>boost::numeric_cast</code> with runtime checks
+* and in release mode this is just done using normal <code>CASTS</code> (without the cost of runtime checks).
 */
 #define CASTS boost::numeric_cast
 #else
@@ -122,7 +132,7 @@ inline std::string getFileBase(const std::string &str)
 									className(const className&) = delete; \
 									className(const className&&) = delete; \
 									className& operator=(const className&) = delete; \
-									className& operator=(const className&&) = delete;
+									className& operator=(const className&&) = delete
 
 #ifdef _DEBUG
 /**

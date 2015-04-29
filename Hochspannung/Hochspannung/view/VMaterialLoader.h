@@ -39,10 +39,7 @@ public:
 	static CMaterial materialButtonMainMenueCreditsHover;
 	static CMaterial materialButtonMainMenueSpielBeenden;
 	static CMaterial materialButtonMainMenueSpielBeendenHover;
-	static CMaterial materialButtonMainMenueEinzelspieler;
-	static CMaterial materialButtonMainMenueEinzelspielerHover;
-	static CMaterial materialButtonMainMenueMehrspieler;
-	static CMaterial materialButtonMainMenueMehrspielerHover;
+
 
 	//Ingame
 	static CMaterial materialIngameCraft;
@@ -54,7 +51,29 @@ public:
 	static CMaterial materialLobbyBigDialog;
 	static CMaterial materialBuildingButton;
 	static CMaterial materialBuildingButtonHover;
-
+		//Buttons
+	static CMaterial materialIngameButtonCraftmenu;
+	static CMaterial materialIngameButtonSabotage;
+	static CMaterial materialIngameButtonStatistics;
+	static CMaterial materialIngameButtonCraftmenuHover;
+	static CMaterial materialIngameButtonSabotageHover;
+	static CMaterial materialIngameButtonStatisticsHover;
+		//Craftmenu
+	static CMaterial materialCraftmenuButtonWindmill;
+	static CMaterial materialCraftmenuButtonHydroPowerplant;
+	static CMaterial materialCraftmenuButtonSolarPowerplant;
+	static CMaterial materialCraftmenuButtonCoalPowerplant;
+	static CMaterial materialCraftmenuButtonOilPowerplant;
+	static CMaterial materialCraftmenuButtonNuclearPowerplant;
+	static CMaterial materialCraftmenuButtonPowerline;
+	static CMaterial materialCraftmenuButtonWindmillHover;
+	static CMaterial materialCraftmenuButtonHydroPowerplantHover;
+	static CMaterial materialCraftmenuButtonSolarPowerplantHover;
+	static CMaterial materialCraftmenuButtonCoalPowerplantHover;
+	static CMaterial materialCraftmenuButtonOilPowerplantHover;
+	static CMaterial materialCraftmenuButtonNuclearPowerplantHover;
+	static CMaterial materialCraftmenuButtonPowerlineHover;
+	
 	//Allgemein
 		//Buttons
 	static CMaterial materialButtonBack;

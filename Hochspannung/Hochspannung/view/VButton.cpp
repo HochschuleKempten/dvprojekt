@@ -6,17 +6,18 @@ m_bHasHover(false)
 {
 
 }
-VButton::VButton(CViewport* viewport, CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) :
+VButton::VButton(CViewport* viewport,  CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) :
 m_bHasHover(false),
 action(IViewUIObserver::NOTHING)
 {
+	m_zfrRect = rect;
 	m_zoNormal = new COverlay();
-	m_zoNormal->Init(MaterialNormal, rect);
+	m_zoNormal->Init(MaterialNormal, m_zfrRect);
 
 	m_zoHover = new COverlay();
-	m_zoHover->Init(MaterialHover, rect);
+	m_zoHover->Init(MaterialHover, m_zfrRect);
 	m_bHasHover = true;
-	m_zfrRect = rect;
+	
 	action = clickAction;
 
 	viewport->AddOverlay(getNormalOverlay());
@@ -24,7 +25,6 @@ action(IViewUIObserver::NOTHING)
 
 
 	viewport->AddOverlay(getHoverOverlay());
-
 
 }
 VButton::~VButton()
@@ -54,8 +54,19 @@ void VButton::onMouseClickRight(void)
 	//ToDo
 }
 
+	void VButton::setLayer(float layer)
+	{
+		m_zoNormal->SetLayer(layer);
+		m_zoHover->SetLayer(layer);
+	}
 
-//Getter 
+	void VButton::updateRectangle(CFloatRect rect)
+	{
+		m_zoNormal->SetRect(rect);
+		m_zoHover->SetRect(rect);
+	}
+
+	//Getter 
 bool VButton::bGetHasHover()
 {
 	return this->m_bHasHover;
@@ -78,12 +89,16 @@ CFloatRect VButton::getRectangle()
 
 	void VButton::switchOn()
 {
+	m_bisOn = true;
 	m_zoNormal->SwitchOn();
 	m_zoHover->SwitchOff();
 }
 void VButton::switchOff()
 {
+	m_bisOn = false;
 	m_zoNormal->SwitchOff();
 	m_zoHover->SwitchOff();
 }
+
+
 NAMESPACE_VIEW_E

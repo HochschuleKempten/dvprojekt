@@ -16,7 +16,6 @@ NAMESPACE_VIEW_B
 class VModelWindmillPowerPlant : public IViewModel
 {
 private:
-	CPlacement m_zpWindkraftanlage;
 	CPlacement m_zpBasis;
 	CPlacement m_zpTurm;
 	CPlacement m_zpFundament;

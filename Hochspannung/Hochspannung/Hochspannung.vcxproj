@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="logic\Array2D.h" />
+    <ClInclude Include="logic\cpplinq.hpp" />
     <ClInclude Include="logic\ILPowerLine.h" />
     <ClInclude Include="logic\IVCity.h" />
     <ClInclude Include="logic\IVFactory.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="logic\IVPowerLine.h" />
     <ClInclude Include="logic\IVPowerPlant.h" />
     <ClInclude Include="logic\IVTickObserver.h" />
+    <ClInclude Include="logic\IVTransformerStation.h" />
     <ClInclude Include="logic\LCity.h" />
     <ClInclude Include="logic\LField.h" />
     <ClInclude Include="logic\LCoalPowerPlant.h" />
@@ -173,6 +175,7 @@
     <ClInclude Include="logic\LPlayingField.h" />
     <ClInclude Include="logic\LSolarPowerPlant.h" />
     <ClInclude Include="logic\LPowerLine.h" />
+    <ClInclude Include="logic\LTransformerSation.h" />
     <ClInclude Include="logic\LUtility.h" />
     <ClInclude Include="logic\LWindmillPowerPlant.h" />
     <ClInclude Include="network\Client.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="view\VCity.h" />
     <ClInclude Include="view\VDialog.h" />
     <ClInclude Include="view\VField.h" />
+    <ClInclude Include="view\VGUIArea.h" />
     <ClInclude Include="view\VModelCity.h" />
     <ClInclude Include="view\VModelPowerLine.h" />
     <ClInclude Include="view\VButton.h" />
@@ -228,8 +232,10 @@
     <ClInclude Include="view\VScreenOptions.h" />
     <ClInclude Include="view\VScreenSpielmodusWahl.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
+    <ClInclude Include="view\VTab.h" />
     <ClInclude Include="view\VText.h" />
     <ClInclude Include="view\VTextfield.h" />
+    <ClInclude Include="view\VTransformerStation.h" />
     <ClInclude Include="view\VUI.h" />
     <ClInclude Include="view\VWindmillPowerPlant.h" />
   </ItemGroup>
@@ -246,6 +252,7 @@
     <ClCompile Include="logic\LPlayingField.cpp" />
     <ClCompile Include="logic\LSolarPowerPlant.cpp" />
     <ClCompile Include="logic\LPowerLine.cpp" />
+    <ClCompile Include="logic\LTransformerStation.cpp" />
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="network\Client.cpp" />
     <ClCompile Include="network\NetworkService.cpp" />
@@ -272,6 +279,7 @@
     <ClCompile Include="view\VCity.cpp" />
     <ClCompile Include="view\VDialog.cpp" />
     <ClCompile Include="view\VField.cpp" />
+    <ClCompile Include="view\VGUIArea.cpp" />
     <ClCompile Include="view\VModelCity.cpp" />
     <ClCompile Include="view\VModelPowerLine.cpp" />
     <ClCompile Include="view\VButton.cpp" />
@@ -294,8 +302,10 @@
     <ClCompile Include="view\VScreenOptions.cpp" />
     <ClCompile Include="view\VScreenSpielmodusWahl.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
+    <ClCompile Include="view\VTab.cpp" />
     <ClCompile Include="view\VText.cpp" />
     <ClCompile Include="view\VTextfield.cpp" />
+    <ClCompile Include="view\VTransformerStation.cpp" />
     <ClCompile Include="view\VUI.cpp" />
     <ClCompile Include="view\VWindmillPowerPlant.cpp" />
   </ItemGroup>

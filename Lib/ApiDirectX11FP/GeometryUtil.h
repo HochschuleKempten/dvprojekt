@@ -44,7 +44,6 @@ namespace Vektoria
 
 		void DrawTriangleList(ID3D11Buffer *pbuffer);
 		void DrawTriangleStrip(ID3D11Buffer *pbuffer, ID3D11Buffer *indexBuffer);
-		void DrawDrawable(ID3D11Buffer *buffer, ID3D11Buffer *indexBuffer, CDrawable *pdrawable);
 
 
 		void PassToGPU(SRenderObjectHandle & handle, int & idMaterial);

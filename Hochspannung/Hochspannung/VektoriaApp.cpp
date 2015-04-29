@@ -27,7 +27,7 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 static void ChangeDisplay(HWND);
 
 
-CGame * g_pgame;
+CGame* g_pgame = nullptr;
 
 
 //--------------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	}
 
 	CSplash splash;
-	splash.Init(hWnd, hInstance);
+	//splash.Init(hWnd, hInstance);
 	splash.Show();
 
 
@@ -159,7 +159,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)                  /* handle the messages */
 	{
 	case WM_SIZE:
-		g_pgame->WindowReSize(LOWORD(wParam), HIWORD(lParam));
+		if (g_pgame != nullptr) {
+			g_pgame->WindowReSize(LOWORD(wParam), HIWORD(lParam));
+		}
 		return 0;
 	case WM_CLOSE:
 		if (IDYES == MessageBox(hwnd, "Do you really want to quit the game", "Quit the game?", MB_YESNO))

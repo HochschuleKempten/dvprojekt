@@ -11,8 +11,6 @@ NAMESPACE_VIEW_B
 class VPowerLine : public IVPowerLine, public IViewBuilding
 {
 private:
-	//CGeoCylinder m_zg;
-	//CPlacement m_zp;
 	VModelPowerLine viewModel;
 
 public:

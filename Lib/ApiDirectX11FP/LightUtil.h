@@ -13,7 +13,7 @@
 #include "..\Vektoria\SpotLight.h"
 
 #define MAX_LIGHT_NUM 1024
-#define MAX_SHADOWCASTING_LIGHT_NUM 12
+#define MAX_SHADOWCASTING_LIGHT_NUM 24
 
 namespace Vektoria
 {

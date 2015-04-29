@@ -29,10 +29,6 @@ CMaterial VMaterialLoader::materialButtonMainMenueCreditsHover;
 CMaterial VMaterialLoader::materialButtonMainMenueSpielBeenden; 
 CMaterial VMaterialLoader::materialButtonMainMenueSpielBeendenHover;
 
-CMaterial VMaterialLoader::materialButtonMainMenueEinzelspieler;
-CMaterial VMaterialLoader::materialButtonMainMenueEinzelspielerHover;
-CMaterial VMaterialLoader::materialButtonMainMenueMehrspieler;
-CMaterial VMaterialLoader::materialButtonMainMenueMehrspielerHover;
 
 CMaterial VMaterialLoader::materialButtonBack;
 CMaterial VMaterialLoader::materialButtonBackHover;
@@ -41,6 +37,31 @@ CMaterial VMaterialLoader::materialVerticalBorder;
 CMaterial VMaterialLoader::materialLobbyBigDialog;
 CMaterial VMaterialLoader::materialBuildingButton;
 CMaterial VMaterialLoader::materialBuildingButtonHover;
+
+//Ingame Buttons
+CMaterial VMaterialLoader::materialIngameButtonCraftmenu;
+CMaterial VMaterialLoader::materialIngameButtonSabotage;
+CMaterial VMaterialLoader::materialIngameButtonStatistics;
+
+CMaterial VMaterialLoader::materialIngameButtonCraftmenuHover;
+CMaterial VMaterialLoader::materialIngameButtonSabotageHover;
+CMaterial VMaterialLoader::materialIngameButtonStatisticsHover;
+	//Craftmenu
+CMaterial VMaterialLoader::materialCraftmenuButtonWindmill;
+CMaterial VMaterialLoader::materialCraftmenuButtonHydroPowerplant;
+CMaterial VMaterialLoader::materialCraftmenuButtonSolarPowerplant;
+CMaterial VMaterialLoader::materialCraftmenuButtonCoalPowerplant;
+CMaterial VMaterialLoader::materialCraftmenuButtonOilPowerplant;
+CMaterial VMaterialLoader::materialCraftmenuButtonNuclearPowerplant;
+CMaterial VMaterialLoader::materialCraftmenuButtonPowerline;
+
+CMaterial VMaterialLoader::materialCraftmenuButtonWindmillHover;
+CMaterial VMaterialLoader::materialCraftmenuButtonHydroPowerplantHover;
+CMaterial VMaterialLoader::materialCraftmenuButtonSolarPowerplantHover;
+CMaterial VMaterialLoader::materialCraftmenuButtonCoalPowerplantHover;
+CMaterial VMaterialLoader::materialCraftmenuButtonOilPowerplantHover;
+CMaterial VMaterialLoader::materialCraftmenuButtonNuclearPowerplantHover;
+CMaterial VMaterialLoader::materialCraftmenuButtonPowerlineHover;
 
 //WritingFont
 CWritingFont VMaterialLoader::standardFont;
@@ -55,8 +76,8 @@ CMaterial VMaterialLoader::m_zmCable;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
-	std::string textureDiffuse = std::string("textures/texture_terrain_") + textureName + std::string("_diffuse.png");
-	std::string textureSpecular = std::string("textures/texture_terrain_") + textureName + std::string("_specular.png");
+	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
+	std::string textureSpecular = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_specular.png");
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
@@ -74,38 +95,38 @@ void VMaterialLoader::init()
 	setFieldMaterialHelper(LField::GRASS, "base");
 	setFieldMaterialHelper(LField::MOUNTAIN, "mountain");
 	setFieldMaterialHelper(LField::CITY, "city");
+	setFieldMaterialHelper(LField::OIL, "oil");
 
 	materialCoalPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
 	materialHydroelectricPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
 
-	//materialMainMenue.Init(CColor(0.2F, 0.58F, 0.77F), CColor(0.2F, 0.58F, 0.77F), CColor(0.2F, 0.58F, 0.77F));
-	//materialMainMenueHover.Init(CColor(0.87, 0.73, 0.27), CColor(0.87, 0.73, 0.27), CColor(0.87, 0.73, 0.27));
-	//materialMainMenue.MakeTextureSprite("textures\\MainMenueNewGame.png");
-	//materialMainMenue.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpiel.png");
-	//materialMainMenueHover.MakeTextureSprite("textures\\MainMenueNewGameHover.png");
-	//materialIngameCraft.Init(CColor(0.2F, 0.80F, 0.77F), CColor(0.2F, 0.80F, 0.77F), CColor(0.2F, 0.80F, 0.77F));
-	//materialDialogBackground.Init(CColor(0.18F, 0.49F, 0.69F), CColor(0.18F, 0.49F, 0.69F), CColor(0.18F, 0.49F, 0.69F));
-	
 	materialDialogBackground.MakeTextureSprite("textures\\MainMenueBackground.png");
 	materialIngameBorder.Init(CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68));
-
-	//Buttons
-	materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpiel.png");
-	materialButtonMainMenueNeuesSpielHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpielHover.png");
-	materialButtonMainMenueOptionen.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueOptionen.png");
-	materialButtonMainMenueOptionenHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueOptionenHover.png");
-	materialButtonMainMenueCredits.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueCredits.png");
-	materialButtonMainMenueCreditsHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueCreditsHover.png");
-	materialButtonMainMenueSpielBeenden.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueSpielBeenden.png");
-	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueSpielBeendenHover.png");
 	
-	materialButtonMainMenueEinzelspieler.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueEinzelspieler.png");
-	materialButtonMainMenueEinzelspielerHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueEinzelspielerHover.png");
-	materialButtonMainMenueMehrspieler.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueMehrspieler.png");
-	materialButtonMainMenueMehrspielerHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueMehrspielerHover.png");
+	//Buttons
+	//materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpiel.png");
+	//materialButtonMainMenueNeuesSpielHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpielHover.png");
+	materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_newgame.png");
+	materialButtonMainMenueNeuesSpielHover.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_newgame_hover.png");
 
-	materialButtonBack.MakeTextureSprite("textures\\Buttons\\ButtonBack.png");
-	materialButtonBackHover.MakeTextureSprite("textures\\Buttons\\ButtonBackHover.png");
+	//materialButtonMainMenueOptionen.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueOptionen.png");
+	//materialButtonMainMenueOptionenHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueOptionenHover.png");
+	materialButtonMainMenueOptionen.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_options.png");
+	materialButtonMainMenueOptionenHover.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_options_hover.png");
+	/*materialButtonMainMenueCredits.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueCredits.png");
+	materialButtonMainMenueCreditsHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueCreditsHover.png");*/
+	materialButtonMainMenueCredits.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_credits.png");
+	materialButtonMainMenueCreditsHover.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_credits_hover.png");
+
+	/*materialButtonMainMenueSpielBeenden.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueSpielBeenden.png");
+	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueSpielBeendenHover.png");*/
+	materialButtonMainMenueSpielBeenden.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_exit.png");
+	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_exit_hover.png");
+
+	/*materialButtonBack.MakeTextureSprite("textures\\Buttons\\ButtonBack.png");
+	materialButtonBackHover.MakeTextureSprite("textures\\Buttons\\ButtonBackHover.png");*/
+	materialButtonBack.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_back.png");
+	materialButtonBackHover.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_back_hover.png");
 
 	materialTopbar.MakeTextureSprite("textures\\topbar.png");
 	materialBottombarBorderTop.MakeTextureSprite("textures\\bottombarBorderTopBlue.png");
@@ -114,6 +135,32 @@ void VMaterialLoader::init()
 	materialBuildingButton.MakeTextureSprite("textures\\BuildingButton.png");
 	materialBuildingButtonHover.MakeTextureSprite("textures\\BuildingButtonHover.png");
 	
+	//Ingame Buttons
+	materialIngameButtonCraftmenu.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_craftmenu.png");
+	materialIngameButtonCraftmenuHover.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_craftmenu_hover.png");
+	
+	materialIngameButtonSabotage.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_sabotage.png");
+	materialIngameButtonSabotageHover.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_sabotage_hover.png");
+	
+	materialIngameButtonStatistics.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_statistics.png");
+	materialIngameButtonStatisticsHover.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_statistics_hover.png");
+
+		//Craftmenu
+	materialCraftmenuButtonWindmill.MakeTextureSprite("textures\\Buttons\\BuildingButtonWindmill.png");
+	materialCraftmenuButtonHydroPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonHydroPowerplant.png");
+	materialCraftmenuButtonSolarPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonSolarPowerplant.png");
+	materialCraftmenuButtonCoalPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonCoalPowerplant.png");
+	materialCraftmenuButtonOilPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonOilPowerplant.png");
+	materialCraftmenuButtonNuclearPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonNuclearPowerplant.png");
+	materialCraftmenuButtonPowerline.MakeTextureSprite("textures\\Buttons\\BuildingButtonPowerline.png");
+
+	materialCraftmenuButtonWindmillHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonWindmillHover.png");
+	materialCraftmenuButtonHydroPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonHydroPowerplantHover.png");
+	materialCraftmenuButtonSolarPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonSolarPowerplantHover.png");
+	materialCraftmenuButtonCoalPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonCoalPowerplantHover.png");
+	materialCraftmenuButtonOilPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonOilPowerplantHover.png");
+	materialCraftmenuButtonNuclearPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonNuclearPowerplantHover.png");
+	materialCraftmenuButtonPowerlineHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonPowerlineHover.png");
 	//Test
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
 	materialBlue.MakeTextureSprite("textures\\blue_image.jpg");
