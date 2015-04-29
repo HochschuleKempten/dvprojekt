@@ -6,6 +6,7 @@
 #include "VTextfield.h"
 #include "VText.h"
 
+
 NAMESPACE_VIEW_B
 
 //---------------------------------------------------
@@ -21,7 +22,9 @@ public:
 	enum ContainerType
 	{
 		Group,
-		Dialog
+		Dialog,
+		Register,
+		GUIArea
 
 	};
 
@@ -55,7 +58,26 @@ public:
 
 	}
 	
+	virtual void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName) = 0;
+	
+
+	virtual void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName) = 0;
+	
+
+	
+	
+
 	virtual ~IViewGUIContainer(){};
+
+	IViewGUIContainer* getContainer(string sName)
+	{
+		ASSERT(m_Guicontainer.find(sName) != m_Guicontainer.end(), "GUIContainer not available");
+		return m_Guicontainer[sName];
+	}
+	map<string, IViewGUIContainer*>getGuiContainerMap()
+	{
+		return m_Guicontainer;
+	}
 
 	map<string, IViewGUIObject*> getGuiObjectList()
 	{
@@ -65,12 +87,24 @@ public:
 	{
 		return m_guiObjects[sName];
 	}
+
+	CFloatRect getRectangle()
+	{
+		return m_zfRect;
+	}
 protected:
+
 	bool m_bOn = true;
+	bool m_hasBackground = false;
 	CViewport* m_viewport;
+	COverlay* m_background;
+	CFloatRect m_zfRect;
 	map<string,IViewGUIObject*> m_guiObjects;
 	map<string,IViewGUIObject*>::iterator lIterGUIObjects;
 	
+	map<string, IViewGUIContainer*> m_Guicontainer;
+	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
+
 	virtual CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)
 	{
 		 

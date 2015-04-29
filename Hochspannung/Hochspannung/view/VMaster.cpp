@@ -24,19 +24,12 @@ void VMaster::setLMaster(LMaster* lMaster)
 }
 
 void VMaster::initScene(HWND hwnd, CSplash* psplash)
-{
-	m_zr.Init(psplash);
-	m_zf.Init(hwnd);
-	m_zr.AddFrameHere(&m_zf);
-	
-	vUi.initUI();
+{	
+	vUi.initUI(hwnd, psplash);
 }
 
 void VMaster::tick(float fTime, float fTimeDelta)
 {
-	//PERFORMANCE make as much functions inline as possible
-
-	m_zr.Tick(fTimeDelta);
 	updateTick(fTimeDelta);
 }
 
@@ -47,7 +40,11 @@ IVFactory* VMaster::getFactory()
 
 void VMaster::gameOver()
 {
-	DEBUG_OUTPUT("Game is over");
+	static bool informed = false;
+	if (!informed) {
+		DEBUG_OUTPUT("Game is over");
+		informed = true;
+	}
 	//TODO (V) do something useful here when UI is ready
 }
 
@@ -69,10 +66,9 @@ void VMaster::setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingFie
 	vUi.m_zs.AddPlacement(vPlayingField->getPlacement());
 }
 
-void VMaster::resize(int width, int heigth)
+void VMaster::resize(int width, int height)
 {
-	m_zf.ReSize(width, heigth);
-	vUi.resize(width, heigth);
+	vUi.resize(width, height);
 }
 
 void VMaster::updateMoney(const int money)

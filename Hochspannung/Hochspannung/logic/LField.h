@@ -12,6 +12,7 @@ class LCity;
 class LCoalPowerPlant;
 class LWindmillPowerPlant;
 class LSolarPowerPlant;
+class LTransformerStation;
 
 class LField
 {
@@ -69,6 +70,11 @@ private:
 		return fieldType == CITY;
 	}
 	template<> bool checkBuildingType<LPowerLine>()
+	{
+		return fieldType == GRASS;
+	}
+
+	template<> bool checkBuildingType<LTransformerStation>()
 	{
 		return fieldType == GRASS;
 	}

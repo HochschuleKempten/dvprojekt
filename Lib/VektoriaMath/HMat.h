@@ -88,6 +88,7 @@ public:
 	void Translate(EAxis eAxis, float f); // Generiert Verschiebungsmatrix in Axenrichtung, die durch eAxis festgelegt ist
 	void ProjectionOrtho(float fWidth, float fHeight, float fNear, float fFar); // Generiert eine orthografische Projektionsmatrix 
 	void ProjectionFov(float faFovHorizontal, float fRatio, float fNear, float fFar); // Generiert eine foveale Projektionsmatrix 
+	void ProjectionFovOpenGL(float faFovHorizontal, float fRatio, float fNear, float fFar); // Generiert eine foveale Projektionsmatrix wie sie in OpenGl verwendet wird
 	void ProjectionFovOld(float faFovHorizontal, float fRatio, float fNear, float fFar); // Generiert eine foveale Projektionsmatrix 
 	void ProjectionFovMirror(float faFovHorizontal, float fRatio, float fNear, float fFar); // Generiert eine horizontal gespiegelte foveale Projektionsmatrix 
 
@@ -118,10 +119,14 @@ public:
 	void Inverse();				// Invertiert Matrix 
 	void Transpose(CHMat & m);	// Setzt aktuelle Matrix auf die Transponierte der Matrix m
 	void Inverse(CHMat & m);	// Setzt aktuelle Matrix auf die Inverse der Matrix m
+	void NormOne();				// Normiert die Matrix dahingehend, dass das letzte Element [3,3] gleich 1.0 ist
 
 	CHVector GetTranslation();  // Spuckt die Translation als homogenen Vektor aus.	
     void GetRotation(float &fYaw, float &fPitch, float &fRoll); // Spuckt die Rotation als Yaw-, Pitch- und Roll-Winkel aus.
     CHVector GetScaleFactor(void); // Spuckt den Skalierungsfaktor für x, y und z als homogenen Vektor aus.
+	CHVector GetPos();  // Spuckt die Position als homogenen Vektor der homogenenen Matrix aus (Matrix * Ursspung)	
+
+
 
 	bool IsScaledToNull(); // gibt bei Nullskalierung true aus 
 

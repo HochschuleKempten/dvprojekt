@@ -5,6 +5,7 @@ class VScreenIngame :
 	public IViewScreen
 {
 public:
+	
 	VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlacement* camplacement);
 	
 	VScreenIngame();
@@ -13,12 +14,18 @@ public:
 	void switchOn() override;
 	void switchOff() override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
+//	void resize(int width, int height)override;
 
 	//Schnittstellenmethoden
 	void updateMoney(const int wert);
 	
 	void updatePopulation(const int wert);
 
+	CFloatRect getTopSpace();
+	
+	CFloatRect getBottomSpace();
+	
+	
 private:
 	CCamera m_zc;
 	CPlacement* m_zpCamera;

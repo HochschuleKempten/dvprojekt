@@ -52,7 +52,6 @@ struct SVPLParameter
 	{}
 };
 
-class CDrawable;
 class CLight : public CNode3D
 {
 	friend class CLights;
@@ -68,8 +67,7 @@ public:
 	static unsigned int s_iLightCount;
 	static CLight **s_ppLights;
 	static void FindLights(CGeo *geo);
-  static void FindLights(CDrawable *drawable);
-
+ 
 	CLight();
 	~CLight();
 	CLight operator=(CLight light);

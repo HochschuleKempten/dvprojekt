@@ -24,6 +24,13 @@ class VUI : public IVTickObserver, public IViewUIObserver
 
 private:
 	VMaster* vMaster;
+
+	//TODO (V) resize viewports?
+	CRoot m_zr;
+	CFrame m_zf;
+	CScene m_zs;
+	CPlacement m_zpCamera;
+	CParallelLight m_zl;
 	CDeviceKeyboard m_zkKeyboard;
 	CDeviceCursor m_zkCursor;
 	CDeviceMouse m_zkMouse;
@@ -31,36 +38,36 @@ private:
 	std::map<std::string, IViewScreen*> m_screens;
 	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
 
-	//TODO (V) resize viewports?
-	CPlacement m_zpCamera;
-	CScene m_zs;
-	CParallelLight m_zl;
-
 	bool isQuit;
 	bool m_screenChanged = false;
+	bool m_BlockCursorLeftPressed = false;
+
+private:
 	void handleInput(float fTimeDelta);
-	bool m_BlockCursorLeftPressed=false;
+	std::map<int, std::vector<int>> pickElements();
+	float mouseWheelPosition = 0.0F;
 
 public:
 	VUI(VMaster* vMaster);
-	virtual ~VUI();
-
-	void initUI();
+	virtual ~VUI() override;
 
 	virtual void tick(const float fTimeDelta) override;
-	
+
+	virtual void onNotify(Event events) override;
 
 	void addScreen(string sName, IViewScreen::ScreenType);
-
 	void switchScreen(string switchTo);
 	IViewScreen* getScreen(string sName);
 
-	virtual void onNotify(IViewUIObserver::Event) override;
-	void resize(int width, int height);
 
+	void initUI(HWND hwnd, CSplash* psplash);
+
+	void resize(int width, int height);
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
 	void updateInfofield(const int wert);
+
+	void checkGUIContainer(IViewGUIContainer* guiContainer);
 };
 
 

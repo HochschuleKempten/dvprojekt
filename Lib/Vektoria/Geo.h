@@ -38,6 +38,16 @@ enum EMapping
 	eMapping_Cylindrical_Tiled
 };
 
+struct SIntersection
+{
+
+	CHVector vPos;
+	float fDistanceSquare;
+	CHVector vNormal;
+	int iMatGlobal;
+};
+
+
 
 
 class CGeo : public CNode3D

@@ -39,5 +39,11 @@ void CGame::WindowReSize(int iNewWidth, int iNewHeight)
 {
 	//Windows ReSize wird immer automatisch aufgerufen, wenn die Fenstergröße verändert wurde.
 	//Hier kannst Du dann die Auflösung des Viewports neu einstellen:
+	
+	//On some systems the width is very small (0, 2, ...) and a resize with that values result in assertion failures
+	if (iNewWidth <= 20 || iNewHeight <= 20) {
+		return;
+	}
+
 	vMaster.resize(iNewWidth, iNewHeight);
 }

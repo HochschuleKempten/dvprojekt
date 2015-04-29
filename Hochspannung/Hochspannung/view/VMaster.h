@@ -18,9 +18,6 @@ class VMaster : public IVMaster
 	friend class VUI;
 
 private:
-	CRoot m_zr;
-	CFrame m_zf;
-	
 	VFactory factory;
 	VUI vUi;
 	LMaster* lMaster = nullptr;

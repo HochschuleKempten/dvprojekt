@@ -61,10 +61,8 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 	m_zpKopf.TranslateDelta(CHVector(0.0f, -7.2f, 0.0f));
 }
 
-
 VModelWindmillPowerPlant::~VModelWindmillPowerPlant()
-{
-}
+{}
 
 
 NAMESPACE_VIEW_E

@@ -319,6 +319,27 @@
     <ClInclude Include="view\Building03.h">
       <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
+    <ClInclude Include="logic\cpplinq.hpp">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LTransformerSation.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IVTransformerStation.h">
+      <Filter>logic\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VTransformerStation.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VTab.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewModel.h">
+      <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VGUIArea.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -497,6 +518,18 @@
     </ClCompile>
     <ClCompile Include="view\Building03.cpp">
       <Filter>view\Quelldateien\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LTransformerStation.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VTransformerStation.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VTab.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VGUIArea.cpp">
+      <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

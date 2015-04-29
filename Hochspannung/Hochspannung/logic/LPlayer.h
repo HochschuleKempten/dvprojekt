@@ -16,13 +16,14 @@ public:
 	};
 
 private:
-	int money = 2700;
+	int money = 5700;
 	LMaster* lMaster;
 
 public:
 	LPlayer(LMaster* lMaster);
 	~LPlayer();
 	int getMoney() const;
+	void addMoney(const int amount);
 	void substractMoney(const int amount);
 };
 

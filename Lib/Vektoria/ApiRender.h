@@ -23,7 +23,6 @@ namespace Vektoria
 #define DRAWOBJECT_2D_OVERLAY_TRANSPARENT_BINARY 5 // z.B. ChromaKeying-Textur
 #define DRAWOBJECT_2D_BACKGROUND 6 // Undurchsichtige Background-Textur
 
-	class CDrawable;
 	class CViewport;
 	class CVertex;
 	class CTriangleList;
@@ -69,7 +68,6 @@ namespace Vektoria
 		eRenderObjectType_Undefined = -1,
 		eRenderObjectType_TriangleList,
 		eRenderObjectType_TriangleStrip,
-		eRenderObjectType_Drawable,
 		eRenderObjectType_Light
 	};
 
@@ -78,36 +76,11 @@ namespace Vektoria
 	{
 		ERenderObjectType eRenderObjectType;
 		unsigned int id;
-		union
-		{
-			unsigned int indexBufferId;
-			CDrawable *pdrawable;
-		};
+		unsigned int indexBufferId;
 	};
 
 
-	/*
-enum RTYPE
-{
-	RTYPE_UNDEFINED = -1,
-	POLY,
-	TRIANGLE_LIST,
-	TRIANGLE_STRIP_INDEXED,
-	DRAWABLE,
-	LIGHT
-};
 
-struct Object
-{
-RTYPE type;
-unsigned int id;
-union
-{
-unsigned int indexBufferId;
-CDrawable *pdrawable;
-};
-};
-*/
 
 
 class CApiRender

@@ -29,7 +29,6 @@ public:
 	LPlayingField* getLPlayingField();
 	IVMaster* getVMaster();
 	LPlayer* getPlayer(const int idxPlayer);
-
 };
 
 
