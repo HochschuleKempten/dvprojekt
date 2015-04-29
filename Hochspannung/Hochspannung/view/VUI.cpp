@@ -56,7 +56,7 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 
 void VUI::handleInput(float fTimeDelta)
 {
-	const float cameraStength = 1.1f;
+	const float cameraStength = 0.9f;
 
 	//Left + Right: 
 	if (m_zkKeyboard.KeyPressed(DIK_A)) 
@@ -188,13 +188,16 @@ std::map<int, std::vector<int>> VUI::pickElements()
 	CPlacements placements;
 	m_zkCursor.PickPlacements(&placements);
 
+	//TODO (JS) merge seems obsolete now. Remove this
 	//Merge the found placements together in a set (to avoid duplicates)
 	for (int i = 0; i < placements.m_iPlacements; i++) {
 		pickedPlacements.insert(placements.m_applacement[i]);
 	}
 	//The two placements pick different things, so they have to be merged together
 	if (singlePlacement != nullptr) {
+		size_t sizeBefore = pickedPlacements.size();
 		pickedPlacements.insert(singlePlacement);
+		ASSERT(sizeBefore == pickedPlacements.size(), "PickPlacements() picked something different then PickPlacement(). This should not happen");
 	}
 
 	DEBUG_OUTPUT("Picking started");
