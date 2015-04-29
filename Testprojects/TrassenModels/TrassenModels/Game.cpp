@@ -1,11 +1,8 @@
 #include "StdAfx.h"
 #include "Game.h"
-<<<<<<< HEAD
 #include <filesystem>
 #include "../../../Hochspannung/Hochspannung/view/VMaterialLoader.h"
-=======
 #include "../../../Hochspannung/Hochspannung/view/Helper.h"
->>>>>>> remotes/origin/master
 
 CGame::CGame(void)
 {
