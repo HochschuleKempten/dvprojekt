@@ -19,7 +19,7 @@ NAMESPACE_VIEW_B
 
 
 VUI::VUI(VMaster* vMaster)
-	: vMaster(vMaster), isQuit(false)
+: vMaster(vMaster), isQuit(false), m_selectedBuilding(VIdentifier::Undefined)
 {
 	vMaster->registerObserver(this);
 }
@@ -27,7 +27,7 @@ VUI::VUI(VMaster* vMaster)
 VUI::~VUI()
 {}
 
-void VUI::initUI(HWND hwnd, CSplash* psplash)
+void VUI::initUI(HWND hwnd, CSplash* psplash) 
 {
 	m_zr.Init(psplash);
 	m_zf.Init(hwnd);
@@ -44,7 +44,6 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
 
 	addScreen("MainMenue", IViewScreen::MainMenue);
-	//addScreen("Spielmoduswahl", IViewScreen::Spielmoduswahl);
 	addScreen("Lobby", IViewScreen::Lobby);
 	addScreen("Credits", IViewScreen::Credits);
 	addScreen("Options", IViewScreen::Options);
@@ -232,7 +231,6 @@ void VUI::onNotify(Event evente)
 	case START_GAME:
 		vMaster->lMaster->startNewGame();
 		switchScreen("Ingame");
-		
 		break;
 
 	case QUIT_GAME:
@@ -264,35 +262,44 @@ void VUI::onNotify(Event evente)
 		switchScreen("Options");
 		break;
 
+
 	case SELECT_BUILDING_WINDMILL:
 		updateInfofield("Windmill");
+		m_selectedBuilding = VIdentifier::VWindmillPowerPlant;
 		//TODO BuildMenue Button Windmill 
 		break;
 	case	SELECT_BUILDING_COALPOWERPLANT:
-		updateInfofield("OilPowerplant");
+		updateInfofield("CoalPowerplant");
+		m_selectedBuilding = VIdentifier::VCoalPowerPlant;
 		//TODO BuildMenue Button CoalPowerplant 
 		break;
 	case	SELECT_BUILDING_OILPOWERPLANT:
-		updateInfofield("CoalPowerplant");
+		updateInfofield("OilPowerplant");
+		m_selectedBuilding = VIdentifier::VOilRefinery;
 		//TODO BuildMenue Button Oilpowerplant
 		break;
 	case	SELECT_BUILDING_NUCLEARPOWERPLANT:
 		updateInfofield("NuclearPowerplant");
+		m_selectedBuilding = VIdentifier::VNuclearPowerPlant;
 		//TODO BuildMenue Button Nuclearpowerplant
 		break;
 	case	SELECT_BUILDING_HYDROPOWERPLANT:
 		updateInfofield("HydroPowerplant");
+		m_selectedBuilding = VIdentifier::VNuclearPowerPlant;
 		//TODO BuildMenue Button Hydropowerplant
 		break;
 	case	SELECT_BUILDING_SOLARPOWERPLANT:
 		updateInfofield("SolarPowerplant");
+		m_selectedBuilding = VIdentifier::VSolarPowerPlant;
 		//TODO BuildMenue Button Solarpowerplant
 		break;
 	case	SELECT_BUILDING_POWERLINE:
 		updateInfofield("Powerline");
+		m_selectedBuilding = VIdentifier::VPowerLine;
 		//TODO BuildMenue Button Powerline
 		break;
 	default:
+		m_selectedBuilding = VIdentifier::Undefined;
 		break;
 	}
 	

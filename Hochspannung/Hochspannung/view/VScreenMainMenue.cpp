@@ -20,8 +20,8 @@ VScreenMainMenue::VScreenMainMenue(CFrame* frame)
 	m_flash->Init("textures\\Blitz.png", CFloatRect(0.75, 0.2, 0.20, 0.7));
 	m_headline->Init("textures\\Hochvolt.png", CFloatRect(0.20, 0.05, 0.6, 0.15));
 
-	m_viewport->AddOverlay(m_flash);
 	m_viewport->AddBackground(m_background);
+	m_viewport->AddOverlay(m_flash);
 	m_viewport->AddOverlay(m_headline);
 
 	addContainer(m_viewport,IViewGUIContainer::ContainerType::Group, CFloatRect(0, 0.7F, 1.0F, 0.3F), "Menue");
