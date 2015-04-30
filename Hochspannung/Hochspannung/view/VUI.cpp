@@ -1,7 +1,6 @@
 #include "VUI.h"
 #include "VMaster.h"
 #include "VPlayingField.h"
-#include "VPowerLine.h"
 #include "IViewScreen.h"
 
 #include "VScreenMainMenue.h"
@@ -11,9 +10,14 @@
 #include "VScreenOptions.h"
 #include "VIdentifier.h"
 #include "../logic/LWindmillPowerPlant.h"
-#include "../logic/ILPowerLine.h"
+#include "../logic/LPowerLine.h"
+#include "../logic/LCoalPowerPlant.h"
+#include "../logic/LHydroelectricPowerPlant.h"
+#include "../logic/LOilRefinery.h"
+#include "../logic/LSolarPowerPlant.h"
+#include "../logic/LNuclearPowerPlant.h"
 #include "../logic/LMaster.h"
-#include <Vektoria/Placements.h>
+
 
 NAMESPACE_VIEW_B
 
@@ -37,12 +41,6 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	m_zf.AddDeviceCursor(&m_zkCursor);
 	m_zf.AddDeviceMouse(&m_zkMouse);
 
-	m_zs.AddParallelLight(&m_zl);
-	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
-	          CColor(1.0f, 1.0f, 1.0f));
-
-	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
-
 	addScreen("MainMenue", IViewScreen::MainMenue);
 	addScreen("Lobby", IViewScreen::Lobby);
 	addScreen("Credits", IViewScreen::Credits);
@@ -50,173 +48,6 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	addScreen("Ingame", IViewScreen::Ingame);
 
 	switchScreen("MainMenue");
-}
-
-void VUI::handleInput(float fTimeDelta)
-{
-	const float cameraStength = 1.1f;
-
-	//Left + Right: 
-	if (m_zkKeyboard.KeyPressed(DIK_A)) 
-	{
-		m_zpCamera.TranslateXDelta(-cameraStength);
-	}
-	if (m_zkKeyboard.KeyPressed(DIK_D))
-	{
-		m_zpCamera.TranslateXDelta(cameraStength);
-	}
-
-	//Back + Forward
-	if (m_zkKeyboard.KeyPressed(DIK_S))
-	{
-		m_zpCamera.TranslateYDelta(-cameraStength);
-	}
-	if (m_zkKeyboard.KeyPressed(DIK_W))
-	{
-		m_zpCamera.TranslateYDelta(cameraStength);
-	}
-
-	//Zoom In + Out
-	if (m_zkKeyboard.KeyPressed(DIK_UP)) 
-	{
-		if (mouseWheelPosition > -18)
-		{
-			m_zpCamera.TranslateZDelta(-cameraStength * 4);
-			mouseWheelPosition += -cameraStength * 4;
-		}
-	}
-	if (m_zkKeyboard.KeyPressed(DIK_DOWN)) 
-	{
-		if (mouseWheelPosition < 180)
-		{
-		m_zpCamera.TranslateZDelta(cameraStength * 4);
-		mouseWheelPosition += cameraStength * 4;
-		}
-	}
-	
-	if (m_zkMouse.GetRelativeZ() != 0.0)
-	{
-		if (m_zkMouse.GetRelativeZ() > 0.0)
-		{
-			if (mouseWheelPosition > -18)
-			{
-				m_zpCamera.TranslateZDelta(-cameraStength * 4);
-				mouseWheelPosition += -cameraStength * 4;
-			}
-		}
-		else
-		{
-			if (mouseWheelPosition < 180)
-			{
-				m_zpCamera.TranslateZDelta(cameraStength * 4);
-				mouseWheelPosition += cameraStength * 4;
-			}
-		}
-
-		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
-	}
-
-	CFloatRect topSpace = CASTD<VScreenIngame*>(m_screens["Ingame"])->getTopSpace();
-	CFloatRect bottomSpace = CASTD<VScreenIngame*>(m_screens["Ingame"])->getBottomSpace();
-
-	/*
-	(0,0)=(x,y)
-	  #----> x (1,0)
-	  |
-	  |
-	  y
-	(0,1)
-	*/
-	float cursorX, cursorY;
-	bool insideFrame = m_zkCursor.GetFractional(cursorX, cursorY);
-	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY >(1.0f - bottomSpace.GetYSize())) {
-		//Restrict picking when not in window or cursor is only over UI
-		return;
-	}
-
-	std::map<int, std::vector<int>> pickedElements = pickElements();
-	if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
-		vMaster->getPlayingField()->hoverField(pickedElements[VIdentifier::VPlayingField][0], pickedElements[VIdentifier::VPlayingField][1]);
-	}
-
-	static bool clickActive = false;
-	if (m_zkCursor.ButtonPressedLeft()) {
-		if (!clickActive) {
-
-			if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
-				vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(pickedElements[VIdentifier::VPlayingField][0],
-				                                                        pickedElements[VIdentifier::VPlayingField][1],
-				                                                        ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
-			}
-
-			clickActive = true;
-		}
-	}
-	else if (m_zkCursor.ButtonPressedRight()) {
-		if (!clickActive) {
-
-			if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
-				vMaster->getPlayingField()->tryBuildOnField<LWindmillPowerPlant>(pickedElements[VIdentifier::VPlayingField][0],
-				                                                                 pickedElements[VIdentifier::VPlayingField][1]);
-			}
-			else if (pickedElements.count(VIdentifier::VPowerLine) > 0) {
-				vMaster->getPlayingField()->tryRemoveObject(pickedElements[VIdentifier::VPowerLine][0],
-				                                            pickedElements[VIdentifier::VPowerLine][1]);
-			}
-			else if (pickedElements.count(VIdentifier::VWindmillPowerPlant) > 0) {
-				vMaster->getPlayingField()->tryRemoveObject(pickedElements[VIdentifier::VWindmillPowerPlant][0],
-				                                            pickedElements[VIdentifier::VWindmillPowerPlant][1]);
-			}
-
-			clickActive = true;
-		}
-	}
-	else {
-		clickActive = false;
-	}
-}
-
-std::map<int, std::vector<int>> VUI::pickElements()
-{
-	std::map<int, std::vector<int>> pickedElements;
-	std::unordered_set<CPlacement*> pickedPlacements;	//A set is duplicate free and works out of the box for pointer types
-
-	//Pick everything
-	CPlacement* singlePlacement = m_zkCursor.PickPlacement();
-	CPlacements placements;
-	m_zkCursor.PickPlacements(&placements);
-
-	//Merge the found placements together in a set (to avoid duplicates)
-	for (int i = 0; i < placements.m_iPlacements; i++) {
-		pickedPlacements.insert(placements.m_applacement[i]);
-	}
-	//The two placements pick different things, so they have to be merged together
-	if (singlePlacement != nullptr) {
-		pickedPlacements.insert(singlePlacement);
-	}
-
-	DEBUG_OUTPUT("Picking started");
-	//Now iterate over every found placement
-	for (CPlacement* p : pickedPlacements)
-	{
-		std::vector<std::string> nameParts = split(p->GetName(), ';');
-		DEBUG_OUTPUT("placement = " << p->GetName());
-
-		if (nameParts.size() > 0 && nameParts[0].at(0) != '#') {
-			//At this point only valid names remain
-			ASSERT(nameParts.size() == 3, "Not enough arguments in the placement name");
-
-			//Convert the arguments to integer (skip the first one, because its the key for the map
-			std::vector<int> namePartsInt;
-			for (size_t j = 1; j < nameParts.size(); j++) {
-				namePartsInt.emplace_back(std::stoi(nameParts[j]));
-			}
-
-			pickedElements[std::stoi(nameParts[0])] = namePartsInt;
-		}
-	}
-
-	return pickedElements;
 }
 
 void VUI::onNotify(Event evente)
@@ -282,7 +113,7 @@ void VUI::onNotify(Event evente)
 		break;
 	case	SELECT_BUILDING_HYDROPOWERPLANT:
 		updateInfofield("HydroPowerplant");
-		m_selectedBuilding = VIdentifier::VNuclearPowerPlant;
+		m_selectedBuilding = VIdentifier::VHydroelectricPowerPlant;
 		//TODO BuildMenue Button Hydropowerplant
 		break;
 	case	SELECT_BUILDING_SOLARPOWERPLANT:
@@ -440,7 +271,6 @@ void VUI::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 
 void VUI::tick(const float fTimeDelta)
 {
-
 	m_zr.Tick(const_cast<float&>(fTimeDelta));
 
 

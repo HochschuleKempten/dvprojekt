@@ -5,11 +5,8 @@ class VScreenIngame :
 	public IViewScreen
 {
 public:
-	
-	VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlacement* camplacement);
-	
-	VScreenIngame();
-	~VScreenIngame();
+	explicit VScreenIngame(VUI* vUi);
+	virtual ~VScreenIngame();
 	void onNotify(Event events) override;
 	void switchOn() override;
 	void switchOff() override;
@@ -27,15 +24,19 @@ public:
 	CFloatRect getTopSpace();
 	
 	CFloatRect getBottomSpace();
-	
+
+	void tick() override;
+	void resize(int width, int height) override;
+
+	void handleInput(float fTimeDelta);
+	std::map<int, std::vector<int>> pickElements();
 	
 private:
 	CCamera m_zc;
-	CPlacement* m_zpCamera;
-	CScene* m_scene;
+	CPlacement m_zpCamera;
+	CScene m_scene;
 	CParallelLight m_zl;
 	CBackground m_zb;
-	CRoot m_zr;
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;
@@ -52,6 +53,9 @@ private:
 	CPlacement m_zpMinimapCam;
 
 	bool bK = false;
+	float mouseWheelPosition = 0.0F;
+
+	VIdentifier::VIdentifier m_selectedBuilding;
 };
 
 NAMESPACE_VIEW_E

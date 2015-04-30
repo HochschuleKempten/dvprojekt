@@ -10,6 +10,7 @@ NAMESPACE_VIEW_B
 
 
 class VMaster;
+class VScreenIngame;
 
 /**
  * @brief The VUI class is responsible for representing the interface to the user and handles the user input.
@@ -22,6 +23,7 @@ class VUI : public IVTickObserver, public IViewUIObserver
 {
 	NON_COPYABLE(VUI);
 	friend class VMaster;
+	friend class VScreenIngame;
 
 private:
 	VMaster* vMaster;
@@ -29,25 +31,21 @@ private:
 	//TODO (V) resize viewports?
 	CRoot m_zr;
 	CFrame m_zf;
-	CScene m_zs;
-	CPlacement m_zpCamera;
-	CParallelLight m_zl;
 	CDeviceKeyboard m_zkKeyboard;
 	CDeviceCursor m_zkCursor;
 	CDeviceMouse m_zkMouse;
 
+	IViewScreen* activeScreen = nullptr;
 	std::map<std::string, IViewScreen*> m_screens;
 	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
 
 	bool isQuit;
 	bool m_screenChanged = false;
 	bool m_BlockCursorLeftPressed = false;
-	VIdentifier::VIdentifier m_selectedBuilding;
 
 private:
-	void handleInput(float fTimeDelta);
-	std::map<int, std::vector<int>> pickElements();
-	float mouseWheelPosition = 0.0F;
+	
+	
 
 	
 
