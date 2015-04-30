@@ -42,6 +42,9 @@ public:
 	void resize(int width, int height);
 
 	virtual void updateMoney(const int money) override;
+
+	virtual void pauseGame() override;
+	virtual void continueGame() override;
 };
 
 

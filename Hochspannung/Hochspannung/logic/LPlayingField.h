@@ -43,7 +43,8 @@ private:
 
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
-	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
+	std::pair<int, int> localCityPosition = std::make_pair(-1, -1);
+	std::pair<int, int> remoteCityPosition = std::make_pair(-1, -1);
 	std::pair<int, int> transformerStationPosition = std::make_pair(-1, -1);
 
 	/** @brief Stores every unused coordinates. Is empty after correct initialization */
@@ -56,8 +57,7 @@ private:
 	std::vector<LField::FieldType> fieldTypes;
 	std::vector<LField::FieldLevel> fieldLevels;
 
-public:
-	bool isLocalOperation = false; //hack (IP) just for testing purpose.. maybe add another parameter to placeBuilding()?
+	bool isLocalOperation = false;
 
 public:
 	explicit LPlayingField(LMaster* lMaster);
@@ -97,19 +97,21 @@ public:
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
 		
 		//Check costs
-		//todo (IP) getPlayers(): get current player
-		if (lMaster->getPlayer(1)->getMoney() < T::cost) {
-			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") + std::to_string(lMaster->getPlayer(1)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") + std::to_string(T::cost) + std::string(" benötigt."));
+		if (isLocalOperation && lMaster->getPlayer(LPlayer::Local)->getMoney() < T::cost) 
+		{
+			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") + std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") + std::to_string(T::cost) + std::string(" benötigt."));
 			return false;
 		}
 
 		if (placeBuildingHelper<T>(x, y)) {
 			addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
-			//assign player id
-			getField(x, y)->getBuilding()->setPlayerId(LPlayer::Local);
+			if (isLocalOperation)
+			{
+				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
+			}
 
-			if (cityPosition.first > -1 && cityPosition.second > -1)
+			if (isLocalOperation && localCityPosition.first > -1 && localCityPosition.second > -1)
 			{
 				calculateEnergyValueCity();
 			}
@@ -161,12 +163,20 @@ public:
 					}
 				}
 
+				//assign player id
+				getField(x, y)->getBuilding()->setPlayerId(LPlayer::External);
+
 				lMaster->sendSetObject(objectIdentifier, x, y);
 
+			} 
+			else
+			{
+				//assign player id
+				getField(x, y)->getBuilding()->setPlayerId(LPlayer::Local);
+				lMaster->getPlayer(LPlayer::Local)->subtractMoney(T::cost);
 			}
 			//-----network-----
 
-			lMaster->getPlayer(1)->subtractMoney(T::cost);
 			DEBUG_OUTPUT("Marktplace connected = " << isTransformstationConnected());
 
 			return true;
@@ -176,6 +186,9 @@ public:
 		}
 	}
 	
+	void beginLocalOperation();
+	void endLocalOperation();
+
 	bool checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second);
 	bool isTransformstationConnected();
 
@@ -187,11 +200,12 @@ public:
 
 	const std::pair<int, int>& getCityPosition() const
 	{
-		return cityPosition;
+		return localCityPosition;
 	}
-	LCity* getCity()
+
+	LCity* getLocalCity()
 	{
-		return CASTD<LCity*>(getField(cityPosition.first, cityPosition.second)->getBuilding());
+		return CASTD<LCity*>(getField(localCityPosition.first, localCityPosition.second)->getBuilding());
 	}
 
 private:

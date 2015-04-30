@@ -70,7 +70,7 @@ void LMaster::tick(const float fTimeDelta)
 		case(SET_OBJECT) :
 
 			//prevents placing loop (look at LPlayingField.h)
-			lPlayingField->isLocalOperation = true;
+			lPlayingField->beginLocalOperation();
 
 
 			if (objectId >= 0 && objectId < 16)//check if building is a powerline (orientation values between 0 and 16)
@@ -112,54 +112,56 @@ void LMaster::tick(const float fTimeDelta)
 			//assign player id
 			lPlayingField->getField(x, y)->getBuilding()->setPlayerId(LPlayer::External);
 
-			lPlayingField->isLocalOperation = false;
+			lPlayingField->endLocalOperation();
 
 			break;
 
 		case(DELETE_OBJECT) :
 
-			lPlayingField->isLocalOperation = true;
+			lPlayingField->beginLocalOperation();
 
 			lPlayingField->removeBuilding(x, y);
 
-			lPlayingField->isLocalOperation = false;
+			lPlayingField->endLocalOperation();
 
 			break;
 
 		case(UPGRADE_OBJECT) :
 
-			lPlayingField->isLocalOperation = true;
+			lPlayingField->beginLocalOperation();
 
 			lPlayingField->upgradeBuilding(x, y);
 
-			lPlayingField->isLocalOperation = false;
+			lPlayingField->endLocalOperation();
 
 			break;
 
 		case(START_GAME) :
 
-			startNewGame();
+			//do nothing
 
 			break;
 
 		case(END_GAME) :
 
-			gameOver(); //todo (L) ?
+			gameOver();
 
 			break;
 
 		case(PAUSE_GAME) :
 
-			//todo (L) call pauseView
+			vMaster.pauseGame();
 
 			gamePaused = true;
+
 			break;
 
 		case(CONTINUE_GAME) :
 
-			//todo (L) call continueView
+			vMaster.continueGame();
 
 			gamePaused = false;
+
 			break;
 
 		case(SET_MAPSIZE) :
@@ -207,6 +209,8 @@ void LMaster::connect(std::string ip)
 	if (connected)
 	{
 		DEBUG_OUTPUT("Connected to server.");
+
+		startNewGame();
 	}
 	else
 	{

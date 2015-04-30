@@ -77,5 +77,14 @@ void VMaster::updateMoney(const int money)
 	vUi.updateMoney(money);
 }
 
+void VMaster::pauseGame()
+{
+	//todo (V) implement
+}
+
+void VMaster::continueGame()
+{
+	//todo (V) implement
+}
 
 NAMESPACE_VIEW_E

@@ -21,7 +21,7 @@ private:
 	Network::CNetworkService& networkService;
 
 public:
-	LMaster(IVMaster& vMaster);
+	explicit LMaster(IVMaster& vMaster);
 	~LMaster();
 
 	void startNewGame();
