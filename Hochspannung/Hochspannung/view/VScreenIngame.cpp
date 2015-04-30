@@ -48,8 +48,6 @@ VScreenIngame::VScreenIngame(CFrame* frame, CRoot* root, CScene* scene, CPlaceme
 		CColor(1.0f, 1.0f, 1.0f));
 
 	
-	
-	
 
 	//Bottom Bar
 

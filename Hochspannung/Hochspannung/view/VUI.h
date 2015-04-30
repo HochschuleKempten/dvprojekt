@@ -3,6 +3,7 @@
 #include "VGeneral.h"
 #include "IViewUIObserver.h"
 #include "IViewScreen.h"
+#include "VIdentifier.h"
 #include "../logic/IVTickObserver.h"
 
 NAMESPACE_VIEW_B
@@ -41,11 +42,14 @@ private:
 	bool isQuit;
 	bool m_screenChanged = false;
 	bool m_BlockCursorLeftPressed = false;
+	VIdentifier::VIdentifier m_selectedBuilding;
 
 private:
 	void handleInput(float fTimeDelta);
 	std::map<int, std::vector<int>> pickElements();
 	float mouseWheelPosition = 0.0F;
+
+	
 
 public:
 	VUI(VMaster* vMaster);
