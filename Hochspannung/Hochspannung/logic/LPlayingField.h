@@ -57,7 +57,7 @@ private:
 	std::vector<LField::FieldType> fieldTypes;
 	std::vector<LField::FieldLevel> fieldLevels;
 
-	bool isLocalOperation = false;
+	bool isLocalOperation = true;
 
 public:
 	explicit LPlayingField(LMaster* lMaster);
@@ -177,7 +177,7 @@ public:
 			}
 			//-----network-----
 
-			DEBUG_OUTPUT("Marktplace connected = " << isTransformstationConnected());
+			DEBUG_OUTPUT("Marketplace connected = " << isTransformstationConnected());
 
 			return true;
 		}
@@ -186,8 +186,8 @@ public:
 		}
 	}
 	
-	void beginLocalOperation();
-	void endLocalOperation();
+	void beginRemoteOperation();
+	void endRemoteOperation();
 
 	bool checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second);
 	bool isTransformstationConnected();

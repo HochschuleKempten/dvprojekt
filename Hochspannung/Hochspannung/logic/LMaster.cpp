@@ -69,10 +69,6 @@ void LMaster::tick(const float fTimeDelta)
 		{
 		case(SET_OBJECT) :
 
-			//prevents placing loop (look at LPlayingField.h)
-			lPlayingField->beginLocalOperation();
-
-
 			if (objectId >= 0 && objectId < 16)//check if building is a powerline (orientation values between 0 and 16)
 			{
 				lPlayingField->placeBuilding<LPowerLine>(x, y, objectId);
@@ -112,27 +108,17 @@ void LMaster::tick(const float fTimeDelta)
 			//assign player id
 			lPlayingField->getField(x, y)->getBuilding()->setPlayerId(LPlayer::External);
 
-			lPlayingField->endLocalOperation();
-
 			break;
 
 		case(DELETE_OBJECT) :
 
-			lPlayingField->beginLocalOperation();
-
 			lPlayingField->removeBuilding(x, y);
-
-			lPlayingField->endLocalOperation();
 
 			break;
 
 		case(UPGRADE_OBJECT) :
 
-			lPlayingField->beginLocalOperation();
-
 			lPlayingField->upgradeBuilding(x, y);
-
-			lPlayingField->endLocalOperation();
 
 			break;
 

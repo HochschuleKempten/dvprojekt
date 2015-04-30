@@ -149,14 +149,14 @@ int LPlayingField::linkPowerlines<LPowerLine>(const int x, const int y)
 
 	return oriention;
 }
-void LPlayingField::beginLocalOperation()
-{
-	isLocalOperation = true;
-}
-
-void LPlayingField::endLocalOperation()
+void LPlayingField::beginRemoteOperation()
 {
 	isLocalOperation = false;
+}
+
+void LPlayingField::endRemoteOperation()
+{
+	isLocalOperation = true;
 }
 
 bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second)
@@ -223,7 +223,7 @@ void LPlayingField::removeBuilding(const int x, const int y)
 void LPlayingField::upgradeBuilding(const int x, const int y)
 {
 	//todo (IP) getPlayers(): get current player
-	if (lMaster->getPlayer(1)->getMoney() > 50000) {
+	if (lMaster->getPlayer(LPlayer::Local)->getMoney() > 50000) {
 
 		getField(x, y)->getBuilding()->upgrade();
 
@@ -270,6 +270,8 @@ void LPlayingField::createFields()
 
 	//-----Generate buildings for REMOTE player----
 
+	beginRemoteOperation();
+
 	remoteCityPosition = retrieveFreeCoordinates(fieldLength - static_cast<int>(fieldLength / 4), fieldLength - static_cast<int>(fieldLength / 4));
 
 	std::pair<int, int> firstRemotePowerLineCoordinates = retrieveFreeCoordinates(remoteCityPosition.first, remoteCityPosition.second + 1);
@@ -290,6 +292,7 @@ void LPlayingField::createFields()
 	placeBuilding<LCoalPowerPlant>(firstRemotePowerPlantCoordinates.first, firstRemotePowerPlantCoordinates.second);
 	placeGrassAroundPosition<true>(firstRemotePowerPlantCoordinates, 1);
 
+	endRemoteOperation();
 	//-----Generate buildings for REMOTE player----
 
 	//Fill with the requested number of power plants
