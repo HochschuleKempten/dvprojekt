@@ -23,6 +23,7 @@ VUI::~VUI()
 
 void VUI::initUI(HWND hwnd, CSplash* psplash)
 {
+	//TODO (V) clean up
 	m_zr.Init(psplash);
 	m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
 	m_zr.AddFrameHere(&m_zf);
@@ -119,7 +120,7 @@ void VUI::addScreen(const string& sName, const IViewScreen::ScreenType screenTyp
 	}
 }
 
-void VUI::switchScreen(const string& switchTo)
+void VUI::switchScreen(const std::string& switchTo)
 {
 	ASSERT(activeScreen != nullptr, "No screen is initalized");
 	ASSERT(m_screens.count(switchTo) > 0, "Screen" << switchTo << "not available");
@@ -129,8 +130,7 @@ void VUI::switchScreen(const string& switchTo)
 	activeScreen->switchOn();
 }
 
-
-IViewScreen* VUI::getScreen(const string& sName)
+IViewScreen* VUI::getScreen(const std::string& sName)
 {
 	ASSERT(m_screens.count(sName) > 0, "Screen" << sName << "not available");
 	return m_screens[sName];
@@ -262,10 +262,16 @@ void VUI::tick(const float fTimeDelta)
 
 		}
 	}
+<<<<<<< Updated upstream
 	if (m_zkCursor.ButtonPressedLeft()) {
 		m_BlockCursorLeftPressed = true;
 	}
 }
+=======
+}
+
+
+>>>>>>> Stashed changes
 
 
 NAMESPACE_VIEW_E

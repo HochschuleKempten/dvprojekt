@@ -75,42 +75,76 @@ std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getPowerline
 {
 	std::unordered_map<ILBuilding::Orientation, HighVoltage::LField*> neighborsMap;
 
+	if (checkIndex(x - 1, y)) {
+		neighborsMap[ILBuilding::Orientation::NORTH] = getField(x - 1, y);
+	}
+
+	if (checkIndex(x, y + 1)) {
+		neighborsMap[ILBuilding::Orientation::EAST] = getField(x, y + 1);
+	}
+
+	if (checkIndex(x + 1, y)) {
+		neighborsMap[ILBuilding::Orientation::SOUTH] = getField(x + 1, y);
+	}
+
+
 	if (checkIndex(x,y-1))
 	{
-		neighborsMap[ILBuilding::Orientation::NORTH] = getField(x, y - 1);
+		neighborsMap[ILBuilding::Orientation::WEST] = getField(x, y - 1);
 	}
-
-	if (checkIndex(x +1, y )) {
-		neighborsMap[ILBuilding::Orientation::EAST] = getField(x + 1, y);
-	}
-#
-	if (checkIndex(x, y+1) )
-	{
-		neighborsMap[ILBuilding::Orientation::SOUTH] = getField(x, y + 1);
-	}
-
-	if (checkIndex(x -1, y)) 
-	{
-		neighborsMap[ILBuilding::Orientation::WEST] = getField(x - 1, y);
-	}
-
+	
 	return neighborsMap;
+}
+
+std::unordered_map<ILBuilding::Orientation, ILBuilding*> LPlayingField::getNeighborsBuildings(std::unordered_map<ILBuilding::Orientation, LField*> neighbors)
+{
+	std::unordered_map<ILBuilding::Orientation, ILBuilding*> buildingsMap;
+
+	for (auto const &iterator : neighbors) 
+	{
+	   buildingsMap[iterator.first] = iterator.second->getBuilding();
+	}
+
+	return buildingsMap;
 }
 
 
 template <>
-void LPlayingField::linkPowerlines<LPowerLine>(const int x, const int y)
+int LPlayingField::linkPowerlines<LPowerLine>(const int x, const int y)
 {
 	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = getPowerlineNeighbors(x, y);
+	std::unordered_map<ILBuilding::Orientation, ILBuilding*> neighborsBuildings = getNeighborsBuildings(neighbors);
+	int oriention = 0;
+
 
 	// TODO () Check all cases of linkage
-	if (neighbors.empty()) 
-	{
-		placeBuilding<LPowerLine>(x,y, ILBuilding::SOUTH | ILBuilding::NORTH);
-		DEBUG_OUTPUT("Test Link Powerlines North South");
-	}
-	
 
+	
+	for (auto const &iterator : neighborsBuildings)
+	{
+		//No Building
+		if (iterator.second == nullptr)
+		{
+			continue;
+		}
+
+		
+		//No Powerline so its a other type of building
+		if (dynamic_cast<LPowerLine*>(iterator.second) == nullptr)
+		{
+			oriention |= iterator.first;
+		}
+
+		//Its a Powerline
+		else
+		{
+			oriention |= iterator.first;
+			//changeExistingPowerline( + new Orientation )
+		}
+
+	}
+
+	return oriention;
 }
 
 bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second)
