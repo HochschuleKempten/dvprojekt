@@ -52,6 +52,7 @@ private:
 	template<typename T> bool checkBuildingType()
 	{
 		ASSERT(false, "Unknown field type");
+		return false;
 	}
 	template<> bool checkBuildingType<LCoalPowerPlant>()
 	{

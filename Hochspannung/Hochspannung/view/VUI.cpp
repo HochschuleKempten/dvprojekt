@@ -30,7 +30,7 @@ VUI::~VUI()
 void VUI::initUI(HWND hwnd, CSplash* psplash)
 {
 	m_zr.Init(psplash);
-	m_zf.Init(hwnd);
+	m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
 	m_zr.AddFrameHere(&m_zf);
 
 	m_zf.AddDeviceKeyboard(&m_zkKeyboard);
@@ -55,7 +55,8 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 
 void VUI::handleInput(float fTimeDelta)
 {
-	const float cameraStength = 0.9f;
+	const float cameraStength = 1.0f;
+	
 
 	//Left + Right: 
 	if (m_zkKeyboard.KeyPressed(DIK_A)) 
@@ -115,6 +116,46 @@ void VUI::handleInput(float fTimeDelta)
 		}
 
 		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
+	}
+		
+
+	if (m_zkKeyboard.KeyPressed(DIK_RIGHT)) 
+	{
+		if (cameraAngle < 0.5f) 
+		{
+			m_zpCamera.RotateZDelta(cameraStength /10.0f);
+			cameraAngle += cameraStength /10.0f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
+		}
+	}
+
+	if (m_zkKeyboard.KeyPressed(DIK_LEFT))
+	{
+		if (cameraAngle > - 0.5f) {
+			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
+			cameraAngle -= cameraStength / 10.0f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
+		}
+	}
+
+	if (!m_zkKeyboard.KeyPressed(DIK_LEFT) && !m_zkKeyboard.KeyPressed(DIK_RIGHT)) 
+	{
+		if (cameraAngle < 0.0f)
+		{
+			m_zpCamera.RotateZDelta(cameraStength /10.0f);
+			cameraAngle += cameraStength /10.f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
+		}
+
+		if (cameraAngle > 0.0f) 
+		{
+			m_zpCamera.RotateZDelta(-cameraStength/10.0f);
+			cameraAngle -= cameraStength /10.0f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
+		}
+
+
+
 	}
 
 	CFloatRect topSpace = CASTD<VScreenIngame*>(m_screens["Ingame"])->getTopSpace();
