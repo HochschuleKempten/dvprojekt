@@ -11,8 +11,8 @@ class LPlayer
 public:
 	enum PlayerId
 	{
-		Local = 0,
-		External = 1
+		Local = 1,
+		External = 2
 	};
 
 private:

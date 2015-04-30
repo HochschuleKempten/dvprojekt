@@ -41,7 +41,7 @@ void LTransformerStation::tick(const float fTimeDelta)
 
 void LTransformerStation::performDisposal()
 {
-	int superplus = lField->getLPlayingField()->getCity()->getEnergySurplus();
+	int superplus = lField->getLPlayingField()->getLocalCity()->getEnergySurplus();
 	if (superplus > 0)
 	{
 		//TODO (L) how to get the Player ID dynamicly?
