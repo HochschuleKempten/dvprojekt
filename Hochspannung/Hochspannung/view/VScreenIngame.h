@@ -1,8 +1,11 @@
 #pragma once
 #include "IViewScreen.h"
+#include "VIdentifier.h"
+
 NAMESPACE_VIEW_B
-class VScreenIngame :
-	public IViewScreen
+
+
+class VScreenIngame : public IViewScreen
 {
 public:
 	explicit VScreenIngame(VUI* vUi);
@@ -11,32 +14,34 @@ public:
 	void switchOn() override;
 	void switchOff() override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
-	void checkSpecialEvent(CDeviceCursor* cursor)override;
-//	void resize(int width, int height)override;
+	void checkSpecialEvent(CDeviceCursor* cursor) override;
 
 	//Schnittstellenmethoden
 	void updateMoney(const int wert);
-	
+
 	void updatePopulation(const int wert);
 
-	void updateInfofeld(string& neuerText);
+	void updateInfofield(const string& neuerText);
 
 	CFloatRect getTopSpace();
-	
+
 	CFloatRect getBottomSpace();
 
 	void tick() override;
 	void resize(int width, int height) override;
 
-	void handleInput(float fTimeDelta);
+	void handleInput();
 	std::map<int, std::vector<int>> pickElements();
-	
+
+	void addToScene(CPlacement* placement);
+
 private:
+	CScene m_scene;
+	CViewport m_viewport;
+	CBackground m_zb;
+	CParallelLight m_zl;
 	CCamera m_zc;
 	CPlacement m_zpCamera;
-	CScene m_scene;
-	CParallelLight m_zl;
-	CBackground m_zb;
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;
@@ -55,7 +60,8 @@ private:
 	bool bK = false;
 	float mouseWheelPosition = 0.0F;
 
-	VIdentifier::VIdentifier m_selectedBuilding;
+	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
 };
+
 
 NAMESPACE_VIEW_E

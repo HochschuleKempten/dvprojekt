@@ -3,7 +3,6 @@
 #include "VGeneral.h"
 #include "IViewUIObserver.h"
 #include "IViewScreen.h"
-#include "VIdentifier.h"
 #include "../logic/IVTickObserver.h"
 
 NAMESPACE_VIEW_B
@@ -50,31 +49,23 @@ private:
 	bool m_screenChanged = false;
 	bool m_BlockCursorLeftPressed = false;
 
-private:
-	
-	
-
-	
-
 public:
-	VUI(VMaster* vMaster);
+	explicit VUI(VMaster* vMaster);
 	virtual ~VUI() override;
 
 	virtual void tick(const float fTimeDelta) override;
 
 	virtual void onNotify(Event events) override;
 
-	void addScreen(string sName, IViewScreen::ScreenType);
-	void switchScreen(string switchTo);
-	IViewScreen* getScreen(string sName);
-
+	void addScreen(const string& sName, const IViewScreen::ScreenType);
+	void switchScreen(const string& switchTo);
+	IViewScreen* getScreen(const string& sName);
 
 	void initUI(HWND hwnd, CSplash* psplash);
 
 	void resize(int width, int height);
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
-	void updateInfofield(string neuerText);
 
 	void checkGUIContainer(IViewGUIContainer* guiContainer);
 };

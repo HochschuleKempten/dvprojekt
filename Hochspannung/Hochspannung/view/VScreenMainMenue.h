@@ -16,7 +16,7 @@ public:
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
 	void checkSpecialEvent(CDeviceCursor* cursor)override;
 	void resize(int width, int height) override;
-	void tick() override;
+	virtual void tick() override;
 private:
 	COverlay* m_flash;
 	CBackground* m_background;

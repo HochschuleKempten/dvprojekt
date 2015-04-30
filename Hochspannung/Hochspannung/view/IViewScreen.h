@@ -48,6 +48,7 @@ public:
 		m_viewport->SwitchOff();
 		m_isOn = false;
 	}
+
 	inline void addContainer(CViewport* viewport, const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName)
 	{
 		m_viewport = viewport;

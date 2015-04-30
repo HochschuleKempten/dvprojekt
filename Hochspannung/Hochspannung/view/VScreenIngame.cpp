@@ -1,6 +1,15 @@
 #include "VScreenIngame.h"
-#include "VMaster.h"
+#include "vMaster.h"
+#include "VPlayingField.h"
 #include "VText.h"
+#include "../logic/LWindmillPowerPlant.h"
+#include "../logic/LPowerLine.h"
+#include "../logic/LCoalPowerPlant.h"
+#include "../logic/LHydroelectricPowerPlant.h"
+#include "../logic/LOilRefinery.h"
+#include "../logic/LSolarPowerPlant.h"
+#include "../logic/LNuclearPowerPlant.h"
+#include "../logic/LMaster.h"
 #include <Vektoria/Placements.h>
 
 NAMESPACE_VIEW_B
@@ -9,19 +18,16 @@ NAMESPACE_VIEW_B
 VScreenIngame::VScreenIngame(VUI* vUi)
 	: IViewScreen(vUi)
 {
-	m_viewport = new CViewport();
-
 	//Standard Init
 	m_zc.Init();
-	m_viewport->InitFull(&m_zc);
+	m_zb.InitFull("textures/black_image.jpg");
+
+	m_viewport.AddBackground(&m_zb);
+	m_viewport.InitFull(&m_zc);
 
 	//Minimap
 	m_CamMiniMap.Init();
-
-	m_scene.AddPlacement(&m_zpMinimapCam);
 	m_zpMinimapCam.AddCamera(&m_CamMiniMap);
-
-
 	m_CamMiniMap.SetOrthoOn();
 	m_CamMiniMap.SetFov(1.5);
 	m_zpMinimapCam.TranslateZ(10);
@@ -29,36 +35,32 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zpMinimapCam.RotateXDelta(0);
 	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.8, 0.765, 0.195, 0.23));
 
-	vUi->m_zf.AddViewport(m_viewport);
-	vUi->m_zf.AddViewport(&m_minimap);
+	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
+			  CColor(1.0f, 1.0f, 1.0f));
 
-	//Scene "3D-World"
+	m_scene.AddPlacement(&m_zpMinimapCam);
+	m_scene.AddParallelLight(&m_zl);
+	m_scene.AddPlacement(&m_zpCamera);
+
+	vUi->m_zf.AddViewport(&m_viewport);
+	//vUi->m_zf.AddViewport(&m_minimap);
 	vUi->m_zr.AddScene(&m_scene);
-	m_zb.InitFull("textures/black_image.jpg");
-	m_viewport->AddBackground(&m_zb);
 
 	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
-	m_scene.AddPlacement(&m_zpCamera);
 	m_zpCamera.AddCamera(&m_zc);
-
 	m_zpCamera.TranslateZ(50.0);
 	m_zpCamera.RotateXDelta(0.15 * PI);
 	m_zpCamera.RotateZDelta(0.15);
 
-	m_scene.AddParallelLight(&m_zl);
-	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f),
-	          CColor(1.0f, 1.0f, 1.0f));
-
-
 	//Bottom Bar
 
 	/*m_bottomBar.Init("textures\\MainMenueBackground.png", CFloatRect(0.0, 0.75, 1.0, 0.25));
-	m_viewport->AddOverlay(&m_bottomBar);
+	m_viewport.AddOverlay(&m_bottomBar);
 	m_bottomBar.SetLayer(0.8);*/
 
 
 	/********************************************************TOP AREA***************************************************************/
-	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.2, 0.0, 0.6, 0.05), &VMaterialLoader::materialTopbar, "Topbar");
+	addContainer(&m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.2, 0.0, 0.6, 0.05), &VMaterialLoader::materialTopbar, "Topbar");
 	getContainer("Topbar")->addText(CFloatRect(0.05, 0.2, 0.2, 0.7), &VMaterialLoader::standardFont, "Bevoelkerung:", "population");
 	getContainer("Topbar")->addText(CFloatRect(0.251, 0.2, 0.2, 0.65), &VMaterialLoader::standardFont, "0000", "popValue");
 	getContainer("Topbar")->addText(CFloatRect(0.55, 0.2, 0.2, 0.65), &VMaterialLoader::GoldFont, "Geld:", "money");
@@ -66,7 +68,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	/********************************************************BOTTOM AREA*************************************************************/
-	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0, 0.75F, 1.0F, 0.25F), "BottomBar");
+	addContainer(&m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0, 0.75F, 1.0F, 0.25F), "BottomBar");
 
 	getContainer("BottomBar")->addOverlay(CFloatRect(0.0, 0.0, 1, 0.05), &VMaterialLoader::materialBottombarBorderTop, false, "BottomTopBorder");
 	getContainer("BottomBar")->addOverlay(CFloatRect(0.0, 0.95, 1, 0.05), &VMaterialLoader::materialBottombarBorderTop, false, "BottomBottomBorder");
@@ -108,7 +110,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	/***********************************************************Dialog******************************************************************/
-	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55), &VMaterialLoader::materialDialogBackground, "DialogBox");
+	addContainer(&m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33, 0.10, 0.30, 0.55), &VMaterialLoader::materialDialogBackground, "DialogBox");
 
 
 	getContainer("DialogBox")->addButton(CFloatRect(0.10, 0.10, 0.80, 0.15), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING, "MenueButtonContinue");
@@ -122,7 +124,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.3);
 
 
-	m_viewport->SwitchOff();
+	m_viewport.SwitchOff();
 	getContainer("DialogBox")->switchOff();
 }
 
@@ -132,8 +134,6 @@ VScreenIngame::~VScreenIngame()
 		delete m_IterGuicontainer->second;
 	}
 	m_Guicontainer.clear();
-
-	delete m_viewport;
 }
 
 void VScreenIngame::onNotify(Event events)
@@ -154,7 +154,44 @@ void VScreenIngame::onNotify(Event events)
 			dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
 			dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabStatistics")->switchOn();
 			break;
+
+		case SELECT_BUILDING_WINDMILL:
+			updateInfofield("Windmill");
+			m_selectedBuilding = VIdentifier::VWindmillPowerPlant;
+			//TODO BuildMenue Button Windmill 
+			break;
+		case SELECT_BUILDING_COALPOWERPLANT:
+			updateInfofield("CoalPowerplant");
+			m_selectedBuilding = VIdentifier::VCoalPowerPlant;
+			//TODO BuildMenue Button CoalPowerplant 
+			break;
+		case SELECT_BUILDING_OILPOWERPLANT:
+			updateInfofield("OilPowerplant");
+			m_selectedBuilding = VIdentifier::VOilRefinery;
+			//TODO BuildMenue Button Oilpowerplant
+			break;
+		case SELECT_BUILDING_NUCLEARPOWERPLANT:
+			updateInfofield("NuclearPowerplant");
+			m_selectedBuilding = VIdentifier::VNuclearPowerPlant;
+			//TODO BuildMenue Button Nuclearpowerplant
+			break;
+		case SELECT_BUILDING_HYDROPOWERPLANT:
+			updateInfofield("HydroPowerplant");
+			m_selectedBuilding = VIdentifier::VHydroelectricPowerPlant;
+			//TODO BuildMenue Button Hydropowerplant
+			break;
+		case SELECT_BUILDING_SOLARPOWERPLANT:
+			updateInfofield("SolarPowerplant");
+			m_selectedBuilding = VIdentifier::VSolarPowerPlant;
+			//TODO BuildMenue Button Solarpowerplant
+			break;
+		case SELECT_BUILDING_POWERLINE:
+			updateInfofield("Powerline");
+			m_selectedBuilding = VIdentifier::VPowerLine;
+			//TODO BuildMenue Button Powerline
+			break;
 		default:
+			m_selectedBuilding = VIdentifier::Undefined;
 			notify(events);
 			break;
 	}
@@ -163,7 +200,7 @@ void VScreenIngame::onNotify(Event events)
 
 void VScreenIngame::switchOn()
 {
-	m_viewport->SwitchOn();
+	m_viewport.SwitchOn();
 	m_minimap.SwitchOn();
 	m_scene.SwitchOn();
 	m_isOn = true;
@@ -171,7 +208,7 @@ void VScreenIngame::switchOn()
 
 void VScreenIngame::switchOff()
 {
-	m_viewport->SwitchOff();
+	m_viewport.SwitchOff();
 	m_minimap.SwitchOff();
 	m_scene.SwitchOff();
 	m_isOn = false;
@@ -203,10 +240,10 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 		if (dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("windmill")->checkHover(curPosX, curPosY))
 		{
 			
-			updateInfofeld(hover);
+			updateInfofield(hover);
 		}
 		else
-			updateInfofeld(standard);*/
+			updateInfofield(standard);*/
 }
 
 void VScreenIngame::updateMoney(const int wert)
@@ -219,7 +256,7 @@ void VScreenIngame::updatePopulation(const int wert)
 	dynamic_cast<VText*>(getContainer("Topbar")->getGuiObject("popValue"))->updateText(std::to_string(wert));
 }
 
-void VScreenIngame::updateInfofeld(string& neuerText)
+void VScreenIngame::updateInfofield(const string& neuerText)
 {
 	dynamic_cast<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
 }
@@ -235,9 +272,16 @@ CFloatRect VScreenIngame::getBottomSpace()
 }
 
 void VScreenIngame::tick()
-{ }
+{
+	handleInput();
+}
 
-void VScreenIngame::handleInput(float fTimeDelta)
+void VScreenIngame::resize(int width, int height)
+{
+	m_viewport.ReSize();
+}
+
+void VScreenIngame::handleInput()
 {
 	const float cameraStength = 0.9f;
 
@@ -301,14 +345,14 @@ void VScreenIngame::handleInput(float fTimeDelta)
 	*/
 	float cursorX, cursorY;
 	bool insideFrame = vUi->m_zkCursor.GetFractional(cursorX, cursorY);
-	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY >(1.0f - bottomSpace.GetYSize())) {
+	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY > (1.0f - bottomSpace.GetYSize())) {
 		//Restrict picking when not in window or cursor is only over UI
 		return;
 	}
 
 	std::map<int, std::vector<int>> pickedElements = pickElements();
 	if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
-		vMaster->getPlayingField()->hoverField(pickedElements[VIdentifier::VPlayingField][0], pickedElements[VIdentifier::VPlayingField][1]);
+		vUi->vMaster->getPlayingField()->hoverField(pickedElements[VIdentifier::VPlayingField][0], pickedElements[VIdentifier::VPlayingField][1]);
 	}
 
 	static bool clickActive = false;
@@ -320,25 +364,27 @@ void VScreenIngame::handleInput(float fTimeDelta)
 
 				switch (m_selectedBuilding) {
 					case VIdentifier::VPowerLine:
-						vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+						vUi->vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
 						break;
 					case VIdentifier::VWindmillPowerPlant:
-						vMaster->getPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);
+						vUi->vMaster->getPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);
 						break;
 					case VIdentifier::VCoalPowerPlant:
-						vMaster->getPlayingField()->tryBuildOnField<LCoalPowerPlant>(x, y);
+						vUi->vMaster->getPlayingField()->tryBuildOnField<LCoalPowerPlant>(x, y);
 						break;
 					case VIdentifier::VHydroelectricPowerPlant:
-						vMaster->getPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(x, y);
+						vUi->vMaster->getPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(x, y);
 						break;
 					case VIdentifier::VNuclearPowerPlant:
-						vMaster->getPlayingField()->tryBuildOnField<LNuclearPowerPlant>(x, y);
+						vUi->vMaster->getPlayingField()->tryBuildOnField<LNuclearPowerPlant>(x, y);
 						break;
 					case VIdentifier::VOilRefinery:
-						vMaster->getPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
+						vUi->vMaster->getPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
 						break;
 					case VIdentifier::VSolarPowerPlant:
-						vMaster->getPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
+						vUi->vMaster->getPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
+						break;
+					default:
 						break;
 				}
 			}
@@ -357,15 +403,15 @@ void VScreenIngame::handleInput(float fTimeDelta)
 	}
 }
 
-std::map<int, std::vector<int>> VUI::pickElements()
+std::map<int, std::vector<int>> VScreenIngame::pickElements()
 {
 	std::map<int, std::vector<int>> pickedElements;
-	std::unordered_set<CPlacement*> pickedPlacements;	//A set is duplicate free and works out of the box for pointer types
+	std::unordered_set<CPlacement*> pickedPlacements; //A set is duplicate free and works out of the box for pointer types
 
 	//Pick everything
-	CPlacement* singlePlacement = m_zkCursor.PickPlacement();
+	CPlacement* singlePlacement = vUi->m_zkCursor.PickPlacement();
 	CPlacements placements;
-	m_zkCursor.PickPlacements(&placements);
+	vUi->m_zkCursor.PickPlacements(&placements);
 
 	//TODO (JS) merge seems obsolete now. Remove this
 	//Merge the found placements together in a set (to avoid duplicates)
@@ -402,5 +448,9 @@ std::map<int, std::vector<int>> VUI::pickElements()
 	return pickedElements;
 }
 
+void VScreenIngame::addToScene(CPlacement* placement)
+{
+	m_scene.AddPlacement(placement);
+}
 
 NAMESPACE_VIEW_E
