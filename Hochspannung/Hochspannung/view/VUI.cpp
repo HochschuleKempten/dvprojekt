@@ -56,6 +56,7 @@ void VUI::onNotify(Event evente)
 		case QUIT_GAME:
 			isQuit = true;
 			PostQuitMessage(0);
+			vMaster->lMaster->gameOver();
 			break;
 		case SEARCH_IP:
 			break;
