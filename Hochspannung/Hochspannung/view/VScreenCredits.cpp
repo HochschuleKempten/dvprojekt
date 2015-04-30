@@ -1,16 +1,14 @@
 #include "VScreenCredits.h"
+#include "VUI.h"
 
 NAMESPACE_VIEW_B
-VScreenCredits::VScreenCredits()
-{
-}
 
-	VScreenCredits::VScreenCredits(CFrame* frame)
+VScreenCredits::VScreenCredits(VUI* vUi) : IViewScreen(vUi)
 	{
 		m_viewport = new CViewport();
 		m_camera.Init();
 		m_viewport->InitFull(&m_camera);
-		frame->AddViewport(m_viewport);
+		vUi->m_zf.AddViewport(m_viewport);
 
 		
 		m_background = new CBackground();
@@ -58,6 +56,14 @@ VScreenCredits::VScreenCredits()
 }
 
 	void VScreenCredits::checkSpecialEvent(CDeviceCursor* cursor)
+	{
+	}
+
+	void VScreenCredits::tick()
+	{
+	}
+
+	void VScreenCredits::resize(int width, int height)
 	{
 	}
 

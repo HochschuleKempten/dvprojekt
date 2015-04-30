@@ -11,6 +11,10 @@ NAMESPACE_VIEW_B
 
 class VMaster;
 class VScreenIngame;
+class VScreenMainMenue;
+class VScreenOptions;
+class VScreenCredits;
+class VScreenLobby;
 
 /**
  * @brief The VUI class is responsible for representing the interface to the user and handles the user input.
@@ -24,7 +28,10 @@ class VUI : public IVTickObserver, public IViewUIObserver
 	NON_COPYABLE(VUI);
 	friend class VMaster;
 	friend class VScreenIngame;
-
+	friend class VScreenMainMenue;
+	friend class VScreenOptions;
+	friend class VScreenCredits;
+	friend class VScreenLobby;
 private:
 	VMaster* vMaster;
 

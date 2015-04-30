@@ -1,16 +1,14 @@
 #include "VScreenMainMenue.h"
+#include "VUI.h"
 
 NAMESPACE_VIEW_B
-VScreenMainMenue::VScreenMainMenue()
-{
-}
 
-VScreenMainMenue::VScreenMainMenue(CFrame* frame)
+VScreenMainMenue::VScreenMainMenue(VUI* vUi) : IViewScreen(vUi)
 {
 	m_viewport = new CViewport();
 	m_camera.Init();
 	m_viewport->InitFull(&m_camera);
-	frame->AddViewport(m_viewport);
+	vUi->m_zf.AddViewport(m_viewport);
 
 	m_flash = new COverlay();
 	m_background = new CBackground();
@@ -69,6 +67,14 @@ void VScreenMainMenue::checkShortcut(CDeviceKeyboard* keyboard)
 }
 
 	void VScreenMainMenue::checkSpecialEvent(CDeviceCursor* cursor)
+	{
+	}
+
+	void VScreenMainMenue::resize(int width, int height)
+	{
+	}
+
+	void VScreenMainMenue::tick()
 	{
 	}
 
