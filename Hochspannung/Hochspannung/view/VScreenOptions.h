@@ -6,10 +6,12 @@ class VScreenOptions :
 	public IViewScreen
 {
 public:
-	VScreenOptions();
-	VScreenOptions(CFrame* frame);
+	void tick() override;
+	void resize(int width, int height) override;
+public:
+	VScreenOptions(VUI* vUi);
 	~VScreenOptions();
-	void onNotify(IViewUIObserver::Event events)override;
+	void onNotify(Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
 	void checkSpecialEvent(CDeviceCursor* cursor)override;
 private:
