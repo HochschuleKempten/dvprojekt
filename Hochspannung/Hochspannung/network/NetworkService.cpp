@@ -137,8 +137,8 @@ bool CNetworkService::sendContinueGame() {
 	return sendAsMessage(Action::CONTINUE_GAME);
 }
 
-bool CNetworkService::sendSetObject(int iObjectID, int iCoordX, int iCoordY) {
-	return sendAsMessage(Action::SET_OBJECT, iObjectID, iCoordX, iCoordY);
+bool CNetworkService::sendSetObject(int iObjectID, int iCoordX, int iCoordY, std::string sValue) {
+	return sendAsMessage(Action::SET_OBJECT, iObjectID, iCoordX, iCoordY, sValue);
 }
 
 //bool sendMoveObject(int iObjectID, int iCoordXSource, int iCoordYSouce, int iCoordXDest, int iCoordYDest) {

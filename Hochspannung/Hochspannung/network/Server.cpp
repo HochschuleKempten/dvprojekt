@@ -69,13 +69,13 @@ void CServer::acceptCompleteHandler(const error_code& error) {
 }
 
 void CServer::udpDataRecievedHandler(const boost::system::error_code& error, std::size_t bytesTransferred) {
-	// queue next message
-	m_socketUdp.async_receive_from(m_udpMessage.prepare(512),
-		m_remoteEndpointUdp,
-		boost::bind(&CServer::udpDataRecievedHandler, this, placeholders::error, placeholders::bytes_transferred)
-	);
-
 	if (!error) {
+		// queue next message
+		m_socketUdp.async_receive_from(m_udpMessage.prepare(512),
+			m_remoteEndpointUdp,
+			boost::bind(&CServer::udpDataRecievedHandler, this, placeholders::error, placeholders::bytes_transferred)
+		);
+
 		// parse received message
 		boost::property_tree::ptree jsonTree;
 		try {

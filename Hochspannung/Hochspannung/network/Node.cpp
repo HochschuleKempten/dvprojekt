@@ -50,6 +50,7 @@ void CNode::stop() {
 	});
 	m_thread.join();
 	m_bConnected = false;
+	std::cout << "Stopped node" << std::endl;
 }
 
 void CNode::restart() {
