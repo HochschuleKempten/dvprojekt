@@ -10,6 +10,7 @@
 #include "LPowerLine.h"
 #include "LIdentifier.h"
 
+
 NAMESPACE_LOGIC_B
 
 
@@ -64,6 +65,18 @@ public:
 
 	LField* getField(const int x, const int y);
 
+	template<typename T>
+	void linkPowerlines(const int x, const int y)
+	{
+
+	}
+
+
+	std::unordered_map<ILBuilding::Orientation, LField* >getPowerlineNeighbors(const int i, const int y);
+
+	template<>
+	void linkPowerlines<LPowerLine>(const int x, const int y);
+	
 	// returns true if building could be placed, else false (building not allowed or building already placed)
 	template<typename T, typename... Args>
 	bool placeBuilding(const int x, const int y, const Args... arguments)
@@ -71,6 +84,8 @@ public:
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
 		
+		linkPowerlines<T>(x, y);
+
 		//Check costs
 		//todo (IP) getPlayers(): get current player
 		if (lMaster->getPlayer(1)->getMoney() < T::cost) {

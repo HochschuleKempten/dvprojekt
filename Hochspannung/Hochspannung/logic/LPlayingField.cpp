@@ -71,6 +71,48 @@ LField* LPlayingField::getField(const int x, const int y)
 	return &fieldArray[x][y];
 }
 
+std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getPowerlineNeighbors(const int x, const int y)
+{
+	std::unordered_map<ILBuilding::Orientation, HighVoltage::LField*> neighborsMap;
+
+	if (checkIndex(x,y-1))
+	{
+		neighborsMap[ILBuilding::Orientation::NORTH] = getField(x, y - 1);
+	}
+
+	if (checkIndex(x +1, y )) {
+		neighborsMap[ILBuilding::Orientation::EAST] = getField(x + 1, y);
+	}
+#
+	if (checkIndex(x, y+1) )
+	{
+		neighborsMap[ILBuilding::Orientation::SOUTH] = getField(x, y + 1);
+	}
+
+	if (checkIndex(x -1, y)) 
+	{
+		neighborsMap[ILBuilding::Orientation::WEST] = getField(x - 1, y);
+	}
+
+	return neighborsMap;
+}
+
+
+template <>
+void LPlayingField::linkPowerlines<LPowerLine>(const int x, const int y)
+{
+	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = getPowerlineNeighbors(x, y);
+
+	// TODO () Check all cases of linkage
+	if (neighbors.empty()) 
+	{
+		placeBuilding<LPowerLine>(x,y, ILBuilding::SOUTH | ILBuilding::NORTH);
+		DEBUG_OUTPUT("Test Link Powerlines North South");
+	}
+	
+
+}
+
 bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second)
 {
 	//Store always the lower idx as first parameter
