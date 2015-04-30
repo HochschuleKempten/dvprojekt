@@ -47,14 +47,16 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zs.AddPlacement(m_zTrasse3->getMainPlacement());
 	m_zs.AddPlacement(m_zTrasse4->getMainPlacement());
 
-	m_zTrasse1->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST | VModelPowerLine::DIRECTION::SOUTH | VModelPowerLine::DIRECTION::NORTH);
+	m_zTrasse1->Init();
+	m_zTrasse1->SetDirection(VModelPowerLine::DIRECTION::SOUTH | VModelPowerLine::DIRECTION::NORTH | VModelPowerLine::DIRECTION::EAST);
 	m_zTrasse2->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST | VModelPowerLine::DIRECTION::SOUTH | VModelPowerLine::DIRECTION::NORTH);
 	m_zTrasse3->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST | VModelPowerLine::DIRECTION::SOUTH | VModelPowerLine::DIRECTION::NORTH);
 	m_zTrasse4->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST);
 
+	int direction = m_zTrasse1->Direction();
+
 	m_zTrasse1->SetPosition(-1, 0);
 	m_zTrasse2->SetPosition(1, 0);
-	VModelPowerLine::DIRECTION test = m_zTrasse1->Direction();
 
 	m_zTrasse3->SetPosition(3, 0);
 	m_zTrasse4->SetPosition(3, -2);

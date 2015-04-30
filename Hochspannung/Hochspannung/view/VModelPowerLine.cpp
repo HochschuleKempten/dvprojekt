@@ -82,7 +82,6 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 
 	int index1, index2;
 	float iYTranslation;
-	std::bitset<4> direction = m_eDirection;
 	// adding struts to poles
 	for (int i = 0; i < 4; i++) {
 		m_zpPole[i].AddGeo(&m_zgPole);
@@ -203,7 +202,7 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 		m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpLine[i]);
 
 		// switch on/off unnecessary arms and cables
-		direction[i] ? m_zpArm[i].SwitchOn() : m_zpArm[i].SwitchOff();
+		SetDirection(m_eDirection);
 
 		// set level of details
 		m_zpIsolatorLoD1[i].SetLoD(0, 1.0f);
@@ -231,6 +230,13 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 
 SHORT * VModelPowerLine::GetPosition() {
 	return m_saGridPosition;
+}
+
+void VModelPowerLine::SetDirection(VModelPowerLine::DIRECTION eDirection) {
+	std::bitset<4> direction = m_eDirection = eDirection;
+	for (int i = 0; i < 4; i++) {
+		direction[i] ? m_zpArm[i].SwitchOn() : m_zpArm[i].SwitchOff();
+	}
 }
 
 VModelPowerLine::DIRECTION VModelPowerLine::Direction() {

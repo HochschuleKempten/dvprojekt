@@ -9,10 +9,11 @@ class VModelPowerLine : public IViewModel
 public:
 	enum DIRECTION
 	{
-		NORTH = 0x1,
-		EAST = 0x2,
-		SOUTH = 0x4,
-		WEST = 0x8
+		NONE  = 0x0,
+		NORTH = 0x8,
+		EAST  = 0x4,
+		SOUTH = 0x2,
+		WEST  = 0x1
 	};
 
 	enum PYLONTYPE
@@ -26,8 +27,9 @@ public:
 	VModelPowerLine(float fFieldSize);
 	virtual ~VModelPowerLine(void) override;
 
-	void Init(VModelPowerLine::DIRECTION eDirection, float fPylonHeight = 1.0f);
+	void Init(VModelPowerLine::DIRECTION eDirection = DIRECTION::NONE, float fPylonHeight = 1.0f);
 	void SetPosition(int x, int y);
+	void SetDirection(VModelPowerLine::DIRECTION eDirection);
 	SHORT * GetPosition();
 	virtual float getHeight() override; // including foundation
 	virtual float getWidth() override;  // width of the foundation
@@ -82,7 +84,7 @@ private:
 	SHORT m_iArmPosition		                         = 8;
 	SHORT m_iStrutsCount		                         = 0;
 	PYLONTYPE m_ePylonType                               = STRAIGHT;
-	VModelPowerLine::DIRECTION m_eDirection				 = DIRECTION::NORTH | DIRECTION::SOUTH;
+	VModelPowerLine::DIRECTION m_eDirection				 = DIRECTION::NONE | DIRECTION::NONE;
 	float m_fFieldSize                                   = 0;
 	float m_fFoundationHeight                            = 0;
 	float m_fFoundationWidth                             = 0;
