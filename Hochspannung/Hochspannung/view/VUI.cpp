@@ -262,16 +262,10 @@ void VUI::tick(const float fTimeDelta)
 
 		}
 	}
-<<<<<<< Updated upstream
 	if (m_zkCursor.ButtonPressedLeft()) {
 		m_BlockCursorLeftPressed = true;
 	}
 }
-=======
-}
-
-
->>>>>>> Stashed changes
 
 
 NAMESPACE_VIEW_E

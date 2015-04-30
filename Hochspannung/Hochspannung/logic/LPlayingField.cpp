@@ -111,14 +111,11 @@ std::unordered_map<ILBuilding::Orientation, ILBuilding*> LPlayingField::getNeigh
 	return buildingsMap;
 }
 
-
-template <>
-int LPlayingField::linkPowerlines<LPowerLine>(const int x, const int y)
+int LPlayingField::linkPowerlines(const int x, const int y)
 {
 	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = getPowerlineNeighbors(x, y);
 	std::unordered_map<ILBuilding::Orientation, ILBuilding*> neighborsBuildings = getNeighborsBuildings(neighbors);
 	int oriention = 0;
-
 
 	// TODO () Check all cases of linkage
 
@@ -133,7 +130,8 @@ int LPlayingField::linkPowerlines<LPowerLine>(const int x, const int y)
 
 		
 		//No Powerline so its a other type of building
-		if (dynamic_cast<LPowerLine*>(iterator.second) == nullptr)
+		LPowerLine* powerLine = dynamic_cast<LPowerLine*>(iterator.second);
+		if (powerLine == nullptr)
 		{
 			oriention |= iterator.first;
 		}
@@ -142,6 +140,8 @@ int LPlayingField::linkPowerlines<LPowerLine>(const int x, const int y)
 		else
 		{
 			oriention |= iterator.first;
+			
+			powerLine->updatedOrientation(ILBuilding::getOpppositeOrienttion(iterator.first));
 			//changeExistingPowerline( + new Orientation )
 		}
 
@@ -149,6 +149,7 @@ int LPlayingField::linkPowerlines<LPowerLine>(const int x, const int y)
 
 	return oriention;
 }
+
 void LPlayingField::beginLocalOperation()
 {
 	isLocalOperation = true;

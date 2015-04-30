@@ -25,5 +25,16 @@ void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const
 	SET_NAME_AND_COORDINATES(VIdentifier::VPowerLine);
 }
 
+void VPowerLine::orientationChanged(const int orientation)
+{
+	//std::string oldName = viewModel.getMainPlacement()->GetName();
+
+	//viewModel = VModelPowerLine(vMaster->getPlayingField()->getFieldSize());
+
+	//viewModel.Init(static_cast<VModelPowerLine::DIRECTION>(orientation));
+	//viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0f));
+	//viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
+	//viewModel.getMainPlacement()->SetName(oldName.c_str());
+}
 
 NAMESPACE_VIEW_E

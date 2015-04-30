@@ -20,6 +20,19 @@ public:
 		WEST = 0x8
 	};
 
+	static Orientation getOpppositeOrienttion(const Orientation orientation)
+	{
+		switch (orientation) {
+			case NORTH: return SOUTH;
+			case EAST: return WEST;
+			case SOUTH: return NORTH;
+			case WEST: return EAST;
+			default:
+				ASSERT(false, "Invalid orientation given");
+				return CASTS<Orientation>(0);
+		}
+	}
+
 	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 protected:
 	LField* lField;

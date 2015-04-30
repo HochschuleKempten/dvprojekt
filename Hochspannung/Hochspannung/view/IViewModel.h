@@ -9,7 +9,7 @@ NAMESPACE_VIEW_B
 
 class IViewModel
 {
-	NON_COPYABLE(IViewModel);
+	//NON_COPYABLE(IViewModel);
 	
 protected:
 	CPlacement m_zpMain;	//TODO (JS) make this private when m_zpLOD is used

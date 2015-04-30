@@ -62,20 +62,6 @@ private:
 public:
 	explicit LPlayingField(LMaster* lMaster);
 	~LPlayingField();
-
-	LField* getField(const int x, const int y);
-
-	template<typename T>
-	int linkPowerlines(const int x, const int y) {}
-	
-
-	std::unordered_map<ILBuilding::Orientation, LField* >getPowerlineNeighbors(const int i, const int y);
-
-	std::unordered_map<ILBuilding::Orientation, ILBuilding*> getNeighborsBuildings(std::unordered_map<ILBuilding::Orientation, LField*> unorderedMap);
-
-
-	template<>
-	int linkPowerlines<LPowerLine>(const int x, const int y);
 	
 	template<typename T>
 	bool placeBuildingHelper(const int x, const int y)
@@ -85,13 +71,13 @@ public:
 	template<>
 	bool placeBuildingHelper<LPowerLine>(const int x, const int y)
 	{
-		int orientation = linkPowerlines<LPowerLine>(x, y);
+		int orientation = linkPowerlines(x, y);
 		return getField(x, y)->setBuilding<LPowerLine>(x, y, orientation);
 	}
 
 	// returns true if building could be placed, else false (building not allowed or building already placed)
 	template<typename T, typename... Args>
-	bool placeBuilding(const int x, const int y, const Args... arguments)
+	bool placeBuilding(const int x, const int y, const Args... arguments)//TODO (JS) Args...
 	{
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
@@ -186,6 +172,12 @@ public:
 		}
 	}
 	
+
+	std::unordered_map<ILBuilding::Orientation, LField* >getPowerlineNeighbors(const int i, const int y);
+	std::unordered_map<ILBuilding::Orientation, ILBuilding*> getNeighborsBuildings(std::unordered_map<ILBuilding::Orientation, LField*> unorderedMap);
+
+	int linkPowerlines(const int x, const int y);
+
 	void beginLocalOperation();
 	void endLocalOperation();
 
@@ -197,6 +189,7 @@ public:
 	void upgradeBuilding(const int x, const int y);
 	LMaster* getLMaster();
 	IVPlayingField* getVPlayingField();
+	LField* getField(const int x, const int y);
 
 	const std::pair<int, int>& getCityPosition() const
 	{
