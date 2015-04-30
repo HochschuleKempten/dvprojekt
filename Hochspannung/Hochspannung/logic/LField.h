@@ -13,6 +13,8 @@ class LCoalPowerPlant;
 class LWindmillPowerPlant;
 class LSolarPowerPlant;
 class LTransformerStation;
+class LHydroelectricPowerPlant;
+class LOilRefinery;
 
 class LField
 {
@@ -54,6 +56,14 @@ private:
 		ASSERT(false, "Unknown field type");
 		return false;
 	}
+	template<> bool checkBuildingType<LOilRefinery>()
+	{
+		return fieldType == OIL;
+	}
+	template<> bool checkBuildingType<LHydroelectricPowerPlant>()
+	{
+		return fieldType == WATER;
+	}
 	template<> bool checkBuildingType<LCoalPowerPlant>()
 	{
 		return fieldType == COAL;
@@ -74,7 +84,6 @@ private:
 	{
 		return fieldType == GRASS;
 	}
-
 	template<> bool checkBuildingType<LTransformerStation>()
 	{
 		return fieldType == GRASS;

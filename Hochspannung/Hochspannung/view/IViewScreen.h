@@ -19,12 +19,14 @@ NAMESPACE_VIEW_B
 // Autor: Patrick Benkowitsch
 //---------------------------------------------------
 
+class VUI;
 
 
 class IViewScreen:public IViewUIObserver, public IViewSubject
 {
 public:
-
+	explicit IViewScreen(VUI* vUi)
+		: vUi(vUi) {}
 	virtual ~IViewScreen() {}
 
 	enum ScreenType
@@ -46,6 +48,7 @@ public:
 		m_viewport->SwitchOff();
 		m_isOn = false;
 	}
+
 	inline void addContainer(CViewport* viewport, const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName)
 	{
 		m_viewport = viewport;
@@ -107,18 +110,16 @@ public:
 	}
 	virtual void checkShortcut(CDeviceKeyboard* keyboard)=0;
 	virtual void checkSpecialEvent(CDeviceCursor* cursor) = 0;
-	virtual void resize(int width, int height)
-	{
-		//m_viewport->SetEnhancedEdgesOn();
-		m_viewport->SetAntialiasingOn();
-		//m_viewport->ReSize(0, 0, width, height);
-	}
+	virtual void tick() = 0;
+	virtual void resize(int width, int height) = 0;
+
 	
 
 protected:	
 	map<string, IViewGUIContainer*> m_Guicontainer;
 	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
 	
+	VUI* vUi;
 	CViewport* m_viewport;
 	CCamera m_camera;
 	ScreenType m_screenType;
