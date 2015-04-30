@@ -128,9 +128,10 @@ public:
 	 * @param iObjectId the objects ID.
 	 * @param iCoordX the x coordinate where the new object should be set.
 	 * @param iCoordY the y coordinate where the new object should be set.
+	 * @param sValue any other value to send.
 	 * @return true if message could be sent, false otherwise.
 	 */
-	bool sendSetObject(int iObjectID, int iCoordX, int iCoordY);
+	bool sendSetObject(int iObjectID, int iCoordX, int iCoordY, std::string sValue);
 
 	/**
 	 * @brief Send the command to move an object.
