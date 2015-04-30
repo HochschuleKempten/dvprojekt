@@ -177,8 +177,8 @@ public:
 
 	int linkPowerlines(const int x, const int y);
 
-	void beginLocalOperation();
-	void endLocalOperation();
+	void beginRemoteOperation();
+	void endRemoteOperation();
 
 	bool checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second);
 	bool isTransformstationConnected();
