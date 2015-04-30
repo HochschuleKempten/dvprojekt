@@ -51,7 +51,11 @@ void LCity::tick(const float fTimeDelta)
 void LCity::setEnergy(const int energy)
 {
 	this->energy = energy;
-	vCity->updateEnergy(energy);
+
+	if (playerId == LPlayer::Local)
+	{
+		vCity->updateEnergy(energy);
+	}
 }
 
 int LCity::getEnergy() const
@@ -62,7 +66,11 @@ int LCity::getEnergy() const
 void LCity::setPopulationTotal(const int populationTotal)
 {
 	this->populationTotal = populationTotal;
-	vCity->updatePopulation(populationTotal);
+
+	if (playerId == LPlayer::Local)
+	{
+		vCity->updatePopulation(populationTotal);
+	}
 }
 
 int LCity::getEnergySurplus()

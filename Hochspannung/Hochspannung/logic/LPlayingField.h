@@ -57,7 +57,7 @@ private:
 	std::vector<LField::FieldType> fieldTypes;
 	std::vector<LField::FieldLevel> fieldLevels;
 
-	bool isLocalOperation = false;
+	bool isLocalOperation = true;
 
 public:
 	explicit LPlayingField(LMaster* lMaster);
@@ -163,7 +163,7 @@ public:
 			}
 			//-----network-----
 
-			DEBUG_OUTPUT("Marktplace connected = " << isTransformstationConnected());
+			DEBUG_OUTPUT("Marketplace connected = " << isTransformstationConnected());
 
 			return true;
 		}
@@ -171,7 +171,6 @@ public:
 			return false;
 		}
 	}
-	
 
 	std::unordered_map<ILBuilding::Orientation, LField* >getPowerlineNeighbors(const int i, const int y);
 	std::unordered_map<ILBuilding::Orientation, ILBuilding*> getNeighborsBuildings(std::unordered_map<ILBuilding::Orientation, LField*> unorderedMap);

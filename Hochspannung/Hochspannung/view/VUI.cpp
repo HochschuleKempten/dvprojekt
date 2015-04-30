@@ -262,6 +262,7 @@ void VUI::tick(const float fTimeDelta)
 
 		}
 	}
+	
 	if (m_zkCursor.ButtonPressedLeft()) {
 		m_BlockCursorLeftPressed = true;
 	}
