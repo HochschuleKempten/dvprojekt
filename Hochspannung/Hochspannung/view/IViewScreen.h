@@ -114,7 +114,6 @@ public:
 	virtual void resize(int width, int height) = 0;
 
 	
-
 protected:	
 	map<string, IViewGUIContainer*> m_Guicontainer;
 	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;

@@ -28,6 +28,8 @@ public:
 	CFloatRect getBottomSpace();
 
 	void tick() override;
+	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
+	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(int width, int height) override;
 
 	void handleInput();

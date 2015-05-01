@@ -15,8 +15,10 @@ public:
 	void onNotify(Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
 	void checkSpecialEvent(CDeviceCursor* cursor)override;
+	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(int width, int height) override;
 	virtual void tick() override;
+	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
 private:
 	COverlay* m_flash;
 	CBackground* m_background;

@@ -7,6 +7,8 @@ class VScreenOptions :
 {
 public:
 	void tick() override;
+	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
+	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(int width, int height) override;
 public:
 	VScreenOptions(VUI* vUi);

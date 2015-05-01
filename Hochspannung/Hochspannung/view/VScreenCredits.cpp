@@ -52,8 +52,69 @@ void VScreenCredits::checkSpecialEvent(CDeviceCursor* cursor)
 { }
 
 void VScreenCredits::tick()
-{ }
+{
+	map<string, IViewGUIContainer*> tempGuicontainer;
+	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
 
+	checkShortcut(&vUi->m_zkKeyboard);
+	checkSpecialEvent(&vUi->m_zkCursor);
+	tempGuicontainer = getGuiContainerMap();
+
+	//For all containers in the screen
+	for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
+	{
+		checkGUIContainer(tempIterGuicontainer->second);
+	}
+
+}
+
+void VScreenCredits::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
+{
+	map<string, IViewGUIObject*>::iterator tempIterGUIObjects;
+	map<string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
+
+	for (tempIterGUIObjects = tempGUIObjects.begin(); tempIterGUIObjects != tempGUIObjects.end(); tempIterGUIObjects++)
+	{
+		if (tempIterGUIObjects->second->isOn())
+		{
+			if (!vUi->m_BlockCursorLeftPressed)
+			{
+				//check for events
+				tempIterGUIObjects->second->checkEvent(&vUi->m_zkCursor, &vUi->m_zkKeyboard);
+			}
+			//if screen was changed
+			if (vUi->m_screenChanged)
+			{
+				vUi->m_screenChanged = false;
+				vUi->m_BlockCursorLeftPressed = true;
+				return;
+			}
+		}
+
+
+	}
+}
+
+void VScreenCredits::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
+{
+
+	map<string, IViewGUIContainer*> tempGuiContainerMap;
+	map<string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
+
+	tempGuiContainerMap = tempGuicontainer->getGuiContainerMap();
+
+	checkGUIObjects(tempGuicontainer);
+
+	for (ItertempGuiContainerMap = tempGuiContainerMap.begin(); ItertempGuiContainerMap != tempGuiContainerMap.end(); ItertempGuiContainerMap++)
+	{
+		checkGUIObjects(ItertempGuiContainerMap->second);
+
+		if (tempGuicontainer->getGuiContainerMap().size() > 0)
+		{
+			checkGUIContainer(ItertempGuiContainerMap->second);
+		}
+	}
+}
 void VScreenCredits::resize(int width, int height)
 { }
 

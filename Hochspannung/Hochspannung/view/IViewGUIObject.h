@@ -43,26 +43,13 @@ public:
 			return false;
 		}
 	}
-	/*virtual bool checkPressed(const float& fPosX, const float& fPosY, const bool& bLeftpressed)
-	{
-		
-		if (bLeftpressed && checkHover(fPosX, fPosY))
-			{
-				onMouseClickLeft();
-				return true;
-			}
-		else
-		{
-			return false;
-		}
-	}*/
 
 	virtual void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)
 	{
 		float fPosX;
 		float fPosY;
 		cursor->GetFractional(fPosX, fPosY, false);
-		if (checkHover(fPosX, fPosY) && cursor->ButtonPressedLeft()) OutputDebugString("Button pressed");
+		
 		if (checkHover(fPosX,fPosY))
 		{
 			if(cursor->ButtonPressedLeft())
