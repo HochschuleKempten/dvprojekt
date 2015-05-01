@@ -206,7 +206,7 @@ void LMaster::connect(std::string ip)
 
 void LMaster::sendSetObject(const int objectId, const int x, const int y)
 {
-	networkService.sendSetObject(objectId, x, y);
+	networkService.sendSetObject(objectId, x, y, "");	//TODO (L) set correct last parameter
 }
 
 void LMaster::sendDeleteObject(const int x, const int y)

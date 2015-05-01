@@ -7,9 +7,11 @@
 #include "LUtility.h"
 #include "LCity.h"
 #include "LTransformerSation.h"
-#include <boost/graph/breadth_first_search.hpp>
 #include "LCoalPowerPlant.h"
+#include <boost/graph/breadth_first_search.hpp>
 #include <boost/graph/strong_components.hpp>
+#include <boost/graph/graphviz.hpp>
+#include <boost/graph/lookup_edge.hpp>
 #include <random>
 #include <chrono>
 
@@ -69,14 +71,9 @@ LPlayingField::~LPlayingField()
 {
 }
 
-LField* LPlayingField::getField(const int x, const int y)
+std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getFieldNeighbors(const int x, const int y)
 {
-	return &fieldArray[x][y];
-}
-
-std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getPowerlineNeighbors(const int x, const int y)
-{
-	std::unordered_map<ILBuilding::Orientation, HighVoltage::LField*> neighborsMap;
+	std::unordered_map<ILBuilding::Orientation, LField*> neighborsMap;
 
 	if (checkIndex(x - 1, y)) {
 		neighborsMap[ILBuilding::Orientation::NORTH] = getField(x - 1, y);
@@ -90,61 +87,28 @@ std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getPowerline
 		neighborsMap[ILBuilding::Orientation::SOUTH] = getField(x + 1, y);
 	}
 
-
-	if (checkIndex(x,y-1))
-	{
+	if (checkIndex(x, y - 1)) {
 		neighborsMap[ILBuilding::Orientation::WEST] = getField(x, y - 1);
 	}
 	
 	return neighborsMap;
 }
 
-std::unordered_map<ILBuilding::Orientation, ILBuilding*> LPlayingField::getNeighborsBuildings(std::unordered_map<ILBuilding::Orientation, LField*> neighbors)
-{
-	std::unordered_map<ILBuilding::Orientation, ILBuilding*> buildingsMap;
-
-	for (auto const &iterator : neighbors) 
-	{
-	   buildingsMap[iterator.first] = iterator.second->getBuilding();
-	}
-
-	return buildingsMap;
-}
-
 int LPlayingField::linkPowerlines(const int x, const int y)
 {
-	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = getPowerlineNeighbors(x, y);
-	std::unordered_map<ILBuilding::Orientation, ILBuilding*> neighborsBuildings = getNeighborsBuildings(neighbors);
+	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = getFieldNeighbors(x, y);
 	int oriention = 0;
 
-	// TODO () Check all cases of linkage
-
-	
-	for (auto const &iterator : neighborsBuildings)
-	{
+	for (auto const &iterator : neighbors) {
 		//No Building
-		if (iterator.second == nullptr)
+		if (iterator.second->getBuilding() == nullptr)
 		{
 			continue;
 		}
 
-		
-		//No Powerline so its a other type of building
-		LPowerLine* powerLine = dynamic_cast<LPowerLine*>(iterator.second);
-		if (powerLine == nullptr)
-		{
-			oriention |= iterator.first;
-		}
-
-		//Its a Powerline
-		else
-		{
-			oriention |= iterator.first;
-			
-			powerLine->updatedOrientation(ILBuilding::getOpppositeOrienttion(iterator.first));
-			//changeExistingPowerline( + new Orientation )
-		}
-
+		//There is a building, so the orientation of the powerline must be set to this building
+		//The adjustment of the orientation of the other powerlines is done automatically when inserting the edge to the graph
+		oriention |= iterator.first;
 	}
 
 	return oriention;
@@ -190,11 +154,6 @@ bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, c
 bool LPlayingField::isTransformstationConnected()
 {
 	return checkConnectionBuildings(localCityPosition, transformerStationPosition);
-}
-
-int LPlayingField::getFieldLength()
-{
-	return fieldLength;
 }
 
 void LPlayingField::removeBuilding(const int x, const int y)
@@ -254,10 +213,10 @@ void LPlayingField::createFields()
 	placeGrassAroundPosition(localCityPosition, 1);
 
 	fieldArray[firstPowerLineCoordinates.first][firstPowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(firstPowerLineCoordinates.first, firstPowerLineCoordinates.second, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+	placeBuilding<LPowerLine>(firstPowerLineCoordinates.first, firstPowerLineCoordinates.second);
 
 	fieldArray[secondPowerLineCoordinates.first][secondPowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+	placeBuilding<LPowerLine>(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second);
 
 	fieldArray[firstPowerPlantCoordinates.first][firstPowerPlantCoordinates.second].init(LField::FieldType::COAL, LField::FieldLevel::LEVEL1);
 	placeBuilding<LCoalPowerPlant>(firstPowerPlantCoordinates.first, firstPowerPlantCoordinates.second);
@@ -326,6 +285,16 @@ void LPlayingField::createFields()
 	}
 }
 
+LField* LPlayingField::getField(const int x, const int y)
+{
+	return &fieldArray[x][y];
+}
+
+int LPlayingField::getFieldLength()
+{
+	return fieldLength;
+}
+
 LMaster* LPlayingField::getLMaster()
 {
 	return lMaster;
@@ -351,6 +320,11 @@ int LPlayingField::convertIndex(const int x, const int y)
 	return x * fieldLength + y;
 }
 
+std::pair<int, int> LPlayingField::convertIndex(const int idx)
+{
+	return std::make_pair(idx / fieldLength, idx % fieldLength);
+}
+
 void LPlayingField::calculateEnergyValueCity()
 {
 	int energyValue = 0;
@@ -371,39 +345,50 @@ void LPlayingField::calculateEnergyValueCity()
 	getLocalCity()->setEnergy(energyValue);
 }
 
-void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)
+void LPlayingField::addEdgeToGraph(const int xStart, const int yStart, const int xEnd, const int yEnd, const int totalOrientation, const ILBuilding::Orientation checkOrientation)
 {
-	//TODO (All) Currently normal buildings can be used as powerlines. If we do not want this we need to fix it
-	//A solution would be to make the insert routine different for buildings and powerlines (by the use of templates of course)
+	if (totalOrientation & checkOrientation) {
+		//Check if idx is not out of range and if an edge already exists
+		if (checkIndex(xEnd, yEnd) && !lookup_edge(convertIndex(xStart, yStart), convertIndex(xEnd, yEnd), powerLineGraph).second) {
+			add_edge(convertIndex(xStart, yStart), convertIndex(xEnd, yEnd), powerLineGraph);
 
-	if (orientation & ILBuilding::NORTH) {
-		if (checkIndex(x - 1, y)) {
-			add_edge(convertIndex(x, y), convertIndex(x - 1, y), powerLineGraph);
-		}
-	}
-
-	if (orientation & ILBuilding::EAST) {
-		if (checkIndex(x, y + 1)) {
-			add_edge(convertIndex(x, y), convertIndex(x, y + 1), powerLineGraph);
-		}
-	}
-
-	if (orientation & ILBuilding::SOUTH) {
-		if (checkIndex(x + 1, y)) {
-			add_edge(convertIndex(x, y), convertIndex(x + 1, y), powerLineGraph);
-		}
-	}
-
-	if (orientation & ILBuilding::WEST) {
-		if (checkIndex(x, y - 1)) {
-			add_edge(convertIndex(x, y), convertIndex(x, y - 1), powerLineGraph);
+			//If the target vertex is a power line adjust the orientation of that powerline and add an edge from the powerline to this building
+			LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
+			if (plOther != nullptr) {
+				add_edge(convertIndex(xEnd, yEnd), convertIndex(xStart, yStart), powerLineGraph);
+				plOther->updatedOrientation(ILBuilding::getOpppositeOrienttion(checkOrientation));
+			}
 		}
 	}
 }
 
-std::pair<int, int> LPlayingField::convertIndex(const int idx)
+void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)
 {
-	return std::make_pair(idx / fieldLength, idx % fieldLength);
+	addEdgeToGraph(x, y, x - 1, y, orientation, ILBuilding::NORTH);
+	addEdgeToGraph(x, y, x, y + 1, orientation, ILBuilding::EAST);
+	addEdgeToGraph(x, y, x + 1, y, orientation, ILBuilding::SOUTH);
+	addEdgeToGraph(x, y, x, y - 1, orientation, ILBuilding::WEST);
+
+	//DEBUG_EXPRESSION(printGraph());
+}
+
+void LPlayingField::printGraph()
+{
+	std::vector<std::string> names(fieldLength*fieldLength);
+
+	for (int x = 0; x < fieldLength; x++) {
+		for (int y = 0; y < fieldLength; y++) {
+			std::string name = std::to_string(x) + std::string(", ") + std::to_string(y);
+			names[convertIndex(x, y)] = name;
+		}
+	}
+
+	std::ofstream file;
+	file.open("graph.dot");
+	write_graphviz(file, powerLineGraph, make_label_writer(&names[0]));
+
+	//Install http://www.graphviz.org/ and run
+	//dot -Tpng -o graph.png graph.dot
 }
 
 template<bool cross = false>

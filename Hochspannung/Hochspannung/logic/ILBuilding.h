@@ -33,6 +33,26 @@ public:
 		}
 	}
 
+	static std::string getOrientationName(const int orientation)
+	{
+		std::string name = "";
+
+		if (orientation & Orientation::NORTH) {
+			name += "North ";
+		}
+		if (orientation & Orientation::EAST) {
+			name += "East ";
+		}
+		if (orientation & Orientation::SOUTH) {
+			name += "South ";
+		}
+		if (orientation & Orientation::WEST) {
+			name += "West ";
+		}
+		
+		return name;
+	}
+
 	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 protected:
 	LField* lField;
@@ -56,8 +76,6 @@ public:
 		return NORTH | EAST | SOUTH | WEST;
 	}
 
-	static const int cost = 10;
-
 	void setPlayerId(const LPlayer::PlayerId playerId)
 	{
 		this->playerId = playerId;
@@ -67,6 +85,8 @@ public:
 	{
 		return playerId;
 	}
+
+	static const int cost = 10;
 };
 
 

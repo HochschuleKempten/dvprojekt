@@ -1,6 +1,5 @@
 #include "VUI.h"
 #include "VMaster.h"
-#include "VPlayingField.h"
 #include "IViewScreen.h"
 #include "VScreenMainMenue.h"
 #include "VScreenIngame.h"
@@ -8,6 +7,8 @@
 #include "VScreenCredits.h"
 #include "VScreenOptions.h"
 #include "../logic/LMaster.h"
+#include <Windows.h>
+#include <VersionHelpers.h>
 
 NAMESPACE_VIEW_B
 
@@ -23,9 +24,13 @@ VUI::~VUI()
 
 void VUI::initUI(HWND hwnd, CSplash* psplash)
 {
-	//TODO (V) clean up
 	m_zr.Init(psplash);
-	m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
+	if (IsWindows8OrGreater()) {
+		m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
+	}
+	else {
+		m_zf.Init(hwnd);
+	}
 	m_zr.AddFrameHere(&m_zf);
 
 	m_zf.AddDeviceKeyboard(&m_zkKeyboard);

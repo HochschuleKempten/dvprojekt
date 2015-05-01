@@ -416,7 +416,9 @@ std::map<int, std::vector<int>> VScreenIngame::pickElements()
 	//TODO (JS) merge seems obsolete now. Remove this
 	//Merge the found placements together in a set (to avoid duplicates)
 	for (int i = 0; i < placements.m_iPlacements; i++) {
-		//pickedPlacements.insert(placements.m_applacement[i]);
+		if (placements.m_applacement[i]->m_pgeos) {
+			//pickedPlacements.insert(placements.m_applacement[i]);
+		}
 	}
 	//The two placements pick different things, so they have to be merged together
 	if (singlePlacement != nullptr) {
@@ -425,11 +427,11 @@ std::map<int, std::vector<int>> VScreenIngame::pickElements()
 		//ASSERT(sizeBefore == pickedPlacements.size(), "PickPlacements() picked something different then PickPlacement(). This should not happen");
 	}
 
-	DEBUG_OUTPUT("Picking started");
+	//DEBUG_OUTPUT("Picking started");
 	//Now iterate over every found placement
 	for (CPlacement* p : pickedPlacements) {
 		std::vector<std::string> nameParts = split(p->GetName(), ';');
-		DEBUG_OUTPUT("placement = " << p->GetName());
+		//DEBUG_OUTPUT("placement = " << p->GetName());
 
 		if (nameParts.size() > 0 && nameParts[0].at(0) != '#') {
 			//At this point only valid names remain

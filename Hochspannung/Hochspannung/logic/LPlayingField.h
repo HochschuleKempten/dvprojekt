@@ -172,8 +172,7 @@ public:
 		}
 	}
 
-	std::unordered_map<ILBuilding::Orientation, LField* >getPowerlineNeighbors(const int i, const int y);
-	std::unordered_map<ILBuilding::Orientation, ILBuilding*> getNeighborsBuildings(std::unordered_map<ILBuilding::Orientation, LField*> unorderedMap);
+	std::unordered_map<ILBuilding::Orientation, LField* >getFieldNeighbors(const int x, const int y);
 
 	int linkPowerlines(const int x, const int y);
 
@@ -183,12 +182,12 @@ public:
 	bool checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second);
 	bool isTransformstationConnected();
 
-	int getFieldLength();
 	void removeBuilding(const int x, const int y);
 	void upgradeBuilding(const int x, const int y);
+	LField* getField(const int x, const int y);
+	int getFieldLength();
 	LMaster* getLMaster();
 	IVPlayingField* getVPlayingField();
-	LField* getField(const int x, const int y);
 
 	const std::pair<int, int>& getCityPosition() const
 	{
@@ -207,7 +206,9 @@ private:
 	int convertIndex(const int x, const int y);
 	std::pair<int, int> convertIndex(const int idx);
 	void calculateEnergyValueCity();
+	inline void addEdgeToGraph(const int xStart, const int yStart, const int xEnd, const int yEnd, const int totalOrientation, const ILBuilding::Orientation checkOrientation);
 	void addBuildingToGraph(const int x, const int y, const int orientation);
+	void printGraph();
 	
 	/**
 	 * @brief Sets grass on every field around the given coordinates.
