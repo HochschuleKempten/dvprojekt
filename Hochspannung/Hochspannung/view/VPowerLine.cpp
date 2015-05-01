@@ -3,7 +3,7 @@
 #include "VIdentifier.h"
 #include "VMaster.h"
 
-NAMESPACE_VIEW_B 
+NAMESPACE_VIEW_B
 
 
 static VModelPowerLine::DIRECTION convertOrientation(const int orientation)
@@ -37,6 +37,7 @@ VPowerLine::~VPowerLine()
 
 void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y, const int orientation)
 {
+	viewModel.initViewModel(this);
 	viewModel.Init(convertOrientation(orientation));
 	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0f));
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
@@ -49,6 +50,11 @@ void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const
 void VPowerLine::orientationChanged(const int orientation)
 {
 	viewModel.SetDirection(convertOrientation(orientation));
+}
+
+ILBuilding* VPowerLine::getLBuilding()
+{
+	return CASTD<ILBuilding*>(lPowerLine);
 }
 
 NAMESPACE_VIEW_E

@@ -2,6 +2,7 @@
 
 #include "VGeneral.h"
 #include "../logic/LField.h"
+#include "../logic/LPlayer.h"
 
 NAMESPACE_VIEW_B
 
@@ -30,7 +31,7 @@ public:
 	//MainMenue
 	static CMaterial materialMainMenue;
 	static CMaterial materialMainMenueHover;
-		//Buttons
+	//Buttons
 	static CMaterial materialButtonMainMenueNeuesSpiel;
 	static CMaterial materialButtonMainMenueNeuesSpielHover;
 	static CMaterial materialButtonMainMenueOptionen;
@@ -51,14 +52,14 @@ public:
 	static CMaterial materialLobbyBigDialog;
 	static CMaterial materialBuildingButton;
 	static CMaterial materialBuildingButtonHover;
-		//Buttons
+	//Buttons
 	static CMaterial materialIngameButtonCraftmenu;
 	static CMaterial materialIngameButtonSabotage;
 	static CMaterial materialIngameButtonStatistics;
 	static CMaterial materialIngameButtonCraftmenuHover;
 	static CMaterial materialIngameButtonSabotageHover;
 	static CMaterial materialIngameButtonStatisticsHover;
-		//Craftmenu
+	//Craftmenu
 	static CMaterial materialCraftmenuButtonWindmill;
 	static CMaterial materialCraftmenuButtonHydroPowerplant;
 	static CMaterial materialCraftmenuButtonSolarPowerplant;
@@ -75,7 +76,7 @@ public:
 	static CMaterial materialCraftmenuButtonPowerlineHover;
 	
 	//Allgemein
-		//Buttons
+	//Buttons
 	static CMaterial materialButtonBack;
 	static CMaterial materialButtonBackHover;
 
@@ -93,6 +94,12 @@ public:
 	static CMaterial m_zmIsolator;
 	static CMaterial m_zmRing;
 	static CMaterial m_zmCable;
+
+	//PlayerColor
+	static std::unordered_map<LPlayer::PlayerId, CColor> colorPlayers;
+
+	//PlayerFoundations
+	static std::unordered_map<LPlayer::PlayerId, CMaterial> materialFoundationPlayer;
 };
 
 

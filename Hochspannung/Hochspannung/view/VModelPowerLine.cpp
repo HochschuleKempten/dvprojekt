@@ -58,7 +58,7 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_fRingThickness		= m_fIsolatorThickness * 0.25f;
 
 	// init geometries (foundation, pole, strut)
-	m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &VMaterialLoader::m_zmConcrete);
+	//m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &VMaterialLoader::m_zmConcrete);
 	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), &VMaterialLoader::m_zmStrut);
 	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), &VMaterialLoader::m_zmStrut);
 	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), &VMaterialLoader::m_zmStrut);

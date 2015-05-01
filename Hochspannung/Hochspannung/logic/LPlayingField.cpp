@@ -23,7 +23,7 @@ using namespace boost;
 template <typename Graph>
 static std::vector<int> strongConnectedSearch(const Graph& g, const int startIdx)
 {
-	std::vector<int> component(num_vertices(g)), discover_time(num_vertices(g));
+	std::vector<int> component(num_vertices(g));
 	strong_components(g, make_iterator_property_map(component.begin(), get(vertex_index, g)));
 
 	int mainComponent = component[startIdx];

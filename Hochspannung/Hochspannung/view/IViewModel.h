@@ -1,29 +1,30 @@
 #pragma once
 
 #include "VGeneral.h"
-#include <array>
 #include "VMaterialLoader.h"
+#include "IViewBuilding.h"
+#include "../logic/ILBuilding.h"
+#include <array>
+#include "VMaster.h"
+#include "VPlayingField.h"
 
 NAMESPACE_VIEW_B
 
 
 class IViewModel
 {
-	//NON_COPYABLE(IViewModel);
-	
+	NON_COPYABLE(IViewModel);
+
 protected:
-	CPlacement m_zpMain;	//TODO (JS) make this private when m_zpLOD is used
+	CPlacement m_zpMain; //TODO (JS) make this private when m_zpLOD is used
 	/** @brief Holds the different LOD levels for every model. m_zpLOD[0] is the nearest (much details) and m_zpLOD[2] is the furthest (less details) */
 	std::array<CPlacement, 3> m_zpLOD;
+	IViewBuilding* vBuilding = nullptr;
 	CGeoCube m_zgFoundation;
-	float m_fFoundationHeight = 0;
-	float m_fFoundationWidth = 0;
 
 public:
 	inline IViewModel()
 	{
-		m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &VMaterialLoader::m_zmConcrete);
-
 		const float step = 100.0f / CASTS<float>(m_zpLOD.size());
 		float previous = 0;
 
@@ -34,11 +35,22 @@ public:
 			previous = previous + step;
 		}
 	}
+
 	virtual inline ~IViewModel()
 	{}
 
+	inline void initViewModel(IViewBuilding* vBuilding)
+	{
+		this->vBuilding = vBuilding;
+
+		float foundationWidth = vBuilding->getVMaster()->getPlayingField()->getFieldSize() * 0.2;
+		float foundationHeight = foundationWidth * 0.2f;
+		m_zgFoundation.Init(CHVector(foundationWidth, foundationHeight, foundationWidth), &VMaterialLoader::materialFoundationPlayer[vBuilding->getLBuilding()->getPlayerId()]);
+	}
+
 	virtual float getHeight() = 0;
 	virtual float getWidth() = 0;
+
 	virtual float getDepth()
 	{
 		return 0.0f;

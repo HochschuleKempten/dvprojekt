@@ -5,6 +5,8 @@
 NAMESPACE_VIEW_B
 
 
+class ILBuilding;
+
 class IViewBuilding : public IViewObject
 {
 public:
@@ -13,6 +15,8 @@ public:
 	{}
 	inline virtual ~IViewBuilding()
 	{}
+
+	virtual ILBuilding* getLBuilding() = 0;
 };
 
 #define SET_NAME_AND_COORDINATES(id) { std::stringstream stream; \

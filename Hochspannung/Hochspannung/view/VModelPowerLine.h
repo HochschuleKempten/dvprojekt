@@ -47,7 +47,7 @@ private:
 
 	CGeoCube m_zgArm;
 	CGeoCube m_zgUpperArm;
-	CGeoCube m_zgFoundation;
+	//CGeoCube m_zgFoundation;
 	CGeoCube m_zgArmConnection;
 	CGeoCube m_zgPole;
 	CGeoCube m_zgRoof;
