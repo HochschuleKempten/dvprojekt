@@ -345,29 +345,29 @@ void LPlayingField::calculateEnergyValueCity()
 	getLocalCity()->setEnergy(energyValue);
 }
 
-void LPlayingField::addEdgeToGraph(const int xStart, const int yStart, const int xEnd, const int yEnd, const int totalOrientation, const ILBuilding::Orientation checkOrientation)
-{
-	if (totalOrientation & checkOrientation) {
-		//Check if idx is not out of range and if an edge already exists
-		if (checkIndex(xEnd, yEnd) && !lookup_edge(convertIndex(xStart, yStart), convertIndex(xEnd, yEnd), powerLineGraph).second) {
-			add_edge(convertIndex(xStart, yStart), convertIndex(xEnd, yEnd), powerLineGraph);
-
-			//If the target vertex is a power line adjust the orientation of that powerline and add an edge from the powerline to this building
-			LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
-			if (plOther != nullptr) {
-				add_edge(convertIndex(xEnd, yEnd), convertIndex(xStart, yStart), powerLineGraph);
-				plOther->updatedOrientation(ILBuilding::getOpppositeOrienttion(checkOrientation));
-			}
-		}
-	}
-}
-
 void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)
 {
-	addEdgeToGraph(x, y, x - 1, y, orientation, ILBuilding::NORTH);
-	addEdgeToGraph(x, y, x, y + 1, orientation, ILBuilding::EAST);
-	addEdgeToGraph(x, y, x + 1, y, orientation, ILBuilding::SOUTH);
-	addEdgeToGraph(x, y, x, y - 1, orientation, ILBuilding::WEST);
+	auto addEdgeToGraph = [this, x, y, orientation] (const int xEnd, const int yEnd, const ILBuilding::Orientation checkOrientation)
+	{
+		if (orientation & checkOrientation) {
+			//Check if idx is not out of range and if an edge already exists
+			if (checkIndex(xEnd, yEnd) && !lookup_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph).second) {
+				add_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph);
+
+				//If the target vertex is a power line adjust the orientation of that powerline and add an edge from the powerline to this building
+				LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
+				if (plOther != nullptr) {
+					add_edge(convertIndex(xEnd, yEnd), convertIndex(x, y), powerLineGraph);
+					plOther->updatedOrientation(ILBuilding::getOpppositeOrienttion(checkOrientation));
+				}
+			}
+		}
+	};
+
+	addEdgeToGraph(x, y + 1, ILBuilding::EAST);
+	addEdgeToGraph(x - 1, y, ILBuilding::NORTH);
+	addEdgeToGraph(x + 1, y, ILBuilding::SOUTH);
+	addEdgeToGraph(x, y - 1, ILBuilding::WEST);
 
 	//DEBUG_EXPRESSION(printGraph());
 }

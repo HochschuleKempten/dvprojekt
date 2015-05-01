@@ -206,7 +206,6 @@ private:
 	int convertIndex(const int x, const int y);
 	std::pair<int, int> convertIndex(const int idx);
 	void calculateEnergyValueCity();
-	inline void addEdgeToGraph(const int xStart, const int yStart, const int xEnd, const int yEnd, const int totalOrientation, const ILBuilding::Orientation checkOrientation);
 	void addBuildingToGraph(const int x, const int y, const int orientation);
 	void printGraph();
 	
