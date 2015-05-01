@@ -121,8 +121,10 @@ void VUI::switchScreen(const string& switchTo)
 	ASSERT(m_screens.count(switchTo) > 0, "Screen" << switchTo << "not available");
 
 	activeScreen->switchOff();
+	activeScreen->EndEvent();
 	activeScreen = m_screens[switchTo];
 	activeScreen->switchOn();
+	activeScreen->StartEvent();
 }
 
 

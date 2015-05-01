@@ -7,7 +7,7 @@ class VScreenLobby :
 
 	
 public:
-	VScreenLobby(VUI* vUI);
+	explicit VScreenLobby(VUI* vUI);
 	~VScreenLobby();
 	void onNotify(Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;

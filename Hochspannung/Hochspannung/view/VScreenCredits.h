@@ -6,7 +6,7 @@ class VScreenCredits :
 {
 
 public:
-	VScreenCredits(VUI* vUi);
+	explicit VScreenCredits(VUI* vUi);
 	~VScreenCredits();
 	void onNotify(IViewUIObserver::Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;

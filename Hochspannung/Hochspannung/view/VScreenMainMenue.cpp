@@ -1,5 +1,7 @@
 #include "VScreenMainMenue.h"
+#include <thread>
 #include "VUI.h"
+#include <future>
 
 NAMESPACE_VIEW_B
 
@@ -23,11 +25,18 @@ NAMESPACE_VIEW_B
 		m_viewport->AddOverlay(m_headline);
 
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
-		getContainer("Menue")->addButton(CFloatRect(0.33F, 0.27F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, SWITCH_TO_LOBBY, "buttonSwitchToPlayMode");
+		/*getContainer("Menue")->addButton(CFloatRect(0.33F, 0.27F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, SWITCH_TO_LOBBY, "buttonSwitchToPlayMode");
 		getContainer("Menue")->addButton(CFloatRect(0.33F, 0.42F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueOptionen, &VMaterialLoader::materialButtonMainMenueOptionenHover, SWITCH_TO_OPTIONS, "buttonSwitchToOptions");
 		getContainer("Menue")->addButton(CFloatRect(0.33F, 0.57F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, SWITCH_TO_CREDITS, "buttonSwitchToCredits");
 		getContainer("Menue")->addButton(CFloatRect(0.33F, 0.72F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "buttonQuitGame");
-	}
+	*/
+		getContainer("Menue")->addButton(CFloatRect(-0.30F, 0.27F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, SWITCH_TO_LOBBY, "buttonSwitchToPlayMode");
+		getContainer("Menue")->addButton(CFloatRect(-0.30F, 0.42F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueOptionen, &VMaterialLoader::materialButtonMainMenueOptionenHover, SWITCH_TO_OPTIONS, "buttonSwitchToOptions");
+		getContainer("Menue")->addButton(CFloatRect(-0.30F, 0.57F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, SWITCH_TO_CREDITS, "buttonSwitchToCredits");
+		getContainer("Menue")->addButton(CFloatRect(-0.30F, 0.72F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "buttonQuitGame");
+
+		
+}
 
 
 	VScreenMainMenue::~VScreenMainMenue()
@@ -56,9 +65,15 @@ NAMESPACE_VIEW_B
 
 	void VScreenMainMenue::checkShortcut(CDeviceKeyboard* keyboard)
 	{
-		if (keyboard->KeyPressed(DIK_ESCAPE))
+		if (keyboard->KeyPressed(DIK_F))
 		{
-		}
+			/*dynamic_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode"))->getNormalOverlay()->SetTransparency(0.9);
+			dynamic_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode"))->getHoverOverlay()->SetTransparency(0.9);*/
+			/*auto handle = std::launch (std::launch::async,&VScreenMainMenue::fadeOut, this);
+			handle.get();*/
+		/*auto thread=std::thread(&VScreenMainMenue::slideIn, this);
+		thread.detach();*/
+		} 
 	}
 
 	void VScreenMainMenue::checkSpecialEvent(CDeviceCursor* cursor)
@@ -72,7 +87,12 @@ NAMESPACE_VIEW_B
 
 	void VScreenMainMenue::tick()
 	{
-		
+
+		if (!vUi->m_zkCursor.ButtonPressedLeft())
+		{
+			vUi->m_BlockCursorLeftPressed = false;
+		}
+
 		map<string, IViewGUIContainer*> tempGuicontainer;
 		map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
 		
@@ -105,6 +125,7 @@ NAMESPACE_VIEW_B
 				if (vUi->m_screenChanged)
 				{
 					vUi->m_screenChanged = false;
+					
 					vUi->m_BlockCursorLeftPressed = true;
 					return;
 				}
@@ -112,6 +133,107 @@ NAMESPACE_VIEW_B
 
 
 		}
+	}
+
+	void VScreenMainMenue::startAnimation()
+	{
+		
+		auto thread = std::thread(&VScreenMainMenue::slideIn, this);
+		thread.detach();
+	}
+
+
+	void VScreenMainMenue::slideIn()
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		
+		static bool is_running = false;
+		if (!is_running)
+		{
+			is_running = true;
+			VButton* button = static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode"));
+			CFloatRect rect = button->getRectangle();
+			for (float i = 0; i < 0.33F; i = i + 0.001F)
+			{
+
+				rect.SetXPos(i);
+				button->updateRectangle(rect);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			}
+			getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode")->setRectangle(rect);
+			
+			button = static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToOptions"));
+			 rect = button->getRectangle();
+			for (float i = 0; i < 0.33F; i = i + 0.001F)
+			{
+
+				rect.SetXPos(i);
+				button->updateRectangle(rect);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			}
+			getContainer("Menue")->getGuiObject("buttonSwitchToOptions")->setRectangle(rect);
+			
+			button = static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToCredits"));
+			 rect = button->getRectangle();
+			for (float i = 0; i < 0.33F; i = i + 0.001F)
+			{
+
+				rect.SetXPos(i);
+				button->updateRectangle(rect);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			}
+			getContainer("Menue")->getGuiObject("buttonSwitchToCredits")->setRectangle(rect);
+			
+			button = static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonQuitGame"));
+			rect = button->getRectangle();
+			for (float i = 0; i < 0.33F; i = i + 0.001F)
+			{
+
+				rect.SetXPos(i);
+				button->updateRectangle(rect);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			}
+			getContainer("Menue")->getGuiObject("buttonQuitGame")->setRectangle(rect);
+			is_running = false;
+			return;
+		}
+		/*
+		rect = dynamic_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToCredits"))->getNormalOverlay()->GetRect();
+
+		for (float i = 0; i < 0.33F; i = i + 0.001F)
+		{
+			rect.SetXPos(i);
+			dynamic_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToCredits"))->getNormalOverlay()->SetRect(rect);
+			dynamic_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToCredits"))->getHoverOverlay()->SetRect(rect);
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		}
+		rect = dynamic_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToQuitGame"))->getNormalOverlay()->GetRect();
+
+		for (float i = 0; i < 0.33F; i = i + 0.001F)
+		{
+			rect.SetXPos(i);
+			dynamic_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToQuitGame"))->getNormalOverlay()->SetRect(rect);
+			dynamic_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToQuitGame"))->getHoverOverlay()->SetRect(rect);
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		}*/
+	}
+
+	void VScreenMainMenue::StartEvent()
+	{
+		startAnimation();
+	}
+
+	void VScreenMainMenue::EndEvent()
+	{
+		static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode"))->updateRectangle(CFloatRect(-0.30F, 0.27F, 0.30F, 0.12F));
+		static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToOptions"))->updateRectangle(CFloatRect(-0.30F, 0.42F, 0.30F, 0.12F));
+		static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToCredits"))->updateRectangle(CFloatRect(-0.30F, 0.57F, 0.30F, 0.12F));
+		static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonQuitGame"))->updateRectangle(CFloatRect(-0.30F, 0.72F, 0.30F, 0.12F));
+
+		getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode")->setRectangle(CFloatRect(-0.30F, 0.27F, 0.30F, 0.12F));
+		getContainer("Menue")->getGuiObject("buttonSwitchToOptions")->setRectangle(CFloatRect(-0.30F, 0.42F, 0.30F, 0.12F));
+		getContainer("Menue")->getGuiObject("buttonSwitchToCredits")->setRectangle(CFloatRect(-0.30F, 0.57F, 0.30F, 0.12F));
+		getContainer("Menue")->getGuiObject("buttonQuitGame")->setRectangle(CFloatRect(-0.30F, 0.72F, 0.30F, 0.12F));
 	}
 
 	void VScreenMainMenue::checkGUIContainer(IViewGUIContainer* tempGuicontainer)

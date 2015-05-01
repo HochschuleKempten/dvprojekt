@@ -81,6 +81,7 @@ public:
 	
 	virtual void updateRectangle(CFloatRect rect) = 0;
 	
+	
 	string sObjectName = "";
 	//virtual void resize(int width, int height);
 protected:

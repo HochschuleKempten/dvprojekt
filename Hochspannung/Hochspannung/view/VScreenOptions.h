@@ -11,7 +11,7 @@ public:
 	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(int width, int height) override;
 public:
-	VScreenOptions(VUI* vUi);
+	explicit VScreenOptions(VUI* vUi);
 	~VScreenOptions();
 	void onNotify(Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
