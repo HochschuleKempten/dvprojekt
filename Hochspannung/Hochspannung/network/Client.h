@@ -37,8 +37,9 @@ public:
 
 	/**
 	 * @brief Searches for game server in the local network.
+	 * @return
 	 */
-	void searchGames();
+	bool searchGames();
 	
 	/**
 	 * @brief Returns a list of found games in the local network.
@@ -48,6 +49,7 @@ public:
 
 private:
 	bool connect();
+	bool startUdpClient();
 
 	void connectCompleteHandler(const error_code& error);
 	void udpDataRecievedHandler(const boost::system::error_code& error, std::size_t bytesTransferred);

@@ -4,7 +4,7 @@
 namespace Network {
 
 CNetworkService::CNetworkService() :
-m_connectionState(CLOSED), m_type(NONE) {
+m_type(NONE) {
 }
 
 CNetworkService::CNetworkService(const CNetworkService&) {
@@ -30,7 +30,6 @@ bool CNetworkService::host(std::string stName) {
 	}
 
 	if (m_pNode->start()) {
-		m_connectionState = PENDING;
 		return true;
 	} else {
 		return false;
@@ -54,14 +53,13 @@ bool CNetworkService::connect(std::string stIP) {
 	}
 
 	if (m_pNode->start()) {
-		m_connectionState = PENDING;
 		return true;
 	} else {
 		return false;
 	}
 }
 
-void CNetworkService::searchGames() {
+bool CNetworkService::searchGames() {
 	if (m_type == CLIENT) {
 		m_pNode->stop();
 	} else if (m_type == SERVER) {
@@ -73,7 +71,7 @@ void CNetworkService::searchGames() {
 		m_type = CLIENT;
 	}
 
-	static_cast<CClient*>(m_pNode)->searchGames();
+	return static_cast<CClient*>(m_pNode)->searchGames();
 }
 
 std::vector<CGameObject> CNetworkService::getGameList() {
@@ -90,7 +88,6 @@ void CNetworkService::close() {
 		delete m_pNode;
 		m_pNode = 0;
 		m_type = NONE;
-		m_connectionState = CLOSED;
 	}
 }
 
@@ -101,12 +98,11 @@ void CNetworkService::restart() {
 }
 
 State CNetworkService::getConnectionState() {
-	// just a workaround at the moment
-	if (m_pNode != 0 && m_pNode->isConnected()) {
-		m_connectionState = CONNECTED;
+	if (m_pNode != 0) {
+		return m_pNode->getConnectionState();
+	} else {
+		return CLOSED;
 	}
-
-	return m_connectionState;
 }
 
 Type CNetworkService::getType() {

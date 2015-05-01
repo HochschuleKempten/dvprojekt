@@ -4,12 +4,6 @@
 
 namespace Network {
 
-enum State {
-	CONNECTED,
-	CLOSED,
-	PENDING
-};
-
 enum Type {
 	NONE,
 	SERVER,
@@ -62,8 +56,9 @@ public:
 	/**
 	 * @brief Searches asynchronously for game server in the local network.
 	 * Closes any active connection or server.
+	 * @return
 	 */
-	void searchGames();
+	bool searchGames();
 
 	/**
 	 * @brief Returns a list of found games in the local network.
@@ -186,7 +181,6 @@ private:
 	bool sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = "");
 
 	CNode* m_pNode = 0;
-	State m_connectionState;
 	Type m_type;
 };
 
