@@ -25,7 +25,7 @@ VGUIArea::VGUIArea(CViewport* viewport, CFloatRect floatRect)
 		m_viewport = viewport;
 		m_zfRect = floatRect;
 		m_background = new COverlay();
-		m_background->SetLayer(0.9);
+		m_background->SetLayer(0.9F);
 		m_background->Init(materialbackground, m_zfRect);
 		m_viewport->AddOverlay(m_background);
 		m_hasBackground = true;
@@ -74,7 +74,7 @@ void VGUIArea::addText(CFloatRect rect, CWritingFont* writingFont, string text, 
 			m_Overlays[sName] = new COverlay();
 			m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
 			m_viewport->AddOverlay(m_Overlays[sName]);
-			m_Overlays[sName]->SetLayer(0.1);
+			m_Overlays[sName]->SetLayer(0.1F);
 	}
 
 	void VGUIArea::onNotify(Event events)
@@ -118,7 +118,7 @@ void VGUIArea::switchOff()
 	m_bOn = false;
 }
 
-void VGUIArea::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
+void VGUIArea::addContainer(const IViewGUIContainer::ContainerType& containerType,  CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
 {
 	switch (containerType)
 	{

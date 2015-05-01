@@ -94,7 +94,7 @@ void VMaterialLoader::init()
 	materialHydroelectricPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
 
 	materialDialogBackground.MakeTextureSprite("textures\\MainMenueBackground.png");
-	materialIngameBorder.Init(CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68));
+	materialIngameBorder.Init(CColor(0.0F, 0.44F, 0.68F), CColor(0.0F, 0.44F, 0.68F), CColor(0.0F, 0.44F, 0.68F));
 	
 	//Buttons
 	//materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpiel.png");

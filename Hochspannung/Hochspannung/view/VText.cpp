@@ -56,4 +56,12 @@ VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, st
 		m_writing->PrintF("%s", const_cast<char*>(text.c_str()));
 	}
 
+	void VText::setLayer(float layer)
+	{
+	}
+
+	void VText::updateRectangle(CFloatRect rect)
+	{
+	}
+
 	NAMESPACE_VIEW_E

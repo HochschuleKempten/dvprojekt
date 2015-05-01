@@ -6,6 +6,8 @@ NAMESPACE_VIEW_B
 class VText :
 	public IViewGUIObject
 {
+
+	
 public:
 	VText();
 	VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont,string text);
@@ -21,7 +23,8 @@ public:
 	virtual void onMouseClickRight(void) override final;
 
 	void updateText(string text);
-
+	virtual void setLayer(float layer) override final;
+	void updateRectangle(CFloatRect rect) override final;
 private:
 
 	CWritingFont * m_writingFont;

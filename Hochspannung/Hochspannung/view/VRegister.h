@@ -22,8 +22,9 @@ public:
 	void addContainer(const ContainerType& containerType, CFloatRect& floatRect,CMaterial* MaterialNormal, const string& sName) override;
 	void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const string& sName)override;
 	void switchOn() override;
-
 	void switchOff() override;
+	void setLayer(float layer) override;
+
 	void addTab(CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* background, Event events,const string sName);
 	void calcButtonSize();
 	void SwitchToTab(string sName);
