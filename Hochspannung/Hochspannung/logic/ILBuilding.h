@@ -28,7 +28,7 @@ public:
 			case SOUTH: return NORTH;
 			case WEST: return EAST;
 			default:
-				ASSERT(false, "Invalid orientation given");
+				ASSERT("Invalid orientation given");
 				return CASTS<Orientation>(0);
 		}
 	}

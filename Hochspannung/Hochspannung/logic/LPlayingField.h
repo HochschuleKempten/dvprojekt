@@ -59,25 +59,86 @@ private:
 
 	bool isLocalOperation = true;
 
+private:
+	template<typename T>
+	struct placeBuildingHelper
+	{
+		LPlayingField* playingField;
+		explicit placeBuildingHelper(LPlayingField* playingField)
+			: playingField(playingField) {}
+
+		template<typename... Args>
+		bool operator()(const int x, const int y, const Args... arguments)
+		{
+			return playingField->getField(x, y)->setBuilding<T>(x, y, arguments...);
+		}
+	};
+
+	template<>
+	struct placeBuildingHelper<LPowerLine>
+	{
+		LPlayingField* playingField;
+		explicit placeBuildingHelper(LPlayingField* playingField)
+			: playingField(playingField)
+		{}
+
+		template<typename... Args>
+		bool operator()(const int x, const int y, const Args... arguments)
+		{
+			int orientation = playingField->linkPowerlines(x, y);
+			return playingField->getField(x, y)->setBuilding<LPowerLine>(x, y, orientation, arguments...);
+		}
+	};
+
+	void createFields();
+	bool checkIndex(const int x, const int y);
+	int convertIndex(const std::pair<int, int>& coordinates);
+	int convertIndex(const int x, const int y);
+	std::pair<int, int> convertIndex(const int idx);
+	void calculateEnergyValueCity();
+	void addBuildingToGraph(const int x, const int y, const int orientation);
+	void printGraph();
+
+	/**
+	* @brief Sets grass on every field around the given coordinates.
+	*
+	* @param coordinates base field to place grass around
+	* @param space adjusts the range of grass (number of fields for each side)
+	*
+	* @tparam cross specifies if all fields around should be set to grass or just the even ones (i. e. not the diagonal ones when set to <code>true</code>)
+	*/
+	template<bool cross = false>
+	void placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space);
+
+	bool isCoordinateUsed(const std::pair<int, int>& coordinates) const;
+
+	/**
+	* @brief Generates new random coordinates which are not used yet.
+	*
+	* @return coordinate pair (x,y)
+	*/
+	std::pair<int, int> retrieveFreeCoordinates();
+
+	/**
+	* @brief Tries to generate coordinates from the given parameter.
+	*
+	* The coordinates you pass to this function should be unused. Otherwise the assertion fails.
+	* The main purpose of this function is to store the coordinates which you want to use.
+	*
+	* @param x the first coordinate
+	* @param y the second coordinate
+	*
+	* @return coordinate pair (x,y)
+	*/
+	std::pair<int, int> retrieveFreeCoordinates(const int x, const int y);
+
 public:
 	explicit LPlayingField(LMaster* lMaster);
 	~LPlayingField();
-	
-	template<typename T>
-	bool placeBuildingHelper(const int x, const int y)
-	{
-		return getField(x, y)->setBuilding<T>(x, y);
-	}
-	template<>
-	bool placeBuildingHelper<LPowerLine>(const int x, const int y)
-	{
-		int orientation = linkPowerlines(x, y);
-		return getField(x, y)->setBuilding<LPowerLine>(x, y, orientation);
-	}
 
 	// returns true if building could be placed, else false (building not allowed or building already placed)
 	template<typename T, typename... Args>
-	bool placeBuilding(const int x, const int y, const Args... arguments)//TODO (JS) Args...
+	bool placeBuilding(const int x, const int y, const Args... arguments)
 	{
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
@@ -89,7 +150,7 @@ public:
 			return false;
 		}
 
-		if (placeBuildingHelper<T>(x, y)) {
+		if (placeBuildingHelper<T>(this)(x, y, arguments...)) {
 			addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
 			if (isLocalOperation)
@@ -198,49 +259,6 @@ public:
 	{
 		return CASTD<LCity*>(getField(localCityPosition.first, localCityPosition.second)->getBuilding());
 	}
-
-private:
-	void createFields();
-	bool checkIndex(const int x, const int y);
-	int convertIndex(const std::pair<int, int>& coordinates);
-	int convertIndex(const int x, const int y);
-	std::pair<int, int> convertIndex(const int idx);
-	void calculateEnergyValueCity();
-	void addBuildingToGraph(const int x, const int y, const int orientation);
-	void printGraph();
-	
-	/**
-	 * @brief Sets grass on every field around the given coordinates.
-	 *
-	 * @param coordinates base field to place grass around
-	 * @param space adjusts the range of grass (number of fields for each side)
-	 *
-	 * @tparam cross specifies if all fields around should be set to grass or just the even ones (i. e. not the diagonal ones when set to <code>true</code>)
-	 */
-	template<bool cross = false>
-	void placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space);
-
-	bool isCoordinateUsed(const std::pair<int, int>& coordinates) const;
-
-	/**
-	 * @brief Generates new random coordinates which are not used yet.
-	 *
-	 * @return coordinate pair (x,y)
-	 */
-	std::pair<int, int> retrieveFreeCoordinates();
-
-	/**
-	 * @brief Tries to generate coordinates from the given parameter.
-	 *
-	 * The coordinates you pass to this function should be unused. Otherwise the assertion fails.
-	 * The main purpose of this function is to store the coordinates which you want to use.
-	 * 
-	 * @param x the first coordinate
-	 * @param y the second coordinate
-	 *
-	 * @return coordinate pair (x,y)
-	 */
-	std::pair<int, int> retrieveFreeCoordinates(const int x, const int y);
 };
 
 

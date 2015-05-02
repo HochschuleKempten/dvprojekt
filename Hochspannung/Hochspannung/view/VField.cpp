@@ -23,6 +23,7 @@ VField::~VField()
 
 void VField::setHoverOn()
 {
+	//TODO (JS) set player color
 	m_zmNormal.SetColorAmbient(CColor(1.0, 0.0, 0.0));
 }
 

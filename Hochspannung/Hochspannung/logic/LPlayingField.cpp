@@ -63,7 +63,7 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 	createFields(); //Create the fields (also places some buildings)
 
 	ASSERT(unusedCoordinates.empty(), "The container for the unused coordinates are not empty (There are field wich are not initialized)");
-	ASSERT(usedCoordinates.size() == fieldLength*fieldLength, "Not every cordinates are in the set for the used coordinates. This is an indication that something in the initialization process went wrong");
+	ASSERT(usedCoordinates.size() == CASTS<size_t>(fieldLength*fieldLength), "Not every cordinates are in the set for the used coordinates. This is an indication that something in the initialization process went wrong");
 	vPlayingField->buildPlayingField(); //Now build the playing field
 }
 
@@ -243,10 +243,10 @@ void LPlayingField::createFields()
 	placeGrassAroundPosition(remoteCityPosition, 1);
 
 	fieldArray[firstRemotePowerLineCoordinates.first][firstRemotePowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(firstRemotePowerLineCoordinates.first, firstRemotePowerLineCoordinates.second, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+	placeBuilding<LPowerLine>(firstRemotePowerLineCoordinates.first, firstRemotePowerLineCoordinates.second);
 
 	fieldArray[secondRemotePowerLineCoordinates.first][secondRemotePowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+	placeBuilding<LPowerLine>(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second);
 
 	fieldArray[firstRemotePowerPlantCoordinates.first][firstRemotePowerPlantCoordinates.second].init(LField::FieldType::COAL, LField::FieldLevel::LEVEL1);
 	placeBuilding<LCoalPowerPlant>(firstRemotePowerPlantCoordinates.first, firstRemotePowerPlantCoordinates.second);
@@ -257,12 +257,12 @@ void LPlayingField::createFields()
 
 	//Fill with the requested number of power plants
 	std::chrono::system_clock::rep seed1 = std::chrono::system_clock::now().time_since_epoch().count();
-	std::mt19937 g1(seed1);
+	std::mt19937_64 g1(seed1);
 	const int numberOfPowerPlants = (fieldLength * fieldLength) / 8;
 	for (int i = 0; i < numberOfPowerPlants; i++) {
 		std::pair<int, int> newCoordinates = retrieveFreeCoordinates();
-		int type = g1() % fieldTypes.size();
-		int level = g1() % fieldLevels.size();
+		size_t type = g1() % fieldTypes.size();
+		size_t level = g1() % fieldLevels.size();
 		fieldArray[newCoordinates.first][newCoordinates.second].init(fieldTypes[type], fieldLevels[level]);
 		DEBUG_OUTPUT("power plant placed " << i << ": " << type << ", " << level << " at " << newCoordinates.first << ":" << newCoordinates.second);
 
@@ -391,7 +391,7 @@ void LPlayingField::printGraph()
 	//dot -Tpng -o graph.png graph.dot
 }
 
-template<bool cross = false>
+template<bool cross>
 void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space)
 {
 	for (int rowIdx = -space; rowIdx <= space; rowIdx++) {
@@ -431,10 +431,10 @@ bool LPlayingField::isCoordinateUsed(const std::pair<int, int>& coordinates) con
 std::pair<int, int> LPlayingField::retrieveFreeCoordinates()
 {
 	std::chrono::system_clock::rep seed1 = std::chrono::system_clock::now().time_since_epoch().count();
-	std::mt19937 g1(seed1);
+	std::mt19937_64 g1(seed1);
 
 	//Get new idx from the unused coordinates
-	int coordinateIdx = g1() % unusedCoordinates.size();
+	size_t coordinateIdx = g1() % unusedCoordinates.size();
 	auto itUnusedCoordinates = unusedCoordinates.begin();
 	
 	//Get the random coordinates

@@ -53,7 +53,7 @@ private:
 	//TODO (All) where can power lines be placed? (grass, solar, ...)
 	template<typename T> bool checkBuildingType()
 	{
-		ASSERT(false, "Unknown field type");
+		ASSERT("Unknown field type");
 		return false;
 	}
 	template<> bool checkBuildingType<LOilRefinery>()

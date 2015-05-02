@@ -364,7 +364,7 @@ void VScreenIngame::handleInput()
 
 				switch (m_selectedBuilding) {
 					case VIdentifier::VPowerLine:
-						vUi->vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+						vUi->vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y);
 						break;
 					case VIdentifier::VWindmillPowerPlant:
 						vUi->vMaster->getPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);

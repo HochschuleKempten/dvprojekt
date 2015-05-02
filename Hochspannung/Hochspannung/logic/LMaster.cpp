@@ -71,7 +71,7 @@ void LMaster::tick(const float fTimeDelta)
 
 			if (objectId >= 0 && objectId < 16)//check if building is a powerline (orientation values between 0 and 16)
 			{
-				lPlayingField->placeBuilding<LPowerLine>(x, y, objectId);
+				lPlayingField->placeBuilding<LPowerLine>(x, y/*, objectId*/);	//TODO (L) The constructor for LPowerLine does not support an objectId, so this call is not legal
 			}
 			else
 			{
