@@ -51,11 +51,16 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_fUpperArmPosition		= m_fLowerArmPosition + m_fStrutHeight * 2.0f;
 	m_fUpperArmLength		= sqrt(pow(m_fStrutHeight, 2) + pow(m_fArmLength, 2));
 	m_fArmAngle				= asinf(m_fStrutHeight / m_fUpperArmLength);
+	dividedArm				= m_fArmLength * 0.25f;
 
 	m_fIsolatorLength		= m_fStrutHeight;
 	m_fIsolatorThickness	= m_fIsolatorLength * 0.1f;
 	m_fRingRadius			= m_fIsolatorThickness;
 	m_fRingThickness		= m_fIsolatorThickness * 0.25f;
+
+	m_fLineLength			= m_fArmLength * 2.0f;
+	m_fLineThickness		= m_fRingRadius * 0.8f;
+	m_fBendLineLength		= m_fFieldSize - m_fLineLength - dividedArm;
 
 	// init geometries (foundation, pole, strut)
 	m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &VMaterialLoader::m_zmConcrete);
@@ -71,7 +76,8 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_zgRingLoD1.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &VMaterialLoader::m_zmRing);
 	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &VMaterialLoader::m_zmRing, 5, 5, false);
 	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), &VMaterialLoader::m_zmRing);
-	m_zgLine.Init(m_fRingRadius * 0.8f, m_fRingRadius * 0.8f, m_fFieldSize - m_fArmLength * 0.5f, &VMaterialLoader::m_zmCable, 16, false, false);
+	m_zgLine.Init(m_fLineThickness, m_fLineThickness, m_fLineLength, &VMaterialLoader::m_zmCable, 16, false, false);
+	m_zgBendLine.Init(m_fLineThickness, m_fLineThickness, m_fBendLineLength, &VMaterialLoader::m_zmCable, 16, false, false);
 
 
 	// preparing struts (rotate)
@@ -102,6 +108,7 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 			m_zpStruts[index1].TranslateDelta(m_fPoleDistance, iYTranslation, 0);
 			m_zpStruts[index2].TranslateDelta(m_fPoleDistance, iYTranslation, 0);
 		}
+		m_zpPole[i].TranslateY(m_fFoundationHeight);
 		m_zpPole[i].FixAndFasten();
 
 		// adding roof
@@ -154,8 +161,6 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 		m_zpTriangleIsolatorLoD3->Subdivide(m_fIsolatorLength * 0.5f);
 		m_zpTriangleIsolatorLoD3->WaveY(0.3f, 0.01f, 0);
 
-		float dividedArm = m_fArmLength * 0.25f;
-
 		for (int j = 0; j < 4; j++)
 		{
 			m_zpIsolatorLoD1[i * 4 + j].AddGeo(m_zpTriangleIsolatorLoD1);
@@ -199,7 +204,18 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 		m_zpLine[i].AddGeo(&m_zgLine);
 		m_zpLine[i].RotateZDelta(HALFPI);
 		m_zpLine[i].TranslateYDelta(-m_fRingRadius);
+		m_zpLine[i].TranslateXDelta(dividedArm);
 		m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpLine[i]);
+
+		// add bent lines
+		m_zpTriangleBendLine = m_zgBendLine.CopyToTriangleList();
+		m_zpTriangleBendLine->SubdivideY(0.1f * m_fBendLineLength);
+		m_zpTriangleBendLine->BendX(0.5f * m_fBendLineLength, AngleToRad(75));
+		m_zpBendLine[i].AddGeo(m_zpTriangleBendLine);
+		/*m_zpBendLine[i].RotateZDelta(HALFPI);
+		m_zpBendLine[i].TranslateYDelta(-m_fRingRadius);
+		m_zpBendLine[i].TranslateXDelta(-m_fLineLength + dividedArm);*/
+		m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpBendLine[i]);
 
 		// switch on/off unnecessary arms and cables
 		SetDirection(m_eDirection);
