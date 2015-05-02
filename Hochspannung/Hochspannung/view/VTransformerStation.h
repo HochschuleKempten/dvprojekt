@@ -19,6 +19,7 @@ public:
 	virtual ~VTransformerStation() override;
 
 	virtual void initTransformerStation(const std::shared_ptr<IVTransformerStation>& objPtr, const int x, const int y) override;
+	virtual ILBuilding* getLBuilding() override;
 
 };
 

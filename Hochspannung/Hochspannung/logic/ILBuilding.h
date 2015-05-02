@@ -20,14 +20,47 @@ public:
 		WEST = 0x8
 	};
 
+	static Orientation getOpppositeOrienttion(const Orientation orientation)
+	{
+		switch (orientation) {
+			case NORTH: return SOUTH;
+			case EAST: return WEST;
+			case SOUTH: return NORTH;
+			case WEST: return EAST;
+			default:
+				ASSERT(false, "Invalid orientation given");
+				return CASTS<Orientation>(0);
+		}
+	}
+
+	static std::string getOrientationName(const int orientation)
+	{
+		std::string name = "";
+
+		if (orientation & Orientation::NORTH) {
+			name += "North ";
+		}
+		if (orientation & Orientation::EAST) {
+			name += "East ";
+		}
+		if (orientation & Orientation::SOUTH) {
+			name += "South ";
+		}
+		if (orientation & Orientation::WEST) {
+			name += "West ";
+		}
+		
+		return name;
+	}
+
 	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 protected:
 	LField* lField;
-	LPlayer::PlayerNumber playerNumber = LPlayer::PlayerNumber::PlayerOne; //todo (L)
+	LPlayer::PlayerId playerId = LPlayer::PlayerId::Local;
 	int orientation;
 
 public:
-	ILBuilding(LField* lField)
+	explicit ILBuilding(LField* lField)
 		: lField(lField)
 	{}
 
@@ -43,17 +76,17 @@ public:
 		return NORTH | EAST | SOUTH | WEST;
 	}
 
+	void setPlayerId(const LPlayer::PlayerId playerId)
+	{
+		this->playerId = playerId;
+	}
+
+	LPlayer::PlayerId getPlayerId() const
+	{
+		return playerId;
+	}
+
 	static const int cost = 10;
-
-	void setPlayerNumber(const LPlayer::PlayerNumber playerNumber)
-	{
-		this->playerNumber = playerNumber;
-	}
-
-	LPlayer::PlayerNumber getPlayerNumber() const //todo (L) const everywhere where needed
-	{
-		return playerNumber;
-	}
 };
 
 

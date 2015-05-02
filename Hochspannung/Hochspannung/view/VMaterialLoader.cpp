@@ -46,7 +46,7 @@ CMaterial VMaterialLoader::materialIngameButtonStatistics;
 CMaterial VMaterialLoader::materialIngameButtonCraftmenuHover;
 CMaterial VMaterialLoader::materialIngameButtonSabotageHover;
 CMaterial VMaterialLoader::materialIngameButtonStatisticsHover;
-	//Craftmenu
+//Craftmenu
 CMaterial VMaterialLoader::materialCraftmenuButtonWindmill;
 CMaterial VMaterialLoader::materialCraftmenuButtonHydroPowerplant;
 CMaterial VMaterialLoader::materialCraftmenuButtonSolarPowerplant;
@@ -73,6 +73,12 @@ CMaterial VMaterialLoader::m_zmStrut;
 CMaterial VMaterialLoader::m_zmIsolator;
 CMaterial VMaterialLoader::m_zmRing;
 CMaterial VMaterialLoader::m_zmCable;
+
+//PlayerColor
+std::unordered_map<LPlayer::PlayerId, CColor> VMaterialLoader::colorPlayers;
+
+//PlayerFoundations
+std::unordered_map<LPlayer::PlayerId, CMaterial> VMaterialLoader::materialFoundationPlayer;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
@@ -102,7 +108,7 @@ void VMaterialLoader::init()
 
 	materialDialogBackground.MakeTextureSprite("textures\\MainMenueBackground.png");
 	materialIngameBorder.Init(CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68));
-	
+
 	//Buttons
 	//materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpiel.png");
 	//materialButtonMainMenueNeuesSpielHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpielHover.png");
@@ -134,18 +140,18 @@ void VMaterialLoader::init()
 	materialLobbyBigDialog.MakeTextureSprite("textures\\LobbyBigDialog.png");
 	materialBuildingButton.MakeTextureSprite("textures\\BuildingButton.png");
 	materialBuildingButtonHover.MakeTextureSprite("textures\\BuildingButtonHover.png");
-	
+
 	//Ingame Buttons
 	materialIngameButtonCraftmenu.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_craftmenu.png");
 	materialIngameButtonCraftmenuHover.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_craftmenu_hover.png");
-	
+
 	materialIngameButtonSabotage.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_sabotage.png");
 	materialIngameButtonSabotageHover.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_sabotage_hover.png");
-	
+
 	materialIngameButtonStatistics.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_statistics.png");
 	materialIngameButtonStatisticsHover.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_statistics_hover.png");
 
-		//Craftmenu
+	//Craftmenu
 	materialCraftmenuButtonWindmill.MakeTextureSprite("textures\\Buttons\\BuildingButtonWindmill.png");
 	materialCraftmenuButtonHydroPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonHydroPowerplant.png");
 	materialCraftmenuButtonSolarPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonSolarPowerplant.png");
@@ -181,6 +187,18 @@ void VMaterialLoader::init()
 	m_zmIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmRing.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmCable.MakeTextureDiffuse("textures\\white_image.jpg");
+
+	//PlayerColor
+	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
+	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::External), std::make_tuple(222.0f / 255.0f, 186.0f / 255.0f, 69.0f / 255.0f));
+
+	//PlayerFoundations
+	materialFoundationPlayer[LPlayer::Local].MakeTextureDiffuse("textures/texture_concrete_diffuse.png");
+	materialFoundationPlayer[LPlayer::Local].MakeTextureBump("textures/texture_concrete_normal.png");
+	materialFoundationPlayer[LPlayer::Local].MakeTextureSpecular("textures/texture_concrete_specular.png");
+	materialFoundationPlayer[LPlayer::External].MakeTextureDiffuse("textures/texture_concrete_diffuse.png");
+	materialFoundationPlayer[LPlayer::External].MakeTextureBump("textures/texture_concrete_normal.png");
+	materialFoundationPlayer[LPlayer::External].MakeTextureSpecular("textures/texture_concrete_specular.png");
 }
 
 

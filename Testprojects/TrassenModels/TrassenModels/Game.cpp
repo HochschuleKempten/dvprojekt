@@ -2,7 +2,6 @@
 #include "Game.h"
 #include <filesystem>
 #include "../../../Hochspannung/Hochspannung/view/VMaterialLoader.h"
-#include "../../../Hochspannung/Hochspannung/view/Helper.h"
 
 CGame::CGame(void)
 {
@@ -51,7 +50,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zTrasse1->SetDirection(VModelPowerLine::DIRECTION::SOUTH | VModelPowerLine::DIRECTION::NORTH | VModelPowerLine::DIRECTION::EAST);
 	m_zTrasse2->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST | VModelPowerLine::DIRECTION::SOUTH | VModelPowerLine::DIRECTION::NORTH);
 	m_zTrasse3->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST | VModelPowerLine::DIRECTION::SOUTH | VModelPowerLine::DIRECTION::NORTH);
-	m_zTrasse4->Init(VModelPowerLine::DIRECTION::EAST | VModelPowerLine::DIRECTION::WEST);
+	m_zTrasse4->Init(VModelPowerLine::NORTH);
 
 	int direction = m_zTrasse1->Direction();
 
