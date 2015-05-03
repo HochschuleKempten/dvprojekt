@@ -297,7 +297,7 @@ namespace Vektoria
 		SRenderObjectHandle CreateTriangleStrip(CTriangleStrip *ptrianglestrip);
 
 		// custom buffer handling
-		SRenderObjectHandle CreateBuffer(CDrawable *pdrawable, void *pData, D3D11_BUFFER_DESC &bd, int *pIndices = 0, int iindicesCount = 0);
+	 //	SRenderObjectHandle CreateBuffer(CDrawable *pdrawable, void *pData, D3D11_BUFFER_DESC &bd, int *pIndices = 0, int iindicesCount = 0);
 		HRESULT CreateSRVFromFile(char const *pFileName, ID3D11ShaderResourceView **ppSRV);
 		HRESULT CreateSamplerState(D3D11_SAMPLER_DESC const *pSamplerDesc, ID3D11SamplerState **ppSamplerState);
 		void FreeHandle(SRenderObjectHandle handle);

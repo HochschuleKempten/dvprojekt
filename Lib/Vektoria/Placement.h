@@ -5,7 +5,6 @@
 #include "Emitters.h"
 #include "Geos.h"
 #include "Audios.h"
-#include "Drawables.h"
 #include "PointLights.h"
 #include "SpotLights.h"
 #include "ApiRender.h"
@@ -30,7 +29,6 @@ namespace Vektoria
 
 class CCamera;
 class CPlacements;
-class CDrawable;
 class CTriangleLists;
 class CWribels;
 class CWribel;
@@ -73,7 +71,6 @@ public:
 	void AddPlacement(CPlacement * pplacement);
 	void AddAudio(CAudio * paudio);
 	void AddWribel(CWribel * pwribel);
-	void AddDrawable(CDrawable *pdrawable);
 
 	bool SubGeo(CGeo * pgeo); // Hängt die Geometrie wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
 	bool SubEmitter(CEmitter * pemitter);
@@ -83,7 +80,6 @@ public:
 	bool SubPlacement(CPlacement * pplacement); // Hängt das Unterplacement wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
 	bool SubAudio(CAudio * paudio); // Hängt den 3D Sound wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
 	bool SubWribel(CWribel * pwribel); // Hängt den 3D Sound wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
-	bool SubDrawable(CDrawable * pdrawable); // Hängt das Drawable wieder von dem aktuellen Placement ab, gibt true aus, wenns geklappt hat
 
 
 	void SetLoD(float fDistNear, float fDistFar);
@@ -179,13 +175,13 @@ public:
 	float m_fFocusDistance;
 
 	bool m_bFrustumCulling;
-	bool m_bFrustumCullingByFather;
+	bool m_bFrustumCullingEntry;
 	void SetFrustumCullingOn();
 	void SetFrustumCullingOff();
 	void SetFrustumCullingByFather();
 
 	bool m_bBVHExactCalculation;
-	bool m_bBVHExactCalculationByFather;
+	bool m_bBVHExactCalculationEntry;
 	void SetBVHExactCalculationOn();
 	void SetBVHExactCalculationOff();
 	void SetBVHExactCalculationByFather();
@@ -229,7 +225,6 @@ public:
 	CPointLights * m_ppointlights;
 	CGeos * m_pgeos;
 	CEmitters * m_pemitters;
-	CDrawables * m_pdrawables;
 	CCameras * m_pcameras;
 	CAudios * m_paudios;
 	CWribels * m_pwribels;
@@ -264,7 +259,7 @@ private:
 	void HierarchyWing(CTriangleLists * ptrianglelists, CGeo * pgeo, CHMat & mGlobal);
 	void HierarchyWall(CTriangleLists * ptrianglelists, CGeo * pgeo, CHMat & mGlobal);
 
-	// void TransformAABB();
+	void CopyDownwards(); // Kopiert alle Eigenschaften des Placements rekursiv in der Hierarchie hinunter, belässt die Eigenschaften, wo ein Entry-Flag gesetzt wurde
 
 	int m_iDraw;
 	bool m_bLastInsideLoD;

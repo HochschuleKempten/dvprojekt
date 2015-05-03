@@ -1,5 +1,6 @@
 #pragma once
 #include "Node.h"
+#include "GameObject.h"
 
 using namespace boost::asio;
 
@@ -16,10 +17,10 @@ class CClient : public CNode {
 public:
 	/**
 	 * @brief Constructor that takes the ip and port.
-	 * @param sIP the IP of the target server.
-	 * @param stIP the port to connect to.
+	 * @param stIP the IP of the target server.
+	 * @param usPortTcpServer the tcp port of the target server.
 	 */
-	CClient(std::string stIP, unsigned short usPort);
+	CClient(std::string stIP = "", unsigned short usPortTcpServer = m_usPortTcp);
 
 	/**
 	 * @brief Default constructor.
@@ -28,19 +29,34 @@ public:
 
 	/**
 	 * @brief Sets the servers connection data.
-	 * @param sIP the IP of the target server.
-	 * @param stIP the port to connect to.
+	 * @param stIP the IP of the target server.
+	 * @param usPortTcpServer the port to connect to.
 	 * @return true if the given data is valid, false otherwise.
 	 */
-	bool setServerData(std::string stIP, std::string sPort);
+	bool setServerData(std::string stIP, unsigned short usPortTcpServer = m_usPortTcp);
+
+	/**
+	 * @brief Searches for game server in the local network.
+	 */
+	void searchGames();
+	
+	/**
+	 * @brief Returns a list of found games in the local network.
+	 * @return the list containing information of every hosted game found in the network.
+	 */
+	std::vector<CGameObject>& getGameList();
 
 private:
 	bool connect();
 
-	void connectCompleteHandler(const error_code& ec, ip::tcp::resolver::iterator iterator);
+	void connectCompleteHandler(const error_code& error);
+	void udpDataRecievedHandler(const boost::system::error_code& error, std::size_t bytesTransferred);
+	void udpDataSentHandler(const boost::system::error_code& error, std::size_t bytesTransferred);
 
-	ip::tcp::resolver::iterator m_endpointIterator;
+	ip::tcp::endpoint m_remoteEndpointTcp;
 	bool m_bEndpointValid;
+
+	std::vector<CGameObject> m_gameList;
 };
 
 }

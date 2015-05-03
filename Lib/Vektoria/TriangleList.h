@@ -50,7 +50,7 @@ public:
 	bool m_bFirstDraw;
 	int m_iRenderKind;
 
-	bool Intersects(CRay & r, CHVector & vIntersection, float & fDistanceSquare); // berechnet, ob Strahl r ein Dreieck der Geometrie trifft, vIntersection ist dann der Schnittpunkt
+	bool Intersects(CRay & r, CHVector & vIntersection, float & fDistanceSquare, int & iMatGlobal); // berechnet, ob Strahl r ein Dreieck der Geometrie mit der Instanz iMatGlobal trifft, vIntersection ist dann der Schnittpunkt
 
 	void Draw(float fDistanceToCameraSquare, CHMat & mGlobal); 
 	void Update();

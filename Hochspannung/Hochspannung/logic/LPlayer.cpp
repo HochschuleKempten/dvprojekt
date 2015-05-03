@@ -25,7 +25,7 @@ void LPlayer::addMoney(const int amount)
 	lMaster->getVMaster()->updateMoney(money);
 }
 
-void LPlayer::substractMoney(const int amount)
+void LPlayer::subtractMoney(const int amount)
 {
 	money -= amount;
 	lMaster->getVMaster()->updateMoney(money);

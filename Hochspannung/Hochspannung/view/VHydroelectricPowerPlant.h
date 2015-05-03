@@ -20,6 +20,7 @@ public:
 	virtual ~VHydroelectricPowerPlant();
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y) override;
+	virtual ILBuilding* getLBuilding() override;
 };
 
 

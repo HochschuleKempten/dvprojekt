@@ -9,6 +9,8 @@
 namespace Vektoria
 {
 
+
+
 class CTriangleStrip : public CGeo
 {
 	friend class CTriangleStrips;
@@ -43,7 +45,7 @@ public:
 	CTriangleList * CopyToTriangleList(); // Gibt eine dem TriangleStrip äquivalente TriangleList aus
 	void EstimateTangentsAndBinormals(); // Versucht, die Tangenten und die Binormalen für das Bumpmapping aus den gegebenen UV-Koordianten zu erraten  
 
-	bool Intersects(CRay & r, CHVector & vIntersection, float & fDistanceSquare); // berechnet, ob Strahl r ein Dreieck der Geometrie trifft, vIntersection ist dann der Schnittpunkt
+	bool Intersects(CRay & r, CHVector & vIntersection, float & fDistanceSquare, int & iMatGlobal); // berechnet, ob Strahl r irgendein Dreieck der Geometrie trifft, vIntersection ist dann der Schnittpunkt (nicht unbedingt der Nächste nd nicht unbedingt derjenige der zum Betrachter zeigt!)
 
 private:
 	void AddIndexFirst(int iIndex);

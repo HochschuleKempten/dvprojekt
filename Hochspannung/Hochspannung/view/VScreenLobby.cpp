@@ -1,16 +1,14 @@
 #include "VScreenLobby.h"
+#include "VUI.h"
 
 NAMESPACE_VIEW_B
-VScreenLobby::VScreenLobby()
-{
-}
 
-VScreenLobby::VScreenLobby(CFrame* frame)
+VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 {
 	m_viewport = new CViewport();
 	m_camera.Init();
 	m_viewport->InitFull(&m_camera);
-	frame->AddViewport(m_viewport);
+	vUi->m_zf.AddViewport(m_viewport);
 
 
 	m_background = new CBackground();
@@ -28,20 +26,6 @@ VScreenLobby::VScreenLobby(CFrame* frame)
 	getContainer("Menue")->addButton(CFloatRect(0.65, 0.05, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, START_GAME,"buttonStartGame");
 	getContainer("Menue")->addButton(CFloatRect(0.65, 0.19, 0.30, 0.12), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING,"iwas");
 	getContainer("Menue")->addTextfield(CFloatRect(0.02, 0.06, 0.30, 0.08), &VMaterialLoader::materialIngameBorder, &VMaterialLoader::materialRed, &VMaterialLoader::materialGreen,30,"Suche IP-Adresse...","textfieldIP");
-
-//	getContainer("Menue")->getGuiObject("textfieldIP")->switchOff();
-
-	//CWritingFont* m_writingfont = new CWritingFont();
-	//m_writingfont->Init("textures\\FontArialShadow.png", true);
-	//m_writingfont->SetTableSize(16, 6);
-	//CWriting* m_writing = new CWriting();
-	//m_writing->Init(CFloatRect(0, 0, 0.5, 0.5), 30, m_writingfont);
-	//CWriting* m_writing2 = new CWriting();
-	//m_writing2->Init(CFloatRect(0, 0, 0.5, 0.5), 30, m_writingfont);
-	////Initialize Writingfont
-	//m_viewport->AddWriting(m_writing);
-	//m_viewport->AddWriting(m_writing2);
-	//m_writing->PrintF("TestText");
 	
 }
 
@@ -80,4 +64,17 @@ void VScreenLobby::checkShortcut(CDeviceKeyboard* keyboard)
 	}
 
 }
-NAMESPACE_VIEW_E
+
+	void VScreenLobby::checkSpecialEvent(CDeviceCursor* cursor)
+	{
+	}
+
+	void VScreenLobby::tick()
+	{
+	}
+
+	void VScreenLobby::resize(int width, int height)
+	{
+	}
+
+	NAMESPACE_VIEW_E

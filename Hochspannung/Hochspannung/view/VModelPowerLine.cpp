@@ -1,7 +1,7 @@
 #include "VModelPowerLine.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
-
 
 #define SIZEOF_ARRAY(array) (sizeof(array) / sizeof(*array))
 
@@ -33,11 +33,6 @@ void VModelPowerLine::SetPosition(int x, int y) {
 
 void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 {
-	m_zmGrey.MakeTextureDiffuse("textures\\texture_concrete_diffuse.png");
-	m_zmGrey.MakeTextureBump("textures\\texture_concrete_normal.png");
-	m_zmGrey.MakeTextureSpecular("textures\\texture_concrete_specular.png");
-	m_zmBlack.MakeTextureDiffuse("textures\\black_image.jpg");
-
 	// set necessary attributes depending on foundationWidth and pylonHeight
 	m_fFoundationWidth		= m_fFieldSize * 0.2f;
 	m_fFoundationHeight		= m_fFoundationWidth * 0.2f;
@@ -57,29 +52,26 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_fUpperArmLength		= sqrt(pow(m_fStrutHeight, 2) + pow(m_fArmLength, 2));
 	m_fArmAngle				= asinf(m_fStrutHeight / m_fUpperArmLength);
 
-	m_fIsolatorLength    = m_fStrutHeight;
-	m_fIsolatorThickness = m_fIsolatorLength * 0.1f;
-	m_fRingRadius        = m_fIsolatorThickness;
-	m_fRingThickness     = m_fIsolatorThickness * 0.25f;
+	m_fIsolatorLength		= m_fStrutHeight;
+	m_fIsolatorThickness	= m_fIsolatorLength * 0.1f;
+	m_fRingRadius			= m_fIsolatorThickness;
+	m_fRingThickness		= m_fIsolatorThickness * 0.25f;
 
 	// init geometries (foundation, pole, strut)
-	m_zSweepMats.Make(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-	m_zgSweep.InitCircle(&m_zmGrey, 32, m_zSweepMats);
-
-	m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &m_zmGrey);
-	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), &m_zmBlack);
-	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
-	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), &m_zmBlack);
-	m_zgArm.Init(CHVector(m_fArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
-	m_zgUpperArm.Init(CHVector(m_fUpperArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmBlack);
-	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), &m_zmBlack);
-	m_zgIsolatorLoD1.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmBlack);
-	m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmBlack, 6, false, false);
-	m_zgIsolatorLoD3.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmBlack, 4, false, false);
-	m_zgRingLoD1.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmBlack);
-	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmBlack, 5, 5, false);
-	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), &m_zmBlack);
-	m_zgLine.Init(m_fRingRadius * 0.8f, m_fRingRadius * 0.8f, m_fFieldSize - m_fArmLength * 0.5f, &m_zmGrey, 16, false, false);
+	//m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &VMaterialLoader::m_zmConcrete);
+	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), &VMaterialLoader::m_zmStrut);
+	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), &VMaterialLoader::m_zmStrut);
+	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), &VMaterialLoader::m_zmStrut);
+	m_zgArm.Init(CHVector(m_fArmLength, m_fStrutThickness, m_fStrutThickness), &VMaterialLoader::m_zmStrut);
+	m_zgUpperArm.Init(CHVector(m_fUpperArmLength, m_fStrutThickness, m_fStrutThickness), &VMaterialLoader::m_zmStrut);
+	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), &VMaterialLoader::m_zmStrut);
+	m_zgIsolatorLoD1.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &VMaterialLoader::m_zmIsolator);
+	m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &VMaterialLoader::m_zmIsolator, 6, false, false);
+	m_zgIsolatorLoD3.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &VMaterialLoader::m_zmIsolator, 4, false, false);
+	m_zgRingLoD1.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &VMaterialLoader::m_zmRing);
+	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &VMaterialLoader::m_zmRing, 5, 5, false);
+	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), &VMaterialLoader::m_zmRing);
+	m_zgLine.Init(m_fRingRadius * 0.8f, m_fRingRadius * 0.8f, m_fFieldSize - m_fArmLength * 0.5f, &VMaterialLoader::m_zmCable, 16, false, false);
 
 
 	// preparing struts (rotate)
@@ -90,7 +82,6 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 
 	int index1, index2;
 	float iYTranslation;
-	std::bitset<4> direction = m_eDirection;
 	// adding struts to poles
 	for (int i = 0; i < 4; i++) {
 		m_zpPole[i].AddGeo(&m_zgPole);
@@ -211,7 +202,7 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 		m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpLine[i]);
 
 		// switch on/off unnecessary arms and cables
-		direction[i] ? m_zpArm[i].SwitchOn() : m_zpArm[i].SwitchOff();
+		SetDirection(m_eDirection);
 
 		// set level of details
 		m_zpIsolatorLoD1[i].SetLoD(0, 1.0f);
@@ -239,6 +230,13 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 
 SHORT * VModelPowerLine::GetPosition() {
 	return m_saGridPosition;
+}
+
+void VModelPowerLine::SetDirection(VModelPowerLine::DIRECTION eDirection) {
+	std::bitset<4> direction = m_eDirection = eDirection;
+	for (int i = 0; i < 4; i++) {
+		direction[i] ? m_zpArm[i].SwitchOn() : m_zpArm[i].SwitchOff();
+	}
 }
 
 VModelPowerLine::DIRECTION VModelPowerLine::Direction() {
