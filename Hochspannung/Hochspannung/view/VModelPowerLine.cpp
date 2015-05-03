@@ -78,8 +78,7 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), &VMaterialLoader::m_zmRing);
 	m_zgLine.Init(m_fLineThickness, m_fLineThickness, m_fLineLength, &VMaterialLoader::m_zmCable, 16, false, false);
 	m_zgBendLine.Init(m_fLineThickness, m_fLineThickness, m_fBendLineLength, &VMaterialLoader::m_zmCable, 16, false, false);
-
-
+	
 	// preparing struts (rotate)
 	//m_zpStruts = new CPlacement[m_iStrutsCount * 8];
 	for (int i = 0; i < m_iStrutsCount * 8; i++) {
@@ -201,21 +200,30 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 		m_zpRing[i].SetFrustumCullingOn();
 
 		// add lines
-		m_zpLine[i].AddGeo(&m_zgLine);
-		m_zpLine[i].RotateZDelta(HALFPI);
-		m_zpLine[i].TranslateYDelta(-m_fRingRadius);
-		m_zpLine[i].TranslateXDelta(dividedArm);
-		m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpLine[i]);
+		//m_zpLine[i].AddGeo(&m_zgLine);
+		//m_zpLine[i].RotateZDelta(HALFPI);
+		//m_zpLine[i].TranslateYDelta(-m_fRingRadius);
+		//m_zpLine[i].TranslateXDelta(dividedArm);
+		//m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpLine[i]);
 
 		// add bent lines
-		m_zpTriangleBendLine = m_zgBendLine.CopyToTriangleList();
-		m_zpTriangleBendLine->SubdivideY(0.1f * m_fBendLineLength);
-		m_zpTriangleBendLine->BendX(0.5f * m_fBendLineLength, AngleToRad(75));
-		m_zpBendLine[i].AddGeo(m_zpTriangleBendLine);
+		//m_zpTriangleBendLine = m_zgBendLine.CopyToTriangleList();
+		//m_zpTriangleBendLine->SubdivideY(0.1f * m_fBendLineLength);
+		//m_zpTriangleBendLine->BendX(0.5f * m_fBendLineLength, AngleToRad(75));
+		//m_zpBendLine[i].AddGeo(m_zpTriangleBendLine);
 		/*m_zpBendLine[i].RotateZDelta(HALFPI);
 		m_zpBendLine[i].TranslateYDelta(-m_fRingRadius);
 		m_zpBendLine[i].TranslateXDelta(-m_fLineLength + dividedArm);*/
-		m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpBendLine[i]);
+		//m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpBendLine[i]);
+
+		// initialize cables
+		if (!m_fCablesDone) {
+			float fSegmentLength1 = m_zpIsolator[0].GetTranslation().Dist(m_zpIsolator[2].GetTranslation());
+			InitCables(fSegmentLength1 , m_fLineLength, 20, m_fLineThickness);
+		}
+
+		m_zpLine[i].AddGeo(&geosweepCable);
+		m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpLine[i]);
 
 		// switch on/off unnecessary arms and cables
 		SetDirection(m_eDirection);
@@ -269,5 +277,32 @@ float VModelPowerLine::getHeight()
 	return m_fPylonHeight + m_fFoundationHeight;
 }
 
+void VModelPowerLine::InitCables(float fSegmentLength1, float fSegmentLength2, int iPrecision, float fCableThickness) {
+	float fSubSegmentLength = fSegmentLength2 / iPrecision;
+
+	for (int i = 0; i < iPrecision-2; i++) {
+		cablePathPoints[i].Unit();
+		cablePathPoints[i].ScaleDelta(fCableThickness);
+		cablePathPoints[i].RotateZDelta(AngleToRad(90));
+		//cablePathPoints[i].Inverse();
+
+		if (i == 1)
+			cablePathPoints[i].TranslateXDelta(-fSegmentLength1);
+		else if (i > 1 /*&& i < (iPrecision / 2)*/) {
+			cablePathPoints[i].TranslateXDelta(-(fSegmentLength1 + (i - 1) * fSubSegmentLength));
+			if (i == iPrecision-3)
+				cablePathPoints[i].TranslateYDelta(cablePathPoints[i-1].GetTranslation ().GetY ());
+			else
+				cablePathPoints[i].TranslateYDelta(-sqrtf(i - 2) * 0.01f - i * 0.001f);
+		}/* else if (i >= (iPrecision / 2)) {
+			cablePathPoints[i].TranslateXDelta(-(fSegmentLength1 + (i - 1) * fSubSegmentLength));
+			cablePathPoints[i].TranslateYDelta(-sqrtf((i - 2)) * 0.01f);
+		}*/
+		cablePath.Add(&cablePathPoints[i]);
+	}
+
+	geosweepCable.InitCircle(&VMaterialLoader::m_zmCable, 20, cablePath);
+	m_fCablesDone = true;
+}
 
 NAMESPACE_VIEW_E

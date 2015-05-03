@@ -25,7 +25,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zdk.SetWASDTranslationSensitivity(5.0f);
 	m_zf.AddDeviceKeyboard(&m_zdk);
 	m_zv.InitFull(&m_zc);
-	m_zv.SetWireframeOn();
+	//m_zv.SetWireframeOn();
 	m_zl.Init(CHVector(1.0f, 1.0f, 1.0f), CColor(1.0f, 1.0f, 1.0f));
 
 	m_zr.AddFrameHere(&m_zf);
@@ -54,7 +54,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 
 	int direction = m_zTrasse1->Direction();
 
-	m_zTrasse1->SetPosition(-1.05, 0);
+	m_zTrasse1->SetPosition(-1, 0);
 	m_zTrasse2->SetPosition(1, 0);
 
 	m_zTrasse3->SetPosition(3, 0);

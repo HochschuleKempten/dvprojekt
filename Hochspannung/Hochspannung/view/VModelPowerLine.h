@@ -112,6 +112,13 @@ private:
 	float m_fLineThickness								 = 0;
 	float m_fBendLineLength								 = 0;
 	float dividedArm									 = 0;
+
+	CHMat cablePathPoints[20];
+	CHMats cablePath;
+	CGeoSweep geosweepCable;
+
+	bool m_fCablesDone = false;
+	void InitCables(float fSegmentLength1 = 0.2, float fSegmentLength2 = 2.0, int iPrecision = 10, float fCableThickness = 0.1f);
 };
 
 NAMESPACE_VIEW_E
