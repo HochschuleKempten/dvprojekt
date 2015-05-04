@@ -41,11 +41,11 @@ void LTransformerStation::tick(const float fTimeDelta)
 
 void LTransformerStation::performDisposal()
 {
-	int superplus = lField->getLPlayingField()->getCity()->getEnergySurplus();
+	int superplus = lField->getLPlayingField()->getLocalCity()->getEnergySurplus();
 	if (superplus > 0)
 	{
 		//TODO (L) how to get the Player ID dynamicly?
-		lField->getLPlayingField()->getLMaster()->getPlayer(1)->addMoney(CASTS<int>(superplus * moneyPerWatt));
+		lField->getLPlayingField()->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(superplus * moneyPerWatt));
 	}
 }
 

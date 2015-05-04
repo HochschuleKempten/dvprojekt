@@ -179,6 +179,7 @@
     <ClInclude Include="logic\LUtility.h" />
     <ClInclude Include="logic\LWindmillPowerPlant.h" />
     <ClInclude Include="network\Client.h" />
+    <ClInclude Include="network\GameObject.h" />
     <ClInclude Include="network\NetworkService.h" />
     <ClInclude Include="network\Node.h" />
     <ClInclude Include="network\Message.h" />
@@ -230,7 +231,6 @@
     <ClInclude Include="view\VScreenLobby.h" />
     <ClInclude Include="view\VScreenMainMenue.h" />
     <ClInclude Include="view\VScreenOptions.h" />
-    <ClInclude Include="view\VScreenSpielmodusWahl.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
     <ClInclude Include="view\VTab.h" />
     <ClInclude Include="view\VText.h" />
@@ -255,6 +255,7 @@
     <ClCompile Include="logic\LTransformerStation.cpp" />
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="network\Client.cpp" />
+    <ClCompile Include="network\GameObject.cpp" />
     <ClCompile Include="network\NetworkService.cpp" />
     <ClCompile Include="network\Node.cpp" />
     <ClCompile Include="network\Message.cpp" />
@@ -300,7 +301,6 @@
     <ClCompile Include="view\VScreenLobby.cpp" />
     <ClCompile Include="view\VScreenMainMenue.cpp" />
     <ClCompile Include="view\VScreenOptions.cpp" />
-    <ClCompile Include="view\VScreenSpielmodusWahl.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
     <ClCompile Include="view\VTab.cpp" />
     <ClCompile Include="view\VText.cpp" />

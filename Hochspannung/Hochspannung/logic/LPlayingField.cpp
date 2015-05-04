@@ -7,9 +7,11 @@
 #include "LUtility.h"
 #include "LCity.h"
 #include "LTransformerSation.h"
-#include <boost/graph/breadth_first_search.hpp>
 #include "LCoalPowerPlant.h"
+#include <boost/graph/breadth_first_search.hpp>
 #include <boost/graph/strong_components.hpp>
+#include <boost/graph/graphviz.hpp>
+#include <boost/graph/lookup_edge.hpp>
 #include <random>
 #include <chrono>
 
@@ -21,7 +23,7 @@ using namespace boost;
 template <typename Graph>
 static std::vector<int> strongConnectedSearch(const Graph& g, const int startIdx)
 {
-	std::vector<int> component(num_vertices(g)), discover_time(num_vertices(g));
+	std::vector<int> component(num_vertices(g));
 	strong_components(g, make_iterator_property_map(component.begin(), get(vertex_index, g)));
 
 	int mainComponent = component[startIdx];
@@ -56,7 +58,10 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 
 	vPlayingField = lMaster->getVMaster()->getFactory()->createPlayingField(this);
 	vPlayingField->initPlayingField(vPlayingField); //Sets the shared_ptr (need to be done before the fields can be created)
+	
+	//todo (L) call only for host
 	createFields(); //Create the fields (also places some buildings)
+
 	ASSERT(unusedCoordinates.empty(), "The container for the unused coordinates are not empty (There are field wich are not initialized)");
 	ASSERT(usedCoordinates.size() == fieldLength*fieldLength, "Not every cordinates are in the set for the used coordinates. This is an indication that something in the initialization process went wrong");
 	vPlayingField->buildPlayingField(); //Now build the playing field
@@ -66,9 +71,57 @@ LPlayingField::~LPlayingField()
 {
 }
 
-LField* LPlayingField::getField(const int x, const int y)
+std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getFieldNeighbors(const int x, const int y)
 {
-	return &fieldArray[x][y];
+	std::unordered_map<ILBuilding::Orientation, LField*> neighborsMap;
+
+	if (checkIndex(x - 1, y)) {
+		neighborsMap[ILBuilding::Orientation::NORTH] = getField(x - 1, y);
+	}
+
+	if (checkIndex(x, y + 1)) {
+		neighborsMap[ILBuilding::Orientation::EAST] = getField(x, y + 1);
+	}
+
+	if (checkIndex(x + 1, y)) {
+		neighborsMap[ILBuilding::Orientation::SOUTH] = getField(x + 1, y);
+	}
+
+	if (checkIndex(x, y - 1)) {
+		neighborsMap[ILBuilding::Orientation::WEST] = getField(x, y - 1);
+	}
+	
+	return neighborsMap;
+}
+
+int LPlayingField::linkPowerlines(const int x, const int y)
+{
+	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = getFieldNeighbors(x, y);
+	int oriention = 0;
+
+	for (auto const &iterator : neighbors) {
+		//No Building
+		if (iterator.second->getBuilding() == nullptr)
+		{
+			continue;
+		}
+
+		//There is a building, so the orientation of the powerline must be set to this building
+		//The adjustment of the orientation of the other powerlines is done automatically when inserting the edge to the graph
+		oriention |= iterator.first;
+	}
+
+	return oriention;
+}
+
+void LPlayingField::beginRemoteOperation()
+{
+	isLocalOperation = false;
+}
+
+void LPlayingField::endRemoteOperation()
+{
+	isLocalOperation = true;
 }
 
 bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second)
@@ -87,7 +140,7 @@ bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, c
 	}
 
 	//The idx is not in the set, so check the connection in the graph
-	std::vector<int> buildingsConnectedWithCity = strongConnectedSearch(powerLineGraph, convertIndex(cityPosition));
+	std::vector<int> buildingsConnectedWithCity = strongConnectedSearch(powerLineGraph, convertIndex(localCityPosition));
 	bool connected = std::find(buildingsConnectedWithCity.begin(), buildingsConnectedWithCity.end(), convertIndex(transformerStationPosition)) != buildingsConnectedWithCity.end();
 
 	//The idx are now connected, store them in the set, so that the information can be used later
@@ -100,12 +153,7 @@ bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, c
 
 bool LPlayingField::isTransformstationConnected()
 {
-	return checkConnectionBuildings(cityPosition, transformerStationPosition);
-}
-
-int LPlayingField::getFieldLength()
-{
-	return fieldLength;
+	return checkConnectionBuildings(localCityPosition, transformerStationPosition);
 }
 
 void LPlayingField::removeBuilding(const int x, const int y)
@@ -120,37 +168,55 @@ void LPlayingField::removeBuilding(const int x, const int y)
 		//TODO (All) how to handle error checks?
 	}
 
-	//todo (L) when?
-	calculateEnergyValueCity();
+	//-----network-----
+	if (!isLocalOperation)
+	{
+		lMaster->sendDeleteObject(x, y);
+	}
+	else
+	{
+		calculateEnergyValueCity();
+	}
+	//-----network-----
 }
 
 void LPlayingField::upgradeBuilding(const int x, const int y)
 {
 	//todo (IP) getPlayers(): get current player
-	if (lMaster->getPlayer(1)->getMoney() > 50000) {
+	if (lMaster->getPlayer(LPlayer::Local)->getMoney() > 50000) {
+
 		getField(x, y)->getBuilding()->upgrade();
+
+		if (!isLocalOperation)
+		{
+			//todo (IP) sendUpgrade
+		}
 	}
 	// ToDo (FL) Discuss case player doesn't have enough money
 }
 
 void LPlayingField::createFields()
 {
-	//Generate the firs positions
-	cityPosition = retrieveFreeCoordinates(5, 5);
-	std::pair<int, int> firstPowerLineCoordinates = retrieveFreeCoordinates(cityPosition.first, cityPosition.second + 1);
+	//-----Generate buildings for LOCAL player----
+
+	//todo (L) generate this randomly
+	//todo (L) send playerid
+
+	localCityPosition = retrieveFreeCoordinates(5, 5);
+	std::pair<int, int> firstPowerLineCoordinates = retrieveFreeCoordinates(localCityPosition.first, localCityPosition.second + 1);
 	std::pair<int, int> secondPowerLineCoordinates = retrieveFreeCoordinates(firstPowerLineCoordinates.first + 1, firstPowerLineCoordinates.second);
 	std::pair<int, int> firstPowerPlantCoordinates = retrieveFreeCoordinates(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second + 1);
 	transformerStationPosition = retrieveFreeCoordinates();
 
-	fieldArray[cityPosition.first][cityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
-	placeBuilding<LCity>(cityPosition.first, cityPosition.second);
-	placeGrassAroundPosition(cityPosition, 1);
+	fieldArray[localCityPosition.first][localCityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
+	placeBuilding<LCity>(localCityPosition.first, localCityPosition.second);
+	placeGrassAroundPosition(localCityPosition, 1);
 
 	fieldArray[firstPowerLineCoordinates.first][firstPowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(firstPowerLineCoordinates.first, firstPowerLineCoordinates.second, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+	placeBuilding<LPowerLine>(firstPowerLineCoordinates.first, firstPowerLineCoordinates.second);
 
 	fieldArray[secondPowerLineCoordinates.first][secondPowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+	placeBuilding<LPowerLine>(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second);
 
 	fieldArray[firstPowerPlantCoordinates.first][firstPowerPlantCoordinates.second].init(LField::FieldType::COAL, LField::FieldLevel::LEVEL1);
 	placeBuilding<LCoalPowerPlant>(firstPowerPlantCoordinates.first, firstPowerPlantCoordinates.second);
@@ -158,6 +224,36 @@ void LPlayingField::createFields()
 
 	fieldArray[transformerStationPosition.first][transformerStationPosition.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
 	placeBuilding<LTransformerStation>(transformerStationPosition.first, transformerStationPosition.second);
+	
+	//-----Generate buildings for LOCAL player----
+
+
+	//-----Generate buildings for REMOTE player----
+
+	beginRemoteOperation();
+
+	remoteCityPosition = retrieveFreeCoordinates(fieldLength - static_cast<int>(fieldLength / 4), fieldLength - static_cast<int>(fieldLength / 4));
+
+	std::pair<int, int> firstRemotePowerLineCoordinates = retrieveFreeCoordinates(remoteCityPosition.first, remoteCityPosition.second + 1);
+	std::pair<int, int> secondRemotePowerLineCoordinates = retrieveFreeCoordinates(firstRemotePowerLineCoordinates.first + 1, firstRemotePowerLineCoordinates.second);
+	std::pair<int, int> firstRemotePowerPlantCoordinates = retrieveFreeCoordinates(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second + 1);
+
+	fieldArray[remoteCityPosition.first][remoteCityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
+	placeBuilding<LCity>(remoteCityPosition.first, remoteCityPosition.second);
+	placeGrassAroundPosition(remoteCityPosition, 1);
+
+	fieldArray[firstRemotePowerLineCoordinates.first][firstRemotePowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
+	placeBuilding<LPowerLine>(firstRemotePowerLineCoordinates.first, firstRemotePowerLineCoordinates.second, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+
+	fieldArray[secondRemotePowerLineCoordinates.first][secondRemotePowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
+	placeBuilding<LPowerLine>(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+
+	fieldArray[firstRemotePowerPlantCoordinates.first][firstRemotePowerPlantCoordinates.second].init(LField::FieldType::COAL, LField::FieldLevel::LEVEL1);
+	placeBuilding<LCoalPowerPlant>(firstRemotePowerPlantCoordinates.first, firstRemotePowerPlantCoordinates.second);
+	placeGrassAroundPosition<true>(firstRemotePowerPlantCoordinates, 1);
+
+	endRemoteOperation();
+	//-----Generate buildings for REMOTE player----
 
 	//Fill with the requested number of power plants
 	std::chrono::system_clock::rep seed1 = std::chrono::system_clock::now().time_since_epoch().count();
@@ -176,6 +272,7 @@ void LPlayingField::createFields()
 	//Fill the rest with grass
 	for (int x = 0; x < fieldLength; x++) {
 		for (int y = 0; y < fieldLength; y++) {
+
 			if (isCoordinateUsed(std::make_pair(x, y))) {
 				//Coordinate already assigned
 				continue;
@@ -186,6 +283,16 @@ void LPlayingField::createFields()
 			fieldArray[coordinates.first][coordinates.second].init(LField::GRASS, fieldLevels[level]);
 		}
 	}
+}
+
+LField* LPlayingField::getField(const int x, const int y)
+{
+	return &fieldArray[x][y];
+}
+
+int LPlayingField::getFieldLength()
+{
+	return fieldLength;
 }
 
 LMaster* LPlayingField::getLMaster()
@@ -213,58 +320,75 @@ int LPlayingField::convertIndex(const int x, const int y)
 	return x * fieldLength + y;
 }
 
+std::pair<int, int> LPlayingField::convertIndex(const int idx)
+{
+	return std::make_pair(idx / fieldLength, idx % fieldLength);
+}
+
 void LPlayingField::calculateEnergyValueCity()
 {
 	int energyValue = 0;
 
-	std::vector<int> vec = strongConnectedSearch(powerLineGraph, convertIndex(cityPosition));
+	std::vector<int> vec = strongConnectedSearch(powerLineGraph, convertIndex(localCityPosition));
 	std::pair<int, int> coord;
 
 	for (size_t i = 0; i < vec.size(); i++) {
 		coord = convertIndex(vec[i]);
 		ILPowerPlant* pP = dynamic_cast<ILPowerPlant*>(getField(coord.first, coord.second)->getBuilding());
 
-		if (pP != nullptr) {
+		if (pP != nullptr && pP->getPlayerId() == LPlayer::Local)
+		{
 			energyValue += pP->getEnergyValue();
 		}
 	}
 
-	getCity()->setEnergy(energyValue);
+	getLocalCity()->setEnergy(energyValue);
 }
 
 void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)
 {
-	//TODO (All) Currently normal buildings can be used as powerlines. If we do not want this we need to fix it
-	//A solution would be to make the insert routine different for buildings and powerlines (by the use of templates of course)
+	auto addEdgeToGraph = [this, x, y, orientation] (const int xEnd, const int yEnd, const ILBuilding::Orientation checkOrientation)
+	{
+		if (orientation & checkOrientation) {
+			//Check if idx is not out of range and if an edge already exists
+			if (checkIndex(xEnd, yEnd) && !lookup_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph).second) {
+				add_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph);
 
-	if (orientation & ILBuilding::NORTH) {
-		if (checkIndex(x - 1, y)) {
-			add_edge(convertIndex(x, y), convertIndex(x - 1, y), powerLineGraph);
+				//If the target vertex is a power line adjust the orientation of that powerline and add an edge from the powerline to this building
+				LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
+				if (plOther != nullptr) {
+					add_edge(convertIndex(xEnd, yEnd), convertIndex(x, y), powerLineGraph);
+					plOther->updatedOrientation(ILBuilding::getOpppositeOrienttion(checkOrientation));
+				}
+			}
 		}
-	}
+	};
 
-	if (orientation & ILBuilding::EAST) {
-		if (checkIndex(x, y + 1)) {
-			add_edge(convertIndex(x, y), convertIndex(x, y + 1), powerLineGraph);
-		}
-	}
+	addEdgeToGraph(x, y + 1, ILBuilding::EAST);
+	addEdgeToGraph(x - 1, y, ILBuilding::NORTH);
+	addEdgeToGraph(x + 1, y, ILBuilding::SOUTH);
+	addEdgeToGraph(x, y - 1, ILBuilding::WEST);
 
-	if (orientation & ILBuilding::SOUTH) {
-		if (checkIndex(x + 1, y)) {
-			add_edge(convertIndex(x, y), convertIndex(x + 1, y), powerLineGraph);
-		}
-	}
-
-	if (orientation & ILBuilding::WEST) {
-		if (checkIndex(x, y - 1)) {
-			add_edge(convertIndex(x, y), convertIndex(x, y - 1), powerLineGraph);
-		}
-	}
+	//DEBUG_EXPRESSION(printGraph());
 }
 
-std::pair<int, int> LPlayingField::convertIndex(const int idx)
+void LPlayingField::printGraph()
 {
-	return std::make_pair(idx / fieldLength, idx % fieldLength);
+	std::vector<std::string> names(fieldLength*fieldLength);
+
+	for (int x = 0; x < fieldLength; x++) {
+		for (int y = 0; y < fieldLength; y++) {
+			std::string name = std::to_string(x) + std::string(", ") + std::to_string(y);
+			names[convertIndex(x, y)] = name;
+		}
+	}
+
+	std::ofstream file;
+	file.open("graph.dot");
+	write_graphviz(file, powerLineGraph, make_label_writer(&names[0]));
+
+	//Install http://www.graphviz.org/ and run
+	//dot -Tpng -o graph.png graph.dot
 }
 
 template<bool cross = false>

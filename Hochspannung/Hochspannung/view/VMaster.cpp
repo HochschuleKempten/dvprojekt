@@ -5,6 +5,7 @@
 #include "VUI.h"
 #include "IViewObject.h"
 #include "VMaterialLoader.h"
+#include "VScreenIngame.h"
 
 NAMESPACE_VIEW_B
 
@@ -63,7 +64,7 @@ VUI* HighVoltage::VMaster::getVUi()
 void VMaster::setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField)
 {
 	this->vPlayingField = vPlayingField;
-	vUi.m_zs.AddPlacement(vPlayingField->getPlacement());
+	CASTD<VScreenIngame*>(vUi.getScreen("Ingame"))->addToScene(vPlayingField->getPlacement());
 }
 
 void VMaster::resize(int width, int height)
@@ -76,5 +77,14 @@ void VMaster::updateMoney(const int money)
 	vUi.updateMoney(money);
 }
 
+void VMaster::pauseGame()
+{
+	//todo (V) implement
+}
+
+void VMaster::continueGame()
+{
+	//todo (V) implement
+}
 
 NAMESPACE_VIEW_E

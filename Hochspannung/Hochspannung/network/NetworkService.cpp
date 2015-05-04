@@ -4,7 +4,7 @@
 namespace Network {
 
 CNetworkService::CNetworkService() :
-m_ConnectionState(CLOSED) {
+m_connectionState(CLOSED), m_type(NONE) {
 }
 
 CNetworkService::CNetworkService(const CNetworkService&) {
@@ -19,30 +19,69 @@ CNetworkService& CNetworkService::instance() {
 	return instance;
 }
 
-bool CNetworkService::host() {
-	if (m_pNode == 0) {
-		m_pNode = new CServer(usPort);
-
-		if (m_pNode->start()) {
-			m_ConnectionState = PENDING;
-			return true;
-		}
+bool CNetworkService::host(std::string stName) {
+	if (m_type == CLIENT) {
+		close();
 	}
 
-	return false;
+	if (m_pNode == 0) {
+		m_pNode = new CServer(stName);
+		m_type = SERVER;
+	}
+
+	if (m_pNode->start()) {
+		m_connectionState = PENDING;
+		return true;
+	} else {
+		return false;
+	}
 }
 
 bool CNetworkService::connect(std::string stIP) {
-	if (m_pNode == 0) {
-		m_pNode = new CClient(stIP, usPort);
-
-		if (m_pNode->start()) {
-			m_ConnectionState = PENDING;
-			return true;
-		}
+	//if (m_type == CLIENT) {
+	//	m_pNode->stop();
+	//	static_cast<CClient*>(m_pNode)->setServerData(stIP);
+	//} else if (m_type == SERVER) {
+	//	close();
+	//}
+	if (m_type != NONE) {
+		close();
 	}
-	
-	return false;
+
+	if (m_pNode == 0) {
+		m_pNode = new CClient(stIP);
+		m_type = CLIENT;
+	}
+
+	if (m_pNode->start()) {
+		m_connectionState = PENDING;
+		return true;
+	} else {
+		return false;
+	}
+}
+
+void CNetworkService::searchGames() {
+	if (m_type == CLIENT) {
+		m_pNode->stop();
+	} else if (m_type == SERVER) {
+		close();
+	}
+
+	if (m_pNode == 0) {
+		m_pNode = new CClient();
+		m_type = CLIENT;
+	}
+
+	static_cast<CClient*>(m_pNode)->searchGames();
+}
+
+std::vector<CGameObject> CNetworkService::getGameList() {
+	if (m_pNode != 0 && m_type == CLIENT) {
+		return static_cast<CClient*>(m_pNode)->getGameList();
+	} else {
+		return std::vector<CGameObject>();
+	}
 }
 
 void CNetworkService::close() {
@@ -50,66 +89,102 @@ void CNetworkService::close() {
 		m_pNode->stop();
 		delete m_pNode;
 		m_pNode = 0;
-		m_ConnectionState = CLOSED;
+		m_type = NONE;
+		m_connectionState = CLOSED;
+	}
+}
+
+void CNetworkService::restart() {
+	if (m_pNode != 0) {
+		m_pNode->restart();
 	}
 }
 
 State CNetworkService::getConnectionState() {
-	// just a workaround for the moment
-	if (m_pNode->isConnected()) {
-		m_ConnectionState = CONNECTED;
+	// just a workaround at the moment
+	if (m_pNode != 0 && m_pNode->isConnected()) {
+		m_connectionState = CONNECTED;
 	}
 
-	return m_ConnectionState;
+	return m_connectionState;
 }
 
-void CNetworkService::sendStartGame() {
-	sendAsMessage(Action::START_GAME);
+Type CNetworkService::getType() {
+	return m_type;
 }
 
-void CNetworkService::sendStopGame() {
-	sendAsMessage(Action::END_GAME);
+int CNetworkService::getLatency() {
+	if (getConnectionState() == CONNECTED) {
+		return m_pNode->getLatency();
+	} else {
+		return -1;
+	}
 }
 
-void CNetworkService::sendPauseGame() {
-	sendAsMessage(Action::PAUSE_GAME);
+bool CNetworkService::sendStartGame() {
+	return sendAsMessage(Action::START_GAME);
 }
 
-void CNetworkService::sendContinueGame() {
-	sendAsMessage(Action::CONTINUE_GAME);
+bool CNetworkService::sendStopGame() {
+	return sendAsMessage(Action::END_GAME);
 }
 
-void CNetworkService::sendSetObject(int iObjectID, int iCoordX, int iCoordY) {
-	sendAsMessage(Action::SET_OBJECT, iObjectID, iCoordX, iCoordY);
+bool CNetworkService::sendPauseGame() {
+	return sendAsMessage(Action::PAUSE_GAME);
 }
 
-//void sendMoveObject(int iObjectID, int iCoordXSource, int iCoordYSouce, int iCoordXDest, int iCoordYDest) {
+bool CNetworkService::sendContinueGame() {
+	return sendAsMessage(Action::CONTINUE_GAME);
+}
+
+bool CNetworkService::sendSetObject(int iObjectID, int iCoordX, int iCoordY, std::string sValue) {
+	return sendAsMessage(Action::SET_OBJECT, iObjectID, iCoordX, iCoordY, sValue);
+}
+
+//bool sendMoveObject(int iObjectID, int iCoordXSource, int iCoordYSouce, int iCoordXDest, int iCoordYDest) {
 //}
 
-void CNetworkService::sendDeleteObject(int iObjectID, int iCoordX, int iCoordY) {
-	sendAsMessage(Action::DELETE_OBJECT, iObjectID, iCoordX, iCoordY);
+bool CNetworkService::sendDeleteObject(int iObjectID, int iCoordX, int iCoordY) {
+	return sendAsMessage(Action::DELETE_OBJECT, iObjectID, iCoordX, iCoordY);
+}
+
+bool CNetworkService::sendSetMapsize(int iSizeX, int iSizeY) {
+	return sendAsMessage(Action::SET_MAPSIZE, -1, iSizeX, iSizeY);
 }
 
 CTransferObject CNetworkService::getNextActionToExecute() {
-	return m_pNode->getNextActionToExecute();
+	if (m_pNode != 0) {
+		return m_pNode->getNextActionToExecute();
+	} else {
+		return CTransferObject();
+	}
 }
 
 bool CNetworkService::isActionAvailable() {
-	return m_pNode->isActionAvailable();
+	if (m_pNode != 0) {
+		return m_pNode->isActionAvailable();
+	} else {
+		return false;
+	}
 }
 
-void CNetworkService::sendAsMessage(Action action, int iObjectID, int iCoordX, int iCoordY, std::string stValue) {
+bool CNetworkService::sendAsMessage(Action action, int iObjectID, int iCoordX, int iCoordY, std::string sValue) {
+	if (getConnectionState() == CONNECTED) {
+		// transforms the action to string
+		// delimiter is a semicolon
+		std::string stMessage = boost::lexical_cast<std::string>(action)+";";
+		stMessage += boost::lexical_cast<std::string>(iObjectID)+";";
+		stMessage += boost::lexical_cast<std::string>(iCoordX)+";";
+		stMessage += boost::lexical_cast<std::string>(iCoordY)+";";
+		stMessage += sValue + ";";
 
-	// transforms the action to string
-	// delimiter is a semicolon
-	std::string stMessage = boost::lexical_cast<std::string>(action) + ";";
-	stMessage += boost::lexical_cast<std::string>(iObjectID) + ";";
-	stMessage += boost::lexical_cast<std::string>(iCoordX) + ";";
-	stMessage += boost::lexical_cast<std::string>(iCoordY) + ";";
-	stMessage += stValue + ";";
+		CMessage message(stMessage.c_str());
+		m_pNode->write(message);
 
-	CMessage message(stMessage.c_str());
-	m_pNode->write(message);
+		return true;
+	} else {
+		return false;
+	}
 }
 
 }

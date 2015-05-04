@@ -9,6 +9,11 @@ NAMESPACE_VIEW_B
 
 
 class VMaster;
+class VScreenIngame;
+class VScreenMainMenue;
+class VScreenOptions;
+class VScreenCredits;
+class VScreenLobby;
 
 /**
  * @brief The VUI class is responsible for representing the interface to the user and handles the user input.
@@ -21,20 +26,22 @@ class VUI : public IVTickObserver, public IViewUIObserver
 {
 	NON_COPYABLE(VUI);
 	friend class VMaster;
-
+	friend class VScreenIngame;
+	friend class VScreenMainMenue;
+	friend class VScreenOptions;
+	friend class VScreenCredits;
+	friend class VScreenLobby;
 private:
 	VMaster* vMaster;
 
 	//TODO (V) resize viewports?
 	CRoot m_zr;
 	CFrame m_zf;
-	CScene m_zs;
-	CPlacement m_zpCamera;
-	CParallelLight m_zl;
 	CDeviceKeyboard m_zkKeyboard;
 	CDeviceCursor m_zkCursor;
 	CDeviceMouse m_zkMouse;
 
+	IViewScreen* activeScreen = nullptr;
 	std::map<std::string, IViewScreen*> m_screens;
 	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
 
@@ -42,30 +49,23 @@ private:
 	bool m_screenChanged = false;
 	bool m_BlockCursorLeftPressed = false;
 
-private:
-	void handleInput(float fTimeDelta);
-	std::map<int, std::vector<int>> pickElements();
-	float mouseWheelPosition = 0.0F;
-
 public:
-	VUI(VMaster* vMaster);
+	explicit VUI(VMaster* vMaster);
 	virtual ~VUI() override;
 
 	virtual void tick(const float fTimeDelta) override;
 
 	virtual void onNotify(Event events) override;
 
-	void addScreen(string sName, IViewScreen::ScreenType);
-	void switchScreen(string switchTo);
-	IViewScreen* getScreen(string sName);
-
+	void addScreen(const string& sName, const IViewScreen::ScreenType);
+	void switchScreen(const string& switchTo);
+	IViewScreen* getScreen(const string& sName);
 
 	void initUI(HWND hwnd, CSplash* psplash);
 
 	void resize(int width, int height);
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
-	void updateInfofield(const int wert);
 
 	void checkGUIContainer(IViewGUIContainer* guiContainer);
 };

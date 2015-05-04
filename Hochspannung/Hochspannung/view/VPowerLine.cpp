@@ -3,8 +3,29 @@
 #include "VIdentifier.h"
 #include "VMaster.h"
 
-NAMESPACE_VIEW_B 
+NAMESPACE_VIEW_B
 
+
+static VModelPowerLine::DIRECTION convertOrientation(const int orientation)
+{
+	int modelOrientation = 0;
+
+	//The field is rotated by 180° so the orientations do not suit
+	if (orientation & ILBuilding::NORTH) {
+		modelOrientation |= VModelPowerLine::SOUTH;
+	}
+	if (orientation & ILBuilding::EAST) {
+		modelOrientation |= VModelPowerLine::WEST;
+	}
+	if (orientation & ILBuilding::SOUTH) {
+		modelOrientation |= VModelPowerLine::NORTH;
+	}
+	if (orientation & ILBuilding::WEST) {
+		modelOrientation |= VModelPowerLine::EAST;
+	}
+
+	return static_cast<VModelPowerLine::DIRECTION>(modelOrientation);
+}
 
 VPowerLine::VPowerLine(VMaster* vMaster, LPowerLine* lpowerLine)
 	: IVPowerLine(lpowerLine), IViewBuilding(vMaster, viewModel.getMainPlacement()),
@@ -16,7 +37,8 @@ VPowerLine::~VPowerLine()
 
 void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const int x, const int y, const int orientation)
 {
-	viewModel.Init(static_cast<VModelPowerLine::DIRECTION>(orientation));
+	viewModel.initViewModel(this);
+	viewModel.Init(convertOrientation(orientation));
 	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0f));
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
 
@@ -25,5 +47,14 @@ void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const
 	SET_NAME_AND_COORDINATES(VIdentifier::VPowerLine);
 }
 
+void VPowerLine::orientationChanged(const int orientation)
+{
+	viewModel.SetDirection(convertOrientation(orientation));
+}
+
+ILBuilding* VPowerLine::getLBuilding()
+{
+	return CASTD<ILBuilding*>(lPowerLine);
+}
 
 NAMESPACE_VIEW_E

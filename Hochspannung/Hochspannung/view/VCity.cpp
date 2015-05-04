@@ -21,6 +21,7 @@ VCity::~VCity()
 
 void VCity::initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const int y)
 {
+	viewModel.initViewModel(this);
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VCity);
@@ -36,5 +37,9 @@ void VCity::updateEnergy(const int energy)
 	DEBUG_OUTPUT("City new energy value = " << energy);
 }
 
+ILBuilding* VCity::getLBuilding()
+{
+	return CASTD<ILBuilding*>(lCity);
+}
 
 NAMESPACE_VIEW_E

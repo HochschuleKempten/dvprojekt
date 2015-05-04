@@ -1,16 +1,15 @@
 #include "VScreenOptions.h"
+#include "VUI.h"
 
 NAMESPACE_VIEW_B
-VScreenOptions::VScreenOptions()
-{
-}
 
-VScreenOptions::VScreenOptions(CFrame* frame)
+
+VScreenOptions::VScreenOptions(VUI* vUi) : IViewScreen(vUi)
 {
 	m_viewport = new CViewport();
 	m_camera.Init();
 	m_viewport->InitFull(&m_camera);
-	frame->AddViewport(m_viewport);
+	vUi->m_zf.AddViewport(m_viewport);
 
 
 	m_background = new CBackground();
@@ -52,6 +51,19 @@ VScreenOptions::~VScreenOptions()
 		{
 			notify(SWITCH_TO_MAINMENUE);
 		}
+	}
+
+	void VScreenOptions::checkSpecialEvent(CDeviceCursor* cursor)
+	{
+	}
+
+
+	void VScreenOptions::tick()
+	{
+	}
+
+	void VScreenOptions::resize(int width, int height)
+	{
 	}
 
 	NAMESPACE_VIEW_E

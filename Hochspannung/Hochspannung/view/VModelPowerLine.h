@@ -9,10 +9,11 @@ class VModelPowerLine : public IViewModel
 public:
 	enum DIRECTION
 	{
-		NORTH = 0x1,
-		EAST = 0x2,
-		SOUTH = 0x4,
-		WEST = 0x8
+		NONE  = 0x0,
+		NORTH = 0x8,
+		EAST  = 0x4,
+		SOUTH = 0x2,
+		WEST  = 0x1
 	};
 
 	enum PYLONTYPE
@@ -26,15 +27,14 @@ public:
 	VModelPowerLine(float fFieldSize);
 	virtual ~VModelPowerLine(void) override;
 
-	void Init(VModelPowerLine::DIRECTION eDirection, float fPylonHeight = 1.0f);
+	void Init(VModelPowerLine::DIRECTION eDirection = DIRECTION::NONE, float fPylonHeight = 1.0f);
 	void SetPosition(int x, int y);
+	void SetDirection(VModelPowerLine::DIRECTION eDirection);
 	SHORT * GetPosition();
 	virtual float getHeight() override; // including foundation
 	virtual float getWidth() override;  // width of the foundation
 
 private:
-	CHMats m_zSweepMats;
-
 	CPlacement m_zpIsolator[16];
 	CPlacement m_zpIsolatorLoD1[16];
 	CPlacement m_zpIsolatorLoD2[16];
@@ -44,14 +44,10 @@ private:
 	CPlacement m_zpRingLoD2[16];
 	CPlacement m_zpRingLoD3[16];
 	CPlacement m_zpLine[4];
-	CPlacement m_zpSweep[4];
-
-	CMaterial m_zmBlack;
-	CMaterial m_zmGrey;
 
 	CGeoCube m_zgArm;
 	CGeoCube m_zgUpperArm;
-	CGeoCube m_zgFoundation;
+	//CGeoCube m_zgFoundation;
 	CGeoCube m_zgArmConnection;
 	CGeoCube m_zgPole;
 	CGeoCube m_zgRoof;
@@ -63,7 +59,6 @@ private:
 	CGeoTube m_zgRingLoD1;
 	CGeoTube m_zgRingLoD2;
 	CGeoCube m_zgRingLoD3;
-	CGeoSweep m_zgSweep;
 
 	CPlacement m_zpFoundation;
 	CPlacement m_zpArmConnection;
@@ -89,7 +84,7 @@ private:
 	SHORT m_iArmPosition		                         = 8;
 	SHORT m_iStrutsCount		                         = 0;
 	PYLONTYPE m_ePylonType                               = STRAIGHT;
-	VModelPowerLine::DIRECTION m_eDirection				 = DIRECTION::NORTH | DIRECTION::SOUTH;
+	VModelPowerLine::DIRECTION m_eDirection				 = DIRECTION::NONE | DIRECTION::NONE;
 	float m_fFieldSize                                   = 0;
 	float m_fFoundationHeight                            = 0;
 	float m_fFoundationWidth                             = 0;
