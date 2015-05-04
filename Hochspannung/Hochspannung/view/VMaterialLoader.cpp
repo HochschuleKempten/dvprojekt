@@ -166,9 +166,9 @@ void VMaterialLoader::init()
 	GoldFont.SetTableSize(16, 6);
 
 	//Building - Trasse
-	m_zmConcrete.MakeTextureDiffuse("textures\\texture_concrete_diffuse.png");
-	m_zmConcrete.MakeTextureBump("textures\\texture_concrete_normal.png");
-	m_zmConcrete.MakeTextureSpecular("textures\\texture_concrete_specular.png");
+	m_zmConcrete.MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse.png");
+	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
+	m_zmConcrete.MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 
 	m_zmStrut.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
@@ -179,13 +179,13 @@ void VMaterialLoader::init()
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::External), std::make_tuple(222.0f / 255.0f, 186.0f / 255.0f, 69.0f / 255.0f));
 	//Local player
-	materialFoundationPlayer[LPlayer::Local].MakeTextureDiffuse("textures/texture_concrete_diffuse.png");
-	materialFoundationPlayer[LPlayer::Local].MakeTextureBump("textures/texture_concrete_normal.png");
-	materialFoundationPlayer[LPlayer::Local].MakeTextureSpecular("textures/texture_concrete_specular.png");
+	materialFoundationPlayer[LPlayer::Local].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_local.png");
+	materialFoundationPlayer[LPlayer::Local].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
+	materialFoundationPlayer[LPlayer::Local].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 	//Opponent
-	materialFoundationPlayer[LPlayer::External].MakeTextureDiffuse("textures/texture_concrete_diffuse.png");
-	materialFoundationPlayer[LPlayer::External].MakeTextureBump("textures/texture_concrete_normal.png");
-	materialFoundationPlayer[LPlayer::External].MakeTextureSpecular("textures/texture_concrete_specular.png");
+	materialFoundationPlayer[LPlayer::External].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_opponent.png");
+	materialFoundationPlayer[LPlayer::External].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
+	materialFoundationPlayer[LPlayer::External].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 }
 
 
