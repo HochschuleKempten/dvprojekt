@@ -4,16 +4,10 @@
 #include "IViewModel.h"
 #include "LargeOfficeBuilding.h"
 #include "VModelPowerLine.h"
+
 NAMESPACE_VIEW_B
 
 
-/**
-* @brief The VModelWindmillPowerPlant class holds the model for the windmill power plant.
-*
-* The image shows the internal hierarchy of the scenegraph and the structure of the model.
-*
-* @image html images/VModelWindmillPowerPlant.png "Scenegraph and structure of the model"
-*/
 class VModelNuclearPowerPlant : public IViewModel
 {
 private:

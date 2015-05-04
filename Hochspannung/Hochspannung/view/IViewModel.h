@@ -36,6 +36,8 @@ public:
 			m_zpLOD[i].SetLoD(previous, previous + step);
 			previous = previous + step;
 		}
+
+		DEBUG_EXPRESSION(initViewModel(nullptr));	//TODO (JS) Problems because of double init?
 	}
 
 	virtual inline ~IViewModel()

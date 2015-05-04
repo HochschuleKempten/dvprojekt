@@ -13,6 +13,15 @@
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelOilRefinery.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -28,6 +37,15 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelOilRefinery.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
