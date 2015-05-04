@@ -44,7 +44,6 @@ private:
 	CPlacement m_zpRingLoD2[16];
 	CPlacement m_zpRingLoD3[16];
 	CPlacement m_zpLine[4];
-	CPlacement m_zpBendLine[4];
 
 	CGeoCube m_zgArm;
 	CGeoCube m_zgUpperArm;
@@ -53,7 +52,6 @@ private:
 	CGeoCube m_zgRoof;
 	CGeoCube m_zgStrut;
 	CGeoCylinder m_zgLine;
-	CGeoCylinder m_zgBendLine;
 	CGeoCylinder m_zgIsolatorLoD1;
 	CGeoCylinder m_zgIsolatorLoD2;
 	CGeoCylinder m_zgIsolatorLoD3;
@@ -78,8 +76,6 @@ private:
 	CTriangleList *m_zpTriangleRingLoD1;
 	CTriangleList *m_zpTriangleRingLoD2;
 	CTriangleList *m_zpTriangleRingLoD3;
-	CTriangleList *m_zpTriangleBendLine;
-
 
 	SHORT m_saGridPosition[2];
 
@@ -107,7 +103,6 @@ private:
 	float m_fOppositeLeg		                         = 0;
 	float m_fLineLength									 = 0;
 	float m_fLineThickness								 = 0;
-	float m_fBendLineLength								 = 0;
 	float dividedArm									 = 0;
 
 	CHMat cablePathPoints[20];
