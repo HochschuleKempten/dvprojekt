@@ -23,7 +23,7 @@ void VSolarPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPt
 	//viewModel.initViewModel(this);
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	//SET_NAME_AND_COORDINATES(VIdentifier::VSolarPowerPlant);
+	SET_NAME_AND_COORDINATES(VIdentifier::VSolarPowerPlant);
 }
 
 ILBuilding* VSolarPowerPlant::getLBuilding()

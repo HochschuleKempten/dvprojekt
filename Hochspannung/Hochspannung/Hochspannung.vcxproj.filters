@@ -318,7 +318,7 @@
     </ClInclude>
     <ClInclude Include="network\GameObject.h">
       <Filter>network\Headerdateien</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="logic\cpplinq.hpp">
       <Filter>logic</Filter>
     </ClInclude>
@@ -339,6 +339,12 @@
     </ClInclude>
     <ClInclude Include="view\VGUIArea.h">
       <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelSolarPowerplant.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelOilRefinery.h">
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -518,7 +524,7 @@
     </ClCompile>
     <ClCompile Include="network\GameObject.cpp">
       <Filter>network\Quelldateien</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="logic\LTransformerStation.cpp">
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
@@ -530,6 +536,12 @@
     </ClCompile>
     <ClCompile Include="view\VGUIArea.cpp">
       <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelSolarPowerplant.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelOilRefinery.cpp">
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
