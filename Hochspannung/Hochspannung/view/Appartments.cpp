@@ -92,15 +92,15 @@ void CAppartments::RotateAll() {
 
 void CAppartments::TranslateAll() {
 
-	m_zpWallNorth.TranslateDelta(CHVector(17.4F * fResize, 0.0F * fResize, 0.0F * fResize));
+	m_zpWallNorth.TranslateDelta(17.4F * fResize, 0.0F * fResize, 0.0F * fResize);
 	m_zpWallNorth.AddGeo(&m_zgWallNorth);
-	m_zpWallSouth.TranslateDelta(CHVector(0.0F * fResize, 0.0F * fResize, 2.9F * fResize));
+	m_zpWallSouth.TranslateDelta(0.0F * fResize, 0.0F * fResize, 2.9F * fResize);
 	m_zpWallSouth.AddGeo(&m_zgWallSouth);
-	m_zpWallWest.TranslateDelta(CHVector(0.0F * fResize, 0.0F * fResize, 0.0F * fResize));
+	m_zpWallWest.TranslateDelta(0.0F * fResize, 0.0F * fResize, 0.0F * fResize);
 	m_zpWallWest.AddGeo(&m_zgWallWest);
-	m_zpWallEast.TranslateDelta(CHVector(17.4F * fResize, 0.0F * fResize, 2.9F * fResize));
+	m_zpWallEast.TranslateDelta(17.4F * fResize, 0.0F * fResize, 2.9F * fResize);
 	m_zpWallEast.AddGeo(&m_zgWallEast);
-	m_zpRoof.Translate(CHVector(0.0F * fResize, 8.9F * fResize, 0.0F * fResize));
+	m_zpRoof.Translate(0.0F * fResize, 8.9F * fResize, 0.0F * fResize);
 	m_zpRoof.AddGeo(&m_zgRoof);
 
 }

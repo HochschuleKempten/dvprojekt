@@ -36,17 +36,17 @@ COfficeTowerViewingDeck::~COfficeTowerViewingDeck(void)
 
 
 void COfficeTowerViewingDeck::TranslateAll() {
-	m_zpWall.TranslateDelta(CHVector(0.0F * fResize, 0.0F * fResize, 0.F * fResize));
+	m_zpWall.TranslateDelta(0.0F * fResize, 0.0F * fResize, 0.F * fResize);
 	m_zpWall.AddGeo(&m_zgWall);
 
-	m_zpWallTop.TranslateDelta(CHVector(0.0F * fResize, 30.0F * fResize, 0.0F * fResize));
+	m_zpWallTop.TranslateDelta(0.0F * fResize, 30.0F * fResize, 0.0F * fResize);
 	m_zpWallTop.AddGeo(&m_zgWallTop);
 
 	//m_zpGround.Translate(CHVector(-20, 0, -20));
 	//m_zpGround.AddGeo(&m_zgGround);
-	m_zpRoof.Translate(CHVector(0, 30 * fResize, 0));
+	m_zpRoof.Translate(0, 30 * fResize, 0);
 	m_zpRoof.AddGeo(&m_zgRoof);
-	m_zpRoofTop.Translate(CHVector(0, 32 * fResize, 0));
+	m_zpRoofTop.Translate(0, 32 * fResize, 0);
 	m_zpRoofTop.AddGeo(&m_zgRoofTop);
 }
 
@@ -61,17 +61,17 @@ void COfficeTowerViewingDeck::AddPlacements() {
 
 void COfficeTowerViewingDeck::InitWindows() {
 
-	m_zgWindow.InitRect(CFloatRect(1 * fResize, 1 * fResize, 0.5 * fResize, 1 * fResize), true);
-	m_zgRailing.InitRect(CFloatRect(0 * fResize, 0 * fResize, 0.95 * fResize, 0.7 * fResize), true);
+	m_zgWindow.InitRect(CFloatRect(1.0F * fResize, 1.0F * fResize, 0.5F * fResize, 1.0F * fResize), true);
+	m_zgRailing.InitRect(CFloatRect(0.0F * fResize, 0.0F * fResize, 0.95F * fResize, 0.7F * fResize), true);
 	m_zgWindow.AddGeoWall(&m_zgFrame);
 
 }
 
 void COfficeTowerViewingDeck::AddWindows() {
 
-	m_zgWall.AddGeoWindows(&m_zgWindow, CFloatRect(0 * fResize, 1 * fResize, 20 * fResize, 28 * fResize), 25, 25);
-	m_zgWall.AddGeoWindows(&m_zgRailing, CFloatRect(0 * fResize, 30 * fResize, 20 * fResize, 0.7 * fResize), 20, 1);
-	m_zgWallTop.AddGeoWindows(&m_zgWindow, CFloatRect(0 * fResize, 0.5F * fResize, 12.5 * fResize, 1 * fResize), 15, 1);
+	m_zgWall.AddGeoWindows(&m_zgWindow, CFloatRect(0.0F * fResize, 1.0F * fResize, 20.0F * fResize, 28.0F * fResize), 25, 25);
+	m_zgWall.AddGeoWindows(&m_zgRailing, CFloatRect(0.0F * fResize, 30.0F * fResize, 20.0F * fResize, 0.7F * fResize), 20, 1);
+	m_zgWallTop.AddGeoWindows(&m_zgWindow, CFloatRect(0.0F * fResize, 0.5F * fResize, 12.5F * fResize, 1.0F * fResize), 15, 1);
 
 }
 
@@ -81,8 +81,8 @@ void COfficeTowerViewingDeck::InitWalls() {
 	m_zgWall.InitTube(3.183F * fResize, 30.75F * fResize, .1F * fResize, &m_zm);
 	m_zgWallTop.InitTube(1.989F * fResize, 2.0F * fResize, .1F * fResize, &m_zm);
 
-	m_zgRoof.InitDomeCone(3.2F * fResize, 0.0F * fResize, 0.05 * fResize, &m_zm);
-	m_zgRoofTop.InitDomeCone(2.0F * fResize, 0.0F * fResize, 0.05 * fResize, &m_zm);
+	m_zgRoof.InitDomeCone(3.2F * fResize, 0.0F * fResize, 0.05F * fResize, &m_zm);
+	m_zgRoofTop.InitDomeCone(2.0F * fResize, 0.0F * fResize, 0.05F * fResize, &m_zm);
 
 }
 

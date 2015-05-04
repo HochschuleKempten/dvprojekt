@@ -77,9 +77,9 @@ void CTwistedTower::InitWalls() {
 	
 	m_zgRoof.Init(3.0F, 0.1F, 2.598F, &m_zm);
 
-	m_zgWallNorth.Init(3, 5, 0.2, &m_zm);
-	m_zgWallEast.Init(3, 5, 0.2, &m_zm);
-	m_zgWallWest.Init(3, 5, 0.2, &m_zm);
+	m_zgWallNorth.Init(3.0F, 5.0F, 0.2F, &m_zm);
+	m_zgWallEast.Init(3.0F, 5.0F, 0.2F, &m_zm);
+	m_zgWallWest.Init(3.0F, 5.0F, 0.2F, &m_zm);
 
 }
 
@@ -106,16 +106,15 @@ void CTwistedTower::RotateAll(){
 
 void CTwistedTower::TranslateAll() {
 
-	//m_zpGround.Translate(CHVector(-20.0F, 0, -20.0F));
-	//m_zpGround.AddGeo(&m_zgGround);
-	m_zpRoof.Translate(CHVector(0.0F, 0.0F, 0.0F));
+
+	m_zpRoof.Translate(0.0F, 0.0F, 0.0F);
 	m_zpRoof.AddGeo(&m_zgRoof);
 
-	m_zpWallNorth.TranslateDelta(CHVector(0, 0, 0));
+	m_zpWallNorth.TranslateDelta(0, 0, 0);
 	m_zpWallNorth.AddGeo(&m_zgWallNorth);
-	m_zpWallEast.TranslateDelta(CHVector(1.6F, 0, -2.598F));
+	m_zpWallEast.TranslateDelta(1.6F, 0, -2.598F);
 	m_zpWallEast.AddGeo(&m_zgWallEast);
-	m_zpWallWest.TranslateDelta(CHVector(2.8F, 0, 0.2F));
+	m_zpWallWest.TranslateDelta(2.8F, 0, 0.2F);
 	m_zpWallWest.AddGeo(&m_zgWallWest);
 
 }

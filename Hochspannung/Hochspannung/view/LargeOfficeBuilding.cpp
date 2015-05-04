@@ -43,14 +43,14 @@ CLargeOfficeBuilding::~CLargeOfficeBuilding(void)
 
 void CLargeOfficeBuilding::InitWindows() {
 
-	m_zgDoor.InitRect(CFloatRect(0 * fResize, 0 * fResize, 1.25 * fResize, 1.75 * fResize), true);
+	m_zgDoor.InitRect(CFloatRect(0.0F * fResize, 0.0F * fResize, 1.25F * fResize, 1.75F * fResize), true);
 	m_zgDoor.AddGeoWall(&m_zgFrame);
 
-	m_zgWindow.InitRect(CFloatRect(1 * fResize, 1 * fResize, 0.5 * fResize, 1 * fResize), true);
+	m_zgWindow.InitRect(CFloatRect(1.0F * fResize, 1.0F * fResize, 0.5F * fResize, 1.0F * fResize), true);
 	m_zgWindow.AddGeoWall(&m_zgFrame);
-	m_zgWindowHigh.InitRect(CFloatRect(1 * fResize, 1 * fResize, 0.5 * fResize, 2 * fResize), true);
+	m_zgWindowHigh.InitRect(CFloatRect(1.0F * fResize, 1.0F * fResize, 0.5F * fResize, 2.0F * fResize), true);
 	m_zgWindowHigh.AddGeoWall(&m_zgFrame);
-	m_zgWindowWide.InitRect(CFloatRect(1 * fResize, 1 * fResize, 2 * fResize, 0.75 * fResize), true);
+	m_zgWindowWide.InitRect(CFloatRect(1.0F * fResize, 1.0F * fResize, 2.0F * fResize, 0.75F * fResize), true);
 	m_zgWindowWide.AddGeoWall(&m_zgFrame);
 
 }
@@ -93,9 +93,9 @@ void CLargeOfficeBuilding::InitWalls() {
 	m_zgWallEast1.Init(5.0F * fResize, 2.0F * fResize, .1F * fResize, &m_zm);
 	m_zgWallEast2.Init(5.0F * fResize, 4.0F * fResize, .1F * fResize, &m_zm);
 
-	m_zgRoof0.Init(3.0F * fResize, 0.1F * fResize, 5.0 * fResize, &m_zm);
-	m_zgRoof1.Init(1.0F * fResize, 0.1F * fResize, 5.0 * fResize, &m_zm);
-	m_zgRoof2.Init(1.0F * fResize, 0.1F * fResize, 5.0 * fResize, &m_zm);
+	m_zgRoof0.Init(3.0F * fResize, 0.1F * fResize, 5.0F * fResize, &m_zm);
+	m_zgRoof1.Init(1.0F * fResize, 0.1F * fResize, 5.0F * fResize, &m_zm);
+	m_zgRoof2.Init(1.0F * fResize, 0.1F * fResize, 5.0F * fResize, &m_zm);
 
 	
 
@@ -141,37 +141,37 @@ void CLargeOfficeBuilding::RotateAll() {
 
 void CLargeOfficeBuilding::TranslateAll() {
 
-	m_zpWallNorth0.TranslateDelta(CHVector(3.0F * fResize, 0.0F * fResize, -4.9F * fResize));
+	m_zpWallNorth0.TranslateDelta(3.0F * fResize, 0.0F * fResize, -4.9F * fResize);
 	m_zpWallNorth0.AddGeo(&m_zgWallNorth0);
-	m_zpWallNorth1.TranslateDelta(CHVector(4.0F * fResize, 0.0F * fResize, -4.9F * fResize));
+	m_zpWallNorth1.TranslateDelta(4.0F * fResize, 0.0F * fResize, -4.9F * fResize);
 	m_zpWallNorth1.AddGeo(&m_zgWallNorth1);
-	m_zpWallNorth2.TranslateDelta(CHVector(5.0F * fResize, 0.0F * fResize, -4.9F * fResize));
+	m_zpWallNorth2.TranslateDelta(5.0F * fResize, 0.0F * fResize, -4.9F * fResize);
 	m_zpWallNorth2.AddGeo(&m_zgWallNorth2);
 
-	m_zpWallSouth0.TranslateDelta(CHVector(0.0F * fResize, 0.0F * fResize, -0.1F * fResize));
+	m_zpWallSouth0.TranslateDelta(0.0F * fResize, 0.0F * fResize, -0.1F * fResize);
 	m_zpWallSouth0.AddGeo(&m_zgWallSouth0);
-	m_zpWallSouth1.TranslateDelta(CHVector(3.0F * fResize, 0.0F * fResize, -0.1F * fResize));
+	m_zpWallSouth1.TranslateDelta(3.0F * fResize, 0.0F * fResize, -0.1F * fResize);
 	m_zpWallSouth1.AddGeo(&m_zgWallSouth1);
-	m_zpWallSouth2.TranslateDelta(CHVector(4.0F * fResize, 0.0F * fResize, -0.1F * fResize));
+	m_zpWallSouth2.TranslateDelta(4.0F * fResize, 0.0F * fResize, -0.1F * fResize);
 	m_zpWallSouth2.AddGeo(&m_zgWallSouth2);
 
-	m_zpWallWest.TranslateDelta(CHVector(0 * fResize, 0 * fResize, -5.0 * fResize));
+	m_zpWallWest.TranslateDelta(0.0F * fResize, 0.0F * fResize, -5.0F * fResize);
 	m_zpWallWest.AddGeo(&m_zgWallWest);
 
-	m_zpWallEast0.TranslateDelta(CHVector(3.0 * fResize, 6.0F * fResize, 0.0F * fResize));
+	m_zpWallEast0.TranslateDelta(3.0F * fResize, 6.0F * fResize, 0.0F * fResize);
 	m_zpWallEast0.AddGeo(&m_zgWallEast0);
-	m_zpWallEast1.TranslateDelta(CHVector(4.0 * fResize, 4.0F * fResize, 0.0F * fResize));
+	m_zpWallEast1.TranslateDelta(4.0F * fResize, 4.0F * fResize, 0.0F * fResize);
 	m_zpWallEast1.AddGeo(&m_zgWallEast1);
-	m_zpWallEast2.TranslateDelta(CHVector(5.0 * fResize, 0.0F * fResize, 0.0F * fResize));
+	m_zpWallEast2.TranslateDelta(5.0F * fResize, 0.0F * fResize, 0.0F * fResize);
 	m_zpWallEast2.AddGeo(&m_zgWallEast2);
 
 
 
-	m_zpRoof0.Translate(CHVector(0 * fResize, 7.9F * fResize, -5.0F * fResize));
+	m_zpRoof0.Translate(0.0F * fResize, 7.9F * fResize, -5.0F * fResize);
 	m_zpRoof0.AddGeo(&m_zgRoof0);
-	m_zpRoof1.Translate(CHVector(3 * fResize, 5.9F * fResize, -5.0F * fResize));
+	m_zpRoof1.Translate(3.0F * fResize, 5.9F * fResize, -5.0F * fResize);
 	m_zpRoof1.AddGeo(&m_zgRoof1);
-	m_zpRoof2.Translate(CHVector(4 * fResize, 3.9F * fResize, -5.0F * fResize));
+	m_zpRoof2.Translate(4.0F * fResize, 3.9F * fResize, -5.0F * fResize);
 	m_zpRoof2.AddGeo(&m_zgRoof2);
 
 }
