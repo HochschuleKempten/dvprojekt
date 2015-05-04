@@ -34,12 +34,16 @@ public:
 	}
 
 private:
-	Building01* Building1_01;
-	Building01* Building1_02;
-	Building02* Building2_01;
-	Building02* Building2_02;
-	Building03* Building3_01;
-	Building03* Building3_02;
+	CGeoCube m_zgsocket;
+	CPlacement m_zpsocket;
+	CMaterial m_zmsocket;
+
+	Building01 Building1_01;
+	Building01 Building1_02;
+	Building02 Building2_01;
+	Building02 Building2_02;
+	Building03 Building3_01;
+	Building03 Building3_02;
 	CAppartments* appartment_01;
 	CAppartments* appartment_02;
 	CAppartments* appartment_03;

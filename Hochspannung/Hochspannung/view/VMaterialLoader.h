@@ -100,6 +100,20 @@ public:
 
 	//PlayerFoundations
 	static std::unordered_map<LPlayer::PlayerId, CMaterial> materialFoundationPlayer;
+
+//MaterialBuildings
+
+	static CMaterial materialBuilding01;
+	static CMaterial materialBuilding02;
+	static CMaterial materialBuilding03;
+	static CMaterial materialLargeOfficeBuilding;
+	static CMaterial materialAppartments;
+	static CMaterial materialOfficTowerViewingDeck;
+	static CMaterial materialTwistedTower;
+	static CMaterial materialSmallOfficBuilding;
+
+	// MaterialWindowBuildings
+	static CMaterial materialWindowsofBuilding;
 };
 
 

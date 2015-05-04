@@ -1,4 +1,5 @@
 #include "Building03.h"
+#include "VMaterialLoader.h"
 NAMESPACE_VIEW_B
 
 Building03::Building03()
@@ -21,14 +22,14 @@ Building03::~Building03()
 
 void Building03::InitWindows(){
 
-	m_zgWindow.InitRect(CFloatRect(0.2, 0.9, 0.1, 0.1), false);
+	m_zgWindow.InitRect(CFloatRect(0.2F, 0.9F, 0.1F, 0.1F), false);
 	m_zgWindow.AddGeoWall(&m_zgWallFrame);
-	m_zgWindowInlay.InitRect(CFloatRect(0.1, 0.1, 0.8, 0.8), false);
-	m_zgWindowInlay.InitRect(CFloatRect(0.1, 0.1, 0.8, 0.8), false);
+	//m_zgWindowInlay.InitRect(CFloatRect(0.1F, 0.1F, 0.8F, 0.8F), false);
+	//m_zgWindowInlay.InitRect(CFloatRect(0.1F, 0.1F, 0.8F, 0.8F), false);
 
-	m_zgWindowInlay.AddGeoWall(&m_zgWallGlass);
-	m_zgWallFrame.Init(1, 1, 0.5, &m_zmWallFrame);
-	m_zgWallGlass.Init(1, 1, 0.5, &m_zmWallGlass);
+	//m_zgWindowInlay.AddGeoWall(&m_zgWallGlass);
+	m_zgWallFrame.Init(1.F, 1.F, 0.5F, &VMaterialLoader::materialWindowsofBuilding);
+	//m_zgWallGlass.Init(1.F, 1.F, 0.5F, &m_zmWallGlass);
 	
 
 
@@ -36,14 +37,14 @@ void Building03::InitWindows(){
 
 void Building03::AddWindows(){
 
-	m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0, 0.1, 1, 0.8), 7, 3);
-	m_zgWallFrame.AddGeoWindow(&m_zgWindowInlay);
+	m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 7, 3);
+	//m_zgWallFrame.AddGeoWindow(&m_zgWindowInlay);
 }
 
 	void Building03::InitWalls(){
 
-		m_zWallNorth.Init(5.1, 1, 1, &m_zmWallNorth);
-		m_zgDach.Init(CHVector(3.5, 0.1, 2.55, 0), &m_zmDach);
+		m_zWallNorth.Init(5.1F, 1.F, 1.F, &VMaterialLoader::materialBuilding03);
+		m_zgDach.Init(CHVector(3.5F, 0.1F, 2.55F, 0.F), &VMaterialLoader::materialBuilding03);
 
 	}
 	void Building03::AddPlacements(){
@@ -64,21 +65,21 @@ void Building03::AddWindows(){
 
 	void Building03::TranslateAll(){
 
-		m_zpWallNorth.Translate(1, 0, 8);
+		m_zpWallNorth.Translate(1.F, 0.F, 8.F);
 
 
-		m_zpWallWest.RotateY(PI / 2);
-		m_zpWallWest.TranslateDelta(0, 0,9);
+		m_zpWallWest.RotateY(PI / 2.F);
+		m_zpWallWest.TranslateDelta(0.F, 0.F,9.F);
 
-		m_zpWallEast.RotateY(PI / 2);
-		m_zpWallEast.TranslateDelta(6, 0, 9);
+		m_zpWallEast.RotateY(PI / 2.F);
+		m_zpWallEast.TranslateDelta(6.F, 0.F, 9.F);
 
 
 
 		m_zpWallSouth.RotateY(PI);
-		m_zpWallSouth.TranslateDelta(6, 0, 4.9);
+		m_zpWallSouth.TranslateDelta(6.F, 0.F, 4.9F);
 
-		m_zpDach.Translate(3.5, 1, 6.45);
+		m_zpDach.Translate(3.5F, 1.F, 6.45F);
 	}
 
 NAMESPACE_VIEW_E
