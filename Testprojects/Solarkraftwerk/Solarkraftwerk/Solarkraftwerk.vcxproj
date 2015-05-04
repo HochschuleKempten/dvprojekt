@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.h" />
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelSolarPowerplant.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="resource.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.cpp" />
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelSolarPowerplant.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="stdafx.cpp" />

@@ -30,6 +30,9 @@
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelSolarPowerplant.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -42,6 +45,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelSolarPowerplant.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

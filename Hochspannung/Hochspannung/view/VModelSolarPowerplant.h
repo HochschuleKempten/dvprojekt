@@ -2,6 +2,7 @@
 
 #include "VGeneral.h"
 #include "IViewModel.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -73,8 +74,6 @@ private:
 	CViewport m_zv;
 	CCamera m_zc;
 	CParallelLight m_zl;
-	CMaterial m_zm;
-	CMaterial m_zmSolar;
 	CDeviceKeyboard m_zdk;
 
 

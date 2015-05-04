@@ -1,10 +1,14 @@
 #include "StdAfx.h"
 #include "Game.h"
+#include <filesystem>
+#include "../../../Hochspannung/Hochspannung/view/VMaterialLoader.h"
 
 
 
 CGame::CGame(void)
 {
+	std::tr2::sys::current_path(std::tr2::sys::path("../../../Hochspannung/Hochspannung"));
+	VMaterialLoader::init();
 	// Hier eventuelle Vorinitialisierungen Deiner Vektoria-Objekte einfügen:
 }
 
@@ -15,6 +19,8 @@ CGame::~CGame(void)
 
 void CGame::Init(HWND hwnd, CSplash * psplash)
 {
+
+	
 	m_hwnd = hwnd;
 	m_bReSized = false;
 	// Hier die Initialisierung Deiner Vektoria-Objekte einfügen:
