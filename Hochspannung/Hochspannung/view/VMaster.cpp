@@ -49,13 +49,6 @@ void VMaster::gameOver()
 	//TODO (V) do something useful here when UI is ready
 }
 
-VPlayingField* VMaster::getPlayingField()
-{
-	ASSERT(vPlayingField != nullptr, "VPlayingField is not initialized");
-
-	return vPlayingField.get();
-}
-
 VUI* HighVoltage::VMaster::getVUi()
 {
 	return &vUi;

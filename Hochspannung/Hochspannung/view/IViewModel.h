@@ -2,11 +2,11 @@
 
 #include "VGeneral.h"
 #include "VMaterialLoader.h"
-#include "IViewBuilding.h"
 #include "../logic/ILBuilding.h"
-#include <array>
+#include "IViewBuilding.h"
 #include "VMaster.h"
 #include "VPlayingField.h"
+#include <array>
 
 NAMESPACE_VIEW_B
 
@@ -21,6 +21,8 @@ protected:
 	std::array<CPlacement, 3> m_zpLOD;
 	IViewBuilding* vBuilding = nullptr;
 	CGeoCube m_zgFoundation;
+	float foundationWidth = 0.4f;
+	float foundationHeight = 0.08f;
 
 public:
 	inline IViewModel()
@@ -43,9 +45,14 @@ public:
 	{
 		this->vBuilding = vBuilding;
 
-		float foundationWidth = vBuilding->getVMaster()->getPlayingField()->getFieldSize() * 0.2;
-		float foundationHeight = foundationWidth * 0.2f;
-		m_zgFoundation.Init(CHVector(foundationWidth, foundationHeight, foundationWidth), &VMaterialLoader::materialFoundationPlayer[vBuilding->getLBuilding()->getPlayerId()]);
+		if (vBuilding != nullptr) {
+			foundationWidth = vBuilding->getVMaster()->getPlayingField()->getFieldSize() * 0.2;
+			foundationHeight = foundationWidth * 0.2f;
+			m_zgFoundation.Init(CHVector(foundationWidth, foundationHeight, foundationWidth), &VMaterialLoader::materialFoundationPlayer[vBuilding->getLBuilding()->getPlayerId()]);
+		}
+		else {
+			m_zgFoundation.Init(CHVector(foundationWidth, foundationHeight, foundationWidth), &VMaterialLoader::materialFoundationPlayer[LPlayer::Local]);
+		}
 	}
 
 	virtual float getHeight() = 0;

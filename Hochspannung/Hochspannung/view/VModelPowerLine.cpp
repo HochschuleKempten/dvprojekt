@@ -34,10 +34,8 @@ void VModelPowerLine::SetPosition(int x, int y) {
 void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 {
 	// set necessary attributes depending on foundationWidth and pylonHeight
-	m_fFoundationWidth		= m_fFieldSize * 0.2f;
-	m_fFoundationHeight		= m_fFoundationWidth * 0.2f;
 	m_fPylonHeight			= fPylonHeight;
-	m_fPoleDistance         = m_fFoundationWidth * 0.4f;
+	m_fPoleDistance         = foundationWidth * 0.4f;
 	m_fPoleThickness		= m_fPoleDistance * 0.1f;
 	m_fStrutHeight			= fPylonHeight * 0.1f;
 	m_fStrutLength			= sqrtf(powf(m_fPoleDistance, 2) + powf(m_fStrutHeight, 2));
@@ -63,7 +61,6 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_fBendLineLength		= m_fFieldSize - m_fLineLength - dividedArm;
 
 	// init geometries (foundation, pole, strut)
-	//m_zgFoundation.Init(CHVector(m_fFoundationWidth, m_fFoundationHeight, m_fFoundationWidth), &VMaterialLoader::m_zmConcrete);
 	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), &VMaterialLoader::m_zmStrut);
 	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), &VMaterialLoader::m_zmStrut);
 	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), &VMaterialLoader::m_zmStrut);
@@ -107,13 +104,14 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 			m_zpStruts[index1].TranslateDelta(m_fPoleDistance, iYTranslation, 0);
 			m_zpStruts[index2].TranslateDelta(m_fPoleDistance, iYTranslation, 0);
 		}
-		m_zpPole[i].TranslateY(m_fFoundationHeight);
+		m_zpPole[i].TranslateY(foundationHeight);
 		m_zpPole[i].FixAndFasten();
 
 		// adding roof
-		m_zpRoof[i].RotateZDelta(-asinf((m_fPoleDistance + m_fPoleThickness) / (2 * (m_fStrutHeight - m_fStrutThickness))));
+		//m_zpRoof[i].RotateZ(-asinf((m_fPoleDistance + m_fPoleThickness) / (2 * (m_fStrutHeight - m_fStrutThickness))));	//You're getting out of range here (asin is only defined in the range [-1;1])
+		m_zpRoof[i].RotateZ(AngleToRad(140));	//This may looks not as nice, but works for different field sizes
 		m_zpRoof[i].RotateYDelta(AngleToRad(45));
-		m_zpRoof[i].TranslateDelta(m_fPoleDistance * 0.5f, m_fPylonHeight + m_fStrutHeight * 1.1f, -4 * m_fPoleThickness);
+		m_zpRoof[i].TranslateDelta(m_fPoleDistance * 0.5f, m_fPylonHeight + m_fStrutHeight * 1.4f, -4 * m_fPoleThickness);
 		m_zpPole[i].AddPlacement(&m_zpRoof[i]);
 
 		// adding bottom arm poles
@@ -268,13 +266,13 @@ VModelPowerLine::DIRECTION VModelPowerLine::Direction() {
 }
 
 float VModelPowerLine::getWidth() {
-	return m_fFoundationWidth;
+	return foundationWidth;
 }
 
 
 float VModelPowerLine::getHeight()
 {
-	return m_fPylonHeight + m_fFoundationHeight;
+	return m_fPylonHeight + foundationHeight;
 }
 
 void VModelPowerLine::InitCables(float fSegmentLength1, float fSegmentLength2, int iPrecision, float fCableThickness) {

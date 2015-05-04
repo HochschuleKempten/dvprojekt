@@ -48,7 +48,6 @@ private:
 
 	CGeoCube m_zgArm;
 	CGeoCube m_zgUpperArm;
-	//CGeoCube m_zgFoundation;
 	CGeoCube m_zgArmConnection;
 	CGeoCube m_zgPole;
 	CGeoCube m_zgRoof;
@@ -89,8 +88,6 @@ private:
 	PYLONTYPE m_ePylonType                               = STRAIGHT;
 	VModelPowerLine::DIRECTION m_eDirection				 = DIRECTION::NONE | DIRECTION::NONE;
 	float m_fFieldSize                                   = 0;
-	float m_fFoundationHeight                            = 0;
-	float m_fFoundationWidth                             = 0;
 	float m_fPoleDistance                                = 0;
 	float m_fPoleThickness                               = 0;
 	float m_fPylonHeight                                 = 0;
