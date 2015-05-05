@@ -132,6 +132,18 @@ void VScreenLobby::checkShortcut(CDeviceKeyboard* keyboard)
 		}
 	}
 
+	void VScreenLobby::startAnimation()
+	{
+	}
+
+	void VScreenLobby::StartEvent()
+	{
+	}
+
+	void VScreenLobby::EndEvent()
+	{
+	}
+
 	void VScreenLobby::resize(int width, int height)
 	{
 	}

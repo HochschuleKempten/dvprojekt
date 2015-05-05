@@ -3,7 +3,19 @@
 
 NAMESPACE_VIEW_B
 
-VScreenCredits::VScreenCredits(VUI* vUi) : IViewScreen(vUi)
+	void VScreenCredits::startAnimation()
+	{
+	}
+
+	void VScreenCredits::StartEvent()
+	{
+	}
+
+	void VScreenCredits::EndEvent()
+	{
+	}
+
+	VScreenCredits::VScreenCredits(VUI* vUi) : IViewScreen(vUi)
 {
 	m_viewport = new CViewport();
 	m_camera.Init();
@@ -19,6 +31,11 @@ VScreenCredits::VScreenCredits(VUI* vUi) : IViewScreen(vUi)
 
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
 	getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "BackMainMenue");
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.33F, 0.0F, 0.33F, 1.0F), "Text");
+	getContainer("Text")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 1.0F, 1.0F, 0.35F), "GUIField");
+	getContainer("Text")->addText(CFloatRect(0.0F, 0.35F, 1.0, 0.15), &VMaterialLoader::GoldFont, "2D-GUI und Interaktion", "GUI");
+	getContainer("Text")->addText(CFloatRect(0.0F, 0.5F, 1.0, 0.1),&VMaterialLoader::standardFont,"Patrick Benkowitsch","Benkowitsch");
+	getContainer("Text")->addText(CFloatRect(0.0F, 0.6F, 1.0, 0.1), &VMaterialLoader::standardFont, "Manfred Wippel", "Wippel");
 }
 
 VScreenCredits::~VScreenCredits()
@@ -55,7 +72,7 @@ void VScreenCredits::tick()
 {
 	map<string, IViewGUIContainer*> tempGuicontainer;
 	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
-
+	
 	checkShortcut(&vUi->m_zkKeyboard);
 	checkSpecialEvent(&vUi->m_zkCursor);
 	tempGuicontainer = getGuiContainerMap();

@@ -21,9 +21,9 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	//Standard Init
 	m_zc.Init();
 	m_zb.InitFull("textures/black_image.jpg");
-
-	m_viewport.AddBackground(&m_zb);
-	m_viewport.InitFull(&m_zc);
+	m_viewport = new CViewport();
+	m_viewport->AddBackground(&m_zb);
+	m_viewport->InitFull(&m_zc);
 
 	//Minimap
 	m_CamMiniMap.Init();
@@ -42,7 +42,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_scene.AddParallelLight(&m_zl);
 	m_scene.AddPlacement(&m_zpCamera);
 
-	vUi->m_zf.AddViewport(&m_viewport);
+	vUi->m_zf.AddViewport(m_viewport);
 	//vUi->m_zf.AddViewport(&m_minimap);
 	vUi->m_zr.AddScene(&m_scene);
 
@@ -52,6 +52,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zpCamera.RotateXDelta(0.15F * PI);
 	m_zpCamera.RotateZDelta(0.15F);
 
+
+	//Cursor
+	switchCursor(CursorType::Default);
+
 	//Bottom Bar
 
 	/*m_bottomBar.Init("textures\\MainMenueBackground.png", CFloatRect(0.0, 0.75, 1.0, 0.25));
@@ -60,7 +64,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	/********************************************************TOP AREA***************************************************************/
-	addContainer(&m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.2F, 0.0F, 0.6F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar");
+	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.2F, 0.0F, 0.6F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar");
 	getContainer("Topbar")->addText(CFloatRect(0.05F, 0.2F, 0.2F, 0.7F), &VMaterialLoader::standardFont, "Bevoelkerung:", "population");
 	getContainer("Topbar")->addText(CFloatRect(0.251F, 0.2F, 0.2F, 0.65F), &VMaterialLoader::standardFont, "0000", "popValue");
 	getContainer("Topbar")->addText(CFloatRect(0.55F, 0.2F, 0.2F, 0.65F), &VMaterialLoader::GoldFont, "Geld:", "money");
@@ -68,7 +72,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	/********************************************************BOTTOM AREA*************************************************************/
-	addContainer(&m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 0.75F, 1.0F, 0.25F), "BottomBar");
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 0.75F, 1.0F, 0.25F), "BottomBar");
 
 	getContainer("BottomBar")->addOverlay(CFloatRect(0.0F, 0.0F, 1.0F, 0.05F), &VMaterialLoader::materialBottombarBorderTop, false, "BottomTopBorder");
 	getContainer("BottomBar")->addOverlay(CFloatRect(0.0F, 0.95F, 1.0F, 0.05F), &VMaterialLoader::materialBottombarBorderTop, false, "BottomBottomBorder");
@@ -100,7 +104,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
-
+	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("windmill")->setLayer(0.2F);
 
 	/********************************************************Infofield AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.01F, 0.05F, 0.20F, 1.0F), &VMaterialLoader::materialBlue, "Infofield");
@@ -110,7 +114,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	/***********************************************************Dialog******************************************************************/
-	addContainer(&m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialDialogBackground, "DialogBox");
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialDialogBackground, "DialogBox");
 
 
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING, "MenueButtonContinue");
@@ -123,8 +127,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, false, "NeededEnergy");
 	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.3F);
 
-
-	m_viewport.SwitchOff();
+	m_viewport->SwitchOff();
 	getContainer("DialogBox")->switchOff();
 }
 
@@ -134,6 +137,7 @@ VScreenIngame::~VScreenIngame()
 		delete m_IterGuicontainer->second;
 	}
 	m_Guicontainer.clear();
+	
 }
 
 void VScreenIngame::onNotify(Event events)
@@ -200,7 +204,7 @@ void VScreenIngame::onNotify(Event events)
 
 void VScreenIngame::switchOn()
 {
-	m_viewport.SwitchOn();
+	m_viewport->SwitchOn();
 	m_minimap.SwitchOn();
 	m_scene.SwitchOn();
 	m_isOn = true;
@@ -208,7 +212,7 @@ void VScreenIngame::switchOn()
 
 void VScreenIngame::switchOff()
 {
-	m_viewport.SwitchOff();
+	m_viewport->SwitchOff();
 	m_minimap.SwitchOff();
 	m_scene.SwitchOff();
 	m_isOn = false;
@@ -231,8 +235,8 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 }
 
 void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
-{/*
-		static string hover = "Hover Windmill";
+{
+		/*static string hover = "Hover Windmill";
 		static string standard = "infofeld";
 		float curPosX;
 		float curPosY;
@@ -241,9 +245,10 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 		{
 			
 			updateInfofield(hover);
-		}
-		else
+		}*/
+		/*else
 			updateInfofield(standard);*/
+	
 }
 
 void VScreenIngame::updateMoney(const int wert)
@@ -274,6 +279,7 @@ CFloatRect VScreenIngame::getBottomSpace()
 void VScreenIngame::tick()
 {
 	handleInput();
+	updateCursorImagePos(&vUi->m_zkCursor);
 	map<string, IViewGUIContainer*> tempGuicontainer;
 	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
 
@@ -340,7 +346,7 @@ void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 
 void VScreenIngame::resize(int width, int height)
 {
-	m_viewport.ReSize();
+	m_viewport->ReSize();
 }
 
 void VScreenIngame::handleInput()
@@ -406,7 +412,7 @@ void VScreenIngame::handleInput()
 	(0,1)
 	*/
 	float cursorX, cursorY;
-	bool insideFrame = vUi->m_zkCursor.GetFractional(cursorX, cursorY);
+	bool insideFrame = vUi->m_zkCursor.GetFractional(cursorX, cursorY,true);
 	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY > (1.0f - bottomSpace.GetYSize())) {
 		//Restrict picking when not in window or cursor is only over UI
 		return;
@@ -510,7 +516,28 @@ std::map<int, std::vector<int>> VScreenIngame::pickElements()
 	return pickedElements;
 }
 
-void VScreenIngame::addToScene(CPlacement* placement)
+	void VScreenIngame::startAnimation()
+	{
+	}
+
+	void VScreenIngame::StartEvent()
+	{
+	}
+
+	void VScreenIngame::EndEvent()
+	{
+	}
+
+	/*void VScreenIngame::setCursorImage(char* ImagePfad)
+	{
+			delete m_pCursorImage;
+
+			m_pCursorImage = new COverlay();
+			m_pCursorImage->Init(ImagePfad, CFloatRect(0, 0, 0.2F, 0.2F), false);
+			m_viewport->AddOverlay(m_pCursorImage);
+	}*/
+
+	void VScreenIngame::addToScene(CPlacement* placement)
 {
 	m_scene.AddPlacement(placement);
 }

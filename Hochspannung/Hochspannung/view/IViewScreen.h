@@ -11,7 +11,8 @@
 
 NAMESPACE_VIEW_B
 
-
+#define CursorSizeX 0.2F
+#define CursorSizeY 0.2F
 //---------------------------------------------------
 // IScreen Interface
 // Beschreibung:
@@ -36,6 +37,14 @@ public:
 		Credits,
 		Ingame,
 		Lobby
+	};
+
+	enum CursorType
+	{
+		Default,
+		Hammer,
+		Sabotage,
+
 	};
 
 	virtual void switchOn()
@@ -112,12 +121,78 @@ public:
 	virtual void checkSpecialEvent(CDeviceCursor* cursor) = 0;
 	virtual void tick() = 0;
 	virtual void resize(int width, int height) = 0;
-	virtual void startAnimation()
-	{}
-	virtual void StartEvent()
-	{}
-	virtual void EndEvent()
-	{}
+	
+	virtual void startAnimation() = 0;
+
+	virtual void StartEvent() = 0;
+	
+	virtual void EndEvent() = 0;
+
+	//virtual void setCursorImage(COverlay* overlay)
+	//{
+	//	m_pCursorImage = overlay;
+	//}
+	//virtual void setCursorImage(char* ImagePfad)
+	//{
+	//	delete m_pCursorImage;
+	//	
+	//	m_pCursorImage = new COverlay();
+	//	m_pCursorImage->Init(ImagePfad, CFloatRect(0, 0, 0.3F, 0.3F), true);
+	//	//m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0, 0, 0.05F, 0.05F));
+	//	m_viewport->AddOverlay(m_pCursorImage);
+	//	m_pCursorImage->SetLayer(0.1F);
+	//}
+	void switchCursor(CursorType cursorType)
+	{
+		switch (cursorType)
+		{
+		default:
+			break;
+		case Default: 
+			delete m_pCursorImage;
+
+			m_pCursorImage = new COverlay();
+			m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0, 0, 0.05F, 0.05F));
+			m_viewport->AddOverlay(m_pCursorImage);
+			m_pCursorImage->SetLayer(0.1F);
+			break;
+		case Hammer:
+			delete m_pCursorImage;
+
+			m_pCursorImage = new COverlay();
+			m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0, 0, 0.05F, 0.05F));
+			m_viewport->AddOverlay(m_pCursorImage);
+			m_pCursorImage->SetLayer(0.1F);
+			break;
+		case Sabotage:
+			delete m_pCursorImage;
+
+			m_pCursorImage = new COverlay();
+			m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0, 0, 0.05F, 0.05F));
+			m_viewport->AddOverlay(m_pCursorImage);
+			m_pCursorImage->SetLayer(0.1F);
+			break;
+
+		}
+	}
+	/*virtual void updateCursorImagePos(float PosX,float PosY)
+	{
+		m_cursorImage->GetRect().SetXPos(PosX);
+		m_cursorImage->GetRect().SetYPos(PosY);
+	}*/
+	virtual void updateCursorImagePos(CDeviceCursor* cursor)
+	{
+	
+			float curPosX;
+			float curPosY;
+
+			cursor->GetFractional(curPosX, curPosY, true);
+			m_pCursorImage->SetRect(CFloatRect(curPosX, curPosY, 0.05, 0.05));
+			//m_pCursorImage->GetRect().SetYPos(curPosY);
+			
+		
+	}
+
 protected:	
 	map<string, IViewGUIContainer*> m_Guicontainer;
 	map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
@@ -126,6 +201,8 @@ protected:
 	CViewport* m_viewport;
 	CCamera m_camera;
 	ScreenType m_screenType;
+	COverlay* m_pCursorImage=nullptr;
+	
 	bool m_isOn = false;
 };
 

@@ -4,7 +4,10 @@ NAMESPACE_VIEW_B
 class VScreenCredits :
 	public IViewScreen
 {
-
+public:
+	void startAnimation() override;
+	void StartEvent() override;
+	void EndEvent() override;
 public:
 	explicit VScreenCredits(VUI* vUi);
 	~VScreenCredits();

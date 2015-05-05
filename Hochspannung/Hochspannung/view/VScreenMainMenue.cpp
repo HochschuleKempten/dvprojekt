@@ -145,7 +145,15 @@ NAMESPACE_VIEW_B
 
 	void VScreenMainMenue::slideIn()
 	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		if (startUp)
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			startUp = false;
+		}
+		else
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(200));
+		}
 		
 		static bool is_running = false;
 		if (!is_running)

@@ -1,5 +1,6 @@
 #include "VScreenOptions.h"
 #include "VUI.h"
+#include "VGraph.h"
 
 NAMESPACE_VIEW_B
 
@@ -21,6 +22,10 @@ VScreenOptions::VScreenOptions(VUI* vUi) : IViewScreen(vUi)
 	addContainer(m_viewport,IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
 	getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE,"buttonBackMainMenue");
 
+	VGraph *graph = new VGraph(m_viewport, CFloatRect(0.2F, 0.3f, 0.2F, 0.2F));
+	graph->addBar("EngergyBar", &VMaterialLoader::materialGreen);
+	graph->addBar("SollEnergy", &VMaterialLoader::materialRed);
+	graph->updateBar("SollEnergy", 20);
 }
 
 VScreenOptions::~VScreenOptions()
@@ -122,6 +127,19 @@ VScreenOptions::~VScreenOptions()
 			}
 		}
 	}
+
+	void VScreenOptions::startAnimation()
+	{
+	}
+
+	void VScreenOptions::StartEvent()
+	{
+	}
+
+	void VScreenOptions::EndEvent()
+	{
+	}
+
 	void VScreenOptions::resize(int width, int height)
 	{
 	}

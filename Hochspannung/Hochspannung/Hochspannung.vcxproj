@@ -188,6 +188,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="view\Appartments.h" />
+    <ClInclude Include="view\Bar.h" />
     <ClInclude Include="view\Building02.h" />
     <ClInclude Include="view\Building03.h" />
     <ClInclude Include="view\Building01.h" />
@@ -207,6 +208,7 @@
     <ClInclude Include="view\VCity.h" />
     <ClInclude Include="view\VDialog.h" />
     <ClInclude Include="view\VField.h" />
+    <ClInclude Include="view\VGraph.h" />
     <ClInclude Include="view\VGUIArea.h" />
     <ClInclude Include="view\VModelCity.h" />
     <ClInclude Include="view\VModelPowerLine.h" />
@@ -267,6 +269,7 @@
     </ClCompile>
     <ClCompile Include="VektoriaApp.cpp" />
     <ClCompile Include="view\Appartments.cpp" />
+    <ClCompile Include="view\Bar.cpp" />
     <ClCompile Include="view\Building02.cpp" />
     <ClCompile Include="view\Building03.cpp" />
     <ClCompile Include="view\Building01.cpp" />
@@ -278,6 +281,7 @@
     <ClCompile Include="view\VCity.cpp" />
     <ClCompile Include="view\VDialog.cpp" />
     <ClCompile Include="view\VField.cpp" />
+    <ClCompile Include="view\VGraph.cpp" />
     <ClCompile Include="view\VGUIArea.cpp" />
     <ClCompile Include="view\VModelCity.cpp" />
     <ClCompile Include="view\VModelPowerLine.cpp" />

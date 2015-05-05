@@ -29,7 +29,7 @@ private:
 	COverlay* m_flash;
 	CBackground* m_background;
 	COverlay* m_headline;
-	bool firstTick = true;
+	bool startUp = true;
 };
 
 NAMESPACE_VIEW_E

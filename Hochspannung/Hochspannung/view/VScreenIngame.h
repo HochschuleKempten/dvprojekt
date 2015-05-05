@@ -7,6 +7,8 @@ NAMESPACE_VIEW_B
 
 class VScreenIngame : public IViewScreen
 {
+
+	
 public:
 	explicit VScreenIngame(VUI* vUi);
 	virtual ~VScreenIngame();
@@ -37,9 +39,13 @@ public:
 
 	void addToScene(CPlacement* placement);
 
+	void startAnimation() override;
+	void StartEvent() override;
+	void EndEvent() override;
+
 private:
 	CScene m_scene;
-	CViewport m_viewport;
+	//CViewport m_viewport;
 	CBackground m_zb;
 	CParallelLight m_zl;
 	CCamera m_zc;

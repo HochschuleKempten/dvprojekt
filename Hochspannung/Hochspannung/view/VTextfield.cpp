@@ -68,7 +68,7 @@ void VTextfield::checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)
 	//Mouse
 	float fPosX;
 	float fPosY;
-	cursor->GetFractional(fPosX, fPosY, false);
+	cursor->GetFractional(fPosX, fPosY,true);
 	if (checkHover(fPosX, fPosY))
 	{
 		if (cursor->ButtonPressedLeft())
