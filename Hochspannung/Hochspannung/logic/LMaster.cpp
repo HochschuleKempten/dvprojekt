@@ -24,6 +24,7 @@ LMaster::LMaster(IVMaster& vMaster)
 LMaster::~LMaster()
 {
 	delete lPlayingField;
+	networkService.close();
 }
 
 void LMaster::startNewGame()
@@ -38,8 +39,11 @@ void LMaster::startNewGame()
 		lPlayingField = new LPlayingField(this);
 	}
 
-	lPlayingField->createFields();
-	lPlayingField->showPlayingField();
+	if (!isClient)
+	{
+		lPlayingField->createFields();
+		lPlayingField->showPlayingField();
+	}
 }
 
 void LMaster::gameOver()
@@ -57,7 +61,7 @@ void LMaster::tick(const float fTimeDelta)
 	static float timeLastCheck = 0;
 
 	//check every second
-	if (timeLastCheck <= 1)
+	if (timeLastCheck <= 0.0001F)
 	{
 		timeLastCheck += fTimeDelta;
 		return;
@@ -137,6 +141,12 @@ void LMaster::tick(const float fTimeDelta)
 				if (objectId >= 20 && objectId < 23)
 				{
 					lPlayingField->getField(x, y)->setFieldLevel(static_cast<LField::FieldLevel>(objectId));
+				}
+
+			//end of fieldcreation (if this is a client)
+				if (isClient && playerId == -66)
+				{
+					lPlayingField->showPlayingField();
 				}
 
 			break;
@@ -226,6 +236,7 @@ void LMaster::connect(std::string ip)
 	if (connected)
 	{
 		DEBUG_OUTPUT("Connected to server.");
+		isClient = true;
 	}
 	else
 	{
@@ -238,6 +249,7 @@ void LMaster::sendSetObject(const int objectId, const int x, const int y, const 
 	if (networkService.getConnectionState() == Network::State::CONNECTED) //todo (IP) return false if not connected?
 	{
 		networkService.sendSetObject(objectId, x, y, value);
+		DEBUG_OUTPUT("Sent: Objectid: " + std::to_string(objectId) + ", x: " +std::to_string(x) + ", y:" + std::to_string(y) + ", value: " + value);
 	}
 }
 

@@ -42,9 +42,11 @@ public:
 	template<typename T, typename... Args>
 	inline void tryBuildOnField(const int x, const int y, const Args... arguments)
 	{
+		lPlayingField->beginRemoteOperation();
 		if (!lPlayingField->placeBuilding<T>(x, y, LPlayer::Local, arguments...)) {
 			DEBUG_OUTPUT("Could not place building at " << x << ", " << y);
 		}
+		lPlayingField->endRemoteOperation();
 	}
 
 	inline void tryRemoveObject(const int x, const int y)
