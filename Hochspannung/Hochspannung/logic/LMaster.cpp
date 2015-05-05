@@ -72,7 +72,16 @@ void LMaster::tick(const float fTimeDelta)
 		int objectId = transferObject.getTransObjectID();
 		int x = transferObject.getCoordX();
 		int y = transferObject.getCoordY();
+
 		int playerId = std::stoi(transferObject.getValue());
+		if (playerId == LPlayer::Local)
+		{
+			playerId = LPlayer::External;
+		}
+		else if (playerId == LPlayer::External)
+		{
+			playerId = LPlayer::Local;
+		}
 
 
 		//regarding host

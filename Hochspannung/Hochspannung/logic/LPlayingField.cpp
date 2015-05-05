@@ -345,7 +345,7 @@ void LPlayingField::createFields()
 		}
 	}
 
-	lMaster->sendSetObject(-1, -1, -1, std::to_string(-66)); 
+	lMaster->sendSetObject(-1, -1, -1, std::to_string(-66)); //host finished creating the field
 }
 
 LField* LPlayingField::getField(const int x, const int y)
