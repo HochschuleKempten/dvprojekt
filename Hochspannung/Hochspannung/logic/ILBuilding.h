@@ -56,7 +56,7 @@ public:
 	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 protected:
 	LField* lField;
-	LPlayer::PlayerId playerId = LPlayer::PlayerId::Local;
+	int playerId = LPlayer::PlayerId::Local;
 	int orientation;
 
 public:
@@ -76,12 +76,12 @@ public:
 		return NORTH | EAST | SOUTH | WEST;
 	}
 
-	void setPlayerId(const LPlayer::PlayerId playerId)
+	void setPlayerId(const int playerId)
 	{
 		this->playerId = playerId;
 	}
 
-	LPlayer::PlayerId getPlayerId() const
+	int getPlayerId() const
 	{
 		return playerId;
 	}

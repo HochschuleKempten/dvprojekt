@@ -42,7 +42,7 @@ public:
 	template<typename T, typename... Args>
 	inline void tryBuildOnField(const int x, const int y, const Args... arguments)
 	{
-		if (!lPlayingField->placeBuilding<T>(x, y, arguments...)) {
+		if (!lPlayingField->placeBuilding<T>(x, y, LPlayer::Local, arguments...)) {
 			DEBUG_OUTPUT("Could not place building at " << x << ", " << y);
 		}
 	}

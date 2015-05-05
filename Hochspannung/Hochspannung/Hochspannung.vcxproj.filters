@@ -322,9 +322,6 @@
     <ClInclude Include="logic\cpplinq.hpp">
       <Filter>logic</Filter>
     </ClInclude>
-    <ClInclude Include="logic\LTransformerSation.h">
-      <Filter>logic\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="logic\IVTransformerStation.h">
       <Filter>logic\Interfaces</Filter>
     </ClInclude>
@@ -348,6 +345,9 @@
     </ClInclude>
     <ClInclude Include="view\VModelNuclearPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LTransformerStation.h">
+      <Filter>logic\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -91,6 +91,7 @@ private:
 	};
 
 	void createFields();
+	void sendFieldInformation(const int x, const int y); //helper method
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const std::pair<int, int>& coordinates);
 	int convertIndex(const int x, const int y);
@@ -138,46 +139,43 @@ public:
 
 	// returns true if building could be placed, else false (building not allowed or building already placed)
 	template<typename T, typename... Args>
-	bool placeBuilding(const int x, const int y, const Args... arguments)
+	bool placeBuilding(const int x, const int y, const int playerId, const Args... arguments)
 	{
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
 		
 		//Check costs
-		if (isLocalOperation && lMaster->getPlayer(LPlayer::Local)->getMoney() < T::cost) 
+		if (playerId == LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < T::cost)
 		{
 			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") + std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") + std::to_string(T::cost) + std::string(" benötigt."));
 			return false;
 		}
 
 		if (placeBuildingHelper<T>(this)(x, y, arguments...)) {
-			addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
-			if (isLocalOperation)
+			if (playerId == LPlayer::Local)
 			{
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
+
+				//subtract money only if the local player placed the building
+				lMaster->getPlayer(LPlayer::Local)->subtractMoney(T::cost);
+
+				if (localCityPosition.first > -1 && localCityPosition.second > -1)
+				{
+					calculateEnergyValueCity();
+				}
 			}
 
-			if (isLocalOperation && localCityPosition.first > -1 && localCityPosition.second > -1)
-			{
-				calculateEnergyValueCity();
-			}
+			//assign player id
+			getField(x, y)->getBuilding()->setPlayerId(playerId);
+
 
 			//-----network-----
-			//todo (IP) send only if connected
 
-			if (!isLocalOperation) //to prevent placing loops (server places object, client gets action -> places object, sends sendSetObject again)
+			if (!isLocalOperation)
 			{
-
 				int objectIdentifier = 0;
 
-				LPowerLine* powerLine = dynamic_cast<LPowerLine*>(getField(x, y)->getBuilding());
-				if (powerLine != nullptr)
-				{
-					objectIdentifier = powerLine->getOrientation(); //use orientation to identify a powerline
-				}
-				else
-				{
 					std::string buildingType = getClassName(T);
 
 					if (buildingType == "LCoalPowerPlant")
@@ -208,27 +206,26 @@ public:
 					{
 						objectIdentifier = LIdentifier::LCity;
 					}
-				}
-
-				//assign player id
-				getField(x, y)->getBuilding()->setPlayerId(LPlayer::External);
-
-				lMaster->sendSetObject(objectIdentifier, x, y);
-
-			} 
-			else
-			{
-				//assign player id
-				getField(x, y)->getBuilding()->setPlayerId(LPlayer::Local);
-				lMaster->getPlayer(LPlayer::Local)->subtractMoney(T::cost);
+					else if (buildingType == "LPowerLine")
+					{
+						objectIdentifier = LIdentifier::LPowerLine;
+					}
+					else if (buildingType == "LTransformerStation")
+					{
+						objectIdentifier = LIdentifier::LTransformerStation;
+					}
+				
+				lMaster->sendSetObject(objectIdentifier, x, y, std::to_string(playerId));
 			}
+
 			//-----network-----
 
 			DEBUG_OUTPUT("Marketplace connected = " << isTransformstationConnected());
 
 			return true;
 		}
-		else {
+		else
+		{
 			return false;
 		}
 	}

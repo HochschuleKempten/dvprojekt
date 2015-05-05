@@ -13,7 +13,9 @@ namespace LIdentifier
 		LOilRefinery = 103,
 		LSolarPowerPlant = 104,
 		LWindmillPowerPlant = 105,
-		LCity = 106
+		LCity = 106,
+		LPowerLine = 107,
+		LTransformerStation = 108
 	};
 }
 

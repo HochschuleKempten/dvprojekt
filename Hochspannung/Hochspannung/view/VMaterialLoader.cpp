@@ -79,10 +79,10 @@ CMaterial VMaterialLoader::m_zmSolarzelle;
 CMaterial VMaterialLoader::m_zmSolarGrund;
 
 //PlayerColor
-std::unordered_map<LPlayer::PlayerId, CColor> VMaterialLoader::colorPlayers;
+std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
 
 //PlayerFoundations
-std::unordered_map<LPlayer::PlayerId, CMaterial> VMaterialLoader::materialFoundationPlayer;
+std::unordered_map<int, CMaterial> VMaterialLoader::materialFoundationPlayer;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
