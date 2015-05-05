@@ -58,17 +58,21 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 
 	vPlayingField = lMaster->getVMaster()->getFactory()->createPlayingField(this);
 	vPlayingField->initPlayingField(vPlayingField); //Sets the shared_ptr (need to be done before the fields can be created)
-	
-	createFields(); //Create the fields (also places some buildings)
 
-	ASSERT(unusedCoordinates.empty(), "The container for the unused coordinates are not empty (There are field wich are not initialized)");
-	ASSERT(usedCoordinates.size() == CASTS<size_t>(fieldLength*fieldLength), "Not every cordinates are in the set for the used coordinates. This is an indication that something in the initialization process went wrong");
-	vPlayingField->buildPlayingField(); //Now build the playing field
+	/*ASSERT(unusedCoordinates.empty(), "The container for the unused coordinates are not empty (There are field wich are not initialized)");
+	ASSERT(usedCoordinates.size() == CASTS<size_t>(fieldLength*fieldLength), "Not every cordinates are in the set for the used coordinates. This is an indication that something in the initialization process went wrong");*/
+	
 }
 
 LPlayingField::~LPlayingField()
 {
 }
+
+void LPlayingField::showPlayingField()
+{
+	vPlayingField->buildPlayingField(); //Now build the playing field
+}
+
 
 std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getFieldNeighbors(const int x, const int y)
 {
@@ -340,6 +344,8 @@ void LPlayingField::createFields()
 			sendFieldInformation(coordinates.first, coordinates.second);
 		}
 	}
+
+	lMaster->sendSetObject(-1, -1, -1, std::to_string(-66)); //host finished creating the field
 }
 
 LField* LPlayingField::getField(const int x, const int y)

@@ -35,6 +35,9 @@ LField::FieldType LField::getFieldType() const
 void LField::setFieldType(FieldType fieldType)
 {
 	this->fieldType = fieldType;
+
+	energyStock = fieldType * fieldLevel;
+	energyLeft = energyStock;
 }
 
 LField::FieldLevel LField::getFieldLevel() const
@@ -45,6 +48,9 @@ LField::FieldLevel LField::getFieldLevel() const
 void LField::setFieldLevel(FieldLevel fieldLevel)
 {
 	this->fieldLevel = fieldLevel;
+
+	energyStock = fieldType * fieldLevel;
+	energyLeft = energyStock;
 }
 
 
