@@ -18,7 +18,7 @@ NAMESPACE_VIEW_B
 	m_viewport = viewport;
 	m_zfRect = floatRect;
 	m_background = new COverlay();
-	m_background->SetLayer(0.7);
+	m_background->SetLayer(0.7F);
 	m_background->Init(materialBackground, m_zfRect);
 	m_viewport->AddOverlay(m_background);
 	m_hasBackground = true;
@@ -67,6 +67,10 @@ void VTab::addText(CFloatRect rect, CWritingFont* writingFont, string text, stri
 			m_Overlays[sName] = new COverlay();
 			m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
 			m_viewport->AddOverlay(m_Overlays[sName]);
+	}
+
+	void VTab::setLayer(float layer)
+	{
 	}
 
 	void VTab::onNotify(Event events)

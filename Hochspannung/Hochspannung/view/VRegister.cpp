@@ -22,7 +22,7 @@ VRegister::VRegister(CFloatRect floatRect, CViewport* viewport)
 		m_viewport = viewport;
 		m_zfRect = floatRect;
 		m_background = new COverlay();
-		m_background->SetLayer(0.9);
+		m_background->SetLayer(0.9F);
 		m_background->Init(materialBackground, m_zfRect);
 		//float breiteButton = floatRect.GetXSize() / anzahlRegisterkarten;
 		m_viewport->AddOverlay(m_background);
@@ -156,7 +156,7 @@ VRegister::VRegister(CFloatRect floatRect, CViewport* viewport)
 
 		m_bOn = true;
 	}
-
+	
 
 	void VRegister::switchOff()
 	{
@@ -170,13 +170,17 @@ VRegister::VRegister(CFloatRect floatRect, CViewport* viewport)
 		m_bOn = false;
 	}
 
+	void VRegister::setLayer(float layer)
+	{
+	}
+
 	void VRegister::addTab(CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* background, Event events, string sName)
 {
-	m_Guicontainer[sName] = new VTab(m_viewport, createRelativeRectangle(&m_zfRect, &CFloatRect(0.0,0.2,1,0.8)), background);
+	m_Guicontainer[sName] = new VTab(m_viewport, createRelativeRectangle(&m_zfRect, &CFloatRect(0.0F,0.2F,1.0F,0.8F)), background);
 	m_tabs[sName] = dynamic_cast<VTab*>(m_Guicontainer[sName]);
 	m_Guicontainer[sName]->addObserver(this);
 
-	addButton(CFloatRect(0, 0.0, 0.5, 0.1), MaterialNormal, MaterialHover, events, sName);
+	addButton(CFloatRect(0.0F, 0.0F, 0.5F, 0.1F), MaterialNormal, MaterialHover, events, sName);
 
 	calcButtonSize();
 }
@@ -188,9 +192,9 @@ VRegister::VRegister(CFloatRect floatRect, CViewport* viewport)
 		{
 			//GUI Object Size Mehode hinzufügen
 			CFloatRect tempRect=lIterGUIObjects->second->getRectangle();
-			lIterGUIObjects->second->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(1 / static_cast<float>(m_guiObjects.size())*static_cast<float>(i), 0.0, 1 / static_cast<float>(m_guiObjects.size()), 0.2)));
-			lIterGUIObjects->second->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(1 / static_cast<float>(m_guiObjects.size())*static_cast<float>(i), 0.0, 1 / static_cast<float>(m_guiObjects.size()), 0.2)));
-			lIterGUIObjects->second->setLayer(0.3);
+			lIterGUIObjects->second->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(1.0F / static_cast<float>(m_guiObjects.size())*static_cast<float>(i), 0.0F, 1.0F / static_cast<float>(m_guiObjects.size()), 0.2F)));
+			lIterGUIObjects->second->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(1.0F / static_cast<float>(m_guiObjects.size())*static_cast<float>(i), 0.0F, 1.0F / static_cast<float>(m_guiObjects.size()), 0.2F)));
+			lIterGUIObjects->second->setLayer(0.3F);
 				i++;
 		}
 	}

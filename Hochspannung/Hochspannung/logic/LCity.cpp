@@ -41,7 +41,7 @@ void LCity::tick(const float fTimeDelta)
 		if (superplus < 0)
 		{
 			//Player has lost
-			lField->getLPlayingField()->getLMaster()->gameOver();
+			lField->getLPlayingField()->getLMaster()->gameOver(); //todo (IP) fix
 		}
 
 		timeLastCheck += fTimeDelta;

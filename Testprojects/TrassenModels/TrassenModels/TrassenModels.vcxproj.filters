@@ -36,6 +36,9 @@
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\IViewModel.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

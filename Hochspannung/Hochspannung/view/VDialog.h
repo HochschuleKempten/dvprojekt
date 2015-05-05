@@ -4,6 +4,8 @@ NAMESPACE_VIEW_B
 
 class VDialog : public IViewGUIContainer
 {
+
+	
 public:
 	VDialog();
 	VDialog(CViewport* viewport,CFloatRect floatRect, CMaterial* MaterialNormal);
@@ -14,6 +16,7 @@ public:
 	void addText(CFloatRect rect, CWritingFont* writingFont, string text, string sName)override;
 	void addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, string sName) override;
 	
+	void setLayer(float layer) override;
 
 	void onNotify(Event events) override;
 	

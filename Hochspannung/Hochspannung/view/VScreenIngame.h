@@ -28,6 +28,8 @@ public:
 	CFloatRect getBottomSpace();
 
 	void tick() override;
+	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
+	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(int width, int height) override;
 
 	void handleInput();
@@ -59,6 +61,7 @@ private:
 
 	bool bK = false;
 	float mouseWheelPosition = 0.0F;
+	float cameraAngle = 0.0F;
 
 	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
 };

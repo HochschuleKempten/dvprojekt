@@ -45,9 +45,9 @@ VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* Materia
 	m_zoHover->SwitchOff();
 	m_zoActive->SwitchOff();
 
-	m_zoNormal->SetLayer(0.7);
-	m_zoHover->SetLayer(0.7);
-	m_zoActive->SetLayer(0.7);
+	m_zoNormal->SetLayer(0.7F);
+	m_zoHover->SetLayer(0.7F);
+	m_zoActive->SetLayer(0.7F);
 	
 	m_writing->PrintF("%s", const_cast<char*>(m_sPlaceholder.c_str()));
 }
@@ -157,7 +157,15 @@ bool VTextfield::isActive()
 	return m_bIsActive;
 }
 
-void VTextfield::onMouseClickLeft()
+	void VTextfield::setLayer(float layer)
+	{
+	}
+
+	void VTextfield::updateRectangle(CFloatRect rect)
+	{
+	}
+
+	void VTextfield::onMouseClickLeft()
 {
 	m_bIsActive = true;
 	m_zoNormal->SwitchOff();

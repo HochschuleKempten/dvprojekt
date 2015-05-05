@@ -70,8 +70,8 @@ public:
 	virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName) = 0;
 	
 
-	virtual void setLayer(float layer)
-	{}
+	virtual void setLayer(float layer)=0;
+	
 	
 	
 
@@ -126,7 +126,7 @@ protected:
 	map<string, COverlay*> m_Overlays;
 	map<string, COverlay*>::iterator m_IterOverlays;
 
-	virtual CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)
+	virtual  CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect,  CFloatRect* RelativeRect)
 	{
 		 
 		return CFloatRect(RelativeToRect->GetXPos() + (RelativeToRect->GetXSize() * RelativeRect->GetXPos()), RelativeToRect->GetYPos() + (RelativeToRect->GetYSize() * RelativeRect->GetYPos()),

@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\IViewModel.h" />
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.h" />
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.h" />
     <ClInclude Include="Game.h" />

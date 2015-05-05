@@ -6,12 +6,14 @@ class VScreenCredits :
 {
 
 public:
-	VScreenCredits(VUI* vUi);
+	explicit VScreenCredits(VUI* vUi);
 	~VScreenCredits();
 	void onNotify(IViewUIObserver::Event events)override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
 	void checkSpecialEvent(CDeviceCursor* cursor)override;
 	void tick() override;
+	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
+	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(int width, int height) override;
 private:
 	CBackground* m_background;
