@@ -1,4 +1,5 @@
 #include "VTextfield.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -16,12 +17,9 @@ VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* Materia
 	m_sPlaceholder = Placeholder;
 
 	m_iMaxChars = MaxChars;
-	m_writingfont = new CWritingFont();
+	m_writingfont = &VMaterialLoader::standardFont;
 
 	m_writing = new CWriting();
-	//Initialize Writingfont
-	m_writingfont->Init("textures\\FontArialShadow.png", true);
-	m_writingfont->SetTableSize(16, 6);
 
 	
 	

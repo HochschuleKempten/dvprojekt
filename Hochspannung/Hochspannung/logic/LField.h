@@ -15,29 +15,31 @@ class LSolarPowerPlant;
 class LTransformerStation;
 class LHydroelectricPowerPlant;
 class LOilRefinery;
+class LNuclearPowerPlant;
 
 class LField
 {
 	NON_COPYABLE(LField);
 
 public:
-	enum FieldType
+	enum FieldType //todo (V) 
 	{
 		CITY     = 0,
-		WATER    = -1,
-		AIR      = -2,
-		SOLAR    = -3,
-		GRASS    = -100,
-		MOUNTAIN = -101,
-		COAL     = 100,
-		OIL      = 50
+		WATER    = 1,
+		AIR      = 2,
+		SOLAR    = 3,
+		GRASS    = 4,
+		MOUNTAIN = 5,
+		COAL     = 6,
+		OIL      = 7,
+		NUCLEAR  = 8
 	};
 
 	enum FieldLevel
 	{
-		LEVEL1 = 1,
-		LEVEL2 = 2,
-		LEVEL3 = 3
+		LEVEL1 = 20,
+		LEVEL2 = 21,
+		LEVEL3 = 22
 	};
 
 private:
@@ -53,7 +55,8 @@ private:
 	//TODO (All) where can power lines be placed? (grass, solar, ...)
 	template<typename T> bool checkBuildingType()
 	{
-		ASSERT(false, "Unknown field type");
+		ASSERT("Unknown field type");
+		return false;
 	}
 	template<> bool checkBuildingType<LOilRefinery>()
 	{
@@ -66,6 +69,10 @@ private:
 	template<> bool checkBuildingType<LCoalPowerPlant>()
 	{
 		return fieldType == COAL;
+	}
+	template<> bool checkBuildingType<LNuclearPowerPlant>()
+	{
+		return fieldType == NUCLEAR;
 	}
 	template<> bool checkBuildingType<LWindmillPowerPlant>()
 	{
@@ -115,7 +122,9 @@ public:
 	// this must be called after construction of this object
 	void setLPlayingField(LPlayingField* lPlayingField);
 	FieldType getFieldType() const;
+	void setFieldType(FieldType fieldType);
 	FieldLevel getFieldLevel() const;
+	void setFieldLevel(FieldLevel fieldLevel);
 	bool removeBuilding();
 	ILBuilding * getBuilding();
 	void setIsPlacingAllowed(bool allowed);

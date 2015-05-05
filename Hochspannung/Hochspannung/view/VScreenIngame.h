@@ -67,6 +67,7 @@ private:
 
 	bool bK = false;
 	float mouseWheelPosition = 0.0F;
+	float cameraAngle = 0.0F;
 
 	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
 };

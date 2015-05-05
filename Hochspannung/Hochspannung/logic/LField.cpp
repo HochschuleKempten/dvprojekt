@@ -3,6 +3,7 @@
 
 NAMESPACE_LOGIC_B
 
+
 LField::LField()
 {
 }
@@ -31,10 +32,21 @@ LField::FieldType LField::getFieldType() const
 	return fieldType;
 }
 
+void LField::setFieldType(FieldType fieldType)
+{
+	this->fieldType = fieldType;
+}
+
 LField::FieldLevel LField::getFieldLevel() const
 {
 	return fieldLevel;
 }
+
+void LField::setFieldLevel(FieldLevel fieldLevel)
+{
+	this->fieldLevel = fieldLevel;
+}
+
 
 bool LField::removeBuilding()
 {

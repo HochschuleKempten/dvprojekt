@@ -41,15 +41,12 @@ IVFactory* VMaster::getFactory()
 
 void VMaster::gameOver()
 {
-	DEBUG_OUTPUT("Game is over");
+	static bool informed = false;
+	if (!informed) {
+		DEBUG_OUTPUT("Game is over");
+		informed = true;
+	}
 	//TODO (V) do something useful here when UI is ready
-}
-
-VPlayingField* VMaster::getPlayingField()
-{
-	ASSERT(vPlayingField != nullptr, "VPlayingField is not initialized");
-
-	return vPlayingField.get();
 }
 
 VUI* HighVoltage::VMaster::getVUi()
@@ -73,5 +70,14 @@ void VMaster::updateMoney(const int money)
 	vUi.updateMoney(money);
 }
 
+void VMaster::pauseGame()
+{
+	//todo (V) implement
+}
+
+void VMaster::continueGame()
+{
+	//todo (V) implement
+}
 
 NAMESPACE_VIEW_E

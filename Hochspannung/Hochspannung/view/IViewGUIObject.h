@@ -48,7 +48,9 @@ public:
 	{
 		float fPosX;
 		float fPosY;
+
 		cursor->GetFractional(fPosX, fPosY,true);
+
 		
 		if (checkHover(fPosX,fPosY))
 		{

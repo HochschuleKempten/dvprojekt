@@ -90,11 +90,23 @@ inline std::string getFileBase(const std::string &str)
 
 #ifdef _DEBUG
 /*
- * @def ASSERT(cond, msgExpr)
+* @def ASSERT1(msgExpr)
+* This macro always fails and throws an exception with the given message. Use it when you want to prohibit that certain code is reached.
+* E. g. when you want to make sure that you never reach the <code>default</code> block in a <code>switch</code> statement.
+*/
+#define ASSERT1(msgExpr) {std::stringstream s; \
+						s << getFileBase(__FILE__) << "(" << __LINE__ << "): Assert failed (" << msgExpr << ")" << std::endl; \
+						OutputDebugString("EXCEPTION! "); \
+						OutputDebugString(s.str().c_str()); \
+						OutputDebugString("\n"); \
+						throw std::string(s.str());}
+
+/*
+ * @def ASSERT2(cond, msgExpr)
  * Use this macro to check conditions at runtime in debug mode
  * Type in the condition the behavior you desire (the assertion fails if your condition fails)
  */
-#define ASSERT(cond, msgExpr) if(!(cond)) { \
+#define ASSERT2(cond, msgExpr) if(!(cond)) { \
 								 std::stringstream s; \
 								 s << getFileBase(__FILE__) << "(" << __LINE__ << "): The condition " << #cond << " fails (" << msgExpr << ")" << std::endl; \
 								 OutputDebugString("EXCEPTION! "); \
@@ -103,8 +115,25 @@ inline std::string getFileBase(const std::string &str)
 								 throw std::string(s.str()); \
 							  }
 #else
-#define ASSERT(cond, msgExpr)
+#define ASSERT1(msgExpr)
+#define ASSERT2(cond, msgExpr)
 #endif //_DEBUG
+
+//Allows macro overloading for the assert macro based on http://stackoverflow.com/questions/11974170/overloading-a-macro
+#define N_ARGS_IMPL2(_1, _2, count, ...) \
+   count
+#define N_ARGS_IMPL(args) \
+   N_ARGS_IMPL2 args
+#define N_ARGS(...) N_ARGS_IMPL((__VA_ARGS__, 2, 1, 0))
+/* Pick the right helper macro to invoke. */
+#define CHOOSER2(count) ASSERT##count
+#define CHOOSER1(count) CHOOSER2(count)
+#define CHOOSER(count)  CHOOSER1(count)
+/* The actual macro. */
+#define ASSERT_GLUE(x, y) x y
+#define ASSERT(...) \
+   ASSERT_GLUE(CHOOSER(N_ARGS(__VA_ARGS__)), \
+               (__VA_ARGS__))
 
 #ifdef _DEBUG
 #include <boost\numeric\conversion\cast.hpp>

@@ -1,6 +1,5 @@
 #include "VUI.h"
 #include "VMaster.h"
-#include "VPlayingField.h"
 #include "IViewScreen.h"
 #include "VScreenMainMenue.h"
 #include "VScreenIngame.h"
@@ -8,6 +7,8 @@
 #include "VScreenCredits.h"
 #include "VScreenOptions.h"
 #include "../logic/LMaster.h"
+#include <Windows.h>
+#include <VersionHelpers.h>
 
 NAMESPACE_VIEW_B
 
@@ -24,7 +25,12 @@ VUI::~VUI()
 void VUI::initUI(HWND hwnd, CSplash* psplash)
 {
 	m_zr.Init(psplash);
-	m_zf.Init(hwnd);
+	if (IsWindows8OrGreater()) {
+		m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
+	}
+	else {
+		m_zf.Init(hwnd);
+	}
 	m_zr.AddFrameHere(&m_zf);
 
 	m_zf.AddDeviceKeyboard(&m_zkKeyboard);
@@ -55,6 +61,7 @@ void VUI::onNotify(Event evente)
 		case QUIT_GAME:
 			isQuit = true;
 			PostQuitMessage(0);
+			vMaster->lMaster->gameOver();
 			break;
 		case SEARCH_IP:
 			break;
@@ -115,7 +122,7 @@ void VUI::addScreen(const string& sName, const IViewScreen::ScreenType screenTyp
 	}
 }
 
-void VUI::switchScreen(const string& switchTo)
+void VUI::switchScreen(const std::string& switchTo)
 {
 	ASSERT(activeScreen != nullptr, "No screen is initalized");
 	ASSERT(m_screens.count(switchTo) > 0, "Screen" << switchTo << "not available");
@@ -127,8 +134,7 @@ void VUI::switchScreen(const string& switchTo)
 	activeScreen->StartEvent();
 }
 
-
-IViewScreen* VUI::getScreen(const string& sName)
+IViewScreen* VUI::getScreen(const std::string& sName)
 {
 	ASSERT(m_screens.count(sName) > 0, "Screen" << sName << "not available");
 	return m_screens[sName];

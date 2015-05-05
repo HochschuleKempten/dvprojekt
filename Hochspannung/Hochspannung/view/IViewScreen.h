@@ -11,8 +11,7 @@
 
 NAMESPACE_VIEW_B
 
-#define CursorSizeX 0.2F
-#define CursorSizeY 0.2F
+
 //---------------------------------------------------
 // IScreen Interface
 // Beschreibung:
@@ -121,6 +120,7 @@ public:
 	virtual void checkSpecialEvent(CDeviceCursor* cursor) = 0;
 	virtual void tick() = 0;
 	virtual void resize(int width, int height) = 0;
+
 	
 	virtual void startAnimation() = 0;
 
@@ -192,6 +192,7 @@ public:
 			
 		
 	}
+
 
 protected:	
 	map<string, IViewGUIContainer*> m_Guicontainer;

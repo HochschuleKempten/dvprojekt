@@ -7,14 +7,15 @@ namespace LIdentifier
 {
 	enum LIdentifier
 	{
-		LCoalPowerPlant = 0,
-		LHydroelectricPowerPlant = 1,
-		LNuclearPowerPlant = 2,
-		LOilRefinery = 3,
-		LPowerLine = 4,
-		LSolarPowerPlant = 5,
-		LWindmillPowerPlant = 6,
-		LCity = 7
+		LCoalPowerPlant = 100,
+		LHydroelectricPowerPlant = 101,
+		LNuclearPowerPlant = 102,
+		LOilRefinery = 103,
+		LSolarPowerPlant = 104,
+		LWindmillPowerPlant = 105,
+		LCity = 106,
+		LPowerLine = 107,
+		LTransformerStation = 108
 	};
 }
 

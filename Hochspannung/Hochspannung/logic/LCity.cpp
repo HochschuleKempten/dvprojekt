@@ -21,32 +21,41 @@ LCity::~LCity()
 
 void LCity::tick(const float fTimeDelta)
 {
-	static float timeLastCheck = 0;
+	if (!lField->getLPlayingField()->getLMaster()->gamePaused) //if game is paused, do nothing
+	{
+		static float timeLastCheck = 0;
 
-	//Handle the population increase
-	if (timeLastCheck > 1) {
-		int seconds = CASTS<int>(timeLastCheck);
-		ASSERT(seconds >= 1, "The number of seconds is invalid.");
+		//Handle the population increase
+		if (timeLastCheck > 1)
+		{
+			int seconds = CASTS<int>(timeLastCheck);
+			ASSERT(seconds >= 1, "The number of seconds is invalid.");
 
-		setPopulationTotal(populationTotal + seconds * populationIncrease);
+			setPopulationTotal(populationTotal + seconds * populationIncrease);
 
-		timeLastCheck = 0;
+			timeLastCheck = 0;
+		}
+
+		//Check energy storage
+		int superplus = energy - (populationTotal * consumptionCitizen);
+		if (superplus < 0)
+		{
+			//Player has lost
+			lField->getLPlayingField()->getLMaster()->gameOver(); //todo (IP) fix
+		}
+
+		timeLastCheck += fTimeDelta;
 	}
-
-	//Check energy storage
-	int superplus = energy - (populationTotal * consumptionCitizen);
-	if (superplus < 0) {
-		//Player has lost
-		lField->getLPlayingField()->getLMaster()->gameLost();
-	}
-
-	timeLastCheck += fTimeDelta;
 }
 
 void LCity::setEnergy(const int energy)
 {
 	this->energy = energy;
-	vCity->updateEnergy(energy);
+
+	if (playerId == LPlayer::Local)
+	{
+		vCity->updateEnergy(energy);
+	}
 }
 
 int LCity::getEnergy() const
@@ -57,7 +66,11 @@ int LCity::getEnergy() const
 void LCity::setPopulationTotal(const int populationTotal)
 {
 	this->populationTotal = populationTotal;
-	vCity->updatePopulation(populationTotal);
+
+	if (playerId == LPlayer::Local)
+	{
+		vCity->updatePopulation(populationTotal);
+	}
 }
 
 int LCity::getEnergySurplus()

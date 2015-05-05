@@ -23,6 +23,7 @@ VField::~VField()
 
 void VField::setHoverOn()
 {
+	//TODO (JS) set player color
 	m_zmNormal.SetColorAmbient(CColor(1.0, 0.0, 0.0));
 }
 
@@ -46,7 +47,7 @@ void VField::initField(const int rowIdx, const int colIdx)
 	m_zg.Init(vPlayingField->size, &m_zmNormal);
 	m_zp.AddGeo(&m_zg);
 
-	m_zp.RotateZ(CASTS<float>(M_PI));
+	m_zp.RotateZ(CASTS<float>(M_PI));	//Rotate the field so that the textures are correct
 	m_zp.TranslateXDelta(CASTS<float>(colIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0)));
 	m_zp.TranslateYDelta(CASTS<float>(rowIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0) * -1));
 
