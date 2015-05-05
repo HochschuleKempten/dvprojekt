@@ -128,20 +128,6 @@ public:
 	
 	virtual void EndEvent() = 0;
 
-	//virtual void setCursorImage(COverlay* overlay)
-	//{
-	//	m_pCursorImage = overlay;
-	//}
-	//virtual void setCursorImage(char* ImagePfad)
-	//{
-	//	delete m_pCursorImage;
-	//	
-	//	m_pCursorImage = new COverlay();
-	//	m_pCursorImage->Init(ImagePfad, CFloatRect(0, 0, 0.3F, 0.3F), true);
-	//	//m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0, 0, 0.05F, 0.05F));
-	//	m_viewport->AddOverlay(m_pCursorImage);
-	//	m_pCursorImage->SetLayer(0.1F);
-	//}
 	void switchCursor(CursorType cursorType)
 	{
 		switch (cursorType)
@@ -152,7 +138,7 @@ public:
 			delete m_pCursorImage;
 
 			m_pCursorImage = new COverlay();
-			m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0, 0, 0.05F, 0.05F));
+			m_pCursorImage->Init(&VMaterialLoader::m_zmDefaultCursor, CFloatRect(0, 0, 0.05F, 0.05F));
 			m_viewport->AddOverlay(m_pCursorImage);
 			m_pCursorImage->SetLayer(0.1F);
 			break;
@@ -160,7 +146,7 @@ public:
 			delete m_pCursorImage;
 
 			m_pCursorImage = new COverlay();
-			m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0, 0, 0.05F, 0.05F));
+			m_pCursorImage->Init(&VMaterialLoader::m_zmHammerCursor, CFloatRect(0, 0, 0.05F, 0.05F));
 			m_viewport->AddOverlay(m_pCursorImage);
 			m_pCursorImage->SetLayer(0.1F);
 			break;

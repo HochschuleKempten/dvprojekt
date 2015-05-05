@@ -104,6 +104,10 @@ public:
 
 	//PlayerFoundations
 	static std::unordered_map<int, CMaterial> materialFoundationPlayer;
+
+	//Cursor
+	static CMaterial m_zmDefaultCursor;
+	static CMaterial m_zmHammerCursor;
 };
 
 

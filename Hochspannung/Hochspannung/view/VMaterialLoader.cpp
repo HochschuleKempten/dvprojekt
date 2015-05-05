@@ -84,6 +84,10 @@ std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
 //PlayerFoundations
 std::unordered_map<int, CMaterial> VMaterialLoader::materialFoundationPlayer;
 
+//Cursor
+CMaterial VMaterialLoader::m_zmDefaultCursor;
+CMaterial VMaterialLoader::m_zmHammerCursor;
+
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
@@ -197,6 +201,10 @@ void VMaterialLoader::init()
 	materialFoundationPlayer[LPlayer::External].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_opponent.png");
 	materialFoundationPlayer[LPlayer::External].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
 	materialFoundationPlayer[LPlayer::External].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
+
+	//Cursor
+	m_zmDefaultCursor.MakeTextureSprite("textures\\red_image.jpg");
+	m_zmHammerCursor.MakeTextureSprite("textures\\Hammer.png");
 }
 
 
