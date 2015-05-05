@@ -22,11 +22,12 @@ public:
 	VGroup(CViewport* viewport, CFloatRect floatRect,CMaterial* materialbackground);
 	VGroup();
 	~VGroup();
-	void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName) override;
-	void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)override;
+	void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName) override;
+	void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const string& sName)override;
 	//void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction) override;
 	//void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder) override;
 	//void addText(CFloatRect rect, CWritingFont* writingFont, string text)override;
+	void setLayer(float layer) override;
 	void onNotify(Event) override;
 	 void switchOn() override;
 	 void switchOff() override;

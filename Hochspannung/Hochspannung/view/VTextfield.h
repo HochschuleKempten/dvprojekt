@@ -5,6 +5,8 @@ NAMESPACE_VIEW_B
 class VTextfield :
 	public IViewGUIObject
 {
+
+	
 public:
 	VTextfield();
 	//VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const float textSize);
@@ -26,6 +28,9 @@ public:
 	void AddChar(const char& character);
 	void deleteChar();
 	bool isActive();
+
+	void setLayer(float layer) override;
+	void updateRectangle(CFloatRect rect) override;
 private:
 	COverlay* m_zoNormal;
 	COverlay* m_zoActive;

@@ -17,7 +17,7 @@ VDialog::VDialog(CViewport* viewport, CFloatRect floatRect, CMaterial* materialB
 	m_viewport = viewport;
 	m_zfRect = floatRect;
 	m_background = new COverlay();
-	m_background->SetLayer(0.9);
+	m_background->SetLayer(0.9F);
 	m_background->Init(materialBackground, m_zfRect);
 	m_viewport->AddOverlay(m_background);
 	m_hasBackground = true;
@@ -73,6 +73,10 @@ void VDialog::addText(CFloatRect rect, CWritingFont* writingFont, string text, s
 			m_viewport->AddOverlay(m_Overlays[sName]);
 	}
 
+	void VDialog::setLayer(float layer)
+	{
+	}
+
 	void VDialog::onNotify(Event events)
 {
 	switch (events)
@@ -110,7 +114,7 @@ void VDialog::switchOff()
 	m_bOn = false;
 }
 
-void VDialog::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
+void VDialog::addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
 {
 	switch (containerType)
 	{
@@ -134,7 +138,7 @@ void VDialog::addContainer(const IViewGUIContainer::ContainerType& containerType
 	}
 }
 
-void VDialog::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
+void VDialog::addContainer(const ContainerType& containerType, CFloatRect& floatRect, const string& sName)
 {
 	switch (containerType)
 	{

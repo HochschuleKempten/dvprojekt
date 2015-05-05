@@ -67,7 +67,7 @@ public:
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
 
-	void checkGUIContainer(IViewGUIContainer* guiContainer);
+	//void checkGUIContainer(IViewGUIContainer* guiContainer);
 };
 
 

@@ -43,26 +43,13 @@ public:
 			return false;
 		}
 	}
-	/*virtual bool checkPressed(const float& fPosX, const float& fPosY, const bool& bLeftpressed)
-	{
-		
-		if (bLeftpressed && checkHover(fPosX, fPosY))
-			{
-				onMouseClickLeft();
-				return true;
-			}
-		else
-		{
-			return false;
-		}
-	}*/
 
 	virtual void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)
 	{
 		float fPosX;
 		float fPosY;
 		cursor->GetFractional(fPosX, fPosY, false);
-		if (checkHover(fPosX, fPosY) && cursor->ButtonPressedLeft()) OutputDebugString("Button pressed");
+		
 		if (checkHover(fPosX,fPosY))
 		{
 			if(cursor->ButtonPressedLeft())
@@ -72,8 +59,8 @@ public:
 		}
 	}
 	
-	virtual void switchOn()=0;
-	virtual void switchOff() = 0;
+	virtual void switchOn(void)=0;
+	virtual void switchOff(void) = 0;
 	virtual void onMouseOver(void) = 0;
 	virtual void onMouseOut(void) = 0;
 	virtual void onMouseClickLeft(void) = 0;
@@ -90,20 +77,16 @@ public:
 	{
 		m_zfrRect=tempRect;
 	}
-	virtual void setLayer(float layer)
-	{
-		
-	}
-	virtual void updateRectangle(CFloatRect rect)
-	{
-
-	}
-
+	virtual void setLayer(float layer) = 0;
+	
+	virtual void updateRectangle(CFloatRect rect) = 0;
+	
+	
 	string sObjectName = "";
 	//virtual void resize(int width, int height);
 protected:
 	CFloatRect m_zfrRect=CFloatRect(0,0,0,0);
-	bool m_bisOn=true;
+	bool m_bisOn=true ;
 	
 
 };

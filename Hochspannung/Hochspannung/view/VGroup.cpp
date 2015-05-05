@@ -22,7 +22,7 @@ VGroup::VGroup(CViewport* viewport, CFloatRect floatRect)
 		m_viewport = viewport;
 		m_zfRect = floatRect;
 		m_background = new COverlay();
-		m_background->SetLayer(0.9);
+		m_background->SetLayer(0.9F);
 		m_background->Init(materialbackground, m_zfRect);
 		m_viewport->AddOverlay(m_background);
 		m_hasBackground = true;
@@ -115,6 +115,11 @@ void VGroup::addContainer(const IViewGUIContainer::ContainerType& containerType,
 			break;
 		default: break;
 		}
+	}
+
+	void VGroup::setLayer(float layer)
+	{
+		
 	}
 
 	NAMESPACE_VIEW_E

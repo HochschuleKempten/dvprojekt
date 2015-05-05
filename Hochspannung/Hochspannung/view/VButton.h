@@ -28,8 +28,8 @@ public:
 	virtual void onMouseClickLeft(void) override final;
 	virtual void onMouseClickRight(void) override final;
 	
-	void setLayer(float layer) override;
-	void updateRectangle(CFloatRect rect) override;
+	virtual void setLayer(float layer) override;
+	virtual void updateRectangle(CFloatRect rect) override;
 	bool bGetHasHover();
 
 	
