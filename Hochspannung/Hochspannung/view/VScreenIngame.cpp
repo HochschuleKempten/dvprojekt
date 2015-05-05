@@ -345,7 +345,7 @@ void VScreenIngame::resize(int width, int height)
 
 void VScreenIngame::handleInput()
 {
-	const float cameraStength = 0.9f;
+	const float cameraStength = 1.0f;
 
 	//Left + Right: 
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_A)) {
@@ -393,6 +393,51 @@ void VScreenIngame::handleInput()
 
 		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
 	}
+
+
+
+
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_RIGHT))
+	{
+		if (cameraAngle < 0.5f)
+		{
+			m_zpCamera.RotateZDelta(cameraStength / 10.0f);
+			cameraAngle += cameraStength / 10.0f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
+		}
+	}
+
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_LEFT))
+	{
+		if (cameraAngle > -0.5f) {
+			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
+			cameraAngle -= cameraStength / 10.0f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
+		}
+	}
+
+	if (!vUi->m_zkKeyboard.KeyPressed(DIK_LEFT) && !vUi->m_zkKeyboard.KeyPressed(DIK_RIGHT))
+	{
+		if (cameraAngle < 0.0f)
+		{
+			m_zpCamera.RotateZDelta(cameraStength / 10.0f);
+			cameraAngle += cameraStength / 10.f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
+		}
+
+		if (cameraAngle > 0.0f)
+		{
+			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
+			cameraAngle -= cameraStength / 10.0f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
+		}
+
+
+
+	}
+
+
+
 
 	CFloatRect topSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getTopSpace();
 	CFloatRect bottomSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getBottomSpace();
