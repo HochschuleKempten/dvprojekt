@@ -133,15 +133,15 @@ bool CNetworkService::sendContinueGame() {
 	return sendAsMessage(Action::CONTINUE_GAME);
 }
 
-bool CNetworkService::sendSetObject(int iObjectID, int iCoordX, int iCoordY, std::string sValue) {
-	return sendAsMessage(Action::SET_OBJECT, iObjectID, iCoordX, iCoordY, sValue);
+bool CNetworkService::sendSetObject(int iObjectID, int iCoordX, int iCoordY, std::string stPlayer) {
+	return sendAsMessage(Action::SET_OBJECT, iObjectID, iCoordX, iCoordY, stPlayer);
 }
 
 //bool sendMoveObject(int iObjectID, int iCoordXSource, int iCoordYSouce, int iCoordXDest, int iCoordYDest) {
 //}
 
-bool CNetworkService::sendDeleteObject(int iObjectID, int iCoordX, int iCoordY) {
-	return sendAsMessage(Action::DELETE_OBJECT, iObjectID, iCoordX, iCoordY);
+bool CNetworkService::sendDeleteObject(int iCoordX, int iCoordY) {
+	return sendAsMessage(Action::DELETE_OBJECT, -1, iCoordX, iCoordY);
 }
 
 bool CNetworkService::sendSetMapsize(int iSizeX, int iSizeY) {
