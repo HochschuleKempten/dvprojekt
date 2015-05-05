@@ -58,7 +58,6 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 
 	m_fLineLength			= m_fArmLength * 2.0f;
 	m_fLineThickness		= m_fRingRadius * 0.8f;
-	m_fBendLineLength		= m_fFieldSize - m_fLineLength - dividedArm;
 
 	// init geometries (foundation, pole, strut)
 	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), &VMaterialLoader::m_zmStrut);
@@ -74,7 +73,6 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &VMaterialLoader::m_zmRing, 5, 5, false);
 	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), &VMaterialLoader::m_zmRing);
 	m_zgLine.Init(m_fLineThickness, m_fLineThickness, m_fLineLength, &VMaterialLoader::m_zmCable, 16, false, false);
-	m_zgBendLine.Init(m_fLineThickness, m_fLineThickness, m_fBendLineLength, &VMaterialLoader::m_zmCable, 16, false, false);
 	
 	// preparing struts (rotate)
 	//m_zpStruts = new CPlacement[m_iStrutsCount * 8];
@@ -197,23 +195,6 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 		m_zpRing[i].TranslateDelta(0, -m_fRingRadius, 0);
 		m_zpRing[i].SetFrustumCullingOn();
 
-		// add lines
-		//m_zpLine[i].AddGeo(&m_zgLine);
-		//m_zpLine[i].RotateZDelta(HALFPI);
-		//m_zpLine[i].TranslateYDelta(-m_fRingRadius);
-		//m_zpLine[i].TranslateXDelta(dividedArm);
-		//m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpLine[i]);
-
-		// add bent lines
-		//m_zpTriangleBendLine = m_zgBendLine.CopyToTriangleList();
-		//m_zpTriangleBendLine->SubdivideY(0.1f * m_fBendLineLength);
-		//m_zpTriangleBendLine->BendX(0.5f * m_fBendLineLength, AngleToRad(75));
-		//m_zpBendLine[i].AddGeo(m_zpTriangleBendLine);
-		/*m_zpBendLine[i].RotateZDelta(HALFPI);
-		m_zpBendLine[i].TranslateYDelta(-m_fRingRadius);
-		m_zpBendLine[i].TranslateXDelta(-m_fLineLength + dividedArm);*/
-		//m_zpIsolator[i * 4 + 2].AddPlacement(&m_zpBendLine[i]);
-
 		// initialize cables
 		if (!m_fCablesDone) {
 			float fSegmentLength1 = m_zpIsolator[0].GetTranslation().Dist(m_zpIsolator[2].GetTranslation());
@@ -227,12 +208,12 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 		SetDirection(m_eDirection);
 
 		// set level of details
-		m_zpIsolatorLoD1[i].SetLoD(0, 1.0f);
-		m_zpIsolatorLoD2[i].SetLoD(1.0f, 5.0f);
-		m_zpIsolatorLoD3[i].SetLoD(5.0f, 7.0f);
-		m_zpRingLoD1[i].SetLoD(0, 0.75f);
-		m_zpRingLoD2[i].SetLoD(0.75f, 5.0f);
-		m_zpRingLoD3[i].SetLoD(5.0f, 7.0f);
+		m_zpIsolatorLoD1[i].SetLoD(0, 33.3f);
+		m_zpIsolatorLoD2[i].SetLoD(33.3f, 66.6f);
+		m_zpIsolatorLoD3[i].SetLoD(66.6f, 99.9f);
+		m_zpRingLoD1[i].SetLoD(0, 33.3f);
+		m_zpRingLoD2[i].SetLoD(33.3f, 66.6f);
+		m_zpRingLoD3[i].SetLoD(66.6f, 99.9f);
 
 		// rotate modeled pole and add it to foundation
 		m_zpPole[i].RotateYDelta(i * HALFPI);
@@ -247,7 +228,9 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_zpPole[3].TranslateDelta(-m_fPoleDistance, m_fPylonHeight, -m_fPoleDistance);
 
 	m_zpFoundation.AddGeo(&m_zgFoundation);
-	m_zpMain.AddPlacement(&m_zpFoundation);
+	m_zpLOD[0].AddPlacement(&m_zpFoundation);
+	m_zpLOD[1].AddPlacement(&m_zpFoundation);
+	m_zpLOD[2].AddPlacement(&m_zpFoundation);
 }
 
 SHORT * VModelPowerLine::GetPosition() {
