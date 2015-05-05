@@ -85,8 +85,6 @@ public:
 	{
 		return playerId;
 	}
-
-	static const int cost = 10;
 };
 
 

@@ -13,7 +13,6 @@ private:
 	// TODO(MBR) what private members are needed?
 	std::shared_ptr<IVTransformerStation> vTransformerSation;
 	bool hasConnection;
-	const double moneyPerWatt = 0.1;
 
 public:
 	LTransformerStation(LField* lField, const int x, const int y);

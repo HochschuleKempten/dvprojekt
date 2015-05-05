@@ -10,8 +10,6 @@ class LWindmillPowerPlant :
 public:
 	LWindmillPowerPlant(LField* lField, const int x, const int y);
 	~LWindmillPowerPlant();
-
-	static const int cost = 500;
 };
 
 NAMESPACE_LOGIC_E

@@ -7,13 +7,13 @@ NAMESPACE_LOGIC_B
 
 class ILBuilding;
 class LPlayingField;
-class LPowerLine;
 class LCity;
-class LCoalPowerPlant;
+class LTransformerStation;
+class LPowerLine;
 class LWindmillPowerPlant;
 class LSolarPowerPlant;
-class LTransformerStation;
 class LHydroelectricPowerPlant;
+class LCoalPowerPlant;
 class LOilRefinery;
 class LNuclearPowerPlant;
 
@@ -22,7 +22,7 @@ class LField
 	NON_COPYABLE(LField);
 
 public:
-	enum FieldType //todo (V) 
+	enum FieldType 
 	{
 		CITY     = 0,
 		WATER    = 1,

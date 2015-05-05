@@ -349,6 +349,9 @@
     <ClInclude Include="logic\LTransformerStation.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="logic\LBalanceLoader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -548,6 +551,9 @@
     </ClCompile>
     <ClCompile Include="view\VModelNuclearPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LBalanceLoader.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

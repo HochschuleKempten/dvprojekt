@@ -10,8 +10,6 @@ class LCoalPowerPlant : public ILPowerPlant
 public:
 	LCoalPowerPlant(LField* lField, const int x, const int y);
 	~LCoalPowerPlant();
-
-	static const int cost = 500;
 };
 
 

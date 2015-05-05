@@ -9,7 +9,8 @@
 #include <boost/graph/adjacency_list.hpp>
 #include "LPowerLine.h"
 #include "LIdentifier.h"
-
+#include "LBalanceLoader.h"
+#include "LMaster.h"
 
 NAMESPACE_LOGIC_B
 
@@ -145,9 +146,9 @@ public:
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
 		
 		//Check costs
-		if (playerId == LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < T::cost)
+		if (playerId == LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < LBalanceLoader::getCost<T>())
 		{
-			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") + std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") + std::to_string(T::cost) + std::string(" benötigt."));
+			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") + std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") + std::to_string(LBalanceLoader::getCost<T>()) + std::string(" benötigt."));
 			return false;
 		}
 
@@ -158,7 +159,7 @@ public:
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
 				//subtract money only if the local player placed the building
-				lMaster->getPlayer(LPlayer::Local)->subtractMoney(T::cost);
+				lMaster->getPlayer(LPlayer::Local)->subtractMoney(LBalanceLoader::getCost<T>());
 
 				if (localCityPosition.first > -1 && localCityPosition.second > -1)
 				{

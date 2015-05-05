@@ -16,8 +16,6 @@ public:
 	~LPowerLine();
 
 	void updatedOrientation(const int additionalOrientation);
-
-	static const int cost = 100;
 };
 
 NAMESPACE_LOGIC_E
