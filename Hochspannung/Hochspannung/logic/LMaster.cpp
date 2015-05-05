@@ -9,6 +9,7 @@
 #include "LSolarPowerPlant.h"
 #include "LWindmillPowerPlant.h"
 #include "LCity.h"
+#include "LTransformerStation.h"
 
 NAMESPACE_LOGIC_B
 
@@ -56,12 +57,14 @@ void LMaster::tick(const float fTimeDelta)
 
 	timeLastCheck = 0;
 
+
 	if (networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
 	{
 		CTransferObject transferObject = networkService.getNextActionToExecute();
 		int objectId = transferObject.getTransObjectID();
 		int x = transferObject.getCoordX();
 		int y = transferObject.getCoordY();
+		int playerId = std::stoi(transferObject.getValue());
 
 
 		//regarding host
@@ -69,44 +72,55 @@ void LMaster::tick(const float fTimeDelta)
 		{
 		case(SET_OBJECT) :
 
-			if (objectId >= 0 && objectId < 16)//check if building is a powerline (orientation values between 0 and 16)
-			{
-				lPlayingField->placeBuilding<LPowerLine>(x, y/*, objectId*/);	//TODO (L) The constructor for LPowerLine does not support an objectId, so this call is not legal
-			}
-			else
-			{
+			//buildings
 				if (objectId == LIdentifier::LCoalPowerPlant)
 				{
-					lPlayingField->placeBuilding<LCoalPowerPlant>(x, y);
+					lPlayingField->placeBuilding<LCoalPowerPlant>(x, y, playerId);
 				}
 				else if (objectId == LIdentifier::LHydroelectricPowerPlant)
 				{
-					lPlayingField->placeBuilding<LHydroelectricPowerPlant>(x, y);
+					lPlayingField->placeBuilding<LHydroelectricPowerPlant>(x, y, playerId);
 				}
 				else if (objectId == LIdentifier::LNuclearPowerPlant)
 				{
-					lPlayingField->placeBuilding<LNuclearPowerPlant>(x, y);
+					lPlayingField->placeBuilding<LNuclearPowerPlant>(x, y, playerId);
 				}
 				else if (objectId == LIdentifier::LOilRefinery)
 				{
-					lPlayingField->placeBuilding<LOilRefinery>(x, y);
+					lPlayingField->placeBuilding<LOilRefinery>(x, y, playerId);
 				}
 				else if (objectId == LIdentifier::LSolarPowerPlant)
 				{
-					lPlayingField->placeBuilding<LSolarPowerPlant>(x, y);
+					lPlayingField->placeBuilding<LSolarPowerPlant>(x, y, playerId);
 				}
 				else if (objectId == LIdentifier::LWindmillPowerPlant)
 				{
-					lPlayingField->placeBuilding<LWindmillPowerPlant>(x, y);
+					lPlayingField->placeBuilding<LWindmillPowerPlant>(x, y, playerId);
 				}
 				else if (objectId == LIdentifier::LCity)
 				{
-					lPlayingField->placeBuilding<LCity>(x, y);
+					lPlayingField->placeBuilding<LCity>(x, y, playerId);
 				}
-			}
+				else if (objectId == LIdentifier::LPowerLine)
+				{
+					lPlayingField->placeBuilding<LPowerLine>(x, y, playerId);
+				}
+				else if (objectId == LIdentifier::LTransformerStation)
+				{
+					lPlayingField->placeBuilding<LTransformerStation>(x, y, playerId);
+				}
 
-			//assign player id
-			lPlayingField->getField(x, y)->getBuilding()->setPlayerId(LPlayer::External);
+			//fieldtypes
+				if (objectId >= 0 && objectId < 9)
+				{
+					lPlayingField->getField(x, y)->setFieldType(static_cast<LField::FieldType>(objectId));
+				}
+
+			//fieldlevels
+				if (objectId >= 20 && objectId < 23)
+				{
+					lPlayingField->getField(x, y)->setFieldLevel(static_cast<LField::FieldLevel>(objectId));
+				}
 
 			break;
 
@@ -204,14 +218,20 @@ void LMaster::connect(std::string ip)
 	}
 }
 
-void LMaster::sendSetObject(const int objectId, const int x, const int y)
+void LMaster::sendSetObject(const int objectId, const int x, const int y, const std::string& value)
 {
-	networkService.sendSetObject(objectId, x, y, "");	//TODO (L) set correct last parameter
+	if (networkService.getConnectionState() == Network::State::CONNECTED) //todo (IP) return false if not connected?
+	{
+		networkService.sendSetObject(objectId, x, y, value);
+	}
 }
 
 void LMaster::sendDeleteObject(const int x, const int y)
 {
-	networkService.sendDeleteObject(-1, x, y); //todo (L) tell network guys to delete the first parameter (needless)
+	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	{
+		networkService.sendDeleteObject(-1, x, y); //todo (L) tell network guys to delete the first parameter
+	}
 }
 
 LPlayingField* LMaster::getLPlayingField()

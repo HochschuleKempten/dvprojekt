@@ -100,10 +100,10 @@ public:
 	static CMaterial m_zmSolarGrund;
 
 	//PlayerColor
-	static std::unordered_map<LPlayer::PlayerId, CColor> colorPlayers;
+	static std::unordered_map<int, CColor> colorPlayers;
 
 	//PlayerFoundations
-	static std::unordered_map<LPlayer::PlayerId, CMaterial> materialFoundationPlayer;
+	static std::unordered_map<int, CMaterial> materialFoundationPlayer;
 };
 
 

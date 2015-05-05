@@ -32,7 +32,7 @@ public:
 	//networking
 	void host();
 	void connect(std::string ip);
-	void sendSetObject(const int objectId, const int x, const int y);
+	void sendSetObject(const int objectId, const int x, const int y, const std::string& value);
 	void sendDeleteObject(const int x, const int y);
 
 	LPlayingField* getLPlayingField();

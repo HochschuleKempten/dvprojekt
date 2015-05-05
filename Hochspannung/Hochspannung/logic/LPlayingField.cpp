@@ -6,7 +6,7 @@
 #include "IVFactory.h"
 #include "LUtility.h"
 #include "LCity.h"
-#include "LTransformerSation.h"
+#include "LTransformerStation.h"
 #include "LCoalPowerPlant.h"
 #include <boost/graph/breadth_first_search.hpp>
 #include <boost/graph/strong_components.hpp>
@@ -59,7 +59,6 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 	vPlayingField = lMaster->getVMaster()->getFactory()->createPlayingField(this);
 	vPlayingField->initPlayingField(vPlayingField); //Sets the shared_ptr (need to be done before the fields can be created)
 	
-	//todo (L) call only for host
 	createFields(); //Create the fields (also places some buildings)
 
 	ASSERT(unusedCoordinates.empty(), "The container for the unused coordinates are not empty (There are field wich are not initialized)");
@@ -163,26 +162,24 @@ void LPlayingField::removeBuilding(const int x, const int y)
 
 	if (getField(x, y)->removeBuilding()) {
 		vPlayingField->objectRemoved(x, y);
+
+		//-----network-----
+		lMaster->sendDeleteObject(x, y);
+		//-----network-----
 	}
-	else {
+	else 
+	{
 		//TODO (All) how to handle error checks?
 	}
 
-	//-----network-----
-	if (!isLocalOperation)
-	{
-		lMaster->sendDeleteObject(x, y);
-	}
-	else
+	if (isLocalOperation)
 	{
 		calculateEnergyValueCity();
 	}
-	//-----network-----
 }
 
 void LPlayingField::upgradeBuilding(const int x, const int y)
 {
-	//todo (IP) getPlayers(): get current player
 	if (lMaster->getPlayer(LPlayer::Local)->getMoney() > 50000) {
 
 		getField(x, y)->getBuilding()->upgrade();
@@ -195,12 +192,24 @@ void LPlayingField::upgradeBuilding(const int x, const int y)
 	// ToDo (FL) Discuss case player doesn't have enough money
 }
 
+//little helper method
+void LPlayingField::sendFieldInformation(const int x, const int y)
+{
+	LField * field = getField(x, y);
+	LField::FieldType fieldType = field->getFieldType();
+	LField::FieldLevel fieldLevel = field->getFieldLevel();
+
+	lMaster->sendSetObject(fieldType, x, y, std::to_string(-1));
+	lMaster->sendSetObject(fieldLevel, x, y, std::to_string(-1));
+}
+
 void LPlayingField::createFields()
 {
+	beginRemoteOperation(); //every placing should be sent!
+
 	//-----Generate buildings for LOCAL player----
 
 	//todo (L) generate this randomly
-	//todo (L) send playerid
 
 	localCityPosition = retrieveFreeCoordinates(5, 5);
 	std::pair<int, int> firstPowerLineCoordinates = retrieveFreeCoordinates(localCityPosition.first, localCityPosition.second + 1);
@@ -208,29 +217,53 @@ void LPlayingField::createFields()
 	std::pair<int, int> firstPowerPlantCoordinates = retrieveFreeCoordinates(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second + 1);
 	transformerStationPosition = retrieveFreeCoordinates();
 
+	//--
 	fieldArray[localCityPosition.first][localCityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
-	placeBuilding<LCity>(localCityPosition.first, localCityPosition.second);
+	sendFieldInformation(localCityPosition.first, localCityPosition.second);
+
+	placeBuilding<LCity>(localCityPosition.first, localCityPosition.second, LPlayer::Local);
+
 	placeGrassAroundPosition(localCityPosition, 1);
+	//--
 
+
+	//--
 	fieldArray[firstPowerLineCoordinates.first][firstPowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(firstPowerLineCoordinates.first, firstPowerLineCoordinates.second);
+	sendFieldInformation(firstPowerLineCoordinates.first, firstPowerLineCoordinates.second);
 
+	placeBuilding<LPowerLine>(firstPowerLineCoordinates.first, firstPowerLineCoordinates.second, LPlayer::Local);
+	//--
+
+
+	//--
 	fieldArray[secondPowerLineCoordinates.first][secondPowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second);
+	sendFieldInformation(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second);
 
+	placeBuilding<LPowerLine>(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second, LPlayer::Local);
+	//--
+
+
+	//--
 	fieldArray[firstPowerPlantCoordinates.first][firstPowerPlantCoordinates.second].init(LField::FieldType::COAL, LField::FieldLevel::LEVEL1);
-	placeBuilding<LCoalPowerPlant>(firstPowerPlantCoordinates.first, firstPowerPlantCoordinates.second);
-	placeGrassAroundPosition<true>(firstPowerPlantCoordinates, 1);
+	sendFieldInformation(firstPowerPlantCoordinates.first, firstPowerPlantCoordinates.second);
 
+	placeBuilding<LCoalPowerPlant>(firstPowerPlantCoordinates.first, firstPowerPlantCoordinates.second, LPlayer::Local);
+
+	placeGrassAroundPosition<true>(firstPowerPlantCoordinates, 1);
+	//--
+
+
+	//--
 	fieldArray[transformerStationPosition.first][transformerStationPosition.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LTransformerStation>(transformerStationPosition.first, transformerStationPosition.second);
+	sendFieldInformation(transformerStationPosition.first, transformerStationPosition.second);
+
+	placeBuilding<LTransformerStation>(transformerStationPosition.first, transformerStationPosition.second, LPlayer::Local | LPlayer::External); //Transformerstation belongs to no player
+	//--
 	
 	//-----Generate buildings for LOCAL player----
 
 
 	//-----Generate buildings for REMOTE player----
-
-	beginRemoteOperation();
 
 	remoteCityPosition = retrieveFreeCoordinates(fieldLength - static_cast<int>(fieldLength / 4), fieldLength - static_cast<int>(fieldLength / 4));
 
@@ -238,22 +271,44 @@ void LPlayingField::createFields()
 	std::pair<int, int> secondRemotePowerLineCoordinates = retrieveFreeCoordinates(firstRemotePowerLineCoordinates.first + 1, firstRemotePowerLineCoordinates.second);
 	std::pair<int, int> firstRemotePowerPlantCoordinates = retrieveFreeCoordinates(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second + 1);
 
+	//--
 	fieldArray[remoteCityPosition.first][remoteCityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
-	placeBuilding<LCity>(remoteCityPosition.first, remoteCityPosition.second);
+	sendFieldInformation(remoteCityPosition.first, remoteCityPosition.second);
+
+	placeBuilding<LCity>(remoteCityPosition.first, remoteCityPosition.second, LPlayer::External);
 	placeGrassAroundPosition(remoteCityPosition, 1);
+	//--
 
+
+	//--
 	fieldArray[firstRemotePowerLineCoordinates.first][firstRemotePowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(firstRemotePowerLineCoordinates.first, firstRemotePowerLineCoordinates.second);
+	sendFieldInformation(firstRemotePowerLineCoordinates.first, firstRemotePowerLineCoordinates.second);
 
+	placeBuilding<LPowerLine>(firstRemotePowerLineCoordinates.first, firstRemotePowerLineCoordinates.second, LPlayer::External);
+	//--
+
+
+	//--
 	fieldArray[secondRemotePowerLineCoordinates.first][secondRemotePowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second);
+	sendFieldInformation(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second);
 
+	placeBuilding<LPowerLine>(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second, LPlayer::External);
+	//--
+
+
+	//--
 	fieldArray[firstRemotePowerPlantCoordinates.first][firstRemotePowerPlantCoordinates.second].init(LField::FieldType::COAL, LField::FieldLevel::LEVEL1);
-	placeBuilding<LCoalPowerPlant>(firstRemotePowerPlantCoordinates.first, firstRemotePowerPlantCoordinates.second);
+	sendFieldInformation(firstRemotePowerPlantCoordinates.first, firstRemotePowerPlantCoordinates.second);
+
+	placeBuilding<LCoalPowerPlant>(firstRemotePowerPlantCoordinates.first, firstRemotePowerPlantCoordinates.second, LPlayer::External);
 	placeGrassAroundPosition<true>(firstRemotePowerPlantCoordinates, 1);
+	//--
+
+	//-----Generate buildings for REMOTE player----
 
 	endRemoteOperation();
-	//-----Generate buildings for REMOTE player----
+
+
 
 	//Fill with the requested number of power plants
 	std::chrono::system_clock::rep seed1 = std::chrono::system_clock::now().time_since_epoch().count();
@@ -264,6 +319,7 @@ void LPlayingField::createFields()
 		size_t type = g1() % fieldTypes.size();
 		size_t level = g1() % fieldLevels.size();
 		fieldArray[newCoordinates.first][newCoordinates.second].init(fieldTypes[type], fieldLevels[level]);
+		sendFieldInformation(newCoordinates.first, newCoordinates.second);
 		DEBUG_OUTPUT("power plant placed " << i << ": " << type << ", " << level << " at " << newCoordinates.first << ":" << newCoordinates.second);
 
 		placeGrassAroundPosition<true>(newCoordinates, 1);
@@ -281,6 +337,7 @@ void LPlayingField::createFields()
 			int level = rand() % fieldLevels.size();
 			std::pair<int, int> coordinates = retrieveFreeCoordinates(x, y);
 			fieldArray[coordinates.first][coordinates.second].init(LField::GRASS, fieldLevels[level]);
+			sendFieldInformation(coordinates.first, coordinates.second);
 		}
 	}
 }
@@ -392,7 +449,7 @@ void LPlayingField::printGraph()
 }
 
 template<bool cross>
-void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space)
+void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space) //todo (IP) send these too
 {
 	for (int rowIdx = -space; rowIdx <= space; rowIdx++) {
 		for (int colIdx = -space; colIdx <= space; colIdx++) {
@@ -419,6 +476,7 @@ void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordina
 			int level = rand() % fieldLevels.size();
 			std::pair<int, int> newCoordinates = retrieveFreeCoordinates(x, y);
 			fieldArray[newCoordinates.first][newCoordinates.second].init(LField::GRASS, fieldLevels[level]);
+			sendFieldInformation(newCoordinates.first, newCoordinates.second);
 		}
 	}
 }
