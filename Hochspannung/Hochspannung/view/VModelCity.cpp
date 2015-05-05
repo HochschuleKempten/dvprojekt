@@ -85,5 +85,15 @@ void VModelCity::TranslateBuildings() {
 
 }
 
+float VModelCity::getWidth() {
+	return 100.0F;
+}
 
+float VModelCity::getHeight() {
+	return 100.0F;
+}
+
+float VModelCity::getBroad() {
+	return 100.0F;
+}
 NAMESPACE_VIEW_E

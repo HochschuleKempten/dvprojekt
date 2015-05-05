@@ -32,6 +32,10 @@ public:
 	{
 		return 0.0f;
 	}
+	virtual float getBroad()
+	{
+		return 0.0F;
+	}
 
 private:
 	CGeoCube m_zgsocket;
