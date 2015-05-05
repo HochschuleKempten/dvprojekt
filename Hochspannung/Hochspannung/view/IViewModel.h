@@ -43,7 +43,7 @@ public:
 	{
 		this->vBuilding = vBuilding;
 
-		float foundationWidth = vBuilding->getVMaster()->getPlayingField()->getFieldSize() * 0.2;
+		float foundationWidth = vBuilding->getVMaster()->getPlayingField()->getFieldSize() * 0.2F;
 		float foundationHeight = foundationWidth * 0.2f;
 		m_zgFoundation.Init(CHVector(foundationWidth, foundationHeight, foundationWidth), &VMaterialLoader::materialFoundationPlayer[vBuilding->getLBuilding()->getPlayerId()]);
 	}

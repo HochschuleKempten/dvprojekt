@@ -44,15 +44,17 @@ private:
 	Building02 Building2_02;
 	Building03 Building3_01;
 	Building03 Building3_02;
-	CAppartments* appartment_01;
-	CAppartments* appartment_02;
-	CAppartments* appartment_03;
-	CLargeOfficeBuilding* largeOfficeBuilding_01;
-	CLargeOfficeBuilding* largeOfficeBuilding_02;
-	COfficeTowerViewingDeck* officeTower_01;
-	COfficeTowerViewingDeck* officeTower_02;
-	CSmallOfficeBuilding* smallOffice_01;
-	CSmallOfficeBuilding* smallOffice_02;
+
+	CAppartments appartment_01;
+	CAppartments appartment_02;
+	CAppartments appartment_03;
+	
+	CLargeOfficeBuilding largeOfficeBuilding_01;
+	CLargeOfficeBuilding largeOfficeBuilding_02;
+	COfficeTowerViewingDeck officeTower_01;
+	COfficeTowerViewingDeck officeTower_02;
+	CSmallOfficeBuilding smallOffice_01;
+	CSmallOfficeBuilding smallOffice_02;
 };
 
 

@@ -2,6 +2,36 @@
 #include "LargeOfficeBuilding.h"
 
 NAMESPACE_VIEW_B
+CLargeOfficeBuilding::CLargeOfficeBuilding()
+{
+
+	this->fResize = 1.0F;
+
+	//window 
+	InitWindows();
+
+	//Add Windows
+	AddWindows();
+
+
+	//Walls
+	InitWalls();
+
+	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
+
+
+	AddPlacements();
+
+
+
+	//Rotations
+	RotateAll();
+
+	//Translations
+	TranslateAll();
+
+}
+
 CLargeOfficeBuilding::CLargeOfficeBuilding(float fResize)
 {
 	

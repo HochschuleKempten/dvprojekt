@@ -2,6 +2,31 @@
 #include "OfficeTowerViewingDeck.h"
 
 NAMESPACE_VIEW_B
+COfficeTowerViewingDeck::COfficeTowerViewingDeck()
+{
+
+	this->fResize = 1.0F;
+
+	InitWindows();
+
+	//Add Windows
+	AddWindows();
+
+	//Roundings
+	//	Round();
+
+	//Walls
+	InitWalls();
+
+	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
+
+
+	AddPlacements();
+
+	TranslateAll();
+
+}
+
 
 COfficeTowerViewingDeck::COfficeTowerViewingDeck(float fResize)
 {

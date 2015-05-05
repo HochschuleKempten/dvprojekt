@@ -2,7 +2,34 @@
 #include "SmallOfficeBuilding.h"
 
 NAMESPACE_VIEW_B
+CSmallOfficeBuilding::CSmallOfficeBuilding()
+{
 
+
+	this->fResize = 1.0F;
+
+
+	InitWindows();
+
+	AddWindows();
+
+	InitWalls();
+
+
+	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
+
+
+	//Placements
+	AddPlacements();
+
+
+	//Rotations
+	RotateAll();
+
+	//Translations
+	TranslateAll();
+
+}
 
 CSmallOfficeBuilding::CSmallOfficeBuilding(float fResize)
 {

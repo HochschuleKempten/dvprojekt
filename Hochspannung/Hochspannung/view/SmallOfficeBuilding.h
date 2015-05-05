@@ -12,6 +12,7 @@ NAMESPACE_VIEW_B
 class CSmallOfficeBuilding : public CPlacement
 {
 public:
+	CSmallOfficeBuilding();
 	CSmallOfficeBuilding(float fResize);
 	~CSmallOfficeBuilding(void);
 

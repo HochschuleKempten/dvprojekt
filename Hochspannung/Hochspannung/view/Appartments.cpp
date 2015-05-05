@@ -2,10 +2,10 @@
 #include "Appartments.h"
 
 NAMESPACE_VIEW_B
-CAppartments::CAppartments(float fResize)
+CAppartments::CAppartments()
 {
-	
-	this->fResize = fResize;
+
+	this->fResize = 1.0F;
 
 
 	//Initialize Windows
@@ -27,7 +27,42 @@ CAppartments::CAppartments(float fResize)
 
 	//Placements
 	AddPlacements();
-	
+
+	//Rotations
+	RotateAll();
+
+	//Translations
+	TranslateAll();
+
+}
+
+
+CAppartments::CAppartments(float fResize)
+{
+
+	this->fResize = 1.0F;
+
+
+	//Initialize Windows
+	InitWindows();
+
+
+	//Add Windows
+	AddWindows();
+
+
+
+	//Init Walls
+	InitWalls();
+
+
+
+	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
+
+
+	//Placements
+	AddPlacements();
+
 	//Rotations
 	RotateAll();
 

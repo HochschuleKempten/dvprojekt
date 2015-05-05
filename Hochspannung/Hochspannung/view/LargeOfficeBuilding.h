@@ -12,6 +12,7 @@ NAMESPACE_VIEW_B
 class CLargeOfficeBuilding : public CPlacement
 {
 public:
+	CLargeOfficeBuilding();
 	CLargeOfficeBuilding(float fResize);
 	~CLargeOfficeBuilding(void);
 	void InitWindows();
