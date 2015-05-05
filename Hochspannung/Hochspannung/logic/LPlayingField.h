@@ -225,8 +225,6 @@ public:
 
 			//-----network-----
 
-			DEBUG_OUTPUT("Marketplace connected = " << isTransformstationConnected());
-
 			return true;
 		}
 		else

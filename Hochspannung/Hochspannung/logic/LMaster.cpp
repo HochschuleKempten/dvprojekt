@@ -29,10 +29,10 @@ LMaster::~LMaster()
 
 void LMaster::startNewGame()
 {
-	//host();
-	//while (networkService.getConnectionState() != Network::CONNECTED);
+	/*host();
+	while (networkService.getConnectionState() != Network::CONNECTED);
 
-	//DEBUG_OUTPUT("---------------Client connected to server.---------------");
+	DEBUG_OUTPUT("---------------Client connected to server.---------------");*/
 
 	if (lPlayingField == nullptr)
 	{
