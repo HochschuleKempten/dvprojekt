@@ -170,7 +170,7 @@ void VMaterialLoader::init()
 	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
 	m_zmConcrete.MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 
-	m_zmStrut.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmStrut.MakeTextureDiffuse("textures/buildings/strommast_diffuse.png");
 	m_zmIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmRing.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmCable.MakeTextureDiffuse("textures\\white_image.jpg");
