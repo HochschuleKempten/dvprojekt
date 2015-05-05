@@ -28,10 +28,18 @@ LMaster::~LMaster()
 
 void LMaster::startNewGame()
 {
+	//host();
+	//while (networkService.getConnectionState() != Network::CONNECTED);
+
+	//DEBUG_OUTPUT("---------------Client connected to server.---------------");
+
 	if (lPlayingField == nullptr)
 	{
 		lPlayingField = new LPlayingField(this);
 	}
+
+	lPlayingField->createFields();
+	lPlayingField->showPlayingField();
 }
 
 void LMaster::gameOver()
@@ -39,7 +47,7 @@ void LMaster::gameOver()
 	vMaster.gameOver();
 
 	//todo (IP) test
-	networkService.close();
+	//networkService.close();
 }
 
 void LMaster::tick(const float fTimeDelta)
@@ -209,8 +217,6 @@ void LMaster::connect(std::string ip)
 	if (connected)
 	{
 		DEBUG_OUTPUT("Connected to server.");
-
-		startNewGame();
 	}
 	else
 	{

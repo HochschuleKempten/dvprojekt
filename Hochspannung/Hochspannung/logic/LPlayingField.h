@@ -35,6 +35,7 @@ class LPlayingField
 {
 	NON_COPYABLE(LPlayingField);
 
+
 private:
 	const int fieldLength = 20; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster = nullptr;
@@ -90,7 +91,7 @@ private:
 		}
 	};
 
-	void createFields();
+	
 	void sendFieldInformation(const int x, const int y); //helper method
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const std::pair<int, int>& coordinates);
@@ -136,6 +137,9 @@ private:
 public:
 	explicit LPlayingField(LMaster* lMaster);
 	~LPlayingField();
+
+	void createFields();
+	void showPlayingField();
 
 	// returns true if building could be placed, else false (building not allowed or building already placed)
 	template<typename T, typename... Args>
