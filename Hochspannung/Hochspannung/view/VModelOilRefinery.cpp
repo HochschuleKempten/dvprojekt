@@ -77,6 +77,7 @@ VModelOilRefinery::VModelOilRefinery()
 
 
 	//Placements
+	m_zpMain.AddPlacement(&m_zpOelkraftwerk);
 	m_zpOelkraftwerk.AddPlacement(&m_zpFundament);
 	m_zpOelkraftwerk.AddPlacement(&m_zpKamin);
 	m_zpOelkraftwerk.AddPlacement(m_zTrasse1.getMainPlacement());

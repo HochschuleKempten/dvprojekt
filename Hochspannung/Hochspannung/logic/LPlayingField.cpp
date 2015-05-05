@@ -378,17 +378,19 @@ void LPlayingField::printGraph()
 
 	for (int x = 0; x < fieldLength; x++) {
 		for (int y = 0; y < fieldLength; y++) {
-			std::string name = std::to_string(x) + std::string(", ") + std::to_string(y);
-			names[convertIndex(x, y)] = name;
+			names[convertIndex(x, y)] = std::to_string(x) + std::string(", ") + std::to_string(y);
 		}
 	}
 
 	std::ofstream file;
 	file.open("graph.dot");
-	write_graphviz(file, powerLineGraph, make_label_writer(&names[0]));
+	if (file.is_open()) {
+		write_graphviz(file, powerLineGraph, make_label_writer(&names[0]));
+	}
 
-	//Install http://www.graphviz.org/ and run
+	//Install graphviz from http://www.graphviz.org/ and run
 	//dot -Tpng -o graph.png graph.dot
+	//See http://blog.milania.de/index.php?/archives/13-Boost-Graphen-mit-Hilfe-von-Graphviz-anzeigen.html for more information
 }
 
 template<bool cross>
