@@ -46,7 +46,7 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 	  unusedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
 	  usedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
 	  connectedBuildings(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
-	  fieldTypes({LField::MOUNTAIN, LField::AIR, LField::SOLAR, LField::WATER, LField::COAL, LField::OIL}),
+	  fieldTypes({LField::MOUNTAIN, LField::AIR, LField::SOLAR, LField::WATER, LField::COAL, LField::OIL, LField::NUCLEAR}),
 	  fieldLevels({LField::LEVEL1, LField::LEVEL2, LField::LEVEL3})
 {
 	//At the beginning every field is unused

@@ -95,6 +95,10 @@ public:
 	static CMaterial m_zmRing;
 	static CMaterial m_zmCable;
 
+	//Solarkraftwerktexturen
+	static CMaterial m_zmSolarzelle;
+	static CMaterial m_zmSolarGrund;
+
 	//PlayerColor
 	static std::unordered_map<LPlayer::PlayerId, CColor> colorPlayers;
 

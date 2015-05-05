@@ -15,6 +15,7 @@ class LSolarPowerPlant;
 class LTransformerStation;
 class LHydroelectricPowerPlant;
 class LOilRefinery;
+class LNuclearPowerPlant;
 
 class LField
 {
@@ -30,7 +31,8 @@ public:
 		GRASS    = -100,
 		MOUNTAIN = -101,
 		COAL     = 100,
-		OIL      = 50
+		OIL      = 50,
+		NUCLEAR  = 200
 	};
 
 	enum FieldLevel
@@ -67,6 +69,10 @@ private:
 	template<> bool checkBuildingType<LCoalPowerPlant>()
 	{
 		return fieldType == COAL;
+	}
+	template<> bool checkBuildingType<LNuclearPowerPlant>()
+	{
+		return fieldType == NUCLEAR;
 	}
 	template<> bool checkBuildingType<LWindmillPowerPlant>()
 	{
