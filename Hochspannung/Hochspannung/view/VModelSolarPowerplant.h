@@ -2,18 +2,10 @@
 
 #include "VGeneral.h"
 #include "IViewModel.h"
-#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
 
 
-/**
- * @brief The VModelWindmillPowerPlant class holds the model for the windmill power plant.
- *
- * The image shows the internal hierarchy of the scenegraph and the structure of the model.
- *
- * @image html images/VModelWindmillPowerPlant.png "Scenegraph and structure of the model"
- */
 class VModelSolarPowerPlant : public IViewModel
 {
 private:
@@ -66,16 +58,6 @@ private:
 	CPlacement m_zpZelle40;
 	CPlacement m_zpZelle41;
 	CPlacement m_zpZelle42;
-
-
-
-	CHardware m_zh;
-	CFrame m_zf;
-	CViewport m_zv;
-	CCamera m_zc;
-	CParallelLight m_zl;
-	CDeviceKeyboard m_zdk;
-
 
 	CGeoCube m_zgStabilisierung;
 	CGeoCylinder m_zgSenkrechte;

@@ -106,6 +106,7 @@ void VMaterialLoader::init()
 	setFieldMaterialHelper(LField::MOUNTAIN, "mountain");
 	setFieldMaterialHelper(LField::CITY, "city");
 	setFieldMaterialHelper(LField::OIL, "oil");
+	setFieldMaterialHelper(LField::NUCLEAR, "atom");
 
 	materialCoalPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
 	materialHydroelectricPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");

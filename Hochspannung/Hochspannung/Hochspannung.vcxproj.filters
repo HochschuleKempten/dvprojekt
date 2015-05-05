@@ -346,6 +346,9 @@
     <ClInclude Include="view\VModelOilRefinery.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\VModelNuclearPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -541,6 +544,9 @@
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VModelOilRefinery.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelNuclearPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

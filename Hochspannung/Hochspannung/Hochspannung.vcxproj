@@ -210,6 +210,7 @@
     <ClInclude Include="view\VField.h" />
     <ClInclude Include="view\VGUIArea.h" />
     <ClInclude Include="view\VModelCity.h" />
+    <ClInclude Include="view\VModelNuclearPowerPlant.h" />
     <ClInclude Include="view\VModelOilRefinery.h" />
     <ClInclude Include="view\VModelPowerLine.h" />
     <ClInclude Include="view\VButton.h" />
@@ -284,6 +285,7 @@
     <ClCompile Include="view\VField.cpp" />
     <ClCompile Include="view\VGUIArea.cpp" />
     <ClCompile Include="view\VModelCity.cpp" />
+    <ClCompile Include="view\VModelNuclearPowerPlant.cpp" />
     <ClCompile Include="view\VModelOilRefinery.cpp" />
     <ClCompile Include="view\VModelPowerLine.cpp" />
     <ClCompile Include="view\VButton.cpp" />
