@@ -12,9 +12,6 @@ COfficeTowerViewingDeck::COfficeTowerViewingDeck()
 	//Add Windows
 	AddWindows();
 
-	//Roundings
-	//	Round();
-
 	//Walls
 	InitWalls();
 
@@ -37,9 +34,6 @@ COfficeTowerViewingDeck::COfficeTowerViewingDeck(float fResize)
 
 	//Add Windows
 	AddWindows();
-
-	//Roundings
-//	Round();
 
 	//Walls
 	InitWalls();
@@ -67,8 +61,6 @@ void COfficeTowerViewingDeck::TranslateAll() {
 	m_zpWallTop.TranslateDelta(0.0F * fResize, 30.0F * fResize, 0.0F * fResize);
 	m_zpWallTop.AddGeo(&m_zgWallTop);
 
-	//m_zpGround.Translate(CHVector(-20, 0, -20));
-	//m_zpGround.AddGeo(&m_zgGround);
 	m_zpRoof.Translate(0, 30 * fResize, 0);
 	m_zpRoof.AddGeo(&m_zgRoof);
 	m_zpRoofTop.Translate(0, 32 * fResize, 0);
@@ -101,21 +93,15 @@ void COfficeTowerViewingDeck::AddWindows() {
 }
 
 void COfficeTowerViewingDeck::InitWalls() {
-	m_zgFrame.Init(1.0F, 1.0F, .25F, &m_zm);
+	m_zgFrame.Init(1.0F, 1.0F, .25F, &VMaterialLoader::materialWindowsofBuilding);
 
-	m_zgWall.InitTube(3.183F * fResize, 30.75F * fResize, .1F * fResize, &m_zm);
-	m_zgWallTop.InitTube(1.989F * fResize, 2.0F * fResize, .1F * fResize, &m_zm);
+	m_zgWall.InitTube(3.183F * fResize, 30.75F * fResize, .1F * fResize, &VMaterialLoader::materialOfficTowerViewingDeck);
+	m_zgWallTop.InitTube(1.989F * fResize, 2.0F * fResize, .1F * fResize, &VMaterialLoader::materialOfficTowerViewingDeck);
 
-	m_zgRoof.InitDomeCone(3.2F * fResize, 0.0F * fResize, 0.05F * fResize, &m_zm);
-	m_zgRoofTop.InitDomeCone(2.0F * fResize, 0.0F * fResize, 0.05F * fResize, &m_zm);
+	m_zgRoof.InitDomeCone(3.2F * fResize, 0.0F * fResize, 0.05F * fResize, &VMaterialLoader::materialOfficTowerViewingDeck);
+	m_zgRoofTop.InitDomeCone(2.0F * fResize, 0.0F * fResize, 0.05F * fResize, &VMaterialLoader::materialOfficTowerViewingDeck);
 
 }
 
-//void COfficeTowerViewingDeck::Round() {
-//
-//	m_zgWall.SetRoundingX(-2 * PI, 0.05F * fResize);
-//	m_zgWallTop.SetRoundingX(-2 * PI, 0.05F * fResize);
-//
-//}
 
 NAMESPACE_VIEW_E

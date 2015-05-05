@@ -107,25 +107,25 @@ void CLargeOfficeBuilding::AddWindows() {
 
 void CLargeOfficeBuilding::InitWalls() {
 	
-	m_zgFrame.Init(1.0F, 1.0F, .25F, &m_zm);
+	m_zgFrame.Init(1.0F, 1.0F, .25F, &VMaterialLoader::materialWindowsofBuilding);
 
-	m_zgWallNorth0.Init(3.1F * fResize, 8.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallNorth1.Init(1.1F * fResize, 6.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallNorth2.Init(1.1F * fResize, 4.0F * fResize, .1F * fResize, &m_zm);
+	m_zgWallNorth0.Init(3.1F * fResize, 8.0F * fResize, .1F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgWallNorth1.Init(1.1F * fResize, 6.0F * fResize, .1F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgWallNorth2.Init(1.1F * fResize, 4.0F * fResize, .1F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
 
-	m_zgWallWest.Init(5.0F * fResize, 8.0F * fResize, .1F * fResize, &m_zm);
+	m_zgWallWest.Init(5.0F * fResize, 8.0F * fResize, .1F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
 
-	m_zgWallSouth0.Init(3.1F * fResize, 8.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallSouth1.Init(1.1F * fResize, 6.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallSouth2.Init(1.1F * fResize, 4.0F * fResize, .1F * fResize, &m_zm);
+	m_zgWallSouth0.Init(3.1F * fResize, 8.0F * fResize, .1F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgWallSouth1.Init(1.1F * fResize, 6.0F * fResize, .1F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgWallSouth2.Init(1.1F * fResize, 4.0F * fResize, .1F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
 
-	m_zgWallEast0.Init(5.0F * fResize, 2.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallEast1.Init(5.0F * fResize, 2.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallEast2.Init(5.0F * fResize, 4.0F * fResize, .1F * fResize, &m_zm);
+	m_zgWallEast0.Init(5.0F * fResize, 2.0F * fResize, .1F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgWallEast1.Init(5.0F * fResize, 2.0F * fResize, .1F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgWallEast2.Init(5.0F * fResize, 4.0F * fResize, .1F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
 
-	m_zgRoof0.Init(3.0F * fResize, 0.1F * fResize, 5.0F * fResize, &m_zm);
-	m_zgRoof1.Init(1.0F * fResize, 0.1F * fResize, 5.0F * fResize, &m_zm);
-	m_zgRoof2.Init(1.0F * fResize, 0.1F * fResize, 5.0F * fResize, &m_zm);
+	m_zgRoof0.Init(3.0F * fResize, 0.1F * fResize, 5.0F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgRoof1.Init(1.0F * fResize, 0.1F * fResize, 5.0F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgRoof2.Init(1.0F * fResize, 0.1F * fResize, 5.0F * fResize, &VMaterialLoader::materialLargeOfficeBuilding);
 
 	
 

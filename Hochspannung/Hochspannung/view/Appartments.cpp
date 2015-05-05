@@ -94,14 +94,14 @@ void CAppartments::AddWindows() {
 
 void CAppartments::InitWalls(){
 
-	m_zgFrame.Init(1.0F, 1.0F, 0.1F, &m_zm);
+	m_zgFrame.Init(1.0F, 1.0F, 0.1F, &VMaterialLoader::materialWindowsofBuilding);
 
-	m_zgWallNorth.Init(17.5F * fResize, 9.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallWest.Init(3.0F * fResize, 9.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallSouth.Init(17.5F * fResize, 9.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallEast.Init(3.0F * fResize, 9.0F * fResize, .1F * fResize, &m_zm);
+	m_zgWallNorth.Init(17.5F * fResize, 9.0F * fResize, .1F * fResize, &VMaterialLoader::materialAppartments);
+	m_zgWallWest.Init(3.0F * fResize, 9.0F * fResize, .1F * fResize, &VMaterialLoader::materialAppartments);
+	m_zgWallSouth.Init(17.5F * fResize, 9.0F * fResize, .1F * fResize, &VMaterialLoader::materialAppartments);
+	m_zgWallEast.Init(3.0F * fResize, 9.0F * fResize, .1F * fResize, &VMaterialLoader::materialAppartments);
 
-	m_zgRoof.Init(17.5F * fResize, 0.1F * fResize, 3.0F * fResize, &m_zm);
+	m_zgRoof.Init(17.5F * fResize, 0.1F * fResize, 3.0F * fResize, &VMaterialLoader::materialAppartments);
 	
 }
 

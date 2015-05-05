@@ -88,7 +88,7 @@ CMaterial VMaterialLoader::materialLargeOfficeBuilding;
 CMaterial VMaterialLoader::materialAppartments;
 CMaterial VMaterialLoader::materialOfficTowerViewingDeck;
 CMaterial VMaterialLoader::materialTwistedTower;
-CMaterial VMaterialLoader::materialSmallOfficBuilding;
+CMaterial VMaterialLoader::materialSmallOfficeBuilding;
 
 // MaterialWindowBuildings
 CMaterial VMaterialLoader::materialWindowsofBuilding;

@@ -75,11 +75,11 @@ void CTwistedTower::AddWindows() {
 void CTwistedTower::InitWalls() {
 
 	
-	m_zgRoof.Init(3.0F, 0.1F, 2.598F, &m_zm);
+	m_zgRoof.Init(3.0F, 0.1F, 2.598F, &VMaterialLoader::materialTwistedTower);
 
-	m_zgWallNorth.Init(3.0F, 5.0F, 0.2F, &m_zm);
-	m_zgWallEast.Init(3.0F, 5.0F, 0.2F, &m_zm);
-	m_zgWallWest.Init(3.0F, 5.0F, 0.2F, &m_zm);
+	m_zgWallNorth.Init(3.0F, 5.0F, 0.2F, &VMaterialLoader::materialTwistedTower);
+	m_zgWallEast.Init(3.0F, 5.0F, 0.2F, &VMaterialLoader::materialTwistedTower);
+	m_zgWallWest.Init(3.0F, 5.0F, 0.2F, &VMaterialLoader::materialTwistedTower);
 
 }
 

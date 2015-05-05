@@ -87,13 +87,13 @@ void CSmallOfficeBuilding::AddWindows() {
 
 void CSmallOfficeBuilding::InitWalls() {
 
-	m_zgFrame.Init(1.0F, 1.0F, .25F, &m_zm);
-	m_zgWallNorth.Init(3.0F * fResize, 8.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallWest.Init(3.0F * fResize, 8.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallSouth.Init(3.0F * fResize, 8.0F * fResize, .1F * fResize, &m_zm);
-	m_zgWallEast.Init(3.0F * fResize, 8.0F * fResize, .1F * fResize, &m_zm);
+	m_zgFrame.Init(1.0F, 1.0F, .25F, &VMaterialLoader::materialWindowsofBuilding);
+	m_zgWallNorth.Init(3.0F * fResize, 8.0F * fResize, .1F * fResize, &VMaterialLoader::materialSmallOfficeBuilding);
+	m_zgWallWest.Init(3.0F * fResize, 8.0F * fResize, .1F * fResize, &VMaterialLoader::materialSmallOfficeBuilding);
+	m_zgWallSouth.Init(3.0F * fResize, 8.0F * fResize, .1F * fResize, &VMaterialLoader::materialSmallOfficeBuilding);
+	m_zgWallEast.Init(3.0F * fResize, 8.0F * fResize, .1F * fResize, &VMaterialLoader::materialSmallOfficeBuilding);
 
-	m_zgRoof.Init(3.0F * fResize, 0.1F * fResize, 3.0F * fResize, &m_zm);
+	m_zgRoof.Init(3.0F * fResize, 0.1F * fResize, 3.0F * fResize, &VMaterialLoader::materialSmallOfficeBuilding);
 
 
 }

@@ -110,7 +110,7 @@ public:
 	static CMaterial materialAppartments;
 	static CMaterial materialOfficTowerViewingDeck;
 	static CMaterial materialTwistedTower;
-	static CMaterial materialSmallOfficBuilding;
+	static CMaterial materialSmallOfficeBuilding;
 
 	// MaterialWindowBuildings
 	static CMaterial materialWindowsofBuilding;
