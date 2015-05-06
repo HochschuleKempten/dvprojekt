@@ -3,8 +3,6 @@
 #include "LPlayer.h"
 
 NAMESPACE_LOGIC_B
-
-
 class LField;
 
 class ILBuilding
@@ -49,7 +47,7 @@ public:
 		if (orientation & Orientation::WEST) {
 			name += "West ";
 		}
-		
+
 		return name;
 	}
 
@@ -58,6 +56,8 @@ protected:
 	LField* lField;
 	int playerId = LPlayer::PlayerId::Local;
 	int orientation;
+	/** @brief Stores the total value of the building (initCost + upgradeCost etc) */
+	int value = 0;
 
 public:
 	explicit ILBuilding(LField* lField)
@@ -68,7 +68,7 @@ public:
 	{}
 
 	//todo (L) implement this in the buildings that can be upgraded
-	virtual void upgrade() 
+	virtual void upgrade()
 	{}
 
 	virtual int getOrientation() const
@@ -84,6 +84,15 @@ public:
 	int getPlayerId() const
 	{
 		return playerId;
+	}
+
+	int getValue() const
+	{
+		return value;
+	}
+	void addValue(const int value)
+	{
+		this->value += value;
 	}
 };
 

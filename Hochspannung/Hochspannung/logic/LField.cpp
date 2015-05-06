@@ -1,5 +1,7 @@
 #include "LField.h"
 #include "ILBuilding.h"
+#include "LBalanceLoader.h"
+#include "LPlayingField.h"
 
 NAMESPACE_LOGIC_B
 
@@ -58,8 +60,12 @@ bool LField::removeBuilding()
 {
 	if (lBuilding != nullptr)
 	{
+		//Player gets money back
+		lPlayingField->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(LBalanceLoader::getMoneyBackAmount() * lBuilding->getValue()));
+
 		delete lBuilding;
 		lBuilding = nullptr;
+		buildingPlaced = false;
 
 		return true;
 	}

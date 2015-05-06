@@ -43,7 +43,7 @@ private:
 	std::shared_ptr<IVPlayingField> vPlayingField = nullptr;
 	StatArray2D<LField, fieldLength, fieldLength> fieldArray;
 
-	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
+	using Graph = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
 	std::pair<int, int> localCityPosition = std::make_pair(-1, -1);
 	std::pair<int, int> remoteCityPosition = std::make_pair(-1, -1);
@@ -56,43 +56,43 @@ private:
 	/** @brief Stores the 1D coordinates for each pair of buildings which are connected */
 	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> connectedBuildings;
 
-	std::vector<LField::FieldType> fieldTypes;
-	std::vector<LField::FieldLevel> fieldLevels;
-
 	bool isLocalOperation = true;
 
 private:
-	template<typename T>
+	template <typename T>
 	struct placeBuildingHelper
 	{
 		LPlayingField* playingField;
-		explicit placeBuildingHelper(LPlayingField* playingField)
-			: playingField(playingField) {}
 
-		template<typename... Args>
-		bool operator()(const int x, const int y, const Args... arguments)
+		explicit placeBuildingHelper(LPlayingField* playingField)
+			: playingField(playingField)
+		{}
+
+		template <typename... Args>
+		bool operator()(const int x, const int y, const Args ... arguments)
 		{
 			return playingField->getField(x, y)->setBuilding<T>(x, y, arguments...);
 		}
 	};
 
-	template<>
+	template <>
 	struct placeBuildingHelper<LPowerLine>
 	{
 		LPlayingField* playingField;
+
 		explicit placeBuildingHelper(LPlayingField* playingField)
 			: playingField(playingField)
 		{}
 
-		template<typename... Args>
-		bool operator()(const int x, const int y, const Args... arguments)
+		template <typename... Args>
+		bool operator()(const int x, const int y, const Args ... arguments)
 		{
 			int orientation = playingField->linkPowerlines(x, y);
 			return playingField->getField(x, y)->setBuilding<LPowerLine>(x, y, orientation, arguments...);
 		}
 	};
 
-	
+
 	void sendFieldInformation(const int x, const int y); //helper method
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const std::pair<int, int>& coordinates);
@@ -110,7 +110,7 @@ private:
 	*
 	* @tparam cross specifies if all fields around should be set to grass or just the even ones (i. e. not the diagonal ones when set to <code>true</code>)
 	*/
-	template<bool cross = false>
+	template <bool cross = false>
 	void placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space);
 
 	bool isCoordinateUsed(const std::pair<int, int>& coordinates) const;
@@ -143,30 +143,30 @@ public:
 	void showPlayingField();
 
 	// returns true if building could be placed, else false (building not allowed or building already placed)
-	template<typename T, typename... Args>
-	bool placeBuilding(const int x, const int y, const int playerId, const Args... arguments)
+	template <typename T, typename... Args>
+	bool placeBuilding(const int x, const int y, const int playerId, const Args ... arguments)
 	{
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
-		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
-		
+		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");
+
 		//Check costs
-		if (playerId == LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < LBalanceLoader::getCost<T>())
-		{
-			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") + std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") + std::to_string(LBalanceLoader::getCost<T>()) + std::string(" benötigt."));
+		if (playerId & LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < LBalanceLoader::getCost<T>()) {
+			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") +
+												 std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") +
+												 std::to_string(LBalanceLoader::getCost<T>()) + std::string(" benötigt."));
 			return false;
 		}
 
 		if (placeBuildingHelper<T>(this)(x, y, arguments...)) {
 
-			if (playerId == LPlayer::Local)
-			{
+			if (playerId & LPlayer::Local) {
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
 				//subtract money only if the local player placed the building
 				lMaster->getPlayer(LPlayer::Local)->subtractMoney(LBalanceLoader::getCost<T>());
+				getField(x, y)->getBuilding()->addValue(LBalanceLoader::getCost<T>());
 
-				if (localCityPosition.first > -1 && localCityPosition.second > -1)
-				{
+				if (localCityPosition.first > -1 && localCityPosition.second > -1) {
 					calculateEnergyValueCity();
 				}
 			}
@@ -177,49 +177,39 @@ public:
 
 			//-----network-----
 
-			if (!isLocalOperation)
-			{
+			if (!isLocalOperation) {
 				int objectIdentifier = 0;
 
-					std::string buildingType = getClassName(T);
+				std::string buildingType = getClassName(T);
 
-					if (buildingType == "LCoalPowerPlant")
-					{
-						objectIdentifier = LIdentifier::LCoalPowerPlant;
-					}
-					else if (buildingType == "LHydroelectricPowerPlant")
-					{
-						objectIdentifier = LIdentifier::LHydroelectricPowerPlant;
-					}
-					else if (buildingType == "LNuclearPowerPlant")
-					{
-						objectIdentifier = LIdentifier::LNuclearPowerPlant;
-					}
-					else if (buildingType == "LOilRefinery")
-					{
-						objectIdentifier = LIdentifier::LOilRefinery;
-					}
-					else if (buildingType == "LSolarPowerPlant")
-					{
-						objectIdentifier = LIdentifier::LSolarPowerPlant;
-					}
-					else if (buildingType == "LWindmillPowerPlant")
-					{
-						objectIdentifier = LIdentifier::LWindmillPowerPlant;
-					}
-					else if (buildingType == "LCity")
-					{
-						objectIdentifier = LIdentifier::LCity;
-					}
-					else if (buildingType == "LPowerLine")
-					{
-						objectIdentifier = LIdentifier::LPowerLine;
-					}
-					else if (buildingType == "LTransformerStation")
-					{
-						objectIdentifier = LIdentifier::LTransformerStation;
-					}
-				
+				if (buildingType == "LCoalPowerPlant") {
+					objectIdentifier = LIdentifier::LCoalPowerPlant;
+				}
+				else if (buildingType == "LHydroelectricPowerPlant") {
+					objectIdentifier = LIdentifier::LHydroelectricPowerPlant;
+				}
+				else if (buildingType == "LNuclearPowerPlant") {
+					objectIdentifier = LIdentifier::LNuclearPowerPlant;
+				}
+				else if (buildingType == "LOilRefinery") {
+					objectIdentifier = LIdentifier::LOilRefinery;
+				}
+				else if (buildingType == "LSolarPowerPlant") {
+					objectIdentifier = LIdentifier::LSolarPowerPlant;
+				}
+				else if (buildingType == "LWindmillPowerPlant") {
+					objectIdentifier = LIdentifier::LWindmillPowerPlant;
+				}
+				else if (buildingType == "LCity") {
+					objectIdentifier = LIdentifier::LCity;
+				}
+				else if (buildingType == "LPowerLine") {
+					objectIdentifier = LIdentifier::LPowerLine;
+				}
+				else if (buildingType == "LTransformerStation") {
+					objectIdentifier = LIdentifier::LTransformerStation;
+				}
+
 				lMaster->sendSetObject(objectIdentifier, x, y, std::to_string(playerId));
 			}
 
@@ -227,19 +217,22 @@ public:
 
 			return true;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
 
-	std::unordered_map<ILBuilding::Orientation, LField* >getFieldNeighbors(const int x, const int y);
+	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);
 
 	int linkPowerlines(const int x, const int y);
 
 	void beginRemoteOperation();
 	void endRemoteOperation();
 
+	/**
+	 * @brief Checks if the connection between the buildings still exists (from the stored values).
+	 */
+	void recheckConnectedBuildings();
 	bool checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second);
 	bool isTransformstationConnected();
 

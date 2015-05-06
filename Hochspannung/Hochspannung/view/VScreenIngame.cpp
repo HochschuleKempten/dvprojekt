@@ -431,13 +431,7 @@ void VScreenIngame::handleInput()
 			cameraAngle -= cameraStength / 10.0f;
 			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
 		}
-
-
-
 	}
-
-
-
 
 	CFloatRect topSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getTopSpace();
 	CFloatRect bottomSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getBottomSpace();
@@ -501,6 +495,11 @@ void VScreenIngame::handleInput()
 	}
 	else if (vUi->m_zkCursor.ButtonPressedRight()) {
 		if (!clickActive) {
+			if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
+				int x = pickedElements[VIdentifier::VPlayingField][0];
+				int y = pickedElements[VIdentifier::VPlayingField][1];
+				vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+			}
 
 			clickActive = true;
 		}
@@ -524,7 +523,7 @@ std::map<int, std::vector<int>> VScreenIngame::pickElements()
 	//Merge the found placements together in a set (to avoid duplicates)
 	for (int i = 0; i < placements.m_iPlacements; i++) {
 		if (placements.m_applacement[i]->m_pgeos) {
-			//pickedPlacements.insert(placements.m_applacement[i]);
+			pickedPlacements.insert(placements.m_applacement[i]);
 		}
 	}
 	//The two placements pick different things, so they have to be merged together

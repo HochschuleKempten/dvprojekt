@@ -52,7 +52,6 @@ private:
 	int energyLeft = 0;
 
 private:
-	//TODO (All) where can power lines be placed? (grass, solar, ...)
 	template<typename T> bool checkBuildingType()
 	{
 		ASSERT("Unknown field type");

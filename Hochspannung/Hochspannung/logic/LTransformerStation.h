@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ILBuilding.h"
 #include "IVTickObserver.h"
 
@@ -10,7 +11,7 @@ class IVTransformerStation;
 class LTransformerStation : public ILBuilding, public IVTickObserver
 	{
 private:
-	// TODO(MBR) what private members are needed?
+	// TODO (MBR) what private members are needed?
 	std::shared_ptr<IVTransformerStation> vTransformerSation;
 	bool hasConnection;
 
@@ -19,8 +20,9 @@ public:
 	~LTransformerStation();
 
 	virtual void tick(const float fTimeDelta) override;
-	// TODO(MBR) what methods are needed (also see IVTransformerStation)?
+	//TODO (MBR) what methods are needed (also see IVTransformerStation)?
 
 	void performDisposal();
- };
 };
+
+NAMESPACE_LOGIC_E
