@@ -208,12 +208,12 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 		SetDirection(m_eDirection);
 
 		// set level of details
-		m_zpIsolatorLoD1[i].SetLoD(0, 33.3f);
-		m_zpIsolatorLoD2[i].SetLoD(33.3f, 66.6f);
-		m_zpIsolatorLoD3[i].SetLoD(66.6f, 99.9f);
-		m_zpRingLoD1[i].SetLoD(0, 33.3f);
-		m_zpRingLoD2[i].SetLoD(33.3f, 66.6f);
-		m_zpRingLoD3[i].SetLoD(66.6f, 99.9f);
+		m_zpIsolatorLoD1[i].SetLoD(m_zpLODBorder[0], m_zpLODBorder[1]);
+		m_zpIsolatorLoD2[i].SetLoD(m_zpLODBorder[1], m_zpLODBorder[2]);
+		m_zpIsolatorLoD3[i].SetLoD(m_zpLODBorder[2], m_zpLODBorder[3]);
+		m_zpRingLoD1[i].SetLoD(m_zpLODBorder[0], m_zpLODBorder[1]);
+		m_zpRingLoD2[i].SetLoD(m_zpLODBorder[1], m_zpLODBorder[2]);
+		m_zpRingLoD3[i].SetLoD(m_zpLODBorder[2], m_zpLODBorder[3]);
 
 		// rotate modeled pole and add it to foundation
 		m_zpPole[i].RotateYDelta(i * HALFPI);
