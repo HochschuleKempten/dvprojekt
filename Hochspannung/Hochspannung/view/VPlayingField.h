@@ -31,7 +31,7 @@ private:
 	const CHVector size = CHVector(fieldSize, fieldSize, fieldDepth);
 
 	std::vector<CPlacement> m_zpPlacementHolders;	
-	Array2D<VField> vFields;
+	DynArray2D<VField> vFields;
 	CPlacement m_zp;
 
 public:

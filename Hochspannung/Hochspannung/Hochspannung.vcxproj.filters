@@ -350,7 +350,7 @@
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="logic\LBalanceLoader.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>logic\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -553,7 +553,7 @@
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="logic\LBalanceLoader.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>logic\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

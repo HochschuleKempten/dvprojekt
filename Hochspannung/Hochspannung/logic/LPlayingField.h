@@ -1,4 +1,5 @@
 #pragma once
+
 #include "LGeneral.h"
 #include "Array2D.h"
 #include "LField.h"
@@ -36,12 +37,11 @@ class LPlayingField
 {
 	NON_COPYABLE(LPlayingField);
 
-
 private:
-	const int fieldLength = 20; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
+	static const int fieldLength = 20; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster = nullptr;
 	std::shared_ptr<IVPlayingField> vPlayingField = nullptr;
-	Array2D<LField> fieldArray;
+	StatArray2D<LField, fieldLength, fieldLength> fieldArray;
 
 	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
