@@ -21,18 +21,15 @@ namespace LIdentifier
 		LTransformerStation = 108
 	};
 
-	namespace fwd
-	{
-		class LCoalPowerPlant;
-		class LHydroelectricPowerPlant;
-		class LNuclearPowerPlant;
-		class LOilRefinery;
-		class LSolarPowerPlant;
-		class LWindmillPowerPlant;
-		class LCity;
-		class LPowerLine;
-		class LTransformerStation;
-	}
+	class HighVoltage::LCoalPowerPlant;
+	class HighVoltage::LHydroelectricPowerPlant;
+	class HighVoltage::LNuclearPowerPlant;
+	class HighVoltage::LOilRefinery;
+	class HighVoltage::LSolarPowerPlant;
+	class HighVoltage::LWindmillPowerPlant;
+	class HighVoltage::LCity;
+	class HighVoltage::LPowerLine;
+	class HighVoltage::LTransformerStation;
 
 	template<typename T>
 	LIdentifier getIdentifierForType()
@@ -40,15 +37,15 @@ namespace LIdentifier
 		ASSERT("Unknown type");
 		return CASTS<LIdentifier>(-1);
 	}
-	template<> inline LIdentifier getIdentifierForType<fwd::LCoalPowerPlant>() { return LCoalPowerPlant; }
-	template<> inline LIdentifier getIdentifierForType<fwd::LHydroelectricPowerPlant>() { return LHydroelectricPowerPlant; }
-	template<> inline LIdentifier getIdentifierForType<fwd::LNuclearPowerPlant>() { return LNuclearPowerPlant; }
-	template<> inline LIdentifier getIdentifierForType<fwd::LOilRefinery>() { return LOilRefinery; }
-	template<> inline LIdentifier getIdentifierForType<fwd::LSolarPowerPlant>() { return LSolarPowerPlant; }
-	template<> inline LIdentifier getIdentifierForType<fwd::LWindmillPowerPlant>() { return LWindmillPowerPlant; }
-	template<> inline LIdentifier getIdentifierForType<fwd::LCity>() { return LCity; }
-	template<> inline LIdentifier getIdentifierForType<fwd::LPowerLine>() { return LPowerLine; }
-	template<> inline LIdentifier getIdentifierForType<fwd::LTransformerStation>() { return LTransformerStation; }
+	template<> inline LIdentifier getIdentifierForType<HighVoltage::LCoalPowerPlant>() { return LCoalPowerPlant; }
+	template<> inline LIdentifier getIdentifierForType<HighVoltage::LHydroelectricPowerPlant>() { return LHydroelectricPowerPlant; }
+	template<> inline LIdentifier getIdentifierForType<HighVoltage::LNuclearPowerPlant>() { return LNuclearPowerPlant; }
+	template<> inline LIdentifier getIdentifierForType<HighVoltage::LOilRefinery>() { return LOilRefinery; }
+	template<> inline LIdentifier getIdentifierForType<HighVoltage::LSolarPowerPlant>() { return LSolarPowerPlant; }
+	template<> inline LIdentifier getIdentifierForType<HighVoltage::LWindmillPowerPlant>() { return LWindmillPowerPlant; }
+	template<> inline LIdentifier getIdentifierForType<HighVoltage::LCity>() { return LCity; }
+	template<> inline LIdentifier getIdentifierForType<HighVoltage::LPowerLine>() { return LPowerLine; }
+	template<> inline LIdentifier getIdentifierForType<HighVoltage::LTransformerStation>() { return LTransformerStation; }
 }
 
 NAMESPACE_LOGIC_E
