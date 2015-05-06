@@ -5,6 +5,7 @@
 
 NAMESPACE_LOGIC_B
 
+
 class LPowerLine;
 class LWindmillPowerPlant;
 class LSolarPowerPlant;

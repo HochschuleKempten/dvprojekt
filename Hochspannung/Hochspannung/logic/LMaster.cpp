@@ -10,6 +10,7 @@
 #include "LWindmillPowerPlant.h"
 #include "LCity.h"
 #include "LTransformerStation.h"
+#include "LBalanceLoader.h"
 
 NAMESPACE_LOGIC_B
 
@@ -19,6 +20,7 @@ LMaster::LMaster(IVMaster& vMaster)
 		networkService(Network::CNetworkService::instance())
 {
 	vMaster.registerObserver(this);
+	LBalanceLoader::init();
 }
 
 LMaster::~LMaster()
