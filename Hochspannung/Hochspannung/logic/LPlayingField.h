@@ -178,39 +178,42 @@ public:
 			//-----network-----
 
 			if (!isLocalOperation) {
-				int objectIdentifier = 0;
+				//int objectIdentifier = 0;
 
-				std::string buildingType = getClassName(T);
+				//std::string buildingType = getClassName(T);
 
-				if (buildingType == "LCoalPowerPlant") {
-					objectIdentifier = LIdentifier::LCoalPowerPlant;
-				}
-				else if (buildingType == "LHydroelectricPowerPlant") {
-					objectIdentifier = LIdentifier::LHydroelectricPowerPlant;
-				}
-				else if (buildingType == "LNuclearPowerPlant") {
-					objectIdentifier = LIdentifier::LNuclearPowerPlant;
-				}
-				else if (buildingType == "LOilRefinery") {
-					objectIdentifier = LIdentifier::LOilRefinery;
-				}
-				else if (buildingType == "LSolarPowerPlant") {
-					objectIdentifier = LIdentifier::LSolarPowerPlant;
-				}
-				else if (buildingType == "LWindmillPowerPlant") {
-					objectIdentifier = LIdentifier::LWindmillPowerPlant;
-				}
-				else if (buildingType == "LCity") {
-					objectIdentifier = LIdentifier::LCity;
-				}
-				else if (buildingType == "LPowerLine") {
-					objectIdentifier = LIdentifier::LPowerLine;
-				}
-				else if (buildingType == "LTransformerStation") {
-					objectIdentifier = LIdentifier::LTransformerStation;
-				}
+				//if (buildingType == "LCoalPowerPlant") {
+				//	objectIdentifier = LIdentifier::LCoalPowerPlant;
+				//}
+				//else if (buildingType == "LHydroelectricPowerPlant") {
+				//	objectIdentifier = LIdentifier::LHydroelectricPowerPlant;
+				//}
+				//else if (buildingType == "LNuclearPowerPlant") {
+				//	objectIdentifier = LIdentifier::LNuclearPowerPlant;
+				//}
+				//else if (buildingType == "LOilRefinery") {
+				//	objectIdentifier = LIdentifier::LOilRefinery;
+				//}
+				//else if (buildingType == "LSolarPowerPlant") {
+				//	objectIdentifier = LIdentifier::LSolarPowerPlant;
+				//}
+				//else if (buildingType == "LWindmillPowerPlant") {
+				//	objectIdentifier = LIdentifier::LWindmillPowerPlant;
+				//}
+				//else if (buildingType == "LCity") {
+				//	objectIdentifier = LIdentifier::LCity;
+				//}
+				//else if (buildingType == "LPowerLine") {
+				//	objectIdentifier = LIdentifier::LPowerLine;
+				//}
+				//else if (buildingType == "LTransformerStation") {
+				//	objectIdentifier = LIdentifier::LTransformerStation;
+				//}
 
-				lMaster->sendSetObject(objectIdentifier, x, y, std::to_string(playerId));
+				//lMaster->sendSetObject(objectIdentifier, x, y, std::to_string(playerId));
+
+				//TODO (L) Test if this is working
+				lMaster->sendSetObject(LIdentifier::getIdentifierForType<T>(), x, y, std::to_string(playerId));
 			}
 
 			//-----network-----
