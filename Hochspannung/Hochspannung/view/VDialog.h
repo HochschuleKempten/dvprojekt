@@ -1,6 +1,9 @@
 #pragma once
+
 #include "IViewGUIContainer.h"
+
 NAMESPACE_VIEW_B
+
 
 class VDialog : public IViewGUIContainer
 {
@@ -8,7 +11,7 @@ class VDialog : public IViewGUIContainer
 	
 public:
 	VDialog();
-	VDialog(CViewport* viewport,CFloatRect floatRect, CMaterial* MaterialNormal);
+	VDialog(CViewport* viewport, CFloatRect floatRect, CMaterial* MaterialNormal);
 	VDialog(CViewport* viewport, CFloatRect floatRect);
 	~VDialog();
 	void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, string sName) override;
@@ -32,5 +35,6 @@ private:
 	//list<IViewGUIObject*>::iterator lIterGUIObjects;
 	COverlay* m_background;
 };
+
 
 NAMESPACE_VIEW_E

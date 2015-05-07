@@ -19,6 +19,7 @@ private:
 	LPlayingField* lPlayingField = nullptr;
 	std::vector<LPlayer> lPlayers;
 	Network::CNetworkService& networkService;
+	bool isClient = false;
 
 public:
 	explicit LMaster(IVMaster& vMaster);

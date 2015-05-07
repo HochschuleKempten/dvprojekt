@@ -10,6 +10,7 @@
 #include "LWindmillPowerPlant.h"
 #include "LCity.h"
 #include "LTransformerStation.h"
+#include "LBalanceLoader.h"
 
 NAMESPACE_LOGIC_B
 
@@ -19,18 +20,31 @@ LMaster::LMaster(IVMaster& vMaster)
 		networkService(Network::CNetworkService::instance())
 {
 	vMaster.registerObserver(this);
+	LBalanceLoader::init();
 }
 
 LMaster::~LMaster()
 {
 	delete lPlayingField;
+	networkService.close();
 }
 
 void LMaster::startNewGame()
 {
+	/*host();
+	while (networkService.getConnectionState() != Network::CONNECTED);
+
+	DEBUG_OUTPUT("---------------Client connected to server.---------------");*/
+
 	if (lPlayingField == nullptr)
 	{
 		lPlayingField = new LPlayingField(this);
+	}
+
+	if (!isClient)
+	{
+		lPlayingField->createFields();
+		lPlayingField->showPlayingField();
 	}
 }
 
@@ -39,7 +53,7 @@ void LMaster::gameOver()
 	vMaster.gameOver();
 
 	//todo (IP) test
-	networkService.close();
+	//networkService.close();
 }
 
 void LMaster::tick(const float fTimeDelta)
@@ -49,7 +63,7 @@ void LMaster::tick(const float fTimeDelta)
 	static float timeLastCheck = 0;
 
 	//check every second
-	if (timeLastCheck <= 1)
+	if (timeLastCheck <= 0.0001F)
 	{
 		timeLastCheck += fTimeDelta;
 		return;
@@ -64,7 +78,16 @@ void LMaster::tick(const float fTimeDelta)
 		int objectId = transferObject.getTransObjectID();
 		int x = transferObject.getCoordX();
 		int y = transferObject.getCoordY();
+
 		int playerId = std::stoi(transferObject.getValue());
+		if (playerId == LPlayer::Local)
+		{
+			playerId = LPlayer::External;
+		}
+		else if (playerId == LPlayer::External)
+		{
+			playerId = LPlayer::Local;
+		}
 
 
 		//regarding host
@@ -120,6 +143,12 @@ void LMaster::tick(const float fTimeDelta)
 				if (objectId >= 20 && objectId < 23)
 				{
 					lPlayingField->getField(x, y)->setFieldLevel(static_cast<LField::FieldLevel>(objectId));
+				}
+
+			//end of fieldcreation (if this is a client)
+				if (isClient && playerId == -66)
+				{
+					lPlayingField->showPlayingField();
 				}
 
 			break;
@@ -209,8 +238,7 @@ void LMaster::connect(std::string ip)
 	if (connected)
 	{
 		DEBUG_OUTPUT("Connected to server.");
-
-		startNewGame();
+		isClient = true;
 	}
 	else
 	{
@@ -223,6 +251,7 @@ void LMaster::sendSetObject(const int objectId, const int x, const int y, const 
 	if (networkService.getConnectionState() == Network::State::CONNECTED) //todo (IP) return false if not connected?
 	{
 		networkService.sendSetObject(objectId, x, y, value);
+		DEBUG_OUTPUT("Sent: Objectid: " + std::to_string(objectId) + ", x: " +std::to_string(x) + ", y:" + std::to_string(y) + ", value: " + value);
 	}
 }
 

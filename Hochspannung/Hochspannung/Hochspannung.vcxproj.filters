@@ -343,6 +343,9 @@
     <ClInclude Include="view\Bar.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="logic\LBalanceLoader.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -536,6 +539,9 @@
     </ClCompile>
     <ClCompile Include="view\Bar.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LBalanceLoader.cpp">
+      <Filter>logic\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

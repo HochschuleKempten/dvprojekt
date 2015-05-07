@@ -51,7 +51,7 @@
 #endif
 #endif
 
-#include "boost\asio.hpp" // must be included before windows.h because of WinSock.h and winsock2.h
+#include <boost\asio.hpp> // must be included before windows.h because of WinSock.h and winsock2.h
 #include "view\VMaster.h"
 #include "logic\LMaster.h"
 

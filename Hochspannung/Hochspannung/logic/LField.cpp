@@ -1,5 +1,7 @@
 #include "LField.h"
 #include "ILBuilding.h"
+#include "LBalanceLoader.h"
+#include "LPlayingField.h"
 
 NAMESPACE_LOGIC_B
 
@@ -35,6 +37,9 @@ LField::FieldType LField::getFieldType() const
 void LField::setFieldType(FieldType fieldType)
 {
 	this->fieldType = fieldType;
+
+	energyStock = fieldType * fieldLevel;
+	energyLeft = energyStock;
 }
 
 LField::FieldLevel LField::getFieldLevel() const
@@ -45,6 +50,9 @@ LField::FieldLevel LField::getFieldLevel() const
 void LField::setFieldLevel(FieldLevel fieldLevel)
 {
 	this->fieldLevel = fieldLevel;
+
+	energyStock = fieldType * fieldLevel;
+	energyLeft = energyStock;
 }
 
 
@@ -52,8 +60,12 @@ bool LField::removeBuilding()
 {
 	if (lBuilding != nullptr)
 	{
+		//Player gets money back
+		lPlayingField->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(LBalanceLoader::getMoneyBackAmount() * lBuilding->getValue()));
+
 		delete lBuilding;
 		lBuilding = nullptr;
+		buildingPlaced = false;
 
 		return true;
 	}

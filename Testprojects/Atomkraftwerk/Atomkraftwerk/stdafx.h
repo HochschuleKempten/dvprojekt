@@ -13,3 +13,5 @@
 
 
 // TODO: Hier auf zusätzliche Header, die das Programm erfordert, verweisen.
+
+#include <boost\asio.hpp> // must be included before windows.h because of WinSock.h and winsock2.h
