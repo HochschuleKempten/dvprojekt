@@ -21,7 +21,10 @@ LCity::~LCity()
 
 void LCity::tick(const float fTimeDelta)
 {
-	if (!lField->getLPlayingField()->getLMaster()->gamePaused && lField->getLPlayingField()->isInitDone()) //if game is paused or not initialized, do nothing
+	//if game is paused or not initialized or city from remote player, do nothing
+	if (!lField->getLPlayingField()->getLMaster()->gamePaused &&
+		lField->getLPlayingField()->isInitDone() &&
+		playerId == LPlayer::Local)
 	{
 		static float timeLastCheck = 0;
 
