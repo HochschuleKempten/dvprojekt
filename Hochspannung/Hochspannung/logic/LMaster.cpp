@@ -30,6 +30,7 @@ LMaster::~LMaster()
 
 void LMaster::startNewGame()
 {
+
 	//host();
 	//while (networkService.getConnectionState() != Network::CONNECTED);
 
@@ -100,15 +101,15 @@ void LMaster::tick(const float fTimeDelta)
 {
 	using namespace Network;
 
-	static int tickCounter = 0;
+	static float timeLastCheck = 0;
 
-	//check every fifth tick if there is a new action
-	if (tickCounter < 25)
+	//every second
+	if (timeLastCheck > 1)
 	{
-		tickCounter++;
-		return;
+		timeLastCheck = 0;
 	}
-	tickCounter = 0;
+
+	timeLastCheck += fTimeDelta;
 
 	if (networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
 	{
