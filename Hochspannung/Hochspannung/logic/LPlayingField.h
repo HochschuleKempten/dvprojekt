@@ -158,7 +158,7 @@ public:
 			return false;
 		}
 
-		if (hasFriendlyNeighbor(x, y) && placeBuildingHelper<T>(this)(x, y, arguments...)) {
+		if ((hasFriendlyNeighbor(x, y) || !unusedCoordinates.empty()) && placeBuildingHelper<T>(this)(x, y, arguments...)) {
 
 			if (playerId & LPlayer::Local) {
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());

@@ -523,7 +523,7 @@ std::map<int, std::vector<int>> VScreenIngame::pickElements()
 	//Merge the found placements together in a set (to avoid duplicates)
 	for (int i = 0; i < placements.m_iPlacements; i++) {
 		if (placements.m_applacement[i]->m_pgeos) {
-			pickedPlacements.insert(placements.m_applacement[i]);
+			//pickedPlacements.insert(placements.m_applacement[i]);
 		}
 	}
 	//The two placements pick different things, so they have to be merged together

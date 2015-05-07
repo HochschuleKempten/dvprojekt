@@ -3,6 +3,7 @@
 #include "LGeneral.h"
 #include "LField.h"
 #include "LUtility.h"
+#include "LIdentifier.h"
 #include <unordered_map>
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\ini_parser.hpp>
@@ -44,6 +45,7 @@ public:
 	template<> static int getCost<LNuclearPowerPlant>() { return propertyTree.get<int>("Cost.NuclearPowerPlant", 0); }
 
 	static int getFieldStorage(const LField::FieldType fieldType);
+	static int getProducedEnergy(const LIdentifier::LIdentifier identifier);
 
 	static double getMoneyPerWatt();
 	/**
@@ -54,8 +56,17 @@ public:
 	static std::unordered_map<LField::FieldLevel, double> getFieldLevelFactor();
 
 	//CityProperties
-	static int getPopulationGrowth();	//x peoples per second
-	static double getConsumptionPerCitizen();	//x watt per citizen
+	/**
+	 * @brief Growth rate of the city in number of peoples per second.
+	 */
+	static int getPopulationGrowth();
+	/**
+	 * @brief Energy consumption of the city in watt per citizen.
+	 */
+	static double getConsumptionPerCitizen();
+	/**
+	 * @brief Default population of the city.
+	 */
 	static int getStartPopulation();
 };
 

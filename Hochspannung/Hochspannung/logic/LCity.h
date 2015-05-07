@@ -25,6 +25,11 @@ public:
 	int getEnergy() const;
 	void setPopulationTotal(const int populationTotal);
 	int getEnergySurplus();
+
+	virtual LIdentifier::LIdentifier getIdentifier() override
+	{
+		return LIdentifier::LCity;
+	}
 };
 
 

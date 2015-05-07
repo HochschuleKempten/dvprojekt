@@ -16,6 +16,11 @@ public:
 	~LPowerLine();
 
 	void updatedOrientation(const int additionalOrientation);
+
+	virtual LIdentifier::LIdentifier getIdentifier() override
+	{
+		return LIdentifier::LPowerLine;
+	}
 };
 
 NAMESPACE_LOGIC_E

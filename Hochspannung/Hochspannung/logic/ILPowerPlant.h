@@ -9,7 +9,6 @@ class IVPowerPlant;
 class ILPowerPlant : public ILBuilding
 {
 protected:
-	static const int energyValue = 200;
 	std::shared_ptr<IVPowerPlant> vPowerPlant;
 
 public:
@@ -20,11 +19,6 @@ public:
 
 	inline virtual ~ILPowerPlant()
 	{
-	};
-
-	inline int getEnergyValue() const
-	{
-		return energyValue;
 	};
 };
 

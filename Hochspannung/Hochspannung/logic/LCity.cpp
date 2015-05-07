@@ -67,7 +67,7 @@ void LCity::setPopulationTotal(const int populationTotal)
 {
 	this->populationTotal = populationTotal;
 
-	if (playerId == LPlayer::Local)
+	if (playerId & LPlayer::Local)
 	{
 		vCity->updatePopulation(populationTotal);
 	}

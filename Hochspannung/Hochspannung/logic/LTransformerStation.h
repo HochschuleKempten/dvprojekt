@@ -9,7 +9,7 @@ NAMESPACE_LOGIC_B
 class IVTransformerStation;
 
 class LTransformerStation : public ILBuilding, public IVTickObserver
-	{
+{
 private:
 	// TODO (MBR) what private members are needed?
 	std::shared_ptr<IVTransformerStation> vTransformerSation;
@@ -23,6 +23,11 @@ public:
 	//TODO (MBR) what methods are needed (also see IVTransformerStation)?
 
 	void performDisposal();
+
+	virtual LIdentifier::LIdentifier getIdentifier() override
+	{
+		return LIdentifier::LTransformerStation;
+	}
 };
 
 NAMESPACE_LOGIC_E

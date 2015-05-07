@@ -8,6 +8,7 @@
 #include "LCity.h"
 #include "LTransformerStation.h"
 #include "LCoalPowerPlant.h"
+#include "LBalanceLoader.h"
 #include <boost/graph/breadth_first_search.hpp>
 #include <boost/graph/strong_components.hpp>
 #include <boost/graph/graphviz.hpp>
@@ -206,6 +207,10 @@ void LPlayingField::upgradeBuilding(const int x, const int y)
 
 
 bool LPlayingField::hasFriendlyNeighbor(int x, const int y) {
+	if (!unusedCoordinates.empty()) {
+		return true;
+	}
+
 	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = this->getFieldNeighbors(x, y);
 	for (std::unordered_map<ILBuilding::Orientation, LField*>::iterator it = neighbors.begin(); it != neighbors.end(); ++it) {
 		if (it->second->getBuilding() != nullptr && (it->second->getBuilding()->getPlayerId() & LPlayer::Local)) {
@@ -429,7 +434,7 @@ void LPlayingField::calculateEnergyValueCity()
 		ILPowerPlant* pP = dynamic_cast<ILPowerPlant*>(getField(coord.first, coord.second)->getBuilding());
 
 		if (pP != nullptr && pP->getPlayerId() == LPlayer::Local) {
-			energyValue += pP->getEnergyValue();
+			energyValue += LBalanceLoader::getProducedEnergy(pP->getIdentifier());
 		}
 	}
 
