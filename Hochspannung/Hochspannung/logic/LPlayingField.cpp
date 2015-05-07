@@ -72,11 +72,12 @@ void LPlayingField::showPlayingField()
 	ASSERT(usedCoordinates.size() == CASTS<size_t>(fieldLength*fieldLength), "Not every cordinates are in the set for the used coordinates. This is an indication that something in the initialization process went wrong");
 
 	vPlayingField->buildPlayingField(); //Now build the playing field
+	initDone = true;
 }
 
 bool LPlayingField::isInitDone()
 {
-	return unusedCoordinates.empty();
+	return initDone;
 }
 
 std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getFieldNeighbors(const int x, const int y)
@@ -135,6 +136,12 @@ void LPlayingField::beginRemoteOperation()
 void LPlayingField::endRemoteOperation()
 {
 	isLocalOperation = true;
+}
+
+void LPlayingField::initField(const int x, const int y, const LField::FieldType fieldType, const LField::FieldLevel fieldLevel)
+{
+	std::pair<int, int> coordinates = retrieveFreeCoordinates(x, y);
+	fieldArray[coordinates.first][coordinates.second].init(fieldType, fieldLevel);
 }
 
 void LPlayingField::recheckConnectedBuildings()

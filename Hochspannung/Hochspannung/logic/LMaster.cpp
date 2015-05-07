@@ -34,7 +34,7 @@ void LMaster::startNewGame()
 	while (networkService.getConnectionState() != Network::CONNECTED);
 
 	DEBUG_OUTPUT("---------------Client connected to server.---------------");*/
-
+	connect("172.16.39.138");
 	if (lPlayingField == nullptr)
 	{
 		lPlayingField = new LPlayingField(this);
@@ -101,13 +101,12 @@ void LMaster::tick(const float fTimeDelta)
 	static int tickCounter = 0;
 
 	//check every fifth tick if there is a new action
-	if (tickCounter < 4)
+	if (tickCounter < 50)
 	{
 		tickCounter++;
 		return;
 	}
 	tickCounter = 0;
-
 
 	if (networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
 	{
@@ -115,6 +114,7 @@ void LMaster::tick(const float fTimeDelta)
 		int objectId = transferObject.getTransObjectID();
 		int x = transferObject.getCoordX();
 		int y = transferObject.getCoordY();
+
 
 		int playerId = std::stoi(transferObject.getValue());
 		if (playerId == LPlayer::Local)
@@ -126,6 +126,7 @@ void LMaster::tick(const float fTimeDelta)
 			playerId = LPlayer::Local;
 		}
 
+		DEBUG_OUTPUT("objectId=" << objectId << ":x=" << x << ":y=" << y << ":playerId=" << playerId);
 
 		//regarding host
 		switch (transferObject.getAction())
@@ -204,8 +205,7 @@ void LMaster::tick(const float fTimeDelta)
 
 			for (int column = 0; column < row.size(); column++)
 			{
-				lPlayingField->getField(rowNumber, column)->setFieldLevel(static_cast<LField::FieldLevel>(row[column].iFieldLevel));
-				lPlayingField->getField(rowNumber, column)->setFieldType(static_cast<LField::FieldType>(row[column].iFieldType));
+				lPlayingField->initField(rowNumber, column, static_cast<LField::FieldType>(row[column].iFieldType), static_cast<LField::FieldLevel>(row[column].iFieldLevel));
 
 				if (row[column].iObjectID != -1)
 				{

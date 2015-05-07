@@ -57,6 +57,7 @@ private:
 	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> connectedBuildings;
 
 	bool isLocalOperation = true;
+	bool initDone = false;
 
 private:
 	template <typename T>
@@ -200,6 +201,8 @@ public:
 
 	void beginRemoteOperation();
 	void endRemoteOperation();
+
+	void initField(const int x, const int y, const LField::FieldType fieldType, const LField::FieldLevel fieldLevel);
 
 	/**
 	 * @brief Checks if the connection between the buildings still exists (from the stored values).

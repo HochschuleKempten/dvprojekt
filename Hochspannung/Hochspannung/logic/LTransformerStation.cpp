@@ -22,21 +22,23 @@ LTransformerStation::~LTransformerStation()
 
 void LTransformerStation::tick(const float fTimeDelta)
 {	
-	static float timeLastCheck = 0;
+	if (lField->getLPlayingField()->isInitDone()) {
+		static float timeLastCheck = 0;
 	
-	//Handle Disposal
-	if (timeLastCheck > 1) {
-		int seconds = CASTS<int>(timeLastCheck);
-		ASSERT(seconds >= 1, "The number of seconds is invalid.");
+		//Handle Disposal
+		if (timeLastCheck > 1) {
+			int seconds = CASTS<int>(timeLastCheck);
+			ASSERT(seconds >= 1, "The number of seconds is invalid.");
 
-		if (lField->getLPlayingField()->isTransformstationConnected())
-		{
-			performDisposal();
+			if (lField->getLPlayingField()->isTransformstationConnected())
+			{
+				performDisposal();
+			}
+			timeLastCheck = 0;
 		}
-		timeLastCheck = 0;
-	}
 
-	timeLastCheck += fTimeDelta;
+		timeLastCheck += fTimeDelta;
+	}
 }
 
 void LTransformerStation::performDisposal()
