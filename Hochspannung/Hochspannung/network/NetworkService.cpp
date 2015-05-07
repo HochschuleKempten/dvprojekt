@@ -154,7 +154,7 @@ bool CNetworkService::sendSetMapRow(int iRow, std::vector<FieldTransfer> vRowDat
 		stRowData += boost::lexical_cast<std::string>(it->iObjectID) + "$" 
 				  + boost::lexical_cast<std::string>(it->iPlayerID) + "$" 
 				  + boost::lexical_cast<std::string>(it->iFieldLevel) + "$" 
-				  + boost::lexical_cast<std::string>(it->iBuildingID) + "$";
+				  + boost::lexical_cast<std::string>(it->iFieldType) + "$";
 	}
 
 	if (stRowData.back() == (char)"$") {

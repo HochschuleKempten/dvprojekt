@@ -28,7 +28,7 @@ struct FieldTransfer {
 	int iObjectID = -99;
 	int iPlayerID = -99;
 	int iFieldLevel = -99;
-	int iBuildingID = -99;
+	int iFieldType = -99;
 };
 
 class CTransferObject {
