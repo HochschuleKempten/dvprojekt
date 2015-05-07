@@ -32,7 +32,7 @@ private:
 	CGeoEllipsoid m_zgGondel;
 	CGeoEllipsoid m_zgRotorblatt;
 
-	CMaterial m_zm;
+
 
 public:
 	VModelWindmillPowerPlant();
@@ -41,7 +41,7 @@ public:
 	//TODO (Windkraftwerk) implement this
 	virtual float getHeight() override
 	{
-		return 0.0f;
+		return 11.0f;
 	}
 	virtual float getWidth() override
 	{

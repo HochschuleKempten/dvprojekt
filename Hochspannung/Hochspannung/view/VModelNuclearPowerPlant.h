@@ -5,6 +5,7 @@
 #include "LargeOfficeBuilding.h"
 #include "VModelPowerLine.h"
 
+
 NAMESPACE_VIEW_B
 
 
@@ -69,7 +70,7 @@ private:
 
 	//Geo-Objects
 
-	CGeoWall m_zgFundament;
+	CPlacement m_zgFundament;
 	CGeoWall m_zgKuehlturm;
 	CGeoTube m_zgReaktorTurm;
 	CGeoSphere m_zgReaktorKopf;
@@ -85,11 +86,7 @@ private:
 	CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;
-	CMaterial m_zmWhite;
-	CMaterial m_zmGrey;
-	CMaterial m_zmSchranke;
-	CMaterial m_zmGreen;
-	CMaterial m_zmHolz;
+
 
 
 public:
@@ -99,7 +96,7 @@ public:
 	//TODO (Solarkraftwerk) implement this
 	virtual float getHeight() override
 	{
-		return 0.0f;
+		return 4.3f;
 	}
 	virtual float getWidth() override
 	{

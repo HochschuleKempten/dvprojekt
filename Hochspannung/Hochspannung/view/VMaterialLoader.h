@@ -99,6 +99,14 @@ public:
 	static CMaterial m_zmSolarzelle;
 	static CMaterial m_zmSolarGrund;
 
+	//Atomkraftwerktexturen
+	static CMaterial m_zmAtomgrundWhite;
+	static CMaterial m_zmAtomgrundGrey;
+	static CMaterial m_zmSchranke;
+	static CMaterial m_zmAtomgrundGreen;
+	static CMaterial m_zmHolz;
+
+
 	//PlayerColor
 	static std::unordered_map<int, CColor> colorPlayers;
 

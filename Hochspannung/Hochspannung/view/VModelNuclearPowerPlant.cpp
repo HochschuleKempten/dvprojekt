@@ -8,43 +8,39 @@ VModelNuclearPowerPlant::VModelNuclearPowerPlant()
 
 
 	//Initialisierung Fundament
-	m_zgFundament.Init(10.0f, 0.3f, 10.0f, &m_zmGreen);
+	//m_zgFundament.Init(10.0f, 0.3f, 10.0f, &m_zmGreen);
+
+	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAtomgrundGreen);
 
 	//Initialisierung Kuehlturm
-	m_zgKuehlturm.InitTubeWave(1.2f, 4.0f, 0.2f, 0.1f, 3.5f, &m_zmGrey, 0.2f, true, true);
+	m_zgKuehlturm.InitTubeWave(1.2f, 4.0f, 0.2f, 0.1f, 3.5f, &VMaterialLoader::m_zmAtomgrundGrey, 0.2f, true, true);
 
 	//Initialisierung Reaktorturm
-	m_zgReaktorTurm.InitStraight(0.6f, 0.6f, 1.2f, &m_zmWhite, 32);
+	m_zgReaktorTurm.InitStraight(0.6f, 0.6f, 1.2f, &VMaterialLoader::m_zmAtomgrundWhite, 32);
 
 	//Initialisierung Reaktorkopf
-	m_zgReaktorKopf.Init(0.6f, &m_zmWhite, 32, 32);
+	m_zgReaktorKopf.Init(0.6f, &VMaterialLoader::m_zmAtomgrundWhite, 32, 32);
 
 	//Initialisierung Kamin
-	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, &m_zmGrey, 32, true);
+	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true);
 
 	//Initialisierung Pfosten
-	m_zgPfosten.Init(0.2f, 1.1f, 0.2f, &m_zmHolz);
+	m_zgPfosten.Init(0.2f, 1.1f, 0.2f, &VMaterialLoader::m_zmHolz);
 
 	//Initialisierung Balken
-	m_zgBalkenLang.Init(4.7f, 0.1f, 0.1f, &m_zmHolz);
-	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, &m_zmHolz);
+	m_zgBalkenLang.Init(4.7f, 0.1f, 0.1f, &VMaterialLoader::m_zmHolz);
+	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, &VMaterialLoader::m_zmHolz);
 
 	//Initialisierung Trassen
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 
 	//Initialisierung Drehelement
-	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, &m_zmGrey, 32, true, true);
+	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true, true);
 
 	//Initialisierung Schranke
-	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, &m_zmSchranke);
+	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, &VMaterialLoader::m_zmSchranke);
 
-
-	m_zmWhite.MakeTextureDiffuse("Textures\\white_image.jpg");
-	m_zmGrey.MakeTextureDiffuse("Textures\\grey_image.jpg");
-	m_zmSchranke.MakeTextureDiffuse("Textures\\schranke.jpg");
-	m_zmGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
-	m_zmHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
 
 
 
@@ -109,8 +105,8 @@ VModelNuclearPowerPlant::VModelNuclearPowerPlant()
 
 	//Adding
 
-	m_zpFundament.Translate(CHVector(-5.0f, 0.0f, -5.0f));
-	m_zpFundament.AddGeo(&m_zgFundament);
+	//m_zpFundament.Translate(-5.0f, 0.0f, -5.0f);
+	m_zpFundament.AddGeo(&m_zgFoundation);
 
 	m_zpKuehlturm1.Translate(CHVector(-2.0f, 0.15f, -2.0f));
 	m_zpKuehlturm1.AddGeo(&m_zgKuehlturm);
@@ -221,6 +217,7 @@ VModelNuclearPowerPlant::VModelNuclearPowerPlant()
 	m_zpSchranke.Translate(CHVector(-0.7f, 1.36f, 4.875f));
 	m_zpSchranke.RotateZDelta(0.2*PI);
 	m_zpSchranke.AddGeo(&m_zgSchranke);
+
 }
 
 

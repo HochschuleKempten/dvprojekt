@@ -113,11 +113,6 @@ private:
 
 
 
-	CMaterial m_zmWhite;
-	CMaterial m_zmGrey;
-	CMaterial m_zmSchranke;
-	CMaterial m_zmGreen;
-	CMaterial m_zmHolz;
 
 
 public:
@@ -127,7 +122,7 @@ public:
 	//TODO (Solarkraftwerk) implement this
 	virtual float getHeight() override
 	{
-		return 0.0f;
+		return 5.0f;
 	}
 	virtual float getWidth() override
 	{
