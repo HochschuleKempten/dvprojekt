@@ -259,7 +259,7 @@ void LMaster::sendDeleteObject(const int x, const int y)
 {
 	if (networkService.getConnectionState() == Network::State::CONNECTED)
 	{
-		networkService.sendDeleteObject(-1, x, y); //todo (L) tell network guys to delete the first parameter
+		networkService.sendDeleteObject(x, y); //todo (L) tell network guys to delete the first parameter
 	}
 }
 

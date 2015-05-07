@@ -204,6 +204,18 @@ void LPlayingField::upgradeBuilding(const int x, const int y)
 	// ToDo (FL) Discuss case player doesn't have enough money
 }
 
+
+bool LPlayingField::hasFriendlyNeighbor(int x, const int y) {
+	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = this->getFieldNeighbors(x, y);
+	for (std::unordered_map<ILBuilding::Orientation, LField*>::iterator it = neighbors.begin(); it != neighbors.end(); ++it) {
+		if (it->second->getBuilding() != nullptr && (it->second->getBuilding()->getPlayerId() & LPlayer::Local)) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 //little helper method
 void LPlayingField::sendFieldInformation(const int x, const int y)
 {
