@@ -151,10 +151,13 @@ bool CNetworkService::sendSetMapsize(int iSizeX, int iSizeY) {
 bool CNetworkService::sendSetMapRow(int iRow, std::vector<FieldTransfer> vRowData) {
 	std::string stRowData = "";
 	for (std::vector<FieldTransfer>::iterator it = vRowData.begin(); it != vRowData.end(); ++it) {
-		stRowData += boost::lexical_cast<std::string>(it->iObjectID) + "$" + boost::lexical_cast<std::string>(it->iPlayerID) + "$";
+		stRowData += boost::lexical_cast<std::string>(it->iObjectID) + "$" 
+				  + boost::lexical_cast<std::string>(it->iPlayerID) + "$" 
+				  + boost::lexical_cast<std::string>(it->iFieldLevel) + "$" 
+				  + boost::lexical_cast<std::string>(it->iBuildingID) + "$";
 	}
 
-	if (!stRowData.empty() && stRowData.back() == (char)"$") {
+	if (stRowData.back() == (char)"$") {
 		stRowData.pop_back();
 	}
 

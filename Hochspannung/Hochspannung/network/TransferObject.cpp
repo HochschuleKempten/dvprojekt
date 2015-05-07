@@ -66,6 +66,8 @@ std::vector<FieldTransfer> CTransferObject::getValueAsVector() {
 	for (std::vector<std::string>::iterator it = fieldTransferStrings.begin(); it != fieldTransferStrings.end(); ++it) {
 		fieldTransfer.iObjectID = boost::lexical_cast<int>(*it);
 		fieldTransfer.iPlayerID = boost::lexical_cast<int>(*(++it));
+		fieldTransfer.iFieldLevel = boost::lexical_cast<int>(*(++it));
+		fieldTransfer.iBuildingID = boost::lexical_cast<int>(*(++it));
 		fieldTransferObjects.push_back(fieldTransfer);
 	}
 
