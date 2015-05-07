@@ -9,8 +9,8 @@
 NAMESPACE_LOGIC_B
 
 
-LTransformerStation::LTransformerStation(LField* lField, const int x, const int y)
-: ILBuilding(lField), vTransformerSation(lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createTransformerStation(this))
+LTransformerStation::LTransformerStation(LField* lField, const int x, const int y, const int playerId)
+	: ILBuilding(lField, playerId), vTransformerSation(lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createTransformerStation(this))
 {
 	vTransformerSation->initTransformerStation(vTransformerSation, x, y);
 	lField->getLPlayingField()->getLMaster()->getVMaster()->registerObserver(this);

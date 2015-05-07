@@ -16,7 +16,7 @@ private:
 	std::shared_ptr<IVCity> vCity;
 
 public:
-	LCity(LField* lField, const int x, const int y);
+	LCity(LField* lField, const int x, const int y, const int playerId);
 	~LCity();
 
 	virtual void tick(const float fTimeDelta) override;

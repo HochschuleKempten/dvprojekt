@@ -9,7 +9,7 @@ class LSolarPowerPlant :
 {
 
 public:
-	LSolarPowerPlant(LField* lField, const int x, const int y);
+	LSolarPowerPlant(LField* lField, const int x, const int y, const int playerId);
 	~LSolarPowerPlant();
 	
 	LIdentifier::LIdentifier getIdentifier() override

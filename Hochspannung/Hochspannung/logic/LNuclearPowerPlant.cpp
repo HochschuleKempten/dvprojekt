@@ -7,8 +7,8 @@
 
 NAMESPACE_LOGIC_B
 
-LNuclearPowerPlant::LNuclearPowerPlant(LField* lField, const int x, const int y)
-	:ILPowerPlant(lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createNuclearPowerPlant(this))
+LNuclearPowerPlant::LNuclearPowerPlant(LField* lField, const int x, const int y, const int playerId)
+	:ILPowerPlant(lField, playerId, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createNuclearPowerPlant(this))
 {
 	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }

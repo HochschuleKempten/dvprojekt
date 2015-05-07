@@ -8,8 +8,8 @@
 NAMESPACE_LOGIC_B
 
 
-LCity::LCity(LField* lField, const int x, const int y)
-	: ILBuilding(lField), vCity(lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createCity(this))
+LCity::LCity(LField* lField, const int x, const int y, const int playerId)
+	: ILBuilding(lField, playerId), vCity(lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createCity(this))
 {
 	vCity->initCity(vCity, x, y);
 	lField->getLPlayingField()->getLMaster()->getVMaster()->registerObserver(this);

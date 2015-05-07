@@ -9,7 +9,7 @@ class LHydroelectricPowerPlant :
 {
 
 public:
-	LHydroelectricPowerPlant(LField* lField, const int x, const int y);
+	LHydroelectricPowerPlant(LField* lField, const int x, const int y, const int playerId);
 	~LHydroelectricPowerPlant();
 
 	LIdentifier::LIdentifier getIdentifier() override

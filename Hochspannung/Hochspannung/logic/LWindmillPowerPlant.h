@@ -9,7 +9,7 @@ class LWindmillPowerPlant :
 {
 
 public:
-	LWindmillPowerPlant(LField* lField, const int x, const int y);
+	LWindmillPowerPlant(LField* lField, const int x, const int y, const int playerId);
 	~LWindmillPowerPlant();
 	
 	LIdentifier::LIdentifier getIdentifier() override

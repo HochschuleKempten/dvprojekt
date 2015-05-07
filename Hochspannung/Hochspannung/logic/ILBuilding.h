@@ -61,8 +61,8 @@ protected:
 	int value = 0;
 
 public:
-	explicit ILBuilding(LField* lField)
-		: lField(lField)
+	explicit ILBuilding(LField* lField, const int playerId)
+		: lField(lField), playerId(playerId)
 	{}
 
 	virtual ~ILBuilding()
@@ -75,11 +75,6 @@ public:
 	virtual int getOrientation() const
 	{
 		return NORTH | EAST | SOUTH | WEST;
-	}
-
-	void setPlayerId(const int playerId)
-	{
-		this->playerId = playerId;
 	}
 
 	int getPlayerId() const

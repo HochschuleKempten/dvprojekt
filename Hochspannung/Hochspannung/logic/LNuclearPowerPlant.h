@@ -9,7 +9,7 @@ class LNuclearPowerPlant :
 {
 
 public:
-	LNuclearPowerPlant(LField* lField, const int x, const int y);
+	LNuclearPowerPlant(LField* lField, const int x, const int y, const int playerId);
 	~LNuclearPowerPlant();
 
 	LIdentifier::LIdentifier getIdentifier() override

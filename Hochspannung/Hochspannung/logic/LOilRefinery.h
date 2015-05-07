@@ -9,7 +9,7 @@ class LOilRefinery :
 {
 
 public:
-	LOilRefinery(LField* lField, const int x, const int y);
+	LOilRefinery(LField* lField, const int x, const int y, const int playerId);
 	~LOilRefinery();
 
 	LIdentifier::LIdentifier getIdentifier() override

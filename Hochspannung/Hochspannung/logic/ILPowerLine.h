@@ -15,8 +15,8 @@ protected:
 	std::shared_ptr<IVPowerLine> vPowerLine;
 
 public:
-	ILPowerLine(const int orientation, LField* lField, const std::shared_ptr<IVPowerLine>& vPowerLine)
-		: ILBuilding(lField),
+	ILPowerLine(LField* lField, const int orientation, const int playerId, const std::shared_ptr<IVPowerLine>& vPowerLine)
+		: ILBuilding(lField, playerId),
 		orientation(orientation),
 		vPowerLine(vPowerLine)
 	{}

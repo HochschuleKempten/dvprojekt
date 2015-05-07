@@ -172,6 +172,8 @@ public:
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");
 
+		DEBUG_OUTPUT("playerId222 = " << playerId);
+
 		//Check costs
 		if (playerId & LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < LBalanceLoader::getCost<T>()) {
 			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") +
@@ -180,7 +182,7 @@ public:
 			return false;
 		}
 
-		if (placeBuildingHelper<T>(this)(x, y, arguments...))
+		if (placeBuildingHelper<T>(this)(x, y, playerId, arguments...))
 		{
 
 			if ((hasFriendlyNeighbor(x, y) || !isInitDone()) && (playerId & LPlayer::Local))
@@ -196,9 +198,6 @@ public:
 					calculateEnergyValueCity();
 				}
 			}
-
-			//assign player id
-			getField(x, y)->getBuilding()->setPlayerId(playerId);
 			
 			setPosition<T>(x, y, playerId);
 

@@ -12,7 +12,7 @@ private:
 
 public:
 	// set orientation of the powerline with the bitwise operator (|) (example: PowerLineOrientation::NORTH|PowerLineOrientation::EAST)
-	LPowerLine(LField* lField, const int x, const int y, const int orientation);
+	LPowerLine(LField* lField, const int x, const int y, const int orientation, const int playerId);
 	~LPowerLine();
 
 	void updatedOrientation(const int additionalOrientation);

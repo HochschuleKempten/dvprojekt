@@ -9,7 +9,7 @@ NAMESPACE_LOGIC_B
 class LCoalPowerPlant : public ILPowerPlant
 {
 public:
-	LCoalPowerPlant(LField* lField, const int x, const int y);
+	LCoalPowerPlant(LField* lField, const int x, const int y, const int playerId);
 	~LCoalPowerPlant();
 
 	LIdentifier::LIdentifier getIdentifier() override

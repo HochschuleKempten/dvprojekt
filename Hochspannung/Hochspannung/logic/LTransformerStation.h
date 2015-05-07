@@ -16,7 +16,7 @@ private:
 	bool hasConnection;
 
 public:
-	LTransformerStation(LField* lField, const int x, const int y);
+	LTransformerStation(LField* lField, const int x, const int y, const int playerId);
 	~LTransformerStation();
 
 	virtual void tick(const float fTimeDelta) override;
