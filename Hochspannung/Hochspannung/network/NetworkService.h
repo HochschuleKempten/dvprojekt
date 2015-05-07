@@ -4,12 +4,6 @@
 
 namespace Network {
 
-enum State {
-	CONNECTED,
-	CLOSED,
-	PENDING
-};
-
 enum Type {
 	NONE,
 	SERVER,
@@ -62,8 +56,9 @@ public:
 	/**
 	 * @brief Searches asynchronously for game server in the local network.
 	 * Closes any active connection or server.
+	 * @return
 	 */
-	void searchGames();
+	bool searchGames();
 
 	/**
 	 * @brief Returns a list of found games in the local network.
@@ -131,7 +126,7 @@ public:
 	 * @param sValue any other value to send.
 	 * @return true if message could be sent, false otherwise.
 	 */
-	bool sendSetObject(int iObjectID, int iCoordX, int iCoordY, std::string sValue);
+	bool sendSetObject(int iObjectID, int iCoordX, int iCoordY, std::string stPlayer);
 
 	/**
 	 * @brief Send the command to move an object.
@@ -146,12 +141,11 @@ public:
 
 	/**
 	 * @brief Send the command to delete an object.
-	 * @param iObjectId the objects ID.
 	 * @param iCoordX the x coordinate of the object that should be deleted.
 	 * @param iCoordY the y coordinate of the object that should be deleted.
 	 * @return true if message could be sent, false otherwise.
 	 */
-	bool sendDeleteObject(int iObjectID, int iCoordX, int iCoordY);
+	bool sendDeleteObject(int iCoordX, int iCoordY);
 
 	/**
 	 * @brief Send the command to set the mapsize.
@@ -186,7 +180,6 @@ private:
 	bool sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = "");
 
 	CNode* m_pNode = 0;
-	State m_connectionState;
 	Type m_type;
 };
 

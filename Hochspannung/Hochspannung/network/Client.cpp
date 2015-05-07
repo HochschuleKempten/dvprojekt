@@ -29,21 +29,16 @@ bool CClient::setServerData(std::string stIP, unsigned short usPortTcpServer) {
 	return true;
 }
 
-void CClient::searchGames() {
-	if (!isConnected()) {
-		if (!m_socketUdp.is_open()) {
-			m_socketUdp.open(m_localEndpointUdp.protocol());
-			m_socketUdp.bind(m_localEndpointUdp);
-			m_socketUdp.set_option(socket_base::broadcast(true));
-		}
-
+bool CClient::searchGames() {
+	if (m_connectionState == CLOSED && startUdpClient()) {
+		// Send broadcast request
 		std::string stMessage("{ \"name\": \"?\"}");
 		m_socketUdp.async_send_to(buffer(stMessage.c_str(), stMessage.length()),
 			ip::udp::endpoint(ip::address_v4::broadcast(), m_usPortUdp),
 			boost::bind(&CClient::udpDataSentHandler, this, placeholders::error, placeholders::bytes_transferred)
 		);
 
-		std::cout << "Started searching for game servers..." << std::endl;
+		// Wait for reply
 		m_socketUdp.async_receive_from(m_udpMessage.prepare(512),
 			m_remoteEndpointUdp,
 			boost::bind(&CClient::udpDataRecievedHandler, this, placeholders::error, placeholders::bytes_transferred)
@@ -58,6 +53,11 @@ void CClient::searchGames() {
 				}
 			});
 		}
+
+		std::cout << "Started searching for game server..." << std::endl;
+		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -71,6 +71,7 @@ bool CClient::connect() {
 		m_socketTcp.async_connect(m_remoteEndpointTcp,
 			boost::bind(&CClient::connectCompleteHandler, this, placeholders::error)
 		);
+		m_connectionState = PENDING;
 
 		return true;
 	} else {
@@ -78,12 +79,37 @@ bool CClient::connect() {
 	}
 }
 
+bool CClient::startUdpClient() {
+	if (!m_socketUdp.is_open()) {
+		error_code error;
+
+		m_socketUdp.open(m_localEndpointUdp.protocol(), error);
+		if (error) {
+			handleConnectionError(error);
+			return false;
+		}
+
+		m_socketUdp.bind(m_localEndpointUdp, error);
+		if (error) {
+			handleConnectionError(error);
+			return false;
+		}
+
+		m_socketUdp.set_option(socket_base::broadcast(true), error);
+		if (error) {
+			handleConnectionError(error);
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void CClient::connectCompleteHandler(const error_code& error) {
 	if (!error) {
-		//m_socket.set_option(ip::tcp::no_delay(true));
 		std::cout << "Connected to server " << m_socketTcp.remote_endpoint() << std::endl;
 		
-		m_bConnected = true;
+		m_connectionState = CONNECTED;
 		readHeader();
 
 		m_connectionTimer.expires_from_now(boost::posix_time::seconds(0));
@@ -107,12 +133,12 @@ void CClient::udpDataRecievedHandler(const boost::system::error_code& error, std
 			m_udpMessage.commit(bytesTransferred);
 			boost::property_tree::read_json(std::istream(&m_udpMessage), jsonTree);
 
-			std::string stName = jsonTree.get<std::string>("Name", "?");
+			std::string stName = jsonTree.get<std::string>("name", "");
 
 			if (stName != "?") {
 				m_gameList.push_back(CGameObject(m_remoteEndpointUdp.address(), m_usPortTcp, stName));
 			}
-		} catch (boost::property_tree::json_parser_error error) {
+		} catch (boost::property_tree::ptree_error error) {
 			// received message is invalid -> ignore it
 		}
 
