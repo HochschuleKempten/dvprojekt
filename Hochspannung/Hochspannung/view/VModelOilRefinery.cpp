@@ -9,70 +9,65 @@ VModelOilRefinery::VModelOilRefinery()
 
 
 	//Initialisierung Fundament
-	m_zgFundament.Init(10.0f, 0.3f, 10.0f, &m_zmGreen);
+	m_zgFundament.Init(10.0f, 0.3f, 10.0f, &VMaterialLoader::m_zmAtomgrundGreen);
 
 	//Initialisierung Kamin
-	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, &m_zmGrey, 32, true);
+	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true);
 
 	//Initialisierung Pfosten
-	m_zgPfosten.Init(0.2f, 1.1f, 0.2f, &m_zmHolz);
+	m_zgPfosten.Init(0.2f, 1.1f, 0.2f, &VMaterialLoader::m_zmHolz);
 
 	//Initialisierung Balken
-	m_zgBalkenLang.Init(4.7f, 0.1f, 0.1f, &m_zmHolz);
-	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, &m_zmHolz);
+	m_zgBalkenLang.Init(4.7f, 0.1f, 0.1f, &VMaterialLoader::m_zmHolz);
+	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, &VMaterialLoader::m_zmHolz);
 
 	//Initialisierung Trassen
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 
 	//Initialisierung Drehelement
-	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, &m_zmGrey, 32, true, true);
+	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true, true);
 
 	//Initialisierung Schranke
-	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, &m_zmSchranke);
+	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, &VMaterialLoader::m_zmSchranke);
 
 	//Initialisierung FundamentPumpe
-	m_zgFundamentPumpe.Init(1.8f, 0.07f, 1.2f, &m_zmGrey);
+	m_zgFundamentPumpe.Init(1.8f, 0.07f, 1.2f, &VMaterialLoader::m_zmAtomgrundGrey);
 
 	//Initialisierung Streben
-	m_zgStrebe.Init(0.07f, 0.05f, 2.0f, &m_zmGrey, 32, true, true);
+	m_zgStrebe.Init(0.07f, 0.05f, 2.0f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true, true);
 
 	//Initialisierung DrehpunktHammer
-	m_zgDrehpunktHammer.Init(0.2f, 0.2f, 0.65f, &m_zmGrey, 32, true, true);
+	m_zgDrehpunktHammer.Init(0.2f, 0.2f, 0.65f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true, true);
 
 	//Initialisierung Balancier
-	m_zgBalancier.Init(3.5f, 0.2f, 0.2f, &m_zmGrey);
+	m_zgBalancier.Init(3.5f, 0.2f, 0.2f, &VMaterialLoader::m_zmAtomgrundGrey);
 
 	//Initialisierung Kopf;
-	m_zgKopf.Init(0.8f, 0.35f, 0.35f, &m_zmGrey);
+	m_zgKopf.Init(0.8f, 0.35f, 0.35f, &VMaterialLoader::m_zmAtomgrundGrey);
 
 	//Initialisierung Kopfspitze;
-	m_zgKopfspitze.Init(0.155f, &m_zmGrey);
+	m_zgKopfspitze.Init(0.155f, &VMaterialLoader::m_zmAtomgrundGrey);
 
 	//Initialisierung Kolbenstange;
-	m_zgKolbenstange.Init(0.03f, 0.03f, 1.8f, &m_zmGrey, 32, true, true);
+	m_zgKolbenstange.Init(0.03f, 0.03f, 1.8f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true, true);
 
 	//Initialisierung Kanal;
-	m_zgKanal.Init(0.07f, 0.07f, 0.5f, &m_zmGrey, 32, true, true);
+	m_zgKanal.Init(0.07f, 0.07f, 0.5f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true, true);
 
 	//Initialisierung Kanalrahmen;
-	m_zgKanalrahmen.Init(0.09f, 0.09f, 0.02f, &m_zmGrey, 32, true, true);
+	m_zgKanalrahmen.Init(0.09f, 0.09f, 0.02f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true, true);
 
 	//Initialisierung Pleuel;
-	m_zgPleuel.Init(0.03f, 0.03f, 1.2f, &m_zmGrey, 32, true, true);
+	m_zgPleuel.Init(0.03f, 0.03f, 1.2f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true, true);
 
 	//Initialisierung Motor
-	m_zgGetriebe.Init(0.6f, 0.6f, 0.6f, &m_zmGrey);
+	m_zgGetriebe.Init(0.6f, 0.6f, 0.6f, &VMaterialLoader::m_zmAtomgrundGrey);
 
 	//Initialisierung DrehpunktPleuel
-	m_zgDrehpunktPleuel.Init(0.15f, 0.15f, 0.3f, &m_zmGrey, 32, true, true);
+	m_zgDrehpunktPleuel.Init(0.15f, 0.15f, 0.3f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true, true);
 
 
-	m_zmWhite.MakeTextureDiffuse("Textures\\white_image.jpg");
-	m_zmGrey.MakeTextureDiffuse("Textures\\grey_image.jpg");
-	m_zmSchranke.MakeTextureDiffuse("Textures\\schranke.jpg");
-	m_zmGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
-	m_zmHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
 
 
 

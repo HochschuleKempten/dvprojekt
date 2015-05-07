@@ -114,7 +114,7 @@ public:
 	//TODO (Solarkraftwerk) implement this
 	virtual float getHeight() override
 	{
-		return 0.0f;
+		return 0.35f;
 	}
 	virtual float getWidth() override
 	{

@@ -78,6 +78,13 @@ CMaterial VMaterialLoader::m_zmCable;
 CMaterial VMaterialLoader::m_zmSolarzelle;
 CMaterial VMaterialLoader::m_zmSolarGrund;
 
+//Atomkraftwerktexturen
+CMaterial VMaterialLoader::m_zmAtomgrundWhite;
+CMaterial VMaterialLoader::m_zmAtomgrundGrey;
+CMaterial VMaterialLoader::m_zmSchranke;
+CMaterial VMaterialLoader::m_zmAtomgrundGreen;
+CMaterial VMaterialLoader::m_zmHolz;
+
 //PlayerColor
 std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
 
@@ -183,6 +190,13 @@ void VMaterialLoader::init()
 	//Solarkraftwerktexturen
 	m_zmSolarGrund.MakeTextureDiffuse("textures\\white_image.jpg");
 	m_zmSolarzelle.MakeTextureDiffuse("textures\\black_image.jpg");
+
+	//Atomkraftwerktexturen
+	m_zmAtomgrundWhite.MakeTextureDiffuse("textures\\white_image.jpg");
+	m_zmAtomgrundGrey.MakeTextureDiffuse("Textures\\grey_image.jpg");
+	m_zmSchranke.MakeTextureDiffuse("Textures\\schranke.jpg");
+	m_zmAtomgrundGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
+	m_zmHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
 	
 	//Building - Foundation
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));

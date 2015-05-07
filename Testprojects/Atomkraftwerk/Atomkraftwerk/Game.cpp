@@ -49,6 +49,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 
 	//Adding
 	m_zpCameraFront.AddCamera(&m_zcFront);
+	
 
 
 }

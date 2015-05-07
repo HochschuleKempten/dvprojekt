@@ -1,11 +1,14 @@
 #include "StdAfx.h"
 #include "Game.h"
-
+#include <filesystem>
+#include "../../../Hochspannung/Hochspannung/view/VMaterialLoader.h"
 
 
 CGame::CGame(void)
 {
 	// Hier eventuelle Vorinitialisierungen Deiner Vektoria-Objekte einfügen:
+	std::tr2::sys::current_path(std::tr2::sys::path("../../../Hochspannung/Hochspannung"));
+	VMaterialLoader::init();
 }
 
 CGame::~CGame(void)
