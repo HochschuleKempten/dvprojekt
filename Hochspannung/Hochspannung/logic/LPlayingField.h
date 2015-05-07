@@ -94,6 +94,29 @@ private:
 		}
 	};
 
+	template<typename T>
+	void setPosition(const int x, const int y, const int playerId)
+	{
+		
+	}
+	template<>
+	void setPosition<LCity>(const int x, const int y, const int playerId)
+	{
+		if (playerId == LPlayer::Local)
+		{
+			localCityPosition = std::make_pair(x, y);
+		}
+		else if (playerId == LPlayer::External)
+		{
+			remoteCityPosition = std::make_pair(x, y);
+		}
+	}
+	template<>
+	void setPosition<LTransformerStation>(const int x, const int y, const int playerId)
+	{
+		transformerStationPosition = std::make_pair(x, y);
+	}
+
 	bool hasFriendlyNeighbor(const int x, const int y);
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const std::pair<int, int>& coordinates);
@@ -161,6 +184,7 @@ public:
 		}
 
 		if ((hasFriendlyNeighbor(x, y) || !isInitDone()) && placeBuildingHelper<T>(this)(x, y, arguments...)) {
+			setPosition<T>(x, y, playerId);
 
 			if (playerId & LPlayer::Local) {
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());

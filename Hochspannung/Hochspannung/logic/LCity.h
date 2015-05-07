@@ -12,7 +12,7 @@ class LCity : public ILBuilding, public IVTickObserver
 {
 private:
 	int populationTotal = LBalanceLoader::getStartPopulation();
-	int energy = 0;
+	int energy = -1;
 	std::shared_ptr<IVCity> vCity;
 
 public:
