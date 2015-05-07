@@ -2,6 +2,7 @@
 
 #include "LGeneral.h"
 #include "LUtility.h"
+#include "LIdentifier.h"
 
 NAMESPACE_LOGIC_B
 
@@ -48,6 +49,7 @@ private:
 	bool buildingPlaced = false;
 	FieldType fieldType = GRASS;
 	FieldLevel fieldLevel = LEVEL1;
+	int buildingId = -1;
 	int energyStock = 0;
 	int energyLeft = 0;
 
@@ -114,6 +116,7 @@ public:
 		}
 
 		lBuilding = new T(this, x, y, arguments...);
+		buildingId = LIdentifier::getIdentifierForType<T>();
 		buildingPlaced = true;
 		return true;
 	}
@@ -124,6 +127,7 @@ public:
 	void setFieldType(FieldType fieldType);
 	FieldLevel getFieldLevel() const;
 	void setFieldLevel(FieldLevel fieldLevel);
+	int getBuildingId() const;
 	bool removeBuilding();
 	ILBuilding * getBuilding();
 	void setIsPlacingAllowed(bool allowed);

@@ -19,7 +19,7 @@ private:
 	LPlayingField* lPlayingField = nullptr;
 	std::vector<LPlayer> lPlayers;
 	Network::CNetworkService& networkService;
-	bool isClient = false;
+	void placeBuilding(const int buildingId, const int x, const int y, const int playerId);
 
 public:
 	explicit LMaster(IVMaster& vMaster);
@@ -34,6 +34,7 @@ public:
 	void host();
 	void connect(std::string ip);
 	void sendSetObject(const int objectId, const int x, const int y, const std::string& value);
+	void sendSetMapRow(const int row, std::vector<Network::FieldTransfer> rowData);
 	void sendDeleteObject(const int x, const int y);
 
 	LPlayingField* getLPlayingField();

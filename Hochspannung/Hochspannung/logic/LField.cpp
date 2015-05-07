@@ -57,6 +57,10 @@ void LField::setFieldLevel(FieldLevel fieldLevel)
 	energyLeft = energyStock;
 }
 
+int LField::getBuildingId() const
+{
+	return buildingId;
+}
 
 bool LField::removeBuilding()
 {
