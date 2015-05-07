@@ -180,32 +180,35 @@ public:
 			return false;
 		}
 
-		if ((hasFriendlyNeighbor(x, y) || !isInitDone()) && placeBuildingHelper<T>(this)(x, y, arguments...)) {
-			setPosition<T>(x, y, playerId);
+		if (placeBuildingHelper<T>(this)(x, y, arguments...))
+		{
 
-			if (playerId & LPlayer::Local) {
+			if ((hasFriendlyNeighbor(x, y) || !isInitDone()) && (playerId & LPlayer::Local))
+			{
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
 				//subtract money only if the local player placed the building
 				lMaster->getPlayer(LPlayer::Local)->subtractMoney(LBalanceLoader::getCost<T>());
 				getField(x, y)->getBuilding()->addValue(LBalanceLoader::getCost<T>());
 
-				if (localCityPosition.first > -1 && localCityPosition.second > -1) {
+				if (localCityPosition.first > -1 && localCityPosition.second > -1)
+				{
 					calculateEnergyValueCity();
 				}
 			}
 
 			//assign player id
 			getField(x, y)->getBuilding()->setPlayerId(playerId);
+			
+			setPosition<T>(x, y, playerId);
 
 
 			//-----network-----
-
-			if (!isLocalOperation) {
+			if (!isLocalOperation) 
+			{
 				//TODO (L) Test if this is working
 				lMaster->sendSetObject(LIdentifier::getIdentifierForType<T>(), x, y, std::to_string(playerId));
 			}
-
 			//-----network-----
 
 			return true;

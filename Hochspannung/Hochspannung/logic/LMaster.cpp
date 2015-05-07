@@ -30,11 +30,14 @@ LMaster::~LMaster()
 
 void LMaster::startNewGame()
 {
-	/*host();
-	while (networkService.getConnectionState() != Network::CONNECTED);
+	//host();
+	//while (networkService.getConnectionState() != Network::CONNECTED);
+
+	//DEBUG_OUTPUT("---------------Client connected to server.---------------");
 
 	DEBUG_OUTPUT("---------------Client connected to server.---------------");*/
-	//connect("172.16.39.138");
+	connect("172.16.39.138");
+
 	if (lPlayingField == nullptr)
 	{
 		lPlayingField = new LPlayingField(this);
@@ -288,6 +291,12 @@ void LMaster::sendSetMapRow(const int row, std::vector<Network::FieldTransfer> r
 	{
 		bool b = networkService.sendSetMapRow(row, rowData);
 		ASSERT(b == true, "Error: sendSetMapRow.");
+		DEBUG_OUTPUT("----Sent: row: " + std::to_string(row)+"-------");
+		for (Network::FieldTransfer ft : rowData)
+		{
+			DEBUG_OUTPUT("ObjectId: " + std::to_string(ft.iObjectID) + ", PlayerId: " + std::to_string(ft.iPlayerID) + ", FieldLevel: " + std::to_string(ft.iFieldLevel) + ", FieldType: " + std::to_string(ft.iFieldType));
+		}
+		DEBUG_OUTPUT("----------");
 	}
 }
 
