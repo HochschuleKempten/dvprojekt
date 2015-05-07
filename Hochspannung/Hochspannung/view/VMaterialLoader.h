@@ -108,6 +108,9 @@ public:
 	//Cursor
 	static CMaterial m_zmDefaultCursor;
 	static CMaterial m_zmHammerCursor;
+
+	//CraftMenue
+	static CMaterial m_zmCraftMenueBackground;
 };
 
 

@@ -54,7 +54,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	//Cursor
-	switchCursor(CursorType::Default);
+	switchCursor("textures/gui/default_zeiger.png", true);
 
 	//Bottom Bar
 
@@ -86,7 +86,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.22F, 0.05F, 0.51F, 0.90F), "Register");
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonCraftmenu,
-	                                                                                      &VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::materialRed, SWITCH_TO_REGISTER_BUILDING, "TabBuilding");
+	                                                                                      &VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::m_zmCraftMenueBackground, SWITCH_TO_REGISTER_BUILDING, "TabBuilding");
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonSabotage,
 	                                                                                      &VMaterialLoader::materialIngameButtonSabotageHover, &VMaterialLoader::materialGreen, SWITCH_TO_REGISTER_SABOTAGE, "TabSabotage");
 	dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonStatistics,
@@ -432,7 +432,7 @@ void VScreenIngame::handleInput()
 
 				switch (m_selectedBuilding) {
 					case VIdentifier::VPowerLine:
-						vUi->vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y, ILBuilding::NORTH | ILBuilding::EAST | ILBuilding::SOUTH | ILBuilding::WEST);
+						vUi->vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y);
 						break;
 					case VIdentifier::VWindmillPowerPlant:
 						vUi->vMaster->getPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);

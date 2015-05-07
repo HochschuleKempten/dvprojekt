@@ -12,30 +12,38 @@ NAMESPACE_VIEW_B
 		m_viewport->InitFull(&m_camera);
 		vUi->m_zf.AddViewport(m_viewport);
 
+		//Cursor
+		//switchCursor(CursorType::Default);
+		switchCursor("textures/gui/default_zeiger.png",true);
+
 		m_flash = new COverlay();
 		m_background = new CBackground();
 		m_headline = new COverlay();
 
-		m_background->InitFull("textures\\MainMenueBackground.png");
+		m_background->InitFull(&VMaterialLoader::m_zmCraftMenueBackground);
 		m_flash->Init("textures\\Blitz.png", CFloatRect(0.75F, 0.2F, 0.20F, 0.7F));
 		m_headline->Init("textures\\Hochvolt.png", CFloatRect(0.20F, 0.05F, 0.6F, 0.15F));
+
+		
 
 		m_viewport->AddBackground(m_background);
 		m_viewport->AddOverlay(m_flash);
 		m_viewport->AddOverlay(m_headline);
 
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
-		/*getContainer("Menue")->addButton(CFloatRect(0.33F, 0.27F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, SWITCH_TO_LOBBY, "buttonSwitchToPlayMode");
-		getContainer("Menue")->addButton(CFloatRect(0.33F, 0.42F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueOptionen, &VMaterialLoader::materialButtonMainMenueOptionenHover, SWITCH_TO_OPTIONS, "buttonSwitchToOptions");
-		getContainer("Menue")->addButton(CFloatRect(0.33F, 0.57F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, SWITCH_TO_CREDITS, "buttonSwitchToCredits");
-		getContainer("Menue")->addButton(CFloatRect(0.33F, 0.72F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "buttonQuitGame");
-	*/
+	
 		getContainer("Menue")->addButton(CFloatRect(-0.30F, 0.27F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, SWITCH_TO_LOBBY, "buttonSwitchToPlayMode");
 		getContainer("Menue")->addButton(CFloatRect(-0.30F, 0.42F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueOptionen, &VMaterialLoader::materialButtonMainMenueOptionenHover, SWITCH_TO_OPTIONS, "buttonSwitchToOptions");
 		getContainer("Menue")->addButton(CFloatRect(-0.30F, 0.57F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, SWITCH_TO_CREDITS, "buttonSwitchToCredits");
 		getContainer("Menue")->addButton(CFloatRect(-0.30F, 0.72F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "buttonQuitGame");
 
-		
+
+		m_flash->SetLayer(0.3F);
+		m_headline->SetLayer(0.3F);
+		getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode")->setLayer(0.3F);
+		getContainer("Menue")->getGuiObject("buttonSwitchToOptions")->setLayer(0.3F);
+		getContainer("Menue")->getGuiObject("buttonSwitchToCredits")->setLayer(0.3F);
+		getContainer("Menue")->getGuiObject("buttonQuitGame")->setLayer(0.3F);
 }
 
 
@@ -87,6 +95,7 @@ NAMESPACE_VIEW_B
 
 	void VScreenMainMenue::tick()
 	{
+		updateCursorImagePos(&vUi->m_zkCursor);
 
 		if (!vUi->m_zkCursor.ButtonPressedLeft())
 		{

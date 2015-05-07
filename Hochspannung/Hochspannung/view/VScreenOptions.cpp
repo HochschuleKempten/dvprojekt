@@ -12,7 +12,9 @@ VScreenOptions::VScreenOptions(VUI* vUi) : IViewScreen(vUi)
 	m_viewport->InitFull(&m_camera);
 	vUi->m_zf.AddViewport(m_viewport);
 
-
+	//Cursor
+	switchCursor("textures/gui/default_zeiger.png", true);
+	
 	m_background = new CBackground();
 
 	m_background->InitFull("textures\\MainMenueBackground.png");
@@ -65,6 +67,8 @@ VScreenOptions::~VScreenOptions()
 
 	void VScreenOptions::tick()
 	{
+		updateCursorImagePos(&vUi->m_zkCursor);
+
 		map<string, IViewGUIContainer*> tempGuicontainer;
 		map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
 

@@ -140,7 +140,7 @@ public:
 			m_pCursorImage = new COverlay();
 			m_pCursorImage->Init(&VMaterialLoader::m_zmDefaultCursor, CFloatRect(0, 0, 0.05F, 0.05F));
 			m_viewport->AddOverlay(m_pCursorImage);
-			m_pCursorImage->SetLayer(0.1F);
+			m_pCursorImage->SetLayer(0.0F);
 			break;
 		case Hammer:
 			delete m_pCursorImage;
@@ -148,7 +148,7 @@ public:
 			m_pCursorImage = new COverlay();
 			m_pCursorImage->Init(&VMaterialLoader::m_zmHammerCursor, CFloatRect(0, 0, 0.05F, 0.05F));
 			m_viewport->AddOverlay(m_pCursorImage);
-			m_pCursorImage->SetLayer(0.1F);
+			m_pCursorImage->SetLayer(0.0F);
 			break;
 		case Sabotage:
 			delete m_pCursorImage;
@@ -156,11 +156,20 @@ public:
 			m_pCursorImage = new COverlay();
 			m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0, 0, 0.05F, 0.05F));
 			m_viewport->AddOverlay(m_pCursorImage);
-			m_pCursorImage->SetLayer(0.1F);
+			m_pCursorImage->SetLayer(0.0F);
 			break;
 
 		}
 	}
+
+	void switchCursor(char *imagefile, bool bChromaKeying )
+	{
+		m_pCursorImage = new COverlay();
+		m_pCursorImage->Init(imagefile, CFloatRect(0, 0, 0.05F, 0.05F), bChromaKeying);
+		m_viewport->AddOverlay(m_pCursorImage);
+		m_pCursorImage->SetLayer(0.0F);
+	}
+
 	/*virtual void updateCursorImagePos(float PosX,float PosY)
 	{
 		m_cursorImage->GetRect().SetXPos(PosX);

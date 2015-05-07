@@ -88,6 +88,9 @@ std::unordered_map<int, CMaterial> VMaterialLoader::materialFoundationPlayer;
 CMaterial VMaterialLoader::m_zmDefaultCursor;
 CMaterial VMaterialLoader::m_zmHammerCursor;
 
+//CraftMenue
+CMaterial VMaterialLoader::m_zmCraftMenueBackground;
+
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
@@ -203,8 +206,12 @@ void VMaterialLoader::init()
 	materialFoundationPlayer[LPlayer::External].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 
 	//Cursor
-	m_zmDefaultCursor.MakeTextureSprite("textures\\red_image.jpg");
-	m_zmHammerCursor.MakeTextureSprite("textures\\Hammer.png");
+	m_zmDefaultCursor.MakeTextureSprite("textures\\gui\\default_zeiger.png");
+	m_zmHammerCursor.MakeTextureSprite("textures\\gui\\Hammer.png");
+
+	//CraftMenue
+	m_zmCraftMenueBackground.MakeTextureSprite("textures\\gui\\texture_gui_background_darkgrey.png");
+
 }
 
 
