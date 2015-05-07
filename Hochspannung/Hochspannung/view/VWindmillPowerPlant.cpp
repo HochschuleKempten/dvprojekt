@@ -9,10 +9,10 @@ NAMESPACE_VIEW_B
 VWindmillPowerPlant::VWindmillPowerPlant(VMaster* vMaster, LWindmillPowerPlant* lPlant)
 	: IVPowerPlant(lPlant), IViewBuilding(vMaster, viewModel.getMainPlacement())
 {
-	viewModel.getMainPlacement()->Scale(0.5f);
-	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0));
+	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0));
 	viewModel.getMainPlacement()->RotateZDelta(CASTS<float>(M_PI));
-	viewModel.getMainPlacement()->TranslateZDelta(7.0f);
+	viewModel.getMainPlacement()->TranslateZDelta(CASTS<float>(viewModel.getHeight() * 0.7));
+	viewModel.getMainPlacement()->ScaleDelta(0.5f);
 
 	vMaster->registerObserver(this);
 }
