@@ -175,9 +175,6 @@
     <ClInclude Include="logic\IVTickObserver.h">
       <Filter>logic\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="logic\ILPowerLine.h">
-      <Filter>logic\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="logic\IVPowerLine.h">
       <Filter>logic\Interfaces</Filter>
     </ClInclude>

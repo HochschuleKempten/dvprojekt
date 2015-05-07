@@ -36,7 +36,6 @@ void LMaster::startNewGame()
 
 	//DEBUG_OUTPUT("---------------Client connected to server.---------------");
 
-	DEBUG_OUTPUT("---------------Client connected to server.---------------");
 	//connect("172.16.39.138");
 
 	if (lPlayingField == nullptr)

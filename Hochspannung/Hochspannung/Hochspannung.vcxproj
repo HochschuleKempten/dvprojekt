@@ -155,7 +155,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="logic\Array2D.h" />
     <ClInclude Include="logic\cpplinq.hpp" />
-    <ClInclude Include="logic\ILPowerLine.h" />
     <ClInclude Include="logic\IVCity.h" />
     <ClInclude Include="logic\IVFactory.h" />
     <ClInclude Include="logic\IVPlayingField.h" />

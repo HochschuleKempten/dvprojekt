@@ -54,9 +54,9 @@ public:
 	}
 
 protected:
-	LField* lField;
+	LField* lField = nullptr;
 	int playerId = LPlayer::PlayerId::Local;
-	int orientation;
+	int orientation = 0;
 	/** @brief Stores the total value of the building (initCost + upgradeCost etc) */
 	int value = 0;
 
