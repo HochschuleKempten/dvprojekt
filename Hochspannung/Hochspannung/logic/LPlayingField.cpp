@@ -257,7 +257,7 @@ void LPlayingField::createFields()
 
 	//todo (L) generate this randomly
 
-	localCityPosition = retrieveFreeCoordinates(5, 5);
+	localCityPosition = retrieveFreeCoordinates(5, 5);//TODO (JS) store position in field
 	std::pair<int, int> firstPowerLineCoordinates = retrieveFreeCoordinates(localCityPosition.first, localCityPosition.second + 1);
 	std::pair<int, int> secondPowerLineCoordinates = retrieveFreeCoordinates(firstPowerLineCoordinates.first + 1, firstPowerLineCoordinates.second);
 	std::pair<int, int> firstPowerPlantCoordinates = retrieveFreeCoordinates(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second + 1);

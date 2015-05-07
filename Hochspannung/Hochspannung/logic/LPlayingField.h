@@ -95,10 +95,7 @@ private:
 	};
 
 	template<typename T>
-	void setPosition(const int x, const int y, const int playerId)
-	{
-		
-	}
+	void setPosition(const int x, const int y, const int playerId) {}
 	template<>
 	void setPosition<LCity>(const int x, const int y, const int playerId)
 	{
