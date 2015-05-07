@@ -172,8 +172,6 @@ public:
 		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");
 
-		DEBUG_OUTPUT("playerId222 = " << playerId);
-
 		//Check costs
 		if (playerId & LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < LBalanceLoader::getCost<T>()) {
 			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") +
@@ -182,40 +180,38 @@ public:
 			return false;
 		}
 
-		if (placeBuildingHelper<T>(this)(x, y, playerId, arguments...))
-		{
+		bool buildingPlaced = false;
 
-			if ((hasFriendlyNeighbor(x, y) || !isInitDone()) && (playerId & LPlayer::Local))
-			{
+		if (playerId & LPlayer::Local) {
+			if ((hasFriendlyNeighbor(x, y) || !isInitDone()) && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
+				buildingPlaced = true;
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
 				//subtract money only if the local player placed the building
 				lMaster->getPlayer(LPlayer::Local)->subtractMoney(LBalanceLoader::getCost<T>());
 				getField(x, y)->getBuilding()->addValue(LBalanceLoader::getCost<T>());
 
-				if (localCityPosition.first > -1 && localCityPosition.second > -1)
-				{
+				if (localCityPosition.first > -1 && localCityPosition.second > -1) {
 					calculateEnergyValueCity();
 				}
 			}
-			
+		}
+		else if (playerId & LPlayer::External && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
+			buildingPlaced = true;
+		}
+
+		if (buildingPlaced) {
 			setPosition<T>(x, y, playerId);
-
-
 			//-----network-----
-			if (!isLocalOperation) 
-			{
+			if (!isLocalOperation) {
 				//TODO (L) Test if this is working
 				lMaster->sendSetObject(LIdentifier::getIdentifierForType<T>(), x, y, std::to_string(playerId));
 			}
 			//-----network-----
-
 			return true;
 		}
-		else 
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);
