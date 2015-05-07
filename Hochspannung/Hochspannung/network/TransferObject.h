@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 namespace Network {
 
@@ -17,9 +18,15 @@ enum Action {
 	CONTINUE_GAME,
 
 	SET_MAPSIZE,
+	SET_MAPROW,
 
 	CHECK_CONNECTION,
 	CHECK_RESPONSE
+};
+
+struct FieldTransfer {
+	int iObjectID;
+	int iPlayerID;
 };
 
 class CTransferObject {
@@ -42,6 +49,12 @@ public:
 
 	std::string getValue();
 	void setValue(std::string sValue);
+
+	/**
+	 * @brief A get function for the m_sValue member of TransferObject.
+ 	 * @return std::vector<FieldTransfer>
+	 */
+	std::vector<FieldTransfer> getValueAsVector();
 
 private:
 	Action m_Action;

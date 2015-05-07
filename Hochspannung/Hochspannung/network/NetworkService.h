@@ -10,6 +10,7 @@ enum Type {
 	CLIENT
 };
 
+
 class CNetworkService {
 
 private:
@@ -154,6 +155,14 @@ public:
 	 * @return true if message could be sent, false otherwise.
 	 */
 	bool sendSetMapsize(int iSizeX, int iSizeY);
+
+	/**
+	 * @brief Send the command to set an entire row of the map.
+	 * @param iRow the number of the row to set.
+	 * @param vRowData the data of the fields of the row.
+	 * @return true if message could be sent, false otherwise.
+	 */
+	bool sendSetMapRow(int iRow, std::vector<FieldTransfer> vRowData);
 
 	/**
 	 * @brief Returns the next action from deque, if available.

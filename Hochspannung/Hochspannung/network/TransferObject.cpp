@@ -1,4 +1,6 @@
+#pragma once
 #include "TransferObject.h"
+#include <boost\lexical_cast.hpp>
 
 namespace Network {
 
@@ -47,6 +49,27 @@ std::string CTransferObject::getValue() {
 
 void CTransferObject::setValue(std::string sValue) {
 	m_sValue = sValue;
+}
+
+std::vector<FieldTransfer> CTransferObject::getValueAsVector() {
+	std::vector<FieldTransfer> fieldTransferObjects;
+	FieldTransfer fieldTransfer;
+
+	std::vector<std::string> fieldTransferStrings;
+	std::stringstream ss(m_sValue); // Turn the string into a stream.
+	std::string tok;
+
+	while (getline(ss, tok, '$')) {
+		fieldTransferStrings.push_back(tok);
+	}
+
+	for (std::vector<std::string>::iterator it = fieldTransferStrings.begin(); it != fieldTransferStrings.end(); ++it) {
+		fieldTransfer.iObjectID = boost::lexical_cast<int>(*it);
+		fieldTransfer.iPlayerID = boost::lexical_cast<int>(*(++it));
+		fieldTransferObjects.push_back(fieldTransfer);
+	}
+
+	return fieldTransferObjects;
 }
 
 }

@@ -148,6 +148,19 @@ bool CNetworkService::sendSetMapsize(int iSizeX, int iSizeY) {
 	return sendAsMessage(Action::SET_MAPSIZE, -1, iSizeX, iSizeY);
 }
 
+bool CNetworkService::sendSetMapRow(int iRow, std::vector<FieldTransfer> vRowData) {
+	std::string stRowData = "";
+	for (std::vector<FieldTransfer>::iterator it = vRowData.begin(); it != vRowData.end(); ++it) {
+		stRowData += boost::lexical_cast<std::string>(it->iObjectID) + "$" + boost::lexical_cast<std::string>(it->iPlayerID) + "$";
+	}
+
+	if (!stRowData.empty() && stRowData.back() == (char)"$") {
+		stRowData.pop_back();
+	}
+
+	return sendAsMessage(Action::SET_MAPROW, -1, iRow, 0, stRowData);
+}
+
 CTransferObject CNetworkService::getNextActionToExecute() {
 	if (m_pNode != 0) {
 		return m_pNode->getNextActionToExecute();
