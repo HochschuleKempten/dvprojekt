@@ -25,8 +25,10 @@ enum Action {
 };
 
 struct FieldTransfer {
-	int iObjectID;
-	int iPlayerID;
+	int iObjectID = -99;
+	int iPlayerID = -99;
+	int iFieldLevel = -99;
+	int iFieldType = -99;
 };
 
 class CTransferObject {
@@ -51,9 +53,9 @@ public:
 	void setValue(std::string sValue);
 
 	/**
-	 * @brief A get function for the m_sValue member of TransferObject.
- 	 * @return std::vector<FieldTransfer>
-	 */
+	* @brief A get function for the m_sValue member of TransferObject.
+	* @return std::vector<FieldTransfer>
+	*/
 	std::vector<FieldTransfer> getValueAsVector();
 
 private:
