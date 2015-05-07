@@ -88,11 +88,12 @@ private:
 		bool operator()(const int x, const int y, const Args ... arguments)
 		{
 			int orientation = playingField->linkPowerlines(x, y);
+
 			return playingField->getField(x, y)->setBuilding<LPowerLine>(x, y, orientation, arguments...);
 		}
 	};
 
-
+	bool hasFriendlyNeighbor(const int x, const int y);
 	void sendFieldInformation(const int x, const int y); //helper method
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const std::pair<int, int>& coordinates);
@@ -157,7 +158,7 @@ public:
 			return false;
 		}
 
-		if (placeBuildingHelper<T>(this)(x, y, arguments...)) {
+		if (hasFriendlyNeighbor(x, y) && placeBuildingHelper<T>(this)(x, y, arguments...)) {
 
 			if (playerId & LPlayer::Local) {
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
