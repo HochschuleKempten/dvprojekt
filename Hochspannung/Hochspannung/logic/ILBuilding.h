@@ -53,7 +53,6 @@ public:
 		return name;
 	}
 
-	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 protected:
 	LField* lField;
 	int playerId = LPlayer::PlayerId::Local;

@@ -51,7 +51,9 @@ public:
 
 	inline void tryRemoveObject(const int x, const int y)
 	{
+		lPlayingField->beginRemoteOperation();
 		lPlayingField->removeBuilding(x, y);
+		lPlayingField->endRemoteOperation();
 	}
 
 	void placeObject(const std::shared_ptr<IViewBuilding>& objPtr, const int x, const int y);

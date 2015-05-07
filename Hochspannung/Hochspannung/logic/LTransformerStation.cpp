@@ -44,7 +44,6 @@ void LTransformerStation::performDisposal()
 	int superplus = lField->getLPlayingField()->getLocalCity()->getEnergySurplus();
 	if (superplus > 0)
 	{
-		//TODO (L) how to get the Player ID dynamicly?
 		lField->getLPlayingField()->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(superplus * LBalanceLoader::getMoneyPerWatt()));
 	}
 }
