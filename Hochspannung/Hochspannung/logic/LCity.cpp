@@ -31,13 +31,13 @@ void LCity::tick(const float fTimeDelta)
 			int seconds = CASTS<int>(timeLastCheck);
 			ASSERT(seconds >= 1, "The number of seconds is invalid.");
 
-			setPopulationTotal(populationTotal + seconds * populationIncrease);
+			setPopulationTotal(populationTotal + seconds * LBalanceLoader::getPopulationGrowth());
 
 			timeLastCheck = 0;
 		}
 
 		//Check energy storage
-		int superplus = energy - (populationTotal * consumptionCitizen);
+		int superplus = energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen());
 		if (superplus < 0)
 		{
 			//Player has lost
@@ -52,7 +52,7 @@ void LCity::setEnergy(const int energy)
 {
 	this->energy = energy;
 
-	if (playerId == LPlayer::Local)
+	if (playerId & LPlayer::Local)
 	{
 		vCity->updateEnergy(energy);
 	}

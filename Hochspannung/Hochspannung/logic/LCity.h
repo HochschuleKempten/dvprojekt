@@ -1,6 +1,7 @@
 #pragma once
 #include "ILBuilding.h"
 #include "IVTickObserver.h"
+#include "LBalanceLoader.h"
 
 NAMESPACE_LOGIC_B
 
@@ -10,9 +11,7 @@ class IVCity;
 class LCity : public ILBuilding, public IVTickObserver
 {
 private:
-	int populationIncrease = 1;	//x peoples per second
-	int consumptionCitizen = 1; //x watt per citizen
-	int populationTotal = 100;
+	int populationTotal = LBalanceLoader::getStartPopulation();
 	int energy = 0;
 	std::shared_ptr<IVCity> vCity;
 
@@ -26,8 +25,6 @@ public:
 	int getEnergy() const;
 	void setPopulationTotal(const int populationTotal);
 	int getEnergySurplus();
-
-	static const int cost = 0;
 };
 
 

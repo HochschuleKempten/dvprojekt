@@ -322,8 +322,8 @@ void LPlayingField::createFields()
 
 
 	const int numberOfPowerPlants = (fieldLength * fieldLength) / 8;
-	const std::unordered_map<LField::FieldType, double> fieldTypes = LBalanceLoader::getFieldTypes();
-	const std::vector<LField::FieldLevel> fieldLevels = LBalanceLoader::getFieldLevels();
+	const std::unordered_map<LField::FieldType, double> fieldTypes = LBalanceLoader::getFieldTypeRatio();
+	const std::unordered_map<LField::FieldLevel, double> fieldLevels = LBalanceLoader::getFieldLevelFactor();
 
 	std::chrono::system_clock::rep seed1 = std::chrono::system_clock::now().time_since_epoch().count();
 	std::mt19937_64 g1(seed1);
@@ -334,10 +334,12 @@ void LPlayingField::createFields()
 
 		for (int i = 0; i < currentNumberPowerPlants; i++) {
 			std::pair<int, int> newCoordinates = retrieveFreeCoordinates();
-			size_t level = g1() % fieldLevels.size();
-			fieldArray[newCoordinates.first][newCoordinates.second].init(fieldPair.first, fieldLevels[level]);
+			auto itFieldLevel = fieldLevels.begin();
+			std::advance(itFieldLevel, g1() % fieldLevels.size());
+
+			fieldArray[newCoordinates.first][newCoordinates.second].init(fieldPair.first, itFieldLevel->first);
 			sendFieldInformation(newCoordinates.first, newCoordinates.second);
-			DEBUG_OUTPUT("power plant placed " << i << ": " << fieldPair.first << ", " << level << " at " << newCoordinates.first << ":" << newCoordinates.second);
+			DEBUG_OUTPUT("power plant placed " << i << ": " << fieldPair.first << ", " << itFieldLevel->first << " at " << newCoordinates.first << ":" << newCoordinates.second);
 
 			placeGrassAroundPosition<true>(newCoordinates, 1);
 		}
@@ -352,9 +354,10 @@ void LPlayingField::createFields()
 				continue;
 			}
 
-			int level = rand() % fieldLevels.size();
 			std::pair<int, int> coordinates = retrieveFreeCoordinates(x, y);
-			fieldArray[coordinates.first][coordinates.second].init(LField::GRASS, fieldLevels[level]);
+			auto itFieldLevel = fieldLevels.begin();
+			std::advance(itFieldLevel, g1() % fieldLevels.size());
+			fieldArray[coordinates.first][coordinates.second].init(LField::GRASS, itFieldLevel->first);
 			sendFieldInformation(coordinates.first, coordinates.second);
 		}
 	}
@@ -472,7 +475,9 @@ void LPlayingField::printGraph()
 template <bool cross>
 void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space) //todo (IP) send these too
 {
-	const std::vector<LField::FieldLevel> fieldLevels = LBalanceLoader::getFieldLevels();
+	const std::unordered_map<LField::FieldLevel, double> fieldLevels = LBalanceLoader::getFieldLevelFactor();
+	std::chrono::system_clock::rep seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+	std::mt19937_64 g1(seed1);
 
 	for (int rowIdx = -space; rowIdx <= space; rowIdx++) {
 		for (int colIdx = -space; colIdx <= space; colIdx++) {
@@ -496,9 +501,11 @@ void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordina
 				continue;
 			}
 
-			int level = rand() % fieldLevels.size();
 			std::pair<int, int> newCoordinates = retrieveFreeCoordinates(x, y);
-			fieldArray[newCoordinates.first][newCoordinates.second].init(LField::GRASS, fieldLevels[level]);
+			auto itFieldLevel = fieldLevels.begin();
+			std::advance(itFieldLevel, g1() % fieldLevels.size());
+
+			fieldArray[newCoordinates.first][newCoordinates.second].init(LField::GRASS, itFieldLevel->first);
 			sendFieldInformation(newCoordinates.first, newCoordinates.second);
 		}
 	}

@@ -25,7 +25,9 @@ void LField::init(const FieldType fieldType, const FieldLevel fieldLevel)
 	this->fieldType = fieldType;
 	this->fieldLevel = fieldLevel;
 
-	energyStock = fieldType * fieldLevel;
+	const std::unordered_map<LField::FieldLevel, double> fieldLevels = LBalanceLoader::getFieldLevelFactor();
+	energyStock = fieldType * fieldLevels.at(fieldLevel);
+
 	energyLeft = energyStock;
 }
 
@@ -61,7 +63,7 @@ bool LField::removeBuilding()
 	if (lBuilding != nullptr)
 	{
 		//Player gets money back
-		lPlayingField->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(LBalanceLoader::getMoneyBackAmount() * lBuilding->getValue()));
+		lPlayingField->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(LBalanceLoader::getSellRevenue() * lBuilding->getValue()));
 
 		delete lBuilding;
 		lBuilding = nullptr;

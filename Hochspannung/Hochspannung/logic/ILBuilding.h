@@ -1,8 +1,10 @@
 #pragma once
 #include "LGeneral.h"
 #include "LPlayer.h"
+#include "LIdentifier.h"
 
 NAMESPACE_LOGIC_B
+
 class LField;
 
 class ILBuilding
@@ -94,6 +96,8 @@ public:
 	{
 		this->value += value;
 	}
+
+	virtual LIdentifier::LIdentifier getIdentifier() = 0;
 };
 
 

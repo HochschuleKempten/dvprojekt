@@ -36,6 +36,7 @@ public:
 
 	template<typename T> static int getCost() { return 0; }
 	template<> static int getCost<LPowerLine>() { return propertyTree.get<int>("Cost.PowerLine", 0); }
+	template<> static int getCost<LWindmillPowerPlant>() { return propertyTree.get<int>("Cost.WindmillPowerPlant", 0); }
 	template<> static int getCost<LSolarPowerPlant>() { return propertyTree.get<int>("Cost.SolarPowerPlant", 0); }
 	template<> static int getCost<LHydroelectricPowerPlant>() { return propertyTree.get<int>("Cost.HydroelectricPowerPlant", 0); }
 	template<> static int getCost<LCoalPowerPlant>() { return propertyTree.get<int>("Cost.CoalPowerPlant", 0); }
@@ -45,10 +46,17 @@ public:
 	static int getFieldStorage(const LField::FieldType fieldType);
 
 	static double getMoneyPerWatt();
-	static double getMoneyBackAmount();
-	static std::unordered_map<LField::FieldType, double> getFieldTypes();
-	static std::vector<LField::FieldLevel> getFieldLevels();
+	/**
+	 * @brief Specifies the factor of money returned when selling buildings.
+	 */
+	static double getSellRevenue();
+	static std::unordered_map<LField::FieldType, double> getFieldTypeRatio();
+	static std::unordered_map<LField::FieldLevel, double> getFieldLevelFactor();
 
+	//CityProperties
+	static int getPopulationGrowth();	//x peoples per second
+	static double getConsumptionPerCitizen();	//x watt per citizen
+	static int getStartPopulation();
 };
 
 
