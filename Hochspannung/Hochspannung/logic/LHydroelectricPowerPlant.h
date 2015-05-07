@@ -7,9 +7,15 @@ NAMESPACE_LOGIC_B
 class LHydroelectricPowerPlant :
 	public ILPowerPlant
 {
+
 public:
 	LHydroelectricPowerPlant(LField* lField, const int x, const int y);
 	~LHydroelectricPowerPlant();
+
+	LIdentifier::LIdentifier getIdentifier() override
+	{
+		return LIdentifier::LHydroelectricPowerPlant;
+	};
 };
 
 

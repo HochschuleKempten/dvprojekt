@@ -10,6 +10,12 @@ class LCoalPowerPlant : public ILPowerPlant
 public:
 	LCoalPowerPlant(LField* lField, const int x, const int y);
 	~LCoalPowerPlant();
+
+	LIdentifier::LIdentifier getIdentifier() override
+	{
+		return LIdentifier::LCoalPowerPlant;
+	};
+
 };
 
 
