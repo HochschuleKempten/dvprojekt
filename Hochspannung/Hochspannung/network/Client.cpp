@@ -44,16 +44,6 @@ bool CClient::searchGames() {
 			boost::bind(&CClient::udpDataRecievedHandler, this, placeholders::error, placeholders::bytes_transferred)
 		);
 
-		if (!m_thread.try_join_for(boost::chrono::duration<int>())) {
-			m_thread = boost::thread([this]() {
-				try {
-					m_ioService.run();
-				} catch (boost::system::system_error error) {
-					std::cout << "Unexpected exception occurred while running io_service: " << error.what() << std::endl;
-				}
-			});
-		}
-
 		std::cout << "Started searching for game server..." << std::endl;
 		return true;
 	} else {
@@ -67,11 +57,15 @@ std::vector<CGameObject>& CClient::getGameList() {
 
 bool CClient::connect() {
 	if (m_bEndpointValid) {
+
 		std::cout << "Trying to connect to server..." << std::endl;
 		m_socketTcp.async_connect(m_remoteEndpointTcp,
 			boost::bind(&CClient::connectCompleteHandler, this, placeholders::error)
 		);
 		m_connectionState = PENDING;
+
+		m_connectionTimer.expires_from_now(boost::posix_time::seconds(10));
+		m_connectionTimer.async_wait(boost::bind(&CClient::connectTimoutHandler, this, placeholders::error));
 
 		return true;
 	} else {
@@ -107,8 +101,10 @@ bool CClient::startUdpClient() {
 
 void CClient::connectCompleteHandler(const error_code& error) {
 	if (!error) {
+		m_connectionTimer.cancel();
+
 		std::cout << "Connected to server " << m_socketTcp.remote_endpoint() << std::endl;
-		
+
 		m_connectionState = CONNECTED;
 		readHeader();
 
@@ -116,6 +112,15 @@ void CClient::connectCompleteHandler(const error_code& error) {
 		m_connectionTimer.async_wait(boost::bind(&CNode::checkConnectionHandler, this, placeholders::error));
 	} else {
 		handleConnectionError(error);
+	}
+}
+
+void CClient::connectTimoutHandler(const error_code& error) {
+	if (!error) {
+		m_ioService.post([this]() {
+			m_socketTcp.cancel();
+		});
+		std::cout << "Connection attempt timed out." << std::endl;
 	}
 }
 

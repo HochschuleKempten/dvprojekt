@@ -52,6 +52,7 @@ private:
 	bool startUdpClient();
 
 	void connectCompleteHandler(const error_code& error);
+	void connectTimoutHandler(const error_code& error);
 	void udpDataRecievedHandler(const boost::system::error_code& error, std::size_t bytesTransferred);
 	void udpDataSentHandler(const boost::system::error_code& error, std::size_t bytesTransferred);
 

@@ -9,30 +9,26 @@
 namespace Network {
 
 CNode::CNode() :
-m_ioService(io_service()), m_socketTcp(m_ioService), m_socketUdp(m_ioService), m_connectionTimer(m_ioService),
+m_ioService(io_service()), m_work(m_ioService), m_socketTcp(m_ioService), m_socketUdp(m_ioService), m_connectionTimer(m_ioService),
 m_localEndpointTcp(ip::tcp::endpoint(ip::tcp::v4(), m_usPortTcp)),
 m_localEndpointUdp(ip::udp::endpoint(ip::udp::v4(), m_usPortUdp)),
 m_connectionState(CLOSED), m_bCheckResponseReceived(true), m_iLatestLatency(-1) {
-
+	m_thread = boost::thread([this]() {
+		try {
+			m_ioService.run();
+		} catch (boost::system::system_error error) {
+			std::cout << "Unexpected Exception occurred while running io_service: " << error.what() << std::endl;
+		}
+	});
 }
 
 CNode::~CNode() {
+	m_ioService.stop();
 	m_thread.join();
 }
 
 bool CNode::start() {
 	if (m_connectionState == CLOSED && connect()) {
-		// start the thread if not already running
-		if (!m_thread.try_join_for(boost::chrono::duration<int>())) {
-			m_thread = boost::thread([this]() {
-				try {
-					m_ioService.run();
-				} catch (boost::system::system_error error) {
-					std::cout << "Unexpected Exception occurred while running io_service!" << std::endl;
-				}
-			});
-		}
-
 		return true;
 	} else {
 		return false;
@@ -46,8 +42,6 @@ void CNode::stop() {
 		m_socketUdp.close();
 
 	});
-	m_thread.join();
-	m_ioService.reset();
 	m_connectionState = CLOSED;
 	std::cout << "Stopped node." << std::endl;
 }

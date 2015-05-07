@@ -98,6 +98,7 @@ public:
 
 	/**
 	 * @brief The handler for the connection checking operation. 
+	 * This handler is the start of the computation of the latency.
 	 * Don´t this call directly!
 	 * @param the error code.
 	 */
@@ -146,6 +147,7 @@ protected:
 	/**
 	 * @brief Read handler.
 	 * This handler is called when async_read completes. 
+	 * This handler is responsible for the computation of the latency.
 	 * Don`t call it directly!
 	 */
 	void readBodyCompleteHandler(const error_code& ec, std::size_t length);
@@ -166,6 +168,7 @@ protected:
 	std::string retrieveString(char* mes, unsigned int maxLen);
 
 	io_service m_ioService;
+	io_service::work m_work;
 	boost::thread m_thread;
 	ip::tcp::socket m_socketTcp;
 	ip::udp::socket m_socketUdp;
