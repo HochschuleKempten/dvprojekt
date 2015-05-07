@@ -28,8 +28,10 @@ static std::vector<int> strongConnectedSearch(const Graph& g, const int startIdx
 	int mainComponent = component[startIdx];
 	std::vector<int> vertices;
 
-	for (size_t i = 0; i < component.size(); i++) {
-		if (component[i] == mainComponent && i != CASTS<size_t>(startIdx)) {
+	for (size_t i = 0; i < component.size(); i++)
+	{
+		if (component[i] == mainComponent && i != CASTS<size_t>(startIdx))
+		{
 			vertices.push_back(CASTS<int>(i));
 		}
 	}
@@ -38,17 +40,20 @@ static std::vector<int> strongConnectedSearch(const Graph& g, const int startIdx
 }
 
 LPlayingField::LPlayingField(LMaster* lMaster)
-	: lMaster(lMaster), fieldArray([this] (LField& f) {
-		  f.setLPlayingField(this);
-	  }),
+	: lMaster(lMaster), fieldArray([this] (LField& f)
+		  {
+			  f.setLPlayingField(this);
+		  }),
 	  powerLineGraph(fieldLength * fieldLength),
 	  unusedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
 	  usedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
 	  connectedBuildings(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength))
 {
 	//At the beginning every field is unused
-	for (int x = 0; x < fieldLength; x++) {
-		for (int y = 0; y < fieldLength; y++) {
+	for (int x = 0; x < fieldLength; x++)
+	{
+		for (int y = 0; y < fieldLength; y++)
+		{
 			unusedCoordinates.emplace(x, y);
 		}
 	}
@@ -58,7 +63,8 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 }
 
 LPlayingField::~LPlayingField()
-{}
+{
+}
 
 void LPlayingField::showPlayingField()
 {
@@ -68,24 +74,32 @@ void LPlayingField::showPlayingField()
 	vPlayingField->buildPlayingField(); //Now build the playing field
 }
 
+bool LPlayingField::isInitDone()
+{
+	return unusedCoordinates.empty();
+}
 
 std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getFieldNeighbors(const int x, const int y)
 {
 	std::unordered_map<ILBuilding::Orientation, LField*> neighborsMap;
 
-	if (checkIndex(x - 1, y)) {
+	if (checkIndex(x - 1, y))
+	{
 		neighborsMap[ILBuilding::Orientation::NORTH] = getField(x - 1, y);
 	}
 
-	if (checkIndex(x, y + 1)) {
+	if (checkIndex(x, y + 1))
+	{
 		neighborsMap[ILBuilding::Orientation::EAST] = getField(x, y + 1);
 	}
 
-	if (checkIndex(x + 1, y)) {
+	if (checkIndex(x + 1, y))
+	{
 		neighborsMap[ILBuilding::Orientation::SOUTH] = getField(x + 1, y);
 	}
 
-	if (checkIndex(x, y - 1)) {
+	if (checkIndex(x, y - 1))
+	{
 		neighborsMap[ILBuilding::Orientation::WEST] = getField(x, y - 1);
 	}
 
@@ -97,9 +111,11 @@ int LPlayingField::linkPowerlines(const int x, const int y)
 	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = getFieldNeighbors(x, y);
 	int oriention = 0;
 
-	for (auto const& iterator : neighbors) {
+	for (auto const& iterator : neighbors)
+	{
 		//No Building
-		if (iterator.second->getBuilding() == nullptr) {
+		if (iterator.second->getBuilding() == nullptr)
+		{
 			continue;
 		}
 
@@ -124,15 +140,18 @@ void LPlayingField::endRemoteOperation()
 void LPlayingField::recheckConnectedBuildings()
 {
 	//http://stackoverflow.com/questions/800955/remove-if-equivalent-for-stdmap
-	for (auto it = connectedBuildings.begin(); it != connectedBuildings.end(); /* No incrementation here */) {
+	for (auto it = connectedBuildings.begin(); it != connectedBuildings.end(); /* No incrementation here */)
+	{
 		std::vector<int> buildingsConnectedWithCity = strongConnectedSearch(powerLineGraph, it->first);
 		bool connected = std::find(buildingsConnectedWithCity.begin(), buildingsConnectedWithCity.end(), it->second) != buildingsConnectedWithCity.end();
 
-		if (!connected) {
+		if (!connected)
+		{
 			//Remove all buildings which are not connected anymore
-			it = connectedBuildings.erase(it);	//The function returns the iterator following the last removed element
+			it = connectedBuildings.erase(it); //The function returns the iterator following the last removed element
 		}
-		else {
+		else
+		{
 			++it;
 		}
 	}
@@ -144,12 +163,14 @@ bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, c
 	//This is necessary, so if I check the connection between 1 and 2 it should be the same as 2 and 1
 	int idxFirst = convertIndex(first);
 	int idxSecond = convertIndex(second);
-	if (idxFirst < idxSecond) {
+	if (idxFirst < idxSecond)
+	{
 		std::swap(idxFirst, idxSecond);
 	}
 
 	//The idx pair is already in the set, so there is a connection
-	if (connectedBuildings.count(std::make_pair(idxFirst, idxSecond)) > 0) {
+	if (connectedBuildings.count(std::make_pair(idxFirst, idxSecond)) > 0)
+	{
 		return true;
 	}
 
@@ -159,7 +180,8 @@ bool LPlayingField::checkConnectionBuildings(const std::pair<int, int>& first, c
 	bool connected = std::find(buildingsConnectedWithCity.begin(), buildingsConnectedWithCity.end(), idxSecond) != buildingsConnectedWithCity.end();
 
 	//The idx are now connected, store them in the set, so that the information can be used later
-	if (connected) {
+	if (connected)
+	{
 		connectedBuildings.emplace(idxFirst, idxSecond);
 	}
 
@@ -173,10 +195,12 @@ bool LPlayingField::isTransformstationConnected()
 
 void LPlayingField::removeBuilding(const int x, const int y)
 {
-	if (getField(x, y)->removeBuilding()) {
+	if (getField(x, y)->removeBuilding())
+	{
 		vPlayingField->objectRemoved(x, y);
 
-		if (isLocalOperation) {
+		if (isLocalOperation)
+		{
 			//remove all outgoing edges
 			powerLineGraph.m_vertices[convertIndex(x, y)].m_out_edges.clear();
 			calculateEnergyValueCity();
@@ -187,18 +211,20 @@ void LPlayingField::removeBuilding(const int x, const int y)
 		lMaster->sendDeleteObject(x, y);
 		//-----network-----
 	}
-	else {
+	else
+	{
 		//TODO (All) how to handle error checks?
 	}
 }
 
 void LPlayingField::upgradeBuilding(const int x, const int y)
 {
-	if (lMaster->getPlayer(LPlayer::Local)->getMoney() > 50000) {
-
+	if (lMaster->getPlayer(LPlayer::Local)->getMoney() > 50000)
+	{
 		getField(x, y)->getBuilding()->upgrade();
 
-		if (!isLocalOperation) {
+		if (!isLocalOperation)
+		{
 			//todo (IP) sendUpgrade
 		}
 	}
@@ -206,14 +232,13 @@ void LPlayingField::upgradeBuilding(const int x, const int y)
 }
 
 
-bool LPlayingField::hasFriendlyNeighbor(int x, const int y) {
-	if (!unusedCoordinates.empty()) {
-		return true;
-	}
-
+bool LPlayingField::hasFriendlyNeighbor(int x, const int y)
+{
 	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = this->getFieldNeighbors(x, y);
-	for (std::unordered_map<ILBuilding::Orientation, LField*>::iterator it = neighbors.begin(); it != neighbors.end(); ++it) {
-		if (it->second->getBuilding() != nullptr && (it->second->getBuilding()->getPlayerId() & LPlayer::Local)) {
+	for (std::unordered_map<ILBuilding::Orientation, LField*>::iterator it = neighbors.begin(); it != neighbors.end(); ++it)
+	{
+		if (it->second->getBuilding() != nullptr && (it->second->getBuilding()->getPlayerId() == LPlayer::Local))
+		{
 			return true;
 		}
 	}
@@ -346,10 +371,12 @@ void LPlayingField::createFields()
 	std::mt19937_64 g1(seed1);
 
 	//Fill with the requested number of power plants
-	for (const auto& fieldPair : fieldTypes) {
+	for (const auto& fieldPair : fieldTypes)
+	{
 		const int currentNumberPowerPlants = CASTS<int>(numberOfPowerPlants * fieldPair.second);
 
-		for (int i = 0; i < currentNumberPowerPlants; i++) {
+		for (int i = 0; i < currentNumberPowerPlants; i++)
+		{
 			std::pair<int, int> newCoordinates = retrieveFreeCoordinates();
 			auto itFieldLevel = fieldLevels.begin();
 			std::advance(itFieldLevel, g1() % fieldLevels.size());
@@ -363,10 +390,12 @@ void LPlayingField::createFields()
 	}
 
 	//Fill the rest with grass
-	for (int x = 0; x < fieldLength; x++) {
-		for (int y = 0; y < fieldLength; y++) {
-
-			if (isCoordinateUsed(std::make_pair(x, y))) {
+	for (int x = 0; x < fieldLength; x++)
+	{
+		for (int y = 0; y < fieldLength; y++)
+		{
+			if (isCoordinateUsed(std::make_pair(x, y)))
+			{
 				//Coordinate already assigned
 				continue;
 			}
@@ -429,11 +458,13 @@ void LPlayingField::calculateEnergyValueCity()
 	std::vector<int> vec = strongConnectedSearch(powerLineGraph, convertIndex(localCityPosition));
 	std::pair<int, int> coord;
 
-	for (size_t i = 0; i < vec.size(); i++) {
+	for (size_t i = 0; i < vec.size(); i++)
+	{
 		coord = convertIndex(vec[i]);
 		ILPowerPlant* pP = dynamic_cast<ILPowerPlant*>(getField(coord.first, coord.second)->getBuilding());
 
-		if (pP != nullptr && pP->getPlayerId() == LPlayer::Local) {
+		if (pP != nullptr && pP->getPlayerId() == LPlayer::Local)
+		{
 			energyValue += LBalanceLoader::getProducedEnergy(pP->getIdentifier());
 		}
 	}
@@ -444,21 +475,24 @@ void LPlayingField::calculateEnergyValueCity()
 void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)
 {
 	auto addEdgeToGraph = [this, x, y, orientation] (const int xEnd, const int yEnd, const ILBuilding::Orientation checkOrientation)
-	{
-		if (orientation & checkOrientation) {
-			//Check if idx is not out of range and if an edge already exists
-			if (checkIndex(xEnd, yEnd) && !lookup_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph).second) {
-				add_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph);
+		{
+			if (orientation & checkOrientation)
+			{
+				//Check if idx is not out of range and if an edge already exists
+				if (checkIndex(xEnd, yEnd) && !lookup_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph).second)
+				{
+					add_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph);
 
-				//If the target vertex is a power line adjust the orientation of that powerline and add an edge from the powerline to this building
-				LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
-				if (plOther != nullptr) {
-					add_edge(convertIndex(xEnd, yEnd), convertIndex(x, y), powerLineGraph);
-					plOther->updatedOrientation(ILBuilding::getOpppositeOrienttion(checkOrientation));
+					//If the target vertex is a power line adjust the orientation of that powerline and add an edge from the powerline to this building
+					LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
+					if (plOther != nullptr)
+					{
+						add_edge(convertIndex(xEnd, yEnd), convertIndex(x, y), powerLineGraph);
+						plOther->updatedOrientation(ILBuilding::getOpppositeOrienttion(checkOrientation));
+					}
 				}
 			}
-		}
-	};
+		};
 
 	addEdgeToGraph(x, y + 1, ILBuilding::EAST);
 	addEdgeToGraph(x - 1, y, ILBuilding::NORTH);
@@ -472,15 +506,18 @@ void LPlayingField::printGraph()
 {
 	std::vector<std::string> names(fieldLength * fieldLength);
 
-	for (int x = 0; x < fieldLength; x++) {
-		for (int y = 0; y < fieldLength; y++) {
+	for (int x = 0; x < fieldLength; x++)
+	{
+		for (int y = 0; y < fieldLength; y++)
+		{
 			names[convertIndex(x, y)] = std::to_string(x) + std::string(", ") + std::to_string(y);
 		}
 	}
 
 	std::ofstream file;
 	file.open("graph.dot");
-	if (file.is_open()) {
+	if (file.is_open())
+	{
 		write_graphviz(file, powerLineGraph, make_label_writer(&names[0]));
 	}
 
@@ -496,25 +533,31 @@ void LPlayingField::placeGrassAroundPosition(const std::pair<int, int>& coordina
 	std::chrono::system_clock::rep seed1 = std::chrono::system_clock::now().time_since_epoch().count();
 	std::mt19937_64 g1(seed1);
 
-	for (int rowIdx = -space; rowIdx <= space; rowIdx++) {
-		for (int colIdx = -space; colIdx <= space; colIdx++) {
+	for (int rowIdx = -space; rowIdx <= space; rowIdx++)
+	{
+		for (int colIdx = -space; colIdx <= space; colIdx++)
+		{
 			int x = coordinates.first + rowIdx;
 			int y = coordinates.second + colIdx;
 
 			//Don't place something on the base field
-			if (rowIdx == 0 && colIdx == 0) {
+			if (rowIdx == 0 && colIdx == 0)
+			{
 				continue;
 			}
 			//Bounds checking
-			if (x < 0 || x >= fieldLength || y < 0 || y >= fieldLength) {
+			if (x < 0 || x >= fieldLength || y < 0 || y >= fieldLength)
+			{
 				continue;
 			}
 			//If cross mode is enabled, don't place on diagonals
-			if (cross && (x != coordinates.first && y != coordinates.second)) {
+			if (cross && (x != coordinates.first && y != coordinates.second))
+			{
 				continue;
 			}
 			//Don't place something on used fields
-			if (isCoordinateUsed(std::make_pair(x, y))) {
+			if (isCoordinateUsed(std::make_pair(x, y)))
+			{
 				continue;
 			}
 

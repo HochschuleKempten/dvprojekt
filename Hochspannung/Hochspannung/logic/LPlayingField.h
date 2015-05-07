@@ -143,6 +143,8 @@ public:
 	void createFields();
 	void showPlayingField();
 
+	bool isInitDone();
+
 	// returns true if building could be placed, else false (building not allowed or building already placed)
 	template <typename T, typename... Args>
 	bool placeBuilding(const int x, const int y, const int playerId, const Args ... arguments)
@@ -158,7 +160,7 @@ public:
 			return false;
 		}
 
-		if ((hasFriendlyNeighbor(x, y) || !unusedCoordinates.empty()) && placeBuildingHelper<T>(this)(x, y, arguments...)) {
+		if ((hasFriendlyNeighbor(x, y) || !isInitDone()) && placeBuildingHelper<T>(this)(x, y, arguments...)) {
 
 			if (playerId & LPlayer::Local) {
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());

@@ -21,7 +21,7 @@ LCity::~LCity()
 
 void LCity::tick(const float fTimeDelta)
 {
-	if (!lField->getLPlayingField()->getLMaster()->gamePaused) //if game is paused, do nothing
+	if (!lField->getLPlayingField()->getLMaster()->gamePaused || lField->getLPlayingField()->isInitDone()) //if game is paused or not initialized, do nothing
 	{
 		static float timeLastCheck = 0;
 
