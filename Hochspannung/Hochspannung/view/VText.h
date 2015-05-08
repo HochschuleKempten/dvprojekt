@@ -3,34 +3,34 @@
 #include "IViewSubject.h"
 
 NAMESPACE_VIEW_B
-class VText :
-	public IViewGUIObject
-{
 
-	
-public:
-	VText();
-	VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont,string text);
+	class VText :
+		public IViewGUIObject
+	{
+	public:
+		VText();
+		VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, string text);
 
-	~VText();
-	
-	virtual void switchOn() override final;
-	virtual void switchOff() override final;
+		~VText();
 
-	virtual void onMouseOver(void) override final;
-	virtual void onMouseOut(void) override final;
-	virtual void onMouseClickLeft(void) override final;
-	virtual void onMouseClickRight(void) override final;
+		virtual void switchOn() override final;
+		virtual void switchOff() override final;
 
-	void updateText(string text);
-	virtual void setLayer(float layer) override final;
-	void updateRectangle(CFloatRect rect) override final;
-private:
+		virtual void onMouseOver(void) override final;
+		virtual void onMouseOut(void) override final;
+		virtual void onMouseClickLeft(void) override final;
+		virtual void onMouseClickRight(void) override final;
 
-	CWritingFont * m_writingFont;
-	CWriting* m_writing;
-	string m_text;
+		void updateText(string text);
+		virtual void setLayer(float layer) override final;
+		void updateRectangle(CFloatRect rect) override final;
 
-};
 
-NAMESPACE_VIEW_E
+	private:
+
+		CWritingFont* m_writingFont;
+		CWriting* m_writing;
+		string m_text;
+	};
+
+	NAMESPACE_VIEW_E

@@ -18,6 +18,16 @@ CMaterial VMaterialLoader::materialRed;
 CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
 
+
+//Lobby Buttons
+
+CMaterial VMaterialLoader::materialButtonLobbyJoinGame;
+CMaterial VMaterialLoader::materialButtonLobbyJoinGameHover;
+CMaterial VMaterialLoader::materialButtonLobbyHostGame;
+CMaterial VMaterialLoader::materialButtonLobbyHostGameHover;
+
+
+
 //Buttons
 
 CMaterial VMaterialLoader::materialButtonMainMenueNeuesSpiel;
@@ -134,6 +144,13 @@ void VMaterialLoader::init()
 	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_exit_hover.png");
 	materialButtonBack.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back.png");
 	materialButtonBackHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back_hover.png");
+
+	//Lobby Buttons
+	materialButtonLobbyJoinGame.MakeTextureSprite("textures/gui/Buttons/ButtonJoinGame.png");
+	materialButtonLobbyJoinGameHover.MakeTextureSprite("textures/gui/Buttons/ButtonJoinGameHover.png");
+	materialButtonLobbyHostGame.MakeTextureSprite("textures/gui/Buttons/ButtonHostGame.png");
+	materialButtonLobbyHostGameHover.MakeTextureSprite("textures/gui/Buttons/ButtonHostGameHover.png");
+		
 
 	//Interface - Background
 	materialTopbar.MakeTextureSprite("textures\\topbar.png");

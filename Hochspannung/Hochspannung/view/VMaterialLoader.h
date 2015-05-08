@@ -40,7 +40,10 @@ public:
 	static CMaterial materialButtonMainMenueCreditsHover;
 	static CMaterial materialButtonMainMenueSpielBeenden;
 	static CMaterial materialButtonMainMenueSpielBeendenHover;
-
+	static CMaterial materialButtonLobbyJoinGame;
+	static CMaterial materialButtonLobbyJoinGameHover;
+	static CMaterial materialButtonLobbyHostGame;
+	static CMaterial materialButtonLobbyHostGameHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;

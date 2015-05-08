@@ -5,72 +5,70 @@
 NAMESPACE_VIEW_B
 
 
-class VScreenIngame : public IViewScreen
-{
+	class VScreenIngame : public IViewScreen
+	{
+	public:
+		explicit VScreenIngame(VUI* vUi);
+		virtual ~VScreenIngame();
+		void onNotify(Event events) override;
+		void switchOn() override;
+		void switchOff() override;
+		void checkShortcut(CDeviceKeyboard* keyboard) override;
+		void checkSpecialEvent(CDeviceCursor* cursor) override;
 
-	
-public:
-	explicit VScreenIngame(VUI* vUi);
-	virtual ~VScreenIngame();
-	void onNotify(Event events) override;
-	void switchOn() override;
-	void switchOff() override;
-	void checkShortcut(CDeviceKeyboard* keyboard) override;
-	void checkSpecialEvent(CDeviceCursor* cursor) override;
+		//Schnittstellenmethoden
+		void updateMoney(const int wert);
 
-	//Schnittstellenmethoden
-	void updateMoney(const int wert);
+		void updatePopulation(const int wert);
 
-	void updatePopulation(const int wert);
+		void updateInfofield(const string& neuerText);
 
-	void updateInfofield(const string& neuerText);
+		CFloatRect getTopSpace();
 
-	CFloatRect getTopSpace();
+		CFloatRect getBottomSpace();
 
-	CFloatRect getBottomSpace();
+		void tick() override;
+		void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
+		void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
+		void resize(int width, int height) override;
 
-	void tick() override;
-	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
-	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
-	void resize(int width, int height) override;
+		void handleInput();
+		std::map<int, std::vector<int>> pickElements();
 
-	void handleInput();
-	std::map<int, std::vector<int>> pickElements();
+		void addToScene(CPlacement* placement);
 
-	void addToScene(CPlacement* placement);
+		void startAnimation() override;
+		void StartEvent() override;
+		void EndEvent() override;
 
-	void startAnimation() override;
-	void StartEvent() override;
-	void EndEvent() override;
+	private:
+		CScene m_scene;
+		//CViewport m_viewport;
+		CBackground m_zb;
+		CParallelLight m_zl;
+		CCamera m_zc;
+		CPlacement m_zpCamera;
 
-private:
-	CScene m_scene;
-	//CViewport m_viewport;
-	CBackground m_zb;
-	CParallelLight m_zl;
-	CCamera m_zc;
-	CPlacement m_zpCamera;
+		COverlay m_bottomBar;
+		COverlay m_topBar;
+		COverlay m_bottomBarBorderTop;
+		COverlay m_bottomBarBorderBottom;
+		COverlay m_bottomBarBorderLeft;
+		COverlay m_bottomBarBorderRight;
+		COverlay m_bottomBarSeperatorMenueInfofeld;
+		COverlay m_bottomBarSeperatorMenueMinimap;
+		COverlay m_bottomBarSeperatorMenueEnergy;
 
-	COverlay m_bottomBar;
-	COverlay m_topBar;
-	COverlay m_bottomBarBorderTop;
-	COverlay m_bottomBarBorderBottom;
-	COverlay m_bottomBarBorderLeft;
-	COverlay m_bottomBarBorderRight;
-	COverlay m_bottomBarSeperatorMenueInfofeld;
-	COverlay m_bottomBarSeperatorMenueMinimap;
-	COverlay m_bottomBarSeperatorMenueEnergy;
+		CCamera m_CamMiniMap;
+		CViewport m_minimap;
+		CPlacement m_zpMinimapCam;
 
-	CCamera m_CamMiniMap;
-	CViewport m_minimap;
-	CPlacement m_zpMinimapCam;
+		bool bK = false;
+		float mouseWheelPosition = 0.0F;
+		float cameraAngle = 0.0F;
 
-	bool bK = false;
-	float mouseWheelPosition = 0.0F;
-	float cameraAngle = 0.0F;
-
-	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
-};
+		VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
+	};
 
 
-NAMESPACE_VIEW_E
+	NAMESPACE_VIEW_E

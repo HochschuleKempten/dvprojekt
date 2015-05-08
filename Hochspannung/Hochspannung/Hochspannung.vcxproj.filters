@@ -319,9 +319,6 @@
     <ClInclude Include="logic\cpplinq.hpp">
       <Filter>logic</Filter>
     </ClInclude>
-    <ClInclude Include="logic\LTransformerSation.h">
-      <Filter>logic\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="logic\IVTransformerStation.h">
       <Filter>logic\Interfaces</Filter>
     </ClInclude>
@@ -345,6 +342,21 @@
     </ClInclude>
     <ClInclude Include="logic\LBalanceLoader.h">
       <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LTransformerStation.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="network\GameObject.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelNuclearPowerPlant.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelOilRefinery.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelSolarPowerplant.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -542,6 +554,21 @@
     </ClCompile>
     <ClCompile Include="logic\LBalanceLoader.cpp">
       <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\GameObject.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelNuclearPowerPlant.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelOilRefinery.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelSolarPowerplant.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>logic\Headerdateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
