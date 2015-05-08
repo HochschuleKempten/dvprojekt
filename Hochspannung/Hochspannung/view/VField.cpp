@@ -23,8 +23,8 @@ VField::~VField()
 
 void VField::setHoverOn()
 {
-	//TODO (JS) set player color
-	m_zmNormal.SetColorAmbient(CColor(1.0, 0.0, 0.0));
+	//The current player is always the local player and uses the same color
+	m_zmNormal.SetColorAmbient(VMaterialLoader::colorPlayers[LPlayer::Local]);
 }
 
 void VField::setHoverOff()
@@ -44,7 +44,8 @@ void VField::initField(const int rowIdx, const int colIdx)
 	m_zmNormal = VMaterialLoader::fieldMaterials[VMaterialLoader::FieldPair(lField->getFieldType(), lField->getFieldLevel())];
 	ASSERT(m_zmNormal.m_ptextureDiffuse != nullptr, "Could not load the material for the field " << lField->getFieldType());
 	
-	m_zg.Init(vPlayingField->size, &m_zmNormal);
+	//m_zg.Init(vPlayingField->size, &m_zmNormal);
+	m_zg.Init(vPlayingField->fieldSize, vPlayingField->fieldSize, &m_zmNormal);
 	m_zp.AddGeo(&m_zg);
 
 	m_zp.RotateZ(CASTS<float>(M_PI));	//Rotate the field so that the textures are correct

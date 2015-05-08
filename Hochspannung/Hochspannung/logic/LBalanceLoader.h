@@ -68,6 +68,10 @@ public:
 	 * @brief Default population of the city.
 	 */
 	static int getStartPopulation();
+	/**
+	 * @brief Maximum number of citizen in the city.
+	 */
+	static int getMaxPopulation();
 };
 
 

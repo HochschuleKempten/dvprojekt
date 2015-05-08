@@ -16,9 +16,13 @@ VOilRefinery::~VOilRefinery()
 void VOilRefinery::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {
 	viewModel.initViewModel(this);
-	viewModel.getMainPlacement()->Scale(0.4f);
+
+	const float scale = 0.4f;
+	viewModel.getMainPlacement()->Scale(scale);
 	viewModel.getMainPlacement()->RotateYDelta(M_PI);
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
+	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() * scale * 0.5f);
+
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VOilRefinery);

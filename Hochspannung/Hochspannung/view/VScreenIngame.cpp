@@ -500,10 +500,12 @@ void VScreenIngame::handleInput()
 				int y = pickedElements[VIdentifier::VPlayingField][1];
 				vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
 
+#ifdef _DEBUG
 				extern bool isCheatModeOn;
 				isCheatModeOn = true;
-				vUi->vMaster->getPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);
+				vUi->vMaster->getPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
 				isCheatModeOn = false;
+#endif
 			}
 
 			clickActive = true;

@@ -38,7 +38,6 @@ public:
 	VModelWindmillPowerPlant();
 	virtual ~VModelWindmillPowerPlant() override;
 
-	//TODO (Windkraftwerk) implement this
 	virtual float getHeight() override
 	{
 		//return 11.0f;

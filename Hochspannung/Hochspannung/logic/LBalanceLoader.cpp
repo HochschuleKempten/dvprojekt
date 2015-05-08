@@ -124,4 +124,10 @@ int LBalanceLoader::getStartPopulation()
 	return propertyTree.get<int>("CityProperties.StartPopulation", 0);
 }
 
+int LBalanceLoader::getMaxPopulation()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("CityProperties.MaxPopulation", 0);
+}
+
 NAMESPACE_LOGIC_E

@@ -15,8 +15,7 @@
 
 NAMESPACE_LOGIC_B
 
-
-extern bool isCheatModeOn;
+DEBUG_EXPRESSION(extern bool isCheatModeOn);
 
 struct LPlayingFieldHasher
 {
@@ -183,9 +182,9 @@ public:
 		}
 
 		bool buildingPlaced = false;
-
+		
 		if (playerId & LPlayer::Local) {
-			if ((hasFriendlyNeighbor(x, y) || !isInitDone() || isCheatModeOn) && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
+			if ((hasFriendlyNeighbor(x, y) || !isInitDone() || DEBUG_EXPRESSION(isCheatModeOn)) && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
 				buildingPlaced = true;
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
@@ -206,7 +205,6 @@ public:
 			setPosition<T>(x, y, playerId);
 			//-----network-----
 			if (!isLocalOperation) {
-				//TODO (L) Test if this is working
 				lMaster->sendSetObject(LIdentifier::getIdentifierForType<T>(), x, y, std::to_string(playerId));
 			}
 			//-----network-----

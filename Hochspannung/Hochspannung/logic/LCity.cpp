@@ -7,7 +7,6 @@
 
 NAMESPACE_LOGIC_B
 
-
 LCity::LCity(LField* lField, const int x, const int y, const int playerId)
 	: ILBuilding(lField, playerId), vCity(lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createCity(this))
 {
@@ -16,8 +15,7 @@ LCity::LCity(LField* lField, const int x, const int y, const int playerId)
 }
 
 LCity::~LCity()
-{
-}
+{}
 
 void LCity::tick(const float fTimeDelta)
 {
@@ -28,18 +26,17 @@ void LCity::tick(const float fTimeDelta)
 	{
 		static float timeLastCheck = 0;
 
-		//Handle the population increase
+		//Handle the population increase (every second)
 		if (timeLastCheck > 1)
 		{
 			int seconds = CASTS<int>(timeLastCheck);
-			ASSERT(seconds >= 1, "The number of seconds is invalid.");
 
 			setPopulationTotal(populationTotal + seconds * LBalanceLoader::getPopulationGrowth());
 
 			timeLastCheck = 0;
 		}
 
-		//Check energy storage
+		//Check energy storage (every tick)
 		int superplus = energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen());
 		if (superplus < 0)
 		{
@@ -68,7 +65,10 @@ int LCity::getEnergy() const
 
 void LCity::setPopulationTotal(const int populationTotal)
 {
-	//TODO (L) max population
+	if (populationTotal > LBalanceLoader::getMaxPopulation())
+	{
+		return;
+	}
 
 	this->populationTotal = populationTotal;
 
