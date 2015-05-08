@@ -22,7 +22,7 @@ void LCity::tick(const float fTimeDelta)
 	//if game is paused or not initialized or city from remote player, do nothing
 	if (!lField->getLPlayingField()->getLMaster()->isGamePaused() &&
 		lField->getLPlayingField()->isInitDone() &&
-		playerId == LPlayer::Local)
+		playerId & LPlayer::Local)
 	{
 		static float timeLastCheck = 0;
 
@@ -41,7 +41,7 @@ void LCity::tick(const float fTimeDelta)
 		if (superplus < 0)
 		{
 			//Player has lost
-			lField->getLPlayingField()->getLMaster()->gameOver(); //todo (IP) fix
+			lField->getLPlayingField()->getLMaster()->gameOver();
 		}
 
 		timeLastCheck += fTimeDelta;

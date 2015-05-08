@@ -2,6 +2,7 @@
 
 #include "../logic/IVPlayingField.h"
 #include "../logic/LPlayingField.h"
+#include "../logic/LRemoteOperation.h"
 #include "../logic/Array2D.h"
 #include "IViewObject.h"
 #include "VField.h"
@@ -42,18 +43,19 @@ public:
 	template<typename T, typename... Args>
 	inline void tryBuildOnField(const int x, const int y, const Args... arguments)
 	{
-		lPlayingField->beginRemoteOperation();
-		if (!lPlayingField->placeBuilding<T>(x, y, LPlayer::Local, arguments...)) {
+		LRemoteOperation lRemoteOperation(lPlayingField);
+
+		if (!lRemoteOperation.placeBuilding<T>(x, y, LPlayer::Local, arguments...))
+		{
 			DEBUG_OUTPUT("Could not place building at " << x << ", " << y);
 		}
-		lPlayingField->endRemoteOperation();
 	}
 
 	inline void tryRemoveObject(const int x, const int y)
 	{
-		lPlayingField->beginRemoteOperation();
-		lPlayingField->removeBuilding(x, y);
-		lPlayingField->endRemoteOperation();
+		LRemoteOperation lRemoteOperation(lPlayingField);
+
+		lRemoteOperation.removeBuilding(x, y);
 	}
 
 	void placeObject(const std::shared_ptr<IViewBuilding>& objPtr, const int x, const int y);

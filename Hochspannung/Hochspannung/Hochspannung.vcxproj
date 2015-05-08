@@ -177,6 +177,7 @@
     <ClInclude Include="logic\LOilRefinery.h" />
     <ClInclude Include="logic\LPlayer.h" />
     <ClInclude Include="logic\LPlayingField.h" />
+    <ClInclude Include="logic\LRemoteOperation.h" />
     <ClInclude Include="logic\LSolarPowerPlant.h" />
     <ClInclude Include="logic\LPowerLine.h" />
     <ClInclude Include="logic\LTransformerStation.h" />

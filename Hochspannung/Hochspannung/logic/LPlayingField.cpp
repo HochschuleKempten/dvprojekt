@@ -17,7 +17,6 @@
 #include <chrono>
 
 NAMESPACE_LOGIC_B
-
 DEBUG_EXPRESSION(bool isCheatModeOn = false);
 
 using namespace boost;
@@ -56,7 +55,7 @@ LPlayingField::LPlayingField(LMaster* lMaster)
 		{
 			//Can't use constructor on arrays, so set the values manually
 			fieldArray[x][y].setInitialValues(this, x, y);
-			
+
 			//At the beginning every field is unused
 			unusedCoordinates.emplace(x, y);
 		}
@@ -220,10 +219,9 @@ void LPlayingField::removeBuilding(const int x, const int y)
 		}
 
 		if (!isLocalOperation)
-		{		
-			lMaster->sendDeleteObject(x, y);			
+		{
+			lMaster->sendDeleteObject(x, y);
 		}
-		
 	}
 	else
 	{
@@ -285,16 +283,16 @@ void LPlayingField::createFields()
 	placeGrassAroundPosition<true>(firstPowerPlantCoordinates, 1);
 
 
-	//-----Generate buildings for LOCAL player----
+	//-----Generate buildings for BOTH players----
 
 	std::pair<int, int> transformerStationPosition = retrieveFreeCoordinates(fieldLength / 2, fieldLength / 2); //Position of transformer station is not allowed to be near a city (the area around the city must be free for the power plants and the power lines), so place it in the middle of the field
-	
+
 	//Transformer station
 	fieldArray[transformerStationPosition.first][transformerStationPosition.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
 	placeBuilding<LTransformerStation>(transformerStationPosition.first, transformerStationPosition.second, LPlayer::Local | LPlayer::External); //Transformerstation belongs to no player
+	placeGrassAroundPosition(transformerStationPosition, 1);
 
-
-	//-----Generate buildings for BOTH players----
+	//-----Generate buildings for REMOTE player----
 
 	std::pair<int, int> remoteCityPosition = retrieveFreeCoordinates(fieldLength - static_cast<int>(fieldLength / offsetCity), fieldLength - static_cast<int>(fieldLength / offsetCity));
 	std::pair<int, int> firstRemotePowerLineCoordinates = retrieveFreeCoordinates(remoteCityPosition.first, remoteCityPosition.second + 1);
@@ -362,7 +360,6 @@ void LPlayingField::createFields()
 			auto itFieldLevel = fieldLevels.begin();
 			std::advance(itFieldLevel, g1() % fieldLevels.size());
 			fieldArray[coordinates.first][coordinates.second].init(LField::GRASS, itFieldLevel->first);
-
 		}
 	}
 
@@ -455,24 +452,24 @@ void LPlayingField::calculateEnergyValueCity()
 void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)
 {
 	auto addEdgeToGraph = [this, x, y, orientation] (const int xEnd, const int yEnd, const ILBuilding::Orientation checkOrientation)
-		{
-			if (orientation & checkOrientation)
 			{
-				//Check if idx is not out of range and if an edge already exists
-				if (checkIndex(xEnd, yEnd) && !lookup_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph).second)
+				if (orientation & checkOrientation)
 				{
-					add_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph);
-
-					//If the target vertex is a power line adjust the orientation of that powerline and add an edge from the powerline to this building
-					LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
-					if (plOther != nullptr)
+					//Check if idx is not out of range and if an edge already exists
+					if (checkIndex(xEnd, yEnd) && !lookup_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph).second)
 					{
-						add_edge(convertIndex(xEnd, yEnd), convertIndex(x, y), powerLineGraph);
-						plOther->updatedOrientation(ILBuilding::getOpppositeOrienttion(checkOrientation));
+						add_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph);
+
+						//If the target vertex is a power line adjust the orientation of that powerline and add an edge from the powerline to this building
+						LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
+						if (plOther != nullptr)
+						{
+							add_edge(convertIndex(xEnd, yEnd), convertIndex(x, y), powerLineGraph);
+							plOther->updatedOrientation(ILBuilding::getOpppositeOrienttion(checkOrientation));
+						}
 					}
 				}
-			}
-		};
+			};
 
 	addEdgeToGraph(x, y + 1, ILBuilding::EAST);
 	addEdgeToGraph(x - 1, y, ILBuilding::NORTH);

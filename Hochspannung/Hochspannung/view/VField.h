@@ -16,7 +16,6 @@ private:
 	VPlayingField* vPlayingField = nullptr;
 	LField* lField = nullptr;
 	CPlacement m_zp;
-	//CGeoCube m_zg;
 	CGeoQuad m_zg;
 	CMaterial m_zmNormal;
 	std::shared_ptr<IViewBuilding> m_zViewBuilding = nullptr;

@@ -10,18 +10,17 @@ static VModelPowerLine::DIRECTION convertOrientation(const int orientation)
 {
 	int modelOrientation = 0;
 
-	//The field is rotated by 180° so the orientations do not suit
 	if (orientation & ILBuilding::NORTH) {
-		modelOrientation |= VModelPowerLine::SOUTH;
-	}
-	if (orientation & ILBuilding::EAST) {
-		modelOrientation |= VModelPowerLine::WEST;
-	}
-	if (orientation & ILBuilding::SOUTH) {
 		modelOrientation |= VModelPowerLine::NORTH;
 	}
-	if (orientation & ILBuilding::WEST) {
+	if (orientation & ILBuilding::EAST) {
 		modelOrientation |= VModelPowerLine::EAST;
+	}
+	if (orientation & ILBuilding::SOUTH) {
+		modelOrientation |= VModelPowerLine::SOUTH;
+	}
+	if (orientation & ILBuilding::WEST) {
+		modelOrientation |= VModelPowerLine::WEST;
 	}
 
 	return static_cast<VModelPowerLine::DIRECTION>(modelOrientation);
@@ -39,7 +38,7 @@ void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const
 {
 	viewModel.initViewModel(this);
 	viewModel.Init(convertOrientation(orientation));
-	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
+	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0f));
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
 
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
