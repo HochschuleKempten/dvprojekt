@@ -54,10 +54,6 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 void VUI::onNotify(Event evente)
 {
 	switch (evente) {
-		case START_GAME:
-			vMaster->lMaster->startNewGame();
-			switchScreen("Ingame");
-			break;
 		case QUIT_GAME:
 			isQuit = true;
 			PostQuitMessage(0);

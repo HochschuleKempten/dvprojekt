@@ -334,26 +334,26 @@
     <ClInclude Include="view\VGraph.h">
       <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\Bar.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="logic\LBalanceLoader.h">
       <Filter>logic\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="logic\LTransformerStation.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="network\GameObject.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\VModelNuclearPowerPlant.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VModelOilRefinery.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VModelSolarPowerplant.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LTransformerStation.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="network\GameObject.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Bar.h">
+      <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -546,26 +546,26 @@
     <ClCompile Include="view\VGraph.cpp">
       <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="view\Bar.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="logic\LBalanceLoader.cpp">
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="network\GameObject.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VModelNuclearPowerPlant.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VModelOilRefinery.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view\VModelSolarPowerplant.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="Source.cpp">
       <Filter>logic\Headerdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelNuclearPowerPlant.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelOilRefinery.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelSolarPowerplant.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Bar.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\GameObject.cpp">
+      <Filter>network\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

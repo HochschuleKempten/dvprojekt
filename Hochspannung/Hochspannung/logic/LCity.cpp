@@ -20,7 +20,7 @@ LCity::~LCity()
 void LCity::tick(const float fTimeDelta)
 {
 	//if game is paused or not initialized or city from remote player, do nothing
-	if (!lField->getLPlayingField()->getLMaster()->gamePaused &&
+	if (!lField->getLPlayingField()->getLMaster()->isGamePaused() &&
 		lField->getLPlayingField()->isInitDone() &&
 		playerId == LPlayer::Local)
 	{

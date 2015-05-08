@@ -1,5 +1,6 @@
 #include "VScreenLobby.h"
 #include "VUI.h"
+#include "VMaster.h"
 
 NAMESPACE_VIEW_B
 
@@ -62,19 +63,24 @@ NAMESPACE_VIEW_B
 	{
 		switch (events)
 		{
-		case LOBBY_HOST_GAME:
-
-			getContainer("WaitingDialog")->switchOn();
-			notify(LOBBY_HOST_GAME);
-			break;
-		case LOBBY_JOIN_GAME:
-			dynamic_cast<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue();
-
-			notify(LOBBY_JOIN_GAME);
-			break;
-		default:
-			notify(events);
-			break;
+#ifdef _DEBUG
+			case START_GAME:
+				vUi->vMaster->startSinglePlayerGame();
+				vUi->switchScreen("Ingame");
+				break;
+#endif
+			case LOBBY_HOST_GAME:
+				vUi->vMaster->hostGame();
+				getContainer("WaitingDialog")->switchOn();
+				//notify(LOBBY_HOST_GAME);
+				break;
+			case LOBBY_JOIN_GAME:
+				vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
+				//notify(LOBBY_JOIN_GAME);
+				break;
+			default:
+				notify(events);
+				break;
 		}
 	}
 

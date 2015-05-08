@@ -36,7 +36,8 @@ bool CNetworkService::host(std::string stName) {
 	}
 }
 
-bool CNetworkService::connect(std::string stIP) {
+bool CNetworkService::connect(const std::string& stIP)
+{
 	//if (m_type == CLIENT) {
 	//	m_pNode->stop();
 	//	static_cast<CClient*>(m_pNode)->setServerData(stIP);

@@ -36,6 +36,10 @@ public:
 	void setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField);
 	void resize(int width, int height);
 
+	DEBUG_EXPRESSION(void startSinglePlayerGame());
+	void hostGame();
+	void joinGame(const std::string& ipAddress);
+
 	virtual void updateMoney(const int money) override;
 	virtual void pauseGame() override;
 	virtual void continueGame() override;

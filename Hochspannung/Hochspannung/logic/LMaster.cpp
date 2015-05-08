@@ -28,14 +28,17 @@ LMaster::~LMaster()
 	networkService.close();
 }
 
-void LMaster::startNewGame()
+void LMaster::startNewGame(const std::string& ipAddress)
 {
-	//host();
-	//while (networkService.getConnectionState() != Network::CONNECTED);
-
-	//DEBUG_OUTPUT("---------------Client connected to server.---------------");
-
-	//connect("172.16.39.138");
+	if (ipAddress.empty())
+	{
+		host();
+		while (networkService.getConnectionState() != Network::CONNECTED);
+	}
+	else DEBUG_EXPRESSION(if(ipAddress != "SINGLE_PLAYER"))
+	{
+		connect(ipAddress);
+	}
 
 	if (lPlayingField == nullptr)
 	{
@@ -102,15 +105,7 @@ void LMaster::tick(const float fTimeDelta)
 
 	static float timeLastCheck = 0;
 
-	//every second
-	if (timeLastCheck > 1)
-	{
-		timeLastCheck = 0;
-	}
-
-	timeLastCheck += fTimeDelta;
-
-	if (networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
+	if (timeLastCheck > 1 && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
 	{
 		CTransferObject transferObject = networkService.getNextActionToExecute();
 		int objectId = transferObject.getTransObjectID();
@@ -231,7 +226,11 @@ void LMaster::tick(const float fTimeDelta)
 		default:
 			break;
 		}
+
+		timeLastCheck = 0;
 	}
+
+	timeLastCheck += fTimeDelta;
 }
 
 void LMaster::host()
@@ -254,7 +253,7 @@ void LMaster::host()
 	}
 }
 
-void LMaster::connect(std::string ip)
+void LMaster::connect(const std::string& ip)
 {
 	int reconnectCounter = 0;
 	bool connected = false;

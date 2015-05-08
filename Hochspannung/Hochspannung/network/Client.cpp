@@ -7,7 +7,7 @@
 
 namespace Network {
 
-CClient::CClient(std::string stIP, unsigned short usPortTcpServer) :
+CClient::CClient(const std::string& stIP, unsigned short usPortTcpServer) :
 CNode(), m_bEndpointValid(false) {
 	if (stIP != "") {
 		setServerData(stIP, usPortTcpServer);
@@ -17,7 +17,8 @@ CNode(), m_bEndpointValid(false) {
 CClient::~CClient() {
 }
 
-bool CClient::setServerData(std::string stIP, unsigned short usPortTcpServer) {
+bool CClient::setServerData(const std::string& stIP, unsigned short usPortTcpServer)
+{
 	try {
 		m_remoteEndpointTcp = ip::tcp::endpoint(ip::address_v4::from_string(stIP), usPortTcpServer);
 	} catch (...) {
