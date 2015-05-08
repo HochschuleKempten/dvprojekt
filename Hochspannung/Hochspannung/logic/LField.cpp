@@ -15,11 +15,6 @@ LField::~LField()
 	removeBuilding();
 }
 
-void LField::setLPlayingField(LPlayingField* lPlayingField)
-{
-	this->lPlayingField = lPlayingField;
-}
-
 void LField::init(const FieldType fieldType, const FieldLevel fieldLevel)
 {
 	this->fieldType = fieldType;
@@ -29,6 +24,13 @@ void LField::init(const FieldType fieldType, const FieldLevel fieldLevel)
 	energyStock = fieldType * fieldLevels.at(fieldLevel);
 
 	energyLeft = energyStock;
+}
+
+void LField::setInitialValues(LPlayingField* lPlayingField, const int x, const int y)
+{
+	this->lPlayingField = lPlayingField;
+	this->x = x;
+	this->y = y;
 }
 
 LField::FieldType LField::getFieldType() const
@@ -84,7 +86,7 @@ ILBuilding* LField::getBuilding()
 	return lBuilding;
 }
 
-void LField::setIsPlacingAllowed(bool allowed)
+void LField::setIsPlacingAllowed(const bool allowed)
 {
 	buildingPlaced = allowed;
 }

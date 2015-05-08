@@ -7,6 +7,7 @@
 #include "LPlayer.h"
 #include "ILBuilding.h"
 #include "LCity.h"
+#include "LTransformerStation.h"
 #include <boost/graph/adjacency_list.hpp>
 #include "LPowerLine.h"
 #include "LIdentifier.h"
@@ -46,9 +47,10 @@ private:
 
 	using Graph = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
-	std::pair<int, int> localCityPosition = std::make_pair(-1, -1);
-	std::pair<int, int> remoteCityPosition = std::make_pair(-1, -1);
-	std::pair<int, int> transformerStationPosition = std::make_pair(-1, -1);
+
+	LCity* localCity = nullptr;
+	LCity* remoteCity = nullptr;
+	LTransformerStation* transformerStation = nullptr;
 
 	/** @brief Stores every unused coordinates. Is empty after correct initialization */
 	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> unusedCoordinates;
@@ -73,7 +75,7 @@ private:
 		template <typename... Args>
 		bool operator()(const int x, const int y, const Args ... arguments)
 		{
-			return playingField->getField(x, y)->setBuilding<T>(x, y, arguments...);
+			return playingField->getField(x, y)->setBuilding<T>(arguments...);
 		}
 	};
 
@@ -91,28 +93,28 @@ private:
 		{
 			int orientation = playingField->linkPowerlines(x, y);
 
-			return playingField->getField(x, y)->setBuilding<LPowerLine>(x, y, orientation, arguments...);
+			return playingField->getField(x, y)->setBuilding<LPowerLine>(orientation, arguments...);
 		}
 	};
 
 	template<typename T>
-	void setPosition(const int /*x*/, const int /*y*/, const int /*playerId*/) {}
+	void setSpecialBuildings(const int /*x*/, const int /*y*/, const int /*playerId*/) {}
 	template<>
-	void setPosition<LCity>(const int x, const int y, const int playerId)
+	void setSpecialBuildings<LCity>(const int x, const int y, const int playerId)
 	{
 		if (playerId == LPlayer::Local)
 		{
-			localCityPosition = std::make_pair(x, y);
+			localCity = CASTD<LCity*>(getField(x, y)->getBuilding());
 		}
 		else if (playerId == LPlayer::External)
 		{
-			remoteCityPosition = std::make_pair(x, y);
+			remoteCity = CASTD<LCity*>(getField(x, y)->getBuilding());
 		}
 	}
 	template<>
-	void setPosition<LTransformerStation>(const int x, const int y, const int /*playerId*/)
+	void setSpecialBuildings<LTransformerStation>(const int x, const int y, const int /*playerId*/)
 	{
-		transformerStationPosition = std::make_pair(x, y);
+		transformerStation = CASTD<LTransformerStation*>(getField(x, y)->getBuilding());
 	}
 
 	bool hasFriendlyNeighbor(const int x, const int y);
@@ -192,7 +194,8 @@ public:
 				lMaster->getPlayer(LPlayer::Local)->subtractMoney(LBalanceLoader::getCost<T>());
 				getField(x, y)->getBuilding()->addValue(LBalanceLoader::getCost<T>());
 
-				if (localCityPosition.first > -1 && localCityPosition.second > -1) {
+				if (isInitDone())
+				{
 					calculateEnergyValueCity();
 				}
 			}
@@ -202,7 +205,7 @@ public:
 		}
 
 		if (buildingPlaced) {
-			setPosition<T>(x, y, playerId);
+			setSpecialBuildings<T>(x, y, playerId);
 			//-----network-----
 			if (!isLocalOperation) {
 				lMaster->sendSetObject(LIdentifier::getIdentifierForType<T>(), x, y, std::to_string(playerId));
@@ -227,7 +230,7 @@ public:
 	 * @brief Checks if the connection between the buildings still exists (from the stored values).
 	 */
 	void recheckConnectedBuildings();
-	bool checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second);
+	bool checkConnectionBuildings(const ILBuilding* b1, const ILBuilding* b2);
 	bool isTransformstationConnected();
 
 	void removeBuilding(const int x, const int y);
@@ -237,14 +240,9 @@ public:
 	LMaster* getLMaster();
 	IVPlayingField* getVPlayingField();
 
-	const std::pair<int, int>& getCityPosition() const
+	LCity* getLocalCity() const
 	{
-		return localCityPosition;
-	}
-
-	LCity* getLocalCity()
-	{
-		return CASTD<LCity*>(getField(localCityPosition.first, localCityPosition.second)->getBuilding());
+		return localCity;
 	}
 };
 

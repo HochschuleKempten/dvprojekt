@@ -94,6 +94,10 @@ public:
 	{
 		this->value += value;
 	}
+	LField* getLField() const
+	{
+		return lField;
+	}
 
 	virtual LIdentifier::LIdentifier getIdentifier() = 0;
 };

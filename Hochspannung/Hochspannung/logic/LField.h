@@ -52,6 +52,8 @@ private:
 	int buildingId = -1;
 	int energyStock = 0;
 	int energyLeft = 0;
+	int x = -1;
+	int y = -1;
 
 private:
 	template<typename T> bool checkBuildingType()
@@ -59,42 +61,15 @@ private:
 		ASSERT("Unknown field type");
 		return false;
 	}
-	template<> bool checkBuildingType<LOilRefinery>()
-	{
-		return fieldType == OIL;
-	}
-	template<> bool checkBuildingType<LHydroelectricPowerPlant>()
-	{
-		return fieldType == WATER;
-	}
-	template<> bool checkBuildingType<LCoalPowerPlant>()
-	{
-		return fieldType == COAL;
-	}
-	template<> bool checkBuildingType<LNuclearPowerPlant>()
-	{
-		return fieldType == NUCLEAR;
-	}
-	template<> bool checkBuildingType<LWindmillPowerPlant>()
-	{
-		return fieldType == AIR;
-	}
-	template<> bool checkBuildingType<LSolarPowerPlant>()
-	{
-		return fieldType == SOLAR;
-	}
-	template<> bool checkBuildingType<LCity>()
-	{
-		return fieldType == CITY;
-	}
-	template<> bool checkBuildingType<LPowerLine>()
-	{
-		return fieldType == GRASS;
-	}
-	template<> bool checkBuildingType<LTransformerStation>()
-	{
-		return fieldType == GRASS;
-	}
+	template<> bool checkBuildingType<LOilRefinery>()             { return fieldType == OIL; }
+	template<> bool checkBuildingType<LHydroelectricPowerPlant>() {	return fieldType == WATER; }
+	template<> bool checkBuildingType<LCoalPowerPlant>()          { return fieldType == COAL; }
+	template<> bool checkBuildingType<LNuclearPowerPlant>()	      { return fieldType == NUCLEAR; }
+	template<> bool checkBuildingType<LWindmillPowerPlant>()      { return fieldType == AIR; }
+	template<> bool checkBuildingType<LSolarPowerPlant>()         { return fieldType == SOLAR; }
+	template<> bool checkBuildingType<LCity>()                    { return fieldType == CITY; }
+	template<> bool checkBuildingType<LPowerLine>()               { return fieldType == GRASS; }
+	template<> bool checkBuildingType<LTransformerStation>()      { return fieldType == GRASS; }
 
 public:
 	LField();
@@ -103,7 +78,7 @@ public:
 	void init(const FieldType fieldType, const FieldLevel fieldLevel);
 
 	template <typename T, typename... Args>
-	bool setBuilding(const int x, const int y, const Args... arguments)
+	bool setBuilding(const Args... arguments)
 	{
 		//TODO (L) introduce building names 
 		if (buildingPlaced) {
@@ -122,7 +97,7 @@ public:
 	}
 
 	// this must be called after construction of this object
-	void setLPlayingField(LPlayingField* lPlayingField);
+	void setInitialValues(LPlayingField* lPlayingField, const int x, const int y);
 	FieldType getFieldType() const;
 	void setFieldType(FieldType fieldType);
 	FieldLevel getFieldLevel() const;
@@ -130,9 +105,22 @@ public:
 	int getBuildingId() const;
 	bool removeBuilding();
 	ILBuilding * getBuilding();
-	void setIsPlacingAllowed(bool allowed);
+	void setIsPlacingAllowed(const bool allowed);
 	bool isPlacingAllowed();
 	LPlayingField* getLPlayingField();
+	
+	int getX() const
+	{
+		return x;
+	}
+	int getY() const
+	{
+		return y;
+	}
+	std::pair<int, int> getCoordinates() const
+	{
+		return std::make_pair(x, y);
+	}
 };
 
 NAMESPACE_LOGIC_E
