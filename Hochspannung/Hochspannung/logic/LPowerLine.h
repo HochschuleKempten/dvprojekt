@@ -23,11 +23,6 @@ public:
 	{
 		return LIdentifier::LPowerLine;
 	}
-
-	virtual int getOrientation() const override
-	{
-		return orientation;
-	}
 };
 
 NAMESPACE_LOGIC_E

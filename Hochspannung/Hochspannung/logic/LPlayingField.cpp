@@ -17,6 +17,9 @@
 #include <chrono>
 
 NAMESPACE_LOGIC_B
+
+bool isCheatModeOn = false;
+
 using namespace boost;
 
 template <typename Graph>
@@ -261,7 +264,7 @@ void LPlayingField::createFields()
 	std::pair<int, int> firstPowerLineCoordinates = retrieveFreeCoordinates(localCityPosition.first, localCityPosition.second + 1);
 	std::pair<int, int> secondPowerLineCoordinates = retrieveFreeCoordinates(firstPowerLineCoordinates.first + 1, firstPowerLineCoordinates.second);
 	std::pair<int, int> firstPowerPlantCoordinates = retrieveFreeCoordinates(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second + 1);
-	transformerStationPosition = retrieveFreeCoordinates();
+	transformerStationPosition = retrieveFreeCoordinates(); //TODO (L) Position of transformer station is not allowed to be near a city (the area around the city must be free for the power plants and the power lines)
 
 	//--
 	fieldArray[localCityPosition.first][localCityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);

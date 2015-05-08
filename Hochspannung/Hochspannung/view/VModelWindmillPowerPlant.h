@@ -41,7 +41,8 @@ public:
 	//TODO (Windkraftwerk) implement this
 	virtual float getHeight() override
 	{
-		return 11.0f;
+		//return 11.0f;
+		return 0.3f + 7.0f + 1.3f;
 	}
 	virtual float getWidth() override
 	{

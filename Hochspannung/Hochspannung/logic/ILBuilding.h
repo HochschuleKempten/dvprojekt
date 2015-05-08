@@ -1,4 +1,5 @@
 #pragma once
+
 #include "LGeneral.h"
 #include "LPlayer.h"
 #include "LIdentifier.h"
@@ -61,8 +62,11 @@ protected:
 	int value = 0;
 
 public:
-	explicit ILBuilding(LField* lField, const int playerId)
-		: lField(lField), playerId(playerId)
+	ILBuilding(LField* lField, const int playerId)
+		: lField(lField), playerId(playerId), orientation(NORTH | EAST | SOUTH | WEST)
+	{}
+	ILBuilding(LField* lField, const int playerId, const int orientation)
+		: lField(lField), playerId(playerId), orientation(orientation)
 	{}
 
 	virtual ~ILBuilding()
@@ -72,9 +76,9 @@ public:
 	virtual void upgrade()
 	{}
 
-	virtual int getOrientation() const
+	int getOrientation() const
 	{
-		return NORTH | EAST | SOUTH | WEST;
+		return orientation;
 	}
 
 	int getPlayerId() const

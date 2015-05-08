@@ -30,7 +30,6 @@ LMaster::~LMaster()
 
 void LMaster::startNewGame()
 {
-
 	//host();
 	//while (networkService.getConnectionState() != Network::CONNECTED);
 

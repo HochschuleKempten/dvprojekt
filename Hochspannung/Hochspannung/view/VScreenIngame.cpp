@@ -499,6 +499,11 @@ void VScreenIngame::handleInput()
 				int x = pickedElements[VIdentifier::VPlayingField][0];
 				int y = pickedElements[VIdentifier::VPlayingField][1];
 				vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+
+				extern bool isCheatModeOn;
+				isCheatModeOn = true;
+				vUi->vMaster->getPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);
+				isCheatModeOn = false;
 			}
 
 			clickActive = true;

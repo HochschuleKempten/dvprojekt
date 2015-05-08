@@ -68,6 +68,8 @@ int LCity::getEnergy() const
 
 void LCity::setPopulationTotal(const int populationTotal)
 {
+	//TODO (L) max population
+
 	this->populationTotal = populationTotal;
 
 	if (playerId & LPlayer::Local)

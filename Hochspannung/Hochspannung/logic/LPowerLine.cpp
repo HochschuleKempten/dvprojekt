@@ -9,10 +9,8 @@ NAMESPACE_LOGIC_B
 
 
 LPowerLine::LPowerLine(LField* lField, const int x, const int y, const int orientation, const int playerId)
-:ILBuilding(lField, playerId)
+	: ILBuilding(lField, playerId, orientation), vPowerLine(lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createPowerLine(this))
 {
-	this->orientation = orientation;
-	vPowerLine = lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createPowerLine(this);
 	vPowerLine->initPowerLine(vPowerLine, x, y, orientation);
 }
 

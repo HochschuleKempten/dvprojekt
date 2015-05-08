@@ -16,6 +16,8 @@
 NAMESPACE_LOGIC_B
 
 
+extern bool isCheatModeOn;
+
 struct LPlayingFieldHasher
 {
 	int fieldLength;
@@ -183,7 +185,7 @@ public:
 		bool buildingPlaced = false;
 
 		if (playerId & LPlayer::Local) {
-			if ((hasFriendlyNeighbor(x, y) || !isInitDone()) && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
+			if ((hasFriendlyNeighbor(x, y) || !isInitDone() || isCheatModeOn) && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
 				buildingPlaced = true;
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
