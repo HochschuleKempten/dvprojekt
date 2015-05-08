@@ -96,7 +96,7 @@ private:
 	};
 
 	template<typename T>
-	void setPosition(const int x, const int y, const int playerId) {}
+	void setPosition(const int /*x*/, const int /*y*/, const int /*playerId*/) {}
 	template<>
 	void setPosition<LCity>(const int x, const int y, const int playerId)
 	{
@@ -110,7 +110,7 @@ private:
 		}
 	}
 	template<>
-	void setPosition<LTransformerStation>(const int x, const int y, const int playerId)
+	void setPosition<LTransformerStation>(const int x, const int y, const int /*playerId*/)
 	{
 		transformerStationPosition = std::make_pair(x, y);
 	}
@@ -184,7 +184,7 @@ public:
 		bool buildingPlaced = false;
 		
 		if (playerId & LPlayer::Local) {
-			if ((hasFriendlyNeighbor(x, y) || !isInitDone() || DEBUG_EXPRESSION(isCheatModeOn)) && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
+			if ((hasFriendlyNeighbor(x, y) || !isInitDone() DEBUG_EXPRESSION(|| isCheatModeOn)) && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
 				buildingPlaced = true;
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 

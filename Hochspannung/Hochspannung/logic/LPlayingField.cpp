@@ -18,7 +18,7 @@
 
 NAMESPACE_LOGIC_B
 
-bool isCheatModeOn = false;
+DEBUG_EXPRESSION(bool isCheatModeOn = false);
 
 using namespace boost;
 
