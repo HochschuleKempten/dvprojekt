@@ -9,7 +9,6 @@
 #include "../logic/LOilRefinery.h"
 #include "../logic/LSolarPowerPlant.h"
 #include "../logic/LNuclearPowerPlant.h"
-#include "../logic/LMaster.h"
 #include <Vektoria/Placements.h>
 
 NAMESPACE_VIEW_B
@@ -18,12 +17,13 @@ NAMESPACE_VIEW_B
 VScreenIngame::VScreenIngame(VUI* vUi)
 	: IViewScreen(vUi)
 {
+	m_viewport = new CViewport();
 	//Standard Init
 	m_zc.Init();
 	m_zb.InitFull("textures/black_image.jpg");
 
-	m_viewport.AddBackground(&m_zb);
-	m_viewport.InitFull(&m_zc);
+	m_viewport->AddBackground(&m_zb);
+	m_viewport->InitFull(&m_zc);
 
 	//Minimap
 	m_CamMiniMap.Init();
@@ -36,13 +36,13 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.8F, 0.765F, 0.195F, 0.23F));
 
 	m_zl.Init(CHVector(1.0F, 1.0F, 1.0F),
-			  CColor(1.0F, 1.0F, 1.0F));
+	          CColor(1.0F, 1.0F, 1.0F));
 
 	m_scene.AddPlacement(&m_zpMinimapCam);
 	m_scene.AddParallelLight(&m_zl);
 	m_scene.AddPlacement(&m_zpCamera);
 
-	vUi->m_zf.AddViewport(&m_viewport);
+	vUi->m_zf.AddViewport(m_viewport);
 	//vUi->m_zf.AddViewport(&m_minimap);
 	vUi->m_zr.AddScene(&m_scene);
 
@@ -60,7 +60,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	/********************************************************TOP AREA***************************************************************/
-	addContainer(&m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.2F, 0.0F, 0.6F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar");
+	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.2F, 0.0F, 0.6F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar");
 	getContainer("Topbar")->addText(CFloatRect(0.05F, 0.2F, 0.2F, 0.7F), &VMaterialLoader::standardFont, "Bevoelkerung:", "population");
 	getContainer("Topbar")->addText(CFloatRect(0.251F, 0.2F, 0.2F, 0.65F), &VMaterialLoader::standardFont, "0000", "popValue");
 	getContainer("Topbar")->addText(CFloatRect(0.55F, 0.2F, 0.2F, 0.65F), &VMaterialLoader::GoldFont, "Geld:", "money");
@@ -68,7 +68,9 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	/********************************************************BOTTOM AREA*************************************************************/
-	addContainer(&m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 0.75F, 1.0F, 0.25F), "BottomBar");
+	//addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 0.75F, 1.0F, 0.25F), "BottomBar");
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, getRectForPixel(0, vUi->m_zf.m_iHeightWindow - 100, vUi->m_zf.m_iWidthWindow, 100), "BottomBar");
+
 
 	getContainer("BottomBar")->addOverlay(CFloatRect(0.0F, 0.0F, 1.0F, 0.05F), &VMaterialLoader::materialBottombarBorderTop, false, "BottomTopBorder");
 	getContainer("BottomBar")->addOverlay(CFloatRect(0.0F, 0.95F, 1.0F, 0.05F), &VMaterialLoader::materialBottombarBorderTop, false, "BottomBottomBorder");
@@ -110,7 +112,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	/***********************************************************Dialog******************************************************************/
-	addContainer(&m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialDialogBackground, "DialogBox");
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialDialogBackground, "DialogBox");
 
 
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING, "MenueButtonContinue");
@@ -123,22 +125,28 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, false, "NeededEnergy");
 	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.3F);
 
+	switchCursor("textures/gui/default_zeiger.png", true);
 
-	m_viewport.SwitchOff();
+	//CFloatRect iwas = getRectForPixel(0, vUi->m_zf.m_iHeightWindow - 100, vUi->m_zf.m_iWidthWindow, 100);
+
+	m_viewport->SwitchOff();
 	getContainer("DialogBox")->switchOff();
 }
 
 VScreenIngame::~VScreenIngame()
 {
-	for (m_IterGuicontainer = m_Guicontainer.begin(); m_IterGuicontainer != m_Guicontainer.end(); ++m_IterGuicontainer) {
+	for (m_IterGuicontainer = m_Guicontainer.begin(); m_IterGuicontainer != m_Guicontainer.end(); ++m_IterGuicontainer)
+	{
 		delete m_IterGuicontainer->second;
 	}
 	m_Guicontainer.clear();
+	delete m_viewport;
 }
 
 void VScreenIngame::onNotify(Event events)
 {
-	switch (events) {
+	switch (events)
+	{
 		case SWITCH_TO_REGISTER_BUILDING:
 			dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->switchOn();
 			dynamic_cast<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
@@ -200,7 +208,7 @@ void VScreenIngame::onNotify(Event events)
 
 void VScreenIngame::switchOn()
 {
-	m_viewport.SwitchOn();
+	m_viewport->SwitchOn();
 	m_minimap.SwitchOn();
 	m_scene.SwitchOn();
 	m_isOn = true;
@@ -208,7 +216,7 @@ void VScreenIngame::switchOn()
 
 void VScreenIngame::switchOff()
 {
-	m_viewport.SwitchOff();
+	m_viewport->SwitchOff();
 	m_minimap.SwitchOff();
 	m_scene.SwitchOff();
 	m_isOn = false;
@@ -216,14 +224,18 @@ void VScreenIngame::switchOff()
 
 void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 {
-	if (!keyboard->KeyPressed(DIK_ESCAPE)) {
+	if (!keyboard->KeyPressed(DIK_ESCAPE))
+	{
 		bK = false;
 	}
-	if (keyboard->KeyPressed(DIK_ESCAPE) && bK == false) {
-		if (!getContainer("DialogBox")->isOn()) {
+	if (keyboard->KeyPressed(DIK_ESCAPE) && bK == false)
+	{
+		if (!getContainer("DialogBox")->isOn())
+		{
 			getContainer("DialogBox")->switchOn();
 		}
-		else {
+		else
+		{
 			getContainer("DialogBox")->switchOff();
 		}
 		bK = true;
@@ -273,6 +285,13 @@ CFloatRect VScreenIngame::getBottomSpace()
 
 void VScreenIngame::tick()
 {
+	updateCursorImagePos(&vUi->m_zkCursor);
+
+	if (!vUi->m_zkCursor.ButtonPressedLeft())
+	{
+		vUi->m_BlockCursorLeftPressed = false;
+	}
+
 	handleInput();
 	map<string, IViewGUIContainer*> tempGuicontainer;
 	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
@@ -286,7 +305,11 @@ void VScreenIngame::tick()
 	{
 		checkGUIContainer(tempIterGuicontainer->second);
 	}
-	
+
+	if (vUi->m_zkCursor.ButtonPressedLeft())
+	{
+		vUi->m_BlockCursorLeftPressed = true;
+	}
 }
 
 void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
@@ -311,14 +334,11 @@ void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 				return;
 			}
 		}
-
-
 	}
 }
 
 void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 {
-
 	map<string, IViewGUIContainer*> tempGuiContainerMap;
 	map<string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
 
@@ -340,7 +360,7 @@ void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 
 void VScreenIngame::resize(int width, int height)
 {
-	m_viewport.ReSize();
+	m_viewport->ReSize();
 }
 
 void VScreenIngame::handleInput()
@@ -348,44 +368,57 @@ void VScreenIngame::handleInput()
 	const float cameraStength = 1.0f;
 
 	//Left + Right: 
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_A)) {
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_A))
+	{
 		m_zpCamera.TranslateXDelta(-cameraStength);
 	}
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_D)) {
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_D))
+	{
 		m_zpCamera.TranslateXDelta(cameraStength);
 	}
 
 	//Back + Forward
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_S)) {
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_S))
+	{
 		m_zpCamera.TranslateYDelta(-cameraStength);
 	}
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_W)) {
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_W))
+	{
 		m_zpCamera.TranslateYDelta(cameraStength);
 	}
 
 	//Zoom In + Out
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_UP)) {
-		if (mouseWheelPosition > -18) {
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_UP))
+	{
+		if (mouseWheelPosition > -18)
+		{
 			m_zpCamera.TranslateZDelta(-cameraStength * 4);
 			mouseWheelPosition += -cameraStength * 4;
 		}
 	}
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_DOWN)) {
-		if (mouseWheelPosition < 180) {
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_DOWN))
+	{
+		if (mouseWheelPosition < 180)
+		{
 			m_zpCamera.TranslateZDelta(cameraStength * 4);
 			mouseWheelPosition += cameraStength * 4;
 		}
 	}
 
-	if (vUi->m_zkMouse.GetRelativeZ() != 0.0) {
-		if (vUi->m_zkMouse.GetRelativeZ() > 0.0) {
-			if (mouseWheelPosition > -18) {
+	if (vUi->m_zkMouse.GetRelativeZ() != 0.0)
+	{
+		if (vUi->m_zkMouse.GetRelativeZ() > 0.0)
+		{
+			if (mouseWheelPosition > -18)
+			{
 				m_zpCamera.TranslateZDelta(-cameraStength * 4);
 				mouseWheelPosition += -cameraStength * 4;
 			}
 		}
-		else {
-			if (mouseWheelPosition < 180) {
+		else
+		{
+			if (mouseWheelPosition < 180)
+			{
 				m_zpCamera.TranslateZDelta(cameraStength * 4);
 				mouseWheelPosition += cameraStength * 4;
 			}
@@ -393,8 +426,6 @@ void VScreenIngame::handleInput()
 
 		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
 	}
-
-
 
 
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_RIGHT))
@@ -409,7 +440,8 @@ void VScreenIngame::handleInput()
 
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_LEFT))
 	{
-		if (cameraAngle > -0.5f) {
+		if (cameraAngle > -0.5f)
+		{
 			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
 			cameraAngle -= cameraStength / 10.0f;
 			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
@@ -445,25 +477,31 @@ void VScreenIngame::handleInput()
 	(0,1)
 	*/
 	float cursorX, cursorY;
-	bool insideFrame = vUi->m_zkCursor.GetFractional(cursorX, cursorY);
-	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY > (1.0f - bottomSpace.GetYSize())) {
+	bool insideFrame = vUi->m_zkCursor.GetFractional(cursorX, cursorY, true);
+	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY > (1.0f - bottomSpace.GetYSize()))
+	{
 		//Restrict picking when not in window or cursor is only over UI
 		return;
 	}
 
 	std::map<int, std::vector<int>> pickedElements = pickElements();
-	if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
+	if (pickedElements.count(VIdentifier::VPlayingField) > 0)
+	{
 		vUi->vMaster->getPlayingField()->hoverField(pickedElements[VIdentifier::VPlayingField][0], pickedElements[VIdentifier::VPlayingField][1]);
 	}
 
 	static bool clickActive = false;
-	if (vUi->m_zkCursor.ButtonPressedLeft()) {
-		if (!clickActive) {
-			if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
+	if (vUi->m_zkCursor.ButtonPressedLeft())
+	{
+		if (!clickActive)
+		{
+			if (pickedElements.count(VIdentifier::VPlayingField) > 0)
+			{
 				int x = pickedElements[VIdentifier::VPlayingField][0];
 				int y = pickedElements[VIdentifier::VPlayingField][1];
 
-				switch (m_selectedBuilding) {
+				switch (m_selectedBuilding)
+				{
 					case VIdentifier::VPowerLine:
 						vUi->vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y);
 						break;
@@ -472,7 +510,7 @@ void VScreenIngame::handleInput()
 						break;
 					case VIdentifier::VCoalPowerPlant:
 						vUi->vMaster->getPlayingField()->tryBuildOnField<LCoalPowerPlant>(x, y);
-						break; 
+						break;
 					case VIdentifier::VHydroelectricPowerPlant:
 						vUi->vMaster->getPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(x, y);
 						break;
@@ -481,7 +519,7 @@ void VScreenIngame::handleInput()
 						break;
 					case VIdentifier::VOilRefinery:
 						vUi->vMaster->getPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
-						break; 
+						break;
 					case VIdentifier::VSolarPowerPlant:
 						vUi->vMaster->getPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
 						break;
@@ -493,9 +531,12 @@ void VScreenIngame::handleInput()
 			clickActive = true;
 		}
 	}
-	else if (vUi->m_zkCursor.ButtonPressedRight()) {
-		if (!clickActive) {
-			if (pickedElements.count(VIdentifier::VPlayingField) > 0) {
+	else if (vUi->m_zkCursor.ButtonPressedRight())
+	{
+		if (!clickActive)
+		{
+			if (pickedElements.count(VIdentifier::VPlayingField) > 0)
+			{
 				int x = pickedElements[VIdentifier::VPlayingField][0];
 				int y = pickedElements[VIdentifier::VPlayingField][1];
 				vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
@@ -511,10 +552,12 @@ void VScreenIngame::handleInput()
 			clickActive = true;
 		}
 	}
-	else {
+	else
+	{
 		clickActive = false;
 	}
 }
+
 
 std::map<int, std::vector<int>> VScreenIngame::pickElements()
 {
@@ -528,13 +571,16 @@ std::map<int, std::vector<int>> VScreenIngame::pickElements()
 
 	//TODO (JS) merge seems obsolete now. Remove this
 	//Merge the found placements together in a set (to avoid duplicates)
-	for (int i = 0; i < placements.m_iPlacements; i++) {
-		if (placements.m_applacement[i]->m_pgeos) {
+	for (int i = 0; i < placements.m_iPlacements; i++)
+	{
+		if (placements.m_applacement[i]->m_pgeos)
+		{
 			//pickedPlacements.insert(placements.m_applacement[i]);
 		}
 	}
 	//The two placements pick different things, so they have to be merged together
-	if (singlePlacement != nullptr) {
+	if (singlePlacement != nullptr)
+	{
 		size_t sizeBefore = pickedPlacements.size();
 		pickedPlacements.insert(singlePlacement);
 		//ASSERT(sizeBefore == pickedPlacements.size(), "PickPlacements() picked something different then PickPlacement(). This should not happen");
@@ -542,17 +588,20 @@ std::map<int, std::vector<int>> VScreenIngame::pickElements()
 
 	//DEBUG_OUTPUT("Picking started");
 	//Now iterate over every found placement
-	for (CPlacement* p : pickedPlacements) {
+	for (CPlacement* p : pickedPlacements)
+	{
 		std::vector<std::string> nameParts = split(p->GetName(), ';');
 		//DEBUG_OUTPUT("placement = " << p->GetName());
 
-		if (nameParts.size() > 0 && nameParts[0].at(0) != '#') {
+		if (nameParts.size() > 0 && nameParts[0].at(0) != '#')
+		{
 			//At this point only valid names remain
 			ASSERT(nameParts.size() == 3, "Not enough arguments in the placement name");
 
 			//Convert the arguments to integer (skip the first one, because its the key for the map
 			std::vector<int> namePartsInt;
-			for (size_t j = 1; j < nameParts.size(); j++) {
+			for (size_t j = 1; j < nameParts.size(); j++)
+			{
 				namePartsInt.emplace_back(std::stoi(nameParts[j]));
 			}
 
@@ -561,6 +610,33 @@ std::map<int, std::vector<int>> VScreenIngame::pickElements()
 	}
 
 	return pickedElements;
+}
+
+void VScreenIngame::startAnimation()
+{ }
+
+void VScreenIngame::StartEvent()
+{ }
+
+void VScreenIngame::EndEvent()
+{ }
+
+CFloatRect VScreenIngame::getRectForPixel(int iPosX, int iPosY, int iSizeX, int iSizeY)
+{
+	CFloatRect tempRectangle;
+	int iFensterBreite = vUi->m_zf.m_iWidthWindow;
+	int iFensterHöhe = vUi->m_zf.m_iHeightWindow;
+
+	ASSERT((((iPosX + iSizeX) <= iFensterBreite) && ((iPosY + iSizeY) <= iFensterHöhe)), "Angegebener Bereich liegt außerhalb des Fensters");
+
+	/* iFensterBreite/100% = iPosX/X% => iFensterbreite=(iPosX*100%)/x =>x=(iPosX*100%)/iFensterBreite */
+
+	tempRectangle.SetXPos(iPosX / static_cast<float>(iFensterBreite));
+	tempRectangle.SetYPos(iPosY / static_cast<float>(iFensterHöhe));
+	tempRectangle.SetXSize(iSizeX / static_cast<float>(iFensterBreite));
+	tempRectangle.SetYSize(iSizeY / static_cast<float>(iFensterHöhe));
+
+	return tempRectangle;
 }
 
 void VScreenIngame::addToScene(CPlacement* placement)

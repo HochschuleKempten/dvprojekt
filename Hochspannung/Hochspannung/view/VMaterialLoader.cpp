@@ -18,6 +18,16 @@ CMaterial VMaterialLoader::materialRed;
 CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
 
+
+//Lobby Buttons
+
+CMaterial VMaterialLoader::materialButtonLobbyJoinGame;
+CMaterial VMaterialLoader::materialButtonLobbyJoinGameHover;
+CMaterial VMaterialLoader::materialButtonLobbyHostGame;
+CMaterial VMaterialLoader::materialButtonLobbyHostGameHover;
+
+
+
 //Buttons
 
 CMaterial VMaterialLoader::materialButtonMainMenueNeuesSpiel;
@@ -91,6 +101,13 @@ std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
 //PlayerFoundations
 std::unordered_map<int, CMaterial> VMaterialLoader::materialFoundationPlayer;
 
+//Cursor
+CMaterial VMaterialLoader::m_zmDefaultCursor;
+CMaterial VMaterialLoader::m_zmHammerCursor;
+
+//CraftMenue
+CMaterial VMaterialLoader::m_zmCraftMenueBackground;
+
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
@@ -119,7 +136,9 @@ void VMaterialLoader::init()
 	materialHydroelectricPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
 
 	materialDialogBackground.MakeTextureSprite("textures\\MainMenueBackground.png");
+
 	materialIngameBorder.Init(CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68));
+
 
 	//Main menu - Buttons
 	materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_newgame.png");
@@ -132,6 +151,13 @@ void VMaterialLoader::init()
 	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_exit_hover.png");
 	materialButtonBack.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back.png");
 	materialButtonBackHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back_hover.png");
+
+	//Lobby Buttons
+	materialButtonLobbyJoinGame.MakeTextureSprite("textures/gui/Buttons/ButtonJoinGame.png");
+	materialButtonLobbyJoinGameHover.MakeTextureSprite("textures/gui/Buttons/ButtonJoinGameHover.png");
+	materialButtonLobbyHostGame.MakeTextureSprite("textures/gui/Buttons/ButtonHostGame.png");
+	materialButtonLobbyHostGameHover.MakeTextureSprite("textures/gui/Buttons/ButtonHostGameHover.png");
+		
 
 	//Interface - Background
 	materialTopbar.MakeTextureSprite("textures\\topbar.png");
@@ -209,6 +235,14 @@ void VMaterialLoader::init()
 	materialFoundationPlayer[LPlayer::External].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_opponent.png");
 	materialFoundationPlayer[LPlayer::External].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
 	materialFoundationPlayer[LPlayer::External].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
+
+	//Cursor
+	m_zmDefaultCursor.MakeTextureSprite("textures\\gui\\default_zeiger.png");
+	m_zmHammerCursor.MakeTextureSprite("textures\\gui\\Hammer.png");
+
+	//CraftMenue
+	m_zmCraftMenueBackground.MakeTextureSprite("textures\\gui\\texture_gui_background_darkgrey.png");
+
 }
 
 

@@ -1,44 +1,50 @@
 #include "VScreenOptions.h"
 #include "VUI.h"
+#include "VGraph.h"
 
 NAMESPACE_VIEW_B
 
 
-VScreenOptions::VScreenOptions(VUI* vUi) : IViewScreen(vUi)
-{
-	m_viewport = new CViewport();
-	m_camera.Init();
-	m_viewport->InitFull(&m_camera);
-	vUi->m_zf.AddViewport(m_viewport);
-
-
-	m_background = new CBackground();
-
-	m_background->InitFull("textures\\MainMenueBackground.png");
-
-	m_viewport->AddBackground(m_background);
-
-	addContainer(m_viewport,IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
-	getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE,"buttonBackMainMenue");
-
-}
-
-VScreenOptions::~VScreenOptions()
-{
-	for (m_IterGuicontainer = m_Guicontainer.begin(); m_IterGuicontainer != m_Guicontainer.end(); ++m_IterGuicontainer)
+	VScreenOptions::VScreenOptions(VUI* vUi) : IViewScreen(vUi)
 	{
-		delete m_IterGuicontainer->second;
-	}
-	m_Guicontainer.clear();
+		m_viewport = new CViewport();
+		m_camera.Init();
+		m_viewport->InitFull(&m_camera);
+		vUi->m_zf.AddViewport(m_viewport);
 
-	delete m_viewport;
-}
+		//Cursor
+		switchCursor("textures/gui/default_zeiger.png", true);
+
+		m_background = new CBackground();
+
+		m_background->InitFull("textures\\MainMenueBackground.png");
+
+		m_viewport->AddBackground(m_background);
+
+		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
+		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "buttonBackMainMenue");
+
+		VGraph* graph = new VGraph(m_viewport, CFloatRect(0.2F, 0.3f, 0.2F, 0.2F));
+		graph->addBar("EngergyBar", &VMaterialLoader::materialGreen);
+		graph->addBar("SollEnergy", &VMaterialLoader::materialRed);
+		graph->updateBar("SollEnergy", 20);
+	}
+
+	VScreenOptions::~VScreenOptions()
+	{
+		for (m_IterGuicontainer = m_Guicontainer.begin(); m_IterGuicontainer != m_Guicontainer.end(); ++m_IterGuicontainer)
+		{
+			delete m_IterGuicontainer->second;
+		}
+		m_Guicontainer.clear();
+
+		delete m_viewport;
+	}
 
 	void VScreenOptions::onNotify(Event events)
 	{
 		switch (events)
 		{
-
 		default:
 			notify(events);
 			break;
@@ -60,6 +66,13 @@ VScreenOptions::~VScreenOptions()
 
 	void VScreenOptions::tick()
 	{
+		updateCursorImagePos(&vUi->m_zkCursor);
+
+		if (!vUi->m_zkCursor.ButtonPressedLeft())
+		{
+			vUi->m_BlockCursorLeftPressed = false;
+		}
+
 		map<string, IViewGUIContainer*> tempGuicontainer;
 		map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
 
@@ -73,6 +86,11 @@ VScreenOptions::~VScreenOptions()
 			checkGUIContainer(tempIterGuicontainer->second);
 		}
 
+
+		if (vUi->m_zkCursor.ButtonPressedLeft())
+		{
+			vUi->m_BlockCursorLeftPressed = true;
+		}
 	}
 
 	void VScreenOptions::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
@@ -97,14 +115,11 @@ VScreenOptions::~VScreenOptions()
 					return;
 				}
 			}
-
-
 		}
 	}
 
 	void VScreenOptions::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 	{
-
 		map<string, IViewGUIContainer*> tempGuiContainerMap;
 		map<string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
 
@@ -122,6 +137,19 @@ VScreenOptions::~VScreenOptions()
 			}
 		}
 	}
+
+	void VScreenOptions::startAnimation()
+	{
+	}
+
+	void VScreenOptions::StartEvent()
+	{
+	}
+
+	void VScreenOptions::EndEvent()
+	{
+	}
+
 	void VScreenOptions::resize(int width, int height)
 	{
 	}

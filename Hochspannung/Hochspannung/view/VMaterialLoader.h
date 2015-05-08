@@ -40,7 +40,10 @@ public:
 	static CMaterial materialButtonMainMenueCreditsHover;
 	static CMaterial materialButtonMainMenueSpielBeenden;
 	static CMaterial materialButtonMainMenueSpielBeendenHover;
-
+	static CMaterial materialButtonLobbyJoinGame;
+	static CMaterial materialButtonLobbyJoinGameHover;
+	static CMaterial materialButtonLobbyHostGame;
+	static CMaterial materialButtonLobbyHostGameHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
@@ -112,6 +115,13 @@ public:
 
 	//PlayerFoundations
 	static std::unordered_map<int, CMaterial> materialFoundationPlayer;
+
+	//Cursor
+	static CMaterial m_zmDefaultCursor;
+	static CMaterial m_zmHammerCursor;
+
+	//CraftMenue
+	static CMaterial m_zmCraftMenueBackground;
 };
 
 

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "IViewScreen.h"
 #include "VIdentifier.h"
 
@@ -37,9 +38,14 @@ public:
 
 	void addToScene(CPlacement* placement);
 
+	void startAnimation() override;
+	void StartEvent() override;
+	void EndEvent() override;
+
 private:
+	CFloatRect getRectForPixel(int iPosX, int iPosY, int iSizeX, int iSizeY);
 	CScene m_scene;
-	CViewport m_viewport;
+	//CViewport m_viewport;
 	CBackground m_zb;
 	CParallelLight m_zl;
 	CCamera m_zc;
