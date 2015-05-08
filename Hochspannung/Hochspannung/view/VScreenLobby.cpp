@@ -37,8 +37,7 @@ NAMESPACE_VIEW_B
 		getContainer("WaitingDialog")->addText(CFloatRect(0.1F, 0.1F, 0.8F, 0.2F), &VMaterialLoader::standardFont, "Warte auf Mitspieler", "TextWaitingDialog");
 
 		getContainer("WaitingDialog")->setLayer(0.5);
-
-		getContainer("LobbyRunningGames")->getGuiObject("textfieldIP")->switchOff();
+		getContainer("WaitingDialog")->switchOff();
 
 		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->setLayer(0.3F);
 		getContainer("Menue")->getGuiObject("buttonStartGame")->setLayer(0.3F);

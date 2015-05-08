@@ -42,6 +42,7 @@ NAMESPACE_VIEW_B
 		void EndEvent() override;
 
 	private:
+		CFloatRect getRectForPixel(int iPosX, int iPosY,int iSizeX,int iSizeY);
 		CScene m_scene;
 		//CViewport m_viewport;
 		CBackground m_zb;

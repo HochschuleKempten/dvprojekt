@@ -69,7 +69,10 @@ NAMESPACE_VIEW_B
 
 
 		/********************************************************BOTTOM AREA*************************************************************/
-		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 0.75F, 1.0F, 0.25F), "BottomBar");
+		//addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 0.75F, 1.0F, 0.25F), "BottomBar");
+		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, getRectForPixel(0, vUi->m_zf.m_iHeightWindow - 100, vUi->m_zf.m_iWidthWindow, 100), "BottomBar");
+
+		
 
 		getContainer("BottomBar")->addOverlay(CFloatRect(0.0F, 0.0F, 1.0F, 0.05F), &VMaterialLoader::materialBottombarBorderTop, false, "BottomTopBorder");
 		getContainer("BottomBar")->addOverlay(CFloatRect(0.0F, 0.95F, 1.0F, 0.05F), &VMaterialLoader::materialBottombarBorderTop, false, "BottomBottomBorder");
@@ -126,6 +129,7 @@ NAMESPACE_VIEW_B
 
 		switchCursor("textures/gui/default_zeiger.png", true);
 
+		//CFloatRect iwas = getRectForPixel(0, vUi->m_zf.m_iHeightWindow - 100, vUi->m_zf.m_iWidthWindow, 100);
 
 		m_viewport->SwitchOff();
 		getContainer("DialogBox")->switchOff();
@@ -612,6 +616,24 @@ NAMESPACE_VIEW_B
 
 	void VScreenIngame::EndEvent()
 	{
+	}
+
+	CFloatRect VScreenIngame::getRectForPixel(int iPosX, int iPosY, int iSizeX, int iSizeY)
+	{
+		CFloatRect tempRectangle;
+		int iFensterBreite = vUi->m_zf.m_iWidthWindow;
+		int iFensterHöhe= vUi->m_zf.m_iHeightWindow;
+
+		ASSERT2((((iPosX + iSizeX) <= iFensterBreite) && ((iPosY + iSizeY) <= iFensterHöhe)), "Angegebener Bereich liegt außerhalb des Fensters");
+
+			/* iFensterBreite/100% = iPosX/X% => iFensterbreite=(iPosX*100%)/x =>x=(iPosX*100%)/iFensterBreite */
+
+			tempRectangle.SetXPos(iPosX / static_cast<float>(iFensterBreite));
+			tempRectangle.SetYPos(iPosY / static_cast<float>(iFensterHöhe));
+			tempRectangle.SetXSize(iSizeX / static_cast<float>(iFensterBreite));
+			tempRectangle.SetYSize(iSizeY / static_cast<float>(iFensterHöhe));
+		
+			return tempRectangle;
 	}
 
 	void VScreenIngame::addToScene(CPlacement* placement)
