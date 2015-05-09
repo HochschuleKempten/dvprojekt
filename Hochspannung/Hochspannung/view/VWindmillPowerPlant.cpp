@@ -19,7 +19,7 @@ void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& ob
 {
 	viewModel.initViewModel(this);
 
-	const float scale = 0.3;
+	const float scale = 0.3f;
 	viewModel.getMainPlacement()->Scale(scale);
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0));
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() * scale + 0.4);

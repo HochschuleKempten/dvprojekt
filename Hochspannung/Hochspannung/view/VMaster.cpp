@@ -29,7 +29,7 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 	vUi.initUI(hwnd, psplash);
 }
 
-void VMaster::tick(float fTime, float fTimeDelta)
+void VMaster::tick(float /*fTime*/, float fTimeDelta)
 {
 	updateTick(fTimeDelta);
 }

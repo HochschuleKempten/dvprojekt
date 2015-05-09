@@ -37,7 +37,7 @@ void LCity::tick(const float fTimeDelta)
 		}
 
 		//Check energy storage (every tick)
-		int superplus = energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen());
+		int superplus = CASTS<int>(energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen()));
 		if (superplus < 0)
 		{
 			//Player has lost

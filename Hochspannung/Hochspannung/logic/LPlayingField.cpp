@@ -254,15 +254,15 @@ bool LPlayingField::hasFriendlyNeighbor(int x, const int y)
 
 void LPlayingField::createFields()
 {
-	const int offsetCity = 5;
+	const int offsetCity = LBalanceLoader::getMapOffset();
 
 
 	//-----Generate buildings for LOCAL player----
 
-	std::pair<int, int> localCityPosition = retrieveFreeCoordinates(offsetCity, offsetCity);
-	std::pair<int, int> firstPowerLineCoordinates = retrieveFreeCoordinates(localCityPosition.first, localCityPosition.second + 1);
-	std::pair<int, int> secondPowerLineCoordinates = retrieveFreeCoordinates(firstPowerLineCoordinates.first + 1, firstPowerLineCoordinates.second);
-	std::pair<int, int> firstPowerPlantCoordinates = retrieveFreeCoordinates(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second + 1);
+	const std::pair<int, int> localCityPosition = retrieveFreeCoordinates(offsetCity, offsetCity);
+	const std::pair<int, int> firstPowerLineCoordinates = retrieveFreeCoordinates(localCityPosition.first, localCityPosition.second + 1);
+	const std::pair<int, int> secondPowerLineCoordinates = retrieveFreeCoordinates(firstPowerLineCoordinates.first + 1, firstPowerLineCoordinates.second);
+	const std::pair<int, int> firstPowerPlantCoordinates = retrieveFreeCoordinates(secondPowerLineCoordinates.first, secondPowerLineCoordinates.second + 1);
 
 	//City
 	fieldArray[localCityPosition.first][localCityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
@@ -285,7 +285,7 @@ void LPlayingField::createFields()
 
 	//-----Generate buildings for BOTH players----
 
-	std::pair<int, int> transformerStationPosition = retrieveFreeCoordinates(fieldLength / 2, fieldLength / 2); //Position of transformer station is not allowed to be near a city (the area around the city must be free for the power plants and the power lines), so place it in the middle of the field
+	const std::pair<int, int> transformerStationPosition = retrieveFreeCoordinates(fieldLength / 2, fieldLength / 2); //Position of transformer station is not allowed to be near a city (the area around the city must be free for the power plants and the power lines), so place it in the middle of the field
 
 	//Transformer station
 	fieldArray[transformerStationPosition.first][transformerStationPosition.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
@@ -294,10 +294,10 @@ void LPlayingField::createFields()
 
 	//-----Generate buildings for REMOTE player----
 
-	std::pair<int, int> remoteCityPosition = retrieveFreeCoordinates(fieldLength - static_cast<int>(fieldLength / offsetCity), fieldLength - static_cast<int>(fieldLength / offsetCity));
-	std::pair<int, int> firstRemotePowerLineCoordinates = retrieveFreeCoordinates(remoteCityPosition.first, remoteCityPosition.second + 1);
-	std::pair<int, int> secondRemotePowerLineCoordinates = retrieveFreeCoordinates(firstRemotePowerLineCoordinates.first + 1, firstRemotePowerLineCoordinates.second);
-	std::pair<int, int> firstRemotePowerPlantCoordinates = retrieveFreeCoordinates(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second + 1);
+	const std::pair<int, int> remoteCityPosition = retrieveFreeCoordinates(fieldLength - offsetCity - 1, fieldLength - offsetCity - 1);
+	const std::pair<int, int> firstRemotePowerLineCoordinates = retrieveFreeCoordinates(remoteCityPosition.first, remoteCityPosition.second + 1);
+	const std::pair<int, int> secondRemotePowerLineCoordinates = retrieveFreeCoordinates(firstRemotePowerLineCoordinates.first + 1, firstRemotePowerLineCoordinates.second);
+	const std::pair<int, int> firstRemotePowerPlantCoordinates = retrieveFreeCoordinates(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second + 1);
 
 	//City
 	fieldArray[remoteCityPosition.first][remoteCityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);

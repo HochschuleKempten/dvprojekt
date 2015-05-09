@@ -70,7 +70,6 @@ void VPlayingField::buildPlayingField()
 
 				vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
 				m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);
-				m_zpPlacementHolders[holder].Fasten();
 				m_zpPlacementHolders[holder].SetFrustumCullingOn();
 			}
 		}
@@ -89,9 +88,6 @@ void VPlayingField::buildPlayingField()
 	float rows = CASTS<float>(vFields.getRows());
 	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getLocalCity()->getLField()->getX()), CASTS<float>(fieldSize * lPlayingField->getLocalCity()->getLField()->getY()), CASTS<float>(fieldSize * rows * 0.5));
      
-	//m_zp.SetFrustumCullingOn();
-	//m_zp.Fasten();
-
 	DEBUG_EXPRESSION(m_zp.SetName("#Placement VPlayingField"));
 
 #ifdef _DEBUG

@@ -21,7 +21,7 @@ void LField::init(const FieldType fieldType, const FieldLevel fieldLevel)
 	this->fieldLevel = fieldLevel;
 
 	const std::unordered_map<LField::FieldLevel, double> fieldLevels = LBalanceLoader::getFieldLevelFactor();
-	energyStock = fieldType * fieldLevels.at(fieldLevel);
+	energyStock = CASTS<int>(fieldType * fieldLevels.at(fieldLevel));
 
 	energyLeft = energyStock;
 }
@@ -61,7 +61,7 @@ void LField::setFieldLevel(FieldLevel fieldLevel)
 
 int LField::getBuildingId() const
 {
-	return buildingId;
+	return lBuilding == nullptr ? -1 : lBuilding->getIdentifier();
 }
 
 bool LField::removeBuilding()

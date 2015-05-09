@@ -200,7 +200,7 @@ void LMaster::tick(const float fTimeDelta)
 			std::vector<FieldTransfer> row = transferObject.getValueAsVector();
 			int rowNumber = x;
 
-			for (int column = 0; column < row.size(); column++)
+			for (int column = 0; column < CASTS<int>(row.size()); column++)
 			{
 				lPlayingField->initField(rowNumber, column, static_cast<LField::FieldType>(row[column].iFieldType), static_cast<LField::FieldLevel>(row[column].iFieldLevel));
 

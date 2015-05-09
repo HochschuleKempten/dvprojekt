@@ -1,22 +1,22 @@
 #include "LBalanceLoader.h"
-#include <fstream>
+#include <boost\property_tree\ini_parser.hpp>
 
 NAMESPACE_LOGIC_B
 
-static const char* msgAssert = "LBalanceLoader is not initialized";
+static const char* const msgAssert = "LBalanceLoader is not initialized";
 
-DEBUG_EXPRESSION(bool LBalanceLoader::initDone = false);
 boost::property_tree::ptree LBalanceLoader::propertyTree;
+DEBUG_EXPRESSION(bool LBalanceLoader::initDone = false);
 
 void LBalanceLoader::init()
 {
-	DEBUG_EXPRESSION(initDone = true);
 	try {
 		boost::property_tree::read_ini("logic\\Balancing.ini", propertyTree);
 	} catch (boost::property_tree::ptree_error error) {
-		DEBUG_OUTPUT(error.what())
+		ASSERT("Can't read ini file" << error.what())
 	}
 
+	DEBUG_EXPRESSION(initDone = true);
 }
 
 int LBalanceLoader::getFieldStorage(const LField::FieldType fieldType)
@@ -128,6 +128,12 @@ int LBalanceLoader::getMaxPopulation()
 {
 	ASSERT(initDone, msgAssert);
 	return propertyTree.get<int>("CityProperties.MaxPopulation", 0);
+}
+
+int LBalanceLoader::getMapOffset()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("CityProperties.MapOffset", 0);
 }
 
 NAMESPACE_LOGIC_E

@@ -49,7 +49,6 @@ private:
 	bool buildingPlaced = false;
 	FieldType fieldType = GRASS;
 	FieldLevel fieldLevel = LEVEL1;
-	int buildingId = -1;
 	int energyStock = 0;
 	int energyLeft = 0;
 	int x = -1;
@@ -91,7 +90,6 @@ public:
 		}
 
 		lBuilding = new T(this, x, y, arguments...);
-		buildingId = LIdentifier::getIdentifierForType<T>();
 		buildingPlaced = true;
 		return true;
 	}

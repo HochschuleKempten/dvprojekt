@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../logic/IVPlayingField.h"
-#include "../logic/LPlayingField.h"
 #include "../logic/LRemoteOperation.h"
 #include "../logic/Array2D.h"
 #include "IViewObject.h"
