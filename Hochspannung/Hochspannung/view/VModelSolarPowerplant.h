@@ -9,7 +9,6 @@ NAMESPACE_VIEW_B
 class VModelSolarPowerPlant : public IViewModel
 {
 private:
-
 	CPlacement m_zpStabilisierung;
 	CPlacement m_zpCamera;
 	CPlacement m_zpSolarPowerplant;

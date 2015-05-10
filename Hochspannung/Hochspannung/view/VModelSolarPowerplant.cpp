@@ -5,6 +5,9 @@ NAMESPACE_VIEW_B
 
 VModelSolarPowerPlant::VModelSolarPowerPlant()
 {
+	m_zpLOD[0].AddPlacement(&m_zpSolarPowerplant);
+	m_zpLOD[1].AddPlacement(&m_zpSolarPowerplant);
+	m_zpLOD[2].AddPlacement(&m_zpSolarPowerplant);
 	m_zpMain.AddPlacement(&m_zpSolarPowerplant);
 	m_zpSolarPowerplant.AddPlacement(&m_zpGrundflaeche);
 	m_zpSolarPowerplant.AddPlacement(&m_zpSockel);
