@@ -13,8 +13,11 @@ VNuclearPowerPlant::VNuclearPowerPlant(VMaster* vMaster, LNuclearPowerPlant* lPl
 void VNuclearPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {
 	viewModel.initViewModel(this);
-	viewModel.getMainPlacement()->Scale(0.4f);
+
+	const float scale = 0.4f;
+	viewModel.getMainPlacement()->Scale(scale);
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
+	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f * scale);
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VNuclearPowerPlant);

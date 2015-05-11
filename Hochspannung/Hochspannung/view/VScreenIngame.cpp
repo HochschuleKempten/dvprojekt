@@ -545,7 +545,7 @@ void VScreenIngame::handleInput()
 #ifdef _DEBUG
 				extern bool isCheatModeOn;
 				isCheatModeOn = true;
-				vUi->vMaster->getPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
+				vUi->vMaster->getPlayingField()->tryBuildOnField<LNuclearPowerPlant>(x, y);
 				isCheatModeOn = false;
 #endif
 			}

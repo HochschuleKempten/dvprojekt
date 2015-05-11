@@ -44,7 +44,7 @@ public:
 			m_zpLODBorder[i + 1] = previous;
 		}
 
-		DEBUG_EXPRESSION(initViewModel(nullptr));	//TODO (JS) Problems because of double init?
+		DEBUG_EXPRESSION(initViewModel(nullptr));
 	}
 
 	virtual inline ~IViewModel()
