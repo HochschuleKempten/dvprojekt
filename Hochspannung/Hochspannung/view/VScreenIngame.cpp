@@ -541,28 +541,27 @@ void VScreenIngame::handleInput()
 			if (pickedElements.count(VIdentifier::VPlayingField) > 0)
 			{
 
+				int x = pickedElements[VIdentifier::VPlayingField][0];
+				int y = pickedElements[VIdentifier::VPlayingField][1];
 
 
-
-			int x = pickedElements[VIdentifier::VPlayingField][0];
-			int y = pickedElements[VIdentifier::VPlayingField][1];
-			IViewBuilding * vbuilding = CASTD<IViewBuilding*>(vUi->vMaster->getPlayingField()->getBuilding(x, y));
+				//IViewBuilding * vbuilding = CASTD<IViewBuilding*>(vUi->vMaster->getPlayingField()->getBuilding(x, y));
 			
-			if (vbuilding != nullptr)
-			{
+				//if (vbuilding != nullptr)
+				//{
 
-				vbuilding->clicked(IViewObject::action::switchOnOff);
-			}
+				//	vbuilding->clicked(IViewObject::action::switchOnOff);
+				//}
 
 
-//				vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
-//
-//#ifdef _DEBUG
-//				extern bool isCheatModeOn;
-//				isCheatModeOn = true;
-//				vUi->vMaster->getPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
-//				isCheatModeOn = false;
-//#endif
+				vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+
+#ifdef _DEBUG
+				extern bool isCheatModeOn;
+				isCheatModeOn = true;
+				vUi->vMaster->getPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
+				isCheatModeOn = false;
+#endif
 			}
 
 			clickActive = true;

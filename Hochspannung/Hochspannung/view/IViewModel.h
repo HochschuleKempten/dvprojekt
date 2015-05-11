@@ -15,7 +15,6 @@ class IViewModel
 {
 	NON_COPYABLE(IViewModel);
 
-
 private:
 	static const int LODLevels = 3;
 
