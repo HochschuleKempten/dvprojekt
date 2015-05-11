@@ -56,7 +56,10 @@ void LMaster::gameOver()
 {
 	vMaster.gameOver();
 
-	//networkService.close();
+	if (networkService.getConnectionState() == Network::CONNECTED)
+	{
+		networkService.close();
+	}
 }
 
 void LMaster::placeBuilding(const int buildingId, const int x, const int y, const int playerId)
@@ -324,5 +327,9 @@ LPlayer* LMaster::getPlayer(const int idxPlayer)
 	return &lPlayers[idxPlayer];
 }
 
+std::vector<Network::CGameObject> LMaster::getGameList()
+{
+	return networkService.getGameList();
+}
 
 NAMESPACE_LOGIC_E

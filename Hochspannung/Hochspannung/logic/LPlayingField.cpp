@@ -112,22 +112,22 @@ std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getFieldNeig
 int LPlayingField::linkPowerlines(const int x, const int y)
 {
 	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = getFieldNeighbors(x, y);
-	int oriention = 0;
+	int orientation = 0;
 
 	for (auto const& iterator : neighbors)
 	{
 		//No Building
-		if (iterator.second->getBuilding() == nullptr)
+		if (iterator.second->getBuilding() == nullptr || iterator.second->getBuilding()->getPlayerId() == LPlayer::External)
 		{
 			continue;
 		}
 
 		//There is a building, so the orientation of the powerline must be set to this building
 		//The adjustment of the orientation of the other powerlines is done automatically when inserting the edge to the graph
-		oriention |= iterator.first;
+		orientation |= iterator.first;
 	}
 
-	return oriention;
+	return orientation;
 }
 
 void LPlayingField::beginRemoteOperation()
@@ -465,7 +465,7 @@ void LPlayingField::addBuildingToGraph(const int x, const int y, const int orien
 						if (plOther != nullptr)
 						{
 							add_edge(convertIndex(xEnd, yEnd), convertIndex(x, y), powerLineGraph);
-							plOther->updatedOrientation(ILBuilding::getOpppositeOrienttion(checkOrientation));
+							plOther->updatedOrientation(ILBuilding::getOpppositeOrientation(checkOrientation));
 						}
 					}
 				}
