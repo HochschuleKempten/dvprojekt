@@ -9,6 +9,9 @@ NAMESPACE_VIEW_B
 
 class IViewPowerPlant : public IVPowerPlant, public IViewBuilding
 {
+protected:
+	bool isOn = true;
+
 public:
 	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp)
 		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp)
@@ -30,7 +33,15 @@ public:
 		}
 	}
 
+	virtual void switchedOn() override
+	{
+		isOn = true;
+	}
 
+	virtual void switchedOff() override
+	{
+		isOn = false;
+	}
 };
 
 

@@ -179,7 +179,6 @@ private:
 	int convertIndex(const std::pair<int, int>& coordinates);
 	int convertIndex(const int x, const int y);
 	std::pair<int, int> convertIndex(const int idx);
-	void calculateEnergyValueCity();
 	void addBuildingToGraph(const int x, const int y, const int orientation);
 	void printGraph();
 
@@ -231,6 +230,7 @@ public:
 	void recheckConnectedBuildings();
 	bool checkConnectionBuildings(const ILBuilding* b1, const ILBuilding* b2);
 	bool isTransformstationConnected();
+	void calculateEnergyValueCity();
 
 	bool isInitDone();
 	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);
