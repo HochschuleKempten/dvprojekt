@@ -48,6 +48,8 @@ public:
 	{
 		return gamePaused;
 	}
+
+	std::vector<Network::CGameObject> getGameList();
 };
 
 
