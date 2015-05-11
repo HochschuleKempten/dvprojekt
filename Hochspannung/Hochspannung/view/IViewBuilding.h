@@ -17,6 +17,11 @@ public:
 	{}
 
 	virtual ILBuilding* getLBuilding() = 0;
+
+	virtual bool clicked(action action)
+	{
+		return true;
+	};
 };
 
 #define SET_NAME_AND_COORDINATES(id) { std::stringstream stream; \

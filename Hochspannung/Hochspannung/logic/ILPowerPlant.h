@@ -20,6 +20,21 @@ public:
 	inline virtual ~ILPowerPlant()
 	{
 	};
+
+	bool isActivated = true;
+
+	void switchOnOff()
+	{
+		if (isActivated)
+		{
+			isActivated = false;
+		}
+		else
+		{
+			isActivated = true;
+		}
+	};
+
 };
 
 

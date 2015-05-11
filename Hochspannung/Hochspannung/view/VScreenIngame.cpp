@@ -9,6 +9,7 @@
 #include "../logic/LOilRefinery.h"
 #include "../logic/LSolarPowerPlant.h"
 #include "../logic/LNuclearPowerPlant.h"
+#include "../view/IViewModel.h"
 #include <Vektoria/Placements.h>
 
 NAMESPACE_VIEW_B
@@ -537,16 +538,29 @@ void VScreenIngame::handleInput()
 		{
 			if (pickedElements.count(VIdentifier::VPlayingField) > 0)
 			{
-				int x = pickedElements[VIdentifier::VPlayingField][0];
-				int y = pickedElements[VIdentifier::VPlayingField][1];
-				vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
 
-#ifdef _DEBUG
-				extern bool isCheatModeOn;
-				isCheatModeOn = true;
-				vUi->vMaster->getPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
-				isCheatModeOn = false;
-#endif
+
+
+
+			int x = pickedElements[VIdentifier::VPlayingField][0];
+			int y = pickedElements[VIdentifier::VPlayingField][1];
+			IViewBuilding * vbuilding = CASTD<IViewBuilding*>(vUi->vMaster->getPlayingField()->getBuilding(x, y));
+			
+			if (vbuilding != nullptr)
+			{
+
+				vbuilding->clicked(IViewObject::action::switchOnOff);
+			}
+
+
+//				vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+//
+//#ifdef _DEBUG
+//				extern bool isCheatModeOn;
+//				isCheatModeOn = true;
+//				vUi->vMaster->getPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
+//				isCheatModeOn = false;
+//#endif
 			}
 
 			clickActive = true;
@@ -575,7 +589,7 @@ std::map<int, std::vector<int>> VScreenIngame::pickElements()
 	{
 		if (placements.m_applacement[i]->m_pgeos)
 		{
-			//pickedPlacements.insert(placements.m_applacement[i]);
+			pickedPlacements.insert(placements.m_applacement[i]);
 		}
 	}
 	//The two placements pick different things, so they have to be merged together

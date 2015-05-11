@@ -109,5 +109,10 @@ void VPlayingField::messageBuildingFailed(const std::string& message)
 	DEBUG_OUTPUT("BuildMessage: " << message);
 }
 
+IViewBuilding * VPlayingField::getBuilding(const int x, const int y)
+{
+	return vFields[x][y].m_zViewBuilding.get();
+}
+
 
 NAMESPACE_VIEW_E
