@@ -52,6 +52,7 @@ NAMESPACE_VIEW_B
 			{
 				m_IterGuicontainer->second->switchOn();
 			}
+			m_bOn = true;
 		};
 
 		virtual void switchOff()
@@ -69,6 +70,8 @@ NAMESPACE_VIEW_B
 			{
 				m_IterGuicontainer->second->switchOff();
 			}
+
+			m_bOn = false;
 		};
 
 		virtual bool isOn()
