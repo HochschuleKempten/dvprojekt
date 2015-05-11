@@ -31,7 +31,7 @@ private:
 	const CHVector size = CHVector(fieldSize, fieldSize, fieldDepth);
 
 	std::vector<CPlacement> m_zpPlacementHolders;	
-	Array2D<VField> vFields;
+	DynArray2D<VField> vFields;
 	CPlacement m_zp;
 
 public:
@@ -42,14 +42,18 @@ public:
 	template<typename T, typename... Args>
 	inline void tryBuildOnField(const int x, const int y, const Args... arguments)
 	{
-		if (!lPlayingField->placeBuilding<T>(x, y, arguments...)) {
+		lPlayingField->beginRemoteOperation();
+		if (!lPlayingField->placeBuilding<T>(x, y, LPlayer::Local, arguments...)) {
 			DEBUG_OUTPUT("Could not place building at " << x << ", " << y);
 		}
+		lPlayingField->endRemoteOperation();
 	}
 
 	inline void tryRemoveObject(const int x, const int y)
 	{
+		lPlayingField->beginRemoteOperation();
 		lPlayingField->removeBuilding(x, y);
+		lPlayingField->endRemoteOperation();
 	}
 
 	void placeObject(const std::shared_ptr<IViewBuilding>& objPtr, const int x, const int y);

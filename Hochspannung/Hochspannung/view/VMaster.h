@@ -32,19 +32,26 @@ public:
 	void initScene(HWND hwnd, CSplash* psplash);
 	void tick(float fTime, float fTimeDelta);
 
-	virtual void gameOver() override;
-	virtual IVFactory* getFactory() override;
-	VPlayingField* getPlayingField();
 	VUI* getVUi();
-
 	void setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField);
-	
 	void resize(int width, int height);
 
-	virtual void updateMoney(const int money) override;
+	DEBUG_EXPRESSION(void startSinglePlayerGame());
+	void hostGame();
+	void joinGame(const std::string& ipAddress);
 
+	virtual void updateMoney(const int money) override;
 	virtual void pauseGame() override;
 	virtual void continueGame() override;
+	virtual void gameOver() override;
+	virtual IVFactory* getFactory() override;
+
+	inline VPlayingField* getPlayingField()
+	{
+		ASSERT(vPlayingField != nullptr, "VPlayingField is not initialized");
+
+		return vPlayingField.get();
+	}
 };
 
 

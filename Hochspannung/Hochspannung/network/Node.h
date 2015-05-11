@@ -14,6 +14,12 @@ namespace Network {
 using namespace boost::asio;
 using boost::system::error_code;
 
+enum State {
+	CONNECTED,
+	CLOSED,
+	PENDING
+};
+
 /**
  * @class CNode
  * @brief Base class for the communication between two game sessions.
@@ -61,10 +67,10 @@ public:
 	void restart();
 
 	/**
-	 * @brief Returns if the connection is currently open.
-	 * @return true, if the connection is open, false otherwise.
+	 * @brief Returns the current connection state (Not solid atm!).
+	 * @return the current connection state.
 	 */
-	bool isConnected();
+	State getConnectionState();
 
 	/**
 	 * @brief Sends the given message
@@ -167,7 +173,7 @@ protected:
 	ip::udp::endpoint m_localEndpointUdp;
 	ip::udp::endpoint m_remoteEndpointUdp;
 
-	bool m_bConnected;
+	State m_connectionState;
 	bool m_bCheckResponseReceived;
 
 	CMessage m_messageRead;

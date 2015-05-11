@@ -1,4 +1,5 @@
 #pragma once
+
 #include "IViewScreen.h"
 #include "VIdentifier.h"
 
@@ -28,6 +29,8 @@ public:
 	CFloatRect getBottomSpace();
 
 	void tick() override;
+	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
+	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(int width, int height) override;
 
 	void handleInput();
@@ -35,9 +38,14 @@ public:
 
 	void addToScene(CPlacement* placement);
 
+	void startAnimation() override;
+	void StartEvent() override;
+	void EndEvent() override;
+
 private:
+	CFloatRect getRectForPixel(int iPosX, int iPosY, int iSizeX, int iSizeY);
 	CScene m_scene;
-	CViewport m_viewport;
+	//CViewport m_viewport;
 	CBackground m_zb;
 	CParallelLight m_zl;
 	CCamera m_zc;
@@ -59,6 +67,7 @@ private:
 
 	bool bK = false;
 	float mouseWheelPosition = 0.0F;
+	float cameraAngle = 0.0F;
 
 	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
 };

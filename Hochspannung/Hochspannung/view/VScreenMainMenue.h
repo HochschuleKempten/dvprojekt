@@ -3,24 +3,31 @@
 
 NAMESPACE_VIEW_B
 
-class VScreenMainMenue :
-	public IViewScreen
-{
+	class VScreenMainMenue :
+		public IViewScreen
+	{
+	public:
+		explicit VScreenMainMenue(VUI* vUi);
+		~VScreenMainMenue();
 
-	
-public:
-	explicit VScreenMainMenue(VUI* vUi);
-	~VScreenMainMenue();
+		void onNotify(Event events) override;
+		void checkShortcut(CDeviceKeyboard* keyboard) override;
+		void checkSpecialEvent(CDeviceCursor* cursor) override;
+		void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
+		void resize(int width, int height) override;
+		void tick() override;
+		void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
+		void startAnimation() override;
+		void slideIn();
 
-	void onNotify(Event events)override;
-	void checkShortcut(CDeviceKeyboard* keyboard) override;
-	void checkSpecialEvent(CDeviceCursor* cursor)override;
-	void resize(int width, int height) override;
-	virtual void tick() override;
-private:
-	COverlay* m_flash;
-	CBackground* m_background;
-	COverlay* m_headline;
-};
+		void StartEvent() override;
+		void EndEvent() override;
 
-NAMESPACE_VIEW_E
+	private:
+		COverlay* m_flash;
+		CBackground* m_background;
+		COverlay* m_headline;
+		bool startUp = true;
+	};
+
+	NAMESPACE_VIEW_E

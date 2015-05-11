@@ -7,8 +7,8 @@
 
 NAMESPACE_LOGIC_B
 
-LOilRefinery::LOilRefinery(LField* lField, const int x, const int y)
-	:ILPowerPlant(lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createOilRefinery(this))
+LOilRefinery::LOilRefinery(LField* lField, const int x, const int y, const int playerId)
+	:ILPowerPlant(lField, playerId, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createOilRefinery(this))
 {
 	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }

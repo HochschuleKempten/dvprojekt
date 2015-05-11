@@ -3,6 +3,7 @@
 #include "../logic/IVPowerPlant.h"
 #include "../logic/LOilRefinery.h"
 #include "IViewBuilding.h"
+#include "VModelOilRefinery.h"
 
 NAMESPACE_VIEW_B
 
@@ -10,9 +11,7 @@ NAMESPACE_VIEW_B
 class VOilRefinery : public IVPowerPlant, public IViewBuilding
 {
 private:
-	CPlacement m_zp;
-	CMaterial m_zm;
-	CGeoEllipsoid m_zg;
+	VModelOilRefinery viewModel;
 
 public:
 	VOilRefinery(VMaster *vMaster, LOilRefinery* lPlant);

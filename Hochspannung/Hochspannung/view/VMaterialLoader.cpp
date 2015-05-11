@@ -18,6 +18,16 @@ CMaterial VMaterialLoader::materialRed;
 CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
 
+
+//Lobby Buttons
+
+CMaterial VMaterialLoader::materialButtonLobbyJoinGame;
+CMaterial VMaterialLoader::materialButtonLobbyJoinGameHover;
+CMaterial VMaterialLoader::materialButtonLobbyHostGame;
+CMaterial VMaterialLoader::materialButtonLobbyHostGameHover;
+
+
+
 //Buttons
 
 CMaterial VMaterialLoader::materialButtonMainMenueNeuesSpiel;
@@ -74,11 +84,29 @@ CMaterial VMaterialLoader::m_zmIsolator;
 CMaterial VMaterialLoader::m_zmRing;
 CMaterial VMaterialLoader::m_zmCable;
 
+//Solarkraftwerktexturen
+CMaterial VMaterialLoader::m_zmSolarzelle;
+CMaterial VMaterialLoader::m_zmSolarGrund;
+
+//Atomkraftwerktexturen
+CMaterial VMaterialLoader::m_zmAtomgrundWhite;
+CMaterial VMaterialLoader::m_zmAtomgrundGrey;
+CMaterial VMaterialLoader::m_zmSchranke;
+CMaterial VMaterialLoader::m_zmAtomgrundGreen;
+CMaterial VMaterialLoader::m_zmHolz;
+
 //PlayerColor
-std::unordered_map<LPlayer::PlayerId, CColor> VMaterialLoader::colorPlayers;
+std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
 
 //PlayerFoundations
-std::unordered_map<LPlayer::PlayerId, CMaterial> VMaterialLoader::materialFoundationPlayer;
+std::unordered_map<int, CMaterial> VMaterialLoader::materialFoundationPlayer;
+
+//Cursor
+CMaterial VMaterialLoader::m_zmDefaultCursor;
+CMaterial VMaterialLoader::m_zmHammerCursor;
+
+//CraftMenue
+CMaterial VMaterialLoader::m_zmCraftMenueBackground;
 
 //MaterialBuilding
 CMaterial VMaterialLoader::materialBuilding01;
@@ -115,38 +143,36 @@ void VMaterialLoader::init()
 	setFieldMaterialHelper(LField::MOUNTAIN, "mountain");
 	setFieldMaterialHelper(LField::CITY, "city");
 	setFieldMaterialHelper(LField::OIL, "oil");
+	setFieldMaterialHelper(LField::NUCLEAR, "atom");
 
 	materialCoalPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
 	materialHydroelectricPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
 
 	materialDialogBackground.MakeTextureSprite("textures\\MainMenueBackground.png");
+
 	materialIngameBorder.Init(CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68));
 
-	//Buttons
-	//materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpiel.png");
-	//materialButtonMainMenueNeuesSpielHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueNeuesSpielHover.png");
-	materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_newgame.png");
-	materialButtonMainMenueNeuesSpielHover.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_newgame_hover.png");
 
-	//materialButtonMainMenueOptionen.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueOptionen.png");
-	//materialButtonMainMenueOptionenHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueOptionenHover.png");
-	materialButtonMainMenueOptionen.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_options.png");
-	materialButtonMainMenueOptionenHover.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_options_hover.png");
-	/*materialButtonMainMenueCredits.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueCredits.png");
-	materialButtonMainMenueCreditsHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueCreditsHover.png");*/
-	materialButtonMainMenueCredits.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_credits.png");
-	materialButtonMainMenueCreditsHover.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_credits_hover.png");
+	//Main menu - Buttons
+	materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_newgame.png");
+	materialButtonMainMenueNeuesSpielHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_newgame_hover.png");
+	materialButtonMainMenueOptionen.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_options.png");
+	materialButtonMainMenueOptionenHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_options_hover.png");
+	materialButtonMainMenueCredits.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_credits.png");
+	materialButtonMainMenueCreditsHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_credits_hover.png");
+	materialButtonMainMenueSpielBeenden.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_exit.png");
+	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_exit_hover.png");
+	materialButtonBack.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back.png");
+	materialButtonBackHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back_hover.png");
 
-	/*materialButtonMainMenueSpielBeenden.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueSpielBeenden.png");
-	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures\\Buttons\\ButtonMainMenueSpielBeendenHover.png");*/
-	materialButtonMainMenueSpielBeenden.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_exit.png");
-	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_exit_hover.png");
+	//Lobby Buttons
+	materialButtonLobbyJoinGame.MakeTextureSprite("textures/gui/Buttons/ButtonJoinGame.png");
+	materialButtonLobbyJoinGameHover.MakeTextureSprite("textures/gui/Buttons/ButtonJoinGameHover.png");
+	materialButtonLobbyHostGame.MakeTextureSprite("textures/gui/Buttons/ButtonHostGame.png");
+	materialButtonLobbyHostGameHover.MakeTextureSprite("textures/gui/Buttons/ButtonHostGameHover.png");
+		
 
-	/*materialButtonBack.MakeTextureSprite("textures\\Buttons\\ButtonBack.png");
-	materialButtonBackHover.MakeTextureSprite("textures\\Buttons\\ButtonBackHover.png");*/
-	materialButtonBack.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_back.png");
-	materialButtonBackHover.MakeTextureSprite("textures\\Buttons\\texture_gui_menubutton_back_hover.png");
-
+	//Interface - Background
 	materialTopbar.MakeTextureSprite("textures\\topbar.png");
 	materialBottombarBorderTop.MakeTextureSprite("textures\\bottombarBorderTopBlue.png");
 	materialVerticalBorder.MakeTextureSprite("textures\\VerticalBorder.png");
@@ -154,17 +180,15 @@ void VMaterialLoader::init()
 	materialBuildingButton.MakeTextureSprite("textures\\BuildingButton.png");
 	materialBuildingButtonHover.MakeTextureSprite("textures\\BuildingButtonHover.png");
 
-	//Ingame Buttons
-	materialIngameButtonCraftmenu.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_craftmenu.png");
-	materialIngameButtonCraftmenuHover.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_craftmenu_hover.png");
+	//Interface - Selection Buttons
+	materialIngameButtonCraftmenu.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_craftmenu.png");
+	materialIngameButtonCraftmenuHover.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_craftmenu_hover.png");
+	materialIngameButtonSabotage.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_sabotage.png");
+	materialIngameButtonSabotageHover.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_sabotage_hover.png");
+	materialIngameButtonStatistics.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_statistics.png");
+	materialIngameButtonStatisticsHover.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_statistics_hover.png");
 
-	materialIngameButtonSabotage.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_sabotage.png");
-	materialIngameButtonSabotageHover.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_sabotage_hover.png");
-
-	materialIngameButtonStatistics.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_statistics.png");
-	materialIngameButtonStatisticsHover.MakeTextureSprite("textures\\Buttons\\texture_gui_ingamebutton_statistics_hover.png");
-
-	//Craftmenu
+	//Interface - Panel_Building
 	materialCraftmenuButtonWindmill.MakeTextureSprite("textures\\Buttons\\BuildingButtonWindmill.png");
 	materialCraftmenuButtonHydroPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonHydroPowerplant.png");
 	materialCraftmenuButtonSolarPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonSolarPowerplant.png");
@@ -180,38 +204,58 @@ void VMaterialLoader::init()
 	materialCraftmenuButtonOilPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonOilPowerplantHover.png");
 	materialCraftmenuButtonNuclearPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonNuclearPowerplantHover.png");
 	materialCraftmenuButtonPowerlineHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonPowerlineHover.png");
+
 	//Test
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
 	materialBlue.MakeTextureSprite("textures\\blue_image.jpg");
 	materialGreen.MakeTextureSprite("textures\\green_image.jpg");
 
-	//Writing Font
-	standardFont.Init("textures\\FontArialShadow.png", true);
+	//Fonts
+	standardFont.Init("textures/fonts/FontArialShadow.png", true);
 	standardFont.SetTableSize(16, 6);
-	GoldFont.Init("textures\\FontArialShadowGold.png", true);
+	GoldFont.Init("textures/fonts/FontArialShadowGold.png", true);
 	GoldFont.SetTableSize(16, 6);
 
-	//Trassentexturen
-	m_zmConcrete.MakeTextureDiffuse("textures\\texture_concrete_diffuse.png");
-	m_zmConcrete.MakeTextureBump("textures\\texture_concrete_normal.png");
-	m_zmConcrete.MakeTextureSpecular("textures\\texture_concrete_specular.png");
+	//Building - Trasse
+	m_zmConcrete.MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse.png");
+	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
+	m_zmConcrete.MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 
 	m_zmStrut.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmRing.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmCable.MakeTextureDiffuse("textures\\white_image.jpg");
 
-	//PlayerColor
-	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
-	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::External), std::make_tuple(222.0f / 255.0f, 186.0f / 255.0f, 69.0f / 255.0f));
+	//Solarkraftwerktexturen
+	m_zmSolarGrund.MakeTextureDiffuse("textures\\white_image.jpg");
+	m_zmSolarzelle.MakeTextureDiffuse("textures\\black_image.jpg");
 
-	//PlayerFoundations
-	materialFoundationPlayer[LPlayer::Local].MakeTextureDiffuse("textures/texture_concrete_diffuse.png");
-	materialFoundationPlayer[LPlayer::Local].MakeTextureBump("textures/texture_concrete_normal.png");
-	materialFoundationPlayer[LPlayer::Local].MakeTextureSpecular("textures/texture_concrete_specular.png");
-	materialFoundationPlayer[LPlayer::External].MakeTextureDiffuse("textures/texture_concrete_diffuse.png");
-	materialFoundationPlayer[LPlayer::External].MakeTextureBump("textures/texture_concrete_normal.png");
-	materialFoundationPlayer[LPlayer::External].MakeTextureSpecular("textures/texture_concrete_specular.png");
+	//Atomkraftwerktexturen
+	m_zmAtomgrundWhite.MakeTextureDiffuse("textures\\white_image.jpg");
+	m_zmAtomgrundGrey.MakeTextureDiffuse("Textures\\grey_image.jpg");
+	m_zmSchranke.MakeTextureDiffuse("Textures\\schranke.jpg");
+	m_zmAtomgrundGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
+	m_zmHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
+	
+	//Building - Foundation
+	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::External), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
+	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(222.0f / 255.0f, 186.0f / 255.0f, 69.0f / 255.0f));
+	//Local player
+	materialFoundationPlayer[LPlayer::Local].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_local.png");
+	materialFoundationPlayer[LPlayer::Local].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
+	materialFoundationPlayer[LPlayer::Local].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
+	//Opponent
+	materialFoundationPlayer[LPlayer::External].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_opponent.png");
+	materialFoundationPlayer[LPlayer::External].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
+	materialFoundationPlayer[LPlayer::External].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
+
+	//Cursor
+	m_zmDefaultCursor.MakeTextureSprite("textures\\gui\\default_zeiger.png");
+	m_zmHammerCursor.MakeTextureSprite("textures\\gui\\Hammer.png");
+
+	//CraftMenue
+	m_zmCraftMenueBackground.MakeTextureSprite("textures\\gui\\texture_gui_background_darkgrey.png");
+
 }
 
 

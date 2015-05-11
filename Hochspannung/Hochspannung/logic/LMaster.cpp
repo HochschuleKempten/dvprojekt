@@ -9,27 +9,46 @@
 #include "LSolarPowerPlant.h"
 #include "LWindmillPowerPlant.h"
 #include "LCity.h"
+#include "LTransformerStation.h"
+#include "LBalanceLoader.h"
 
 NAMESPACE_LOGIC_B
-
 
 LMaster::LMaster(IVMaster& vMaster)
 		: vMaster(vMaster), lPlayers({ this, this }),
 		networkService(Network::CNetworkService::instance())
 {
 	vMaster.registerObserver(this);
+	LBalanceLoader::init();
 }
 
 LMaster::~LMaster()
 {
 	delete lPlayingField;
+	networkService.close();
 }
 
-void LMaster::startNewGame()
+void LMaster::startNewGame(const std::string& ipAddress)
 {
+	if (ipAddress.empty())
+	{
+		host();
+		while (networkService.getConnectionState() != Network::CONNECTED);
+	}
+	else DEBUG_EXPRESSION(if(ipAddress != "SINGLE_PLAYER"))
+	{
+		connect(ipAddress);
+	}
+
 	if (lPlayingField == nullptr)
 	{
 		lPlayingField = new LPlayingField(this);
+	}
+
+	if (networkService.getType() != Network::Type::CLIENT) //todo (IP)
+	{
+		lPlayingField->createFields();
+		lPlayingField->showPlayingField();
 	}
 }
 
@@ -37,8 +56,47 @@ void LMaster::gameOver()
 {
 	vMaster.gameOver();
 
-	//todo (IP) test
-	networkService.close();
+	//networkService.close();
+}
+
+void LMaster::placeBuilding(const int buildingId, const int x, const int y, const int playerId)
+{
+	if (buildingId == LIdentifier::LCoalPowerPlant)
+	{
+		lPlayingField->placeBuilding<LCoalPowerPlant>(x, y, playerId);
+	}
+	else if (buildingId == LIdentifier::LHydroelectricPowerPlant)
+	{
+		lPlayingField->placeBuilding<LHydroelectricPowerPlant>(x, y, playerId);
+	}
+	else if (buildingId == LIdentifier::LNuclearPowerPlant)
+	{
+		lPlayingField->placeBuilding<LNuclearPowerPlant>(x, y, playerId);
+	}
+	else if (buildingId == LIdentifier::LOilRefinery)
+	{
+		lPlayingField->placeBuilding<LOilRefinery>(x, y, playerId);
+	}
+	else if (buildingId == LIdentifier::LSolarPowerPlant)
+	{
+		lPlayingField->placeBuilding<LSolarPowerPlant>(x, y, playerId);
+	}
+	else if (buildingId == LIdentifier::LWindmillPowerPlant)
+	{
+		lPlayingField->placeBuilding<LWindmillPowerPlant>(x, y, playerId);
+	}
+	else if (buildingId == LIdentifier::LCity)
+	{
+		lPlayingField->placeBuilding<LCity>(x, y, playerId);
+	}
+	else if (buildingId == LIdentifier::LPowerLine)
+	{
+		lPlayingField->placeBuilding<LPowerLine>(x, y, playerId);
+	}
+	else if (buildingId == LIdentifier::LTransformerStation)
+	{
+		lPlayingField->placeBuilding<LTransformerStation>(x, y, playerId);
+	}
 }
 
 void LMaster::tick(const float fTimeDelta)
@@ -47,16 +105,7 @@ void LMaster::tick(const float fTimeDelta)
 
 	static float timeLastCheck = 0;
 
-	//check every second
-	if (timeLastCheck <= 1)
-	{
-		timeLastCheck += fTimeDelta;
-		return;
-	}
-
-	timeLastCheck = 0;
-
-	if (networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
+	if (timeLastCheck > 1 && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
 	{
 		CTransferObject transferObject = networkService.getNextActionToExecute();
 		int objectId = transferObject.getTransObjectID();
@@ -64,49 +113,45 @@ void LMaster::tick(const float fTimeDelta)
 		int y = transferObject.getCoordY();
 
 
+		int playerId = std::stoi(transferObject.getValue());
+		if (playerId == LPlayer::Local)
+		{
+			playerId = LPlayer::External;
+		}
+		else if (playerId == LPlayer::External)
+		{
+			playerId = LPlayer::Local;
+		}
+
+		DEBUG_OUTPUT("objectId=" << objectId << ":x=" << x << ":y=" << y << ":playerId=" << playerId);
+
 		//regarding host
 		switch (transferObject.getAction())
 		{
 		case(SET_OBJECT) :
 
-			if (objectId >= 0 && objectId < 16)//check if building is a powerline (orientation values between 0 and 16)
+			//buildings
+			if (objectId >= 100 && objectId < 109)
 			{
-				lPlayingField->placeBuilding<LPowerLine>(x, y, objectId);
-			}
-			else
-			{
-				if (objectId == LIdentifier::LCoalPowerPlant)
-				{
-					lPlayingField->placeBuilding<LCoalPowerPlant>(x, y);
-				}
-				else if (objectId == LIdentifier::LHydroelectricPowerPlant)
-				{
-					lPlayingField->placeBuilding<LHydroelectricPowerPlant>(x, y);
-				}
-				else if (objectId == LIdentifier::LNuclearPowerPlant)
-				{
-					lPlayingField->placeBuilding<LNuclearPowerPlant>(x, y);
-				}
-				else if (objectId == LIdentifier::LOilRefinery)
-				{
-					lPlayingField->placeBuilding<LOilRefinery>(x, y);
-				}
-				else if (objectId == LIdentifier::LSolarPowerPlant)
-				{
-					lPlayingField->placeBuilding<LSolarPowerPlant>(x, y);
-				}
-				else if (objectId == LIdentifier::LWindmillPowerPlant)
-				{
-					lPlayingField->placeBuilding<LWindmillPowerPlant>(x, y);
-				}
-				else if (objectId == LIdentifier::LCity)
-				{
-					lPlayingField->placeBuilding<LCity>(x, y);
-				}
+				placeBuilding(objectId, x, y, playerId);
 			}
 
-			//assign player id
-			lPlayingField->getField(x, y)->getBuilding()->setPlayerId(LPlayer::External);
+			//fieldtypes
+			if (objectId >= 0 && objectId < 9)
+			{
+				lPlayingField->getField(x, y)->setFieldType(static_cast<LField::FieldType>(objectId));
+			}
+
+			//fieldlevels
+			if (objectId >= 20 && objectId < 23)
+			{
+				lPlayingField->getField(x, y)->setFieldLevel(static_cast<LField::FieldLevel>(objectId));
+			}
+
+			if (playerId == -66) //= end of fieldcreation
+			{
+				lPlayingField->showPlayingField();
+			}
 
 			break;
 
@@ -150,16 +195,42 @@ void LMaster::tick(const float fTimeDelta)
 
 			break;
 
-		case(SET_MAPSIZE) :
+		case(SET_MAPROW) :
+		{
+			std::vector<FieldTransfer> row = transferObject.getValueAsVector();
+			int rowNumber = x;
 
-			//do nothing
+			for (int column = 0; column < row.size(); column++)
+			{
+				lPlayingField->initField(rowNumber, column, static_cast<LField::FieldType>(row[column].iFieldType), static_cast<LField::FieldLevel>(row[column].iFieldLevel));
+
+				if (row[column].iObjectID != -1)
+				{
+					int plId = row[column].iPlayerID;
+					if (plId == LPlayer::Local)
+					{
+						plId = LPlayer::External;
+					}
+					else if (plId == LPlayer::External)
+					{
+						plId = LPlayer::Local;
+					}
+
+					placeBuilding(row[column].iObjectID, rowNumber, column, plId);
+				}
+			}
 
 			break;
+		}
 
 		default:
 			break;
 		}
+
+		timeLastCheck = 0;
 	}
+
+	timeLastCheck += fTimeDelta;
 }
 
 void LMaster::host()
@@ -182,7 +253,7 @@ void LMaster::host()
 	}
 }
 
-void LMaster::connect(std::string ip)
+void LMaster::connect(const std::string& ip)
 {
 	int reconnectCounter = 0;
 	bool connected = false;
@@ -195,8 +266,6 @@ void LMaster::connect(std::string ip)
 	if (connected)
 	{
 		DEBUG_OUTPUT("Connected to server.");
-
-		startNewGame();
 	}
 	else
 	{
@@ -204,14 +273,39 @@ void LMaster::connect(std::string ip)
 	}
 }
 
-void LMaster::sendSetObject(const int objectId, const int x, const int y)
+void LMaster::sendSetObject(const int objectId, const int x, const int y, const std::string& value)
 {
-	networkService.sendSetObject(objectId, x, y, "");	//TODO (L) set correct last parameter
+	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	{
+		bool b = networkService.sendSetObject(objectId, x, y, value);
+		ASSERT(b == true, "Error: sendSetObject.");
+		DEBUG_OUTPUT("Sent: Objectid: " + std::to_string(objectId) + ", x: " +std::to_string(x) + ", y:" + std::to_string(y) + ", value: " + value);
+	}
+}
+
+void LMaster::sendSetMapRow(const int row, std::vector<Network::FieldTransfer> rowData)
+{
+	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	{
+		bool b = networkService.sendSetMapRow(row, rowData);
+		ASSERT(b == true, "Error: sendSetMapRow.");
+		DEBUG_OUTPUT("----Sent: row: " + std::to_string(row)+"-------");
+		for (Network::FieldTransfer ft : rowData)
+		{
+			DEBUG_OUTPUT("ObjectId: " + std::to_string(ft.iObjectID) + ", PlayerId: " + std::to_string(ft.iPlayerID) + ", FieldLevel: " + std::to_string(ft.iFieldLevel) + ", FieldType: " + std::to_string(ft.iFieldType));
+		}
+		DEBUG_OUTPUT("----------");
+	}
 }
 
 void LMaster::sendDeleteObject(const int x, const int y)
 {
-	networkService.sendDeleteObject(-1, x, y); //todo (L) tell network guys to delete the first parameter (needless)
+	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	{
+		bool b= networkService.sendDeleteObject(x, y);
+		ASSERT(b == true, "Error: sendDeleteObject.");
+
+	}
 }
 
 LPlayingField* LMaster::getLPlayingField()

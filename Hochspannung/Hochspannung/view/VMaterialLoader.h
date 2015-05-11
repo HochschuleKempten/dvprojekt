@@ -40,7 +40,10 @@ public:
 	static CMaterial materialButtonMainMenueCreditsHover;
 	static CMaterial materialButtonMainMenueSpielBeenden;
 	static CMaterial materialButtonMainMenueSpielBeendenHover;
-
+	static CMaterial materialButtonLobbyJoinGame;
+	static CMaterial materialButtonLobbyJoinGameHover;
+	static CMaterial materialButtonLobbyHostGame;
+	static CMaterial materialButtonLobbyHostGameHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
@@ -95,14 +98,25 @@ public:
 	static CMaterial m_zmRing;
 	static CMaterial m_zmCable;
 
+	//Solarkraftwerktexturen
+	static CMaterial m_zmSolarzelle;
+	static CMaterial m_zmSolarGrund;
+
+	//Atomkraftwerktexturen
+	static CMaterial m_zmAtomgrundWhite;
+	static CMaterial m_zmAtomgrundGrey;
+	static CMaterial m_zmSchranke;
+	static CMaterial m_zmAtomgrundGreen;
+	static CMaterial m_zmHolz;
+
+
 	//PlayerColor
-	static std::unordered_map<LPlayer::PlayerId, CColor> colorPlayers;
+	static std::unordered_map<int, CColor> colorPlayers;
 
 	//PlayerFoundations
 	static std::unordered_map<LPlayer::PlayerId, CMaterial> materialFoundationPlayer;
 
-//MaterialBuildings
-
+	//MaterialBuildings
 	static CMaterial materialBuilding01;
 	static CMaterial materialBuilding02;
 	static CMaterial materialBuilding03;
@@ -114,6 +128,14 @@ public:
 
 	// MaterialWindowBuildings
 	static CMaterial materialWindowsofBuilding;
+	static std::unordered_map<int, CMaterial> materialFoundationPlayer;
+
+	//Cursor
+	static CMaterial m_zmDefaultCursor;
+	static CMaterial m_zmHammerCursor;
+
+	//CraftMenue
+	static CMaterial m_zmCraftMenueBackground;
 };
 
 

@@ -7,8 +7,8 @@
 
 NAMESPACE_LOGIC_B
 
-LHydroelectricPowerPlant::LHydroelectricPowerPlant(LField* lField, const int x, const int y)
-	:ILPowerPlant(lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createHydroelectricPowerPlant(this))
+LHydroelectricPowerPlant::LHydroelectricPowerPlant(LField* lField, const int x, const int y, const int playerId)
+	:ILPowerPlant(lField, playerId, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createHydroelectricPowerPlant(this))
 {
 	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }
