@@ -7,7 +7,7 @@ NAMESPACE_VIEW_B
 
 
 VWindmillPowerPlant::VWindmillPowerPlant(VMaster* vMaster, LWindmillPowerPlant* lPlant)
-	: IVPowerPlant(lPlant), IViewBuilding(vMaster, viewModel.getMainPlacement())
+	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
 {
 	vMaster->registerObserver(this);
 }
@@ -29,9 +29,5 @@ void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& ob
 	SET_NAME_AND_COORDINATES(VIdentifier::VWindmillPowerPlant);
 }
 
-ILBuilding* VWindmillPowerPlant::getLBuilding()
-{
-	return CASTD<ILBuilding*>(lPlant);
-}
 
 NAMESPACE_VIEW_E

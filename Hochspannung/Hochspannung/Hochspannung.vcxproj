@@ -204,6 +204,7 @@
     <ClInclude Include="view\IViewGUIObject.h" />
     <ClInclude Include="view\IViewModel.h" />
     <ClInclude Include="view\IViewObject.h" />
+    <ClInclude Include="view\IViewPowerPlant.h" />
     <ClInclude Include="view\IViewScreen.h" />
     <ClInclude Include="view\IViewSubject.h" />
     <ClInclude Include="view\IViewUIObserver.h" />

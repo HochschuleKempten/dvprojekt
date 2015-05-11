@@ -7,7 +7,7 @@ NAMESPACE_VIEW_B
 
 
 VNuclearPowerPlant::VNuclearPowerPlant(VMaster* vMaster, LNuclearPowerPlant* lPlant)
-: IVPowerPlant(lPlant), IViewBuilding(vMaster, viewModel.getMainPlacement())
+	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
 {}
 
 void VNuclearPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
@@ -23,9 +23,5 @@ void VNuclearPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& obj
 	SET_NAME_AND_COORDINATES(VIdentifier::VNuclearPowerPlant);
 }
 
-ILBuilding* VNuclearPowerPlant::getLBuilding()
-{
-	return CASTD<ILBuilding*>(lPlant);
-}
 
 NAMESPACE_VIEW_E

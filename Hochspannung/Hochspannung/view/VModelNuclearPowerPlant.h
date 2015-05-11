@@ -93,7 +93,6 @@ public:
 	VModelNuclearPowerPlant();
 	virtual ~VModelNuclearPowerPlant() override;
 
-	//TODO (Solarkraftwerk) implement this
 	virtual float getHeight() override
 	{
 		return 4.3f;

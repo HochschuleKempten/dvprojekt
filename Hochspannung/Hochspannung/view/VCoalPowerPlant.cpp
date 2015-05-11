@@ -7,7 +7,7 @@ NAMESPACE_VIEW_B
 
 
 VCoalPowerPlant::VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant)
-	: IVPowerPlant(lPlant), IViewBuilding(vMaster, &m_zp)
+	: IViewPowerPlant(lPlant, vMaster, &m_zp)
 {
 	m_zg.Init(2.0, 2.0, &VMaterialLoader::materialCoalPowerPlant, 24, true);
 	m_zp.Init();
@@ -25,9 +25,5 @@ void VCoalPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr
 	//SET_NAME_AND_COORDINATES(VIdentifier::VCoalPowerPlant);
 }
 
-ILBuilding* VCoalPowerPlant::getLBuilding()
-{
-	return CASTD<ILBuilding*>(lPlant);
-}
 
 NAMESPACE_VIEW_E

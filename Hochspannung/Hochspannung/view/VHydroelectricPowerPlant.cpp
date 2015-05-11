@@ -8,7 +8,7 @@ NAMESPACE_VIEW_B
 
 
 VHydroelectricPowerPlant::VHydroelectricPowerPlant(VMaster* vMaster, LHydroelectricPowerPlant* lPlant)
-	: IVPowerPlant(lPlant), IViewBuilding(vMaster, &m_zp)
+	: IViewPowerPlant(lPlant, vMaster, &m_zp)
 {
 	m_zg.Init(CHVector(1.5f, 2.6f, 0.8f), &VMaterialLoader::materialHydroelectricPowerPlant);
 	m_zp.Init();
@@ -24,11 +24,6 @@ void VHydroelectricPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	//SET_NAME_AND_COORDINATES(VIdentifier::VHydroelectricPowerPlant);
-}
-
-ILBuilding* VHydroelectricPowerPlant::getLBuilding()
-{
-	return CASTD<ILBuilding*>(lPlant);
 }
 
 

@@ -11,7 +11,7 @@ protected:
 	ILPowerPlant* lPlant;
 
 public:
-	IVPowerPlant(ILPowerPlant* lPlant)
+	explicit IVPowerPlant(ILPowerPlant* lPlant)
 		: lPlant(lPlant)
 	{}
 	virtual ~IVPowerPlant()
