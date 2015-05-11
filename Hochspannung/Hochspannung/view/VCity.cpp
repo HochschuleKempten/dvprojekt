@@ -42,4 +42,13 @@ ILBuilding* VCity::getLBuilding()
 	return CASTD<ILBuilding*>(lCity);
 }
 
+bool VCity::clicked(action action) 
+{
+	switch (action)
+	{
+	default:ASSERT("Invalid action"); return false;
+	}
+}
+
+
 NAMESPACE_VIEW_E

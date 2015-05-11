@@ -31,4 +31,12 @@ ILBuilding* VTransformerStation::getLBuilding()
 	return CASTD<ILBuilding*>(lTransformerStation);
 }
 
+bool VTransformerStation::clicked(action action)
+{
+	switch (action)
+	{
+	default:ASSERT("Invalid action"); return false;
+	}
+}
+
 NAMESPACE_VIEW_E

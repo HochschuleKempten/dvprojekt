@@ -28,10 +28,13 @@ public:
 		if (isActivated)
 		{
 			isActivated = false;
+
+			DEBUG_OUTPUT("Switching OFF");
 		}
 		else
 		{
 			isActivated = true;
+			DEBUG_OUTPUT("Switching ON");
 		}
 	};
 

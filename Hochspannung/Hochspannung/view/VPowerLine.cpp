@@ -56,4 +56,12 @@ ILBuilding* VPowerLine::getLBuilding()
 	return CASTD<ILBuilding*>(lPowerLine);
 }
 
+bool VPowerLine::clicked(action action)
+{
+	switch (action)
+	{
+	default:ASSERT("Invalid action"); return false;
+	}
+}
+
 NAMESPACE_VIEW_E

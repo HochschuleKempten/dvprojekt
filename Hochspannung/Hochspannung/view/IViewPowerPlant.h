@@ -20,6 +20,17 @@ public:
 	{
 		return CASTD<ILBuilding*>(lPlant);
 	}
+
+	virtual bool clicked(action action) override
+	{
+		switch (action)
+		{
+		case action::switchOnOff: lPlant->switchOnOff(); return true;
+		default:ASSERT("Invalid action"); return false;
+		}
+	}
+
+
 };
 
 

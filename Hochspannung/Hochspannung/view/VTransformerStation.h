@@ -20,7 +20,7 @@ public:
 
 	virtual void initTransformerStation(const std::shared_ptr<IVTransformerStation>& objPtr, const int x, const int y) override;
 	virtual ILBuilding* getLBuilding() override;
-
+	virtual bool clicked(action action) override;
 };
 
 
