@@ -24,18 +24,9 @@ public:
 	void AddPlacements();
 	
 	//TODO (City) implement these methods
-	virtual float getHeight() override
-	{
-		return 0.0f;
-	}
-	virtual float getWidth() override
-	{
-		return 0.0f;
-	}
-	virtual float getBroad()
-	{
-		return 0.0F;
-	}
+	virtual float getHeight() override;
+	virtual float getWidth() override;
+	virtual float getBroad();
 
 private:
 	CGeoCube m_zgsocket;

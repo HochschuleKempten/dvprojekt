@@ -114,7 +114,7 @@ public:
 	static std::unordered_map<int, CColor> colorPlayers;
 
 	//PlayerFoundations
-	static std::unordered_map<LPlayer::PlayerId, CMaterial> materialFoundationPlayer;
+	static std::unordered_map<int, CMaterial> materialFoundationPlayer;
 
 	//MaterialBuildings
 	static CMaterial materialBuilding01;
@@ -128,7 +128,6 @@ public:
 
 	// MaterialWindowBuildings
 	static CMaterial materialWindowsofBuilding;
-	static std::unordered_map<int, CMaterial> materialFoundationPlayer;
 
 	//Cursor
 	static CMaterial m_zmDefaultCursor;
