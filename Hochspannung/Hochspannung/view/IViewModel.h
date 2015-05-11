@@ -54,11 +54,6 @@ public:
 	{
 		this->vBuilding = vBuilding;
 
-//<<<<<<< HEAD
-		float foundationWidth = vBuilding->getVMaster()->getPlayingField()->getFieldSize() * 0.2F;
-		float foundationHeight = foundationWidth * 0.2f;
-		m_zgFoundation.Init(CHVector(foundationWidth, foundationHeight, foundationWidth), &VMaterialLoader::materialFoundationPlayer[vBuilding->getLBuilding()->getPlayerId()]);
-//=======
 		if (vBuilding != nullptr) {
 			foundationWidth = vBuilding->getVMaster()->getPlayingField()->getFieldSize() * 0.2;
 			foundationHeight = foundationWidth * 0.2f;
@@ -67,7 +62,6 @@ public:
 		else {
 			m_zgFoundation.Init(CHVector(foundationWidth, foundationHeight, foundationWidth), &VMaterialLoader::materialFoundationPlayer[LPlayer::Local]);
 		}
-//>>>>>>> master
 	}
 
 	virtual float getHeight() = 0;
