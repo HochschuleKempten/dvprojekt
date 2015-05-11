@@ -1,4 +1,5 @@
 #pragma once
+
 #include "LGeneral.h"
 #include "Array2D.h"
 #include "LField.h"
@@ -7,9 +8,14 @@
 #include "ILBuilding.h"
 #include "LCity.h"
 #include <boost/graph/adjacency_list.hpp>
+#include "LPowerLine.h"
+#include "LIdentifier.h"
+#include "LBalanceLoader.h"
+#include "LMaster.h"
 
 NAMESPACE_LOGIC_B
 
+DEBUG_EXPRESSION(extern bool isCheatModeOn);
 
 struct LPlayingFieldHasher
 {
@@ -33,14 +39,15 @@ class LPlayingField
 	NON_COPYABLE(LPlayingField);
 
 private:
-	const int fieldLength = 20; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
+	static const int fieldLength = 20; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
 	LMaster* lMaster = nullptr;
 	std::shared_ptr<IVPlayingField> vPlayingField = nullptr;
-	Array2D<LField> fieldArray;
+	StatArray2D<LField, fieldLength, fieldLength> fieldArray;
 
-	using Graph = boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS>;
+	using Graph = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
-	std::pair<int, int> cityPosition = std::make_pair(-1, -1);
+	std::pair<int, int> localCityPosition = std::make_pair(-1, -1);
+	std::pair<int, int> remoteCityPosition = std::make_pair(-1, -1);
 	std::pair<int, int> transformerStationPosition = std::make_pair(-1, -1);
 
 	/** @brief Stores every unused coordinates. Is empty after correct initialization */
@@ -50,107 +57,195 @@ private:
 	/** @brief Stores the 1D coordinates for each pair of buildings which are connected */
 	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> connectedBuildings;
 
-	std::vector<LField::FieldType> fieldTypes;
-	std::vector<LField::FieldLevel> fieldLevels;
-
-public:
-	LPlayingField(LMaster* lMaster);
-	~LPlayingField();
-
-	LField* getField(const int x, const int y);
-
-	// returns true if building could be placed, else false (building not allowed or building already placed)
-	template<typename T, typename... Args>
-	bool placeBuilding(const int x, const int y, const Args... arguments)
-	{
-		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
-		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");	
-		
-		//Check costs
-		//todo (IP) getPlayers(): get current player
-		if (lMaster->getPlayer(1)->getMoney() < T::cost) {
-			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") + std::to_string(lMaster->getPlayer(1)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") + std::to_string(T::cost) + std::string(" benötigt."));
-			return false;
-		}
-
-		if (getField(x, y)->setBuilding<T>(x, y, arguments...)) {
-			addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
-
-			//todo (L) when?
-			if (cityPosition.first > -1 && cityPosition.second > -1)
-			{
-				calculateEnergyValueCity();
-			}
-
-			lMaster->getPlayer(1)->substractMoney(T::cost);
-			DEBUG_OUTPUT("Marktplace connected = " << isTransformstationConnected());
-
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
-	bool checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second);
-	bool isTransformstationConnected();
-
-	int getFieldLength();
-	void removeBuilding(const int x, const int y);
-	void upgradeBuilding(const int x, const int y);
-	LMaster* getLMaster();
-	IVPlayingField* getVPlayingField();
-
-	const std::pair<int, int>& getCityPosition() const
-	{
-		return cityPosition;
-	}
-	LCity* getCity()
-	{
-		return CASTD<LCity*>(getField(cityPosition.first, cityPosition.second)->getBuilding());
-	}
+	bool isLocalOperation = true;
+	bool initDone = false;
 
 private:
-	void createFields();
+	template <typename T>
+	struct placeBuildingHelper
+	{
+		LPlayingField* playingField;
+
+		explicit placeBuildingHelper(LPlayingField* playingField)
+			: playingField(playingField)
+		{}
+
+		template <typename... Args>
+		bool operator()(const int x, const int y, const Args ... arguments)
+		{
+			return playingField->getField(x, y)->setBuilding<T>(x, y, arguments...);
+		}
+	};
+
+	template <>
+	struct placeBuildingHelper<LPowerLine>
+	{
+		LPlayingField* playingField;
+
+		explicit placeBuildingHelper(LPlayingField* playingField)
+			: playingField(playingField)
+		{}
+
+		template <typename... Args>
+		bool operator()(const int x, const int y, const Args ... arguments)
+		{
+			int orientation = playingField->linkPowerlines(x, y);
+
+			return playingField->getField(x, y)->setBuilding<LPowerLine>(x, y, orientation, arguments...);
+		}
+	};
+
+	template<typename T>
+	void setPosition(const int x, const int y, const int playerId) {}
+	template<>
+	void setPosition<LCity>(const int x, const int y, const int playerId)
+	{
+		if (playerId == LPlayer::Local)
+		{
+			localCityPosition = std::make_pair(x, y);
+		}
+		else if (playerId == LPlayer::External)
+		{
+			remoteCityPosition = std::make_pair(x, y);
+		}
+	}
+	template<>
+	void setPosition<LTransformerStation>(const int x, const int y, const int playerId)
+	{
+		transformerStationPosition = std::make_pair(x, y);
+	}
+
+	bool hasFriendlyNeighbor(const int x, const int y);
 	bool checkIndex(const int x, const int y);
 	int convertIndex(const std::pair<int, int>& coordinates);
 	int convertIndex(const int x, const int y);
 	std::pair<int, int> convertIndex(const int idx);
 	void calculateEnergyValueCity();
 	void addBuildingToGraph(const int x, const int y, const int orientation);
-	
+	void printGraph();
+
 	/**
-	 * @brief Sets grass on every field around the given coordinates.
-	 *
-	 * @param coordinates base field to place grass around
-	 * @param space adjusts the range of grass (number of fields for each side)
-	 *
-	 * @tparam cross specifies if all fields around should be set to grass or just the even ones (i. e. not the diagonal ones when set to <code>true</code>)
-	 */
-	template<bool cross = false>
+	* @brief Sets grass on every field around the given coordinates.
+	*
+	* @param coordinates base field to place grass around
+	* @param space adjusts the range of grass (number of fields for each side)
+	*
+	* @tparam cross specifies if all fields around should be set to grass or just the even ones (i. e. not the diagonal ones when set to <code>true</code>)
+	*/
+	template <bool cross = false>
 	void placeGrassAroundPosition(const std::pair<int, int>& coordinates, const int space);
 
 	bool isCoordinateUsed(const std::pair<int, int>& coordinates) const;
 
 	/**
-	 * @brief Generates new random coordinates which are not used yet.
-	 *
-	 * @return coordinate pair (x,y)
-	 */
+	* @brief Generates new random coordinates which are not used yet.
+	*
+	* @return coordinate pair (x,y)
+	*/
 	std::pair<int, int> retrieveFreeCoordinates();
 
 	/**
-	 * @brief Tries to generate coordinates from the given parameter.
-	 *
-	 * The coordinates you pass to this function should be unused. Otherwise the assertion fails.
-	 * The main purpose of this function is to store the coordinates which you want to use.
-	 * 
-	 * @param x the first coordinate
-	 * @param y the second coordinate
-	 *
-	 * @return coordinate pair (x,y)
-	 */
+	* @brief Tries to generate coordinates from the given parameter.
+	*
+	* The coordinates you pass to this function should be unused. Otherwise the assertion fails.
+	* The main purpose of this function is to store the coordinates which you want to use.
+	*
+	* @param x the first coordinate
+	* @param y the second coordinate
+	*
+	* @return coordinate pair (x,y)
+	*/
 	std::pair<int, int> retrieveFreeCoordinates(const int x, const int y);
+
+public:
+	explicit LPlayingField(LMaster* lMaster);
+	~LPlayingField();
+
+	void createFields();
+	void showPlayingField();
+
+	bool isInitDone();
+
+	// returns true if building could be placed, else false (building not allowed or building already placed)
+	template <typename T, typename... Args>
+	bool placeBuilding(const int x, const int y, const int playerId, const Args ... arguments)
+	{
+		//Seems to be the only possibility to restrict the template type. Performs compile time checks and produces compile errors, if the type is wrong
+		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");
+
+		//Check costs
+		if (playerId & LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < LBalanceLoader::getCost<T>()) {
+			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") +
+												 std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") +
+												 std::to_string(LBalanceLoader::getCost<T>()) + std::string(" benötigt."));
+			return false;
+		}
+
+		bool buildingPlaced = false;
+		
+		if (playerId & LPlayer::Local) {
+			if ((hasFriendlyNeighbor(x, y) || !isInitDone() || DEBUG_EXPRESSION(isCheatModeOn)) && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
+				buildingPlaced = true;
+				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
+
+				//subtract money only if the local player placed the building
+				lMaster->getPlayer(LPlayer::Local)->subtractMoney(LBalanceLoader::getCost<T>());
+				getField(x, y)->getBuilding()->addValue(LBalanceLoader::getCost<T>());
+
+				if (localCityPosition.first > -1 && localCityPosition.second > -1) {
+					calculateEnergyValueCity();
+				}
+			}
+		}
+		else if (playerId & LPlayer::External && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
+			buildingPlaced = true;
+		}
+
+		if (buildingPlaced) {
+			setPosition<T>(x, y, playerId);
+			//-----network-----
+			if (!isLocalOperation) {
+				lMaster->sendSetObject(LIdentifier::getIdentifierForType<T>(), x, y, std::to_string(playerId));
+			}
+			//-----network-----
+			return true;
+		}
+
+		return false;
+	}
+
+	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);
+
+	int linkPowerlines(const int x, const int y);
+
+	void beginRemoteOperation();
+	void endRemoteOperation();
+
+	void initField(const int x, const int y, const LField::FieldType fieldType, const LField::FieldLevel fieldLevel);
+
+	/**
+	 * @brief Checks if the connection between the buildings still exists (from the stored values).
+	 */
+	void recheckConnectedBuildings();
+	bool checkConnectionBuildings(const std::pair<int, int>& first, const std::pair<int, int>& second);
+	bool isTransformstationConnected();
+
+	void removeBuilding(const int x, const int y);
+	void upgradeBuilding(const int x, const int y);
+	LField* getField(const int x, const int y);
+	int getFieldLength();
+	LMaster* getLMaster();
+	IVPlayingField* getVPlayingField();
+
+	const std::pair<int, int>& getCityPosition() const
+	{
+		return localCityPosition;
+	}
+
+	LCity* getLocalCity()
+	{
+		return CASTD<LCity*>(getField(localCityPosition.first, localCityPosition.second)->getBuilding());
+	}
 };
 
 

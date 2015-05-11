@@ -1,6 +1,8 @@
 #pragma once
+
 #include "IVTickObserver.h"
 #include "LGeneral.h"
+#include "../network/NetworkService.h"
 
 NAMESPACE_LOGIC_B
 
@@ -16,19 +18,36 @@ class LMaster : public IVTickObserver
 private:
 	IVMaster& vMaster;
 	LPlayingField* lPlayingField = nullptr;
+	bool gamePaused = false;
 	std::vector<LPlayer> lPlayers;
+	Network::CNetworkService& networkService;
+
+private:
+	void placeBuilding(const int buildingId, const int x, const int y, const int playerId);
+	//networking
+	void host();
+	void connect(const std::string& ip);
 
 public:
-	LMaster(IVMaster& vMaster);
+	explicit LMaster(IVMaster& vMaster);
 	~LMaster();
 
-	void startNewGame();
-	void gameLost();
+	void startNewGame(const std::string& ipAddress = std::string());
+	void gameOver();
 	virtual void tick(const float fTimeDelta) override;
+
+	//networking
+	void sendSetObject(const int objectId, const int x, const int y, const std::string& value);
+	void sendSetMapRow(const int row, std::vector<Network::FieldTransfer> rowData);
+	void sendDeleteObject(const int x, const int y);
 
 	LPlayingField* getLPlayingField();
 	IVMaster* getVMaster();
 	LPlayer* getPlayer(const int idxPlayer);
+	bool isGamePaused() const
+	{
+		return gamePaused;
+	}
 };
 
 

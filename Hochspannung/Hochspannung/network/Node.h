@@ -121,7 +121,7 @@ protected:
 	/**
 	 * @brief Start an asynchronous read operation for the header.
 	 * Recieve the header of the incoming message.
-     */
+	 */
 	void readHeader();
 
 	/**
@@ -139,7 +139,7 @@ protected:
 
 	/**
 	 * @brief Read handler.
-  	 * This handler is called when async_read completes. 
+	 * This handler is called when async_read completes. 
 	 * Don`t call it directly!
 	 */
 	void readHeaderCompleteHandler(const error_code& ec, std::size_t length);
@@ -182,7 +182,7 @@ protected:
 	CMessage m_messageRead;
 	std::deque<CMessage> m_dequeMessagesToWrite;	
 	std::deque<CTransferObject> m_dequeActionsToExecute;
-	streambuf m_udpMessage;
+	boost::asio::streambuf m_udpMessage;
 
 	deadline_timer m_connectionTimer;
 

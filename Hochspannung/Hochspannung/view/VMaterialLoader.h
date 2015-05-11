@@ -2,6 +2,7 @@
 
 #include "VGeneral.h"
 #include "../logic/LField.h"
+#include "../logic/LPlayer.h"
 
 NAMESPACE_VIEW_B
 
@@ -30,7 +31,7 @@ public:
 	//MainMenue
 	static CMaterial materialMainMenue;
 	static CMaterial materialMainMenueHover;
-		//Buttons
+	//Buttons
 	static CMaterial materialButtonMainMenueNeuesSpiel;
 	static CMaterial materialButtonMainMenueNeuesSpielHover;
 	static CMaterial materialButtonMainMenueOptionen;
@@ -39,7 +40,10 @@ public:
 	static CMaterial materialButtonMainMenueCreditsHover;
 	static CMaterial materialButtonMainMenueSpielBeenden;
 	static CMaterial materialButtonMainMenueSpielBeendenHover;
-
+	static CMaterial materialButtonLobbyJoinGame;
+	static CMaterial materialButtonLobbyJoinGameHover;
+	static CMaterial materialButtonLobbyHostGame;
+	static CMaterial materialButtonLobbyHostGameHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
@@ -51,14 +55,14 @@ public:
 	static CMaterial materialLobbyBigDialog;
 	static CMaterial materialBuildingButton;
 	static CMaterial materialBuildingButtonHover;
-		//Buttons
+	//Buttons
 	static CMaterial materialIngameButtonCraftmenu;
 	static CMaterial materialIngameButtonSabotage;
 	static CMaterial materialIngameButtonStatistics;
 	static CMaterial materialIngameButtonCraftmenuHover;
 	static CMaterial materialIngameButtonSabotageHover;
 	static CMaterial materialIngameButtonStatisticsHover;
-		//Craftmenu
+	//Craftmenu
 	static CMaterial materialCraftmenuButtonWindmill;
 	static CMaterial materialCraftmenuButtonHydroPowerplant;
 	static CMaterial materialCraftmenuButtonSolarPowerplant;
@@ -75,7 +79,7 @@ public:
 	static CMaterial materialCraftmenuButtonPowerlineHover;
 	
 	//Allgemein
-		//Buttons
+	//Buttons
 	static CMaterial materialButtonBack;
 	static CMaterial materialButtonBackHover;
 
@@ -87,6 +91,37 @@ public:
 	static CWritingFont standardFont;
 	static CWritingFont GoldFont;
 	
+	//Trassentexturen
+	static CMaterial m_zmConcrete;
+	static CMaterial m_zmStrut;
+	static CMaterial m_zmIsolator;
+	static CMaterial m_zmRing;
+	static CMaterial m_zmCable;
+
+	//Solarkraftwerktexturen
+	static CMaterial m_zmSolarzelle;
+	static CMaterial m_zmSolarGrund;
+
+	//Atomkraftwerktexturen
+	static CMaterial m_zmAtomgrundWhite;
+	static CMaterial m_zmAtomgrundGrey;
+	static CMaterial m_zmSchranke;
+	static CMaterial m_zmAtomgrundGreen;
+	static CMaterial m_zmHolz;
+
+
+	//PlayerColor
+	static std::unordered_map<int, CColor> colorPlayers;
+
+	//PlayerFoundations
+	static std::unordered_map<int, CMaterial> materialFoundationPlayer;
+
+	//Cursor
+	static CMaterial m_zmDefaultCursor;
+	static CMaterial m_zmHammerCursor;
+
+	//CraftMenue
+	static CMaterial m_zmCraftMenueBackground;
 };
 
 

@@ -9,10 +9,10 @@ class LMaster;
 class LPlayer
 {
 public:
-	enum PlayerNumber
+	enum PlayerId
 	{
-		PlayerOne = 0,
-		PlayerTwo = 2
+		Local = 0x1,
+		External = 0x2
 	};
 
 private:
@@ -24,7 +24,7 @@ public:
 	~LPlayer();
 	int getMoney() const;
 	void addMoney(const int amount);
-	void substractMoney(const int amount);
+	void subtractMoney(const int amount);
 };
 
 

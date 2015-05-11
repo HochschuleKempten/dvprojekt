@@ -1,7 +1,7 @@
 // VektoriaApp.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung.
 //
 
-
+#include <boost\asio.hpp> // must be included before windows.h because of WinSock.h and winsock2.h
 #include "stdafx.h"
 #include <windows.h>
 #include <windowsx.h>

@@ -25,6 +25,7 @@ public:
 		const double sec = 2.0;	//Number of seconds per rotation
 		viewModel.rotate(CASTS<float>((2.0 * M_PI / sec) * fTimeDelta));
 	}
+	virtual ILBuilding* getLBuilding() override;
 };
 
 

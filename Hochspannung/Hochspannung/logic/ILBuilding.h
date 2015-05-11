@@ -1,9 +1,10 @@
 #pragma once
+
 #include "LGeneral.h"
 #include "LPlayer.h"
+#include "LIdentifier.h"
 
 NAMESPACE_LOGIC_B
-
 
 class LField;
 
@@ -20,40 +21,81 @@ public:
 		WEST = 0x8
 	};
 
-	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
+	static Orientation getOpppositeOrienttion(const Orientation orientation)
+	{
+		switch (orientation) {
+			case NORTH: return SOUTH;
+			case EAST: return WEST;
+			case SOUTH: return NORTH;
+			case WEST: return EAST;
+			default:
+				ASSERT("Invalid orientation given");
+				return CASTS<Orientation>(0);
+		}
+	}
+
+	static std::string getOrientationName(const int orientation)
+	{
+		std::string name = "";
+
+		if (orientation & Orientation::NORTH) {
+			name += "North ";
+		}
+		if (orientation & Orientation::EAST) {
+			name += "East ";
+		}
+		if (orientation & Orientation::SOUTH) {
+			name += "South ";
+		}
+		if (orientation & Orientation::WEST) {
+			name += "West ";
+		}
+
+		return name;
+	}
+
 protected:
-	LField* lField;
-	LPlayer::PlayerNumber playerNumber = LPlayer::PlayerNumber::PlayerOne; //todo (L)
-	int orientation;
+	LField* lField = nullptr;
+	int playerId = LPlayer::PlayerId::Local;
+	int orientation = 0;
+	/** @brief Stores the total value of the building (initCost + upgradeCost etc) */
+	int value = 0;
 
 public:
-	ILBuilding(LField* lField)
-		: lField(lField)
+	ILBuilding(LField* lField, const int playerId)
+		: lField(lField), playerId(playerId), orientation(NORTH | EAST | SOUTH | WEST)
+	{}
+	ILBuilding(LField* lField, const int playerId, const int orientation)
+		: lField(lField), playerId(playerId), orientation(orientation)
 	{}
 
 	virtual ~ILBuilding()
 	{}
 
 	//todo (L) implement this in the buildings that can be upgraded
-	virtual void upgrade() 
+	virtual void upgrade()
 	{}
 
-	virtual int getOrientation() const
+	int getOrientation() const
 	{
-		return NORTH | EAST | SOUTH | WEST;
+		return orientation;
 	}
 
-	static const int cost = 10;
-
-	void setPlayerNumber(const LPlayer::PlayerNumber playerNumber)
+	int getPlayerId() const
 	{
-		this->playerNumber = playerNumber;
+		return playerId;
 	}
 
-	LPlayer::PlayerNumber getPlayerNumber() const //todo (L) const everywhere where needed
+	int getValue() const
 	{
-		return playerNumber;
+		return value;
 	}
+	void addValue(const int value)
+	{
+		this->value += value;
+	}
+
+	virtual LIdentifier::LIdentifier getIdentifier() = 0;
 };
 
 

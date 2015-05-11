@@ -28,6 +28,10 @@ public:
 
 		return placementPointer;
 	}
+	VMaster* getVMaster() const
+	{
+		return vMaster;
+	}
 };
 
 

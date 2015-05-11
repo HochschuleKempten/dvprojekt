@@ -52,7 +52,7 @@ public:
 	 * @param stIP the IP of the server to connect to.
 	 * @return true, if succesful, false otherwise.
 	 */
-	bool connect(std::string stIP);
+	bool connect(const std::string& stIP);
 
 	/**
 	 * @brief Searches asynchronously for game server in the local network.

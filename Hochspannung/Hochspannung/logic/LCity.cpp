@@ -7,46 +7,55 @@
 
 NAMESPACE_LOGIC_B
 
-
-LCity::LCity(LField* lField, const int x, const int y)
-	: ILBuilding(lField), vCity(lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createCity(this))
+LCity::LCity(LField* lField, const int x, const int y, const int playerId)
+	: ILBuilding(lField, playerId), vCity(lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createCity(this))
 {
 	vCity->initCity(vCity, x, y);
 	lField->getLPlayingField()->getLMaster()->getVMaster()->registerObserver(this);
 }
 
 LCity::~LCity()
-{
-}
+{}
 
 void LCity::tick(const float fTimeDelta)
 {
-	static float timeLastCheck = 0;
+	//if game is paused or not initialized or city from remote player, do nothing
+	if (!lField->getLPlayingField()->getLMaster()->isGamePaused() &&
+		lField->getLPlayingField()->isInitDone() &&
+		playerId == LPlayer::Local)
+	{
+		static float timeLastCheck = 0;
 
-	//Handle the population increase
-	if (timeLastCheck > 1) {
-		int seconds = CASTS<int>(timeLastCheck);
-		ASSERT(seconds >= 1, "The number of seconds is invalid.");
+		//Handle the population increase (every second)
+		if (timeLastCheck > 1)
+		{
+			int seconds = CASTS<int>(timeLastCheck);
 
-		setPopulationTotal(populationTotal + seconds * populationIncrease);
+			setPopulationTotal(populationTotal + seconds * LBalanceLoader::getPopulationGrowth());
 
-		timeLastCheck = 0;
+			timeLastCheck = 0;
+		}
+
+		//Check energy storage (every tick)
+		int superplus = energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen());
+		if (superplus < 0)
+		{
+			//Player has lost
+			lField->getLPlayingField()->getLMaster()->gameOver(); //todo (IP) fix
+		}
+
+		timeLastCheck += fTimeDelta;
 	}
-
-	//Check energy storage
-	int superplus = energy - (populationTotal * consumptionCitizen);
-	if (superplus < 0) {
-		//Player has lost
-		lField->getLPlayingField()->getLMaster()->gameLost();
-	}
-
-	timeLastCheck += fTimeDelta;
 }
 
 void LCity::setEnergy(const int energy)
 {
 	this->energy = energy;
-	vCity->updateEnergy(energy);
+
+	if (playerId & LPlayer::Local)
+	{
+		vCity->updateEnergy(energy);
+	}
 }
 
 int LCity::getEnergy() const
@@ -56,8 +65,17 @@ int LCity::getEnergy() const
 
 void LCity::setPopulationTotal(const int populationTotal)
 {
+	if (populationTotal > LBalanceLoader::getMaxPopulation())
+	{
+		return;
+	}
+
 	this->populationTotal = populationTotal;
-	vCity->updatePopulation(populationTotal);
+
+	if (playerId & LPlayer::Local)
+	{
+		vCity->updatePopulation(populationTotal);
+	}
 }
 
 int LCity::getEnergySurplus()

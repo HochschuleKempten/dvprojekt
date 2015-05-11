@@ -3,6 +3,7 @@
 #include "../logic/IVPowerPlant.h"
 #include "../logic/LNuclearPowerPlant.h"
 #include "IViewBuilding.h"
+#include "VModelNuclearPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
@@ -10,9 +11,7 @@ NAMESPACE_VIEW_B
 class VNuclearPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 private:
-	CPlacement m_zp;
-	CMaterial m_zm;
-	CGeoEllipsoid m_zg;
+	VModelNuclearPowerPlant viewModel;
 
 public:
 	VNuclearPowerPlant(VMaster *vMaster, LNuclearPowerPlant* lPlant);
@@ -20,6 +19,7 @@ public:
 	{}
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y) override;
+	virtual ILBuilding* getLBuilding() override;
 };
 
 

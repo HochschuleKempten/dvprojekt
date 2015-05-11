@@ -20,21 +20,21 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 	//Initialisierung der Koerper
 
 	//Initialisierung Turm
-	m_zgTurm.Init(0.6f, 0.2f, 8.0f, &m_zm);
+	m_zgTurm.Init(0.6f, 0.2f, 8.0f, &VMaterialLoader::m_zmSolarGrund);
 
 	//Initialisierung Fundament
-	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &m_zm);
+	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &VMaterialLoader::m_zmSolarGrund);
 
 	//Initialisierung Netzanschluss
-	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &m_zm);
+	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &VMaterialLoader::m_zmSolarGrund);
 
 	//Initialisierung Gondel
-	m_zgGondel.Init(CHVector(0.4f, 1.0f, 0.4f), &m_zm);
+	m_zgGondel.Init(CHVector(0.4f, 1.0f, 0.4f), &VMaterialLoader::m_zmSolarGrund);
 
 	//Initialisierung Rotorblatt
-	m_zgRotorblatt.Init(CHVector(0.2f, 2.0f, 0.1f), &m_zm);
+	m_zgRotorblatt.Init(CHVector(0.2f, 2.0f, 0.1f), &VMaterialLoader::m_zmSolarGrund);
 
-	m_zm.MakeTextureDiffuse("Textures\\Metall.jpg");
+	
 
 	m_zpTurm.Translate(CHVector(0.0f, -1.0f, 0.0f));
 	m_zpTurm.AddGeo(&m_zgTurm);

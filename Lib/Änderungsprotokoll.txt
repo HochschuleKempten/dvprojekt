@@ -2993,3 +2993,6 @@ Picking funkioniert jetzt auch im Mirrormodus und im orthogonalen Kameramodus
 Veraltete Network- und Drawable-Klassen gelöscht => Leichte Render-Beschleunigung (ca. 2%)
 Neues Debug-LogFile-System eingeführt (TODO: Error-Meldungen eintragen)
 
+2015-04-28 TB:
+Bugfix: PickPlacements lieferte nicht alle Placements zurück
+Bugfix: Game-Pointer in der Template-App war nicht auf Null initialisiert

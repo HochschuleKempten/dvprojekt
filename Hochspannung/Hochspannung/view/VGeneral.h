@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost\asio.hpp> // must be included before windows.h because of WinSock.h and winsock2.h
+
 #pragma warning ( push )
 #pragma warning ( disable: 4201 )	//Occurs in HVector.h
 #include <Vektoria\Root.h>
@@ -9,6 +11,7 @@
 #include "../logic/LUtility.h"
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <list>
 #include <string>
 #include <sstream>
