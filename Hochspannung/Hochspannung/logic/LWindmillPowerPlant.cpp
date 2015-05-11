@@ -7,8 +7,8 @@
 
 NAMESPACE_LOGIC_B
 
-LWindmillPowerPlant::LWindmillPowerPlant(LField* lField, const int x, const int y)
-	: ILPowerPlant(lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createWindmillPowerPlant(this))
+LWindmillPowerPlant::LWindmillPowerPlant(LField* lField, const int x, const int y, const int playerId)
+	: ILPowerPlant(lField, playerId, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createWindmillPowerPlant(this))
 {
 	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }

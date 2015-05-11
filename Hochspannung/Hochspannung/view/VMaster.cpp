@@ -49,13 +49,6 @@ void VMaster::gameOver()
 	//TODO (V) do something useful here when UI is ready
 }
 
-VPlayingField* VMaster::getPlayingField()
-{
-	ASSERT(vPlayingField != nullptr, "VPlayingField is not initialized");
-
-	return vPlayingField.get();
-}
-
 VUI* HighVoltage::VMaster::getVUi()
 {
 	return &vUi;
@@ -70,6 +63,23 @@ void VMaster::setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingFie
 void VMaster::resize(int width, int height)
 {
 	vUi.resize(width, height);
+}
+
+void VMaster::hostGame()
+{
+	lMaster->startNewGame();
+}
+
+#ifdef _DEBUG
+void VMaster::startSinglePlayerGame()
+{
+	lMaster->startNewGame("SINGLE_PLAYER");
+}
+#endif
+
+void VMaster::joinGame(const std::string& ipAddress)
+{
+	lMaster->startNewGame(ipAddress);
 }
 
 void VMaster::updateMoney(const int money)

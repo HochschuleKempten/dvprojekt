@@ -1,9 +1,10 @@
 #pragma once
+
 #include "LGeneral.h"
 #include "LPlayer.h"
+#include "LIdentifier.h"
 
 NAMESPACE_LOGIC_B
-
 
 class LField;
 
@@ -28,7 +29,7 @@ public:
 			case SOUTH: return NORTH;
 			case WEST: return EAST;
 			default:
-				ASSERT(false, "Invalid orientation given");
+				ASSERT("Invalid orientation given");
 				return CASTS<Orientation>(0);
 		}
 	}
@@ -49,44 +50,52 @@ public:
 		if (orientation & Orientation::WEST) {
 			name += "West ";
 		}
-		
+
 		return name;
 	}
 
-	//todo (L) Später max. Ausbaustufe und aktuelle, Spielerzuweisung
 protected:
-	LField* lField;
-	LPlayer::PlayerId playerId = LPlayer::PlayerId::Local;
-	int orientation;
+	LField* lField = nullptr;
+	int playerId = LPlayer::PlayerId::Local;
+	int orientation = 0;
+	/** @brief Stores the total value of the building (initCost + upgradeCost etc) */
+	int value = 0;
 
 public:
-	explicit ILBuilding(LField* lField)
-		: lField(lField)
+	ILBuilding(LField* lField, const int playerId)
+		: lField(lField), playerId(playerId), orientation(NORTH | EAST | SOUTH | WEST)
+	{}
+	ILBuilding(LField* lField, const int playerId, const int orientation)
+		: lField(lField), playerId(playerId), orientation(orientation)
 	{}
 
 	virtual ~ILBuilding()
 	{}
 
 	//todo (L) implement this in the buildings that can be upgraded
-	virtual void upgrade() 
+	virtual void upgrade()
 	{}
 
-	virtual int getOrientation() const
+	int getOrientation() const
 	{
-		return NORTH | EAST | SOUTH | WEST;
+		return orientation;
 	}
 
-	void setPlayerId(const LPlayer::PlayerId playerId)
-	{
-		this->playerId = playerId;
-	}
-
-	LPlayer::PlayerId getPlayerId() const
+	int getPlayerId() const
 	{
 		return playerId;
 	}
 
-	static const int cost = 10;
+	int getValue() const
+	{
+		return value;
+	}
+	void addValue(const int value)
+	{
+		this->value += value;
+	}
+
+	virtual LIdentifier::LIdentifier getIdentifier() = 0;
 };
 
 

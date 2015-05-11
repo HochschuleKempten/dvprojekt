@@ -44,6 +44,8 @@ public:
 
 private:
 	bool connect();
+	bool startTcpServer();
+	bool startUdpServer();
 
 	void acceptCompleteHandler(const error_code& error);
 	void udpDataRecievedHandler(const boost::system::error_code& error, std::size_t bytesTransferred);

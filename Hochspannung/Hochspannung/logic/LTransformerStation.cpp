@@ -1,16 +1,16 @@
-#include "LTransformerSation.h"
+#include "LTransformerStation.h"
 #include "LPlayingField.h"
 #include "LMaster.h"
 #include "IVMaster.h"
 #include "IVFactory.h"
 #include "IVTransformerStation.h"
-
+#include "LBalanceLoader.h"
 
 NAMESPACE_LOGIC_B
 
 
-LTransformerStation::LTransformerStation(LField* lField, const int x, const int y)
-: ILBuilding(lField), vTransformerSation(lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createTransformerStation(this))
+LTransformerStation::LTransformerStation(LField* lField, const int x, const int y, const int playerId)
+	: ILBuilding(lField, playerId), vTransformerSation(lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createTransformerStation(this))
 {
 	vTransformerSation->initTransformerStation(vTransformerSation, x, y);
 	lField->getLPlayingField()->getLMaster()->getVMaster()->registerObserver(this);
@@ -22,21 +22,22 @@ LTransformerStation::~LTransformerStation()
 
 void LTransformerStation::tick(const float fTimeDelta)
 {	
-	static float timeLastCheck = 0;
+	if (lField->getLPlayingField()->isInitDone()) {
+		static float timeLastCheck = 0;
 	
-	//Handle Disposal
-	if (timeLastCheck > 1) {
-		int seconds = CASTS<int>(timeLastCheck);
-		ASSERT(seconds >= 1, "The number of seconds is invalid.");
+		//Handle Disposal
+		if (timeLastCheck > 1) {
+			int seconds = CASTS<int>(timeLastCheck);
 
-		if (lField->getLPlayingField()->isTransformstationConnected())
-		{
-			performDisposal();
+			if (lField->getLPlayingField()->isTransformstationConnected())
+			{
+				performDisposal();
+			}
+			timeLastCheck = 0;
 		}
-		timeLastCheck = 0;
-	}
 
-	timeLastCheck += fTimeDelta;
+		timeLastCheck += fTimeDelta;
+	}
 }
 
 void LTransformerStation::performDisposal()
@@ -44,8 +45,7 @@ void LTransformerStation::performDisposal()
 	int superplus = lField->getLPlayingField()->getLocalCity()->getEnergySurplus();
 	if (superplus > 0)
 	{
-		//TODO (L) how to get the Player ID dynamicly?
-		lField->getLPlayingField()->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(superplus * moneyPerWatt));
+		lField->getLPlayingField()->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(superplus * LBalanceLoader::getMoneyPerWatt()));
 	}
 }
 

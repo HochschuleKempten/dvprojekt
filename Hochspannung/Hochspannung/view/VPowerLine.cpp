@@ -39,7 +39,7 @@ void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const
 {
 	viewModel.initViewModel(this);
 	viewModel.Init(convertOrientation(orientation));
-	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0f));
+	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
 
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);

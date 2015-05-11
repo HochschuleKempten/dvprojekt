@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Game.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="VektoriaApp.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelOilRefinery.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelOilRefinery.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders.hlsl">
+      <Filter>Resourcendateien</Filter>
+    </None>
+    <None Include="shadowmap.hlsl">
+      <Filter>Resourcendateien</Filter>
+    </None>
+    <None Include="res\VektoriaTest.ico">
+      <Filter>Resourcendateien</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{399f8b63-7726-4c48-87ed-b470d7f57cfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resourcendateien">
+      <UniqueIdentifier>{baafab08-f5a6-4d12-b484-5b9b368c0850}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{9119bc3c-c3b9-47f3-af5e-55098c86f602}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VektoriaApp.rc">
+      <Filter>Resourcendateien</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

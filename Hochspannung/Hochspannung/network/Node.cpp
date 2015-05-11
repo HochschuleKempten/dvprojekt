@@ -9,11 +9,10 @@
 namespace Network {
 
 CNode::CNode() :
-m_ioService(io_service()), m_socketTcp(m_ioService), m_socketUdp(m_ioService), 
+m_ioService(io_service()), m_socketTcp(m_ioService), m_socketUdp(m_ioService), m_connectionTimer(m_ioService),
 m_localEndpointTcp(ip::tcp::endpoint(ip::tcp::v4(), m_usPortTcp)),
 m_localEndpointUdp(ip::udp::endpoint(ip::udp::v4(), m_usPortUdp)),
-m_connectionTimer(m_ioService), m_bConnected(false), m_bCheckResponseReceived(true),
-m_iLatestLatency(-1) {
+m_connectionState(CLOSED), m_bCheckResponseReceived(true), m_iLatestLatency(-1) {
 
 }
 
@@ -22,24 +21,22 @@ CNode::~CNode() {
 }
 
 bool CNode::start() {
-	if (!isConnected()) {
-		if (connect()) {
-			// start the thread if not already running
-			if (!m_thread.try_join_for(boost::chrono::duration<int>())) {
-				m_thread = boost::thread([this]() {
-					try {
-						m_ioService.run();
-					} catch (boost::system::system_error error) {
-						std::cout << "Unexpected Exception occurred while running io_service!" << std::endl;
-					}
-				});
-			}
-
-			return true;
+	if (m_connectionState == CLOSED && connect()) {
+		// start the thread if not already running
+		if (!m_thread.try_join_for(boost::chrono::duration<int>())) {
+			m_thread = boost::thread([this]() {
+				try {
+					m_ioService.run();
+				} catch (boost::system::system_error error) {
+					std::cout << "Unexpected Exception occurred while running io_service!" << std::endl;
+				}
+			});
 		}
+
+		return true;
+	} else {
+		return false;
 	}
-	
-	return false;
 }
 
 void CNode::stop() {
@@ -47,10 +44,12 @@ void CNode::stop() {
 	m_ioService.post([this]() {
 		m_socketTcp.close();
 		m_socketUdp.close();
+
 	});
 	m_thread.join();
-	m_bConnected = false;
-	std::cout << "Stopped node" << std::endl;
+	m_ioService.reset();
+	m_connectionState = CLOSED;
+	std::cout << "Stopped node." << std::endl;
 }
 
 void CNode::restart() {
@@ -58,8 +57,8 @@ void CNode::restart() {
 	start();
 }
 
-bool CNode::isConnected() {
-	return m_bConnected;
+State CNode::getConnectionState() {
+	return m_connectionState;
 }
 
 void CNode::write(const CMessage& message) {
@@ -146,7 +145,7 @@ void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*length*/
 			break;
 		case Action::CHECK_RESPONSE:
 			timeSent = boost::posix_time::from_iso_string(transferObject.getValue());
-			m_iLatestLatency = ((boost::posix_time::microsec_clock::universal_time() - timeSent).total_milliseconds()) / 2;
+			m_iLatestLatency = static_cast<int>((boost::posix_time::microsec_clock::universal_time() - timeSent).total_milliseconds()) / 2;
 			std::cout << m_iLatestLatency << std::endl;
 			m_bCheckResponseReceived = true;
 			break;
@@ -169,23 +168,23 @@ void CNode::handleConnectionError(const error_code& ec) {
 			break;
 
 		case ERROR_CONNECTION_REFUSED:
-			m_bConnected = false;
+			m_connectionState = CLOSED;
 			std::cout << "Connection refused by remote computer." << std::endl;
 			break;
 
 		case WSAECONNRESET:
-			m_bConnected = false;
+			m_connectionState = CLOSED;
 			m_connectionTimer.cancel();
 			std::cout << "Connection was closed by remote host." << std::endl;
 			break;
 
 		case ERROR_SEM_TIMEOUT:
-			m_bConnected = false;
+			m_connectionState = CLOSED;
 			std::cout << "Connection attempt timed out." << std::endl;
 			break;
 
 		case ERROR_CONNECTION_ABORTED:
-			m_bConnected = false;
+			m_connectionState = CLOSED;
 			m_connectionTimer.cancel();
 			std::cout << "Connection was aborted by the local system." << std::endl;
 			break;
@@ -193,17 +192,18 @@ void CNode::handleConnectionError(const error_code& ec) {
 		case ERROR_OPERATION_ABORTED:
 			// If you end up here without any previously requested close operations, check the threads.
 			// But in most cases this error is thrown because a socket is closed and all pending handler are canceled.
-			m_bConnected = false;
+
+			m_connectionState = CLOSED;
 			//std::cout << "The operation has been aborted." << std::endl;
 			break;
 
 		default:
-			m_bConnected = false;
+			m_connectionState = CLOSED;
 			std::cout << "System Error: " << ec.message() << std::endl;
 			break;
 		}
 	} else {
-		m_bConnected = false;
+		m_connectionState = CLOSED;
 		std::cout << "Error: " << ec.message() << std::endl;
 	}
 }
@@ -239,9 +239,11 @@ void CNode::checkConnectionHandler(const error_code& error) {
 			m_connectionTimer.expires_from_now(boost::posix_time::seconds(2));
 			m_connectionTimer.async_wait(boost::bind(&CNode::checkConnectionHandler, this, placeholders::error));
 		} else {
-			m_bConnected = false;
+			m_connectionState = CLOSED;
 			m_iLatestLatency = -1;
 			std::cout << "Connection lost." << std::endl;
+
+			// TODO Reaction??
 		}
 	} else if (error != error::operation_aborted) {
 		std::cout << error.message() << std::endl;

@@ -7,8 +7,8 @@
 
 NAMESPACE_LOGIC_B
 
-LSolarPowerPlant::LSolarPowerPlant(LField* lField, const int x, const int y)
-	:ILPowerPlant(lField, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createSolarPowerPlant(this))
+LSolarPowerPlant::LSolarPowerPlant(LField* lField, const int x, const int y, const int playerId)
+	:ILPowerPlant(lField, playerId, lField->getLPlayingField()->getLMaster()->getVMaster()->getFactory()->createSolarPowerPlant(this))
 {
 	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }

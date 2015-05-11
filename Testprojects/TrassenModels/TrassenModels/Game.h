@@ -52,8 +52,7 @@
 #endif
 
 
-
-
+#include <boost\asio.hpp> // must be included before windows.h because of WinSock.h and winsock2.h
 #include "Vektoria\Root.h"
 #include "VektoriaMath\Util.h"
 #include "../../../Hochspannung/Hochspannung/view/VModelPowerLine.h"

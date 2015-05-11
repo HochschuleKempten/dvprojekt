@@ -20,7 +20,7 @@ public:
 	 * @param stIP the IP of the target server.
 	 * @param usPortTcpServer the tcp port of the target server.
 	 */
-	CClient(std::string stIP = "", unsigned short usPortTcpServer = m_usPortTcp);
+	CClient(const std::string& stIP = "", unsigned short usPortTcpServer = m_usPortTcp);
 
 	/**
 	 * @brief Default constructor.
@@ -33,12 +33,13 @@ public:
 	 * @param usPortTcpServer the port to connect to.
 	 * @return true if the given data is valid, false otherwise.
 	 */
-	bool setServerData(std::string stIP, unsigned short usPortTcpServer = m_usPortTcp);
+	bool setServerData(const std::string& stIP, unsigned short usPortTcpServer = m_usPortTcp);
 
 	/**
 	 * @brief Searches for game server in the local network.
+	 * @return
 	 */
-	void searchGames();
+	bool searchGames();
 	
 	/**
 	 * @brief Returns a list of found games in the local network.
@@ -47,7 +48,8 @@ public:
 	std::vector<CGameObject>& getGameList();
 
 private:
-	bool connect();
+	bool connect() override;
+	bool startUdpClient();
 
 	void connectCompleteHandler(const error_code& error);
 	void udpDataRecievedHandler(const boost::system::error_code& error, std::size_t bytesTransferred);

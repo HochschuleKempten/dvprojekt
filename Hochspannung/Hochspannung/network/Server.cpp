@@ -29,25 +29,75 @@ std::string CServer::getName() {
 
 bool CServer::connect() {
 	// start the tcp server and wait for incoming connections
-	m_acceptor.open(m_localEndpointTcp.protocol());
-	m_acceptor.bind(m_localEndpointTcp);
-	m_acceptor.listen(0);
-	m_socketTcp = ip::tcp::socket(m_ioService);
-
-	m_acceptor.async_accept(m_socketTcp,
-		boost::bind(&CServer::acceptCompleteHandler, this, placeholders::error)
-	);
-	std::cout << "Server started. Waiting for incoming connections..." << std::endl;
+	if (startTcpServer()) {
+		m_acceptor.async_accept(m_socketTcp,
+			boost::bind(&CServer::acceptCompleteHandler, this, placeholders::error)
+		);
+		m_connectionState = PENDING;
+	} else {
+		m_connectionState = CLOSED;
+		return false;
+	}
 
 	// start the udp server and wait for incoming search requests
-	m_socketUdp.open(m_localEndpointUdp.protocol());
-	m_socketUdp.bind(m_localEndpointUdp);
-	m_socketUdp.async_receive_from(m_udpMessage.prepare(512),
-		m_remoteEndpointUdp,
-		boost::bind(&CServer::udpDataRecievedHandler, this, placeholders::error, placeholders::bytes_transferred)
-	);
+	if (startUdpServer()) {
+		m_socketUdp.async_receive_from(m_udpMessage.prepare(512),
+			m_remoteEndpointUdp,
+			boost::bind(&CServer::udpDataRecievedHandler, this, placeholders::error, placeholders::bytes_transferred)
+		);
+	} else {
+		// Do nothing as the UDP server is not essential for playing.
+	}
 
-	// currently nothing can go wrong here
+	std::cout << "Server started. Waiting for incoming connections..." << std::endl;
+
+	return true;
+}
+
+
+bool CServer::startTcpServer() {
+	if (!m_acceptor.is_open()) {
+		error_code error;
+
+		m_acceptor.open(m_localEndpointTcp.protocol(), error);
+		if (error) {
+			handleConnectionError(error);
+			return false;
+		}
+
+		m_acceptor.bind(m_localEndpointTcp, error);
+		if (error) {
+			handleConnectionError(error);
+			return false;
+		}
+
+		m_acceptor.listen(0, error);
+		if (error) {
+			handleConnectionError(error);
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool CServer::startUdpServer() {
+	if (!m_socketUdp.is_open()) {
+		error_code error;
+
+		m_socketUdp.open(m_localEndpointUdp.protocol(), error);
+		if (error) {
+			handleConnectionError(error);
+			return false;
+		}
+
+		m_socketUdp.bind(m_localEndpointUdp, error);
+		if (error) {
+			handleConnectionError(error);
+			return false;
+		}
+	}
+
 	return true;
 }
 
@@ -58,7 +108,7 @@ void CServer::acceptCompleteHandler(const error_code& error) {
 		std::cout << "Connected to client " << m_socketTcp.remote_endpoint() << std::endl;
 
 		m_acceptor.close();
-		m_bConnected = true;
+		m_connectionState = CONNECTED;
 		readHeader();
 
 		m_connectionTimer.expires_from_now(boost::posix_time::seconds(0));
@@ -82,16 +132,16 @@ void CServer::udpDataRecievedHandler(const boost::system::error_code& error, std
 			m_udpMessage.commit(bytesTransferred);
 			boost::property_tree::read_json(std::istream(&m_udpMessage), jsonTree);
 
-			std::string stName = jsonTree.get<std::string>("Name");
+			std::string stName = jsonTree.get<std::string>("name", "");
 
 			if (stName == "?") {
-				std::string stMessage = "{ \"Name\": \"" + m_stName + "\" }";
+				std::string stMessage = "{ \"name\": \"" + m_stName + "\" }";
 				m_socketUdp.async_send_to(buffer(stMessage.c_str(), stMessage.length()),
 					m_remoteEndpointUdp,
 					boost::bind(&CServer::udpDataSentHandler, this, placeholders::error, placeholders::bytes_transferred)
 				);
 			}
-		} catch (boost::property_tree::json_parser_error error) {
+		} catch (boost::property_tree::ptree_error error) {
 			// received message is invalid -> ignore it
 		}
 

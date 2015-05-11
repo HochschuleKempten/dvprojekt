@@ -54,10 +54,6 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 void VUI::onNotify(Event evente)
 {
 	switch (evente) {
-		case START_GAME:
-			vMaster->lMaster->startNewGame();
-			switchScreen("Ingame");
-			break;
 		case QUIT_GAME:
 			isQuit = true;
 			PostQuitMessage(0);
@@ -66,10 +62,6 @@ void VUI::onNotify(Event evente)
 		case SEARCH_IP:
 			break;
 
-			/*case SWITCH_TO_SPIELMODUS:
-		
-		switchScreen("Spielmoduswahl");
-		break;*/
 		case SWITCH_TO_LOBBY:
 			switchScreen("Lobby");
 			break;
@@ -132,8 +124,10 @@ void VUI::switchScreen(const std::string& switchTo)
 	ASSERT(m_screens.count(switchTo) > 0, "Screen" << switchTo << "not available");
 
 	activeScreen->switchOff();
+	activeScreen->EndEvent();
 	activeScreen = m_screens[switchTo];
 	activeScreen->switchOn();
+	activeScreen->StartEvent();
 }
 
 IViewScreen* VUI::getScreen(const std::string& sName)
@@ -152,54 +146,6 @@ void VUI::updatePopulation(const int wert)
 	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
 }
 
-void VUI::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
-{
-	//TODO (UI) clean up
-	float CurPosX;
-	float CurPosY;
-	m_zkCursor.GetFractional(CurPosX, CurPosY, false);
-	map<string, IViewGUIContainer*> tempmapGuicontainer;
-	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
-	map<string, IViewGUIObject*> tempList;
-	map<string, IViewGUIObject*>::iterator tempIter;
-
-	tempmapGuicontainer = tempGuicontainer->getGuiContainerMap();
-
-	for (tempIterGuicontainer = tempmapGuicontainer.begin(); tempIterGuicontainer != tempmapGuicontainer.end(); tempIterGuicontainer++) {
-		//Check if Container is on
-		if (tempIterGuicontainer->second->isOn()) {
-
-			tempList = tempIterGuicontainer->second->getGuiObjectList();
-			//for all GUI-Objects in the container
-			for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++) {
-				if (tempIter->second->isOn()) {//check if cursor is over
-					tempIter->second->checkHover(CurPosX, CurPosY);
-
-					if (!m_BlockCursorLeftPressed) {
-						//check for events
-						tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
-					}
-
-					//if screen was changed
-					if (m_screenChanged) {
-						m_screenChanged = false;
-						m_BlockCursorLeftPressed = true;
-						return;
-					}
-
-				}
-			}
-			if (tempIterGuicontainer->second->getGuiContainerMap().size() > 0) {
-				checkGUIContainer(tempIterGuicontainer->second);
-			}
-		}
-
-
-	}
-	if (m_zkCursor.ButtonPressedLeft()) {
-		m_BlockCursorLeftPressed = true;
-	}
-}
 
 
 void VUI::tick(const float fTimeDelta)
@@ -207,71 +153,6 @@ void VUI::tick(const float fTimeDelta)
 	m_zr.Tick(const_cast<float&>(fTimeDelta));
 	activeScreen->tick();
 
-	//TODO (UI) move to classes
-	float CurPosX;
-	float CurPosY;
-	m_zkCursor.GetFractional(CurPosX, CurPosY, false);
-
-	//One Click
-	if (!m_zkCursor.ButtonPressedLeft()) {
-		m_BlockCursorLeftPressed = false;
-	}
-	//For all screens...
-	for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++) {
-		map<string, IViewGUIContainer*> tempGuicontainer;
-		map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
-		//Check if screen is on
-		if (m_iterScreens->second->isOn()) {
-			//Check for shortcuts
-			m_iterScreens->second->checkShortcut(&m_zkKeyboard);
-			m_iterScreens->second->checkSpecialEvent(&m_zkCursor);
-			tempGuicontainer = m_iterScreens->second->getGuiContainerMap();
-
-			map<string, IViewGUIObject*> tempList;
-			map<string, IViewGUIObject*>::iterator tempIter;
-			//For all containers in the screen
-			for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++) {
-
-				//Check if Container is on
-				if (tempIterGuicontainer->second->isOn()) {
-					tempList = tempIterGuicontainer->second->getGuiObjectList();
-					//for all GUI-Objects in the container
-					for (tempIter = tempList.begin(); tempIter != tempList.end(); tempIter++) {
-
-						if (tempIter->second->isOn()) {
-							//check if cursor is over
-							//	tempIter->second->checkHover(CurPosX, CurPosY);
-
-							if (!m_BlockCursorLeftPressed) {
-								//check for events
-								tempIter->second->checkEvent(&m_zkCursor, &m_zkKeyboard);
-							}
-							//if screen was changed
-							if (m_screenChanged) {
-								m_screenChanged = false;
-								m_BlockCursorLeftPressed = true;
-								return;
-							}
-
-						}
-						if (isQuit)return;
-
-					}
-					if (isQuit)return;
-				}
-				if (tempIterGuicontainer->second->getGuiContainerMap().size() > 0) {
-					checkGUIContainer(tempIterGuicontainer->second);
-				}
-			}
-			if (isQuit)return;
-
-
-		}
-	}
-	
-	if (m_zkCursor.ButtonPressedLeft()) {
-		m_BlockCursorLeftPressed = true;
-	}
 }
 
 

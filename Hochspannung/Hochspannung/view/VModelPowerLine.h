@@ -1,3 +1,5 @@
+#pragma once
+
 #include "IViewModel.h"
 #include "VGeneral.h"
 #include <bitset>
@@ -47,7 +49,6 @@ private:
 
 	CGeoCube m_zgArm;
 	CGeoCube m_zgUpperArm;
-	//CGeoCube m_zgFoundation;
 	CGeoCube m_zgArmConnection;
 	CGeoCube m_zgPole;
 	CGeoCube m_zgRoof;
@@ -78,7 +79,6 @@ private:
 	CTriangleList *m_zpTriangleRingLoD2;
 	CTriangleList *m_zpTriangleRingLoD3;
 
-
 	SHORT m_saGridPosition[2];
 
 	SHORT m_iArmPosition		                         = 8;
@@ -86,8 +86,6 @@ private:
 	PYLONTYPE m_ePylonType                               = STRAIGHT;
 	VModelPowerLine::DIRECTION m_eDirection				 = DIRECTION::NONE | DIRECTION::NONE;
 	float m_fFieldSize                                   = 0;
-	float m_fFoundationHeight                            = 0;
-	float m_fFoundationWidth                             = 0;
 	float m_fPoleDistance                                = 0;
 	float m_fPoleThickness                               = 0;
 	float m_fPylonHeight                                 = 0;
@@ -105,6 +103,16 @@ private:
 	float m_fLowerArmPosition	                         = 0;
 	float m_fUpperArmPosition	                         = 0;
 	float m_fOppositeLeg		                         = 0;
+	float m_fLineLength									 = 0;
+	float m_fLineThickness								 = 0;
+	float dividedArm									 = 0;
+
+	CHMat cablePathPoints[20];
+	CHMats cablePath;
+	CGeoSweep geosweepCable;
+
+	bool m_fCablesDone = false;
+	void InitCables(float fSegmentLength1 = 0.2, float fSegmentLength2 = 2.0, int iPrecision = 10, float fCableThickness = 0.1f);
 };
 
 NAMESPACE_VIEW_E
