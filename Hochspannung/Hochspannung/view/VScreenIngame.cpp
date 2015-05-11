@@ -428,7 +428,7 @@ void VScreenIngame::handleInput()
 	}
 
 
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_RIGHT))
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_E))
 	{
 		if (cameraAngle < 0.5f)
 		{
@@ -438,7 +438,7 @@ void VScreenIngame::handleInput()
 		}
 	}
 
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_LEFT))
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_Q))
 	{
 		if (cameraAngle > -0.5f)
 		{
@@ -448,7 +448,7 @@ void VScreenIngame::handleInput()
 		}
 	}
 
-	if (!vUi->m_zkKeyboard.KeyPressed(DIK_LEFT) && !vUi->m_zkKeyboard.KeyPressed(DIK_RIGHT))
+	if (!vUi->m_zkKeyboard.KeyPressed(DIK_Q) && !vUi->m_zkKeyboard.KeyPressed(DIK_E))
 	{
 		if (cameraAngle < 0.0f)
 		{
