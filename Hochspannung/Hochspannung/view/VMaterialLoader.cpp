@@ -77,6 +77,7 @@ CMaterial VMaterialLoader::m_zmCable;
 //Solarkraftwerktexturen
 CMaterial VMaterialLoader::m_zmSolarzelle;
 CMaterial VMaterialLoader::m_zmSolarGrund;
+CMaterial VMaterialLoader::m_zmSolarLOD;
 
 //Atomkraftwerktexturen
 CMaterial VMaterialLoader::m_zmAtomgrundWhite;
@@ -190,6 +191,7 @@ void VMaterialLoader::init()
 	//Solarkraftwerktexturen
 	m_zmSolarGrund.MakeTextureDiffuse("textures\\white_image.jpg");
 	m_zmSolarzelle.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmSolarLOD.MakeTextureDiffuse("textures\\SolarLOD.jpg");
 
 	//Atomkraftwerktexturen
 	m_zmAtomgrundWhite.MakeTextureDiffuse("textures\\white_image.jpg");
