@@ -65,7 +65,7 @@ private:
 	CViewport m_minimap;
 	CPlacement m_zpMinimapCam;
 
-	bool bK = false;
+	//bool bK = false;
 	float mouseWheelPosition = 0.0F;
 	float cameraAngle = 0.0F;
 

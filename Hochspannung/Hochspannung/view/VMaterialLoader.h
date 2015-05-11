@@ -101,6 +101,7 @@ public:
 	//Solarkraftwerktexturen
 	static CMaterial m_zmSolarzelle;
 	static CMaterial m_zmSolarGrund;
+	static CMaterial m_zmSolarLOD;
 
 	//Atomkraftwerktexturen
 	static CMaterial m_zmAtomgrundWhite;

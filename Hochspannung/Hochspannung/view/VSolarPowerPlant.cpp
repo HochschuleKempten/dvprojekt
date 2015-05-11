@@ -7,7 +7,7 @@ NAMESPACE_VIEW_B
 
 
 VSolarPowerPlant::VSolarPowerPlant(VMaster* vMaster, LSolarPowerPlant* lPlant)
-	: IVPowerPlant(lPlant), IViewBuilding(vMaster, viewModel.getMainPlacement())
+	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
 {
 }
 
@@ -18,14 +18,11 @@ void VSolarPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPt
 {
 	viewModel.initViewModel(this);
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
+	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
+
 	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VSolarPowerPlant);
-}
-
-ILBuilding* VSolarPowerPlant::getLBuilding()
-{
-	return CASTD<ILBuilding*>(lPlant);
 }
 
 

@@ -31,7 +31,15 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 
 void VMaster::tick(float /*fTime*/, float fTimeDelta)
 {
-	updateTick(fTimeDelta);
+	if (lMaster->isGamePaused())
+	{
+		//The logic side must be informed even in pause mode
+		lMaster->tick(fTimeDelta);
+	}
+	else
+	{
+		updateTick(fTimeDelta);
+	}
 }
 
 IVFactory* VMaster::getFactory()
@@ -49,7 +57,7 @@ void VMaster::gameOver()
 	//TODO (V) do something useful here when UI is ready
 }
 
-VUI* HighVoltage::VMaster::getVUi()
+VUI* VMaster::getVUi()
 {
 	return &vUi;
 }
