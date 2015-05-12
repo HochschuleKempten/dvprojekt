@@ -1,13 +1,11 @@
 #include "Client.h"
 #include <boost\asio\placeholders.hpp>
-#include <boost\asio\connect.hpp>
-#include <boost\lexical_cast.hpp>
 #include <boost\property_tree\json_parser.hpp>
 #include <iostream>
 
 namespace Network {
 
-CClient::CClient(const std::string& stIP, unsigned short usPortTcpServer) :
+CClient::CClient(std::string stIP, unsigned short usPortTcpServer) :
 CNode(), m_bEndpointValid(false) {
 	if (stIP != "") {
 		setServerData(stIP, usPortTcpServer);
@@ -17,8 +15,7 @@ CNode(), m_bEndpointValid(false) {
 CClient::~CClient() {
 }
 
-bool CClient::setServerData(const std::string& stIP, unsigned short usPortTcpServer)
-{
+bool CClient::setServerData(std::string stIP, unsigned short usPortTcpServer) {
 	try {
 		m_remoteEndpointTcp = ip::tcp::endpoint(ip::address_v4::from_string(stIP), usPortTcpServer);
 	} catch (...) {
@@ -144,7 +141,7 @@ void CClient::udpDataRecievedHandler(const boost::system::error_code& error, std
 			if (stName != "?") {
 				m_gameList.push_back(CGameObject(m_remoteEndpointUdp.address(), m_usPortTcp, stName));
 			}
-		} catch (boost::property_tree::ptree_error error) {
+		} catch (boost::property_tree::ptree_error /*error*/) {
 			// received message is invalid -> ignore it
 		}
 

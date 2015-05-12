@@ -17,7 +17,7 @@ public:
 	 * @brief Constructor.
 	 * @param stName the server/game name.
 	 */
-	CServer(std::string stName);
+	explicit CServer(std::string stName);
 
 	/**
 	 * @brief Default constructor.
@@ -28,7 +28,7 @@ public:
 	 * @brief Stop the server.
 	 * Closes any active connection and stops sending/reciving messages.
 	 */
-	void stop();
+	void stop() override;
 
 	/**
 	 * @brief Sets the server/game name.
@@ -43,7 +43,7 @@ public:
 	std::string getName();
 
 private:
-	bool connect();
+	bool connect() override;
 	bool startTcpServer();
 	bool startUdpServer();
 

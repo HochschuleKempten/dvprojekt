@@ -20,7 +20,7 @@ public:
 	 * @param stIP the IP of the target server.
 	 * @param usPortTcpServer the tcp port of the target server.
 	 */
-	CClient(const std::string& stIP = "", unsigned short usPortTcpServer = m_usPortTcp);
+	explicit CClient(std::string stIP = "", unsigned short usPortTcpServer = m_usPortTcp);
 
 	/**
 	 * @brief Default constructor.
@@ -33,7 +33,7 @@ public:
 	 * @param usPortTcpServer the port to connect to.
 	 * @return true if the given data is valid, false otherwise.
 	 */
-	bool setServerData(const std::string& stIP, unsigned short usPortTcpServer = m_usPortTcp);
+	bool setServerData(std::string stIP, unsigned short usPortTcpServer = m_usPortTcp);
 
 	/**
 	 * @brief Searches for game server in the local network.

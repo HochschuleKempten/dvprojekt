@@ -141,7 +141,7 @@ void CServer::udpDataRecievedHandler(const boost::system::error_code& error, std
 					boost::bind(&CServer::udpDataSentHandler, this, placeholders::error, placeholders::bytes_transferred)
 				);
 			}
-		} catch (boost::property_tree::ptree_error error) {
+		} catch (boost::property_tree::ptree_error /*error*/) {
 			// received message is invalid -> ignore it
 		}
 

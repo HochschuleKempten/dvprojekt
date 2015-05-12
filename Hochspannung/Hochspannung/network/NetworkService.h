@@ -1,6 +1,6 @@
 #pragma once
-#include "Client.h"
-#include "Server.h"
+#include "Node.h"
+#include "GameObject.h"
 
 namespace Network {
 
@@ -52,7 +52,7 @@ public:
 	 * @param stIP the IP of the server to connect to.
 	 * @return true, if succesful, false otherwise.
 	 */
-	bool connect(const std::string& stIP);
+	bool connect(std::string stIP);
 
 	/**
 	 * @brief Searches asynchronously for game server in the local network.
@@ -188,7 +188,7 @@ private:
 	 */
 	bool sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = "");
 
-	CNode* m_pNode = 0;
+	CNode* m_pNode = nullptr;
 	Type m_type;
 };
 

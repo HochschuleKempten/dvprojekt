@@ -12,7 +12,7 @@ CNode::CNode() :
 m_ioService(io_service()), m_work(m_ioService), m_socketTcp(m_ioService), m_socketUdp(m_ioService), m_connectionTimer(m_ioService),
 m_localEndpointTcp(ip::tcp::endpoint(ip::tcp::v4(), m_usPortTcp)),
 m_localEndpointUdp(ip::udp::endpoint(ip::udp::v4(), m_usPortUdp)),
-m_connectionState(CLOSED), m_bCheckResponseReceived(true), m_iLatestLatency(-1) {
+m_connectionState(CLOSED), m_bCheckResponseReceived(true), m_iRetryCounter(0), m_iLatestLatency(-1) {
 	m_thread = boost::thread([this]() {
 		try {
 			m_ioService.run();
@@ -225,6 +225,8 @@ void CNode::checkConnectionHandler(const error_code& error) {
 	if (!error) {
 		if (m_bCheckResponseReceived) {
 			m_bCheckResponseReceived = false;
+			m_connectionState = CONNECTED;
+			m_iRetryCounter = 0;
 
 			std::string stMessage = boost::lexical_cast<std::string>(Action::CHECK_CONNECTION) + ";-1;-1;-1;" + to_iso_string(boost::posix_time::microsec_clock::universal_time()) + ";";
 			CMessage message(stMessage.c_str());
@@ -235,9 +237,23 @@ void CNode::checkConnectionHandler(const error_code& error) {
 		} else {
 			m_connectionState = CLOSED;
 			m_iLatestLatency = -1;
-			std::cout << "Connection lost." << std::endl;
 
-			// TODO Reaction??
+			if (m_iRetryCounter < 5) {
+				std::cout << "Connection lost. Try to reconnect. (" << m_iRetryCounter << ")" << std::endl;
+
+				std::string stMessage = boost::lexical_cast<std::string>(Action::CHECK_CONNECTION) + ";-1;-1;-1;" + to_iso_string(boost::posix_time::microsec_clock::universal_time()) + ";";
+				CMessage message(stMessage.c_str());
+				write(message);
+
+				m_connectionTimer.expires_from_now(boost::posix_time::seconds(2));
+				m_connectionTimer.async_wait(boost::bind(&CNode::checkConnectionHandler, this, placeholders::error));
+
+				m_iRetryCounter++;
+			} else {
+				std::cout << "Closing connection." << std::endl;
+				stop();
+			}
+
 		}
 	} else if (error != error::operation_aborted) {
 		std::cout << error.message() << std::endl;

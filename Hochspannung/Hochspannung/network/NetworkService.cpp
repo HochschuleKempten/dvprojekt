@@ -1,4 +1,6 @@
 #include "NetworkService.h"
+#include "Client.h"
+#include "Server.h"
 #include <boost\lexical_cast.hpp>
 
 namespace Network {
@@ -24,7 +26,7 @@ bool CNetworkService::host(std::string stName) {
 		close();
 	}
 
-	if (m_pNode == 0) {
+	if (m_pNode == nullptr) {
 		m_pNode = new CServer(stName);
 		m_type = SERVER;
 	}
@@ -36,8 +38,7 @@ bool CNetworkService::host(std::string stName) {
 	}
 }
 
-bool CNetworkService::connect(const std::string& stIP)
-{
+bool CNetworkService::connect(std::string stIP) {
 	//if (m_type == CLIENT) {
 	//	m_pNode->stop();
 	//	static_cast<CClient*>(m_pNode)->setServerData(stIP);
@@ -48,7 +49,7 @@ bool CNetworkService::connect(const std::string& stIP)
 		close();
 	}
 
-	if (m_pNode == 0) {
+	if (m_pNode == nullptr) {
 		m_pNode = new CClient(stIP);
 		m_type = CLIENT;
 	}
@@ -67,7 +68,7 @@ bool CNetworkService::searchGames() {
 		close();
 	}
 
-	if (m_pNode == 0) {
+	if (m_pNode == nullptr) {
 		m_pNode = new CClient();
 		m_type = CLIENT;
 	}
@@ -76,7 +77,7 @@ bool CNetworkService::searchGames() {
 }
 
 std::vector<CGameObject> CNetworkService::getGameList() {
-	if (m_pNode != 0 && m_type == CLIENT) {
+	if (m_pNode != nullptr && m_type == CLIENT) {
 		return static_cast<CClient*>(m_pNode)->getGameList();
 	} else {
 		return std::vector<CGameObject>();
@@ -84,22 +85,22 @@ std::vector<CGameObject> CNetworkService::getGameList() {
 }
 
 void CNetworkService::close() {
-	if (m_pNode != 0) {
+	if (m_pNode != nullptr) {
 		m_pNode->stop();
 		delete m_pNode;
-		m_pNode = 0;
+		m_pNode = nullptr;
 		m_type = NONE;
 	}
 }
 
 void CNetworkService::restart() {
-	if (m_pNode != 0) {
+	if (m_pNode != nullptr) {
 		m_pNode->restart();
 	}
 }
 
 State CNetworkService::getConnectionState() {
-	if (m_pNode != 0) {
+	if (m_pNode != nullptr) {
 		return m_pNode->getConnectionState();
 	} else {
 		return CLOSED;
@@ -158,7 +159,7 @@ bool CNetworkService::sendSetMapRow(int iRow, std::vector<FieldTransfer> vRowDat
 				  + boost::lexical_cast<std::string>(it->iFieldType) + "$";
 	}
 
-	if (stRowData.back() == (char)"$") {
+	if (stRowData.back() == '$') {
 		stRowData.pop_back();
 	}
 
@@ -166,7 +167,7 @@ bool CNetworkService::sendSetMapRow(int iRow, std::vector<FieldTransfer> vRowDat
 }
 
 CTransferObject CNetworkService::getNextActionToExecute() {
-	if (m_pNode != 0) {
+	if (m_pNode != nullptr) {
 		return m_pNode->getNextActionToExecute();
 	} else {
 		return CTransferObject();
@@ -174,7 +175,7 @@ CTransferObject CNetworkService::getNextActionToExecute() {
 }
 
 bool CNetworkService::isActionAvailable() {
-	if (m_pNode != 0) {
+	if (m_pNode != nullptr) {
 		return m_pNode->isActionAvailable();
 	} else {
 		return false;
