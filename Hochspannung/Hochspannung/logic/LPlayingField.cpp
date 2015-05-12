@@ -214,7 +214,7 @@ void LPlayingField::removeBuilding(const int x, const int y)
 		{
 			//remove all outgoing edges
 			powerLineGraph.m_vertices[convertIndex(x, y)].m_out_edges.clear();
-			calculateEnergyValueCity();
+			recalculateCityConnections();
 			recheckConnectedBuildings();
 		}
 
@@ -432,7 +432,7 @@ void LPlayingField::calculateEnergyValueCity()
 {
 	int energyValue = 0;
 
-	std::vector<int> vec = strongConnectedSearch(powerLineGraph, convertIndex(localCity->getLField()->getCoordinates()));
+	std::vector<int> vec = getCityConnections();
 	std::pair<int, int> coord;
 
 	for (size_t i = 0; i < vec.size(); i++)
@@ -448,6 +448,18 @@ void LPlayingField::calculateEnergyValueCity()
 	}
 
 	getLocalCity()->setEnergy(energyValue);
+}
+
+std::vector<int> LPlayingField::getCityConnections()
+{
+	static std::vector<int> cityConnections;
+
+	if (cityConnectionsRecalculate) {
+		cityConnections = strongConnectedSearch(powerLineGraph, convertIndex(localCity->getLField()->getCoordinates()));
+		cityConnectionsRecalculate = false;
+	}
+	
+	return cityConnections;
 }
 
 void LPlayingField::addBuildingToGraph(const int x, const int y, const int orientation)

@@ -92,6 +92,8 @@ int LField::getResources() const
 
 bool LField::reduceRecources(int amount) 
 {
+	DEBUG_OUTPUT("resourceLeft begin: " << resourceLeft);
+
 	if (resourceLeft > 0) 
 	{
 		resourceLeft -= amount;

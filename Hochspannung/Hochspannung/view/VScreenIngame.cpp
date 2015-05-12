@@ -554,7 +554,7 @@ void VScreenIngame::handleInput()
 				//}
 
 
-				vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+				//vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
 
 #ifdef _DEBUG
 				extern bool isCheatModeOn;

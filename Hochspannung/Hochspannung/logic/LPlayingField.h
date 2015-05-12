@@ -64,6 +64,7 @@ private:
 
 	bool isLocalOperation = true;
 	bool initDone = false;
+	bool cityConnectionsRecalculate = true;
 
 private:
 	template <typename T>
@@ -153,26 +154,23 @@ private:
 				//subtract money only if the local player placed the building
 				lMaster->getPlayer(LPlayer::Local)->subtractMoney(LBalanceLoader::getCost<T>());
 				getField(x, y)->getBuilding()->addValue(LBalanceLoader::getCost<T>());
-
-				if (localCity != nullptr)
-				{
-					calculateEnergyValueCity();
-				}
 			}
 		}
-		else if (playerId & LPlayer::External && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
+		else if (playerId & LPlayer::External && placeBuildingHelper<T>(this)(x, y, playerId, arguments...))
+		{
 			buildingPlaced = true;
+		}
 
+		if (buildingPlaced) {
+			setSpecialBuildings<T>(x, y, playerId);
+			recalculateCityConnections();
+			
 			//-----network-----
 			if (!isLocalOperation)
 			{
 				lMaster->sendSetObject(LIdentifier::getIdentifierForType<T>(), x, y, std::to_string(playerId));
 			}
 			//-----network-----
-		}
-
-		if (buildingPlaced) {
-			setSpecialBuildings<T>(x, y, playerId);
 
 			return true;
 		}
@@ -242,6 +240,7 @@ public:
 	bool checkConnectionBuildings(const ILBuilding* b1, const ILBuilding* b2);
 	bool isTransformstationConnected();
 	void calculateEnergyValueCity();
+	std::vector<int> getCityConnections();
 
 	bool isInitDone();
 	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);
@@ -252,6 +251,10 @@ public:
 	LCity* getLocalCity() const
 	{
 		return localCity;
+	}
+	void recalculateCityConnections()
+	{
+		cityConnectionsRecalculate = true;
 	}
 };
 

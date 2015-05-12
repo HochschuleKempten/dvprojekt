@@ -49,7 +49,7 @@ public:
 			vPowerPlant->switchedOn();
 		}
 
-		lField->getLPlayingField()->calculateEnergyValueCity();
+		lField->getLPlayingField()->recalculateCityConnections();
 	};
 
 };
