@@ -21,6 +21,11 @@ CMaterial VMaterialLoader::materialRed;
 CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
 
+//Infofield
+CMaterial VMaterialLoader::materialInfofieldBackground;
+
+//Minimap
+CMaterial VMaterialLoader::materialMinimapBackground;
 
 //Lobby Buttons
 
@@ -213,7 +218,7 @@ void VMaterialLoader::init()
 	standardFont.SetTableSize(16, 6);
 	GoldFont.Init("textures/fonts/FontArialShadowGold.png", true);
 	GoldFont.SetTableSize(16, 6);
-
+	standardFont.SetTransparencyOn();
 	//Building - Trasse
 	m_zmConcrete.MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse.png");
 	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
@@ -252,8 +257,13 @@ void VMaterialLoader::init()
 	m_zmHammerCursor.MakeTextureSprite("textures\\gui\\Hammer.png");
 
 	//CraftMenue
-	m_zmCraftMenueBackground.MakeTextureSprite("textures\\gui\\texture_gui_background_darkgrey.png");
+	m_zmCraftMenueBackground.MakeTextureSprite("textures/gui/background/gui_ingame_baumenu.png");
 
+	//Infofield
+	materialInfofieldBackground.MakeTextureSprite("textures/gui/background/gui_ingame_infofield.png");
+
+	//Minimap
+	materialMinimapBackground.MakeTextureSprite("textures/gui/background/gui_ingame_minimap.png");
 }
 
 

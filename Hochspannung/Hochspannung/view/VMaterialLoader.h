@@ -82,6 +82,12 @@ public:
 	static CMaterial materialCraftmenuButtonNuclearPowerplantHover;
 	static CMaterial materialCraftmenuButtonPowerlineHover;
 	
+	//Infofield
+	static CMaterial materialInfofieldBackground;
+
+	//Minimap
+	static CMaterial materialMinimapBackground;
+
 	//Allgemein
 	//Buttons
 	static CMaterial materialButtonBack;
