@@ -215,7 +215,7 @@ void VMaterialLoader::init()
 
 	//Fonts
 	standardFont.Init("textures/fonts/FontArialShadow.png", true);
-	standardFont.SetTableSize(16, 6);
+	standardFont.SetTableSize(16, 16);
 	GoldFont.Init("textures/fonts/FontArialShadowGold.png", true);
 	GoldFont.SetTableSize(16, 6);
 	standardFont.SetTransparencyOn();
