@@ -117,7 +117,7 @@ int LPlayingField::linkPowerlines(const int x, const int y)
 	for (auto const& iterator : neighbors)
 	{
 		//No Building
-		if (iterator.second->getBuilding() == nullptr || iterator.second->getBuilding()->getPlayerId() == LPlayer::External)
+		if (iterator.second->getBuilding() == nullptr)
 		{
 			continue;
 		}
@@ -466,6 +466,9 @@ void LPlayingField::addBuildingToGraph(const int x, const int y, const int orien
 						if (plOther != nullptr)
 						{
 							add_edge(convertIndex(xEnd, yEnd), convertIndex(x, y), powerLineGraph);
+							//-----network-----
+							lMaster->sendSetObject(-500, xEnd, yEnd, std::to_string(ILBuilding::getOpppositeOrientation(checkOrientation)));
+							//-----network-----
 							plOther->updatedOrientation(ILBuilding::getOpppositeOrientation(checkOrientation));
 						}
 					}

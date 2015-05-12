@@ -11,6 +11,7 @@
 #include "LCity.h"
 #include "LTransformerStation.h"
 #include "LBalanceLoader.h"
+#include "LPowerLine.h"
 
 NAMESPACE_LOGIC_B
 
@@ -114,8 +115,6 @@ void LMaster::tick(const float fTimeDelta)
 		int objectId = transferObject.getTransObjectID();
 		int x = transferObject.getCoordX();
 		int y = transferObject.getCoordY();
-
-
 		int playerId = std::stoi(transferObject.getValue());
 		if (playerId == LPlayer::Local)
 		{
@@ -138,20 +137,15 @@ void LMaster::tick(const float fTimeDelta)
 			{
 				placeBuilding(objectId, x, y, playerId);
 			}
-
-			//fieldtypes
-			if (objectId >= 0 && objectId < 9)
+			else if (objectId == -500)//update orientation
 			{
-				lPlayingField->getField(x, y)->setFieldType(static_cast<LField::FieldType>(objectId));
+				LPowerLine* pL = dynamic_cast<LPowerLine*>(lPlayingField->getField(x, y)->getBuilding());
+				if (pL != nullptr)
+				{
+					pL->updatedOrientation(playerId);
+				}
 			}
-
-			//fieldlevels
-			if (objectId >= 20 && objectId < 23)
-			{
-				lPlayingField->getField(x, y)->setFieldLevel(static_cast<LField::FieldLevel>(objectId));
-			}
-
-			if (playerId == -66) //= end of fieldcreation
+			else if (playerId == -66) //= end of fieldcreation
 			{
 				lPlayingField->showPlayingField();
 			}
