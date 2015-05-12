@@ -25,7 +25,16 @@ VUI::~VUI()
 void VUI::initUI(HWND hwnd, CSplash* psplash)
 {
 	m_zr.Init(psplash);
-	if (IsWindows8OrGreater()) {
+
+	//get computer name
+	std::vector<const char*> computerNameBlacklist{ "IVO-NOTEBOOK" }; //if you don't want to compile the shaders at every start
+	unsigned long bufCharCount = 32767;
+	char buf[32767];
+
+	//											check if the computername is in the blacklist
+	if (GetComputerName(buf, &bufCharCount) && std::find_if(computerNameBlacklist.begin(), computerNameBlacklist.end(), [&buf](const char* name) { return strcmp(name, buf) == 0; }) == computerNameBlacklist.end())
+	{
+		/*IsWindows8OrGreater()*/
 		m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
 	}
 	else {
