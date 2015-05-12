@@ -32,7 +32,7 @@ protected:
 public:
 	inline IViewModel()
 	{
-		const float step = 100.0f / CASTS<float>(m_zpLOD.size());
+		const float step = 10.0f / CASTS<float>(m_zpLOD.size());
 		float previous = 0;
 		m_zpLODBorder[0] = previous;
 

@@ -4,6 +4,7 @@
 
 
 #include "VGeneral.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -11,6 +12,7 @@ NAMESPACE_VIEW_B
 class COfficeTowerViewingDeck : public CPlacement
 {
 public:
+	COfficeTowerViewingDeck();
 	COfficeTowerViewingDeck(float fResize);
 	~COfficeTowerViewingDeck(void);
 	void InitWindows();

@@ -109,6 +109,19 @@ CMaterial VMaterialLoader::m_zmHammerCursor;
 //CraftMenue
 CMaterial VMaterialLoader::m_zmCraftMenueBackground;
 
+//MaterialBuilding
+CMaterial VMaterialLoader::materialBuilding01;
+CMaterial VMaterialLoader::materialBuilding02;
+CMaterial VMaterialLoader::materialBuilding03;
+CMaterial VMaterialLoader::materialLargeOfficeBuilding;
+CMaterial VMaterialLoader::materialAppartments;
+CMaterial VMaterialLoader::materialOfficTowerViewingDeck;
+CMaterial VMaterialLoader::materialTwistedTower;
+CMaterial VMaterialLoader::materialSmallOfficeBuilding;
+
+// MaterialWindowBuildings
+CMaterial VMaterialLoader::materialWindowsofBuilding;
+
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
