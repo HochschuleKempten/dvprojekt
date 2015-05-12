@@ -48,6 +48,9 @@ CMaterial VMaterialLoader::materialLobbyBigDialog;
 CMaterial VMaterialLoader::materialBuildingButton;
 CMaterial VMaterialLoader::materialBuildingButtonHover;
 
+CMaterial VMaterialLoader::materialButtonAbort;
+CMaterial VMaterialLoader::materialButtonAbortHover;
+
 //Ingame Buttons
 CMaterial VMaterialLoader::materialIngameButtonCraftmenu;
 CMaterial VMaterialLoader::materialIngameButtonSabotage;
@@ -151,6 +154,9 @@ void VMaterialLoader::init()
 	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_exit_hover.png");
 	materialButtonBack.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back.png");
 	materialButtonBackHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back_hover.png");
+	materialButtonAbort.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort.png");
+	materialButtonAbortHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort_hover.png");
+
 
 	//Lobby Buttons
 	materialButtonLobbyJoinGame.MakeTextureSprite("textures/gui/Buttons/ButtonJoinGame.png");

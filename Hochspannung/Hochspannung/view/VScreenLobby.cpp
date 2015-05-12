@@ -48,8 +48,10 @@ NAMESPACE_VIEW_B
 		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.19F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyJoinGame, &VMaterialLoader::materialButtonLobbyJoinGameHover, LOBBY_JOIN_GAME, "buttonJoinGame");
 		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.33F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyHostGame, &VMaterialLoader::materialButtonLobbyHostGameHover, LOBBY_HOST_GAME, "buttonHostGame");
 
-		addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.3F, 0.45F, 0.3F, 0.1F), &VMaterialLoader::materialGreen, "WaitingDialog");
+		addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.3F, 0.45F, 0.3F, 0.2F), &VMaterialLoader::materialGreen, "WaitingDialog");
 		getContainer("WaitingDialog")->addText(CFloatRect(0.1F, 0.1F, 0.8F, 0.2F), &VMaterialLoader::standardFont, "Warte auf Mitspieler", "TextWaitingDialog");
+		getContainer("WaitingDialog")->addButton(CFloatRect(0.2F, 0.35F, 0.6F, 0.2), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover,NOTHING,"HostCancel");
+
 
 		getContainer("WaitingDialog")->setLayer(0.5);
 		getContainer("WaitingDialog")->switchOff();

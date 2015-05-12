@@ -44,6 +44,8 @@ public:
 	static CMaterial materialButtonLobbyJoinGameHover;
 	static CMaterial materialButtonLobbyHostGame;
 	static CMaterial materialButtonLobbyHostGameHover;
+	static CMaterial materialButtonAbort;
+	static CMaterial materialButtonAbortHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
