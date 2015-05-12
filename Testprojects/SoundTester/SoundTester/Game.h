@@ -91,6 +91,8 @@ private:
 
 	CAudio m_audio0;
 	CAudio m_audio1;
+	CGeoCube test = CGeoCube();
+	CMaterial test2 = CMaterial();
 };
 
 
