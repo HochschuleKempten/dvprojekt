@@ -48,6 +48,33 @@ NAMESPACE_VIEW_B
 		}
 	}
 
+	void  VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, string sName)
+	{
+		m_guiObjects[sName] = new VButton(m_viewport, rect, MaterialNormal, MaterialHover, clickAction);
+
+		m_guiObjects[sName]->addObserver(this);
+	}
+
+	void  VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder, string sName)
+	{
+		m_guiObjects[sName] = new VTextfield(m_viewport, rect, MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
+
+		m_guiObjects[sName]->addObserver(this);
+	}
+
+	void  VGroup::addText(CFloatRect rect, CWritingFont* writingFont, string text, string sName)
+	{
+		m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text);
+
+		m_guiObjects[sName]->addObserver(this);
+	}
+
+	void  VGroup::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, string sName)
+	{
+		m_Overlays[sName] = new COverlay();
+		m_Overlays[sName]->Init(MaterialNormal, rect);
+		m_viewport->AddOverlay(m_Overlays[sName]);
+	}
 
 	void VGroup::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
 	{
