@@ -104,9 +104,10 @@ NAMESPACE_VIEW_B
 		m_Guicontainer[sName] = new VTab(m_viewport, createRelativeRectangle(&m_zfRect, &CFloatRect(0.0F, 0.2F, 1.0F, 0.8F)), background);
 		m_tabs[sName] = dynamic_cast<VTab*>(m_Guicontainer[sName]);
 		m_Guicontainer[sName]->addObserver(this);
-
+		m_tabs[sName]->setLayer(getLayer() - 0.01);
+		m_Guicontainer[sName]->setLayer(getLayer() - 0.01);
 		addButton(CFloatRect(0.0F, 0.0F, 0.5F, 0.1F), MaterialNormal, MaterialHover, events, sName);
-
+		m_guiObjects[sName]->setLayer(getLayer() - 0.01);
 		calcButtonSize();
 	}
 

@@ -37,6 +37,7 @@ NAMESPACE_VIEW_B
 
 	
 
+
 	void VTab::onNotify(Event events)
 	{
 		switch (events)

@@ -83,21 +83,21 @@ NAMESPACE_VIEW_B
 		virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, string sName)
 		{
 			m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
-
+			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
 			m_guiObjects[sName]->addObserver(this);
 		}
 
 		virtual void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder, string sName)
 		{
 			m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
-
+			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
 			m_guiObjects[sName]->addObserver(this);
 		}
 
 		virtual void addText(CFloatRect rect, CWritingFont* writingFont, string text, string sName)
 		{
 			m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text);
-
+			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
 			m_guiObjects[sName]->addObserver(this);
 		}
 

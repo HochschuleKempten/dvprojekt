@@ -31,6 +31,8 @@ public:
 	//MainMenue
 	static CMaterial materialMainMenue;
 	static CMaterial materialMainMenueHover;
+	static CMaterial materialMainMenueBackground;
+
 	//Buttons
 	static CMaterial materialButtonMainMenueNeuesSpiel;
 	static CMaterial materialButtonMainMenueNeuesSpielHover;

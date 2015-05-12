@@ -20,14 +20,14 @@ NAMESPACE_VIEW_B
 		m_background = new CBackground();
 		m_headline = new COverlay();
 
-		m_background->InitFull(&VMaterialLoader::m_zmCraftMenueBackground);
-		m_flash->Init("textures\\Blitz.png", CFloatRect(0.75F, 0.2F, 0.20F, 0.7F));
-		m_headline->Init("textures\\Hochvolt.png", CFloatRect(0.20F, 0.05F, 0.6F, 0.15F));
+		m_background->InitFull(&VMaterialLoader::materialMainMenueBackground);
+		//m_flash->Init("textures\\Blitz.png", CFloatRect(0.75F, 0.2F, 0.20F, 0.7F));
+		//m_headline->Init("textures\\Hochvolt.png", CFloatRect(0.20F, 0.05F, 0.6F, 0.15F));
 
 
 		m_viewport->AddBackground(m_background);
 		m_viewport->AddOverlay(m_flash);
-		m_viewport->AddOverlay(m_headline);
+		//m_viewport->AddOverlay(m_headline);
 
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
 
