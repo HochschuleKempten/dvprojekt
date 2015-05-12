@@ -13,6 +13,14 @@ LOilRefinery::LOilRefinery(LField* lField, const int x, const int y, const int p
 	vPowerPlant->initPowerPlant(vPowerPlant, x, y);
 }
 
+int LOilRefinery::getEnergyValue() {
+	// TODO (BP) what if there are less resources than reduced by tick? 
+	if (lField->getResources() > 0 && !lField->reduceRecources(LBalanceLoader::getConsumedResources(LField::NUCLEAR))) {
+		switchOnOff();
+	}
+
+	return ILPowerPlant::getEnergyValue();
+}
 
 LOilRefinery::~LOilRefinery()
 {

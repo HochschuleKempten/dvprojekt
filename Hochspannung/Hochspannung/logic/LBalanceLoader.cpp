@@ -35,6 +35,23 @@ int LBalanceLoader::getFieldStorage(const LField::FieldType fieldType)
 	}
 }
 
+
+int LBalanceLoader::getConsumedResources(const LField::FieldType fieldType)
+{
+	ASSERT(initDone, msgAssert);
+
+	switch (fieldType) {
+	case LField::COAL:
+		return propertyTree.get<int>("ConsumedResources.Coal", 0);
+	case LField::OIL:
+		return propertyTree.get<int>("ConsumedResources.Oil", 0);
+	case LField::NUCLEAR:
+		return propertyTree.get<int>("ConsumedResources.Nuclear", 0);
+	default:
+		return 0;
+	}
+}
+
 int LBalanceLoader::getProducedEnergy(const LIdentifier::LIdentifier identifier)
 {
 	ASSERT(initDone, msgAssert);

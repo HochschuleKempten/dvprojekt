@@ -49,8 +49,8 @@ private:
 	bool buildingPlaced = false;
 	FieldType fieldType = GRASS;
 	FieldLevel fieldLevel = LEVEL1;
-	int energyStock = 0;
-	int energyLeft = 0;
+	int resourceStock = 0;
+	int resourceLeft = 0;
 	int x = -1;
 	int y = -1;
 
@@ -97,16 +97,16 @@ public:
 	// this must be called after construction of this object
 	void setInitialValues(LPlayingField* lPlayingField, const int x, const int y);
 	FieldType getFieldType() const;
-	void setFieldType(FieldType fieldType);
 	FieldLevel getFieldLevel() const;
-	void setFieldLevel(FieldLevel fieldLevel);
 	int getBuildingId() const;
 	bool removeBuilding();
 	ILBuilding * getBuilding();
 	void setIsPlacingAllowed(const bool allowed);
 	bool isPlacingAllowed();
 	LPlayingField* getLPlayingField();
-	
+	int getResources() const;
+	bool reduceRecources(int amount);
+
 	int getX() const
 	{
 		return x;

@@ -24,7 +24,7 @@ public:
 	{
 	};
 
-	int getEnergyValue()
+	int virtual getEnergyValue()
 	{
 		if (isActivated)
 		{

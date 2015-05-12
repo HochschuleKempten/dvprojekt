@@ -21,9 +21,9 @@ void LField::init(const FieldType fieldType, const FieldLevel fieldLevel)
 	this->fieldLevel = fieldLevel;
 
 	const std::unordered_map<LField::FieldLevel, double> fieldLevels = LBalanceLoader::getFieldLevelFactor();
-	energyStock = CASTS<int>(fieldType * fieldLevels.at(fieldLevel));
+	resourceStock = CASTS<int>(LBalanceLoader::getFieldStorage(LField::fieldType) * fieldLevels.at(fieldLevel));
 
-	energyLeft = energyStock;
+	resourceLeft = resourceStock;
 }
 
 void LField::setInitialValues(LPlayingField* lPlayingField, const int x, const int y)
@@ -38,25 +38,9 @@ LField::FieldType LField::getFieldType() const
 	return fieldType;
 }
 
-void LField::setFieldType(FieldType fieldType)
-{
-	this->fieldType = fieldType;
-
-	energyStock = fieldType * fieldLevel;
-	energyLeft = energyStock;
-}
-
 LField::FieldLevel LField::getFieldLevel() const
 {
 	return fieldLevel;
-}
-
-void LField::setFieldLevel(FieldLevel fieldLevel)
-{
-	this->fieldLevel = fieldLevel;
-
-	energyStock = fieldType * fieldLevel;
-	energyLeft = energyStock;
 }
 
 int LField::getBuildingId() const
@@ -99,6 +83,30 @@ bool LField::isPlacingAllowed()
 LPlayingField* LField::getLPlayingField()
 {
 	return lPlayingField;
+}
+
+int LField::getResources() const
+{
+	return resourceLeft;
+}
+
+bool LField::reduceRecources(int amount) 
+{
+	if (resourceLeft > 0) 
+	{
+		resourceLeft -= amount;
+
+		if (resourceLeft > 0)
+		{
+			return true;
+		}
+		else
+		{
+			resourceLeft = 0;
+		}
+	}
+	
+	return false;
 }
 
 NAMESPACE_LOGIC_E
