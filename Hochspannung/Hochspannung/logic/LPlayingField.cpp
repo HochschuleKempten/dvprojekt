@@ -384,6 +384,19 @@ void LPlayingField::createFields()
 		lMaster->sendSetMapRow(x, row);
 	}
 
+	////send updated orientations
+	//for (int x = 0; x < fieldLength; x++)
+	//{
+	//	for (int y = 0; y < fieldLength; y++)
+	//	{
+	//		LPowerLine* pL = dynamic_cast<LPowerLine*>(getField(x, y)->getBuilding());
+	//		if (pL != nullptr)
+	//		{
+	//			lMaster->sendSetObject(-500, x, y, std::to_string(pL->getOrientation()));
+	//		}
+	//	}
+	//}
+
 	lMaster->sendSetObject(-1, -1, -1, std::to_string(-66)); //host finished creating the field
 	//-----network-----
 }
@@ -461,26 +474,45 @@ void LPlayingField::addBuildingToGraph(const int x, const int y, const int orien
 					{
 						add_edge(convertIndex(x, y), convertIndex(xEnd, yEnd), powerLineGraph);
 
-						//If the target vertex is a power line adjust the orientation of that powerline and add an edge from the powerline to this building
+						//If the target vertex is a power line add an edge from the powerline to this building
 						LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
 						if (plOther != nullptr)
 						{
 							add_edge(convertIndex(xEnd, yEnd), convertIndex(x, y), powerLineGraph);
-							//-----network-----
-							lMaster->sendSetObject(-500, xEnd, yEnd, std::to_string(ILBuilding::getOpppositeOrientation(checkOrientation)));
-							//-----network-----
-							plOther->updatedOrientation(ILBuilding::getOpppositeOrientation(checkOrientation));
 						}
 					}
 				}
 			};
 
-	addEdgeToGraph(x, y + 1, ILBuilding::EAST);
 	addEdgeToGraph(x - 1, y, ILBuilding::NORTH);
+	addEdgeToGraph(x, y + 1, ILBuilding::EAST);
 	addEdgeToGraph(x + 1, y, ILBuilding::SOUTH);
 	addEdgeToGraph(x, y - 1, ILBuilding::WEST);
 
 	//DEBUG_EXPRESSION(printGraph());
+}
+
+void LPlayingField::adjustOrientationsAround(const int x, const int y, const int orientation)
+{
+	auto adjustOrientation = [this, orientation](const int xEnd, const int yEnd, ILBuilding::Orientation checkOrientation)
+	{
+		if (orientation & checkOrientation)
+		{
+			if (checkIndex(xEnd, yEnd))
+			{
+				LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
+				if (plOther != nullptr)
+				{
+					plOther->updatedOrientation(ILBuilding::getOpppositeOrientation(checkOrientation));
+				}
+			}
+		}
+	};
+
+	adjustOrientation(x - 1, y, ILBuilding::NORTH);
+	adjustOrientation(x, y + 1, ILBuilding::EAST);
+	adjustOrientation(x + 1, y, ILBuilding::SOUTH);
+	adjustOrientation(x, y - 1, ILBuilding::WEST);
 }
 
 void LPlayingField::printGraph()
