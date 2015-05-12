@@ -72,10 +72,12 @@ NAMESPACE_VIEW_B
 			case LOBBY_HOST_GAME:
 				vUi->vMaster->hostGame();
 				getContainer("WaitingDialog")->switchOn();
+				vUi->switchScreen("Ingame");
 				//notify(LOBBY_HOST_GAME);
 				break;
 			case LOBBY_JOIN_GAME:
 				vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
+				vUi->switchScreen("Ingame");
 				//notify(LOBBY_JOIN_GAME);
 				break;
 			default:
