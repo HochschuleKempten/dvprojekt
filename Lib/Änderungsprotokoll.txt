@@ -2996,3 +2996,37 @@ Neues Debug-LogFile-System eingeführt (TODO: Error-Meldungen eintragen)
 2015-04-28 TB:
 Bugfix: PickPlacements lieferte nicht alle Placements zurück
 Bugfix: Game-Pointer in der Template-App war nicht auf Null initialisiert
+
+2015-05-01 TB:
+Spherical Environmental Mapping implementiert
+
+2015-05-03 TB:
+Spärische WASD-Steuerung implementiert
+
+2015-05-05 TB:
+Bugfix: CQuaternion CQuaternion::operator*=(CQuaternion & q) funktionierte nicht bei Werten != 0
+Bugfix: CPlacement::SetPointing funktionierte nicht, wenn mehrere Instanzen des Zielplacements vorhanden waren
+Zwei neue nützliche Funktionen in CPlacement: 
+	void PlaceSphericalGlobal(float fRadius, float faAzimuth, float faAltitude, CPlacement * pzpCenter, int iGlobalInstance = 0); // Plaziert das Placment anhand Azimut, Elevation und Radiús global um ein anderes Zielplacement (gut, um Zielplacement von allen Seiten anzuschauen) 
+	void PlaceSphericalLocal(float fRadius, float faAzimuth, float faAltitude, CPlacement * pzpCenter);// Plaziert das Placment anhand Azimut, Elevation und Radiús im lokalen Koordinatensystem um ein anderes Zielplacement (gut, um Zielplacement von allen Seiten anzuschauen, wenn beide Placements direkt an Szene hängen) 
+
+
+2015-05-07 TB
+Picking-Routinen erkennen jetzt auch, ob Nodes ein- oder ausgeschaltet sind
+PickPlacements gibt intelligentere Liste aus (mehrfache Instanzen ein- und desselben Placements werden nur noch einmal aufgelistet
+Neue Routinen in CPlacments:
+	bool AddOnce(CPlacement * pplacement); // Schaut, ob Placement schon in der Liste vorhanden ist, nur wenn nicht,  wird es hinzugefügt und true ausgegeben
+	bool Has(CPlacement * pplacement); // Schaut, ob pplacement in der Liste vorhanden ist, wenn ja, wird true ausgegeben
+Spherical EnvironmentalMapping wurde um 90° gedreht, damit es kompatibel zur Startrichtung von Domes ist
+Bugfix: Projektionsmatrix bei SpotLights war bezüglich FarClippingPlane falsch
+Testbed Materials erweitert
+
+2015-05-10 TB
+Neue Klasse für Kollisionspunkte: 
+- CHitPoint
+Neue Picking-Routinen:
+- PickGeo(); //Ohne Zusatzinfos
+- PickGeos();
+- PickHitPoints();
+Ikosaeder und Tetraeder können auch durch Radius Initialisiert werden
+

@@ -247,8 +247,8 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 
 void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 {/*
-		static string hover = "Hover Windmill";
-		static string standard = "infofeld";
+		static std::string hover = "Hover Windmill";
+		static std::string standard = "infofeld";
 		float curPosX;
 		float curPosY;
 		cursor->GetFractional(curPosX, curPosY);
@@ -271,7 +271,7 @@ void VScreenIngame::updatePopulation(const int wert)
 	dynamic_cast<VText*>(getContainer("Topbar")->getGuiObject("popValue"))->updateText(std::to_string(wert));
 }
 
-void VScreenIngame::updateInfofield(const string& neuerText)
+void VScreenIngame::updateInfofield(const std::string& neuerText)
 {
 	dynamic_cast<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
 }
@@ -296,8 +296,8 @@ void VScreenIngame::tick()
 	}
 
 	handleInput();
-	map<string, IViewGUIContainer*> tempGuicontainer;
-	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+	std::map<std::string, IViewGUIContainer*> tempGuicontainer;
+	std::map<std::string, IViewGUIContainer*>::iterator tempIterGuicontainer;
 
 	checkShortcut(&vUi->m_zkKeyboard);
 	checkSpecialEvent(&vUi->m_zkCursor);
@@ -317,8 +317,8 @@ void VScreenIngame::tick()
 
 void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 {
-	map<string, IViewGUIObject*>::iterator tempIterGUIObjects;
-	map<string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
+	std::map<std::string, IViewGUIObject*>::iterator tempIterGUIObjects;
+	std::map<std::string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
 
 	for (tempIterGUIObjects = tempGUIObjects.begin(); tempIterGUIObjects != tempGUIObjects.end(); tempIterGUIObjects++)
 	{
@@ -342,8 +342,8 @@ void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 
 void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 {
-	map<string, IViewGUIContainer*> tempGuiContainerMap;
-	map<string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
+	std::map<std::string, IViewGUIContainer*> tempGuiContainerMap;
+	std::map<std::string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
 
 	tempGuiContainerMap = tempGuicontainer->getGuiContainerMap();
 

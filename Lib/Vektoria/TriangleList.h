@@ -2,6 +2,7 @@
 
 #include "Geo.h"
 #include "Light.h"
+#include "HitPoint.h"
 
 namespace Vektoria
 {
@@ -51,6 +52,8 @@ public:
 	int m_iRenderKind;
 
 	bool Intersects(CRay & r, CHVector & vIntersection, float & fDistanceSquare, int & iMatGlobal); // berechnet, ob Strahl r ein Dreieck der Geometrie mit der Instanz iMatGlobal trifft, vIntersection ist dann der Schnittpunkt
+	CHitPoint * Intersects(CRay & r); // berechnet, ob Strahl r ein Dreieck der Geometrie trifft, CHitpoint ist dann der Schnittpunkt
+	bool IsIntersecting(CRay & r); // berechnet, ob Strahl r ein Dreieck der Geometrie trifft, gibt true aus, wenn ja
 
 	void Draw(float fDistanceToCameraSquare, CHMat & mGlobal); 
 	void Update();

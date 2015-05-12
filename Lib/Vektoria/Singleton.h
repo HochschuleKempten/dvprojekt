@@ -10,8 +10,6 @@
 #pragma once
 #include <cassert>	// assert
 
-using namespace std;
-
 namespace Vektoria
 {
 	template <class TDerived>

@@ -4,52 +4,54 @@
 #include <Timer.h>
 #include <Log.h>
 
-using namespace Vektoria;
-using namespace std;
-
-class CGameBase
+namespace Vektoria
 {
-public:
-	// Destructor
-	~CGameBase(void) {}
 
-	// Initialize the game.
-	virtual void Init(void) = 0;
-
-	// Tick (render) the game.
-	virtual bool Tick(void)
+	class CGameBase
 	{
-		if (FirstTick())
+	public:
+		// Destructor
+		~CGameBase(void) {}
+
+		// Initialize the game.
+		virtual void Init(void) = 0;
+
+		// Tick (render) the game.
+		virtual bool Tick(void)
 		{
-			timer.SwitchFrameRateCalculationOn();
-			bFirstTick = false;
+			if (FirstTick())
+			{
+				timer.SwitchFrameRateCalculationOn();
+				bFirstTick = false;
+			}
+			timer.Tick(fTime, fTimeDelta);
+			return false;
 		}
-		timer.Tick(fTime, fTimeDelta);
-		return false;
-	}
 
-	// Finalize the game.
-	virtual void Fini(void) = 0;
+		// Finalize the game.
+		virtual void Fini(void) = 0;
 
-	// Indicates wheather this is the first tick.
-	bool FirstTick(void) const { return bFirstTick; }
+		// Indicates wheather this is the first tick.
+		bool FirstTick(void) const { return bFirstTick; }
 
-	// Ge the current game time.
-	float Time(void) const { return fTime; }
+		// Ge the current game time.
+		float Time(void) const { return fTime; }
 
-	// Get the time delta.
-	float TimeDelta(void) const { return fTimeDelta; }
+		// Get the time delta.
+		float TimeDelta(void) const { return fTimeDelta; }
 
 
-protected:
-	// Protected constructor
-	CGameBase(void) : bFirstTick(true), fTime(0.0f), fTimeDelta(0.0f) {};
+	protected:
+		// Protected constructor
+		CGameBase(void) : bFirstTick(true), fTime(0.0f), fTimeDelta(0.0f) {};
 
 
-private:
-	// Private data
-	CTimer timer;		// The timer.
-	float fTime;		// The game time.
-	float fTimeDelta;	// The time delta.
-	bool bFirstTick;	// Indicates wheather this is the first tick.
-};
+	private:
+		// Private data
+		CTimer timer;		// The timer.
+		float fTime;		// The game time.
+		float fTimeDelta;	// The time delta.
+		bool bFirstTick;	// Indicates wheather this is the first tick.
+	};
+
+}

@@ -38,28 +38,28 @@ NAMESPACE_VIEW_B
 		if (m_hasBackground) delete m_background;
 	}
 
-	void VGUIArea::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, string sName)
+	void VGUIArea::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, std::string sName)
 	{
 		m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
 
 		m_guiObjects[sName]->addObserver(this);
 	}
 
-	void VGUIArea::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder, string sName)
+	void VGUIArea::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
 	{
 		m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
 
 		m_guiObjects[sName]->addObserver(this);
 	}
 
-	void VGUIArea::addText(CFloatRect rect, CWritingFont* writingFont, string text, string sName)
+	void VGUIArea::addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName)
 	{
 		m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text);
 
 		m_guiObjects[sName]->addObserver(this);
 	}
 
-	void VGUIArea::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, string sName)
+	void VGUIArea::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, std::string sName)
 	{
 		m_Overlays[sName] = new COverlay();
 		m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
@@ -77,7 +77,7 @@ NAMESPACE_VIEW_B
 	}
 
 
-	void VGUIArea::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
+	void VGUIArea::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName)
 	{
 		switch (containerType)
 		{
@@ -101,7 +101,7 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VGUIArea::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
+	void VGUIArea::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const std::string& sName)
 	{
 		switch (containerType)
 		{

@@ -21,7 +21,7 @@ VHydroelectricPowerPlant::~VHydroelectricPowerPlant()
 void VHydroelectricPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {
 	//viewModel.initViewModel(this);
-	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
+	vMaster->getPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	//SET_NAME_AND_COORDINATES(VIdentifier::VHydroelectricPowerPlant);
 }

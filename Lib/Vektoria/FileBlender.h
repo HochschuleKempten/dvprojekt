@@ -5,7 +5,6 @@
 #include "DNATypes.h"
 #include <fstream>
 
-using namespace std; 
 
 // FileBlender.h: : interface for the CFileBlender class for the import from .blend files
 //

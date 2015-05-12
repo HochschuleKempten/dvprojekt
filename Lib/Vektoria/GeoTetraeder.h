@@ -20,7 +20,8 @@ public:
 	CGeoTetraeder(void);
 	~CGeoTetraeder(void);
 
-	void Init(CHVector vSize, CMaterial * pmaterial, bool bFlip=false); // Initialisiert eine Geometrie mit Tetraeder 
+	void Init(float fRadius, CMaterial * pmaterial, bool bFlip = false); // Initialisiert eine Geometrie mit Tetraeder 
+	void Init(CHVector vSize, CMaterial * pmaterial, bool bFlip = false); // Initialisiert eine Geometrie mit Tetraeder 
 
 	float m_fSize;
 	CVertex m_avertex[12];

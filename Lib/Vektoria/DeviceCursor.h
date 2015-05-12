@@ -3,6 +3,7 @@
 #include "Geo.h"
 #include "Placement.h"
 #include "Overlay.h"
+#include "Hitpoints.h"
 
 namespace Vektoria
 {
@@ -35,9 +36,12 @@ public:
 	CCamera * PickCamera(); // Gibt die Kamera aus, die mit dem sichtbaren Viewport verbunden ist, welches unter dem Cursor liegt, falls kein Viewport gefunden wurde ist das Ergebnis NULL
 	CScene * PickScene(); // Gibt die Szene aus, welche das sichtbare Viewport zeigt, welches unter dem Cursor liegt, falls keine Szene gefunden wurde ist das Ergebnis NULL
 	CPlacement * PickPlacement(); // Gibt dasjenige näheste Placement mit der niedersten Hierarchiestufe aus, welches unter dem Cursor liegt, falls kein Placment gefunden wurde ist das Ergebnis NULL
-	void PickPlacements(CPlacements * pzps); // Gibt alle Placements in pzps aus, welches unter dem Cursor liegen. Achtung, pzps muss muss ein Pointer auf ein instanziertes Placement-Objekt sein. 
+	CGeo * PickGeo(); // Gibt dasjenige Geo mit der niedersten Hierarchiestufe aus, welches unter dem Cursor liegt, falls kein Geo gefunden wurde ist das Ergebnis NULL
 	CGeo * PickGeo(CHVector & vIntersection, float & fDistanceSquare); // Gibt dasjenige Geo mit der niedersten Hierarchiestufe aus, welches unter dem Cursor liegt, falls kein Geo gefunden wurde ist das Ergebnis NULL, vIntersection ist der genaue Schnittpunkt, fDistanceSquare ist das Quadrat der Entfernung zwischen Strahlursprung und Schnittpunkt, kann bei großen Geometrien einige Millisekunden dauern, ist dafür sehr exakt
-//	void PickGeos(SIntersection * aintersection); // Gibt alle Geos mit Zusatzinformationen aus, welches unter dem Cursor liegen. Achtung, pzps muss muss ein Pointer auf ein instanziertes Placement-Objekt sein. 
+
+	void PickPlacements(CPlacements * pzps, bool bPickOnlyPlacementsWithDirectGeos = false); // Gibt alle Placements in pzps aus, welches unter dem Cursor liegen. Achtung, pzps muss muss ein Pointer auf ein instanziertes Placement-Objekt sein. 
+	void PickGeos(CGeos * pzgs); // Gibt alle Geos aus, welches unter dem Cursor liegen. Achtung, pzgs muss muss ein Pointer auf ein instanziertes Geos-Objekt sein. 
+	void PickHitPoints(CHitPoints * phitpoints); // Gibt alle Geos mit Zusatzinformationen aus, welches unter dem Cursor liegen. Achtung, phitpoints muss muss ein Pointer auf ein instanziertes Hitpoints-Objekt sein. 
 
 	void SetFrame(HWND & hwnd, int & ixFrameSize, int & iyFrameSize);
 	HWND m_hwnd;

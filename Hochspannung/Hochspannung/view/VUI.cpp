@@ -97,7 +97,7 @@ void VUI::resize(int width, int height)
 	}
 }
 
-void VUI::addScreen(const string& sName, const IViewScreen::ScreenType screenType)
+void VUI::addScreen(const std::string& sName, const IViewScreen::ScreenType screenType)
 {
 	switch (screenType) {
 		case IViewScreen::ScreenType::MainMenue:

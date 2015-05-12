@@ -53,7 +53,7 @@ void VPlayingField::hoverField(const int x, const int y)
 
 void VPlayingField::initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr)
 {
-	vMaster->setVPlayingField(dynamic_pointer_cast<VPlayingField>(objPtr));
+	vMaster->setVPlayingField(std::dynamic_pointer_cast<VPlayingField>(objPtr));
 }
 
 void VPlayingField::buildPlayingField()

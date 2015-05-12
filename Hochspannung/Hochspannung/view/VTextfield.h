@@ -9,7 +9,7 @@ NAMESPACE_VIEW_B
 	public:
 		VTextfield();
 		//VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const float textSize);
-		VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const string& Placeholder);
+		VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder);
 		~VTextfield();
 
 		virtual void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard) override;
@@ -31,7 +31,7 @@ NAMESPACE_VIEW_B
 		void setLayer(float layer) override;
 		void updateRectangle(CFloatRect rect) override;
 
-		string getValue();
+		std::string getValue();
 
 	private:
 		COverlay* m_zoNormal;
@@ -45,11 +45,11 @@ NAMESPACE_VIEW_B
 		CWriting* m_writing;
 
 		bool m_bIsActive = false;
-		string m_sInputtext;
+		std::string m_sInputtext;
 		bool pressedBefore = false;
 		int m_iMaxChars;
 		bool hasPlaceholder;
-		string m_sPlaceholder;
+		std::string m_sPlaceholder;
 	private:
 		void setActive(bool wert);
 	};

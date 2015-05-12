@@ -19,8 +19,6 @@
 #include <string>		// string
 #include <cassert>		// assert
 
-using namespace std;
-
 namespace Vektoria
 {
 	// Static definitions of error types.
@@ -56,12 +54,12 @@ namespace Vektoria
 	};
 
 
-	class CException : public exception
+	class CException : public std::exception
     {
     public:
         // Constructors 
 		// Standard constructor
-		CException(EExceptionType eExceptionType, const string& sDescription, const string& sSource, const char* acFile, long lLine);
+		CException(EExceptionType eExceptionType, const std::string& sDescription, const std::string& sSource, const char* acFile, long lLine);
 
 		// Copy constructor
 		CException(const CException& exception);
@@ -79,22 +77,22 @@ namespace Vektoria
 		// Functions
 		// Get a string with the full description of this error.
 		// The description contains the error number, the description supplied by the thrower, what routine threw the exception, and will also supply extra platform-specific information where applicable.
-		virtual string GetFullDescription(void) const;
+		virtual std::string GetFullDescription(void) const;
 
 		// Get the error type.
 		virtual EExceptionType GetExceptionType(void) const throw();
 
 		// Get the source function.
-		virtual const string& GetSource(void) const { return sSource; }
+		virtual const std::string& GetSource(void) const { return sSource; }
 
 		// Get source file name.
-		virtual const string& GetFile(void) const { return sFile; }
+		virtual const std::string& GetFile(void) const { return sFile; }
 		 
 		// Get line number.
 		virtual long GetLine(void) const { return lLine; }
 
 		// Get a string with the description of the exception.
-		virtual const string& GetDescription(void) const { return sDescription; }
+		virtual const std::string& GetDescription(void) const { return sDescription; }
 
 		// Override std::exception::what.
 		virtual const char* what(void) const throw() { return GetFullDescription().c_str(); }
@@ -103,10 +101,10 @@ namespace Vektoria
 	protected:
 		// Protected data
 		EExceptionType eExceptionType;		// The error type.
-		string sExceptionTypeName;			// The error type name.
-		string sDescription;				// The description.
-		string sSource;						// The source function.
-		string sFile;						// The source file.
+		std::string sExceptionTypeName;		// The error type name.
+		std::string sDescription;			// The description.
+		std::string sSource;				// The source function.
+		std::string sFile;					// The source file.
 		long lLine;							// The line number.
     };
 

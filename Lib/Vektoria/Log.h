@@ -15,7 +15,7 @@
 #include <iostream>		// cout, cerr
 #include <iomanip>		// setw, setfill
 
-using namespace std;
+//using namespace std;
 
 namespace Vektoria
 {
@@ -39,14 +39,14 @@ namespace Vektoria
 	struct SLogEventArg
 	{
 		// Data
-		string sMessage;
+		std::string sMessage;
 		ELogLevel eLogLevel;
 		bool bMaskDebug;
 
 
 		// Constructors
 		// Standard constructor
-		SLogEventArg(const string& sMessage, ELogLevel eLogLevel, bool bMaskDebug) : sMessage(sMessage), eLogLevel(eLogLevel), bMaskDebug(bMaskDebug) {}
+		SLogEventArg(const std::string& sMessage, ELogLevel eLogLevel, bool bMaskDebug) : sMessage(sMessage), eLogLevel(eLogLevel), bMaskDebug(bMaskDebug) {}
 	};
 
 
@@ -112,14 +112,14 @@ namespace Vektoria
 			CLog* pLog;				// The target log.
 			ELogLevel eLogLevel;	// The log level.
 			bool bMaskDebug;		// Indicates whether debug output is maked.
-			typedef stringstream CLogStream;
+			typedef std::stringstream CLogStream;
 			CLogStream stream;		// The base stream.
 		};
 
 
 		// Constructors
 		// Standard constructor
-		CLog(const string& sLogName = "vektoria.log", bool bDebugOutput = true, bool bFileOutput = true);
+		CLog(const std::string& sLogName = "vektoria.log", bool bDebugOutput = true, bool bFileOutput = true);
 
 		// Destructors
 		~CLog(void);
@@ -127,13 +127,13 @@ namespace Vektoria
 
 		// Functions
 		// Log a message to the debugger and to log file (the default is "vektoria.log").
-		void LogMessage(const string& sMessage, ELogLevel eLogLevel = ELL_DEBUG, bool bMaskDebug = false);
+		void LogMessage(const std::string& sMessage, ELogLevel eLogLevel = ELL_DEBUG, bool bMaskDebug = false);
 
 		// Get a stream object targeting this log.
 		CStream GetStream(ELogLevel eLogLevel = ELL_DEBUG, bool bMaskDebug = false) { return CStream(this, eLogLevel, bMaskDebug); }
 
 		// Get the name of the log.
-		const string& GetLogName(void) const { return sLogName; }
+		const std::string& GetLogName(void) const { return sLogName; }
 
 		// Set the log filter level.
 		void SetLogFilter(ELogLevel eLogFilter) { this->eLogFilter = eLogFilter; }
@@ -162,8 +162,8 @@ namespace Vektoria
 
 	protected:
 		// Protected data
-		ofstream log;		// The output stream.
-		string sLogName;	// The name of the log file.
+		std::ofstream log;		// The output stream.
+		std::string sLogName;	// The name of the log file.
 
 		ELogLevel eLogFilter;	// The log filter.
 

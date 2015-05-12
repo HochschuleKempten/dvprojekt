@@ -49,7 +49,7 @@ NAMESPACE_VIEW_B
 	}
 
 
-	void VGroup::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
+	void VGroup::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName)
 	{
 		switch (containerType)
 		{
@@ -73,7 +73,7 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VGroup::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
+	void VGroup::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const std::string& sName)
 	{
 		switch (containerType)
 		{

@@ -59,6 +59,7 @@ namespace Vektoria
 		LARGE_INTEGER m_Count;
 		LARGE_INTEGER m_CountOld;
 		float m_fPCFrequency;
+		float m_fPCFrequencyInv;
 #endif
 
 

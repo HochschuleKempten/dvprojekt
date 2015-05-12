@@ -19,7 +19,7 @@
 #include <time.h>
 
 
-using namespace std;
+//using namespace std;
 
 // memory leak check
 // #define _CRTDBG_MAP_ALLOC

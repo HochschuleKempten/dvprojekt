@@ -22,16 +22,16 @@ public:
 	void setLayer(float layer) override;
 	void updateRectangle(CFloatRect rect) override;
 
-	void addBar(string sName,CMaterial* normalMaterial);
-	void updateBar(string sName, float wert);
+	void addBar(std::string sName,CMaterial* normalMaterial);
+	void updateBar(std::string sName, float wert);
 private:
 	CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect);
 	void calcWidth();
 	void calcHeight();
 	float getMaxHeight();
 	CViewport* m_viewport;
-	map<string, Bar*> m_bars;
-	map<string, Bar*>::iterator m_IterBars;
+	std::map<std::string, Bar*> m_bars;
+	std::map<std::string, Bar*>::iterator m_IterBars;
 };
 
 NAMESPACE_VIEW_E

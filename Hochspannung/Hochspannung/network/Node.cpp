@@ -122,7 +122,7 @@ void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*length*/
 		std::string stMessage = retrieveString((char*)pcMessage, 512);
 
 		std::vector<std::string> transferObjectMember;
-		std::stringstream ss(stMessage); // Turn the string into a stream.
+		std::stringstream ss(stMessage); // Turn the std::string into a stream.
 		std::string tok;
 
 		while (getline(ss, tok, ';')) {

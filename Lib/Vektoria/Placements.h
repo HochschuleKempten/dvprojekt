@@ -24,8 +24,11 @@ public:
 	void Fini();
 
 
-	void Add(CPlacement * pplacement);
-	void Add(CPlacements * pplacements); // addiert gleich eine ganze Reihe von Placments dazu
+	void Add(CPlacement * pplacement); // Fügt pplacement in die Liste hinzu
+	bool AddOnce(CPlacement * pplacement); // Schaut, ob Placement schon in der Liste vorhanden ist, nur wenn nicht,  wird es hinzugefügt und true ausgegeben
+	void Add(CPlacements * pplacements); // Addiert gleich eine ganze Reihe von Placments dazu
+
+	bool Has(CPlacement * pplacement); // Schaut, ob pplacement in der Liste vorhanden ist, wenn ja, wird true ausgegeben
 
 	bool Sub(CPlacement * pplacement);
 	void Clear();

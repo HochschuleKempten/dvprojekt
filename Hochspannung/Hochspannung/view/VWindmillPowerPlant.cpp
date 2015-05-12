@@ -24,7 +24,7 @@ void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& ob
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0));
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() * scale + 0.4);
 
-	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
+	vMaster->getPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VWindmillPowerPlant);
 }

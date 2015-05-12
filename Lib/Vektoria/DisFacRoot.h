@@ -21,9 +21,9 @@ public:
 	~CDisFacRoot();
 	void Create(int iObjectID);
 	CRoot* GetRootObject(int iObjectID);
-	void AddFrameHere(stringstream &ss,int iObjectID, CDisFacFrame &dff);
-	void AddScene(stringstream &ss,int iObjectID,CDisFacScene &dfs);
-	void Tick(stringstream &ss,int iObjectID);
+	void AddFrameHere(std::stringstream &ss,int iObjectID, CDisFacFrame &dff);
+	void AddScene(std::stringstream &ss,int iObjectID,CDisFacScene &dfs);
+	void Tick(std::stringstream &ss,int iObjectID);
 };
 
 }

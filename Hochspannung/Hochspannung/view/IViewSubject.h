@@ -47,8 +47,8 @@ NAMESPACE_VIEW_B
 		}
 
 	private:
-		list<IViewUIObserver*> observers_;
-		list<IViewUIObserver*>::iterator lIterObservers;
+		std::list<IViewUIObserver*> observers_;
+		std::list<IViewUIObserver*>::iterator lIterObservers;
 	};
 
 	NAMESPACE_VIEW_E

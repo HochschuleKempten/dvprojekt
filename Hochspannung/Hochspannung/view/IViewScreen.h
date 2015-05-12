@@ -62,7 +62,7 @@ NAMESPACE_VIEW_B
 			m_isOn = false;
 		}
 
-		inline void addContainer(CViewport* viewport, const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName)
+		inline void addContainer(CViewport* viewport, const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const std::string& sName)
 		{
 			m_viewport = viewport;
 			switch (containerType)
@@ -86,7 +86,7 @@ NAMESPACE_VIEW_B
 			}
 		}
 
-		inline void addContainer(CViewport* viewport, const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, CMaterial* materialBackground, const string& sName)
+		inline void addContainer(CViewport* viewport, const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, CMaterial* materialBackground, const std::string& sName)
 		{
 			m_viewport = viewport;
 			switch (containerType)
@@ -110,13 +110,13 @@ NAMESPACE_VIEW_B
 			}
 		}
 
-		IViewGUIContainer* getContainer(string sName)
+		IViewGUIContainer* getContainer(std::string sName)
 		{
 			ASSERT(m_Guicontainer.find(sName) != m_Guicontainer.end(), "GUIContainer not available");
 			return m_Guicontainer[sName];
 		}
 
-		map<string, IViewGUIContainer*> getGuiContainerMap()
+		std::map<std::string, IViewGUIContainer*> getGuiContainerMap()
 		{
 			return m_Guicontainer;
 		}
@@ -196,8 +196,8 @@ NAMESPACE_VIEW_B
 
 
 	protected:
-		map<string, IViewGUIContainer*> m_Guicontainer;
-		map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
+		std::map<std::string, IViewGUIContainer*> m_Guicontainer;
+		std::map<std::string, IViewGUIContainer*>::iterator m_IterGuicontainer;
 
 		VUI* vUi;
 		CViewport* m_viewport;

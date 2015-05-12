@@ -79,38 +79,38 @@ NAMESPACE_VIEW_B
 			return m_bOn;
 		}
 
-		virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, string sName)
+		virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, std::string sName)
 		{
 			m_guiObjects[sName] = new VButton(m_viewport, rect, MaterialNormal, MaterialHover, clickAction);
 
 			m_guiObjects[sName]->addObserver(this);
 		}
 
-		virtual void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder, string sName)
+		virtual void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
 		{
 			m_guiObjects[sName] = new VTextfield(m_viewport, rect, MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
 
 			m_guiObjects[sName]->addObserver(this);
 		}
 
-		virtual void addText(CFloatRect rect, CWritingFont* writingFont, string text, string sName)
+		virtual void addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName)
 		{
 			m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text);
 
 			m_guiObjects[sName]->addObserver(this);
 		}
 
-		virtual void addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, string sName)
+		virtual void addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, std::string sName)
 		{
 			m_Overlays[sName] = new COverlay();
 			m_Overlays[sName]->Init(MaterialNormal, rect);
 			m_viewport->AddOverlay(m_Overlays[sName]);
 		}
 
-		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const string& sName) = 0;
+		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::string& sName) = 0;
 
 
-		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName) = 0;
+		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName) = 0;
 
 
 		virtual void setLayer(float layer)
@@ -133,34 +133,34 @@ NAMESPACE_VIEW_B
 		}
 
 
-		IViewGUIContainer* getContainer(string sName)
+		IViewGUIContainer* getContainer(std::string sName)
 		{
 			ASSERT(m_Guicontainer.find(sName) != m_Guicontainer.end(), "GUIContainer not available");
 			return m_Guicontainer[sName];
 		}
 
-		map<string, IViewGUIContainer*> getGuiContainerMap()
+		std::map<std::string, IViewGUIContainer*> getGuiContainerMap()
 		{
 			return m_Guicontainer;
 		}
 
-		COverlay* getOverlay(string sName)
+		COverlay* getOverlay(std::string sName)
 		{
 			ASSERT(m_Overlays.find(sName) != m_Overlays.end(), "Overlay not available");
 			return m_Overlays[sName];
 		}
 
-		map<string, COverlay*> getOverlayMap()
+		std::map<std::string, COverlay*> getOverlayMap()
 		{
 			return m_Overlays;
 		}
 
-		map<string, IViewGUIObject*> getGuiObjectList()
+		std::map<std::string, IViewGUIObject*> getGuiObjectList()
 		{
 			return m_guiObjects;
 		}
 
-		IViewGUIObject* getGuiObject(string sName)
+		IViewGUIObject* getGuiObject(std::string sName)
 		{
 			return m_guiObjects[sName];
 		}
@@ -178,14 +178,14 @@ NAMESPACE_VIEW_B
 		CViewport* m_viewport;
 		COverlay* m_background;
 		CFloatRect m_zfRect;
-		map<string, IViewGUIObject*> m_guiObjects;
-		map<string, IViewGUIObject*>::iterator m_lIterGUIObjects;
+		std::map<std::string, IViewGUIObject*> m_guiObjects;
+		std::map<std::string, IViewGUIObject*>::iterator m_lIterGUIObjects;
 
-		map<string, IViewGUIContainer*> m_Guicontainer;
-		map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
+		std::map<std::string, IViewGUIContainer*> m_Guicontainer;
+		std::map<std::string, IViewGUIContainer*>::iterator m_IterGuicontainer;
 
-		map<string, COverlay*> m_Overlays;
-		map<string, COverlay*>::iterator m_IterOverlays;
+		std::map<std::string, COverlay*> m_Overlays;
+		std::map<std::string, COverlay*>::iterator m_IterOverlays;
 
 		virtual CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)
 		{

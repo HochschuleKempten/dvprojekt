@@ -34,11 +34,19 @@ public:
 	float GetWASDTranslationSensitivity();
 	float GetWASDRotationSensitivity();
 	bool PlaceWASD(CPlacement & placementCamera, float & fTimeDelta, bool bEarth = false); // Erzeugt eine WASD-Steuerung, gibt true aus, falls Space Taste gedrückt wurde
+	bool PlaceWASDPan(CPlacement & placementCamera, CPlacement & placementCenter, float & fTimeDelta); // Erzeugt eine radiale WASD-Steuerung unm ein anderes Placement, gibt true aus, falls Space Taste gedrückt wurde
+	void SetWASDAltitude(float fa); // Setzt den Anfangswinkel bei einer WASD-PAN-Steuerung
+	void SetWASDPanRadius(float fRadius); // Setzt den Anfangswinkel bei einer WASD-PAN-Steuerung
+
+
 	void GetMove(int &riAD, int &riSW, int &riFR, int &riLeftRight, int &riUpDown, int &riPageUpDown, bool &rbSpace);
 	float m_fTranslationSensitivity;
 	float m_fRotationSensitivity;
 	float m_fyWASDLevelMin;
 	float m_fyWASDLevelMax;
+	float m_faWASDAzimuth;
+	float m_faWASDAltitude;
+	float m_fWASDRadius;
 private:
     BYTE m_abyte[KEYBOARD_BUFFERSIZE];
 };

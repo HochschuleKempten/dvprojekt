@@ -38,28 +38,28 @@ NAMESPACE_VIEW_B
 		if (m_hasBackground) delete m_background;
 	}
 
-	void VRegister::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, string sName)
+	void VRegister::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, std::string sName)
 	{
 		m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
 
 		m_guiObjects[sName]->addObserver(this);
 	}
 
-	void VRegister::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder, string sName)
+	void VRegister::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
 	{
 		m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
 
 		m_guiObjects[sName]->addObserver(this);
 	}
 
-	void VRegister::addText(CFloatRect rect, CWritingFont* writingFont, string text, string sName)
+	void VRegister::addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName)
 	{
 		m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text);
 
 		m_guiObjects[sName]->addObserver(this);
 	}
 
-	void VRegister::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, string sName)
+	void VRegister::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, std::string sName)
 	{
 		m_Overlays[sName] = new COverlay();
 		m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
@@ -76,7 +76,7 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VRegister::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
+	void VRegister::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName)
 	{
 		switch (containerType)
 		{
@@ -100,7 +100,7 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VRegister::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
+	void VRegister::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const std::string& sName)
 	{
 		switch (containerType)
 		{
@@ -125,7 +125,7 @@ NAMESPACE_VIEW_B
 	}
 
 
-	void VRegister::addTab(CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* background, Event events, string sName)
+	void VRegister::addTab(CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* background, Event events, std::string sName)
 	{
 		m_Guicontainer[sName] = new VTab(m_viewport, createRelativeRectangle(&m_zfRect, &CFloatRect(0.0F, 0.2F, 1.0F, 0.8F)), background);
 		m_tabs[sName] = dynamic_cast<VTab*>(m_Guicontainer[sName]);
@@ -150,9 +150,9 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VRegister::SwitchToTab(string sName)
+	void VRegister::SwitchToTab(std::string sName)
 	{
-		map<string, VTab*>::iterator it = m_tabs.find(sName);
+		std::map<std::string, VTab*>::iterator it = m_tabs.find(sName);
 		ASSERT(it != m_tabs.end(), "Tab not available");
 
 		for (it = m_tabs.begin(); it != m_tabs.end(); it++)
@@ -163,9 +163,9 @@ NAMESPACE_VIEW_B
 		m_tabs[sName]->switchOn();
 	}
 
-	VTab* VRegister::getTab(string sName)
+	VTab* VRegister::getTab(std::string sName)
 	{
-		map<string, VTab*>::iterator it = m_tabs.find(sName);
+		std::map<std::string, VTab*>::iterator it = m_tabs.find(sName);
 		ASSERT(it != m_tabs.end(), "Tab not available");
 		return m_tabs[sName];
 	}

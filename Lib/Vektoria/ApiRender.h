@@ -34,6 +34,9 @@ namespace Vektoria
 	{
 		eApiRender_Null,
 		eApiRender_DirectX11_Shadermodel41,
+		eApiRender_DirectX11_Shadermodel50_Own,
+		eApiRender_DirectX11_Shadermodel50_Minimalistic,
+		eApiRender_DirectX11_Shadermodel50_Basic,
 		eApiRender_DirectX11_Shadermodel50,
 		eApiRender_DirectX11_ForwardPlus,
 		eApiRender_OpenGL40
