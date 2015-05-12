@@ -7,8 +7,6 @@
 #include "VScreenCredits.h"
 #include "VScreenOptions.h"
 #include "../logic/LMaster.h"
-#include <Windows.h>
-#include <VersionHelpers.h>
 
 NAMESPACE_VIEW_B
 
@@ -27,17 +25,18 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	m_zr.Init(psplash);
 
 	//get computer name
-	std::vector<const char*> computerNameBlacklist{ "IVO-NOTEBOOK" }; //if you don't want to compile the shaders at every start
+	std::vector<const char*> computerNameBlacklist{ "TITANIC-TABLET" };	//Opt-in when you want to compile the shaders at every start
 	unsigned long bufCharCount = 32767;
 	char buf[32767];
 
-	//											check if the computername is in the blacklist
-	if (GetComputerName(buf, &bufCharCount) && std::find_if(computerNameBlacklist.begin(), computerNameBlacklist.end(), [&buf](const char* name) { return strcmp(name, buf) == 0; }) == computerNameBlacklist.end())
+	//check if the computername is in the blacklist --> recompile Shader
+	if (GetComputerName(buf, &bufCharCount) && std::find_if(computerNameBlacklist.begin(), computerNameBlacklist.end(), [&buf](const char* name) { return strcmp(name, buf) == 0; }) != computerNameBlacklist.end())
 	{
-		/*IsWindows8OrGreater()*/
+		//TODO (V) _basic
 		m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
 	}
-	else {
+	else
+	{
 		m_zf.Init(hwnd);
 	}
 	m_zr.AddFrameHere(&m_zf);
