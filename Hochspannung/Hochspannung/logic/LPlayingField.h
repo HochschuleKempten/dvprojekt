@@ -95,7 +95,7 @@ private:
 		template <typename... Args>
 		bool operator()(const int x, const int y, const Args ... arguments)
 		{
-			int orientation = playingField->linkPowerlines(x, y);
+			int orientation = playingField->linkPowerlines(x, y, arguments...);
 
 			return playingField->getField(x, y)->setBuilding<LPowerLine>(orientation, arguments...);
 		}
@@ -224,7 +224,7 @@ public:
 	~LPlayingField();
 
 	void initField(const int x, const int y, const LField::FieldType fieldType, const LField::FieldLevel fieldLevel);
-	int linkPowerlines(const int x, const int y);
+	int linkPowerlines(const int x, const int y, const int playerId);
 	void createFields();
 	void showPlayingField();
 

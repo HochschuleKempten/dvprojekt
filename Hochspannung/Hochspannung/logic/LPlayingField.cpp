@@ -109,15 +109,14 @@ std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getFieldNeig
 	return neighborsMap;
 }
 
-int LPlayingField::linkPowerlines(const int x, const int y)
+int LPlayingField::linkPowerlines(const int x, const int y, const int playerId)
 {
 	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = getFieldNeighbors(x, y);
-	int ownPlayerId = getField(x, y)->getBuilding()->getPlayerId();
 	int orientation = 0;
 
 	for (auto const& iterator : neighbors)
 	{
-		if (iterator.second->getBuilding() != nullptr && iterator.second->getBuilding()->getPlayerId() & ownPlayerId)
+		if (iterator.second->getBuilding() != nullptr && iterator.second->getBuilding()->getPlayerId() & playerId)
 		{
 			//There is a building that belongs to the player, so the orientation of the powerline must be set to this building
 			orientation |= iterator.first;
