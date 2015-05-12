@@ -5,14 +5,26 @@ NAMESPACE_VIEW_B
 Building03::Building03()
 {
 	
-	
+	fresize = 1;
 	
 	InitWindows();
 	AddWindows();
 	InitWalls();
 	AddPlacements();
 	TranslateAll();
-	
+	scaleforLoDs();
+}
+Building03::Building03(float fResize)
+{
+
+	fresize = fResize;
+
+	InitWindows();
+	AddWindows();
+	InitWalls();
+	AddPlacements();
+	TranslateAll();
+	scaleforLoDs();
 }
 
 
@@ -37,23 +49,25 @@ void Building03::InitWindows(){
 
 void Building03::AddWindows(){
 
-	m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 7, 3);
+	m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 14, 3);
 	//m_zgWallFrame.AddGeoWindow(&m_zgWindowInlay);
 }
 
 	void Building03::InitWalls(){
 
-		m_zWallNorth.Init(5.1F, 1.F, 1.F, &VMaterialLoader::materialBuilding03);
-		m_zgDach.Init(CHVector(3.5F, 0.1F, 2.55F, 0.F), &VMaterialLoader::materialBuilding03);
+		m_zWallNorth.Init(fstandardwidthwall / fresize, fstandardheightwall / fresize, fstandarddepthwall / fresize, &VMaterialLoader::materialBuilding03);
+		m_zgDach.Init(CHVector(fstandardwidthroof / fresize, fstandardheightroof / fresize, fstandarddepthroof / fresize, 0.F), &VMaterialLoader::materialBuilding03);
 
 	}
 	void Building03::AddPlacements(){
 
-		AddPlacement(&m_zpWallNorth);
-		AddPlacement(&m_zpWallWest);
-		AddPlacement(&m_zpWallEast);
-		AddPlacement(&m_zpWallSouth);
-		AddPlacement(&m_zpDach);
+		m_zpbuilding03.AddPlacement(&m_zpWallNorth);
+		m_zpbuilding03.AddPlacement(&m_zpWallWest);
+		m_zpbuilding03.AddPlacement(&m_zpWallEast);
+		m_zpbuilding03.AddPlacement(&m_zpWallSouth);
+		m_zpbuilding03.AddPlacement(&m_zpDach);
+
+		AddPlacement(&m_zpbuilding03);
 
 		m_zpWallNorth.AddGeo(&m_zWallNorth);
 		m_zpWallWest.AddGeo(&m_zWallNorth);
@@ -65,21 +79,24 @@ void Building03::AddWindows(){
 
 	void Building03::TranslateAll(){
 
-		m_zpWallNorth.Translate(1.F, 0.F, 8.F);
-
+		m_zpWallNorth.Translate(0.F, 0.F, 0.F);
 
 		m_zpWallWest.RotateY(PI / 2.F);
-		m_zpWallWest.TranslateDelta(0.F, 0.F,9.F);
+		m_zpWallWest.TranslateDelta((fstandardwidthwall / fresize), 0.F, 0.F);
 
 		m_zpWallEast.RotateY(PI / 2.F);
-		m_zpWallEast.TranslateDelta(6.F, 0.F, 9.F);
+		//m_zpWallEast.Translate((fstandardwidthwall / fresize) / -2, (fstandardwidthwall / fresize) / -2, 0.F);
+		//m_zpWallSouth.RotateY(PI);
+		m_zpWallSouth.TranslateDelta(0.F, 0.F, fstandardwidthwall / -fresize);
+
+		m_zpDach.Translate((fstandardwidthwall / fresize) / 2, fstandardheightwall / fresize, (fstandardwidthwall / -fresize) / 2);
+	}
 
 
+	void Building03::scaleforLoDs(){
 
-		m_zpWallSouth.RotateY(PI);
-		m_zpWallSouth.TranslateDelta(6.F, 0.F, 4.9F);
+		m_zpbuilding03.Scale(fresize);
 
-		m_zpDach.Translate(3.5F, 1.F, 6.45F);
 	}
 
 NAMESPACE_VIEW_E

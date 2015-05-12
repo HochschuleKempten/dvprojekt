@@ -40,7 +40,7 @@ CAppartments::CAppartments()
 CAppartments::CAppartments(float fResize)
 {
 
-	this->fResize = 1.0F;
+	this->fResize = fResize;
 
 
 	//Initialize Windows
@@ -139,6 +139,5 @@ void CAppartments::TranslateAll() {
 	m_zpRoof.AddGeo(&m_zgRoof);
 
 }
-
 
 NAMESPACE_VIEW_E

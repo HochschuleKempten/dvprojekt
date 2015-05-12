@@ -28,28 +28,72 @@ public:
 	virtual float getWidth() override;
 	virtual float getBroad();
 
+	void fillLODArray();
+
 private:
-	CGeoCube m_zgsocket;
-	CPlacement m_zpsocket;
-	CMaterial m_zmsocket;
-
-	Building01 Building1_01;
-	Building01 Building1_02;
-	Building02 Building2_01;
-	Building02 Building2_02;
-	Building03 Building3_01;
-	Building03 Building3_02;
-
-	CAppartments appartment_01;
-	CAppartments appartment_02;
-	CAppartments appartment_03;
 	
-	CLargeOfficeBuilding largeOfficeBuilding_01;
-	CLargeOfficeBuilding largeOfficeBuilding_02;
-	COfficeTowerViewingDeck officeTower_01;
-	COfficeTowerViewingDeck officeTower_02;
-	CSmallOfficeBuilding smallOffice_01;
-	CSmallOfficeBuilding smallOffice_02;
+	//lodstufe1
+	Building01 Building1_01_1;
+	Building01 Building1_02_1;
+	Building02 Building2_01_1;
+	Building02 Building2_02_1;
+	Building03 Building3_01_1;
+	Building03 Building3_02_1;
+
+	CAppartments appartment_01_1;
+	CAppartments appartment_02_1;
+	CAppartments appartment_03_1;
+
+	CLargeOfficeBuilding largeOfficeBuilding_01_1;
+	CLargeOfficeBuilding largeOfficeBuilding_02_1;
+	COfficeTowerViewingDeck officeTower_01_1;
+	COfficeTowerViewingDeck officeTower_02_1;
+	CSmallOfficeBuilding smallOffice_01_1;
+	CSmallOfficeBuilding smallOffice_02_1;
+
+	//lodstufe2
+	Building01 Building1_01_2;
+	Building01 Building1_02_2;
+	Building02 Building2_01_2;
+	Building02 Building2_02_2;
+	Building03 Building3_01_2;
+	Building03 Building3_02_2;
+
+	CAppartments appartment_01_2;
+	CAppartments appartment_02_2;
+	CAppartments appartment_03_2;
+
+	CLargeOfficeBuilding largeOfficeBuilding_01_2;
+	CLargeOfficeBuilding largeOfficeBuilding_02_2;
+	COfficeTowerViewingDeck officeTower_01_2;
+	COfficeTowerViewingDeck officeTower_02_2;
+	CSmallOfficeBuilding smallOffice_01_2;
+	CSmallOfficeBuilding smallOffice_02_2;
+
+	//lodstufe3
+	Building01 Building1_01_3;
+	Building01 Building1_02_3;
+	Building02 Building2_01_3;
+	Building02 Building2_02_3;
+	Building03 Building3_01_3;
+	Building03 Building3_02_3;
+
+	CAppartments appartment_01_3;
+	CAppartments appartment_02_3;
+	CAppartments appartment_03_3;
+
+	CLargeOfficeBuilding largeOfficeBuilding_01_3;
+	CLargeOfficeBuilding largeOfficeBuilding_02_3;
+	COfficeTowerViewingDeck officeTower_01_3;
+	COfficeTowerViewingDeck officeTower_02_3;
+	CSmallOfficeBuilding smallOffice_01_3;
+	CSmallOfficeBuilding smallOffice_02_3;
+
+
+	//PlacementsLods
+	CPlacement m_zpNear;
+	CPlacement m_zpMiddle;
+	CPlacement m_zpFar;
 };
 
 

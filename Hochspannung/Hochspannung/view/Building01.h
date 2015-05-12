@@ -14,24 +14,16 @@ private:
 	CGeoWindow m_zWindowInlay;
 
 
-	CGeoWall m_zWallLod1;
-	CGeoWall m_zWallLod2;
-	CGeoWall m_zWallLod3;
-
+	CPlacement m_zpbuilding01;
+	CGeoWall m_zWall;
 	CPlacement m_zpWall;
-	CPlacement m_zpWallLod1;
-	CPlacement m_zpWallLod2;
-	CPlacement m_zpWallLod3;
 
 
-	CGeoWall m_zWallKuppelLod1;
-	CGeoWall m_zWallKuppelLod2;
-	CGeoWall m_zWallKuppelLod3;
+
+	CGeoWall m_zWallKuppel;
 
 	CPlacement m_zpWallKuppel;
-	CPlacement m_zpWallKuppelLod1;
-	CPlacement m_zpWallKuppelLod2;
-	CPlacement m_zpWallKuppelLod3;
+
 	
 
 	CGeoWall m_zWallFrame;
@@ -40,15 +32,20 @@ private:
 	CGeoWall m_zWallGlass;
 	CMaterial m_zmWallGlass;
 
+	float fstandardradius=3.5F;
+	float fstandardheight=10.F;
+	float fstandardthickness = 0.2;
 
-	//for testing lods
-	CMaterial test1;
-	CMaterial test2;
+	float fresize;
+
+
+	
 	
 
 public:
 
 	Building01();
+	Building01(float fResize);
 	~Building01();
 	void InitWindows();
 	void AddWindows();
