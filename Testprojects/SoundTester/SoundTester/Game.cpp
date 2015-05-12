@@ -19,7 +19,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	// Root initialisieren
 	m_root.Init(psplash);
 	// Frame initialisieren
-	m_frame.Init(hwnd, eApiRender_DirectX11_Shadermodel50);
+	m_frame.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound);
 	// Kamera initialisieren
 	m_camera.Init();
 	// Viewport initialisieren
@@ -34,6 +34,12 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	// Szene an Root anhängen
 	m_root.AddScene(&m_scene);
 
+	//Sound tests
+	m_audio0.Init("res/Vektoria.wav");
+	m_audio0.SetVolume(1);
+	m_audio1.Init3D("res/Vektoria.wav", 20);
+	m_placeSound0.AddAudio(&m_audio1);
+
 	// Placements und Beleuchtung zur Szene hinzufügen
 	m_scene.AddPlacement(&m_placeSound0);
 
@@ -42,6 +48,9 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 
 	// Kamera positionieren
 	m_placeCamera.Translate(CHVector(0, 0, 3));
+
+	m_audio0.Start();
+	//m_audio1.Start();
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)

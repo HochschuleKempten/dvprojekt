@@ -88,6 +88,9 @@ private:
 	CPlacement m_placeSound3;
 	CGeoQuad m_quad;
 	CGeoSphere m_sphere;
+
+	CAudio m_audio0;
+	CAudio m_audio1;
 };
 
 
