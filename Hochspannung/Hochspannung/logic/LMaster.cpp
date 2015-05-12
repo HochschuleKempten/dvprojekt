@@ -109,7 +109,7 @@ void LMaster::tick(const float fTimeDelta)
 
 	static float timeLastCheck = 0;
 
-	if (timeLastCheck > 1 && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
+	if (timeLastCheck > 0.25F && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
 	{
 		CTransferObject transferObject = networkService.getNextActionToExecute();
 		int objectId = transferObject.getTransObjectID();

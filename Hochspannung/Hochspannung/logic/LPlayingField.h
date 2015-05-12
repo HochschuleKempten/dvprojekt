@@ -140,6 +140,14 @@ private:
 		if (playerId & LPlayer::Local) {
 			if ((hasFriendlyNeighbor(x, y) || !isInitDone() DEBUG_EXPRESSION(|| isCheatModeOn)) && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
 				buildingPlaced = true;
+
+				//-----network----- //hack (IP)
+				if (!isLocalOperation)
+				{
+					lMaster->sendSetObject(LIdentifier::getIdentifierForType<T>(), x, y, std::to_string(playerId));
+				}
+				//-----network-----
+
 				addBuildingToGraph(x, y, getField(x, y)->getBuilding()->getOrientation());
 
 				//subtract money only if the local player placed the building
@@ -154,15 +162,18 @@ private:
 		}
 		else if (playerId & LPlayer::External && placeBuildingHelper<T>(this)(x, y, playerId, arguments...)) {
 			buildingPlaced = true;
+
+			//-----network-----
+			if (!isLocalOperation)
+			{
+				lMaster->sendSetObject(LIdentifier::getIdentifierForType<T>(), x, y, std::to_string(playerId));
+			}
+			//-----network-----
 		}
 
 		if (buildingPlaced) {
 			setSpecialBuildings<T>(x, y, playerId);
-			//-----network-----
-			if (!isLocalOperation) {
-				lMaster->sendSetObject(LIdentifier::getIdentifierForType<T>(), x, y, std::to_string(playerId));
-			}
-			//-----network-----
+
 			return true;
 		}
 
