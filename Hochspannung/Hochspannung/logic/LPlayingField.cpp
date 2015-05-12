@@ -112,19 +112,16 @@ std::unordered_map<ILBuilding::Orientation, LField*> LPlayingField::getFieldNeig
 int LPlayingField::linkPowerlines(const int x, const int y)
 {
 	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = getFieldNeighbors(x, y);
+	int ownPlayerId = getField(x, y)->getBuilding()->getPlayerId();
 	int orientation = 0;
 
 	for (auto const& iterator : neighbors)
 	{
-		//No Building
-		if (iterator.second->getBuilding() == nullptr)
+		if (iterator.second->getBuilding() != nullptr && iterator.second->getBuilding()->getPlayerId() & ownPlayerId)
 		{
-			continue;
+			//There is a building that belongs to the player, so the orientation of the powerline must be set to this building
+			orientation |= iterator.first;
 		}
-
-		//There is a building, so the orientation of the powerline must be set to this building
-		//The adjustment of the orientation of the other powerlines is done automatically when inserting the edge to the graph
-		orientation |= iterator.first;
 	}
 
 	return orientation;
@@ -384,19 +381,6 @@ void LPlayingField::createFields()
 		lMaster->sendSetMapRow(x, row);
 	}
 
-	////send updated orientations
-	//for (int x = 0; x < fieldLength; x++)
-	//{
-	//	for (int y = 0; y < fieldLength; y++)
-	//	{
-	//		LPowerLine* pL = dynamic_cast<LPowerLine*>(getField(x, y)->getBuilding());
-	//		if (pL != nullptr)
-	//		{
-	//			lMaster->sendSetObject(-500, x, y, std::to_string(pL->getOrientation()));
-	//		}
-	//	}
-	//}
-
 	lMaster->sendSetObject(-1, -1, -1, std::to_string(-66)); //host finished creating the field
 	//-----network-----
 }
@@ -506,14 +490,14 @@ void LPlayingField::addBuildingToGraph(const int x, const int y, const int orien
 
 void LPlayingField::adjustOrientationsAround(const int x, const int y, const int orientation)
 {
-	auto adjustOrientation = [this, orientation](const int xEnd, const int yEnd, ILBuilding::Orientation checkOrientation)
+	auto adjustOrientation = [this, x, y, orientation](const int xEnd, const int yEnd, ILBuilding::Orientation checkOrientation)
 	{
 		if (orientation & checkOrientation)
 		{
 			if (checkIndex(xEnd, yEnd))
 			{
 				LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
-				if (plOther != nullptr)
+				if (plOther != nullptr && getField(x,y)->getBuilding()->getPlayerId() == plOther->getPlayerId())
 				{
 					plOther->updatedOrientation(ILBuilding::getOpppositeOrientation(checkOrientation));
 				}

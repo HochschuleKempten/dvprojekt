@@ -137,14 +137,6 @@ void LMaster::tick(const float fTimeDelta)
 			{
 				placeBuilding(objectId, x, y, playerId);
 			}
-			//else if (objectId == -500)//update orientation
-			//{
-			//	LPowerLine* pL = dynamic_cast<LPowerLine*>(lPlayingField->getField(x, y)->getBuilding());
-			//	if (pL != nullptr)
-			//	{
-			//		pL->updatedOrientation(playerId);
-			//	}
-			//}
 			else if (playerId == -66) //= end of fieldcreation
 			{
 				lPlayingField->showPlayingField();
