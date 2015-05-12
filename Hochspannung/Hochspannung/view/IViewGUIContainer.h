@@ -24,7 +24,8 @@ NAMESPACE_VIEW_B
 			Group,
 			Dialog,
 			Register,
-			GUIArea
+			GUIArea,
+			ListView
 		};
 
 		virtual ~IViewGUIContainer()

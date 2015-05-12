@@ -3,6 +3,7 @@
 #include "VMaterialLoader.h"
 #include "VRegister.h"
 #include "VDialog.h"
+#include "VListView.h"
 
 NAMESPACE_VIEW_B
 
@@ -97,6 +98,10 @@ NAMESPACE_VIEW_B
 			m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
+		case ListView:
+			m_Guicontainer[sName] = new VListView(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, MaterialNormal);
+			m_Guicontainer[sName]->addObserver(this);
+			break;
 		default: break;
 		}
 	}
@@ -119,6 +124,10 @@ NAMESPACE_VIEW_B
 			break;
 		case GUIArea:
 			m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
+			m_Guicontainer[sName]->addObserver(this);
+			break;
+		case ListView:
+			m_Guicontainer[sName] = new VListView(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		default: break;

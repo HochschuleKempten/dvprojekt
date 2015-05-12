@@ -15,8 +15,10 @@ NAMESPACE_VIEW_B
 		switchCursor("textures/gui/default_zeiger.png", true);
 
 		m_background = new CBackground();
-
+		CMaterial* test=new CMaterial();
+		test->Init(CColor(0.36F, 0.38F, 0.40F), CColor(0.36F, 0.38F, 0.40F), CColor(0.36F, 0.38F, 0.40F));
 		m_background->InitFull(&VMaterialLoader::m_zmCraftMenueBackground);
+		m_background->InitFull(test);
 
 		m_bigDialog = new COverlay();
 		m_bigDialog->Init("textures\\LobbyBigDialog.png", CFloatRect(0.01F, 0.05F, 0.6F, 0.76F), false);
@@ -24,8 +26,20 @@ NAMESPACE_VIEW_B
 		m_viewport->AddBackground(m_background);
 		m_viewport->AddOverlay(m_bigDialog);
 
+		
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F), "LobbyRunningGames");
 		getContainer("LobbyRunningGames")->addTextfield(CFloatRect(0.1F, 0.10F, 0.80F, 0.1F), &VMaterialLoader::materialIngameBorder, &VMaterialLoader::materialRed, &VMaterialLoader::materialGreen, 30, "Suche IP-Adresse...", "textfieldIP");
+		
+		
+		//ListView
+		getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6), &VMaterialLoader::materialBlue, "GameList");
+		CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("GameList"))->addEntry(&VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, "PlayerOne");
+		CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("GameList"))->addEntry(&VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, "PlayerTwo");
+		CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("GameList"))->addEntry(&VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, "PlayerThree");
+		CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("GameList"))->addEntry(&VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, "PlayerFour");
+		CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("GameList"))->addEntry(&VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, "PlayerFive");
+		//getContainer("LobbyRunningGames")->getContainer("GameList")->setLayer(0.2);
+		
 
 
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
