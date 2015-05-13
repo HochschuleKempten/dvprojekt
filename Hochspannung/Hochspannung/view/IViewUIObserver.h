@@ -37,12 +37,15 @@ public:
 		SELECT_BUILDING_POWERLINE,
 		LOBBY_HOST_GAME,
 		LOBBY_JOIN_GAME,
+		LIST_ITEM_SELECTED,
 		NOTHING
 	};
 
 	virtual ~IViewUIObserver() {}
 
 	virtual void onNotify(Event evente) = 0;
+	virtual void onNotifyExt(Event evente, std::string sName)
+	{};
 
 };
 NAMESPACE_VIEW_E

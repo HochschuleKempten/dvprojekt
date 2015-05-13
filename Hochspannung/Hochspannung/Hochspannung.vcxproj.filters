@@ -360,6 +360,12 @@
     </ClInclude>
     <ClInclude Include="view\IViewPowerPlant.h">
       <Filter>view\Interfaces</Filter>
+	</ClInclude>
+    <ClInclude Include="view\VListView.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VListEntry.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -572,6 +578,12 @@
     </ClCompile>
     <ClCompile Include="network\GameObject.cpp">
       <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VListView.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VListEntry.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

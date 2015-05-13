@@ -5,6 +5,9 @@ NAMESPACE_VIEW_B
 
 std::map<VMaterialLoader::FieldPair, CMaterial> VMaterialLoader::fieldMaterials;
 
+//MainMenue
+CMaterial VMaterialLoader::materialMainMenueBackground;
+
 CMaterial VMaterialLoader::materialCoalPowerPlant;
 CMaterial VMaterialLoader::materialHydroelectricPowerPlant;
 CMaterial VMaterialLoader::materialMainMenue;
@@ -18,6 +21,11 @@ CMaterial VMaterialLoader::materialRed;
 CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
 
+//Infofield
+CMaterial VMaterialLoader::materialInfofieldBackground;
+
+//Minimap
+CMaterial VMaterialLoader::materialMinimapBackground;
 
 //Lobby Buttons
 
@@ -47,6 +55,9 @@ CMaterial VMaterialLoader::materialVerticalBorder;
 CMaterial VMaterialLoader::materialLobbyBigDialog;
 CMaterial VMaterialLoader::materialBuildingButton;
 CMaterial VMaterialLoader::materialBuildingButtonHover;
+
+CMaterial VMaterialLoader::materialButtonAbort;
+CMaterial VMaterialLoader::materialButtonAbortHover;
 
 //Ingame Buttons
 CMaterial VMaterialLoader::materialIngameButtonCraftmenu;
@@ -165,6 +176,11 @@ void VMaterialLoader::init()
 	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_exit_hover.png");
 	materialButtonBack.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back.png");
 	materialButtonBackHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back_hover.png");
+	materialButtonAbort.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort.png");
+	materialButtonAbortHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort_hover.png");
+
+	//MainMenue Background
+	materialMainMenueBackground.MakeTextureSprite("textures/gui/background/wasserkraftwerk.png");
 
 	//Lobby Buttons
 	materialButtonLobbyJoinGame.MakeTextureSprite("textures/gui/Buttons/ButtonJoinGame.png");
@@ -190,21 +206,21 @@ void VMaterialLoader::init()
 	materialIngameButtonStatisticsHover.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_statistics_hover.png");
 
 	//Interface - Panel_Building
-	materialCraftmenuButtonWindmill.MakeTextureSprite("textures\\Buttons\\BuildingButtonWindmill.png");
-	materialCraftmenuButtonHydroPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonHydroPowerplant.png");
-	materialCraftmenuButtonSolarPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonSolarPowerplant.png");
-	materialCraftmenuButtonCoalPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonCoalPowerplant.png");
-	materialCraftmenuButtonOilPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonOilPowerplant.png");
-	materialCraftmenuButtonNuclearPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonNuclearPowerplant.png");
-	materialCraftmenuButtonPowerline.MakeTextureSprite("textures\\Buttons\\BuildingButtonPowerline.png");
+	materialCraftmenuButtonWindmill.MakeTextureSprite("textures/gui/Buttons/gui_ingame_airPowerPlant.png");
+	materialCraftmenuButtonHydroPowerplant.MakeTextureSprite("textures/gui/Buttons/gui_ingame_hydroPowerPlant.png");
+	materialCraftmenuButtonSolarPowerplant.MakeTextureSprite("textures/gui/Buttons/gui_ingame_solarPowerPlant.png");
+	materialCraftmenuButtonCoalPowerplant.MakeTextureSprite("textures/gui/Buttons/gui_ingame_coalPowerPlant.png");
+	materialCraftmenuButtonOilPowerplant.MakeTextureSprite("textures/gui/Buttons/gui_ingame_oilPowerPlant.png");
+	materialCraftmenuButtonNuclearPowerplant.MakeTextureSprite("textures/gui/Buttons/gui_ingame_nuclearPowerPlant.png");
+	materialCraftmenuButtonPowerline.MakeTextureSprite("textures/gui/Buttons/gui_ingame_powerLine.png");
 
-	materialCraftmenuButtonWindmillHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonWindmillHover.png");
-	materialCraftmenuButtonHydroPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonHydroPowerplantHover.png");
-	materialCraftmenuButtonSolarPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonSolarPowerplantHover.png");
-	materialCraftmenuButtonCoalPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonCoalPowerplantHover.png");
-	materialCraftmenuButtonOilPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonOilPowerplantHover.png");
-	materialCraftmenuButtonNuclearPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonNuclearPowerplantHover.png");
-	materialCraftmenuButtonPowerlineHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonPowerlineHover.png");
+	materialCraftmenuButtonWindmillHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_airPowerPlantHover.png");
+	materialCraftmenuButtonHydroPowerplantHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_hydroPowerPlantHover.png");
+	materialCraftmenuButtonSolarPowerplantHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_solarPowerPlantHover.png");
+	materialCraftmenuButtonCoalPowerplantHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_coalPowerPlantHover.png");
+	materialCraftmenuButtonOilPowerplantHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_oilPowerPlantHover.png");
+	materialCraftmenuButtonNuclearPowerplantHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_nuclearPowerPlantHover.png");
+	materialCraftmenuButtonPowerlineHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_powerLineHover.png");
 
 	//Test
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
@@ -213,10 +229,10 @@ void VMaterialLoader::init()
 
 	//Fonts
 	standardFont.Init("textures/fonts/FontArialShadow.png", true);
-	standardFont.SetTableSize(16, 6);
+	standardFont.SetTableSize(16, 16);
 	GoldFont.Init("textures/fonts/FontArialShadowGold.png", true);
 	GoldFont.SetTableSize(16, 6);
-
+	standardFont.SetTransparencyOn();
 	//Building - Trasse
 	m_zmConcrete.MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse.png");
 	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
@@ -256,8 +272,13 @@ void VMaterialLoader::init()
 	m_zmHammerCursor.MakeTextureSprite("textures\\gui\\Hammer.png");
 
 	//CraftMenue
-	m_zmCraftMenueBackground.MakeTextureSprite("textures\\gui\\texture_gui_background_darkgrey.png");
+	m_zmCraftMenueBackground.MakeTextureSprite("textures/gui/background/gui_ingame_baumenu.png");
 
+	//Infofield
+	materialInfofieldBackground.MakeTextureSprite("textures/gui/background/gui_ingame_infofield.png");
+
+	//Minimap
+	materialMinimapBackground.MakeTextureSprite("textures/gui/background/gui_ingame_minimap.png");
 }
 
 

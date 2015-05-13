@@ -38,34 +38,6 @@ NAMESPACE_VIEW_B
 		if (m_hasBackground) delete m_background;
 	}
 
-	void VRegister::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, std::string sName)
-	{
-		m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
-
-		m_guiObjects[sName]->addObserver(this);
-	}
-
-	void VRegister::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
-	{
-		m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
-
-		m_guiObjects[sName]->addObserver(this);
-	}
-
-	void VRegister::addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName)
-	{
-		m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text);
-
-		m_guiObjects[sName]->addObserver(this);
-	}
-
-	void VRegister::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, std::string sName)
-	{
-		m_Overlays[sName] = new COverlay();
-		m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
-		m_viewport->AddOverlay(m_Overlays[sName]);
-	}
-
 	void VRegister::onNotify(Event events)
 	{
 		switch (events)
@@ -130,9 +102,10 @@ NAMESPACE_VIEW_B
 		m_Guicontainer[sName] = new VTab(m_viewport, createRelativeRectangle(&m_zfRect, &CFloatRect(0.0F, 0.2F, 1.0F, 0.8F)), background);
 		m_tabs[sName] = dynamic_cast<VTab*>(m_Guicontainer[sName]);
 		m_Guicontainer[sName]->addObserver(this);
-
+		m_tabs[sName]->setLayer(getLayer() - 0.01);
+		m_Guicontainer[sName]->setLayer(getLayer() - 0.01);
 		addButton(CFloatRect(0.0F, 0.0F, 0.5F, 0.1F), MaterialNormal, MaterialHover, events, sName);
-
+		m_guiObjects[sName]->setLayer(getLayer() - 0.01);
 		calcButtonSize();
 	}
 

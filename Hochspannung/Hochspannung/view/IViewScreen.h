@@ -8,6 +8,7 @@
 #include "VDialog.h"
 #include "VRegister.h"
 #include "VGUIArea.h"
+#include "VListView.h"
 
 NAMESPACE_VIEW_B
 
@@ -83,6 +84,10 @@ NAMESPACE_VIEW_B
 				m_Guicontainer[sName] = new VGUIArea(m_viewport, floatRect);
 				m_Guicontainer[sName]->addObserver(this);
 				break;
+			case IViewGUIContainer::ListView:
+				m_Guicontainer[sName] = new VListView(floatRect,m_viewport);
+				m_Guicontainer[sName]->addObserver(this);
+				break;
 			}
 		}
 
@@ -105,6 +110,10 @@ NAMESPACE_VIEW_B
 				break;
 			case IViewGUIContainer::GUIArea:
 				m_Guicontainer[sName] = new VGUIArea(m_viewport, floatRect, materialBackground);
+				m_Guicontainer[sName]->addObserver(this);
+				break;
+			case IViewGUIContainer::ListView:
+				m_Guicontainer[sName] = new VListView(floatRect,m_viewport, materialBackground);
 				m_Guicontainer[sName]->addObserver(this);
 				break;
 			}

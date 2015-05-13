@@ -9,10 +9,10 @@
 namespace Network {
 
 CNode::CNode() :
-m_ioService(io_service()), m_socketTcp(m_ioService), m_socketUdp(m_ioService), m_connectionTimer(m_ioService),
-m_localEndpointTcp(ip::tcp::endpoint(ip::tcp::v4(), m_usPortTcp)),
+m_ioService(io_service()), m_socketTcp(m_ioService), m_socketUdp(m_ioService), m_localEndpointTcp(ip::tcp::endpoint(ip::tcp::v4(), m_usPortTcp)),
 m_localEndpointUdp(ip::udp::endpoint(ip::udp::v4(), m_usPortUdp)),
-m_connectionState(CLOSED), m_bCheckResponseReceived(true), m_iLatestLatency(-1) {
+m_connectionState(CLOSED),
+m_bCheckResponseReceived(true), m_connectionTimer(m_ioService), m_iLatestLatency(-1) {
 
 }
 

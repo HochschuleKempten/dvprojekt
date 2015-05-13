@@ -31,6 +31,8 @@ public:
 	//MainMenue
 	static CMaterial materialMainMenue;
 	static CMaterial materialMainMenueHover;
+	static CMaterial materialMainMenueBackground;
+
 	//Buttons
 	static CMaterial materialButtonMainMenueNeuesSpiel;
 	static CMaterial materialButtonMainMenueNeuesSpielHover;
@@ -44,6 +46,8 @@ public:
 	static CMaterial materialButtonLobbyJoinGameHover;
 	static CMaterial materialButtonLobbyHostGame;
 	static CMaterial materialButtonLobbyHostGameHover;
+	static CMaterial materialButtonAbort;
+	static CMaterial materialButtonAbortHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
@@ -78,6 +82,12 @@ public:
 	static CMaterial materialCraftmenuButtonNuclearPowerplantHover;
 	static CMaterial materialCraftmenuButtonPowerlineHover;
 	
+	//Infofield
+	static CMaterial materialInfofieldBackground;
+
+	//Minimap
+	static CMaterial materialMinimapBackground;
+
 	//Allgemein
 	//Buttons
 	static CMaterial materialButtonBack;
