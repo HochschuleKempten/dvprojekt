@@ -16,7 +16,6 @@ NAMESPACE_VIEW_B
 class VModelWindmillPowerPlant : public IViewModel
 {
 private:
-	CPlacement m_zpWindkraftwerk;
 	CPlacement m_zpBasis;
 	CPlacement m_zpTurm;
 	CPlacement m_zpFundament;
@@ -39,10 +38,10 @@ public:
 	VModelWindmillPowerPlant();
 	virtual ~VModelWindmillPowerPlant() override;
 
-	//TODO (Windkraftwerk) implement this
 	virtual float getHeight() override
 	{
-		return 11.0f;
+		//return 11.0f;
+		return 0.3f + 7.0f + 1.3f;
 	}
 	virtual float getWidth() override
 	{
