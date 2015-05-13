@@ -98,6 +98,7 @@ CMaterial VMaterialLoader::m_zmCable;
 //Solarkraftwerktexturen
 CMaterial VMaterialLoader::m_zmSolarzelle;
 CMaterial VMaterialLoader::m_zmSolarGrund;
+CMaterial VMaterialLoader::m_zmSolarLOD;
 
 //Atomkraftwerktexturen
 CMaterial VMaterialLoader::m_zmAtomgrundWhite;
@@ -118,6 +119,19 @@ CMaterial VMaterialLoader::m_zmHammerCursor;
 
 //CraftMenue
 CMaterial VMaterialLoader::m_zmCraftMenueBackground;
+
+//MaterialBuilding
+CMaterial VMaterialLoader::materialBuilding01;
+CMaterial VMaterialLoader::materialBuilding02;
+CMaterial VMaterialLoader::materialBuilding03;
+CMaterial VMaterialLoader::materialLargeOfficeBuilding;
+CMaterial VMaterialLoader::materialAppartments;
+CMaterial VMaterialLoader::materialOfficTowerViewingDeck;
+CMaterial VMaterialLoader::materialTwistedTower;
+CMaterial VMaterialLoader::materialSmallOfficeBuilding;
+
+// MaterialWindowBuildings
+CMaterial VMaterialLoader::materialWindowsofBuilding;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
@@ -224,14 +238,15 @@ void VMaterialLoader::init()
 	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
 	m_zmConcrete.MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 
-	m_zmStrut.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmStrut.MakeTextureDiffuse("textures/buildings/strommast_diffuse.png");
 	m_zmIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmRing.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmCable.MakeTextureDiffuse("textures\\white_image.jpg");
 
 	//Solarkraftwerktexturen
 	m_zmSolarGrund.MakeTextureDiffuse("textures\\white_image.jpg");
-	m_zmSolarzelle.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmSolarzelle.MakeTextureDiffuse("textures\\buildings\\SolarPanel.jpg");
+	m_zmSolarLOD.MakeTextureDiffuse("textures\\SolarLOD.jpg");
 
 	//Atomkraftwerktexturen
 	m_zmAtomgrundWhite.MakeTextureDiffuse("textures\\white_image.jpg");

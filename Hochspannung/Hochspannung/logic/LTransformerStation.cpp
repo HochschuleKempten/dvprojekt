@@ -27,7 +27,6 @@ void LTransformerStation::tick(const float fTimeDelta)
 	
 		//Handle Disposal
 		if (timeLastCheck > 1) {
-			int seconds = CASTS<int>(timeLastCheck);
 
 			if (lField->getLPlayingField()->isTransformstationConnected())
 			{

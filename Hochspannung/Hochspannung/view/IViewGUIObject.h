@@ -96,7 +96,7 @@ NAMESPACE_VIEW_B
 		}
 
 
-		string sObjectName = "";
+		std::string sObjectName = "";
 		//virtual void resize(int width, int height);
 	protected:
 		CFloatRect m_zfrRect = CFloatRect(0, 0, 0, 0);

@@ -22,6 +22,7 @@ public:
 	virtual void updatePopulation(const int population) override;
 	virtual void updateEnergy(const int energy) override;
 	virtual ILBuilding* getLBuilding() override;
+	virtual bool clicked(action action) override;
 };
 
 

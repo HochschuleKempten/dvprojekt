@@ -73,8 +73,8 @@ NAMESPACE_VIEW_B
 			vUi->m_BlockCursorLeftPressed = false;
 		}
 
-		map<string, IViewGUIContainer*> tempGuicontainer;
-		map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+		std::map<std::string, IViewGUIContainer*> tempGuicontainer;
+		std::map<std::string, IViewGUIContainer*>::iterator tempIterGuicontainer;
 
 		checkShortcut(&vUi->m_zkKeyboard);
 		checkSpecialEvent(&vUi->m_zkCursor);
@@ -95,8 +95,8 @@ NAMESPACE_VIEW_B
 
 	void VScreenOptions::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 	{
-		map<string, IViewGUIObject*>::iterator tempIterGUIObjects;
-		map<string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
+		std::map<std::string, IViewGUIObject*>::iterator tempIterGUIObjects;
+		std::map<std::string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
 
 		for (tempIterGUIObjects = tempGUIObjects.begin(); tempIterGUIObjects != tempGUIObjects.end(); tempIterGUIObjects++)
 		{
@@ -120,8 +120,8 @@ NAMESPACE_VIEW_B
 
 	void VScreenOptions::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 	{
-		map<string, IViewGUIContainer*> tempGuiContainerMap;
-		map<string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
+		std::map<std::string, IViewGUIContainer*> tempGuiContainerMap;
+		std::map<std::string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
 
 		tempGuiContainerMap = tempGuicontainer->getGuiContainerMap();
 

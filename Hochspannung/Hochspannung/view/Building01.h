@@ -2,6 +2,7 @@
 
 
 #include "VGeneral.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -13,14 +14,17 @@ private:
 	CGeoWindow m_zWindowInlay;
 
 
+	CPlacement m_zpbuilding01;
 	CGeoWall m_zWall;
 	CPlacement m_zpWall;
-	CMaterial m_zmWall;
+
 
 
 	CGeoWall m_zWallKuppel;
+
 	CPlacement m_zpWallKuppel;
-	CMaterial m_zmWallKuppel;
+
+	
 
 	CGeoWall m_zWallFrame;
 	CMaterial m_zmWallFrame;
@@ -28,17 +32,27 @@ private:
 	CGeoWall m_zWallGlass;
 	CMaterial m_zmWallGlass;
 
+	float fstandardradius=3.5F;
+	float fstandardheight=10.F;
+	float fstandardthickness = 0.2;
 
+	float fresize;
+
+
+	
+	
 
 public:
 
 	Building01();
+	Building01(float fResize);
 	~Building01();
 	void InitWindows();
 	void AddWindows();
 	void InitWalls();
 	void AddPlacements();
 	void TranslateAll();
+	void scaleforLoDs();
 
 		
 };

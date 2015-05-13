@@ -35,9 +35,6 @@ NAMESPACE_VIEW_B
 		if (m_hasBackground) delete m_background;
 	}
 
-	
-
-
 	void VTab::onNotify(Event events)
 	{
 		switch (events)
@@ -47,7 +44,7 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VTab::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
+	void VTab::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName)
 	{
 		switch (containerType)
 		{
@@ -71,7 +68,7 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VTab::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
+	void VTab::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const std::string& sName)
 	{
 		switch (containerType)
 		{

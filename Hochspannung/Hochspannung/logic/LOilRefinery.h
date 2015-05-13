@@ -12,6 +12,8 @@ public:
 	LOilRefinery(LField* lField, const int x, const int y, const int playerId);
 	~LOilRefinery();
 
+	int getEnergyValue() override;
+
 	LIdentifier::LIdentifier getIdentifier() override
 	{
 		return LIdentifier::LOilRefinery;

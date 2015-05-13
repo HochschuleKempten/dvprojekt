@@ -9,7 +9,7 @@ class VListEntry :
 public:
 	
 	VListEntry();
-	VListEntry(CViewport* viewport,CMaterial* MaterialNormal, CMaterial* MaterialHover, string& sName);
+	VListEntry(CViewport* viewport,CMaterial* MaterialNormal, CMaterial* MaterialHover, const std::string& sName);
 
 	~VListEntry();
 	
@@ -45,7 +45,7 @@ private:
 	COverlay* m_zoActive;
 	COverlay* m_zoHover;
 
-	string m_sName;
+	std::string m_sName;
 
 	bool m_bHasHover;
 

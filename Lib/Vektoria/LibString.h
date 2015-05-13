@@ -4,7 +4,6 @@
 #include <cctype>
 #include <string>
 #include <vector>
-using namespace std;
 
 namespace Vektoria
 {
@@ -14,14 +13,14 @@ public:
 	CLibString(void);
 	~CLibString(void);
 
-	static string toLower(const string str);
-	static string toUpper(const string str);
-	static string rTrim(const string str);
-	static string lTrim(const string str);
-	static string trim(const string str);
+	static std::string toLower(const std::string str);
+	static std::string toUpper(const std::string str);
+	static std::string rTrim(const std::string str);
+	static std::string lTrim(const std::string str);
+	static std::string trim(const std::string str);
 
-	static vector<string> explode(const string delimiter, const string str);
-	static string implode(const string glue, const vector<string> &pieces);
+	static std::vector<std::string> explode(const std::string delimiter, const std::string str);
+	static std::string implode(const std::string glue, const std::vector<std::string> &pieces);
 
 };
 

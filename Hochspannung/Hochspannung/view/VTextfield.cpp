@@ -9,7 +9,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const string& Placeholder)
+	VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder)
 		:
 		m_bIsActive(false),
 		m_sInputtext(std::string())
@@ -163,7 +163,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	string VTextfield::getValue()
+	std::string VTextfield::getValue()
 	{
 		return m_sInputtext;
 	}

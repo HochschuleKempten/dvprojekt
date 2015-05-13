@@ -111,6 +111,7 @@ public:
 	//Solarkraftwerktexturen
 	static CMaterial m_zmSolarzelle;
 	static CMaterial m_zmSolarGrund;
+	static CMaterial m_zmSolarLOD;
 
 	//Atomkraftwerktexturen
 	static CMaterial m_zmAtomgrundWhite;
@@ -125,6 +126,19 @@ public:
 
 	//PlayerFoundations
 	static std::unordered_map<int, CMaterial> materialFoundationPlayer;
+
+	//MaterialBuildings
+	static CMaterial materialBuilding01;
+	static CMaterial materialBuilding02;
+	static CMaterial materialBuilding03;
+	static CMaterial materialLargeOfficeBuilding;
+	static CMaterial materialAppartments;
+	static CMaterial materialOfficTowerViewingDeck;
+	static CMaterial materialTwistedTower;
+	static CMaterial materialSmallOfficeBuilding;
+
+	// MaterialWindowBuildings
+	static CMaterial materialWindowsofBuilding;
 
 	//Cursor
 	static CMaterial m_zmDefaultCursor;

@@ -38,6 +38,7 @@
 #include "GeoDomeTiled.h"
 #include "GeoTriangle.h"
 #include "Physical.h"
+#include "Placements.h"
 
 #include "DistributedGlobal.h"
 #include "ApiSound.h"

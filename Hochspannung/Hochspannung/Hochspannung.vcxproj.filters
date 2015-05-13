@@ -355,11 +355,20 @@
     <ClInclude Include="view\Bar.h">
       <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\VListView.h">
-      <Filter>Headerdateien</Filter>
+    <ClInclude Include="logic\LRemoteOperation.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewPowerPlant.h">
+      <Filter>view\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="view\VListEntry.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VListView.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelTransformerStation.h">
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -573,11 +582,14 @@
     <ClCompile Include="network\GameObject.cpp">
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="view\VListView.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="view\VListEntry.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VListView.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelTransformerStation.cpp">
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

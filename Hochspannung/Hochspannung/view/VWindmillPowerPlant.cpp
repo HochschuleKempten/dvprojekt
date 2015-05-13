@@ -7,7 +7,7 @@ NAMESPACE_VIEW_B
 
 
 VWindmillPowerPlant::VWindmillPowerPlant(VMaster* vMaster, LWindmillPowerPlant* lPlant)
-	: IVPowerPlant(lPlant), IViewBuilding(vMaster, viewModel.getMainPlacement())
+	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
 {
 	vMaster->registerObserver(this);
 }
@@ -19,20 +19,15 @@ void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& ob
 {
 	viewModel.initViewModel(this);
 
-	const float scale = 0.3;
+	const float scale = 0.3f;
 	viewModel.getMainPlacement()->Scale(scale);
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0));
-	viewModel.getMainPlacement()->RotateZDelta(CASTS<float>(M_PI));
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() * scale + 0.4);
 
-	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
+	vMaster->getPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VWindmillPowerPlant);
 }
 
-ILBuilding* VWindmillPowerPlant::getLBuilding()
-{
-	return CASTD<ILBuilding*>(lPlant);
-}
 
 NAMESPACE_VIEW_E

@@ -10,21 +10,13 @@
 #include <stdio.h>
 #include <tchar.h>
 
-
-
 // Hier auf zusätzliche Header, die das Programm erfordert, verweisen.
+#include "view/VGeneral.h"
 
-#include <boost/asio.hpp>
-#include <vector>
 #include <array>
-#include <map>
-#include <list>
-#include <string>
-#include <sstream>
-#include <memory>
 #include <random>
 #include <chrono>
-#include "logic/LUtility.h"
+
 #include "logic/Array2D.h"
 #include "logic/cpplinq.hpp"
 

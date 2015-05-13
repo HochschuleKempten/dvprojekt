@@ -44,9 +44,9 @@ NAMESPACE_VIEW_B
 
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
 		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "buttonBackToPlaymode");
-		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.05F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, START_GAME, "buttonStartGame");
+		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.05F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyHostGame, &VMaterialLoader::materialButtonLobbyHostGameHover, LOBBY_HOST_GAME, "buttonHostGame");
 		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.19F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyJoinGame, &VMaterialLoader::materialButtonLobbyJoinGameHover, LOBBY_JOIN_GAME, "buttonJoinGame");
-		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.33F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyHostGame, &VMaterialLoader::materialButtonLobbyHostGameHover, LOBBY_HOST_GAME, "buttonHostGame");
+		DEBUG_EXPRESSION(getContainer("Menue")->addButton(CFloatRect(0.65F, 0.33F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, START_GAME, "buttonStartGame"));
 
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.3F, 0.45F, 0.3F, 0.2F), &VMaterialLoader::materialGreen, "WaitingDialog");
 		getContainer("WaitingDialog")->addText(CFloatRect(0.1F, 0.1F, 0.8F, 0.2F), &VMaterialLoader::standardFont, "Warte auf Mitspieler", "TextWaitingDialog");
@@ -55,11 +55,11 @@ NAMESPACE_VIEW_B
 
 		getContainer("WaitingDialog")->setLayer(0.5);
 		getContainer("WaitingDialog")->switchOff();
-
+	
 		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->setLayer(0.3F);
-		getContainer("Menue")->getGuiObject("buttonStartGame")->setLayer(0.3F);
 		getContainer("Menue")->getGuiObject("buttonHostGame")->setLayer(0.3F);
 		getContainer("Menue")->getGuiObject("buttonJoinGame")->setLayer(0.3F);
+		DEBUG_EXPRESSION(getContainer("Menue")->getGuiObject("buttonStartGame")->setLayer(0.3F));
 	}
 
 	VScreenLobby::~VScreenLobby()
@@ -88,10 +88,12 @@ NAMESPACE_VIEW_B
 			case LOBBY_HOST_GAME:
 				vUi->vMaster->hostGame();
 				getContainer("WaitingDialog")->switchOn();
+				vUi->switchScreen("Ingame");
 				//notify(LOBBY_HOST_GAME);
 				break;
 			case LOBBY_JOIN_GAME:
 				vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
+				vUi->switchScreen("Ingame");
 				//notify(LOBBY_JOIN_GAME);
 				break;
 			default:
@@ -124,8 +126,8 @@ NAMESPACE_VIEW_B
 			vUi->m_BlockCursorLeftPressed = false;
 		}
 
-		map<string, IViewGUIContainer*> tempGuicontainer;
-		map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+		std::map<std::string, IViewGUIContainer*> tempGuicontainer;
+		std::map<std::string, IViewGUIContainer*>::iterator tempIterGuicontainer;
 
 		checkShortcut(&vUi->m_zkKeyboard);
 		checkSpecialEvent(&vUi->m_zkCursor);
@@ -145,8 +147,8 @@ NAMESPACE_VIEW_B
 
 	void VScreenLobby::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 	{
-		map<string, IViewGUIObject*>::iterator tempIterGUIObjects;
-		map<string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
+		std::map<std::string, IViewGUIObject*>::iterator tempIterGUIObjects;
+		std::map<std::string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
 
 		for (tempIterGUIObjects = tempGUIObjects.begin(); tempIterGUIObjects != tempGUIObjects.end(); tempIterGUIObjects++)
 		{
@@ -172,8 +174,8 @@ NAMESPACE_VIEW_B
 
 	void VScreenLobby::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 	{
-		map<string, IViewGUIContainer*> tempGuiContainerMap;
-		map<string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
+		std::map<std::string, IViewGUIContainer*> tempGuiContainerMap;
+		std::map<std::string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
 
 		tempGuiContainerMap = tempGuicontainer->getGuiContainerMap();
 

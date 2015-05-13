@@ -6,7 +6,6 @@
 #include "LIdentifier.h"
 #include <unordered_map>
 #include <boost\property_tree\ptree.hpp>
-#include <boost\property_tree\ini_parser.hpp>
 
 NAMESPACE_LOGIC_B
 
@@ -28,9 +27,10 @@ private:
 	LBalanceLoader& operator=(const LBalanceLoader&) = delete;
 	LBalanceLoader& operator=(const LBalanceLoader&&) = delete;
 	~LBalanceLoader() = delete;
-	DEBUG_EXPRESSION(static bool initDone);
 
+private:
 	static boost::property_tree::ptree propertyTree;
+	DEBUG_EXPRESSION(static bool initDone);
 
 public:
 	static void init();
@@ -45,6 +45,7 @@ public:
 	template<> static int getCost<LNuclearPowerPlant>() { return propertyTree.get<int>("Cost.NuclearPowerPlant", 0); }
 
 	static int getFieldStorage(const LField::FieldType fieldType);
+	static int getConsumedResources(const LField::FieldType fieldType);
 	static int getProducedEnergy(const LIdentifier::LIdentifier identifier);
 
 	static double getMoneyPerWatt();
@@ -55,7 +56,7 @@ public:
 	static std::unordered_map<LField::FieldType, double> getFieldTypeRatio();
 	static std::unordered_map<LField::FieldLevel, double> getFieldLevelFactor();
 
-	//CityProperties
+	//-----City properties----
 	/**
 	 * @brief Growth rate of the city in number of peoples per second.
 	 */
@@ -72,6 +73,10 @@ public:
 	 * @brief Maximum number of citizen in the city.
 	 */
 	static int getMaxPopulation();
+	/**
+	 * @brief Offset for placing the city on the map (relative from the top left corner for the first and bottom right corner for the second player).
+	 */
+	static int getMapOffset();
 };
 
 

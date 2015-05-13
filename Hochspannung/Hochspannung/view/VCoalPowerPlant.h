@@ -3,12 +3,12 @@
 #include "../logic/IVPowerPlant.h"
 #include "../logic/LCoalPowerPlant.h"
 #include "VMaster.h"
-#include "IViewBuilding.h"
+#include "IViewPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
 
-class VCoalPowerPlant : public IVPowerPlant, public IViewBuilding
+class VCoalPowerPlant : public IViewPowerPlant
 {
 private:
 	CPlacement m_zp;
@@ -19,7 +19,6 @@ public:
 	virtual ~VCoalPowerPlant();
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y) override;
-	virtual ILBuilding* getLBuilding() override;
 };
 
 

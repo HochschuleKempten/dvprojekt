@@ -49,7 +49,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	void VGraph::addBar(string sName, CMaterial* normalMaterial)
+	void VGraph::addBar(std::string sName, CMaterial* normalMaterial)
 	{
 		m_bars[sName] = new Bar(m_viewport, normalMaterial, createRelativeRectangle(&m_zfrRect, &CFloatRect(0, 0, 1, 1)), 10);
 		calcHeight();
@@ -58,7 +58,7 @@ NAMESPACE_VIEW_B
 		//		m_bars[sName]->Init(normalMaterial, createRelativeRectangle(&m_zfrRect, &CFloatRect(0, 0, 0,0)));
 	}
 
-	void VGraph::updateBar(string sName, float wert)
+	void VGraph::updateBar(std::string sName, float wert)
 	{
 		m_bars[sName]->set_m_f_value(wert);
 		calcHeight();

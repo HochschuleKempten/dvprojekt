@@ -4,6 +4,7 @@
 
 
 #include "VGeneral.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -13,6 +14,7 @@ NAMESPACE_VIEW_B
 class CAppartments : public CPlacement
 {
 public:
+	CAppartments();
 	CAppartments(float fResize);
 	~CAppartments(void);
 

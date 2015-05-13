@@ -9,10 +9,10 @@
 namespace Network {
 
 CNode::CNode() :
-m_ioService(io_service()), m_socketTcp(m_ioService), m_socketUdp(m_ioService), m_connectionTimer(m_ioService),
-m_localEndpointTcp(ip::tcp::endpoint(ip::tcp::v4(), m_usPortTcp)),
+m_ioService(io_service()), m_socketTcp(m_ioService), m_socketUdp(m_ioService), m_localEndpointTcp(ip::tcp::endpoint(ip::tcp::v4(), m_usPortTcp)),
 m_localEndpointUdp(ip::udp::endpoint(ip::udp::v4(), m_usPortUdp)),
-m_connectionState(CLOSED), m_bCheckResponseReceived(true), m_iLatestLatency(-1) {
+m_connectionState(CLOSED),
+m_bCheckResponseReceived(true), m_connectionTimer(m_ioService), m_iLatestLatency(-1) {
 
 }
 
@@ -122,7 +122,7 @@ void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*length*/
 		std::string stMessage = retrieveString((char*)pcMessage, 512);
 
 		std::vector<std::string> transferObjectMember;
-		std::stringstream ss(stMessage); // Turn the string into a stream.
+		std::stringstream ss(stMessage); // Turn the std::string into a stream.
 		std::string tok;
 
 		while (getline(ss, tok, ';')) {

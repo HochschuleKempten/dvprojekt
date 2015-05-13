@@ -56,7 +56,7 @@ NAMESPACE_VIEW_B
 			}
 		}
 
-		void notifyExt(IViewUIObserver::Event evente, string sName)
+		void notifyExt(IViewUIObserver::Event evente, std::string sName)
 		{
 			for (lIterObserversExt = observersExt_.begin(); lIterObserversExt != observersExt_.end(); ++lIterObserversExt)
 			{
@@ -67,11 +67,10 @@ NAMESPACE_VIEW_B
 		}
 
 	private:
-		list<IViewUIObserver*> observers_;
-		list<IViewUIObserver*>::iterator lIterObservers;
-
-		list<IViewUIObserver*> observersExt_;
-		list<IViewUIObserver*>::iterator lIterObserversExt;
+		std::list<IViewUIObserver*> observers_;
+		std::list<IViewUIObserver*>::iterator lIterObservers;
+		std::list<IViewUIObserver*> observersExt_;
+		std::list<IViewUIObserver*>::iterator lIterObserversExt;
 	};
 
 	NAMESPACE_VIEW_E

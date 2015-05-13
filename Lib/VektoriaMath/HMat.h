@@ -93,6 +93,7 @@ public:
 	void ProjectionFovMirror(float faFovHorizontal, float fRatio, float fNear, float fFar); // Generiert eine horizontal gespiegelte foveale Projektionsmatrix 
 
 
+
 	void RotateXDelta(float fa);	// Generiert eine neue Rotationsmatrix um die X-Achse mit dem Winkel fa und multipliziert diese mit der aktuellen Matrix  
 	void RotateYDelta(float fa);	// Generiert eine neue Rotationsmatrix um die Y-Achse mit dem Winkel fa und multipliziert diese mit der aktuellen Matrix  
 	void RotateZDelta(float fa);	// Generiert eine neue Rotationsmatrix um die Z-Achse mit dem Winkel fa und multipliziert diese mit der aktuellen Matrix 

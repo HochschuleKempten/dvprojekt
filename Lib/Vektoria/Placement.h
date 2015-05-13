@@ -51,7 +51,7 @@ private:
 	bool m_bTickTack;
 
 	CPlacement * PickPlacement(CRay & r, float & fMin, float & fMax);
-	void PickPlacements(CRay & r, CPlacements * pzps);
+	void PickPlacements(CRay & r, CPlacements * pzps, bool bPickOnlyPlacementsWithDirectGeos);
 
 public:
 	CPlacement();
@@ -152,10 +152,13 @@ public:
 	void TranslateYDelta(float fy); // Generiert Verschiebungsmatrix in Y-Richtung und multipliziert diese mit der bisherigen Matrix für das Placement
 	void TranslateZDelta(float fz); // Generiert Verschiebungsmatrix in Z-Richtung und multipliziert diese mit der bisherigen Matrix für das Placement
 
+	void PlaceSphericalGlobal(float fRadius, float faAzimuth, float faAltitude, CPlacement * pzpCenter, int iGlobalInstance = 0); // Plaziert das Placment anhand Azimut, Elevation und Radiús global um ein anderes Zielplacement (gut, um Zielplacement von allen Seiten anzuschauen) 
+	void PlaceSphericalLocal(float fRadius, float faAzimuth, float faAltitude, CPlacement * pzpCenter);// Plaziert das Placment anhand Azimut, Elevation und Radiús im lokalen Koordinatensystem um ein anderes Zielplacement (gut, um Zielplacement von allen Seiten anzuschauen, wenn beide Placements direkt an Szene hängen) 
 
-	bool IsColliding(CPlacement * pzp);
-	CPlacements * GetCollidingPlacements(CScene *pzs);
-	bool IsColliding(CPlacement * pzp, CScene *pzs);
+
+	bool IsColliding(CPlacement * pzp); // Gibt true aus, wenn die beiden Bounding-Boxen der Placements kollidieren
+	bool IsColliding(CPlacement * pzp, CScene *pzs); // Gibt true aus, wenn die beiden Bounding-Boxen der Placements innerhalb einer Szene kollidieren
+	CPlacements * GetCollidingPlacements(CScene *pzs); // Gibt in einer Szene alle Placements aus, mit der das aktuelle Placement kollidiert 
 
 
 	void FixDistance(float fDistance); // Fixiert die Distanz, die für die Z-Buffer-Sortierung verwendet wird, z.B. notwendig für ineinander geschachtelte semitransparente Skydomes 	
@@ -198,12 +201,13 @@ public:
 
 	bool m_bPointing;
 	bool m_bPointingToVector;
+	int m_iPointingInstance;
 	CHVector * m_pvectorPointing;
 	CPlacement * m_pplacementPointing;
 
 	void SetPointing(CHVector * pvectorPointing); // macht, dass das Placement automatisch sich in Richtung des Raumpunkts orientiert, der durch pvectorPointing gegeben ist (u.a. wichitig für Kameras, die auf ein Punkt schauen sollen)
-	void SetPointing(CPlacement * pplacementPointing); // macht, dass das Placement automatisch sich in Richtung des Placements orientiert, der durch pplacement gegeben ist (ua.a. wichitig für Kameras, die auf ein objekt schauen sollen)
-	void SetPointingOff();
+	void SetPointing(CPlacement * pplacementPointing, int iInstance = 0); // macht, dass das Placement automatisch sich in Richtung des Placements orientiert, der durch pplacement gegeben ist (ua.a. wichitig für Kameras, die auf ein objekt schauen sollen)
+	void SetPointingOff(); 
 
 	// Beschleunigungsroutinen, die sich auf das aktuelle Placement plus die gesamte angehängte Hierarchie auswirken, müssen NACH allen Add- und Init-Routinen einmal aufgerufen werden:
 	void Fix(); // Sollte aufgerufen werden, wenn sicher ist, dass Placment und Unterplacements starr in der Gegend stehen => Beschleunigt das Rendering, da dann die Matrizen nicht immer wieder neu berechnet werden 

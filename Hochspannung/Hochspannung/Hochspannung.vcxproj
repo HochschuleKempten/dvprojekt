@@ -177,6 +177,7 @@
     <ClInclude Include="logic\LOilRefinery.h" />
     <ClInclude Include="logic\LPlayer.h" />
     <ClInclude Include="logic\LPlayingField.h" />
+    <ClInclude Include="logic\LRemoteOperation.h" />
     <ClInclude Include="logic\LSolarPowerPlant.h" />
     <ClInclude Include="logic\LPowerLine.h" />
     <ClInclude Include="logic\LTransformerStation.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="view\IViewGUIObject.h" />
     <ClInclude Include="view\IViewModel.h" />
     <ClInclude Include="view\IViewObject.h" />
+    <ClInclude Include="view\IViewPowerPlant.h" />
     <ClInclude Include="view\IViewScreen.h" />
     <ClInclude Include="view\IViewSubject.h" />
     <ClInclude Include="view\IViewUIObserver.h" />
@@ -229,6 +231,7 @@
     <ClInclude Include="view\VIdentifier.h" />
     <ClInclude Include="view\VMaterialLoader.h" />
     <ClInclude Include="view\VModelSolarPowerplant.h" />
+    <ClInclude Include="view\VModelTransformerStation.h" />
     <ClInclude Include="view\VModelWindmillPowerPlant.h" />
     <ClInclude Include="view\VNuclearPowerPlant.h" />
     <ClInclude Include="view\VOilRefinery.h" />
@@ -308,6 +311,7 @@
     <ClCompile Include="view\VHydroelectricPowerPlant.cpp" />
     <ClCompile Include="view\VMaterialLoader.cpp" />
     <ClCompile Include="view\VModelSolarPowerplant.cpp" />
+    <ClCompile Include="view\VModelTransformerStation.cpp" />
     <ClCompile Include="view\VModelWindmillPowerPlant.cpp" />
     <ClCompile Include="view\VNuclearPowerPlant.cpp" />
     <ClCompile Include="view\VOilRefinery.cpp" />

@@ -9,6 +9,7 @@
 #include "../logic/LOilRefinery.h"
 #include "../logic/LSolarPowerPlant.h"
 #include "../logic/LNuclearPowerPlant.h"
+#include "../view/IViewModel.h"
 #include <Vektoria/Placements.h>
 
 NAMESPACE_VIEW_B
@@ -232,6 +233,7 @@ void VScreenIngame::switchOff()
 void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 {
 	static bool bK = false;
+
 	if (!keyboard->KeyPressed(DIK_ESCAPE))
 	{
 		bK = false;
@@ -252,8 +254,8 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 
 void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 {/*
-		static string hover = "Hover Windmill";
-		static string standard = "infofeld";
+		static std::string hover = "Hover Windmill";
+		static std::string standard = "infofeld";
 		float curPosX;
 		float curPosY;
 		cursor->GetFractional(curPosX, curPosY);
@@ -276,7 +278,7 @@ void VScreenIngame::updatePopulation(const int wert)
 	CASTD<VText*>(getContainer("Topbar")->getGuiObject("popValue"))->updateText(std::to_string(wert));
 }
 
-void VScreenIngame::updateInfofield(const string& neuerText)
+void VScreenIngame::updateInfofield(const std::string& neuerText)
 {
 	CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
 }
@@ -301,8 +303,8 @@ void VScreenIngame::tick()
 	}
 
 	handleInput();
-	map<string, IViewGUIContainer*> tempGuicontainer;
-	map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+	std::map<std::string, IViewGUIContainer*> tempGuicontainer;
+	std::map<std::string, IViewGUIContainer*>::iterator tempIterGuicontainer;
 
 	checkShortcut(&vUi->m_zkKeyboard);
 	checkSpecialEvent(&vUi->m_zkCursor);
@@ -322,8 +324,8 @@ void VScreenIngame::tick()
 
 void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 {
-	map<string, IViewGUIObject*>::iterator tempIterGUIObjects;
-	map<string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
+	std::map<std::string, IViewGUIObject*>::iterator tempIterGUIObjects;
+	std::map<std::string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
 
 	for (tempIterGUIObjects = tempGUIObjects.begin(); tempIterGUIObjects != tempGUIObjects.end(); tempIterGUIObjects++)
 	{
@@ -347,8 +349,8 @@ void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 
 void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 {
-	map<string, IViewGUIContainer*> tempGuiContainerMap;
-	map<string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
+	std::map<std::string, IViewGUIContainer*> tempGuiContainerMap;
+	std::map<std::string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
 
 	tempGuiContainerMap = tempGuicontainer->getGuiContainerMap();
 
@@ -396,39 +398,42 @@ void VScreenIngame::handleInput()
 	}
 
 	//Zoom In + Out
+	const float mouseWheelPositionMin = -18.0f;
+	const float mouseWheelPositionMax = 50.0f;
+
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_UP))
 	{
-		if (mouseWheelPosition > -18)
+		if (mouseWheelPosition > mouseWheelPositionMin)
 		{
-			m_zpCamera.TranslateZDelta(-cameraStength * 4);
-			mouseWheelPosition += -cameraStength * 4;
+			m_zpCamera.TranslateZDelta(-cameraStength * 4.0f);
+			mouseWheelPosition += -cameraStength * 4.0f;
 		}
 	}
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_DOWN))
 	{
-		if (mouseWheelPosition < 180)
+		if (mouseWheelPosition < mouseWheelPositionMax)
 		{
-			m_zpCamera.TranslateZDelta(cameraStength * 4);
-			mouseWheelPosition += cameraStength * 4;
+			m_zpCamera.TranslateZDelta(cameraStength * 4.0f);
+			mouseWheelPosition += cameraStength * 4.0f;
 		}
 	}
 
-	if (vUi->m_zkMouse.GetRelativeZ() != 0.0)
+	if (vUi->m_zkMouse.GetRelativeZ() != 0.0f)
 	{
-		if (vUi->m_zkMouse.GetRelativeZ() > 0.0)
+		if (vUi->m_zkMouse.GetRelativeZ() > 0.0f)
 		{
-			if (mouseWheelPosition > -18)
+			if (mouseWheelPosition > mouseWheelPositionMin)
 			{
-				m_zpCamera.TranslateZDelta(-cameraStength * 4);
-				mouseWheelPosition += -cameraStength * 4;
+				m_zpCamera.TranslateZDelta(-cameraStength * 4.0f);
+				mouseWheelPosition += -cameraStength * 4.0f;
 			}
 		}
 		else
 		{
-			if (mouseWheelPosition < 180)
+			if (mouseWheelPosition < mouseWheelPositionMax)
 			{
-				m_zpCamera.TranslateZDelta(cameraStength * 4);
-				mouseWheelPosition += cameraStength * 4;
+				m_zpCamera.TranslateZDelta(cameraStength * 4.0f);
+				mouseWheelPosition += cameraStength * 4.0f;
 			}
 		}
 
@@ -436,7 +441,7 @@ void VScreenIngame::handleInput()
 	}
 
 
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_RIGHT))
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_E))
 	{
 		if (cameraAngle < 0.5f)
 		{
@@ -446,7 +451,7 @@ void VScreenIngame::handleInput()
 		}
 	}
 
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_LEFT))
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_Q))
 	{
 		if (cameraAngle > -0.5f)
 		{
@@ -456,7 +461,7 @@ void VScreenIngame::handleInput()
 		}
 	}
 
-	if (!vUi->m_zkKeyboard.KeyPressed(DIK_LEFT) && !vUi->m_zkKeyboard.KeyPressed(DIK_RIGHT))
+	if (!vUi->m_zkKeyboard.KeyPressed(DIK_Q) && !vUi->m_zkKeyboard.KeyPressed(DIK_E))
 	{
 		if (cameraAngle < 0.0f)
 		{
@@ -545,14 +550,26 @@ void VScreenIngame::handleInput()
 		{
 			if (pickedElements.count(VIdentifier::VPlayingField) > 0)
 			{
+
 				int x = pickedElements[VIdentifier::VPlayingField][0];
 				int y = pickedElements[VIdentifier::VPlayingField][1];
-				vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+
+
+				//IViewBuilding * vbuilding = CASTD<IViewBuilding*>(vUi->vMaster->getPlayingField()->getBuilding(x, y));
+			
+				//if (vbuilding != nullptr)
+				//{
+
+				//	vbuilding->clicked(IViewObject::action::switchOnOff);
+				//}
+
+
+				//vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
 
 #ifdef _DEBUG
 				extern bool isCheatModeOn;
 				isCheatModeOn = true;
-				vUi->vMaster->getPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
+				vUi->vMaster->getPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
 				isCheatModeOn = false;
 #endif
 			}
@@ -570,42 +587,16 @@ void VScreenIngame::handleInput()
 std::map<int, std::vector<int>> VScreenIngame::pickElements()
 {
 	std::map<int, std::vector<int>> pickedElements;
-	std::unordered_set<CPlacement*> pickedPlacements; //A set is duplicate free and works out of the box for pointer types
 
-	//Pick everything
-	CPlacement* singlePlacement = vUi->m_zkCursor.PickPlacement();
-	CPlacements placements;
-	vUi->m_zkCursor.PickPlacements(&placements);
+	CGeos geos;
+	vUi->m_zkCursor.PickGeos(&geos);
 
-	//TODO (JS) merge seems obsolete now. Remove this
-	//Merge the found placements together in a set (to avoid duplicates)
-	for (int i = 0; i < placements.m_iPlacements; i++)
+	for (int i = 0; i < geos.m_iGeos; i++)
 	{
-		if (placements.m_applacement[i]->m_pgeos)
+		std::vector<std::string> nameParts = split(geos.m_apgeo[i]->GetName(), ';');
+
+		if (nameParts.size() == 3)	//Currently all valid name parts consists of 3 elements
 		{
-			//pickedPlacements.insert(placements.m_applacement[i]);
-		}
-	}
-	//The two placements pick different things, so they have to be merged together
-	if (singlePlacement != nullptr)
-	{
-		size_t sizeBefore = pickedPlacements.size();
-		pickedPlacements.insert(singlePlacement);
-		//ASSERT(sizeBefore == pickedPlacements.size(), "PickPlacements() picked something different then PickPlacement(). This should not happen");
-	}
-
-	//DEBUG_OUTPUT("Picking started");
-	//Now iterate over every found placement
-	for (CPlacement* p : pickedPlacements)
-	{
-		std::vector<std::string> nameParts = split(p->GetName(), ';');
-		//DEBUG_OUTPUT("placement = " << p->GetName());
-
-		if (nameParts.size() > 0 && nameParts[0].at(0) != '#')
-		{
-			//At this point only valid names remain
-			ASSERT(nameParts.size() == 3, "Not enough arguments in the placement name");
-
 			//Convert the arguments to integer (skip the first one, because its the key for the map
 			std::vector<int> namePartsInt;
 			for (size_t j = 1; j < nameParts.size(); j++)

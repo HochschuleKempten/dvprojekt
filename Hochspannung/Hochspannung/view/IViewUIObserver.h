@@ -44,7 +44,7 @@ public:
 	virtual ~IViewUIObserver() {}
 
 	virtual void onNotify(Event evente) = 0;
-	virtual void onNotifyExt(Event evente, string sName)
+	virtual void onNotifyExt(Event evente, std::string sName)
 	{};
 
 };

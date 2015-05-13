@@ -37,7 +37,7 @@ VListView::VListView()
 		}
 	}
 
-	void VListView::addContainer(const ContainerType& containerType, CFloatRect& floatRect, const string& sName)
+	void VListView::addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::string& sName)
 	{
 		switch (containerType)
 		{
@@ -62,7 +62,7 @@ VListView::VListView()
 		
 	}
 
-	void VListView::addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
+	void VListView::addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName)
 	{
 		switch (containerType)
 		{
@@ -87,7 +87,7 @@ VListView::VListView()
 	}
 
 
-	void VListView::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, string sName)
+	void VListView::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, std::string sName)
 	{
 		m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
 
@@ -95,7 +95,7 @@ VListView::VListView()
 
 	}
 
-	void VListView::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder, string sName)
+	void VListView::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
 	{
 		m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
 
@@ -103,7 +103,7 @@ VListView::VListView()
 
 	}
 
-	void VListView::addText(CFloatRect rect, CWritingFont* writingFont, string text, string sName)
+	void VListView::addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName)
 	{
 		m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text);
 
@@ -111,7 +111,7 @@ VListView::VListView()
 
 	}
 
-	void VListView::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, string sName)
+	void VListView::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, std::string sName)
 	{
 		m_Overlays[sName] = new COverlay();
 		m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
@@ -123,7 +123,7 @@ VListView::VListView()
 	{
 	}
 
-	void VListView::addEntry(CMaterial* MaterialEntryNormal, CMaterial* MaterialEntryHover, string sName)
+	void VListView::addEntry(CMaterial* MaterialEntryNormal, CMaterial* MaterialEntryHover, std::string sName)
 	{
 		m_entries[sName] = new VListEntry(m_viewport, MaterialEntryNormal, MaterialEntryHover,sName);
 		m_guiObjects[sName] = m_entries[sName];
@@ -131,7 +131,7 @@ VListView::VListView()
 		calcEntrySize();
 	}
 
-	void VListView::onNotifyExt(Event evente, string sName)
+	void VListView::onNotifyExt(Event evente, std::string sName)
 	{
 		switch (evente)
 		{

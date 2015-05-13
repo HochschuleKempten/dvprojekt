@@ -36,9 +36,9 @@ private:
 public:
 	CDisManager();
 	~CDisManager();
-	void ParseSS(stringstream &ss);
+	void ParseSS(std::stringstream &ss);
 	void CreateObjects(int iObjectId,int iClassId);
-	void UseMethods(stringstream &ss, int iObjectId, int iClassId);
+	void UseMethods(std::stringstream &ss, int iObjectId, int iClassId);
 	int GetExist(int ObjectId);
 	void SetHWND(HWND &hwnd);
 	bool GetStart();

@@ -57,9 +57,9 @@ public:
 
 	virtual void onNotify(Event events) override;
 
-	void addScreen(const string& sName, const IViewScreen::ScreenType);
-	void switchScreen(const string& switchTo);
-	IViewScreen* getScreen(const string& sName);
+	void addScreen(const std::string& sName, const IViewScreen::ScreenType);
+	void switchScreen(const std::string& switchTo);
+	IViewScreen* getScreen(const std::string& sName);
 
 	void initUI(HWND hwnd, CSplash* psplash);
 

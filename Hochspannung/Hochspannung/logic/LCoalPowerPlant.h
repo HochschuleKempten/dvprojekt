@@ -12,6 +12,8 @@ public:
 	LCoalPowerPlant(LField* lField, const int x, const int y, const int playerId);
 	~LCoalPowerPlant();
 
+	int getEnergyValue() override;
+
 	LIdentifier::LIdentifier getIdentifier() override
 	{
 		return LIdentifier::LCoalPowerPlant;

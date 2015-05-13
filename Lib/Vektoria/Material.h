@@ -134,30 +134,32 @@ namespace Vektoria
 		void SetTextureSpecularWhite();
 		void SetTextureSpecularBlack();
 		void SetTextureSpecularAsDiffuse();
-		void SetTextureTexBRDF(); // Texturbasiertes BRDF mit Normal- und Heightmap. Benötigt POM und Bumpmapping 
-		void SetReflectionMap(); // Setzt Alphakanal der Environmentmap als Reflectionmap
+		void SetTextureTexBRDF(); // Texturbasiertes BRDF mit Normal- und Heightmap. Benötigt POM und Bumpmapping => TODO: Rausmachen !!!!
+		void SetReflectionMap(); // Setzt Alphakanal der Environmentmap als Reflectionmap => TODO: Rausmachen !!!!
 
-		void SetColorAmbient(CColor color);
-		void SetBumpStrength(float fBumpStrength);
+		void SetColorAmbient(CColor color); // Ambient-Light für
+		void SetBumpStrength(float fBumpStrength); // Die Stärke der Bumpmap, Default = 1.0f, auch negative Werte ist  
 		void SetSpecularSharpness(float fSpecularSharpness);
-		void SetRoughness(float fRoughness);
-		void SetIndexOfRefraction(float fIOR);
-		void SetSpecular(float fSpecular);
-		void SetSpecularTint(float fSpeculatTint);
-		void SetMetallic(float fMetallic);
-		void SetSubsurface(float fSubsurface);
-		void SetAnisotropic(float fAnistropic);
-		void SetSheen(float fSheen);
-		void SetSheenTint(float fSheenTint);
-		void SetClearCoat(float fClearCoat);
-		void SetClearCoatGloss(float fClearCoatGloss);
+		void SetIndexOfRefraction(float fIOR); // Brechungsindex
 		void SetDiffuseSharpness(float fDiffuseSharpness);
 		void SetTransparency(float frTransparancy);
-		void SetAbsoluteMaterialThickness(float fThickness); // Absolute Materialdicke für Subsurfacescattering
+		void SetAbsoluteMaterialThickness(float fThickness); // Absolute Materialdicke für Subsurfacescattering, auch im Basic-Renderer
 		void SetRimLightStrength(float fRimStrength); // Stärke der Glanzlichter des Subsurfacescattering
-		void SetBRDFReflectance(float fReflectance); // Stärke der Reflektionen des BRDF
-		void SetEnviromentMapIntensityReduction(float fIntensity); //Stärke der Enviromentmap verringern
 		void SetSubSurfaceColor(CColor color);
+		void SetEnviromentMapIntensityReduction(float fIntensity); //Stärke der Enviromentmap verringern
+
+		// Nur für FP-Renderer:
+		void SetRoughness(float fRoughness); // Rauheit der Oberfläche, nur im FP-Render
+		void SetSpecular(float fSpecular); // Wie spiegelnd ist die Oberfläche, nur im FP-Renderer 
+		void SetSpecularTint(float fSpeculatTint); // Wieviel Farbe von der Diffuse-Map geht ins Highlight rein, nur im FP-Renderer 
+		void SetMetallic(float fMetallic); // Metallischer Faktor 
+		void SetSubsurface(float fSubsurface); // kein Subsurface-Scattering!, nur FP
+		void SetAnisotropic(float fAnistropic); // Speculare Highlights sind nicht mehr rund, sondern anisotrop, nur FP
+		void SetSheen(float fSheen); // Oberfläche leuchtet, niedriger Wert nehmen, nur FP
+		void SetSheenTint(float fSheenTint); // Farbe von diffusen Material kommt dazu, nur FP
+		void SetClearCoat(float fClearCoat); // wie Plastik, schwarfe spekulare Highlights, buggy!
+		void SetClearCoatGloss(float fClearCoatGloss); // glossyness der spekularen Highligsts
+		void SetBRDFReflectance(float fReflectance); // Stärke der Reflektionen des BRDF
 
 		void SetTransparencyKind(ETransparencyKind eTransparencyKind); // Gibt die Transparenzart an: eTransparencyKind_No für opake Texturen, eTransparencyKind_BinaryByAlphaTest für ja-nein-Alpha-Texturen, eTransparencyKind_BinaryByChromaKey für Farbschlüsseltexturen, eTransparencyKind_Continual für Semitransparente Texturen mit Alpghakanal
 

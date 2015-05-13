@@ -62,7 +62,7 @@ namespace Vektoria
 
 
 		CPlacement * PickPlacement(CRay & r);
-		void PickPlacements(CRay & r, CPlacements * zps);
+		void PickPlacements(CRay & r, CPlacements * zps, bool bPickOnlyPlacementsWithDirectGeos);
 
 
 		CPlacements * m_pplacements;

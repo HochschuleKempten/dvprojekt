@@ -13,18 +13,17 @@ NAMESPACE_VIEW_B
 		VRegister(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground);
 		~VRegister();
 
-		
 		void onNotify(Event events) override;
-		void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName) override;
-		void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const string& sName) override;
+		void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName) override;
+		void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::string& sName) override;
 
-		void addTab(CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* background, Event events, const string sName);
+		void addTab(CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* background, Event events, const std::string sName);
 
-		void SwitchToTab(string sName);
-		VTab* getTab(string sName);
+		void SwitchToTab(std::string sName);
+		VTab* getTab(std::string sName);
 
 	private:
-		map<string, VTab*> m_tabs;
+		std::map<std::string, VTab*> m_tabs;
 		void calcButtonSize();
 	};
 

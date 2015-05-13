@@ -1,15 +1,14 @@
 # pragma once
 
-#include "../logic/IVPowerPlant.h"
 #include "../logic/LWindmillPowerPlant.h"
 #include "../logic/IVTickObserver.h"
-#include "IViewBuilding.h"
+#include "IViewPowerPlant.h"
 #include "VModelWindmillPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
 
-class VWindmillPowerPlant : public IVPowerPlant, public IViewBuilding, public IVTickObserver
+class VWindmillPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:
 	VModelWindmillPowerPlant viewModel;
@@ -22,10 +21,12 @@ public:
      
 	inline virtual void tick(const float fTimeDelta) override
 	{
-		const double sec = 2.0;	//Number of seconds per rotation
-		viewModel.rotate(CASTS<float>((2.0 * M_PI / sec) * fTimeDelta));
+		if (isOn)
+		{
+			const double sec = 2.0;	//Number of seconds per rotation
+			viewModel.rotate(CASTS<float>((2.0 * M_PI / sec) * fTimeDelta));
+		}
 	}
-	virtual ILBuilding* getLBuilding() override;
 };
 
 

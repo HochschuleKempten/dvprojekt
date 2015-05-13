@@ -11,6 +11,7 @@
 #include "LCity.h"
 #include "LTransformerStation.h"
 #include "LBalanceLoader.h"
+#include "LPowerLine.h"
 
 NAMESPACE_LOGIC_B
 
@@ -56,7 +57,10 @@ void LMaster::gameOver()
 {
 	vMaster.gameOver();
 
-	//networkService.close();
+	if (networkService.getConnectionState() == Network::CONNECTED)
+	{
+		networkService.close();
+	}
 }
 
 void LMaster::placeBuilding(const int buildingId, const int x, const int y, const int playerId)
@@ -105,14 +109,12 @@ void LMaster::tick(const float fTimeDelta)
 
 	static float timeLastCheck = 0;
 
-	if (timeLastCheck > 1 && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
+	if (timeLastCheck > 0.25F && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
 	{
 		CTransferObject transferObject = networkService.getNextActionToExecute();
 		int objectId = transferObject.getTransObjectID();
 		int x = transferObject.getCoordX();
 		int y = transferObject.getCoordY();
-
-
 		int playerId = std::stoi(transferObject.getValue());
 		if (playerId == LPlayer::Local)
 		{
@@ -135,20 +137,7 @@ void LMaster::tick(const float fTimeDelta)
 			{
 				placeBuilding(objectId, x, y, playerId);
 			}
-
-			//fieldtypes
-			if (objectId >= 0 && objectId < 9)
-			{
-				lPlayingField->getField(x, y)->setFieldType(static_cast<LField::FieldType>(objectId));
-			}
-
-			//fieldlevels
-			if (objectId >= 20 && objectId < 23)
-			{
-				lPlayingField->getField(x, y)->setFieldLevel(static_cast<LField::FieldLevel>(objectId));
-			}
-
-			if (playerId == -66) //= end of fieldcreation
+			else if (playerId == -66) //= end of fieldcreation
 			{
 				lPlayingField->showPlayingField();
 			}
@@ -200,7 +189,7 @@ void LMaster::tick(const float fTimeDelta)
 			std::vector<FieldTransfer> row = transferObject.getValueAsVector();
 			int rowNumber = x;
 
-			for (int column = 0; column < row.size(); column++)
+			for (int column = 0; column < CASTS<int>(row.size()); column++)
 			{
 				lPlayingField->initField(rowNumber, column, static_cast<LField::FieldType>(row[column].iFieldType), static_cast<LField::FieldLevel>(row[column].iFieldLevel));
 
@@ -324,5 +313,9 @@ LPlayer* LMaster::getPlayer(const int idxPlayer)
 	return &lPlayers[idxPlayer];
 }
 
+std::vector<Network::CGameObject> LMaster::getGameList()
+{
+	return networkService.getGameList();
+}
 
 NAMESPACE_LOGIC_E

@@ -22,7 +22,7 @@ public:
 
 	void updatePopulation(const int wert);
 
-	void updateInfofield(const string& neuerText);
+	void updateInfofield(const std::string& neuerText);
 
 	CFloatRect getTopSpace();
 

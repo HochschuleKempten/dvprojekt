@@ -8,7 +8,7 @@ VListEntry::VListEntry()
 {
 }
 
-VListEntry::VListEntry(CViewport* viewport,CMaterial* MaterialNormal, CMaterial* MaterialHover,string& sName):
+VListEntry::VListEntry(CViewport* viewport,CMaterial* MaterialNormal, CMaterial* MaterialHover, const std::string& sName):
 m_bHasHover(false)
 {
 	//m_zfrRect = rect;

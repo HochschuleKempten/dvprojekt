@@ -6,7 +6,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, string text)
+	VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, std::string text)
 	{
 		m_zfrRect = rect;
 		m_text = text;
@@ -51,7 +51,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	void VText::updateText(string text)
+	void VText::updateText(std::string text)
 	{
 		m_writing->PrintF("%s", const_cast<char*>(text.c_str()));
 	}

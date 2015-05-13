@@ -11,7 +11,7 @@ NAMESPACE_VIEW_B
 VCity::VCity(VMaster *vMaster, LCity* lCity)
 	: IVCity(lCity), IViewBuilding(vMaster, viewModel.getMainPlacement())
 {
-	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0));
+	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0F));
 	viewModel.getMainPlacement()->ScaleDelta(0.1f);
 	viewModel.getMainPlacement()->TranslateZDelta(0.5f);
 }
@@ -22,7 +22,7 @@ VCity::~VCity()
 void VCity::initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const int y)
 {
 	viewModel.initViewModel(this);
-	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
+	vMaster->getPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VCity);
 }
@@ -41,5 +41,14 @@ ILBuilding* VCity::getLBuilding()
 {
 	return CASTD<ILBuilding*>(lCity);
 }
+
+bool VCity::clicked(action action) 
+{
+	switch (action)
+	{
+	default:ASSERT("Invalid action"); return false;
+	}
+}
+
 
 NAMESPACE_VIEW_E

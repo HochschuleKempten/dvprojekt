@@ -11,11 +11,6 @@
 #include <time.h>
 #include "HMat.h"
 
-// Zahlenkonvertierung:
-#define UM_HZ2SEC(x) (1/x) // converts hertz to seconds
-#define UM_RAD2DEG(x) (x*180.0f/(float)M_PI) // converts radians to degrees, M_PI is the value of pi and is defined in math.h library
-#define UM_DEG2RAD(x) (x*(float)M_PI/180.0f) // converts degrees to radians 
-
 // Kreiskonstanten und Derivate:
 #define PI 3.14159265358F
 #define PHI 1.6180339887498F
@@ -47,6 +42,12 @@
 #define UM_PRIM7 19
 #define UM_PRIM8 23
 #define UM_PRIM
+
+
+// Zahlenkonvertierung:
+#define UM_HZ2SEC(x) (1/x) // converts hertz to seconds
+#define UM_RAD2DEG(x) (x*180.0f/(float)PI) // converts radians to degrees, M_PI is the value of pi and is defined in math.h library
+#define UM_DEG2RAD(x) (x*(float)PI/180.0f) // converts degrees to radians 
 
 
 // MIN, MAX-Makros

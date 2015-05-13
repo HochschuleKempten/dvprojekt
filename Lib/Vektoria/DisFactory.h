@@ -22,7 +22,7 @@ public:
 	CDisFactory();
 	~CDisFactory();
 	void Create(int iObjectId,int iClassId);
-	void Do(stringstream &stream);
+	void Do(std::stringstream &stream);
 	CRoot* GetRoot(int iObjectId); 
 	CScene* GetScene(int iObjectId);
 	CPlacement* GetPlacement(int iObjectId);
