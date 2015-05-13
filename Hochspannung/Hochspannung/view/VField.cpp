@@ -45,6 +45,7 @@ void VField::initField(const int rowIdx, const int colIdx)
 	ASSERT(m_zmNormal.m_ptextureDiffuse != nullptr, "Could not load the material for the field " << lField->getFieldType());
 	
 	m_zg.Init(vPlayingField->fieldSize, vPlayingField->fieldSize, &m_zmNormal);
+	m_zg.SetName(name.c_str());
 	m_zp.AddGeo(&m_zg);
 
 	m_zp.TranslateX(CASTS<float>(colIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0)));

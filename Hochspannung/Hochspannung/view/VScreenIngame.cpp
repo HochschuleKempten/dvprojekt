@@ -391,39 +391,42 @@ void VScreenIngame::handleInput()
 	}
 
 	//Zoom In + Out
+	const float mouseWheelPositionMin = -18.0f;
+	const float mouseWheelPositionMax = 50.0f;
+
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_UP))
 	{
-		if (mouseWheelPosition > -18)
+		if (mouseWheelPosition > mouseWheelPositionMin)
 		{
-			m_zpCamera.TranslateZDelta(-cameraStength * 4);
-			mouseWheelPosition += -cameraStength * 4;
+			m_zpCamera.TranslateZDelta(-cameraStength * 4.0f);
+			mouseWheelPosition += -cameraStength * 4.0f;
 		}
 	}
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_DOWN))
 	{
-		if (mouseWheelPosition < 180)
+		if (mouseWheelPosition < mouseWheelPositionMax)
 		{
-			m_zpCamera.TranslateZDelta(cameraStength * 4);
-			mouseWheelPosition += cameraStength * 4;
+			m_zpCamera.TranslateZDelta(cameraStength * 4.0f);
+			mouseWheelPosition += cameraStength * 4.0f;
 		}
 	}
 
-	if (vUi->m_zkMouse.GetRelativeZ() != 0.0)
+	if (vUi->m_zkMouse.GetRelativeZ() != 0.0f)
 	{
-		if (vUi->m_zkMouse.GetRelativeZ() > 0.0)
+		if (vUi->m_zkMouse.GetRelativeZ() > 0.0f)
 		{
-			if (mouseWheelPosition > -18)
+			if (mouseWheelPosition > mouseWheelPositionMin)
 			{
-				m_zpCamera.TranslateZDelta(-cameraStength * 4);
-				mouseWheelPosition += -cameraStength * 4;
+				m_zpCamera.TranslateZDelta(-cameraStength * 4.0f);
+				mouseWheelPosition += -cameraStength * 4.0f;
 			}
 		}
 		else
 		{
-			if (mouseWheelPosition < 180)
+			if (mouseWheelPosition < mouseWheelPositionMax)
 			{
-				m_zpCamera.TranslateZDelta(cameraStength * 4);
-				mouseWheelPosition += cameraStength * 4;
+				m_zpCamera.TranslateZDelta(cameraStength * 4.0f);
+				mouseWheelPosition += cameraStength * 4.0f;
 			}
 		}
 
@@ -577,42 +580,16 @@ void VScreenIngame::handleInput()
 std::map<int, std::vector<int>> VScreenIngame::pickElements()
 {
 	std::map<int, std::vector<int>> pickedElements;
-	std::unordered_set<CPlacement*> pickedPlacements; //A set is duplicate free and works out of the box for pointer types
 
-	//Pick everything
-	CPlacement* singlePlacement = vUi->m_zkCursor.PickPlacement();
-	CPlacements placements;
-	vUi->m_zkCursor.PickPlacements(&placements);
+	CGeos geos;
+	vUi->m_zkCursor.PickGeos(&geos);
 
-	//TODO (JS) merge seems obsolete now. Remove this
-	//Merge the found placements together in a set (to avoid duplicates)
-	for (int i = 0; i < placements.m_iPlacements; i++)
+	for (int i = 0; i < geos.m_iGeos; i++)
 	{
-		if (placements.m_applacement[i]->m_pgeos)
+		std::vector<std::string> nameParts = split(geos.m_apgeo[i]->GetName(), ';');
+
+		if (nameParts.size() == 3)	//Currently all valid name parts consists of 3 elements
 		{
-			pickedPlacements.insert(placements.m_applacement[i]);
-		}
-	}
-	//The two placements pick different things, so they have to be merged together
-	if (singlePlacement != nullptr)
-	{
-		size_t sizeBefore = pickedPlacements.size();
-		pickedPlacements.insert(singlePlacement);
-		//ASSERT(sizeBefore == pickedPlacements.size(), "PickPlacements() picked something different then PickPlacement(). This should not happen");
-	}
-
-	//DEBUG_OUTPUT("Picking started");
-	//Now iterate over every found placement
-	for (CPlacement* p : pickedPlacements)
-	{
-		std::vector<std::string> nameParts = split(p->GetName(), ';');
-		//DEBUG_OUTPUT("placement = " << p->GetName());
-
-		if (nameParts.size() > 0 && nameParts[0].at(0) != '#')
-		{
-			//At this point only valid names remain
-			ASSERT(nameParts.size() == 3, "Not enough arguments in the placement name");
-
 			//Convert the arguments to integer (skip the first one, because its the key for the map
 			std::vector<int> namePartsInt;
 			for (size_t j = 1; j < nameParts.size(); j++)

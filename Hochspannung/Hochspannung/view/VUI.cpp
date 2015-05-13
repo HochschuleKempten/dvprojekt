@@ -32,7 +32,6 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	//check if the computername is in the blacklist --> recompile Shader
 	if (GetComputerName(buf, &bufCharCount) && std::find_if(computerNameBlacklist.begin(), computerNameBlacklist.end(), [&buf](const char* name) { return strcmp(name, buf) == 0; }) != computerNameBlacklist.end())
 	{
-		//TODO (V) _basic
 		m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
 	}
 	else

@@ -27,7 +27,7 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 static void ChangeDisplay(HWND);
 
 
-CGame * g_pgame;
+CGame * g_pgame = nullptr;
 
 
 //--------------------------------------------------------------------------------------

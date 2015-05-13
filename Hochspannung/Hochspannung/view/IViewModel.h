@@ -33,16 +33,23 @@ public:
 	inline IViewModel()
 	{
 		const float step = 30.0f / CASTS<float>(m_zpLOD.size());
+		const float lastStep = 999.0f;
 		float previous = 0;
 		m_zpLODBorder[0] = previous;
-
-		for (size_t i = 0; i < m_zpLOD.size(); i++) {
+		
+		size_t i = 0;
+		for (; i < m_zpLOD.size() - 1; i++) {
 			m_zpMain.AddPlacement(&m_zpLOD[i]);
 
 			m_zpLOD[i].SetLoD(previous, previous + step);
 			previous = previous + step;
 			m_zpLODBorder[i + 1] = previous;
 		}
+
+		//The last one goes until "infinity"
+		m_zpMain.AddPlacement(&m_zpLOD[i]);
+		m_zpLOD[i].SetLoD(previous, lastStep);
+		m_zpLODBorder[i + 1] = lastStep;
 
 		DEBUG_EXPRESSION(initViewModel(nullptr));
 	}
