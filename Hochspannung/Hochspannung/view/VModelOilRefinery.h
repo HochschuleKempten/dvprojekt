@@ -11,7 +11,7 @@ NAMESPACE_VIEW_B
 class VModelOilRefinery : public IViewModel
 {
 private:
-
+	
 	// Placements
 
 	CPlacement m_zpOelkraftwerk;

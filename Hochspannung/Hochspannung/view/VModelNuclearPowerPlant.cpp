@@ -6,7 +6,9 @@ NAMESPACE_VIEW_B
 VModelNuclearPowerPlant::VModelNuclearPowerPlant()
 {
 
-
+	m_zpLOD[0].AddPlacement(&m_zpAtomkraftwerk);
+	m_zpLOD[1].AddPlacement(&m_zpAtomkraftwerk);
+	m_zpLOD[2].AddPlacement(&m_zpAtomkraftwerk);
 	//Initialisierung Fundament
 	//m_zgFundament.Init(10.0f, 0.3f, 10.0f, &m_zmGreen);
 
