@@ -59,6 +59,9 @@ CMaterial VMaterialLoader::materialBuildingButtonHover;
 CMaterial VMaterialLoader::materialButtonAbort;
 CMaterial VMaterialLoader::materialButtonAbortHover;
 
+
+//Ingame
+CMaterial VMaterialLoader::materialIngameMenueDialogBackground;
 //Ingame Buttons
 CMaterial VMaterialLoader::materialIngameButtonCraftmenu;
 CMaterial VMaterialLoader::materialIngameButtonSabotage;
@@ -83,6 +86,10 @@ CMaterial VMaterialLoader::materialCraftmenuButtonCoalPowerplantHover;
 CMaterial VMaterialLoader::materialCraftmenuButtonOilPowerplantHover;
 CMaterial VMaterialLoader::materialCraftmenuButtonNuclearPowerplantHover;
 CMaterial VMaterialLoader::materialCraftmenuButtonPowerlineHover;
+
+//Icons
+CMaterial VMaterialLoader::materialIngameIconPopulation;
+CMaterial VMaterialLoader::materialIngameIconMoney;
 
 //WritingFont
 CWritingFont VMaterialLoader::standardFont;
@@ -196,6 +203,7 @@ void VMaterialLoader::init()
 	materialLobbyBigDialog.MakeTextureSprite("textures\\LobbyBigDialog.png");
 	materialBuildingButton.MakeTextureSprite("textures\\BuildingButton.png");
 	materialBuildingButtonHover.MakeTextureSprite("textures\\BuildingButtonHover.png");
+	materialIngameMenueDialogBackground.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_MenueDialog_Background.png");
 
 	//Interface - Selection Buttons
 	materialIngameButtonCraftmenu.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_craftmenu.png");
@@ -231,8 +239,9 @@ void VMaterialLoader::init()
 	standardFont.Init("textures/fonts/FontArialShadow.png", true);
 	standardFont.SetTableSize(16, 16);
 	GoldFont.Init("textures/fonts/FontArialShadowGold.png", true);
-	GoldFont.SetTableSize(16, 6);
+	GoldFont.SetTableSize(16, 16);
 	standardFont.SetTransparencyOn();
+	GoldFont.SetTransparencyOn();
 	//Building - Trasse
 	m_zmConcrete.MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse.png");
 	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
@@ -279,6 +288,10 @@ void VMaterialLoader::init()
 
 	//Minimap
 	materialMinimapBackground.MakeTextureSprite("textures/gui/background/gui_ingame_minimap.png");
+
+	//Icons
+	materialIngameIconPopulation.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Population.png");
+	materialIngameIconMoney.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Money.png");
 }
 
 

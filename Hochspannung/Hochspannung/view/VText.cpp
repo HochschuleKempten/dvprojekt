@@ -16,23 +16,27 @@ NAMESPACE_VIEW_B
 		viewport->AddWriting(m_writing);
 
 		m_writing->PrintF("%s", const_cast<char*>(m_text.c_str()));
+		
 	}
 
 
 	VText::~VText()
 	{
+		delete m_writing;
 	}
 
 	void VText::switchOn()
 	{
 		m_bisOn = true;
 		m_writing->SwitchOn();
+		
 	}
 
 	void VText::switchOff()
 	{
 		m_bisOn = false;
 		m_writing->SwitchOff();
+		
 	}
 
 	void VText::onMouseOver()

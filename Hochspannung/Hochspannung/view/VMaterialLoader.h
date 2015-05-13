@@ -59,6 +59,13 @@ public:
 	static CMaterial materialLobbyBigDialog;
 	static CMaterial materialBuildingButton;
 	static CMaterial materialBuildingButtonHover;
+
+	static CMaterial materialIngameMenueDialogBackground;
+
+	//Icons
+	static CMaterial materialIngameIconPopulation;
+	static CMaterial materialIngameIconMoney;
+
 	//Buttons
 	static CMaterial materialIngameButtonCraftmenu;
 	static CMaterial materialIngameButtonSabotage;
