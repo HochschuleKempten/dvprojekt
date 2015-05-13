@@ -111,10 +111,15 @@ private:
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;
 
+
+
+
+
 public:
 	VModelOilRefinery();
 	virtual ~VModelOilRefinery() override;
 
+	//TODO (Solarkraftwerk) implement this
 	virtual float getHeight() override
 	{
 		return 5.0f;

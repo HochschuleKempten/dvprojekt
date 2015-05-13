@@ -10,6 +10,7 @@ class VModelSolarPowerPlant : public IViewModel
 {
 private:
 
+	//Placements LOD 0
 	CPlacement m_zpStabilisierung;
 	CPlacement m_zpCamera;
 	CPlacement m_zpSolarPowerplant;
@@ -59,6 +60,8 @@ private:
 	CPlacement m_zpZelle41;
 	CPlacement m_zpZelle42;
 
+	
+
 	CGeoCube m_zgStabilisierung;
 	CGeoCylinder m_zgSenkrechte;
 	CGeoCube m_zgSockel;
@@ -105,6 +108,14 @@ private:
 	CGeoCube m_zgSolarzelle40;
 	CGeoCube m_zgSolarzelle41;
 	CGeoCube m_zgSolarzelle42;
+
+
+
+	//Placements LOD 2
+
+	CPlacement m_zpSolarPowerplant2;
+	CPlacement m_zpGrundflaeche2;
+	CGeoCube m_zgGrundflaeche2;
 
 
 public:
