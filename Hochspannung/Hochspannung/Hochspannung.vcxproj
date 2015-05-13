@@ -231,6 +231,7 @@
     <ClInclude Include="view\VIdentifier.h" />
     <ClInclude Include="view\VMaterialLoader.h" />
     <ClInclude Include="view\VModelSolarPowerplant.h" />
+    <ClInclude Include="view\VModelTransformerStation.h" />
     <ClInclude Include="view\VModelWindmillPowerPlant.h" />
     <ClInclude Include="view\VNuclearPowerPlant.h" />
     <ClInclude Include="view\VOilRefinery.h" />
@@ -310,6 +311,7 @@
     <ClCompile Include="view\VHydroelectricPowerPlant.cpp" />
     <ClCompile Include="view\VMaterialLoader.cpp" />
     <ClCompile Include="view\VModelSolarPowerplant.cpp" />
+    <ClCompile Include="view\VModelTransformerStation.cpp" />
     <ClCompile Include="view\VModelWindmillPowerPlant.cpp" />
     <ClCompile Include="view\VNuclearPowerPlant.cpp" />
     <ClCompile Include="view\VOilRefinery.cpp" />
