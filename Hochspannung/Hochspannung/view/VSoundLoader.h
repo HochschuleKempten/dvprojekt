@@ -11,7 +11,8 @@ public:
 	enum SoundEffect
 	{
 		BUILDING_PLACED,
-		TRASSE_PLACED
+		TRASSE_PLACED,
+		OBJECT_REMOVED
 	};
 
 private:

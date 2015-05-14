@@ -39,9 +39,9 @@ public:
 	{
 		return lPlayingField->placeBuilding<T, Args...>(x, y, playerId, arguments...);
 	}
-	inline void removeBuilding(const int x, const int y)
+	inline bool removeBuilding(const int x, const int y)
 	{
-		lPlayingField->removeBuilding(x, y);
+		return lPlayingField->removeBuilding(x, y);
 	}
 	inline void upgradeBuilding(const int x, const int y)
 	{

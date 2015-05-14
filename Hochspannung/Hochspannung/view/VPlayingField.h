@@ -46,7 +46,7 @@ public:
 
 		bool operationSuccessful = lRemoteOperation.placeBuilding<T>(x, y, LPlayer::Local, arguments...);
 
-		playSound<T>(operationSuccessful, &vFields[x][y].m_zp);
+		playSoundPlaceBuilding<T>(operationSuccessful, &vFields[x][y].m_zp);
 		if (!operationSuccessful)
 		{
 			DEBUG_OUTPUT("Could not place building at " << x << ", " << y);
@@ -54,13 +54,13 @@ public:
 	}
 
 	template<typename T>
-	inline void playSound(const bool operationSuccessful, CPlacement* placementField)
+	inline void playSoundPlaceBuilding(const bool operationSuccessful, CPlacement* placementField)
 	{
 		//TODO (V) play different sound when building cannot be placed
 		VSoundLoader::playSoundeffectBuildingPlaced(VSoundLoader::BUILDING_PLACED, placementField);
 	}
 	template<>
-	inline void playSound<LPowerLine>(const bool operationSuccessful, CPlacement* placementField)
+	inline void playSoundPlaceBuilding<LPowerLine>(const bool operationSuccessful, CPlacement* placementField)
 	{
 		VSoundLoader::playSoundeffectBuildingPlaced(VSoundLoader::TRASSE_PLACED, placementField);
 	}
@@ -69,7 +69,10 @@ public:
 	{
 		LRemoteOperation lRemoteOperation(lPlayingField);
 
-		lRemoteOperation.removeBuilding(x, y);
+		if (lRemoteOperation.removeBuilding(x, y))
+		{
+			VSoundLoader::playSoundeffectBuildingPlaced(VSoundLoader::OBJECT_REMOVED, &vFields[x][y].m_zp);
+		}
 	}
 
 	void placeObject(const std::shared_ptr<IViewBuilding>& objPtr, const int x, const int y);

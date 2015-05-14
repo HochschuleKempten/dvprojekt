@@ -171,7 +171,7 @@ private:
 
 		return false;
 	}
-	void removeBuilding(const int x, const int y);
+	bool removeBuilding(const int x, const int y);
 	void upgradeBuilding(const int x, const int y);
 
 	void beginRemoteOperation();

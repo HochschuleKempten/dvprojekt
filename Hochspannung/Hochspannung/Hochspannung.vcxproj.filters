@@ -371,7 +371,7 @@
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VSoundLoader.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -595,7 +595,7 @@
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VSoundLoader.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
