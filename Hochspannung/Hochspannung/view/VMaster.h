@@ -43,10 +43,11 @@ public:
 	virtual void updateMoney(const int money) override;
 	virtual void pauseGame() override;
 	virtual void continueGame() override;
+	virtual void gameWon() override;
 	virtual void gameOver() override;
 	virtual IVFactory* getFactory() override;
 
-	inline VPlayingField* getPlayingField()
+	inline VPlayingField* getVPlayingField()
 	{
 		ASSERT(vPlayingField != nullptr, "VPlayingField is not initialized");
 

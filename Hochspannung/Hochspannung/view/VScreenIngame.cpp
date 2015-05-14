@@ -504,7 +504,7 @@ void VScreenIngame::handleInput()
 	std::map<int, std::vector<int>> pickedElements = pickElements();
 	if (pickedElements.count(VIdentifier::VPlayingField) > 0)
 	{
-		vUi->vMaster->getPlayingField()->hoverField(pickedElements[VIdentifier::VPlayingField][0], pickedElements[VIdentifier::VPlayingField][1]);
+		vUi->vMaster->getVPlayingField()->hoverField(pickedElements[VIdentifier::VPlayingField][0], pickedElements[VIdentifier::VPlayingField][1]);
 	}
 
 	static bool clickActive = false;
@@ -520,25 +520,25 @@ void VScreenIngame::handleInput()
 				switch (m_selectedBuilding)
 				{
 					case VIdentifier::VPowerLine:
-						vUi->vMaster->getPlayingField()->tryBuildOnField<LPowerLine>(x, y);
+						vUi->vMaster->getVPlayingField()->tryBuildOnField<LPowerLine>(x, y);
 						break;
 					case VIdentifier::VWindmillPowerPlant:
-						vUi->vMaster->getPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);
+						vUi->vMaster->getVPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);
 						break;
 					case VIdentifier::VCoalPowerPlant:
-						vUi->vMaster->getPlayingField()->tryBuildOnField<LCoalPowerPlant>(x, y);
+						vUi->vMaster->getVPlayingField()->tryBuildOnField<LCoalPowerPlant>(x, y);
 						break;
 					case VIdentifier::VHydroelectricPowerPlant:
-						vUi->vMaster->getPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(x, y);
+						vUi->vMaster->getVPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(x, y);
 						break;
 					case VIdentifier::VNuclearPowerPlant:
-						vUi->vMaster->getPlayingField()->tryBuildOnField<LNuclearPowerPlant>(x, y);
+						vUi->vMaster->getVPlayingField()->tryBuildOnField<LNuclearPowerPlant>(x, y);
 						break;
 					case VIdentifier::VOilRefinery:
-						vUi->vMaster->getPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
+						vUi->vMaster->getVPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
 						break;
 					case VIdentifier::VSolarPowerPlant:
-						vUi->vMaster->getPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
+						vUi->vMaster->getVPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
 						break;
 					default:
 						break;
@@ -558,7 +558,7 @@ void VScreenIngame::handleInput()
 				int y = pickedElements[VIdentifier::VPlayingField][1];
 
 				//Interaction with buildings				
-				IViewBuilding* vbuilding = dynamic_cast<IViewBuilding*>(vUi->vMaster->getPlayingField()->getBuilding(x, y));
+				IViewBuilding* vbuilding = dynamic_cast<IViewBuilding*>(vUi->vMaster->getVPlayingField()->getBuilding(x, y));
 
 				//check if ist your building or if its enemys buidling
 				if (vbuilding != nullptr)
@@ -581,7 +581,7 @@ void VScreenIngame::handleInput()
 						else if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
 						{
 							vbuilding->clicked(IViewBuilding::sabotagePowerLine);
-							vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+							vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
 						}
 					}
 					else
@@ -593,7 +593,7 @@ void VScreenIngame::handleInput()
 
 						if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
 						{
-							vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+							vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
 						}
 					}
 				}
@@ -601,7 +601,7 @@ void VScreenIngame::handleInput()
 				//#ifdef _DEBUG
 				//				extern bool isCheatModeOn;
 				//				isCheatModeOn = true;
-				//				vUi->vMaster->getPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
+				//				vUi->vMaster->getVPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
 				//				isCheatModeOn = false;
 				//#endif
 			}
