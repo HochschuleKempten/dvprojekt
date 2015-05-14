@@ -16,7 +16,10 @@ public:
 	{
 		switchOnOff,
 		upgrade,
-		remove
+		remove, 
+		sabotagePowerPlant,
+		sabotagePowerLine, 
+		sabotageResourceField
 	};
 
 protected:

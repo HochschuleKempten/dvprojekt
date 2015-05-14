@@ -9,6 +9,7 @@
 #include "../logic/LOilRefinery.h"
 #include "../logic/LSolarPowerPlant.h"
 #include "../logic/LNuclearPowerPlant.h"
+#include "../logic/LPlayer.h"
 #include "VSoundLoader.h"
 #include "VPowerLine.h"
 
@@ -560,32 +561,38 @@ void VScreenIngame::handleInput()
 
 
 
-				//Interact with buildings
-				
+				//Interaction with buildings				
 				IViewBuilding* vbuilding = dynamic_cast<IViewBuilding*>(vUi->vMaster->getPlayingField()->getBuilding(x, y));
 				
 				//check if ist your building or if its enemys buidling
 				if (vbuilding != nullptr)
 				{
 
-				if (vbuilding->getLBuilding()->getPlayerId() != 1)
-				{
-					
+					if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::External)
+				       {
+
+						// Deduct enemys resources
+					    if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
+					    {
+							vbuilding->clicked(IViewObject::action::sabotageResourceField);
+					    }
+
 						//Switch enemys Powerplant Off
-
-						if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
+						else if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
 						{
-							vbuilding->clicked(IViewObject::action::switchOnOff);
+							vbuilding->clicked(IViewObject::action::sabotagePowerPlant);
 						}
-
-						if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
-						{
+						
+						//Destroy enemy Powerline
+						else if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
+						{	
+							vbuilding->clicked(IViewObject::action::sabotagePowerLine);
 							vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
 						}							
 						
 					}
 				
-
+					// Interact with your own Stuff
 					else
 					{
 						if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
