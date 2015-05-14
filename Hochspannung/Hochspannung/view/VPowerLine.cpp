@@ -60,11 +60,16 @@ ILBuilding* VPowerLine::getLBuilding()
 bool VPowerLine::clicked(action action)
 {    
 	switch (action)
-	{	
-		if (lPowerLine->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
-		{
-	     case action::sabotagePowerLine:  return true; //TODO inform enemy
-		}
+	{			
+	     case action::sabotagePowerLine: 
+			 
+			 if (lPowerLine->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
+			 {
+				 return true; //TODO inform enemy
+			 }
+
+			 return false;
+			  
 	   default:ASSERT("Invalid action"); return false;
 	}
 }

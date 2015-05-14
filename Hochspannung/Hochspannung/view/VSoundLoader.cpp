@@ -38,7 +38,7 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(SABOTAGE_EMITTED, "click");
 	setSoundEffectHelper(ENERGY_LOW, "lowEnergy");
 	setSoundEffectHelper(GAME_OVER, "click");
-	setSoundEffectHelper(GAME_OVER, "game_won");
+	setSoundEffectHelper(GAME_WON, "game_won");
 
 	DEBUG_EXPRESSION(initDone = true);
 }

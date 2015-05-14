@@ -37,11 +37,15 @@ bool LPlayer::trySabotageAct()
 	if (sabotageActs > 0)
 	{
 		sabotageActs--;
+		DEBUG_OUTPUT("Lets be nasty!  " << sabotageActs);
 		return true;
 	}
 
-	else return false;
-	DEBUG_OUTPUT("No sabotage Acts left! ");
+	else
+	{
+		DEBUG_OUTPUT("No sabotage Acts left! ");
+		return false;
+	}
 	
 
 }
