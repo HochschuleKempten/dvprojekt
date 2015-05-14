@@ -48,7 +48,6 @@ void VSoundLoader::playBackgroundMusicIngame()
 	ASSERT(initDone, assertMsg);
 
 	backgroundMusicIngameStart.Loop();
-	backgroundMusicIngameStart.Start();
 }
 
 void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* placement)
