@@ -41,6 +41,8 @@ bool LPlayer::trySabotageAct()
 	}
 
 	else return false;
+	DEBUG_OUTPUT("No sabotage Acts left! ");
+	
 
 }
 
