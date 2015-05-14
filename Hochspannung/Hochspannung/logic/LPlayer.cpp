@@ -32,5 +32,16 @@ void LPlayer::subtractMoney(const int amount)
 	ASSERT(money >= 0, "The player has not enough money");
 }
 
+bool LPlayer::trySabotageAct()
+{
+	if (sabotageActs > 0)
+	{
+		sabotageActs--;
+		return true;
+	}
+
+	else return false;
+
+}
 
 NAMESPACE_LOGIC_E

@@ -26,15 +26,18 @@ public:
 	}
 
 	virtual bool clicked(action action) override
-	{
-		switch (action)
-		{
+	{		
+			switch (action)
+			{
 			case action::switchOnOff: lPlant->switchOnOff(); return true; //TODO inform enemy
-			case action::sabotagePowerPlant: lPlant->sabotage(); return true; //TODO inform enemy
-			case action::sabotageResourceField: lPlant->sabotageResource(); return true;//TODO inform enemy
-				
+				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
+				{
+				case action::sabotagePowerPlant: lPlant->sabotage(); return true; //TODO inform enemy
+				case action::sabotageResourceField: lPlant->sabotageResource(); return true;//TODO inform enemy
+				}
 			default:ASSERT("Invalid action"); return false;
-		}
+			}		
+			
 	}
 
 	virtual void switchedOn() override
