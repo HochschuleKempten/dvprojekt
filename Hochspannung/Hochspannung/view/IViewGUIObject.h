@@ -52,6 +52,8 @@ NAMESPACE_VIEW_B
 			float fPosX;
 			float fPosY;
 
+		
+
 			cursor->GetFractional(fPosX, fPosY, true);
 
 
@@ -95,13 +97,21 @@ NAMESPACE_VIEW_B
 			return m_fLayer;
 		}
 
-
-		std::string sObjectName = "";
+		std::string getName()
+		{
+			return m_sName;
+		}
+		void setName(std::string sName)
+		{
+			 m_sName=sName;
+		}
+		
 		//virtual void resize(int width, int height);
 	protected:
 		CFloatRect m_zfrRect = CFloatRect(0, 0, 0, 0);
 		bool m_bisOn = true;
 		float m_fLayer = 1.0;
+		std::string m_sName = "";
 	};
 
 	NAMESPACE_VIEW_E

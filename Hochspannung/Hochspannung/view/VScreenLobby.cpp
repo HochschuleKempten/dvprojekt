@@ -26,7 +26,15 @@ NAMESPACE_VIEW_B
 		m_viewport->AddBackground(m_background);
 		m_viewport->AddOverlay(m_bigDialog);
 
-		
+		CWriting* iwas=new CWriting();
+		iwas->Init(CFloatRect(0.1F, 0.8f, 0.2F, 0.1F), 10, &VMaterialLoader::standardFont);
+		m_viewport->AddWriting(iwas);
+
+		iwas->PrintF("Hallo");
+		iwas->SetLayer(0.1F);
+		VMaterialLoader::standardFont.SwitchOff();
+		iwas->SwitchOff();
+
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F), "LobbyRunningGames");
 		getContainer("LobbyRunningGames")->addTextfield(CFloatRect(0.1F, 0.10F, 0.80F, 0.1F), &VMaterialLoader::materialIngameBorder, &VMaterialLoader::materialRed, &VMaterialLoader::materialGreen, 30, "Suche IP-Adresse...", "textfieldIP");
 		
@@ -54,7 +62,7 @@ NAMESPACE_VIEW_B
 
 
 		getContainer("WaitingDialog")->setLayer(0.5);
-		getContainer("WaitingDialog")->switchOff();
+		//getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog")->switchOff();
 	
 		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->setLayer(0.3F);
 		getContainer("Menue")->getGuiObject("buttonHostGame")->setLayer(0.3F);
@@ -152,10 +160,12 @@ NAMESPACE_VIEW_B
 
 		for (tempIterGUIObjects = tempGUIObjects.begin(); tempIterGUIObjects != tempGUIObjects.end(); tempIterGUIObjects++)
 		{
+			
 			if (tempIterGUIObjects->second->isOn())
 			{
 				if (!vUi->m_BlockCursorLeftPressed)
 				{
+					
 					//check for events
 					tempIterGUIObjects->second->checkEvent(&vUi->m_zkCursor, &vUi->m_zkKeyboard);
 				}

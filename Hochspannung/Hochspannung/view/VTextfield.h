@@ -18,6 +18,9 @@ NAMESPACE_VIEW_B
 	void checkPressed(const float& fPosX, const float& fPosY, const bool& bLeftpressed) override final;
 	*/
 		virtual void switchOn() override final;
+
+		
+
 		virtual void switchOff() override final;
 		virtual void onMouseOver(void) override final;
 		virtual void onMouseOut(void) override final;

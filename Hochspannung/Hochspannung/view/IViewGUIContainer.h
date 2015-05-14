@@ -84,6 +84,7 @@ NAMESPACE_VIEW_B
 		{
 			m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
 			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
+			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
 		}
 
@@ -91,6 +92,7 @@ NAMESPACE_VIEW_B
 		{
 			m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
 			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
+			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
 		}
 
@@ -98,6 +100,7 @@ NAMESPACE_VIEW_B
 		{
 			m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text);
 			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
+			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
 		}
 
