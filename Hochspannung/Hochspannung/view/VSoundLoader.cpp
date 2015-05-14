@@ -40,7 +40,7 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(GAME_OVER, "click");
 	setSoundEffectHelper(GAME_OVER, "game_won");
 
-	initDone = true;
+	DEBUG_EXPRESSION(initDone = true);
 }
 
 void VSoundLoader::playBackgroundMusicIngame()
@@ -70,16 +70,18 @@ void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* pl
 		soundeffects[soundEffect].Start();
 		previousSoundEffect = soundEffect;
 	}
-
-	//Sub Audio from previous placement
-	if (soundeffectsLastPlacements[soundEffect] != nullptr)
+	else
 	{
-		soundeffectsLastPlacements[soundEffect]->SubAudio(&soundeffects[soundEffect]);
-	}
+		//Sub Audio from previous placement
+		if (soundeffectsLastPlacements[soundEffect] != nullptr)
+		{
+			soundeffectsLastPlacements[soundEffect]->SubAudio(&soundeffects[soundEffect]);
+		}
 
-	placement->AddAudio(&soundeffects[soundEffect]);
-	soundeffects[soundEffect].Start();
-	soundeffectsLastPlacements[soundEffect] = placement;
+		placement->AddAudio(&soundeffects[soundEffect]);
+		soundeffects[soundEffect].Start();
+		soundeffectsLastPlacements[soundEffect] = placement;
+	}
 }
 
 NAMESPACE_VIEW_E
