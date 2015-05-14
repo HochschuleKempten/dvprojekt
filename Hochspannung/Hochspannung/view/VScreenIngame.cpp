@@ -510,114 +510,11 @@ void VScreenIngame::handleInput()
 	static bool clickActive = false;
 	if (vUi->m_zkCursor.ButtonPressedLeft())
 	{
-		if (!clickActive)
-		{
-			if (pickedElements.count(VIdentifier::VPlayingField) > 0)
-			{
-				int x = pickedElements[VIdentifier::VPlayingField][0];
-				int y = pickedElements[VIdentifier::VPlayingField][1];
-
-				switch (m_selectedBuilding)
-				{
-					case VIdentifier::VPowerLine:
-						vUi->vMaster->getVPlayingField()->tryBuildOnField<LPowerLine>(x, y);
-						break;
-					case VIdentifier::VWindmillPowerPlant:
-						vUi->vMaster->getVPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);
-						break;
-					case VIdentifier::VCoalPowerPlant:
-						vUi->vMaster->getVPlayingField()->tryBuildOnField<LCoalPowerPlant>(x, y);
-						break;
-					case VIdentifier::VHydroelectricPowerPlant:
-						vUi->vMaster->getVPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(x, y);
-						break;
-					case VIdentifier::VNuclearPowerPlant:
-						vUi->vMaster->getVPlayingField()->tryBuildOnField<LNuclearPowerPlant>(x, y);
-						break;
-					case VIdentifier::VOilRefinery:
-						vUi->vMaster->getVPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
-						break;
-					case VIdentifier::VSolarPowerPlant:
-						vUi->vMaster->getVPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
-						break;
-					default:
-						break;
-				}
-			}
-
-			clickActive = true;
-		}
+		handleLeftClick(clickActive, pickedElements);
 	}
 	else if (vUi->m_zkCursor.ButtonPressedRight())
 	{
-		if (!clickActive)
-		{
-			if (pickedElements.count(VIdentifier::VPlayingField) > 0)
-			{				
-				int x = pickedElements[VIdentifier::VPlayingField][0];
-				int y = pickedElements[VIdentifier::VPlayingField][1];
-
-				//Interaction with buildings				
-				IViewBuilding* vbuilding = dynamic_cast<IViewBuilding*>(vUi->vMaster->getVPlayingField()->getBuilding(x, y));
-
-				//check if ist your building or if its enemys buidling
-				if (vbuilding != nullptr)
-				{
-					//Check if player is allowed to sabotage (check cooldown or count or wahtever)
-
-					if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Local) //Local for DEBUG reasons!!! Reset to remote because you dont want to sabotage yourself
-					{					
-
-						//Switch enemys Powerplant Off
-						 if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
-						{
-							// Deduct enemys resources
-							if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
-							{
-								vbuilding->clicked(IViewBuilding::sabotageResourceField);
-							
-							}
-
-							else
-							{
-								vbuilding->clicked(IViewBuilding::sabotagePowerPlant);
-							}
-						}
-
-						//Destroy enemy Powerline
-						else if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
-						{
-							if (vbuilding->clicked(IViewBuilding::sabotagePowerLine))
-							{   
-								//only remove it if action was successfull
-								vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
-							}
-						}
-					}
-					else
-					{
-						if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
-						{
-							vbuilding->clicked(IViewBuilding::switchOnOff);
-						}
-
-						if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
-						{
-							vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
-						}
-					}
-				}
-				//Place objects everywhere
-				//#ifdef _DEBUG
-				//				extern bool isCheatModeOn;
-				//				isCheatModeOn = true;
-				//				vUi->vMaster->getVPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
-				//				isCheatModeOn = false;
-				//#endif
-			}
-
-			clickActive = true;
-		}
+		handleRightClick(clickActive, pickedElements);
 	}
 	else
 	{
@@ -678,6 +575,130 @@ CFloatRect VScreenIngame::getRectForPixel(int iPosX, int iPosY, int iSizeX, int 
 	tempRectangle.SetYSize(iSizeY / CASTS<float>(iFensterHöhe));
 
 	return tempRectangle;
+}
+
+void VScreenIngame::handleLeftClick(bool& clickActive, const std::map<int, std::vector<int>>& pickedElements)
+{
+	if (!clickActive)
+	{
+		if (pickedElements.count(VIdentifier::VPlayingField) > 0)
+		{
+			int x = pickedElements.at(VIdentifier::VPlayingField)[0];
+			int y = pickedElements.at(VIdentifier::VPlayingField)[1];
+
+			switch (m_selectedBuilding)
+			{
+				case VIdentifier::VPowerLine:
+					vUi->vMaster->getVPlayingField()->tryBuildOnField<LPowerLine>(x, y);
+					break;
+				case VIdentifier::VWindmillPowerPlant:
+					vUi->vMaster->getVPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);
+					break;
+				case VIdentifier::VCoalPowerPlant:
+					vUi->vMaster->getVPlayingField()->tryBuildOnField<LCoalPowerPlant>(x, y);
+					break;
+				case VIdentifier::VHydroelectricPowerPlant:
+					vUi->vMaster->getVPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(x, y);
+					break;
+				case VIdentifier::VNuclearPowerPlant:
+					vUi->vMaster->getVPlayingField()->tryBuildOnField<LNuclearPowerPlant>(x, y);
+					break;
+				case VIdentifier::VOilRefinery:
+					vUi->vMaster->getVPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
+					break;
+				case VIdentifier::VSolarPowerPlant:
+					vUi->vMaster->getVPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
+					break;
+				default:
+					break;
+			}
+		}
+
+		clickActive = true;
+	}
+}
+
+void VScreenIngame::handleRightClick(bool& clickActive, const std::map<int, std::vector<int>>& pickedElements)
+{
+	if (!clickActive)
+	{
+		if (pickedElements.count(VIdentifier::VPlayingField) > 0)
+		{
+			int x = pickedElements.at(VIdentifier::VPlayingField)[0];
+			int y = pickedElements.at(VIdentifier::VPlayingField)[1];
+
+			//Interaction with buildings				
+			IViewBuilding* vbuilding = dynamic_cast<IViewBuilding*>(vUi->vMaster->getVPlayingField()->getBuilding(x, y));
+
+			//check if ist your building or if its enemys buidling
+			if (vbuilding != nullptr)
+			{
+				//Check if player is allowed to sabotage (check cooldown or count or wahtever)
+
+				if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Local) //Local for DEBUG reasons!!! Reset to remote because you dont want to sabotage yourself
+				{
+					auto sabotageSoundHelper = [] (const bool operationSuccessful)
+					{
+						if (operationSuccessful)
+						{
+							VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_EMITTED, nullptr);
+						}
+						else
+						{
+							VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, nullptr);
+						}
+					};
+
+					//Switch enemys Powerplant Off
+					if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
+					{
+						// Deduct enemys resources
+						if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
+						{
+							sabotageSoundHelper(vbuilding->clicked(IViewBuilding::sabotageResourceField));
+						}
+						else
+						{
+							sabotageSoundHelper(vbuilding->clicked(IViewBuilding::sabotagePowerPlant));
+						}
+					}
+					//Destroy enemy Powerline
+					else if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
+					{
+						bool operationSuccessful = vbuilding->clicked(IViewBuilding::sabotagePowerLine);
+						sabotageSoundHelper(operationSuccessful);
+
+						if (operationSuccessful)
+						{
+							//only remove it if action was successfull
+							vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
+						}
+					}
+				}
+				else
+				{
+					if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
+					{
+						vbuilding->clicked(IViewBuilding::switchOnOff);
+					}
+
+					if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
+					{
+						vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
+					}
+				}
+			}
+			//Place objects everywhere
+			//#ifdef _DEBUG
+			//				extern bool isCheatModeOn;
+			//				isCheatModeOn = true;
+			//				vUi->vMaster->getVPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
+			//				isCheatModeOn = false;
+			//#endif
+		}
+
+		clickActive = true;
+	}
 }
 
 void VScreenIngame::addToScene(CPlacement* placement)
