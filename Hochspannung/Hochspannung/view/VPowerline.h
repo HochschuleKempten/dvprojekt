@@ -21,6 +21,7 @@ public:
 	virtual void orientationChanged(const int orientation) override;
 	virtual ILBuilding* getLBuilding() override;
 	virtual bool clicked(action action) override;
+	virtual void sabotagePowerLineRemoved() override;
 	
 };
 

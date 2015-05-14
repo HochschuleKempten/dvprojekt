@@ -3,6 +3,7 @@
 #include "VGeneral.h"
 #include "IViewBuilding.h"
 #include "../logic/IVPowerPlant.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -39,11 +40,23 @@ public:
 	virtual void switchedOn() override
 	{
 		isOn = true;
+		VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_ON, getPlacement());
 	}
 
 	virtual void switchedOff() override
 	{
 		isOn = false;
+		VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_OFF, getPlacement());
+	}
+
+	virtual void sabotageRessourcesReduced() override
+	{
+		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
+	}
+
+	virtual void sabotagePowerPlantSwitchedOff() override
+	{
+		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
 	}
 };
 

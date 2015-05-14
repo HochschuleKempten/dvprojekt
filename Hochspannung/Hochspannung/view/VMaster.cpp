@@ -6,6 +6,7 @@
 #include "IViewObject.h"
 #include "VMaterialLoader.h"
 #include "VScreenIngame.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -51,6 +52,7 @@ void VMaster::gameOver()
 {
 	static bool informed = false;
 	if (!informed) {
+		VSoundLoader::playSoundeffect(VSoundLoader::GAME_OVER, nullptr);
 		DEBUG_OUTPUT("Game is over");
 		informed = true;
 	}
@@ -103,6 +105,12 @@ void VMaster::pauseGame()
 void VMaster::continueGame()
 {
 	//todo (V) implement
+}
+
+void VMaster::gameWon()
+{
+	VSoundLoader::playSoundeffect(VSoundLoader::GAME_WON, nullptr);
+	//TODO (V) implement
 }
 
 NAMESPACE_VIEW_E

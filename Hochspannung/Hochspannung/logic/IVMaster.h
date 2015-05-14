@@ -33,6 +33,7 @@ public:
 	}
 
 	virtual IVFactory* getFactory() = 0;
+	virtual void gameWon() = 0;
 	virtual void gameOver() = 0;
 	virtual void updateMoney(const int money) = 0;
 	//todo (V) implement

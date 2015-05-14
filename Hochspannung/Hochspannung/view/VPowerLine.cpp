@@ -2,6 +2,7 @@
 #include "VPlayingField.h"
 #include "VIdentifier.h"
 #include "VMaster.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -28,7 +29,7 @@ static VModelPowerLine::DIRECTION convertOrientation(const int orientation)
 
 VPowerLine::VPowerLine(VMaster* vMaster, LPowerLine* lpowerLine)
 	: IVPowerLine(lpowerLine), IViewBuilding(vMaster, viewModel.getMainPlacement()),
-	  viewModel(vMaster->getPlayingField()->getFieldSize())
+	  viewModel(vMaster->getVPlayingField()->getFieldSize())
 {}
 
 VPowerLine::~VPowerLine()
@@ -41,7 +42,7 @@ void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const
 	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0f));
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
 
-	vMaster->getPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
+	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VPowerLine);
 }
@@ -64,5 +65,11 @@ bool VPowerLine::clicked(action action)
 	  default:ASSERT("Invalid action"); return false;
 	}
 }
+
+void VPowerLine::sabotagePowerLineRemoved()
+{
+	VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
+}
+
 
 NAMESPACE_VIEW_E

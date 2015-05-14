@@ -32,6 +32,13 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(TRASSE_PLACED, "createTrasse");
 	setSoundEffectHelper(OBJECT_REMOVED, "delObject");
 	setSoundEffectHelper(OPERATION_CANCELED, "click");
+	setSoundEffectHelper(POWERPLANT_SWITCH_ON, "click");
+	setSoundEffectHelper(POWERPLANT_SWITCH_OFF, "click");
+	setSoundEffectHelper(SABOTAGE_RECEIVED, "sabotage_received");
+	setSoundEffectHelper(SABOTAGE_EMITTED, "click");
+	setSoundEffectHelper(ENERGY_LOW, "lowEnergy");
+	setSoundEffectHelper(GAME_OVER, "click");
+	setSoundEffectHelper(GAME_OVER, "game_won");
 
 	initDone = true;
 }
@@ -44,10 +51,27 @@ void VSoundLoader::playBackgroundMusicIngame()
 	bacgroundMusicIngameStart.Start();
 }
 
-void VSoundLoader::playSoundeffectBuildingPlaced(const SoundEffect soundEffect, CPlacement* placement)
+void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* placement)
 {
 	ASSERT(initDone, assertMsg);
 
+	//If no placement is given, add to scene
+	if (placement == nullptr)
+	{
+		static SoundEffect previousSoundEffect = CASTS<SoundEffect>(-1);
+
+		//Sub previous soundeffect from scene
+		if (previousSoundEffect != -1)
+		{
+			scene->SubAudio(&soundeffects[previousSoundEffect]);
+		}
+
+		scene->AddAudio(&soundeffects[soundEffect]);
+		soundeffects[soundEffect].Start();
+		previousSoundEffect = soundEffect;
+	}
+
+	//Sub Audio from previous placement
 	if (soundeffectsLastPlacements[soundEffect] != nullptr)
 	{
 		soundeffectsLastPlacements[soundEffect]->SubAudio(&soundeffects[soundEffect]);
