@@ -29,12 +29,12 @@ public:
 	{			
 		switch (action)
 		{
-			case action::switchOnOff: lPlant->switchOnOff(); return true; //TODO inform enemy
+			case action::switchOnOff: lPlant->switchOnOff(); return true; 
 			case action::sabotagePowerPlant: 
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
 				{
 					lPlant->sabotage(); 
-					return true; //TODO inform enemy
+					return true; 
 				} 
 				return false;
 
@@ -42,7 +42,7 @@ public:
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
 				{
 					lPlant->sabotageResource(); 
-					return true;//TODO inform enemy
+					return true;
 				}
 				return false;
 

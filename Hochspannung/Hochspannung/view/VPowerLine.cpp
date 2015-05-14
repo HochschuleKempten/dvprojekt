@@ -64,8 +64,9 @@ bool VPowerLine::clicked(action action)
 	     case action::sabotagePowerLine: 
 			 
 			 if (lPowerLine->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
-			 {
-				 return true; //TODO inform enemy
+			 {   
+				 lPowerLine->sabotage();
+				 return true; 
 			 }
 
 			 return false;

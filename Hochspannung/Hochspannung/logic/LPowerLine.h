@@ -19,6 +19,8 @@ public:
 
 	void updatedOrientation(const int additionalOrientation);
 
+	bool sabotage();
+
 	virtual LIdentifier::LIdentifier getIdentifier() override
 	{
 		return LIdentifier::LPowerLine;

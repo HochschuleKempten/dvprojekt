@@ -98,7 +98,7 @@ public:
 	{
 		return lField;
 	}
-
+		
 	virtual LIdentifier::LIdentifier getIdentifier() = 0;
 };
 

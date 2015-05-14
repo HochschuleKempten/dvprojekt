@@ -68,12 +68,14 @@ public:
 				isActivated = false;
 				vPowerPlant->switchedOff();
 				DEBUG_OUTPUT("You Switched your Powerplant OFF");
+				//TODO (L) inform enemy over network
 			}
 			else
 			{
 				isActivated = true;
 				vPowerPlant->switchedOn();
 				DEBUG_OUTPUT("You Switched your Powerplant ON");
+				//TODO (L) inform enemy over network
 			}
 
 			lField->getLPlayingField()->recalculateCityConnections();
@@ -86,12 +88,14 @@ public:
 		isActivated = false;
 		vPowerPlant->switchedOff();
 		DEBUG_OUTPUT("You sabotated enemys Powerplant, its deactivated for 5 mins");
+		//TODO (L) inform enemy over network
 	}
 
 	void sabotageResource()
 	{
 		int newValue = this->getLField()->deductResources(2);
 		DEBUG_OUTPUT("You sabotated enemys Resources new Value:  " << newValue);
+		//TODO (L) inform enemy over network
 	}
 
 };
