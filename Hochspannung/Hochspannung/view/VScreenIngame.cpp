@@ -10,6 +10,7 @@
 #include "../logic/LSolarPowerPlant.h"
 #include "../logic/LNuclearPowerPlant.h"
 #include "VSoundLoader.h"
+#include "VPowerLine.h"
 
 NAMESPACE_VIEW_B
 
@@ -558,17 +559,46 @@ void VScreenIngame::handleInput()
 				int y = pickedElements[VIdentifier::VPlayingField][1];
 
 
-				//Activate/Deactive power plant
-				//IViewBuilding* vbuilding = dynamic_cast<IViewBuilding*>(vUi->vMaster->getPlayingField()->getBuilding(x, y));
-				//if (vbuilding != nullptr)
-				//{
 
-				//	vbuilding->clicked(IViewObject::action::switchOnOff);
-				//}
+				//Interact with buildings
+				
+				IViewBuilding* vbuilding = dynamic_cast<IViewBuilding*>(vUi->vMaster->getPlayingField()->getBuilding(x, y));
+				
+				//check if ist your building or if its enemys buidling
+				if (vbuilding != nullptr)
+				{
 
-				//Remove Object
-				vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+				if (vbuilding->getLBuilding()->getPlayerId() != 1)
+				{
+					
+						//Switch enemys Powerplant Off
 
+						if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
+						{
+							vbuilding->clicked(IViewObject::action::switchOnOff);
+						}
+
+						if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
+						{
+							vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+						}							
+						
+					}
+				
+
+					else
+					{
+						if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
+						{
+							vbuilding->clicked(IViewObject::action::switchOnOff);
+						}
+
+						if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
+						{
+							vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+						}
+					}
+				}
 				//Place objects everywhere
 //#ifdef _DEBUG
 //				extern bool isCheatModeOn;
