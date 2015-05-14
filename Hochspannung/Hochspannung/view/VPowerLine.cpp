@@ -59,8 +59,8 @@ ILBuilding* VPowerLine::getLBuilding()
 bool VPowerLine::clicked(action action)
 {
 	switch (action)
-	{
-	default:ASSERT("Invalid action"); return false;
+	{	
+	  default:ASSERT("Invalid action"); return false;
 	}
 }
 
