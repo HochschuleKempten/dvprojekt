@@ -553,7 +553,7 @@ void VScreenIngame::handleInput()
 		if (!clickActive)
 		{
 			if (pickedElements.count(VIdentifier::VPlayingField) > 0)
-			{
+			{				
 				int x = pickedElements[VIdentifier::VPlayingField][0];
 				int y = pickedElements[VIdentifier::VPlayingField][1];
 
@@ -563,25 +563,35 @@ void VScreenIngame::handleInput()
 				//check if ist your building or if its enemys buidling
 				if (vbuilding != nullptr)
 				{
-					if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::External)
-					{
-						// Deduct enemys resources
-						if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
-						{
-							vbuilding->clicked(IViewBuilding::sabotageResourceField);
-						}
+					//Check if player is allowed to sabotage (check cooldown or count or wahtever)
+
+					if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Local) //Local for DEBUG reasons!!! Reset to remote because you dont want to sabotage yourself
+					{					
 
 						//Switch enemys Powerplant Off
-						else if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
+						 if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
 						{
-							vbuilding->clicked(IViewBuilding::sabotagePowerPlant);
+							// Deduct enemys resources
+							if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
+							{
+								vbuilding->clicked(IViewBuilding::sabotageResourceField);
+							
+							}
+
+							else
+							{
+								vbuilding->clicked(IViewBuilding::sabotagePowerPlant);
+							}
 						}
 
 						//Destroy enemy Powerline
 						else if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
 						{
-							vbuilding->clicked(IViewBuilding::sabotagePowerLine);
-							vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+							if (vbuilding->clicked(IViewBuilding::sabotagePowerLine))
+							{   
+								//only remove it if action was successfull
+								vUi->vMaster->getPlayingField()->tryRemoveObject(x, y);
+							}
 						}
 					}
 					else

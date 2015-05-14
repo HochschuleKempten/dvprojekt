@@ -28,7 +28,10 @@ public:
 	{
 		switch (action)
 		{
-			case action::switchOnOff: lPlant->switchOnOff(); return true;
+			case action::switchOnOff: lPlant->switchOnOff(); return true; //TODO inform enemy
+			case action::sabotagePowerPlant: lPlant->sabotage(); return true; //TODO inform enemy
+			case action::sabotageResourceField: lPlant->sabotageResource(); return true;//TODO inform enemy
+				
 			default:ASSERT("Invalid action"); return false;
 		}
 	}

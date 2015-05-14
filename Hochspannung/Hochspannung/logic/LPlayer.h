@@ -25,6 +25,7 @@ public:
 	int getMoney() const;
 	void addMoney(const int amount);
 	void subtractMoney(const int amount);
+	int sabotageActs = 3;
 };
 
 

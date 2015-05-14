@@ -60,6 +60,7 @@ bool VPowerLine::clicked(action action)
 {
 	switch (action)
 	{	
+	   case action::sabotagePowerLine:  return true; //TODO inform enemy
 	  default:ASSERT("Invalid action"); return false;
 	}
 }
