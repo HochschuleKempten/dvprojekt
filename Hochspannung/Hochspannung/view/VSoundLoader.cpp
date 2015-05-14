@@ -31,6 +31,7 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(BUILDING_PLACED, "createObject");
 	setSoundEffectHelper(TRASSE_PLACED, "createTrasse");
 	setSoundEffectHelper(OBJECT_REMOVED, "delObject");
+	setSoundEffectHelper(OPERATION_CANCELED, "click");
 
 	initDone = true;
 }
