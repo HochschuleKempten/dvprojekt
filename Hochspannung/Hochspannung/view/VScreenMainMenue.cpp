@@ -65,7 +65,7 @@ NAMESPACE_VIEW_B
 		switch (events)
 		{
 		default:
-			notify(events);
+			notify(events);//TODO (UI) endless loop?
 			break;
 		}
 	}

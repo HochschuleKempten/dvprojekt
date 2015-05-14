@@ -11,17 +11,6 @@ class IViewObject
 {
 	NON_COPYABLE(IViewObject);
 
-public:
-	enum action
-	{
-		switchOnOff,
-		upgrade,
-		remove, 
-		sabotagePowerPlant,
-		sabotagePowerLine, 
-		sabotageResourceField
-	};
-
 protected:
 	VMaster* vMaster;
 	CPlacement* placementPointer;

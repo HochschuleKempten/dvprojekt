@@ -28,8 +28,8 @@ public:
 	{
 		switch (action)
 		{
-		case action::switchOnOff: lPlant->switchOnOff(); return true;
-		default:ASSERT("Invalid action"); return false;
+			case action::switchOnOff: lPlant->switchOnOff(); return true;
+			default:ASSERT("Invalid action"); return false;
 		}
 	}
 

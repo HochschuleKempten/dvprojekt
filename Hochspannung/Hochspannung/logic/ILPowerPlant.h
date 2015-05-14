@@ -18,11 +18,10 @@ public:
 	inline ILPowerPlant(LField* lField, const int playerId, std::shared_ptr<IVPowerPlant> vPowerPlant)
 		: ILBuilding(lField, playerId),
 		vPowerPlant(vPowerPlant)
-	{};
+	{}
 
 	inline virtual ~ILPowerPlant()
-	{
-	};
+	{}
 
 	int virtual getEnergyValue()
 	{
@@ -50,7 +49,7 @@ public:
 		}
 
 		lField->getLPlayingField()->recalculateCityConnections();
-	};
+	}
 
 };
 
