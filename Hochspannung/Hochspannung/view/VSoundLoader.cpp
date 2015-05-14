@@ -7,7 +7,7 @@ CScene* VSoundLoader::scene = nullptr;
 DEBUG_EXPRESSION(bool VSoundLoader::initDone = false);
 DEBUG_EXPRESSION(static const char* const assertMsg = "SoundLoader is not initialized");
 
-CAudio VSoundLoader::bacgroundMusicIngameStart;
+CAudio VSoundLoader::backgroundMusicIngameStart;
 std::unordered_map<VSoundLoader::SoundEffect, CAudio> VSoundLoader::soundeffects;
 std::unordered_map<VSoundLoader::SoundEffect, CPlacement*> VSoundLoader::soundeffectsLastPlacements;
 
@@ -24,9 +24,9 @@ void VSoundLoader::init(CScene* scene)
 {
 	VSoundLoader::scene = scene;
 
-	bacgroundMusicIngameStart.Init("sounds/ambient-02.wav");
-	bacgroundMusicIngameStart.SetVolume(1.0f);
-	scene->AddAudio(&bacgroundMusicIngameStart);
+	backgroundMusicIngameStart.Init("sounds/ambient-02-vip.wav");
+	backgroundMusicIngameStart.SetVolume(1.0f);
+	scene->AddAudio(&backgroundMusicIngameStart);
 
 	setSoundEffectHelper(BUILDING_PLACED, "createObject");
 	setSoundEffectHelper(TRASSE_PLACED, "createTrasse");
@@ -47,8 +47,8 @@ void VSoundLoader::playBackgroundMusicIngame()
 {
 	ASSERT(initDone, assertMsg);
 
-	bacgroundMusicIngameStart.Loop();
-	bacgroundMusicIngameStart.Start();
+	backgroundMusicIngameStart.Loop();
+	backgroundMusicIngameStart.Start();
 }
 
 void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* placement)

@@ -36,7 +36,7 @@ private:
 private:
 	static CScene* scene;		//Background music needs to be added to scene
 	DEBUG_EXPRESSION(static bool initDone);
-	static CAudio bacgroundMusicIngameStart;
+	static CAudio backgroundMusicIngameStart;
 	static std::unordered_map<SoundEffect, CAudio> soundeffects;
 	static std::unordered_map<SoundEffect, CPlacement*> soundeffectsLastPlacements;
 
