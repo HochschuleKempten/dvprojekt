@@ -31,6 +31,7 @@ class VUI : public IVTickObserver, public IViewUIObserver
 	friend class VScreenOptions;
 	friend class VScreenCredits;
 	friend class VScreenLobby;
+
 private:
 	VMaster* vMaster;
 

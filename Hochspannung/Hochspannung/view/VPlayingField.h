@@ -5,6 +5,7 @@
 #include "../logic/Array2D.h"
 #include "IViewObject.h"
 #include "VField.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -38,16 +39,30 @@ public:
 	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField);
 	virtual ~VPlayingField();
 
-	//TODO (V) remove building again
 	template<typename T, typename... Args>
 	inline void tryBuildOnField(const int x, const int y, const Args... arguments)
 	{
 		LRemoteOperation lRemoteOperation(lPlayingField);
 
-		if (!lRemoteOperation.placeBuilding<T>(x, y, LPlayer::Local, arguments...))
+		bool operationSuccessful = lRemoteOperation.placeBuilding<T>(x, y, LPlayer::Local, arguments...);
+
+		playSound<T>(operationSuccessful, &vFields[x][y].m_zp);
+		if (!operationSuccessful)
 		{
 			DEBUG_OUTPUT("Could not place building at " << x << ", " << y);
 		}
+	}
+
+	template<typename T>
+	inline void playSound(const bool operationSuccessful, CPlacement* placementField)
+	{
+		//TODO (V) play different sound when building cannot be placed
+		VSoundLoader::playSoundeffectBuildingPlaced(VSoundLoader::BUILDING_PLACED, placementField);
+	}
+	template<>
+	inline void playSound<LPowerLine>(const bool operationSuccessful, CPlacement* placementField)
+	{
+		VSoundLoader::playSoundeffectBuildingPlaced(VSoundLoader::TRASSE_PLACED, placementField);
 	}
 
 	inline void tryRemoveObject(const int x, const int y)

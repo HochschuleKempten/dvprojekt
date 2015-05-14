@@ -3,10 +3,10 @@
 
 NAMESPACE_LOGIC_B
 
-static const char* const msgAssert = "LBalanceLoader is not initialized";
 
 boost::property_tree::ptree LBalanceLoader::propertyTree;
 DEBUG_EXPRESSION(bool LBalanceLoader::initDone = false);
+DEBUG_EXPRESSION(static const char* const msgAssert = "LBalanceLoader is not initialized");
 
 void LBalanceLoader::init()
 {

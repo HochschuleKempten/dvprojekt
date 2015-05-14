@@ -438,7 +438,6 @@ void LPlayingField::calculateEnergyValueCity()
 
 		if (pP != nullptr && pP->getPlayerId() == LPlayer::Local)
 		{
-			//TODO (L) consider power plant is switched off
 			energyValue += pP->getEnergyValue();
 		}
 	}
