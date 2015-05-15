@@ -11,6 +11,7 @@ VListEntry::VListEntry()
 VListEntry::VListEntry(CViewport* viewport,CMaterial* MaterialNormal, CMaterial* MaterialHover, const std::string& sName):
 m_bHasHover(false)
 {
+	m_viewport = viewport;
 	//m_zfrRect = rect;
 	m_zoNormal = new COverlay();
 	m_zoNormal->Init(MaterialNormal, m_zfrRect);
@@ -24,36 +25,36 @@ m_bHasHover(false)
 
 	m_sName = sName;
 
-	m_writingfont = &VMaterialLoader::standardFont;
-
-	m_writing = new CWriting();
-
-	//Initialize Writing
-	m_writing->Init(createRelativeRectangle(&m_zfrRect,&CFloatRect(0.1F,0.05F,0.8F,0.9F)), 15,
-		m_writingfont);
+	
+	 iwas = new CWriting();
+	
 
 
-	viewport->AddWriting(m_writing);
+	viewport->AddWriting(iwas);
 	viewport->AddOverlay(m_zoActive);
 	viewport->AddOverlay(getNormalOverlay());
 	viewport->AddOverlay(getHoverOverlay());
 
 	m_zoHover->SwitchOff();
 	m_zoActive->SwitchOff();
-
-	m_writing->SetLayer(0.1);
+	
 	m_zoHover->SetLayer(0.19);
 	m_zoNormal->SetLayer(0.19);
-
-	m_writing->PrintF("%s", const_cast<char*>(sName.c_str()));
+	m_zoActive->SetLayer(0.19);
+	
 }
 
 VListEntry::~VListEntry()
 {
+	m_viewport->SubOverlay(m_zoNormal);
+	m_viewport->SubOverlay(m_zoHover);
+	m_viewport->SubOverlay(m_zoActive);
+	m_viewport->SubWriting(iwas);
+
 	delete m_zoNormal;
 	delete m_zoHover;
 	delete m_zoActive;
-	delete m_writing;
+	delete iwas;
 }
 
 
@@ -63,8 +64,6 @@ VListEntry::~VListEntry()
 		m_zoNormal->SwitchOn();
 		m_zoActive->SwitchOff();
 		m_zoHover->SwitchOff();
-		m_writingfont->SwitchOff();
-		m_writing->SwitchOn();
 		m_bIsActive = false;
 	}
 
@@ -74,9 +73,8 @@ VListEntry::~VListEntry()
 		m_zoNormal->SwitchOff();
 		m_zoActive->SwitchOff();
 		m_zoHover->SwitchOff();
-		m_writingfont->SwitchOff();
-		m_writing->SwitchOff();
 		m_bIsActive = false;
+		
 	}
 
 	void VListEntry::onMouseOver()
@@ -116,7 +114,7 @@ VListEntry::~VListEntry()
 	{
 		m_zoNormal->SetLayer(layer);
 		m_zoHover->SetLayer(layer);
-		m_writing->SetLayer(layer);
+		//m_writing->SetLayer(layer-0.01F);
 	}
 
 	bool VListEntry::isActive()
@@ -145,7 +143,7 @@ VListEntry::~VListEntry()
 	{
 		return m_zoHover;
 	}
-
+	
 	COverlay* VListEntry::getNormalOverlay()
 	{
 		return m_zoNormal;
@@ -161,6 +159,18 @@ VListEntry::~VListEntry()
 		m_zoNormal->SetRect(rect);
 		m_zoHover->SetRect(rect);
 		m_zoActive->SetRect(rect);
+	
+		m_viewport->SubWriting(iwas);
+		delete iwas;
+		iwas = new CWriting();
+		iwas->SetRect(rect);
+		iwas->Init(createRelativeRectangle(&rect, &CFloatRect(0.1F, 0.1F, 0.9F, 0.9F)), m_sName.length(), &VMaterialLoader::standardFont);
+		iwas->PrintF(const_cast<char*>(m_sName.c_str()));
+		iwas->SetLayer(0.1F);
+		m_viewport->AddWriting(iwas);
+		
+		m_zfrRect = rect;
+		
 	}
 
 	void VListEntry::checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)
