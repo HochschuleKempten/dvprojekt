@@ -28,23 +28,18 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_viewport->InitFull(&m_zc);
 
 	//Minimap
-	m_zpMinimapCam.AddCamera(&m_CamMiniMap);
 	m_CamMiniMap.Init();
-	m_CamMiniMap.SetOrthoOn();
-	m_CamMiniMap.SetFov(1.5F);
-	m_zpMinimapCam.TranslateZ(10);
-	m_zpMinimapCam.Scale(5);
-	m_zpMinimapCam.RotateXDelta(-0.5);
 	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.8F, 0.765F, 0.195F, 0.23F));
 	m_zlModels.Init(CHVector(1.0F, 1.0F, 1.0F),
 					CColor(1.0F, 1.0F, 1.0F));
 	model.initViewModel(nullptr);
-	m_sceneModels.AddPlacement(&m_zpMinimapCam);
+
+	m_zpMinimapCam.AddCamera(&m_CamMiniMap);
 	m_sceneModels.AddParallelLight(&m_zlModels);
+	m_sceneModels.AddPlacement(&m_zpMinimapCam);
 	m_sceneModels.AddPlacement(model.getMainPlacement());
 	vUi->m_zf.AddViewport(&m_minimap);
 	vUi->m_zr.AddScene(&m_sceneModels);
-
 
 
 	m_zl.Init(CHVector(1.0F, 1.0F, 1.0F),

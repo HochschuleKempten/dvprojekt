@@ -67,6 +67,7 @@ public:
 	void resize(int width, int height);
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
+	void updateGameList(const std::vector<Network::CGameObject>& gameList);
 
 	//void checkGUIContainer(IViewGUIContainer* guiContainer);
 };

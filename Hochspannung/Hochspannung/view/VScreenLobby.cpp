@@ -210,7 +210,7 @@ NAMESPACE_VIEW_B
 
 	void VScreenLobby::updateHostList(const std::vector<Network::CGameObject>& hostList)
 	{
-		CASTD<VListView*>(getContainer("LobbyRunningGames"))->updateList(hostList);
+		CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->updateList(hostList);
 	}
 
 	void VScreenLobby::resize(int width, int height)

@@ -145,15 +145,18 @@ IViewScreen* VUI::getScreen(const std::string& sName)
 
 void VUI::updateMoney(const int wert)
 {
-	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
 }
 
 void VUI::updatePopulation(const int wert)
 {
-	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
 }
 
-
+void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
+{
+	CASTD<VScreenLobby*>(m_screens["Lobby"])->updateHostList(gameList);
+}
 
 void VUI::tick(const float fTimeDelta)
 {
