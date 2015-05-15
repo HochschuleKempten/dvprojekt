@@ -94,7 +94,15 @@ NAMESPACE_VIEW_B
 				//notify(LOBBY_HOST_GAME);
 				break;
 			case LOBBY_JOIN_GAME:
-				vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
+				
+				if (CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName().empty())
+				{
+					vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
+				}
+				else
+				{
+					vUi->vMaster->joinGame(CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName());
+				}
 				vUi->switchScreen("Ingame");
 				//notify(LOBBY_JOIN_GAME);
 				break;
