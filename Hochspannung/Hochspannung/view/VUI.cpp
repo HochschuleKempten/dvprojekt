@@ -25,7 +25,7 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	m_zr.Init(psplash);
 
 	//get computer name
-	std::vector<const char*> computerNameBlacklist{ "TITANIC-TABLET" };	//Opt-in when you want to compile the shaders at every start
+	std::vector<const char*> computerNameBlacklist{ "TITANIC-TABLET", "TITANIC-MOBIL" };	//Opt-in when you want to compile the shaders at every start
 	unsigned long bufCharCount = 32767;
 	char buf[32767];
 

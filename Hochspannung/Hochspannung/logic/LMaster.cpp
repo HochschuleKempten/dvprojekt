@@ -117,7 +117,7 @@ void LMaster::tick(const float fTimeDelta)
 		if (!gameListUpdatedFirst && timeLastCheck > 5.0f)
 		{
 			vMaster.updateGameList({
-				CGameObject(ip::address::from_string("123.12.2.123"), 1000, "Test1"),
+				CGameObject(ip::address::from_string("172.16.28.21"), 1000, "Test1"),
 				CGameObject(ip::address::from_string("222.9.2.171"), 500, "Test2")
 			});
 
@@ -127,7 +127,7 @@ void LMaster::tick(const float fTimeDelta)
 		if (!gameListUpdatedSecond && timeLastCheck > 8.0f)
 		{
 			vMaster.updateGameList({
-				CGameObject(ip::address::from_string("123.12.2.123"), 1000, "Test1"),
+				CGameObject(ip::address::from_string("172.16.28.21"), 1000, "Test1"),
 				CGameObject(ip::address::from_string("200.111.111.111"), 111, "Test3")
 			});
 

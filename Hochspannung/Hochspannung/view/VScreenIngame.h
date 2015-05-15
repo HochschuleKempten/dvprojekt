@@ -2,7 +2,11 @@
 
 #include "IViewScreen.h"
 #include "VIdentifier.h"
+#include "VModelWindmillPowerPlant.h"
 #include "VModelSolarPowerplant.h"
+#include "VModelNuclearPowerPlant.h"
+#include "VModelOilRefinery.h"
+#include "VModelPowerLine.h"
 
 NAMESPACE_VIEW_B
 
@@ -73,13 +77,21 @@ private:
 	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
 
+	//Detailled model view
 	CScene m_sceneModels;
 	CParallelLight m_zlModels;
-	CCamera m_CamMiniMap;
-	CViewport m_minimap;
-	CPlacement m_zpMinimapCam;
-	VModelSolarPowerPlant model;
+	CCamera m_CamModels;
+	CViewport m_viewportModels;
+	CPlacement m_zpModels;
 
+	VModelWindmillPowerPlant modelWindmill;
+	VModelSolarPowerPlant modelSolar;
+	VModelNuclearPowerPlant modelNuclear;
+	VModelOilRefinery modelOil;
+	VModelPowerLine modelPowerline;
+	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
+
+	void updateModelView();
 };
 
 

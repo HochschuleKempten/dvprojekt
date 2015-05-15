@@ -61,7 +61,7 @@ void VMaster::gameOver()
 
 void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
 {
-	vUi.updateGameList(gameList);
+	//vUi.updateGameList(gameList);
 
 	//TODO (V) inform UI
 	DEBUG_OUTPUT("Updated List");
