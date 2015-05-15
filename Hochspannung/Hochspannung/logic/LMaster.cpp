@@ -144,22 +144,24 @@ void LMaster::tick(const float fTimeDelta)
 		int objectId = transferObject.getTransObjectID();
 		int x = transferObject.getCoordX();
 		int y = transferObject.getCoordY();
-		int playerId = std::stoi(transferObject.getValue());
-		if (playerId == LPlayer::Local)
-		{
-			playerId = LPlayer::Remote;
-		}
-		else if (playerId == LPlayer::Remote)
-		{
-			playerId = LPlayer::Local;
-		}
+		
 
-		DEBUG_OUTPUT("objectId=" << objectId << ":x=" << x << ":y=" << y << ":playerId=" << playerId);
+		DEBUG_OUTPUT("objectId=" << objectId << ":x=" << x << ":y=" << y);
 
 		//regarding host
 		switch (transferObject.getAction())
 		{
 		case(SET_OBJECT) :
+		{
+			int playerId = std::stoi(transferObject.getValue());
+			if (playerId == LPlayer::Local)
+			{
+				playerId = LPlayer::Remote;
+			}
+			else if (playerId == LPlayer::Remote)
+			{
+				playerId = LPlayer::Local;
+			}
 
 			//buildings
 			if (objectId >= 100 && objectId < 109)
@@ -196,7 +198,7 @@ void LMaster::tick(const float fTimeDelta)
 			}
 
 			break;
-
+		}
 		case(DELETE_OBJECT) :
 
 			lPlayingField->removeBuilding(x, y);
