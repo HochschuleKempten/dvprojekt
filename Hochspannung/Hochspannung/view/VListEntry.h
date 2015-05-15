@@ -47,7 +47,6 @@ private:
 	COverlay* m_zoHover;
 
 	CWriting* iwas;
-	std::string m_sName;
 
 	bool m_bHasHover;
 
