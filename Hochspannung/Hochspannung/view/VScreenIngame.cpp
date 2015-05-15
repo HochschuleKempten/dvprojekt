@@ -27,20 +27,28 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_viewport->AddBackground(&m_zb);
 	m_viewport->InitFull(&m_zc);
 
-	//Minimap
-	m_CamMiniMap.Init();
-	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.8F, 0.765F, 0.195F, 0.23F));
+	//Detailled model view
+	m_CamModels.Init();
+	m_viewportModels.Init(&m_CamModels, CFloatRect(0.8F, 0.765F, 0.195F, 0.23F));
 	m_zlModels.Init(CHVector(1.0F, 1.0F, 1.0F),
 					CColor(1.0F, 1.0F, 1.0F));
-	model.initViewModel(nullptr);
-
-	m_zpMinimapCam.AddCamera(&m_CamMiniMap);
+	m_zpModels.AddCamera(&m_CamModels);
 	m_sceneModels.AddParallelLight(&m_zlModels);
-	m_sceneModels.AddPlacement(&m_zpMinimapCam);
-	m_sceneModels.AddPlacement(model.getMainPlacement());
-	vUi->m_zf.AddViewport(&m_minimap);
-	vUi->m_zr.AddScene(&m_sceneModels);
+	m_sceneModels.AddPlacement(&m_zpModels);
+	m_zpModels.TranslateZ(10.0f);
+	m_zpModels.RotateXDelta(-0.5f);
 
+	//Init models
+	modelPowerline.Init(VModelPowerLine::NORTH | VModelPowerLine::EAST | VModelPowerLine::SOUTH | VModelPowerLine::WEST);
+	models.emplace(VIdentifier::VWindmillPowerPlant, &modelWindmill);
+	models.emplace(VIdentifier::VSolarPowerPlant, &modelSolar);
+	models.emplace(VIdentifier::VNuclearPowerPlant, &modelNuclear);
+	models.emplace(VIdentifier::VOilRefinery, &modelOil);
+	models.emplace(VIdentifier::VPowerLine, &modelPowerline);
+
+	for (const std::pair<VIdentifier::VIdentifier, IViewModel*>& p : models) {
+		p.second->initViewModel(nullptr);
+	}
 
 	m_zl.Init(CHVector(1.0F, 1.0F, 1.0F),
 	          CColor(1.0F, 1.0F, 1.0F));
@@ -49,7 +57,9 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_scene.AddPlacement(&m_zpCamera);
 
 	vUi->m_zf.AddViewport(m_viewport);
+	vUi->m_zf.AddViewport(&m_viewportModels);
 	vUi->m_zr.AddScene(&m_scene);
+	vUi->m_zr.AddScene(&m_sceneModels);
 
 	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
 	m_zpCamera.AddCamera(&m_zc);
@@ -220,13 +230,15 @@ void VScreenIngame::onNotify(Event events)
 			notify(events);
 			break;
 	}
+
+	updateModelView();
 }
 
 
 void VScreenIngame::switchOn()
 {
 	m_viewport->SwitchOn();
-	m_minimap.SwitchOn();
+	m_viewportModels.SwitchOn();
 	m_scene.SwitchOn();
 	m_isOn = true;
 }
@@ -234,7 +246,7 @@ void VScreenIngame::switchOn()
 void VScreenIngame::switchOff()
 {
 	m_viewport->SwitchOff();
-	m_minimap.SwitchOff();
+	m_viewportModels.SwitchOff();
 	m_scene.SwitchOff();
 	m_isOn = false;
 }
@@ -384,9 +396,19 @@ void VScreenIngame::resize(int width, int height)
 
 void VScreenIngame::handleInput()
 {
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_U)) {
-		m_zpMinimapCam.RotateXDelta(0.1f);
+	static bool keyPressed = false;
+	float direction = 1.0f;
+
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL)) {
+		direction = -1.0f;
 	}
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_U)) {
+		m_zpModels.RotateXDelta(0.1f * direction);
+	}
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_I)) {
+		m_zpModels.TranslateZDelta(0.1f * direction);
+	}
+
 
 	const float cameraStength = 1.0f;
 
@@ -706,6 +728,22 @@ void VScreenIngame::handleRightClick(const std::map<int, std::vector<int>>& pick
 		}
 
 		clickActive = true;
+	}
+}
+
+void VScreenIngame::updateModelView()
+{
+	if (m_selectedBuilding != VIdentifier::Undefined) {
+		static IViewModel* previousModel = nullptr;
+
+		if (previousModel != nullptr) {
+			m_sceneModels.SubPlacement(previousModel->getMainPlacement());
+		}
+
+		if (models.count(m_selectedBuilding) > 0) {
+			previousModel = models.at(m_selectedBuilding);
+			m_sceneModels.AddPlacement(previousModel->getMainPlacement());
+		}
 	}
 }
 

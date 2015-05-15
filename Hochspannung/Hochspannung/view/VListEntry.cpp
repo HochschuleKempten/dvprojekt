@@ -53,7 +53,6 @@ VListEntry::~VListEntry()
 	delete m_zoNormal;
 	delete m_zoHover;
 	delete m_zoActive;
-	delete m_writingfont;
 	delete m_writing;
 }
 
