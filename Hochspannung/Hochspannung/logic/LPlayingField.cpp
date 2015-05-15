@@ -380,7 +380,7 @@ void LPlayingField::createFields()
 		lMaster->sendSetMapRow(x, row);
 	}
 
-	lMaster->sendSetObject(-666, -1, -1, ""); //host finished creating the field
+	lMaster->sendSetObject(-666, -1, -1, std::to_string(-1)); //host finished creating the field
 	//-----network-----
 }
 
