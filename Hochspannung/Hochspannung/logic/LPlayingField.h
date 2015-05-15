@@ -62,7 +62,7 @@ private:
 	/** @brief Stores the 1D coordinates for each pair of buildings which are connected */
 	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> connectedBuildings;
 
-	bool isLocalOperation = true;
+	bool localOperation = true;
 	bool initDone = false;
 	bool cityConnectionsRecalculate = true;
 
@@ -110,7 +110,7 @@ private:
 		{
 			localCity = CASTD<LCity*>(getField(x, y)->getBuilding());
 		}
-		else if (playerId == LPlayer::External)
+		else if (playerId == LPlayer::Remote)
 		{
 			remoteCity = CASTD<LCity*>(getField(x, y)->getBuilding());
 		}
@@ -149,7 +149,7 @@ private:
 				getField(x, y)->getBuilding()->addValue(LBalanceLoader::getCost<T>());
 			}
 		}
-		else if (playerId & LPlayer::External && placeBuildingHelper<T>(this)(x, y, playerId, arguments...))
+		else if (playerId & LPlayer::Remote && placeBuildingHelper<T>(this)(x, y, playerId, arguments...))
 		{
 			buildingPlaced = true;
 		}
@@ -160,7 +160,7 @@ private:
 			recalculateCityConnections();
 			
 			//-----network-----
-			if (!isLocalOperation)
+			if (!isLocalOperation())
 			{
 				lMaster->sendSetObject(LIdentifier::getIdentifierForType<T>(), x, y, std::to_string(playerId));
 			}
@@ -238,6 +238,10 @@ public:
 	std::vector<int> getCityConnections();
 
 	bool isInitDone();
+	bool isLocalOperation() const
+	{
+		return localOperation;
+	}
 	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);
 	LField* getField(const int x, const int y);
 	int getFieldLength();

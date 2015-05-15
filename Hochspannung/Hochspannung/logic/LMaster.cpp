@@ -46,7 +46,7 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		lPlayingField = new LPlayingField(this);
 	}
 
-	if (networkService.getType() != Network::Type::CLIENT) //todo (IP)
+	if (networkService.getType() != Network::Type::CLIENT)
 	{
 		lPlayingField->createFields();
 		lPlayingField->showPlayingField();
@@ -147,9 +147,9 @@ void LMaster::tick(const float fTimeDelta)
 		int playerId = std::stoi(transferObject.getValue());
 		if (playerId == LPlayer::Local)
 		{
-			playerId = LPlayer::External;
+			playerId = LPlayer::Remote;
 		}
-		else if (playerId == LPlayer::External)
+		else if (playerId == LPlayer::Remote)
 		{
 			playerId = LPlayer::Local;
 		}
@@ -166,9 +166,33 @@ void LMaster::tick(const float fTimeDelta)
 			{
 				placeBuilding(objectId, x, y, playerId);
 			}
-			else if (playerId == -66) //= end of fieldcreation
+			else if (objectId == -666) //= end of fieldcreation
 			{
 				lPlayingField->showPlayingField();
+			}
+			else if (objectId == 300) //switch powerplant on/off
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->switchOnOff();
+				}
+			}
+			else if (objectId == 400)
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotage();
+				}
+			}
+			else if (objectId == 500)
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotageResource();
+				}
 			}
 
 			break;
@@ -227,9 +251,9 @@ void LMaster::tick(const float fTimeDelta)
 					int plId = row[column].iPlayerID;
 					if (plId == LPlayer::Local)
 					{
-						plId = LPlayer::External;
+						plId = LPlayer::Remote;
 					}
-					else if (plId == LPlayer::External)
+					else if (plId == LPlayer::Remote)
 					{
 						plId = LPlayer::Local;
 					}
@@ -320,7 +344,7 @@ void LMaster::sendDeleteObject(const int x, const int y)
 {
 	if (networkService.getConnectionState() == Network::State::CONNECTED)
 	{
-		bool b= networkService.sendDeleteObject(x, y);
+		bool b = networkService.sendDeleteObject(x, y);
 		ASSERT(b == true, "Error: sendDeleteObject.");
 
 	}

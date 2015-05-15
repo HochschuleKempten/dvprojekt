@@ -128,12 +128,12 @@ int LPlayingField::linkPowerlines(const int x, const int y, const int playerId)
 
 void LPlayingField::beginRemoteOperation()
 {
-	isLocalOperation = false;
+	localOperation = false;
 }
 
 void LPlayingField::endRemoteOperation()
 {
-	isLocalOperation = true;
+	localOperation = true;
 }
 
 void LPlayingField::initField(const int x, const int y, const LField::FieldType fieldType, const LField::FieldLevel fieldLevel)
@@ -214,7 +214,7 @@ bool LPlayingField::removeBuilding(const int x, const int y)
 			recheckConnectedBuildings();
 		}
 
-		if (!isLocalOperation)
+		if (!isLocalOperation())
 		{
 			lMaster->sendDeleteObject(x, y);
 		}
@@ -285,7 +285,7 @@ void LPlayingField::createFields()
 
 	//Transformer station
 	fieldArray[transformerStationPosition.first][transformerStationPosition.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LTransformerStation>(transformerStationPosition.first, transformerStationPosition.second, LPlayer::Local | LPlayer::External); //Transformerstation belongs to no player
+	placeBuilding<LTransformerStation>(transformerStationPosition.first, transformerStationPosition.second, LPlayer::Local | LPlayer::Remote); //Transformerstation belongs to no player
 	placeGrassAroundPosition(transformerStationPosition, 1);
 
 	//-----Generate buildings for REMOTE player----
@@ -297,20 +297,20 @@ void LPlayingField::createFields()
 
 	//City
 	fieldArray[remoteCityPosition.first][remoteCityPosition.second].init(LField::FieldType::CITY, LField::FieldLevel::LEVEL1);
-	placeBuilding<LCity>(remoteCityPosition.first, remoteCityPosition.second, LPlayer::External);
+	placeBuilding<LCity>(remoteCityPosition.first, remoteCityPosition.second, LPlayer::Remote);
 	placeGrassAroundPosition(remoteCityPosition, 1);
 
 	//First power line
 	fieldArray[firstRemotePowerLineCoordinates.first][firstRemotePowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(firstRemotePowerLineCoordinates.first, firstRemotePowerLineCoordinates.second, LPlayer::External);
+	placeBuilding<LPowerLine>(firstRemotePowerLineCoordinates.first, firstRemotePowerLineCoordinates.second, LPlayer::Remote);
 
 	//Second power line
 	fieldArray[secondRemotePowerLineCoordinates.first][secondRemotePowerLineCoordinates.second].init(LField::FieldType::GRASS, LField::FieldLevel::LEVEL1);
-	placeBuilding<LPowerLine>(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second, LPlayer::External);
+	placeBuilding<LPowerLine>(secondRemotePowerLineCoordinates.first, secondRemotePowerLineCoordinates.second, LPlayer::Remote);
 
 	//First power plant
 	fieldArray[firstRemotePowerPlantCoordinates.first][firstRemotePowerPlantCoordinates.second].init(LField::FieldType::COAL, LField::FieldLevel::LEVEL1);
-	placeBuilding<LCoalPowerPlant>(firstRemotePowerPlantCoordinates.first, firstRemotePowerPlantCoordinates.second, LPlayer::External);
+	placeBuilding<LCoalPowerPlant>(firstRemotePowerPlantCoordinates.first, firstRemotePowerPlantCoordinates.second, LPlayer::Remote);
 	placeGrassAroundPosition<true>(firstRemotePowerPlantCoordinates, 1);
 
 
@@ -380,7 +380,7 @@ void LPlayingField::createFields()
 		lMaster->sendSetMapRow(x, row);
 	}
 
-	lMaster->sendSetObject(-1, -1, -1, std::to_string(-66)); //host finished creating the field
+	lMaster->sendSetObject(-666, -1, -1, ""); //host finished creating the field
 	//-----network-----
 }
 

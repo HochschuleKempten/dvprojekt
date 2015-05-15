@@ -6,6 +6,7 @@
 #include "LMaster.h"
 #include "IVMaster.h"
 #include "IVPowerPlant.h"
+#include "LRemoteOperation.h"
 
 NAMESPACE_LOGIC_B
 
@@ -34,29 +35,28 @@ public:
 		{
 			return LBalanceLoader::getProducedEnergy(this->getIdentifier());
 		}
-		else
-		{
-			return 0;
-		}
+
+		return 0;	
 	}
 
 	virtual void tick(const float fTimeDelta) override
 	{
-		if (isSabotaged)
+		if (isSabotaged && this->getPlayerId() == LPlayer::Local)
 		{
 			static float timeLastCheck = 0;
 			
 			if (timeLastCheck > 3) //TODO (V) set back to 5 mins
 			{
 				isSabotaged = false;
+				LRemoteOperation remoteOperation(lField->getLPlayingField());
 				this->switchOnOff();
 				timeLastCheck = 0;
-				DEBUG_OUTPUT("Your Powerplant is reactivated after the sabotage Act");
+				DEBUG_OUTPUT("Your powerplant is reactivated after the sabotage act");
 			}
 
 			timeLastCheck += fTimeDelta;
 		}
- 	};
+	};
 		
 
 	void switchOnOff()
@@ -67,15 +67,19 @@ public:
 			{
 				isActivated = false;
 				vPowerPlant->switchedOff();
-				DEBUG_OUTPUT("You Switched your Powerplant OFF");
-				//TODO (L) inform enemy over network
+				DEBUG_OUTPUT("Powerplant OFF");
 			}
 			else
 			{
 				isActivated = true;
 				vPowerPlant->switchedOn();
-				DEBUG_OUTPUT("You Switched your Powerplant ON");
-				//TODO (L) inform enemy over network
+				DEBUG_OUTPUT("Powerplant ON");
+			}
+
+			if (!lField->getLPlayingField()->isLocalOperation())
+			{
+				std::pair<int, int> coordinates = lField->getCoordinates();
+				lField->getLPlayingField()->getLMaster()->sendSetObject(300, coordinates.first, coordinates.second, "");
 			}
 
 			lField->getLPlayingField()->recalculateCityConnections();
@@ -87,17 +91,27 @@ public:
 		isSabotaged = true;
 		isActivated = false;
 		vPowerPlant->switchedOff();
-		DEBUG_OUTPUT("You sabotated enemys Powerplant, its deactivated for 5 mins");
-		//TODO (L) inform enemy over network
+		DEBUG_OUTPUT("Powerplant sabotated, it's deactivated for 5 mins");
+
+		if (!lField->getLPlayingField()->isLocalOperation())
+		{
+			std::pair<int, int> coordinates = lField->getCoordinates();
+			lField->getLPlayingField()->getLMaster()->sendSetObject(400, coordinates.first, coordinates.second, "");
+		}
 	}
 
 	void sabotageResource()
 	{
 		int newValue = this->getLField()->deductResources(2);
-		DEBUG_OUTPUT("You sabotated enemys Resources new Value:  " << newValue);
-		//TODO (L) inform enemy over network
-	}
+		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
 
+		if (!lField->getLPlayingField()->isLocalOperation())
+		{
+			std::pair<int, int> coordinates = lField->getCoordinates();
+			lField->getLPlayingField()->getLMaster()->sendSetObject(500, coordinates.first, coordinates.second, "");
+
+		}
+	}
 };
 
 

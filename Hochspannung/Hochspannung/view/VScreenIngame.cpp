@@ -663,14 +663,16 @@ void VScreenIngame::handleRightClick(const std::map<int, std::vector<int>>& pick
 			int y = pickedElements.at(VIdentifier::VPlayingField)[1];
 
 			//Interaction with buildings				
-			IViewBuilding* vbuilding = dynamic_cast<IViewBuilding*>(vUi->vMaster->getVPlayingField()->getBuilding(x, y));
+			IViewBuilding* vbuilding = vUi->vMaster->getVPlayingField()->getBuilding(x, y);
 
 			//check if ist your building or if its enemys buidling
 			if (vbuilding != nullptr)
 			{
 				//Check if player is allowed to sabotage (check cooldown or count or wahtever)
 
-				if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Local) //Local for DEBUG reasons!!! Reset to remote because you dont want to sabotage yourself
+				/*if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Remote) 
+				{*/
+				if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Local)
 				{
 					auto sabotageSoundHelper = [] (const bool operationSuccessful)
 					{

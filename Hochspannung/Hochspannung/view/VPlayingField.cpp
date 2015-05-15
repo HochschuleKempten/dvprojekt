@@ -6,7 +6,7 @@ NAMESPACE_VIEW_B
 
 VPlayingField::VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
 	: IViewObject(vMaster, &m_zp),
-      IVPlayingField(lPlayingField),
+	  IVPlayingField(lPlayingField),
 	  m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25),
 	  vFields(lPlayingField->getFieldLength(), lPlayingField->getFieldLength(), [this] (VField& vField)
 	  {
@@ -87,7 +87,7 @@ void VPlayingField::buildPlayingField()
 
 	float rows = CASTS<float>(vFields.getRows());
 	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getLocalCity()->getLField()->getX()), CASTS<float>(fieldSize * lPlayingField->getLocalCity()->getLField()->getY()), CASTS<float>(fieldSize * rows * 0.5));
-     
+	 
 	DEBUG_EXPRESSION(m_zp.SetName("#Placement VPlayingField"));
 
 #ifdef _DEBUG
