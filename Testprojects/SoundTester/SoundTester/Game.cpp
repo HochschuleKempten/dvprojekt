@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "Game.h"
-
+#include <Vektoria/Log.h>
 
 
 CGame::CGame(void)
@@ -22,6 +22,9 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_frame.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound);
 	// Kamera initialisieren
 	m_camera.Init();
+	m_placeCamera.AddCamera(&m_camera);
+	m_placeCamera.Translate(CHVector(0, 0, 1));
+	m_scene.AddPlacement(&m_placeCamera);
 	// Viewport initialisieren
 	m_viewport.InitFull(&m_camera);
 	// Beleuchtung initialisieren
@@ -29,23 +32,29 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 
 	// Frame an Root anhängen
 	m_root.AddFrameHere(&m_frame);
+	m_root.AddScene(&m_scene);
 	// Viewport an den Frame anhängen
 	m_frame.AddViewport(&m_viewport);
 	// Szene an Root anhängen
 
 	//Sound tests
-	m_audio0.Init("res/Vektoria.wav");
+	m_audio0.Init("sounds/CollectCoin.wav");
 	m_audio0.SetVolume(1);
-
-
-
-	m_root.AddScene(&m_scene);
+	m_placeSound0.AddAudio(&m_audio0);
+	//m_scene.AddAudio(&m_audio0);
 	m_scene.AddPlacement(&m_placeSound0);
-//	m_scene.AddAudio(&m_audio1);
-	m_placeSound0.AddAudio(&m_audio1);
-	m_audio1.Init3D("sounds\\test.wav", 1);
-	m_audio1.SetVolume(1.0f);
-	m_audio1.SetDoppler(3.0f);
+	m_audio0.Loop();
+	m_audio0.Start();
+
+	//m_audio1.Init3D("res/Vektoria.wav", 1);
+	//m_audio1.SetVolume(1.0f);
+	//m_audio1.SetDoppler(3.0f);
+	//m_placeSound1.AddAudio(&m_audio1);
+	//m_scene.AddAudio(&m_audio1);
+	//m_scene.AddPlacement(&m_placeSound1);
+	//m_audio1.Loop();
+	//m_audio1.Start();
+
 	// Placements und Beleuchtung zur Szene hinzufügen
 	/*
 	m_scene.AddPlacement(&m_placeSound0);
@@ -53,15 +62,6 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	test.Init(1, &test2);
 	m_placeSound1.AddGeo(&test);*/
 	//m_scene.AddAudio(&m_audio0);
-	m_scene.AddPlacement(&m_placeCamera);
-	// Kamera dem Placement hinzufügen
-	m_placeCamera.AddCamera(&m_camera);
-
-	// Kamera positionieren
-	m_placeCamera.Translate(CHVector(0, 0, 1));
-	m_audio1.Loop();
-
-	//m_audio1.Start();
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)

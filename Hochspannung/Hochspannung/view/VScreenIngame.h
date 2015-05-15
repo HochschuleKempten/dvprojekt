@@ -2,6 +2,7 @@
 
 #include "IViewScreen.h"
 #include "VIdentifier.h"
+#include "VModelSolarPowerplant.h"
 
 NAMESPACE_VIEW_B
 
@@ -44,6 +45,10 @@ public:
 
 private:
 	CFloatRect getRectForPixel(int iPosX, int iPosY, int iSizeX, int iSizeY);
+	void handleLeftClick(const std::map<int, std::vector<int>>& pickedElements);
+	void handleRightClick(const std::map<int, std::vector<int>>& pickedElements);
+
+private:
 	CScene m_scene;
 	//CViewport m_viewport;
 	CBackground m_zb;
@@ -61,15 +66,20 @@ private:
 	COverlay m_bottomBarSeperatorMenueMinimap;
 	COverlay m_bottomBarSeperatorMenueEnergy;
 
-	CCamera m_CamMiniMap;
-	CViewport m_minimap;
-	CPlacement m_zpMinimapCam;
-
 	//bool bK = false;
 	float mouseWheelPosition = 0.0F;
 	float cameraAngle = 0.0F;
 
 	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
+	bool clickActive = false;
+
+	CScene m_sceneModels;
+	CParallelLight m_zlModels;
+	CCamera m_CamMiniMap;
+	CViewport m_minimap;
+	CPlacement m_zpMinimapCam;
+	VModelSolarPowerPlant model;
+
 };
 
 

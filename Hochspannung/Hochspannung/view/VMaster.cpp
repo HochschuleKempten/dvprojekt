@@ -6,6 +6,7 @@
 #include "IViewObject.h"
 #include "VMaterialLoader.h"
 #include "VScreenIngame.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -51,10 +52,22 @@ void VMaster::gameOver()
 {
 	static bool informed = false;
 	if (!informed) {
+		VSoundLoader::playSoundeffect(VSoundLoader::GAME_OVER, nullptr);
 		DEBUG_OUTPUT("Game is over");
 		informed = true;
 	}
 	//TODO (V) do something useful here when UI is ready
+}
+
+void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
+{
+	//TODO (V) inform UI
+	DEBUG_OUTPUT("Updated List");
+	for (auto go : gameList)
+	{
+		DEBUG_OUTPUT("ip = " << go.getServerIP());
+		DEBUG_OUTPUT("name = " << go.getName());
+	}
 }
 
 VUI* VMaster::getVUi()
@@ -103,6 +116,12 @@ void VMaster::pauseGame()
 void VMaster::continueGame()
 {
 	//todo (V) implement
+}
+
+void VMaster::gameWon()
+{
+	VSoundLoader::playSoundeffect(VSoundLoader::GAME_WON, nullptr);
+	//TODO (V) implement
 }
 
 NAMESPACE_VIEW_E

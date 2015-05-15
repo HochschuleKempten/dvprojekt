@@ -4,6 +4,7 @@
 #include "VMaster.h"
 #include "../logic/LCity.h"
 #include "VUI.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -22,7 +23,7 @@ VCity::~VCity()
 void VCity::initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const int y)
 {
 	viewModel.initViewModel(this);
-	vMaster->getPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
+	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VCity);
 }
@@ -35,6 +36,12 @@ void VCity::updatePopulation(const int population)
 void VCity::updateEnergy(const int energy)
 {
 	DEBUG_OUTPUT("City new energy value = " << energy);
+}
+
+void VCity::energyLow(const int superplus)
+{
+	//TODO (V) inform gui about superplus
+	VSoundLoader::playSoundeffect(VSoundLoader::ENERGY_LOW, getPlacement());
 }
 
 ILBuilding* VCity::getLBuilding()

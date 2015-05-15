@@ -257,7 +257,8 @@ void VMaterialLoader::init()
 
 	//Solarkraftwerktexturen
 	m_zmSolarGrund.MakeTextureDiffuse("textures\\white_image.jpg");
-	m_zmSolarzelle.MakeTextureDiffuse("textures\\buildings\\SolarPanel.jpg");
+	m_zmSolarzelle.MakeTextureDiffuse("textures\\buildings\\SolarPanel_diffuse.jpg");
+	m_zmSolarzelle.MakeTextureBump("textures\\buildings\\SolarPanel_bump.jpg");
 	m_zmSolarLOD.MakeTextureDiffuse("textures\\SolarLOD.jpg");
 
 	//Atomkraftwerktexturen

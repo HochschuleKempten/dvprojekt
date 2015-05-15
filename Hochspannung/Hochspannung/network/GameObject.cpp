@@ -2,7 +2,7 @@
 
 namespace Network {
 
-CGameObject::CGameObject(ip::address serverAddress, unsigned short usServerPort, std::string stName) :
+CGameObject::CGameObject(const ip::address& serverAddress, const unsigned short usServerPort, const std::string& stName) :
 m_serverAddress(serverAddress), m_usServerPort(usServerPort), m_stName(stName) {
 }
 

@@ -11,7 +11,7 @@ protected:
 	LCity* lCity;
 
 public:
-	inline IVCity(LCity* lCity)
+	inline explicit IVCity(LCity* lCity)
 		: lCity(lCity)
 	{}
 	inline virtual ~IVCity()
@@ -20,6 +20,7 @@ public:
 	virtual void initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const int y) = 0;
 	virtual void updatePopulation(const int population) = 0;
 	virtual void updateEnergy(const int energy) = 0;
+	virtual void energyLow(const int superplus) = 0;
 };
 
 NAMESPACE_LOGIC_E

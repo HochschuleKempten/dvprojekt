@@ -11,7 +11,7 @@ protected:
 	LPlayingField* lPlayingField;
 
 public:
-	IVPlayingField(LPlayingField* lPlayingField)
+	explicit IVPlayingField(LPlayingField* lPlayingField)
 		: lPlayingField(lPlayingField)
 	{}
 	virtual ~IVPlayingField()

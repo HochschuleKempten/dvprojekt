@@ -90,6 +90,12 @@ int LField::getResources() const
 	return resourceLeft;
 }
 
+int LField::deductResources(int value)
+{
+	resourceLeft /= value;
+	return resourceLeft;
+}
+
 bool LField::reduceRecources(int amount) 
 {
 	DEBUG_OUTPUT("resourceLeft begin: " << resourceLeft);

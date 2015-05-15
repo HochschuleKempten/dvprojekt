@@ -246,6 +246,7 @@
     <ClInclude Include="view\VScreenMainMenue.h" />
     <ClInclude Include="view\VScreenOptions.h" />
     <ClInclude Include="view\VSolarPowerPlant.h" />
+    <ClInclude Include="view\VSoundLoader.h" />
     <ClInclude Include="view\VTab.h" />
     <ClInclude Include="view\VText.h" />
     <ClInclude Include="view\VTextfield.h" />
@@ -276,7 +277,6 @@
     <ClCompile Include="network\Message.cpp" />
     <ClCompile Include="network\Server.cpp" />
     <ClCompile Include="network\TransferObject.cpp" />
-    <ClCompile Include="Source.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -326,6 +326,7 @@
     <ClCompile Include="view\VScreenMainMenue.cpp" />
     <ClCompile Include="view\VScreenOptions.cpp" />
     <ClCompile Include="view\VSolarPowerPlant.cpp" />
+    <ClCompile Include="view\VSoundLoader.cpp" />
     <ClCompile Include="view\VTab.cpp" />
     <ClCompile Include="view\VText.cpp" />
     <ClCompile Include="view\VTextfield.cpp" />

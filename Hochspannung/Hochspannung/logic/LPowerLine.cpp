@@ -18,6 +18,12 @@ LPowerLine::~LPowerLine()
 {
 }
 
+bool LPowerLine::sabotage()
+{
+	//TODO (L) inform enemy over network
+	return true;
+}
+
 void LPowerLine::updatedOrientation(const int additionalOrientation)
 {
 	int newOrientation = this->orientation | additionalOrientation;

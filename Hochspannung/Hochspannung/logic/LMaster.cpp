@@ -109,6 +109,35 @@ void LMaster::tick(const float fTimeDelta)
 
 	static float timeLastCheck = 0;
 
+	//Just for testing
+	try
+	{
+		static bool gameListUpdatedFirst = false;
+		static bool gameListUpdatedSecond = TRUE;
+		if (!gameListUpdatedFirst && timeLastCheck > 5.0f)
+		{
+			vMaster.updateGameList({
+				CGameObject(ip::address::from_string("123.12.2.123"), 1000, "Test1"),
+				CGameObject(ip::address::from_string("222.9.2.171"), 500, "Test2")
+			});
+
+			gameListUpdatedFirst = true;
+			gameListUpdatedSecond = false;
+		}
+		if (!gameListUpdatedSecond && timeLastCheck > 8.0f)
+		{
+			vMaster.updateGameList({
+				CGameObject(ip::address::from_string("123.12.2.123"), 1000, "Test1"),
+				CGameObject(ip::address::from_string("200.111.111.111"), 111, "Test3")
+			});
+
+			gameListUpdatedSecond = true;
+		}
+	}
+	catch (boost::system::system_error error) {
+		ASSERT(error.what());
+	}
+
 	if (timeLastCheck > 0.25F && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
 	{
 		CTransferObject transferObject = networkService.getNextActionToExecute();
@@ -313,9 +342,5 @@ LPlayer* LMaster::getPlayer(const int idxPlayer)
 	return &lPlayers[idxPlayer];
 }
 
-std::vector<Network::CGameObject> LMaster::getGameList()
-{
-	return networkService.getGameList();
-}
 
 NAMESPACE_LOGIC_E

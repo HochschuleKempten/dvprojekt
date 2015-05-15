@@ -198,7 +198,7 @@ bool LPlayingField::isTransformstationConnected()
 	return checkConnectionBuildings(localCity, transformerStation);
 }
 
-void LPlayingField::removeBuilding(const int x, const int y)
+bool LPlayingField::removeBuilding(const int x, const int y)
 {
 	int playerId = getField(x, y)->getBuilding() != nullptr ? getField(x, y)->getBuilding()->getPlayerId() : -1;
 
@@ -218,11 +218,11 @@ void LPlayingField::removeBuilding(const int x, const int y)
 		{
 			lMaster->sendDeleteObject(x, y);
 		}
+
+		return true;
 	}
-	else
-	{
-		//TODO (All) how to handle error checks?
-	}
+
+	return false;
 }
 
 void LPlayingField::upgradeBuilding(const int x, const int y)
@@ -438,7 +438,6 @@ void LPlayingField::calculateEnergyValueCity()
 
 		if (pP != nullptr && pP->getPlayerId() == LPlayer::Local)
 		{
-			//TODO (L) consider power plant is switched off
 			energyValue += pP->getEnergyValue();
 		}
 	}

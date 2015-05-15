@@ -370,6 +370,9 @@
     <ClInclude Include="view\VModelTransformerStation.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\VSoundLoader.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -564,9 +567,6 @@
     <ClCompile Include="logic\LBalanceLoader.cpp">
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>logic\Headerdateien</Filter>
-    </ClCompile>
     <ClCompile Include="view\VModelNuclearPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
@@ -589,6 +589,9 @@
       <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VModelTransformerStation.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VSoundLoader.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
