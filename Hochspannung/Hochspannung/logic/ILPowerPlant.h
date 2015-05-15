@@ -79,7 +79,7 @@ public:
 			if (!lField->getLPlayingField()->isLocalOperation())
 			{
 				std::pair<int, int> coordinates = lField->getCoordinates();
-				lField->getLPlayingField()->getLMaster()->sendSetObject(300, coordinates.first, coordinates.second, "");
+				lField->getLPlayingField()->getLMaster()->sendSetObject(300, coordinates.first, coordinates.second, std::to_string(-1));
 			}
 
 			lField->getLPlayingField()->recalculateCityConnections();
@@ -96,7 +96,7 @@ public:
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSetObject(400, coordinates.first, coordinates.second, "");
+			lField->getLPlayingField()->getLMaster()->sendSetObject(400, coordinates.first, coordinates.second, std::to_string(-1));
 		}
 	}
 
@@ -108,7 +108,7 @@ public:
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSetObject(500, coordinates.first, coordinates.second, "");
+			lField->getLPlayingField()->getLMaster()->sendSetObject(500, coordinates.first, coordinates.second, std::to_string(-1));
 
 		}
 	}
