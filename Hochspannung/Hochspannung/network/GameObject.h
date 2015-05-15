@@ -7,7 +7,7 @@ namespace Network {
 
 class CGameObject {
 public:
-	CGameObject(ip::address serverAddress, unsigned short usServerPort, std::string stName);
+	CGameObject(const ip::address& serverAddress, const unsigned short usServerPort, const std::string& stName);
 	~CGameObject();
 
 	std::string getServerIP();

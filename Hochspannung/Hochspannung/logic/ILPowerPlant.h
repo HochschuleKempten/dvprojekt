@@ -40,7 +40,7 @@ public:
 		}
 	}
 
-	void tick(const float fTimeDelta)
+	virtual void tick(const float fTimeDelta) override
 	{
 		if (isSabotaged)
 		{

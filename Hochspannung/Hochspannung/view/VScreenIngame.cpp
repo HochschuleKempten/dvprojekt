@@ -28,24 +28,32 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_viewport->InitFull(&m_zc);
 
 	//Minimap
-	m_CamMiniMap.Init();
 	m_zpMinimapCam.AddCamera(&m_CamMiniMap);
+	m_CamMiniMap.Init();
 	m_CamMiniMap.SetOrthoOn();
 	m_CamMiniMap.SetFov(1.5F);
 	m_zpMinimapCam.TranslateZ(10);
-	m_zpMinimapCam.Scale(50);
-	m_zpMinimapCam.RotateXDelta(0);
+	m_zpMinimapCam.Scale(5);
+	m_zpMinimapCam.RotateXDelta(-0.5);
 	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.8F, 0.765F, 0.195F, 0.23F));
+	m_zlModels.Init(CHVector(1.0F, 1.0F, 1.0F),
+					CColor(1.0F, 1.0F, 1.0F));
+	model.initViewModel(nullptr);
+	m_sceneModels.AddPlacement(&m_zpMinimapCam);
+	m_sceneModels.AddParallelLight(&m_zlModels);
+	m_sceneModels.AddPlacement(model.getMainPlacement());
+	vUi->m_zf.AddViewport(&m_minimap);
+	vUi->m_zr.AddScene(&m_sceneModels);
+
+
 
 	m_zl.Init(CHVector(1.0F, 1.0F, 1.0F),
 	          CColor(1.0F, 1.0F, 1.0F));
 
-	m_scene.AddPlacement(&m_zpMinimapCam);
 	m_scene.AddParallelLight(&m_zl);
 	m_scene.AddPlacement(&m_zpCamera);
 
 	vUi->m_zf.AddViewport(m_viewport);
-	//vUi->m_zf.AddViewport(&m_minimap);
 	vUi->m_zr.AddScene(&m_scene);
 
 	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
@@ -379,6 +387,10 @@ void VScreenIngame::resize(int width, int height)
 
 void VScreenIngame::handleInput()
 {
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_U)) {
+		m_zpMinimapCam.RotateXDelta(0.1f);
+	}
+
 	const float cameraStength = 1.0f;
 
 	//Left + Right: 
@@ -507,14 +519,13 @@ void VScreenIngame::handleInput()
 		vUi->vMaster->getVPlayingField()->hoverField(pickedElements[VIdentifier::VPlayingField][0], pickedElements[VIdentifier::VPlayingField][1]);
 	}
 
-	static bool clickActive = false;
 	if (vUi->m_zkCursor.ButtonPressedLeft())
 	{
-		handleLeftClick(clickActive, pickedElements);
+		handleLeftClick(pickedElements);
 	}
 	else if (vUi->m_zkCursor.ButtonPressedRight())
 	{
-		handleRightClick(clickActive, pickedElements);
+		handleRightClick(pickedElements);
 	}
 	else
 	{
@@ -577,7 +588,7 @@ CFloatRect VScreenIngame::getRectForPixel(int iPosX, int iPosY, int iSizeX, int 
 	return tempRectangle;
 }
 
-void VScreenIngame::handleLeftClick(bool& clickActive, const std::map<int, std::vector<int>>& pickedElements)
+void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& pickedElements)
 {
 	if (!clickActive)
 	{
@@ -618,7 +629,7 @@ void VScreenIngame::handleLeftClick(bool& clickActive, const std::map<int, std::
 	}
 }
 
-void VScreenIngame::handleRightClick(bool& clickActive, const std::map<int, std::vector<int>>& pickedElements)
+void VScreenIngame::handleRightClick(const std::map<int, std::vector<int>>& pickedElements)
 {
 	if (!clickActive)
 	{

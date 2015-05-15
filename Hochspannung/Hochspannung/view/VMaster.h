@@ -45,6 +45,7 @@ public:
 	virtual void continueGame() override;
 	virtual void gameWon() override;
 	virtual void gameOver() override;
+	virtual void updateGameList(const std::vector<Network::CGameObject>& gameList) override;
 	virtual IVFactory* getFactory() override;
 
 	inline VPlayingField* getVPlayingField()
