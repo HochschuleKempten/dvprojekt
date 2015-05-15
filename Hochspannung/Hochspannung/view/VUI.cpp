@@ -161,7 +161,7 @@ void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
 void VUI::tick(const float fTimeDelta)
 {
 	m_zr.Tick(const_cast<float&>(fTimeDelta));
-	activeScreen->tick();
+	activeScreen->tick(fTimeDelta);
 
 }
 

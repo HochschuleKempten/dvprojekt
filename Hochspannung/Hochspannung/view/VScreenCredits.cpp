@@ -73,7 +73,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	void VScreenCredits::tick()
+	void VScreenCredits::tick(const float fTimeDelta)
 	{
 		updateCursorImagePos(&vUi->m_zkCursor);
 

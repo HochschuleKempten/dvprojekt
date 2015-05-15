@@ -11,7 +11,7 @@ NAMESPACE_VIEW_B
 		void onNotify(Event events) override;
 		void checkShortcut(CDeviceKeyboard* keyboard) override;
 		void checkSpecialEvent(CDeviceCursor* cursor) override;
-		void tick() override;
+		void tick(const float fTimeDelta) override;
 		void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
 		void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 		void resize(int width, int height) override;

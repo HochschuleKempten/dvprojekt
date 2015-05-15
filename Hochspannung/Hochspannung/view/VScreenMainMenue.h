@@ -15,7 +15,7 @@ NAMESPACE_VIEW_B
 		void checkSpecialEvent(CDeviceCursor* cursor) override;
 		void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 		void resize(int width, int height) override;
-		void tick() override;
+		void tick(const float fTimeDelta) override;
 		void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
 		void startAnimation() override;
 		void slideIn();

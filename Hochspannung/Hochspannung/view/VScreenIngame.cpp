@@ -23,13 +23,15 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	//Standard Init
 	m_zc.Init();
 	m_zb.InitFull("textures/black_image.jpg");
-
+	
 	m_viewport->AddBackground(&m_zb);
 	m_viewport->InitFull(&m_zc);
 
 	//Detailled model view
+	m_zmbackgroundModels.InitFull(&VMaterialLoader::materialDefaultBackground);
 	m_CamModels.Init();
 	m_viewportModels.Init(&m_CamModels, CFloatRect(0.8F, 0.765F, 0.195F, 0.23F));
+	m_viewportModels.AddBackground(&m_zmbackgroundModels);
 	m_zlModels.Init(CHVector(1.0F, 1.0F, 1.0F),
 					CColor(1.0F, 1.0F, 1.0F));
 	m_zpModels.AddCamera(&m_CamModels);
@@ -314,7 +316,7 @@ CFloatRect VScreenIngame::getBottomSpace()
 	return getContainer("BottomBar")->getRectangle();
 }
 
-void VScreenIngame::tick()
+void VScreenIngame::tick(const float fTimeDelta)
 {
 	updateCursorImagePos(&vUi->m_zkCursor);
 
@@ -341,6 +343,9 @@ void VScreenIngame::tick()
 	{
 		vUi->m_BlockCursorLeftPressed = true;
 	}
+
+	const double sec = 2.0;	//Number of seconds per rotation
+	modelWindmill.rotate(CASTS<float>((2.0 * M_PI / sec) * fTimeDelta));
 }
 
 void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
