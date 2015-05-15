@@ -137,7 +137,7 @@ NAMESPACE_VIEW_B
 
 		virtual void checkShortcut(CDeviceKeyboard* keyboard) =0;
 		virtual void checkSpecialEvent(CDeviceCursor* cursor) = 0;
-		virtual void tick() = 0;
+		virtual void tick(const float fTimeDelta) = 0;
 		virtual void resize(int width, int height) = 0;
 
 

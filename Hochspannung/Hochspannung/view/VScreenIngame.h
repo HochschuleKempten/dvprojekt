@@ -33,7 +33,7 @@ public:
 
 	CFloatRect getBottomSpace();
 
-	void tick() override;
+	void tick(const float fTimeDelta) override;
 	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
 	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(int width, int height) override;
@@ -82,6 +82,7 @@ private:
 	CParallelLight m_zlModels;
 	CCamera m_CamModels;
 	CViewport m_viewportModels;
+	CBackground m_zmbackgroundModels;
 	CPlacement m_zpModels;
 
 	VModelWindmillPowerPlant modelWindmill;
