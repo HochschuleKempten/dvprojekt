@@ -2,7 +2,6 @@
 
 #include "VGeneral.h"
 #include "../logic/LField.h"
-#include "../logic/LPlayer.h"
 
 NAMESPACE_VIEW_B
 

@@ -1,4 +1,5 @@
 #include "VMaterialLoader.h"
+#include "../logic/LPlayer.h"
 
 NAMESPACE_VIEW_B
 

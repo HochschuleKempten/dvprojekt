@@ -670,10 +670,10 @@ void VScreenIngame::handleRightClick(const std::map<int, std::vector<int>>& pick
 			{
 				//Check if player is allowed to sabotage (check cooldown or count or wahtever)
 
-				/*if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Remote) 
-				{*/
-				if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Local)
+				if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Remote) 
 				{
+				/*if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Local)
+				{*/
 					auto sabotageSoundHelper = [] (const bool operationSuccessful)
 					{
 						if (operationSuccessful)
