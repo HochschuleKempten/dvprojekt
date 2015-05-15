@@ -1,5 +1,6 @@
 #pragma once
 #include "IViewGUIObject.h"
+#include "VText.h"
 
 NAMESPACE_VIEW_B
 
@@ -45,13 +46,16 @@ private:
 	COverlay* m_zoActive;
 	COverlay* m_zoHover;
 
+	CWriting* iwas;
 	std::string m_sName;
 
 	bool m_bHasHover;
 
-	CWritingFont* m_writingfont;
+	CViewport* m_viewport;
 
-	CWriting* m_writing;
+	//CWriting* m_writing;
+
+	//VText* m_text;
 
 	bool m_bIsActive = false;
 

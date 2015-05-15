@@ -39,7 +39,7 @@ NAMESPACE_VIEW_B
 		
 		
 		//ListView
-		getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6), &VMaterialLoader::materialBlue, "HostList");
+		getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6), "HostList");
 		
 		
 

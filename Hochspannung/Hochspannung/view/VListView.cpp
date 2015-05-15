@@ -145,8 +145,9 @@ VListView::VListView()
 		
 		for (const Network::CGameObject& go : hostList)
 		{
-			addEntry(go.getServerIP());
 			m_entries.push_back(go.getServerIP());
+			addEntry(go.getServerIP());
+			
 		}
 	}
 
