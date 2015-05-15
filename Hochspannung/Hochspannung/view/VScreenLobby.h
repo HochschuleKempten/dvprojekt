@@ -18,6 +18,8 @@ NAMESPACE_VIEW_B
 		void startAnimation() override;
 		void StartEvent() override;
 		void EndEvent() override;
+
+		void updateHostList(const std::vector<Network::CGameObject>& hostList);
 	private:
 		CBackground* m_background;
 		COverlay* m_bigDialog;

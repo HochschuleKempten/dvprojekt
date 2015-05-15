@@ -190,7 +190,7 @@ NAMESPACE_VIEW_B
 		if (!is_running)
 		{
 			is_running = true;
-			VButton* button = static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode"));
+			VButton* button = CASTD<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode"));
 			CFloatRect rect = button->getRectangle();
 			for (float i = 0; i < 0.33F; i = i + 0.001F)
 			{
@@ -200,7 +200,7 @@ NAMESPACE_VIEW_B
 			}
 			getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode")->setRectangle(rect);
 
-			button = static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToOptions"));
+			button = CASTD<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToOptions"));
 			rect = button->getRectangle();
 			for (float i = 0; i < 0.33F; i = i + 0.001F)
 			{
@@ -210,7 +210,7 @@ NAMESPACE_VIEW_B
 			}
 			getContainer("Menue")->getGuiObject("buttonSwitchToOptions")->setRectangle(rect);
 
-			button = static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToCredits"));
+			button = CASTD<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToCredits"));
 			rect = button->getRectangle();
 			for (float i = 0; i < 0.33F; i = i + 0.001F)
 			{
@@ -220,7 +220,7 @@ NAMESPACE_VIEW_B
 			}
 			getContainer("Menue")->getGuiObject("buttonSwitchToCredits")->setRectangle(rect);
 
-			button = static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonQuitGame"));
+			button = CASTD<VButton*>(getContainer("Menue")->getGuiObject("buttonQuitGame"));
 			rect = button->getRectangle();
 			for (float i = 0; i < 0.33F; i = i + 0.001F)
 			{
@@ -260,10 +260,10 @@ NAMESPACE_VIEW_B
 
 	void VScreenMainMenue::EndEvent()
 	{
-		static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode"))->updateRectangle(CFloatRect(-0.30F, 0.27F, 0.30F, 0.12F));
-		static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToOptions"))->updateRectangle(CFloatRect(-0.30F, 0.42F, 0.30F, 0.12F));
-		static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToCredits"))->updateRectangle(CFloatRect(-0.30F, 0.57F, 0.30F, 0.12F));
-		static_cast<VButton*>(getContainer("Menue")->getGuiObject("buttonQuitGame"))->updateRectangle(CFloatRect(-0.30F, 0.72F, 0.30F, 0.12F));
+		CASTD<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode"))->updateRectangle(CFloatRect(-0.30F, 0.27F, 0.30F, 0.12F));
+		CASTD<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToOptions"))->updateRectangle(CFloatRect(-0.30F, 0.42F, 0.30F, 0.12F));
+		CASTD<VButton*>(getContainer("Menue")->getGuiObject("buttonSwitchToCredits"))->updateRectangle(CFloatRect(-0.30F, 0.57F, 0.30F, 0.12F));
+		CASTD<VButton*>(getContainer("Menue")->getGuiObject("buttonQuitGame"))->updateRectangle(CFloatRect(-0.30F, 0.72F, 0.30F, 0.12F));
 
 		getContainer("Menue")->getGuiObject("buttonSwitchToPlayMode")->setRectangle(CFloatRect(-0.30F, 0.27F, 0.30F, 0.12F));
 		getContainer("Menue")->getGuiObject("buttonSwitchToOptions")->setRectangle(CFloatRect(-0.30F, 0.42F, 0.30F, 0.12F));

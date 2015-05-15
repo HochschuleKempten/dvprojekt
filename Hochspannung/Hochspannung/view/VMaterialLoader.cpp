@@ -140,6 +140,9 @@ CMaterial VMaterialLoader::materialSmallOfficeBuilding;
 // MaterialWindowBuildings
 CMaterial VMaterialLoader::materialWindowsofBuilding;
 
+
+CMaterial VMaterialLoader::materialDefaultBackground;
+
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
@@ -292,6 +295,9 @@ void VMaterialLoader::init()
 	//Icons
 	materialIngameIconPopulation.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Population.png");
 	materialIngameIconMoney.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Money.png");
+
+	//Default Background
+	materialDefaultBackground.MakeTextureSprite("textures/gui/interface/texture_gui_background_lightgrey.png");
 }
 
 

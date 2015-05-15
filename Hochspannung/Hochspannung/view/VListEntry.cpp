@@ -117,6 +117,7 @@ VListEntry::~VListEntry()
 	{
 		m_zoNormal->SetLayer(layer);
 		m_zoHover->SetLayer(layer);
+		m_writing->SetLayer(layer);
 	}
 
 	bool VListEntry::isActive()

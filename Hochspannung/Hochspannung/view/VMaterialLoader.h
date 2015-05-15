@@ -62,6 +62,8 @@ public:
 
 	static CMaterial materialIngameMenueDialogBackground;
 
+	static CMaterial materialDefaultBackground;
+
 	//Icons
 	static CMaterial materialIngameIconPopulation;
 	static CMaterial materialIngameIconMoney;

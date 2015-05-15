@@ -10,9 +10,9 @@ public:
 	CGameObject(ip::address serverAddress, unsigned short usServerPort, std::string stName);
 	~CGameObject();
 
-	std::string getServerIP();
-	unsigned short getServerPort();
-	std::string getName();
+	std::string getServerIP() const;
+	unsigned short getServerPort() const;
+	std::string getName() const;
 
 private:
 	ip::address m_serverAddress;

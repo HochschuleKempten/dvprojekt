@@ -27,7 +27,7 @@ NAMESPACE_VIEW_B
 
 		m_background = new CBackground();
 
-		m_background->InitFull("textures\\MainMenueBackground.png");
+		m_background->InitFull(&VMaterialLoader::materialDefaultBackground);
 
 		m_viewport->AddBackground(m_background);
 

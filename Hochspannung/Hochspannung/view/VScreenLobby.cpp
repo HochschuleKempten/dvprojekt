@@ -15,10 +15,9 @@ NAMESPACE_VIEW_B
 		switchCursor("textures/gui/default_zeiger.png", true);
 
 		m_background = new CBackground();
-		CMaterial* test=new CMaterial();
-		test->Init(CColor(0.36F, 0.38F, 0.40F), CColor(0.36F, 0.38F, 0.40F), CColor(0.36F, 0.38F, 0.40F));
-		m_background->InitFull(&VMaterialLoader::m_zmCraftMenueBackground);
-		m_background->InitFull(test);
+		
+		m_background->InitFull(&VMaterialLoader::materialDefaultBackground);
+		
 
 		m_bigDialog = new COverlay();
 		m_bigDialog->Init("textures\\LobbyBigDialog.png", CFloatRect(0.01F, 0.05F, 0.6F, 0.76F), false);
@@ -40,21 +39,16 @@ NAMESPACE_VIEW_B
 		
 		
 		//ListView
-		getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6), &VMaterialLoader::materialBlue, "GameList");
-		CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("GameList"))->addEntry(&VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, "PlayerOne");
-		CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("GameList"))->addEntry(&VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, "PlayerTwo");
-		CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("GameList"))->addEntry(&VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, "PlayerThree");
-		CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("GameList"))->addEntry(&VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, "PlayerFour");
-		CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("GameList"))->addEntry(&VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, "PlayerFive");
-		//getContainer("LobbyRunningGames")->getContainer("GameList")->setLayer(0.2);
+		getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6), &VMaterialLoader::materialBlue, "HostList");
 		
-
+		
 
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
 		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "buttonBackToPlaymode");
 		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.05F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyHostGame, &VMaterialLoader::materialButtonLobbyHostGameHover, LOBBY_HOST_GAME, "buttonHostGame");
 		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.19F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyJoinGame, &VMaterialLoader::materialButtonLobbyJoinGameHover, LOBBY_JOIN_GAME, "buttonJoinGame");
 		DEBUG_EXPRESSION(getContainer("Menue")->addButton(CFloatRect(0.65F, 0.33F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, START_GAME, "buttonStartGame"));
+		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.33F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, START_GAME, "buttonStartGame");
 
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.3F, 0.45F, 0.3F, 0.2F), &VMaterialLoader::materialGreen, "WaitingDialog");
 		getContainer("WaitingDialog")->addText(CFloatRect(0.1F, 0.1F, 0.8F, 0.2F), &VMaterialLoader::standardFont, "Warte auf Mitspieler", "TextWaitingDialog");
@@ -212,6 +206,11 @@ NAMESPACE_VIEW_B
 
 	void VScreenLobby::EndEvent()
 	{
+	}
+
+	void VScreenLobby::updateHostList(const std::vector<Network::CGameObject>& hostList)
+	{
+		CASTD<VListView*>(getContainer("LobbyRunningGames"))->updateList(hostList);
 	}
 
 	void VScreenLobby::resize(int width, int height)

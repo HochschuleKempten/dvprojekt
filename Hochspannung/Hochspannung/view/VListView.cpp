@@ -3,6 +3,7 @@
 #include "VDialog.h"
 #include "VRegister.h"
 #include "VGUIArea.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -123,12 +124,30 @@ VListView::VListView()
 	{
 	}
 
-	void VListView::addEntry(CMaterial* MaterialEntryNormal, CMaterial* MaterialEntryHover, std::string sName)
+	void VListView::addEntry(const std::string& sName)
 	{
-		m_entries[sName] = new VListEntry(m_viewport, MaterialEntryNormal, MaterialEntryHover,sName);
-		m_guiObjects[sName] = m_entries[sName];
+		m_guiObjects[sName] = new VListEntry(m_viewport, &VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, sName);
+		
 		m_guiObjects[sName]->addObserverExt(this);
-		calcEntrySize();
+		m_guiObjects[sName]->setLayer(0.1F);
+		calcEntrySize(); 
+	}
+
+	void VListView::updateList(const std::vector<Network::CGameObject>& hostList)
+	{
+		for (const std::string& key : m_entries)
+		{
+			delete m_guiObjects[key];
+			m_guiObjects.erase(key);
+			
+		}
+		m_entries.clear();
+		
+		for (const Network::CGameObject& go : hostList)
+		{
+			addEntry(go.getServerIP());
+			m_entries.push_back(go.getServerIP());
+		}
 	}
 
 	void VListView::onNotifyExt(Event evente, std::string sName)
@@ -136,12 +155,12 @@ VListView::VListView()
 		switch (evente)
 		{
 		case LIST_ITEM_SELECTED:
-			m_selectedItem = m_entries[sName];
+			m_selectedItem = m_guiObjects[sName];
 			break;
 		}
 	}
 
-	VListEntry* VListView::getSelectedItem()
+	IViewGUIObject* VListView::getSelectedItem()
 	{
 		return m_selectedItem;
 	}
@@ -149,12 +168,12 @@ VListView::VListView()
 	void VListView::calcEntrySize()
 	{
 		int i = 0;
-		for (m_IterEntries = m_entries.begin(); m_IterEntries != m_entries.end(); m_IterEntries++)
+		for (const std::string& sName : m_entries)
 		{
 			//GUI Object Size Mehode hinzufügen
-			m_IterEntries->second->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.1F, 0.1* static_cast<float>(i)+0.1, 0.8F, 0.08)));
-			m_IterEntries->second->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.1F, 0.1 * static_cast<float>(i)+0.1, 0.8F, 0.08)));
-			m_IterEntries->second->setLayer(0.1F);
+			m_guiObjects[sName]->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.1F, 0.1* static_cast<float>(i)+0.1, 0.8F, 0.08)));
+			m_guiObjects[sName]->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.1F, 0.1 * static_cast<float>(i)+0.1, 0.8F, 0.08)));
+			m_guiObjects[sName]->setLayer(0.1F);
 			i++;
 		}
 	}
