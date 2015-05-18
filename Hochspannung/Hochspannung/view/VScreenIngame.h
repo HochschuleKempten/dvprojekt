@@ -24,6 +24,8 @@ public:
 
 	void updateInfofield(const std::string& neuerText);
 
+	void updatePowerPlants(const std::array<int, 7> powerPlants);
+
 	CFloatRect getTopSpace();
 
 	CFloatRect getBottomSpace();
@@ -54,6 +56,10 @@ private:
 	CParallelLight m_zl;
 	CCamera m_zc;
 	CPlacement m_zpCamera;
+
+	VTab *statisticsTab;
+	VTab *sabotageTab;
+	VTab *buildingTab;
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;

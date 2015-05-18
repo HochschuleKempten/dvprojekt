@@ -20,6 +20,7 @@ CMaterial VMaterialLoader::materialTopbar;
 CMaterial VMaterialLoader::materialRed;
 CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
+CMaterial VMaterialLoader::materialLightGrey;
 
 //Infofield
 CMaterial VMaterialLoader::materialInfofieldBackground;
@@ -234,6 +235,7 @@ void VMaterialLoader::init()
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
 	materialBlue.MakeTextureSprite("textures\\blue_image.jpg");
 	materialGreen.MakeTextureSprite("textures\\green_image.jpg");
+	materialLightGrey.MakeTextureSprite("textures\\lightgrey_image.png");
 
 	//Fonts
 	standardFont.Init("textures/fonts/FontArialShadow.png", true);
