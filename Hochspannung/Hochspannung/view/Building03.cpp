@@ -19,8 +19,10 @@ Building03::Building03(float fResize)
 
 	fresize = fResize;
 
-	InitWindows();
-	AddWindows();
+	if (fresize == 1){
+		InitWindows();
+		AddWindows();
+	}
 	InitWalls();
 	AddPlacements();
 	TranslateAll();

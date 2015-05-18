@@ -21,6 +21,7 @@ public:
 	void AddPlacements();
 	void TranslateAll();
 	void Round();
+	void ScaleForLod();
 	
 
 

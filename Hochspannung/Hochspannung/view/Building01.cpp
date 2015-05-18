@@ -5,6 +5,8 @@ Building01::Building01()
 {
 	
 	fresize = 1;
+
+
 	InitWindows();
 	AddWindows();
 	InitWalls();
@@ -18,8 +20,12 @@ Building01::Building01(float fResize)
 {
 	fresize = fResize;
 
-	InitWindows();
-	AddWindows();
+
+	if (fresize == 1){
+		InitWindows();
+		AddWindows();
+	}
+
 	InitWalls();
 	AddPlacements();
 	TranslateAll();
@@ -38,6 +44,7 @@ void Building01::InitWindows(){
 	//m_zWindowInlay.InitRect(CFloatRect(0.1F, 0.1F, 0.8F, 0.8F), false);
 	//m_zWindowInlay.AddGeoWall(&m_zWallGlass);
 	
+	
 	m_zWallFrame.Init(1.F, 1.F, 0.5F, &VMaterialLoader::materialWindowsofBuilding);
 	m_zWindow.InitRect(CFloatRect(0.2F, 0.9F, 0.1F, 0.4F), false);
 	m_zWindow.AddGeoWall(&m_zWallFrame);
@@ -55,8 +62,8 @@ void Building01::AddWindows(){
 void Building01::InitWalls(){
 
 	//StandardSizeofBuildingLod1
-	m_zWall.InitTube(fstandardradius/fresize, fstandardheight/fresize, fstandardthickness/fresize, &VMaterialLoader::materialBuilding01,1.0);
-	m_zWallKuppel.InitDome(fstandardradius / fresize, fstandardthickness / fresize, &VMaterialLoader::materialBuilding01, 1.0);
+	m_zWall.InitTube((fstandardradius/fresize), fstandardheight/fresize, fstandardthickness/fresize, &VMaterialLoader::materialBuilding01,1.0);
+	m_zWallKuppel.InitDome((fstandardradius / fresize), fstandardthickness / fresize, &VMaterialLoader::materialBuilding01, 1.0);
 
 }
 void Building01::AddPlacements(){
