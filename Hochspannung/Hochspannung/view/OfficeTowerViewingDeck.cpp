@@ -22,6 +22,8 @@ COfficeTowerViewingDeck::COfficeTowerViewingDeck()
 
 	TranslateAll();
 
+	//Resize for Lods
+	ScaleForLod();
 }
 
 
@@ -45,6 +47,8 @@ COfficeTowerViewingDeck::COfficeTowerViewingDeck(float fResize)
 
 	TranslateAll();
 
+	//Resize for Lods
+	ScaleForLod();
 }
 
 COfficeTowerViewingDeck::~COfficeTowerViewingDeck(void)
@@ -103,5 +107,10 @@ void COfficeTowerViewingDeck::InitWalls() {
 
 }
 
+void COfficeTowerViewingDeck::ScaleForLod(){
+
+	this->Scale(fResize);
+
+}
 
 NAMESPACE_VIEW_E

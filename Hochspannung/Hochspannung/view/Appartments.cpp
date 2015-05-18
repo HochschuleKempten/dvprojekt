@@ -34,6 +34,9 @@ CAppartments::CAppartments()
 	//Translations
 	TranslateAll();
 
+	//Resize for Lods
+	ScaleForLod();
+
 }
 
 
@@ -68,6 +71,9 @@ CAppartments::CAppartments(float fResize)
 
 	//Translations
 	TranslateAll();
+
+	//Resize for Lods
+	ScaleForLod();
 
 }
 
@@ -137,6 +143,12 @@ void CAppartments::TranslateAll() {
 	m_zpWallEast.AddGeo(&m_zgWallEast);
 	m_zpRoof.Translate(0.0F * fResize, 8.9F * fResize, 0.0F * fResize);
 	m_zpRoof.AddGeo(&m_zgRoof);
+
+}
+
+void CAppartments::ScaleForLod(){
+
+	this->Scale(fResize);
 
 }
 

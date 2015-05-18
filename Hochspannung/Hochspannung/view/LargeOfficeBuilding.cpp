@@ -30,6 +30,9 @@ CLargeOfficeBuilding::CLargeOfficeBuilding()
 	//Translations
 	TranslateAll();
 
+	//Resize for Lods
+	scaleForLod();
+
 }
 
 CLargeOfficeBuilding::CLargeOfficeBuilding(float fResize)
@@ -59,6 +62,9 @@ CLargeOfficeBuilding::CLargeOfficeBuilding(float fResize)
 
 	//Translations
 	TranslateAll();
+
+	//Resize for Lods
+	scaleForLod();
 
 }
 
@@ -205,5 +211,13 @@ void CLargeOfficeBuilding::TranslateAll() {
 	m_zpRoof2.AddGeo(&m_zgRoof2);
 
 }
+
+
+void CLargeOfficeBuilding::scaleForLod(){
+
+	this->Scale(fResize);
+
+}
+
 
 NAMESPACE_VIEW_E

@@ -29,6 +29,8 @@ CSmallOfficeBuilding::CSmallOfficeBuilding()
 	//Translations
 	TranslateAll();
 
+	//Resize for Lods
+	ScaleForLod();
 }
 
 CSmallOfficeBuilding::CSmallOfficeBuilding(float fResize)
@@ -57,6 +59,9 @@ CSmallOfficeBuilding::CSmallOfficeBuilding(float fResize)
 
 	//Translations
 	TranslateAll();
+
+	//Resize for Lods
+	ScaleForLod();
 
 }
 
@@ -129,6 +134,12 @@ void CSmallOfficeBuilding::TranslateAll() {
 	m_zpWallEast.AddGeo(&m_zgWallEast);
 	m_zpRoof.Translate(0.0F * fResize, 7.9F * fResize, 0.0F * fResize);
 	m_zpRoof.AddGeo(&m_zgRoof);
+
+}
+
+void CSmallOfficeBuilding::ScaleForLod(){
+
+	this->Scale(fResize);
 
 }
 
