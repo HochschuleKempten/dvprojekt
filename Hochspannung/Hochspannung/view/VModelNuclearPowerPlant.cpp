@@ -38,10 +38,10 @@ VModelNuclearPowerPlant::VModelNuclearPowerPlant()
 	m_zTrasse2.Init();
 
 	//Initialisierung Drehelement
-	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true, true);
+	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, &VMaterialLoader::m_zmAtomGrund, 32, true, true);
 
 	//Initialisierung Schranke
-	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, &VMaterialLoader::m_zmSchranke);
+	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, &VMaterialLoader::m_zmAtomSchranke);
 
 
 
