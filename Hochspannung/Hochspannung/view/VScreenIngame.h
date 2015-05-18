@@ -42,6 +42,7 @@ public:
 	void StartEvent() override;
 	void EndEvent() override;
 
+	void updateStats(std::map<std::string, int>);
 private:
 	CFloatRect getRectForPixel(int iPosX, int iPosY, int iSizeX, int iSizeY);
 	void handleLeftClick(bool& clickActive, const std::map<int, std::vector<int>>& pickedElements);
