@@ -16,8 +16,11 @@ Building02::Building02()
 Building02::Building02(float fResize)
 {
 	fresize = fResize;
-	InitWindows();
-	AddWindows();
+
+	if (fresize == 1){
+		InitWindows();
+		AddWindows();
+	}
 	InitWalls();
 	AddPlacements();
 	TranslateAll();

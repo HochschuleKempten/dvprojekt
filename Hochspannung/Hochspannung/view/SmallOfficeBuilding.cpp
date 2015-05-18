@@ -40,9 +40,10 @@ CSmallOfficeBuilding::CSmallOfficeBuilding(float fResize)
 	this->fResize = fResize;
 
 
-	InitWindows();
-
-	AddWindows();
+	if (fResize == 1){
+		void InitWindows();
+		void AddWindows();
+	}
 
 	InitWalls();
 

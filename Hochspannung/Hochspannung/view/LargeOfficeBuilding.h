@@ -16,6 +16,8 @@ public:
 	CLargeOfficeBuilding();
 	CLargeOfficeBuilding(float fResize);
 	~CLargeOfficeBuilding(void);
+
+
 	void InitWindows();
 	void AddWindows();
 	void InitWalls();

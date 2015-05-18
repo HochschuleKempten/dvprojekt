@@ -32,10 +32,10 @@ COfficeTowerViewingDeck::COfficeTowerViewingDeck(float fResize)
 
 	this->fResize = fResize;
 	
-	InitWindows();
-
-	//Add Windows
-	AddWindows();
+	if (fResize == 1){
+		void InitWindows();
+		void AddWindows();
+	}
 
 	//Walls
 	InitWalls();

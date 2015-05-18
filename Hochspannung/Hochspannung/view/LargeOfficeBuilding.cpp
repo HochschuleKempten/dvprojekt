@@ -40,12 +40,10 @@ CLargeOfficeBuilding::CLargeOfficeBuilding(float fResize)
 	
 	this->fResize = fResize;
 
-	//window 
-	InitWindows();
-	
-	//Add Windows
-	AddWindows();
-
+	if (fResize == 1){
+		void InitWindows();
+		void AddWindows();
+	}
 
 	//Walls
 	InitWalls();

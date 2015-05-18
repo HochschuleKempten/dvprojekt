@@ -46,12 +46,10 @@ CAppartments::CAppartments(float fResize)
 	this->fResize = fResize;
 
 
-	//Initialize Windows
-	InitWindows();
-
-
-	//Add Windows
-	AddWindows();
+	if (fResize == 1){
+		void InitWindows();
+		void AddWindows();
+	}
 
 
 
