@@ -313,9 +313,6 @@
     <ClInclude Include="view\Building03.h">
       <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
-    <ClInclude Include="logic\cpplinq.hpp">
-      <Filter>logic</Filter>
-    </ClInclude>
     <ClInclude Include="logic\IVTransformerStation.h">
       <Filter>logic\Interfaces</Filter>
     </ClInclude>
