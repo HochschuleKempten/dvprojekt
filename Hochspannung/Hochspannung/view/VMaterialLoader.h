@@ -107,6 +107,13 @@ public:
 	static CMaterial m_zmAtomgrundGreen;
 	static CMaterial m_zmHolz;
 
+	//Kohlekraftwerktexturen
+	static CMaterial m_zmKohleBerg;
+	static CMaterial m_zmKohle;
+	static CMaterial m_zmKohleHolz;
+	static CMaterial m_zmKohleLore;
+	static CMaterial m_zmKohleBlack;
+
 
 	//PlayerColor
 	static std::unordered_map<int, CColor> colorPlayers;

@@ -86,6 +86,13 @@ CMaterial VMaterialLoader::m_zmSchranke;
 CMaterial VMaterialLoader::m_zmAtomgrundGreen;
 CMaterial VMaterialLoader::m_zmHolz;
 
+//Kohlekraftwerktexturen
+CMaterial VMaterialLoader::m_zmKohleBerg;
+CMaterial VMaterialLoader::m_zmKohle;
+CMaterial VMaterialLoader::m_zmKohleHolz;
+CMaterial VMaterialLoader::m_zmKohleLore;
+CMaterial VMaterialLoader::m_zmKohleBlack;
+
 //PlayerColor
 std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
 
@@ -190,7 +197,7 @@ void VMaterialLoader::init()
 
 	//Solarkraftwerktexturen
 	m_zmSolarGrund.MakeTextureDiffuse("textures\\white_image.jpg");
-	m_zmSolarzelle.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmSolarzelle.MakeTextureDiffuse("textures\\SolarLOD.jpg");
 	m_zmSolarLOD.MakeTextureDiffuse("textures\\SolarLOD.jpg");
 
 	//Atomkraftwerktexturen
@@ -199,6 +206,14 @@ void VMaterialLoader::init()
 	m_zmSchranke.MakeTextureDiffuse("Textures\\schranke.jpg");
 	m_zmAtomgrundGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
 	m_zmHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
+
+	//Kohlekraftwerktexturen
+	m_zmKohle.MakeTextureDiffuse("Textures\\kohle_image.jpg");
+	m_zmKohleBerg.MakeTextureDiffuse("Textures\\berg_image.jpg");
+	m_zmKohleHolz.MakeTextureDiffuse("Textures\\holz_image.jpg");
+	m_zmKohleLore.MakeTextureDiffuse("Textures\\lore_image.jpg");
+	m_zmKohleBlack.MakeTextureDiffuse("Textures\\black_image.jpg");
+	m_zmKohleBerg.SetTextureSpecularAsDiffuse();
 	
 	//Building - Foundation
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
