@@ -146,13 +146,13 @@ VModelOilRefinery::VModelOilRefinery()
 	m_zpAbsperrung.AddPlacement(&m_zpSchranke);
 
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte11);
-	m_zpGebaeudeHaelfte11.AddPlacement(Gebaeude);
+//	m_zpGebaeudeHaelfte11.AddPlacement(Gebaeude);
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte12);
-	m_zpGebaeudeHaelfte12.AddPlacement(Gebaeude);
+	//m_zpGebaeudeHaelfte12.AddPlacement(Gebaeude);
 	m_zpGebaeude2.AddPlacement(&m_zpGebaeudeHaelfte21);
-	m_zpGebaeudeHaelfte21.AddPlacement(Gebaeude);
+	//m_zpGebaeudeHaelfte21.AddPlacement(Gebaeude);
 	m_zpGebaeude2.AddPlacement(&m_zpGebaeudeHaelfte22);
-	m_zpGebaeudeHaelfte22.AddPlacement(Gebaeude);
+	//m_zpGebaeudeHaelfte22.AddPlacement(Gebaeude);
 
 	//Adding
 	m_zpFundament.Translate(CHVector(-5.0f, 0.0f, -5.0f));
