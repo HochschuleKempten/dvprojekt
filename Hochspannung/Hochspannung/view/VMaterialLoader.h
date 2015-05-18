@@ -127,11 +127,19 @@ public:
 	static CMaterial m_zmSolarGrund;
 	static CMaterial m_zmSolarLOD;
 
+	//TODO (ViewModels) Why are there two atom textures?
 	//Atomkraftwerktexturen
 	static CMaterial m_zmAtomGrund;
 	static CMaterial m_zmAtomSchranke;
 	static CMaterial m_zmAtomZaun;
 	static CMaterial m_zmAtomReaktor;
+
+	//Atomkraftwerktexturen
+	static CMaterial m_zmAtomgrundWhite;
+	static CMaterial m_zmAtomgrundGrey;
+	static CMaterial m_zmSchranke;
+	static CMaterial m_zmAtomgrundGreen;
+	static CMaterial m_zmHolz;
 
 	//Oelkraftwerktexturen
 	static CMaterial m_zmOelGrund;
@@ -145,6 +153,13 @@ public:
 	static CMaterial m_zmUmspannGrund;
 	static CMaterial m_zmUmspannIsolator;
 	static CMaterial m_zmUmspannLeitung;
+
+	//Kohlekraftwerktexturen
+	static CMaterial m_zmKohleBerg;
+	static CMaterial m_zmKohle;
+	static CMaterial m_zmKohleHolz;
+	static CMaterial m_zmKohleLore;
+	static CMaterial m_zmKohleBlack;
 
 	//PlayerColor
 	static std::unordered_map<int, CColor> colorPlayers;
