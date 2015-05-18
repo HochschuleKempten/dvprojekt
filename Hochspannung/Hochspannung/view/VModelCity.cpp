@@ -15,7 +15,7 @@ VModelCity::VModelCity(void)
 , appartment_03_1(1.0F)
 , largeOfficeBuilding_02_1(1.0F)
 , officeTower_01_1(0.8F)
-, officeTower_02_1(0.4F)
+, officeTower_02_1(0.8F)
 , smallOffice_01_1(0.8F)
 , smallOffice_02_1(0.8F)
 , largeOfficeBuilding_01_1(1.0F)
@@ -46,7 +46,7 @@ VModelCity::VModelCity(void)
 , appartment_02_3(1.0F)
 , appartment_03_3(1.0F)
 , largeOfficeBuilding_02_3(1.0F)
-, officeTower_01_3(0.8F)
+, officeTower_01_3(0.5F)
 , officeTower_02_3(0.4F)
 , smallOffice_01_3(0.8F)
 , smallOffice_02_3(0.8F)
@@ -72,7 +72,7 @@ void VModelCity::InitBuildings() {
 
 void VModelCity::AddPlacements() {
 
-	/*m_zpNear.AddPlacement(&Building1_01_1);
+	m_zpNear.AddPlacement(&Building1_01_1);
 	m_zpNear.AddPlacement(&Building1_02_1);
 	m_zpNear.AddPlacement(&Building2_01_1);
 	m_zpNear.AddPlacement(&Building2_02_1);
@@ -80,13 +80,13 @@ void VModelCity::AddPlacements() {
 	m_zpNear.AddPlacement(&Building3_02_1);
 	m_zpNear.AddPlacement(&appartment_01_1);
 	m_zpNear.AddPlacement(&appartment_02_1);
-	m_zpNear.AddPlacement(&appartment_03_1);*/
+	m_zpNear.AddPlacement(&appartment_03_1);
 	m_zpNear.AddPlacement(&largeOfficeBuilding_01_1);
 	m_zpNear.AddPlacement(&largeOfficeBuilding_02_1);
-	/*m_zpNear.AddPlacement(&officeTower_01_1);
+	m_zpNear.AddPlacement(&officeTower_01_1);
 	m_zpNear.AddPlacement(&officeTower_02_1);
 	m_zpNear.AddPlacement(&smallOffice_01_1);
-	m_zpNear.AddPlacement(&smallOffice_02_1);*/
+	m_zpNear.AddPlacement(&smallOffice_02_1);
 
 	/*m_zpMiddle.AddPlacement(&Building1_01_2);
 	m_zpMiddle.AddPlacement(&Building1_02_2);
@@ -101,10 +101,10 @@ void VModelCity::AddPlacements() {
 	m_zpMiddle.AddPlacement(&largeOfficeBuilding_02_2);
 	m_zpMiddle.AddPlacement(&officeTower_01_2);
 	m_zpMiddle.AddPlacement(&officeTower_02_2);
-	m_zpMiddle.AddPlacement(&smallOffice_01_2);*/
-	m_zpMiddle.AddPlacement(&smallOffice_02_2);
+	m_zpMiddle.AddPlacement(&smallOffice_01_2);
+	m_zpMiddle.AddPlacement(&smallOffice_02_2); */
 
-	m_zpFar.AddPlacement(&Building1_01_3);
+	//m_zpFar.AddPlacement(&Building1_01_3);
 //	m_zpFar.AddPlacement(&Building1_02_3);
 //	m_zpFar.AddPlacement(&Building2_01_3);
 //	m_zpFar.AddPlacement(&Building2_02_3);
