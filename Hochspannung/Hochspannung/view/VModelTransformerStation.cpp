@@ -19,7 +19,7 @@ VModelTransformerStation::VModelTransformerStation()
 	//Initalisierung Querstange
 	m_zgQuerstange.Init(2.0f, 0.1f, 0.1f, &VMaterialLoader::m_zmUmspannGrund);
 	//Initalisierung Isolator
-	m_zgIsolator.InitTubeWave(1.2f, 4.0f, 0.2f, 0.5f, 0.7f, &m_zmGrey, 0.2f, true, true);
+	m_zgIsolator.Init(1.0f, 1.0f, 2.5f, &VMaterialLoader::m_zmUmspannIsolator, 24);
 	//Initalisierung Querstange2
 	m_zgQuerstange2.Init(0.1f, 0.1f, 2.0f, &VMaterialLoader::m_zmUmspannGrund);
 	//Initialisierung Trasssen

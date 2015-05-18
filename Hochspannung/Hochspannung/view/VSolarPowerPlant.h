@@ -8,7 +8,7 @@
 NAMESPACE_VIEW_B
 
 
-class VSolarPowerPlant : public IViewPowerPlant
+class VSolarPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:
 	VModelSolarPowerPlant viewModel;
@@ -18,6 +18,15 @@ public:
 	virtual ~VSolarPowerPlant();
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y) override;
+
+	inline virtual void tick(const float fTimeDelta) override
+	{
+		if (isOn)
+		{
+			const double sec = 4.0;	//Number of seconds per rotation
+			viewModel.rotate(CASTS<float>((2.0 * M_PI / sec) * fTimeDelta));
+		}
+	}
 };
 
 
