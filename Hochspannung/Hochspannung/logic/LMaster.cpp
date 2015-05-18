@@ -36,7 +36,7 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		host();
 		while (networkService.getConnectionState() != Network::CONNECTED);
 	}
-	else DEBUG_EXPRESSION(if(ipAddress != "SINGLE_PLAYER"))
+	else if(ipAddress != "SINGLE_PLAYER")
 	{
 		connect(ipAddress);
 	}

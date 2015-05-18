@@ -322,6 +322,7 @@ void VScreenIngame::tick(const float fTimeDelta)
 	}
 
 	handleInput();
+
 	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
 
 	checkShortcut(&vUi->m_zkKeyboard);
@@ -523,11 +524,13 @@ void VScreenIngame::handleInput()
 	y
 	(0,1)
 	*/
+	static float cursorXOld = -5.0f;
+	static float cursorYOld = -5.0f;
 	float cursorX, cursorY;
 	bool insideFrame = vUi->m_zkCursor.GetFractional(cursorX, cursorY);
-	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY > (1.0f - bottomSpace.GetYSize()))
+	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY >(1.0f - bottomSpace.GetYSize()) || fabs(cursorXOld - cursorX) + fabs(cursorYOld - cursorY) <= 0.05)
 	{
-		//Restrict picking when not in window or cursor is only over UI
+		//Restrict picking when not in window or cursor is only over UI or when the cursor doesn't move much
 		return;
 	}
 
@@ -551,11 +554,10 @@ void VScreenIngame::handleInput()
 	}
 }
 
-
 std::map<int, std::vector<int>> VScreenIngame::pickElements()
 {
 	std::map<int, std::vector<int>> pickedElements;
-
+	
 	CGeos geos;
 	vUi->m_zkCursor.PickGeos(&geos);
 
