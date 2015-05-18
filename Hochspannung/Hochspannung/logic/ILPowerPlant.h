@@ -45,7 +45,7 @@ public:
 		{
 			static float timeLastCheck = 0;
 			
-			if (timeLastCheck > 3) //TODO (V) set back to 5 mins
+			if (timeLastCheck > 300) 
 			{
 				isSabotaged = false;
 				LRemoteOperation remoteOperation(lField->getLPlayingField());
