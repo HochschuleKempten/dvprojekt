@@ -178,7 +178,7 @@ VListEntry::~VListEntry()
 		//Mouse
 		float fPosX;
 		float fPosY;
-		cursor->GetFractional(fPosX, fPosY, true);
+		cursor->GetFractional(fPosX, fPosY);
 		if (checkHover(fPosX, fPosY))
 		{
 			if (cursor->ButtonPressedLeft())

@@ -524,7 +524,7 @@ void VScreenIngame::handleInput()
 	(0,1)
 	*/
 	float cursorX, cursorY;
-	bool insideFrame = vUi->m_zkCursor.GetFractional(cursorX, cursorY, true);
+	bool insideFrame = vUi->m_zkCursor.GetFractional(cursorX, cursorY);
 	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY > (1.0f - bottomSpace.GetYSize()))
 	{
 		//Restrict picking when not in window or cursor is only over UI

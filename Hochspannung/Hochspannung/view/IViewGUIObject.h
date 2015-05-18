@@ -54,7 +54,7 @@ NAMESPACE_VIEW_B
 
 		
 
-			cursor->GetFractional(fPosX, fPosY, true);
+			cursor->GetFractional(fPosX, fPosY);
 
 
 			if (checkHover(fPosX, fPosY))

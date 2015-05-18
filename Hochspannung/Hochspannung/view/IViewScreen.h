@@ -198,12 +198,12 @@ NAMESPACE_VIEW_B
 	
 		virtual void updateCursorImagePos(CDeviceCursor* cursor)
 		{
-			float curPosX;
-			float curPosY;
+			//float curPosX;
+			//float curPosY;
 
-			cursor->GetFractional(curPosX, curPosY, true);
-			m_pCursorImage->SetRect(CFloatRect(curPosX, curPosY, 0.05F, 0.05F));
-			//m_pCursorImage->GetRect().SetYPos(curPosY);
+			//cursor->GetFractional(curPosX, curPosY, true);
+			//m_pCursorImage->SetRect(CFloatRect(curPosX, curPosY, 0.05F, 0.05F));
+			////m_pCursorImage->GetRect().SetYPos(curPosY);
 		}
 
 

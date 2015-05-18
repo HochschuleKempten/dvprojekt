@@ -162,7 +162,8 @@ void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
 
 void VUI::tick(const float fTimeDelta)
 {
-	m_zr.Tick(const_cast<float&>(fTimeDelta));
+	float fTimeDeltaCopy = fTimeDelta;	//Copy needed because Vektoria means to change the time variable for some reasons (prevent undefined behaviour: http://en.cppreference.com/w/cpp/language/const_cast)
+	m_zr.Tick(fTimeDeltaCopy);
 	activeScreen->tick(fTimeDelta);
 
 }
