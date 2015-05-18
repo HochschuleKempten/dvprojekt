@@ -88,7 +88,7 @@ void VModelCity::AddPlacements() {
 	m_zpNear.AddPlacement(&smallOffice_01_1);
 	m_zpNear.AddPlacement(&smallOffice_02_1);
 
-	/*m_zpMiddle.AddPlacement(&Building1_01_2);
+	m_zpMiddle.AddPlacement(&Building1_01_2);
 	m_zpMiddle.AddPlacement(&Building1_02_2);
 	m_zpMiddle.AddPlacement(&Building2_01_2);
 	m_zpMiddle.AddPlacement(&Building2_02_2);
@@ -102,23 +102,23 @@ void VModelCity::AddPlacements() {
 	m_zpMiddle.AddPlacement(&officeTower_01_2);
 	m_zpMiddle.AddPlacement(&officeTower_02_2);
 	m_zpMiddle.AddPlacement(&smallOffice_01_2);
-	m_zpMiddle.AddPlacement(&smallOffice_02_2); */
+	m_zpMiddle.AddPlacement(&smallOffice_02_2);
 
-	//m_zpFar.AddPlacement(&Building1_01_3);
-//	m_zpFar.AddPlacement(&Building1_02_3);
-//	m_zpFar.AddPlacement(&Building2_01_3);
-//	m_zpFar.AddPlacement(&Building2_02_3);
-//	m_zpFar.AddPlacement(&Building3_01_3);
-//	m_zpFar.AddPlacement(&Building3_02_3);
-//	m_zpFar.AddPlacement(&appartment_01_3);
-//	m_zpFar.AddPlacement(&appartment_02_3);
-//	m_zpFar.AddPlacement(&appartment_03_3);
-//	m_zpFar.AddPlacement(&largeOfficeBuilding_01_3);
-//	m_zpFar.AddPlacement(&largeOfficeBuilding_02_3);
-//	m_zpFar.AddPlacement(&officeTower_01_3);
-////	m_zpFar.AddPlacement(&officeTower_02_3);
-//	m_zpFar.AddPlacement(&smallOffice_01_3);
-//	m_zpFar.AddPlacement(&smallOffice_02_3);
+	m_zpFar.AddPlacement(&Building1_01_3);
+	m_zpFar.AddPlacement(&Building1_02_3);
+	m_zpFar.AddPlacement(&Building2_01_3);
+	m_zpFar.AddPlacement(&Building2_02_3);
+	m_zpFar.AddPlacement(&Building3_01_3);
+	m_zpFar.AddPlacement(&Building3_02_3);
+	m_zpFar.AddPlacement(&appartment_01_3);
+	m_zpFar.AddPlacement(&appartment_02_3);
+	m_zpFar.AddPlacement(&appartment_03_3);
+	m_zpFar.AddPlacement(&largeOfficeBuilding_01_3);
+	m_zpFar.AddPlacement(&largeOfficeBuilding_02_3);
+	m_zpFar.AddPlacement(&officeTower_01_3);
+	m_zpFar.AddPlacement(&officeTower_02_3);
+	m_zpFar.AddPlacement(&smallOffice_01_3);
+	m_zpFar.AddPlacement(&smallOffice_02_3);
 
 
 	
@@ -144,6 +144,38 @@ void VModelCity::TranslateBuildings() {
 	officeTower_02_1.Translate(-5.0, 0, 5.0);
 	smallOffice_01_1.Translate(5.0, 0, 15);
 	smallOffice_02_1.Translate(-5.0, 0, -5.0);
+
+	Building1_01_2.Translate(15, 0, 0);
+	Building1_02_2.Translate(-15, 0, 7.5);
+	Building2_01_2.Translate(0, 0, -10);//-10
+	Building2_02_2.Translate(-10, 0, -10);//0
+	Building3_01_2.Translate(0, 0, 0);
+	Building3_02_2.Translate(-8, 0, 0);
+	appartment_01_2.Translate(0, 0, -7.5);
+	appartment_02_2.Translate(-10, 0, 15);
+	appartment_03_2.Translate(0, 0, -9);
+	largeOfficeBuilding_01_2.Translate(-15, 0, 0);
+	largeOfficeBuilding_02_2.Translate(10, 0, 15);
+	officeTower_01_2.Translate(0, 0, -7.5);
+	officeTower_02_2.Translate(-5.0, 0, 5.0);
+	smallOffice_01_2.Translate(5.0, 0, 15);
+	smallOffice_02_2.Translate(-5.0, 0, -5.0);
+
+	Building1_01_3.Translate(15, 0, 0);
+	Building1_02_3.Translate(-15, 0, 7.5);
+	Building2_01_3.Translate(0, 0, -10);//-10
+	Building2_02_3.Translate(-10, 0, -10);//0
+	Building3_01_3.Translate(0, 0, 0);
+	Building3_02_3.Translate(-8, 0, 0);
+	appartment_01_3.Translate(0, 0, -7.5);
+	appartment_02_3.Translate(-10, 0, 15);
+	appartment_03_3.Translate(0, 0, -9);
+	largeOfficeBuilding_01_3.Translate(-15, 0, 0);
+	largeOfficeBuilding_02_3.Translate(10, 0, 15);
+	officeTower_01_3.Translate(0, 0, -7.5);
+	officeTower_02_3.Translate(-5.0, 0, 5.0);
+	smallOffice_01_3.Translate(5.0, 0, 15);
+	smallOffice_02_3.Translate(-5.0, 0, -5.0);
 
 }
 
