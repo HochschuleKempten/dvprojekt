@@ -58,7 +58,7 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	switchScreen("MainMenue");
 }
 
-void VUI::onNotify(Event evente)
+void VUI::onNotify(const Event& evente)
 {
 	switch (evente) {
 		case QUIT_GAME:
@@ -91,8 +91,8 @@ void VUI::resize(int width, int height)
 	m_zf.ReSize(width, height);
 	activeScreen->resize(width, height);
 
-	for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++) {
-		m_iterScreens->second->resize(width, height);
+	for (std::pair<std::string,IViewScreen*> ScreenPair : m_screens) {
+		ScreenPair.second->resize(width, height);
 	}
 }
 
@@ -135,6 +135,8 @@ void VUI::switchScreen(const std::string& switchTo)
 	activeScreen = m_screens[switchTo];
 	activeScreen->switchOn();
 	activeScreen->StartEvent();
+
+	m_screenChanged = true;
 }
 
 IViewScreen* VUI::getScreen(const std::string& sName)

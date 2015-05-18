@@ -43,8 +43,7 @@ private:
 	CDeviceMouse m_zkMouse;
 
 	IViewScreen* activeScreen = nullptr;
-	std::map<std::string, IViewScreen*> m_screens;
-	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
+	std::unordered_map<std::string, IViewScreen*> m_screens;
 
 	bool isQuit;
 	bool m_screenChanged = false;
@@ -56,7 +55,7 @@ public:
 
 	virtual void tick(const float fTimeDelta) override;
 
-	virtual void onNotify(Event events) override;
+	virtual void onNotify(const Event& events) override;
 
 	void addScreen(const std::string& sName, const IViewScreen::ScreenType);
 	void switchScreen(const std::string& switchTo);

@@ -16,7 +16,7 @@ class VScreenIngame : public IViewScreen
 public:
 	explicit VScreenIngame(VUI* vUi);
 	virtual ~VScreenIngame();
-	void onNotify(Event events) override;
+	void onNotify(const Event& events) override;
 	void switchOn() override;
 	void switchOff() override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
@@ -36,7 +36,7 @@ public:
 	void tick(const float fTimeDelta) override;
 	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
 	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
-	void resize(int width, int height) override;
+	void resize(const int width, const int height) override;
 
 	void handleInput();
 	std::map<int, std::vector<int>> pickElements();
@@ -48,11 +48,10 @@ public:
 	void EndEvent() override;
 
 private:
-	CFloatRect getRectForPixel(int iPosX, int iPosY, int iSizeX, int iSizeY);
+	CFloatRect getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY);
 	void handleLeftClick(const std::map<int, std::vector<int>>& pickedElements);
 	void handleRightClick(const std::map<int, std::vector<int>>& pickedElements);
 
-private:
 	CScene m_scene;
 	//CViewport m_viewport;
 	CBackground m_zb;

@@ -30,8 +30,6 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	//Detailled model view
 	m_zmbackgroundModels.InitFull(&VMaterialLoader::materialDefaultBackground);
 	m_CamModels.Init();
-	m_viewportModels.Init(&m_CamModels, CFloatRect(0.8F, 0.765F, 0.195F, 0.23F));
-	m_viewportModels.AddBackground(&m_zmbackgroundModels);
 	m_zlModels.Init(CHVector(1.0F, 1.0F, 1.0F),
 					CColor(1.0F, 1.0F, 1.0F));
 	m_zpModels.AddCamera(&m_CamModels);
@@ -59,7 +57,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_scene.AddPlacement(&m_zpCamera);
 
 	vUi->m_zf.AddViewport(m_viewport);
-	vUi->m_zf.AddViewport(&m_viewportModels);
+	
 	vUi->m_zr.AddScene(&m_scene);
 	vUi->m_zr.AddScene(&m_sceneModels);
 
@@ -82,10 +80,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	/********************************************************TOP AREA***************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.0F, 0.8F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar");
 	//getContainer("Topbar")->addText(CFloatRect(0.10F, 0.2F, 0.2F, 0.65F), &VMaterialLoader::standardFont, "Bevoelkerung:", "population");
-	getContainer("Topbar")->addOverlay(CFloatRect(0.1F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconPopulation, "true", "TopPopulationIcon");
+	getContainer("Topbar")->addOverlay(CFloatRect(0.1F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconPopulation, "TopPopulationIcon");
 	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.1F, 0.2F, 0.85F), &VMaterialLoader::standardFont, "0000", "popValue");
 	//getContainer("Topbar")->addText(CFloatRect(0.50F, 0.2F, 0.2F, 0.65F), &VMaterialLoader::GoldFont, "Geld:", "money");
-	getContainer("Topbar")->addOverlay(CFloatRect(0.50F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "true", "TopMoneyIcon");
+	getContainer("Topbar")->addOverlay(CFloatRect(0.50F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon");
 	getContainer("Topbar")->addText(CFloatRect(0.601F, 0.2F, 0.2F, 0.85F), &VMaterialLoader::GoldFont, "0000", "moneyValue");
 
 
@@ -96,10 +94,11 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	/********************************************************Infofield AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.00F, 0.00F, 0.22F, 1.0F), &VMaterialLoader::materialInfofieldBackground, "Infofield");
-	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.01F, 0.3F, 0.80F, 0.1F), &VMaterialLoader::standardFont, "Infofeld", "infoText");
-	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText")->setLayer(0.2F);
+	//getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.01F, 0.3F, 0.80F, 0.1F), &VMaterialLoader::standardFont, "Infofeld", "infoText");
+	//getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText")->setLayer(0.2F);
+	getContainer("BottomBar")->getContainer("Infofield")->addViewport(&m_viewportModels, &m_CamModels, CFloatRect(0.1F, 0.2F, 0.75F, 0.8F), &m_zmbackgroundModels,"DetailedModels");
 	getContainer("BottomBar")->getContainer("Infofield")->setLayer(0.2F);
-
+	vUi->m_zf.AddViewport(&m_viewportModels);
 	/********************************************************Baumenu AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.22F, 0.00F, 0.51F, 1.0F), &VMaterialLoader::m_zmCraftMenueBackground, "Craftmenu");
 
@@ -108,11 +107,11 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 		&VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_BUILDING, "TabBuilding");
 
 	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonSabotage,
-	                                                                                                          &VMaterialLoader::materialIngameButtonSabotageHover, &VMaterialLoader::materialGreen, SWITCH_TO_REGISTER_SABOTAGE, "TabSabotage");
+		&VMaterialLoader::materialIngameButtonSabotageHover, &VMaterialLoader::m_zmCraftMenueBackground, SWITCH_TO_REGISTER_SABOTAGE, "TabSabotage");
 	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonStatistics,
-	                                                                                                          &VMaterialLoader::materialIngameButtonStatisticsHover, &VMaterialLoader::materialBlue, SWITCH_TO_REGISTER_STATISTICS, "TabStatistics");
+		&VMaterialLoader::materialIngameButtonStatisticsHover, &VMaterialLoader::m_zmCraftMenueBackground, SWITCH_TO_REGISTER_STATISTICS, "TabStatistics");
 
-	getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register")->setLayer(0.7);
+	getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register")->setLayer(0.7F);
 
 	//CraftMenu
 	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->addButton(CFloatRect(0.025F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonWindmill, &VMaterialLoader::materialCraftmenuButtonWindmillHover, SELECT_BUILDING_WINDMILL, "windmill");
@@ -148,10 +147,13 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.27F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "MenueButtonQuit");
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.44F, 0.80F, 0.15F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "MenueButtonBack");
 
+	getContainer("DialogBox")->getGuiObject("MenueButtonContinue")->setLayer(0.1F);
+	getContainer("DialogBox")->getGuiObject("MenueButtonQuit")->setLayer(0.1F);
+	getContainer("DialogBox")->getGuiObject("MenueButtonBack")->setLayer(0.1F);
 
 	/********************************************************Energy AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialGreen, "Energy");
-	getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, false, "NeededEnergy");
+	getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
 	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.3F);
 
 	switchCursor("textures/gui/default_zeiger.png", true);
@@ -164,15 +166,9 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 VScreenIngame::~VScreenIngame()
 {
-	for (m_IterGuicontainer = m_Guicontainer.begin(); m_IterGuicontainer != m_Guicontainer.end(); ++m_IterGuicontainer)
-	{
-		delete m_IterGuicontainer->second;
-	}
-	m_Guicontainer.clear();
-	delete m_viewport;
 }
 
-void VScreenIngame::onNotify(Event events)
+void VScreenIngame::onNotify(const Event& events)
 {
 	switch (events)
 	{
@@ -303,7 +299,7 @@ void VScreenIngame::updatePopulation(const int wert)
 
 void VScreenIngame::updateInfofield(const std::string& neuerText)
 {
-	CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
+	//CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
 }
 
 CFloatRect VScreenIngame::getTopSpace()
@@ -326,17 +322,16 @@ void VScreenIngame::tick(const float fTimeDelta)
 	}
 
 	handleInput();
-	std::map<std::string, IViewGUIContainer*> tempGuicontainer;
-	std::map<std::string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
 
 	checkShortcut(&vUi->m_zkKeyboard);
 	checkSpecialEvent(&vUi->m_zkCursor);
-	tempGuicontainer = getGuiContainerMap();
+	tempGuiContainer = getGuiContainerMap();
 
 	//For all containers in the screen
-	for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
+	for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainer)
 	{
-		checkGUIContainer(tempIterGuicontainer->second);
+		checkGUIContainer(ContainerPair.second);
 	}
 
 	if (vUi->m_zkCursor.ButtonPressedLeft())
@@ -350,22 +345,22 @@ void VScreenIngame::tick(const float fTimeDelta)
 
 void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 {
-	std::map<std::string, IViewGUIObject*>::iterator tempIterGUIObjects;
-	std::map<std::string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
+	std::unordered_map<std::string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
 
-	for (tempIterGUIObjects = tempGUIObjects.begin(); tempIterGUIObjects != tempGUIObjects.end(); tempIterGUIObjects++)
+	for (const std::pair<std::string, IViewGUIObject*>& ObjectPair : tempGUIObjects)
 	{
-		if (tempIterGUIObjects->second->isOn())
+		if (ObjectPair.second->isOn())
 		{
 			if (!vUi->m_BlockCursorLeftPressed)
 			{
 				//check for events
-				tempIterGUIObjects->second->checkEvent(&vUi->m_zkCursor, &vUi->m_zkKeyboard);
+				ObjectPair.second->checkEvent(&vUi->m_zkCursor, &vUi->m_zkKeyboard);
 			}
 			//if screen was changed
 			if (vUi->m_screenChanged)
 			{
 				vUi->m_screenChanged = false;
+
 				vUi->m_BlockCursorLeftPressed = true;
 				return;
 			}
@@ -373,28 +368,27 @@ void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 	}
 }
 
+
 void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 {
-	std::map<std::string, IViewGUIContainer*> tempGuiContainerMap;
-	std::map<std::string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
+	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainerMap;
 
 	tempGuiContainerMap = tempGuicontainer->getGuiContainerMap();
 
 	checkGUIObjects(tempGuicontainer);
-
-	for (ItertempGuiContainerMap = tempGuiContainerMap.begin(); ItertempGuiContainerMap != tempGuiContainerMap.end(); ItertempGuiContainerMap++)
+	for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainerMap)
 	{
-		checkGUIObjects(ItertempGuiContainerMap->second);
+		checkGUIObjects(ContainerPair.second);
 
 		if (tempGuicontainer->getGuiContainerMap().size() > 0)
 		{
-			checkGUIContainer(ItertempGuiContainerMap->second);
+			checkGUIContainer(ContainerPair.second);
 		}
 	}
 }
 
 
-void VScreenIngame::resize(int width, int height)
+void VScreenIngame::resize(const int width, const int height)
 {
 	m_viewport->ReSize();
 }
@@ -594,11 +588,11 @@ void VScreenIngame::StartEvent()
 void VScreenIngame::EndEvent()
 { }
 
-CFloatRect VScreenIngame::getRectForPixel(int iPosX, int iPosY, int iSizeX, int iSizeY)
+CFloatRect VScreenIngame::getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY)
 {
 	CFloatRect tempRectangle;
-	int iFensterBreite = vUi->m_zf.m_iWidthWindow;
-	int iFensterHöhe = vUi->m_zf.m_iHeightWindow;
+	const int iFensterBreite = vUi->m_zf.m_iWidthWindow;
+	const int iFensterHöhe = vUi->m_zf.m_iHeightWindow;
 
 	ASSERT((((iPosX + iSizeX) <= iFensterBreite) && ((iPosY + iSizeY) <= iFensterHöhe)), "Angegebener Bereich liegt außerhalb des Fensters");
 
