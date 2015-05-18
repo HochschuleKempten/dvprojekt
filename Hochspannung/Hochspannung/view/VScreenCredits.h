@@ -12,13 +12,13 @@ NAMESPACE_VIEW_B
 
 		explicit VScreenCredits(VUI* vUi);
 		~VScreenCredits();
-		void onNotify(Event events) override;
+		void onNotify(const Event& events) override;
 		void checkShortcut(CDeviceKeyboard* keyboard) override;
 		void checkSpecialEvent(CDeviceCursor* cursor) override;
 		void tick(const float fTimeDelta) override;
 		void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
 		void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
-		void resize(int width, int height) override;
+		void resize(const int width, const int height) override;
 	private:
 		CBackground* m_background;
 	};

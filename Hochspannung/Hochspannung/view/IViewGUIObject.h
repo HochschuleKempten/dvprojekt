@@ -19,7 +19,7 @@ NAMESPACE_VIEW_B
 		{
 		};
 
-		virtual bool checkHover(const float& fPosX, const float& fPosY)
+		virtual bool checkHover(const float fPosX, const float fPosY)
 		{
 			//Prüfe ob X-Koordinate innerhalb des Buttons
 			if ((fPosX > m_zfrRect.GetXPos()) && (fPosX < (m_zfrRect.GetXPos() + m_zfrRect.GetXSize())))
@@ -88,7 +88,7 @@ NAMESPACE_VIEW_B
 			m_zfrRect = tempRect;
 		}
 
-		virtual void setLayer(float layer) = 0;
+		virtual void setLayer(const float layer) = 0;
 
 		virtual void updateRectangle(CFloatRect rect) = 0;
 
@@ -101,7 +101,7 @@ NAMESPACE_VIEW_B
 		{
 			return m_sName;
 		}
-		void setName(std::string sName)
+		void setName(const std::string& sName)
 		{
 			 m_sName=sName;
 		}

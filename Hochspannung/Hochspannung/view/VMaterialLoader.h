@@ -50,7 +50,6 @@ public:
 
 	//Ingame
 	static CMaterial materialIngameCraft;
-	static CMaterial materialDialogBackground;
 	static CMaterial materialIngameBorder;
 	static CMaterial materialTopbar;
 	static CMaterial materialBottombarBorderTop;
@@ -59,9 +58,12 @@ public:
 	static CMaterial materialBuildingButton;
 	static CMaterial materialBuildingButtonHover;
 
-	static CMaterial materialIngameMenueDialogBackground;
 
+	//Backgrounds
+	static CMaterial materialDialogBackground;
+	static CMaterial materialIngameMenueDialogBackground;
 	static CMaterial materialDefaultBackground;
+	static CMaterial materialWhiteGreyBackground;
 
 	//Icons
 	static CMaterial materialIngameIconPopulation;

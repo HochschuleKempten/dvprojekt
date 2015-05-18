@@ -157,8 +157,9 @@ CMaterial VMaterialLoader::materialSmallOfficeBuilding;
 // MaterialWindowBuildings
 CMaterial VMaterialLoader::materialWindowsofBuilding;
 
-
+//Background
 CMaterial VMaterialLoader::materialDefaultBackground;
+CMaterial VMaterialLoader::materialWhiteGreyBackground;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
@@ -224,6 +225,7 @@ void VMaterialLoader::init()
 	materialBuildingButton.MakeTextureSprite("textures\\BuildingButton.png");
 	materialBuildingButtonHover.MakeTextureSprite("textures\\BuildingButtonHover.png");
 	materialIngameMenueDialogBackground.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_MenueDialog_Background.png");
+	materialWhiteGreyBackground.MakeTextureSprite("textures/gui/background/gui_background_whitegrey.png");
 
 	//Interface - Selection Buttons
 	materialIngameButtonCraftmenu.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_craftmenu.png");
@@ -324,6 +326,8 @@ void VMaterialLoader::init()
 	//Cursor
 	m_zmDefaultCursor.MakeTextureSprite("textures\\gui\\default_zeiger.png");
 	m_zmHammerCursor.MakeTextureSprite("textures\\gui\\Hammer.png");
+	m_zmDefaultCursor.SetTransparencyOn();
+	m_zmHammerCursor.SetTransparencyOn();
 
 	//CraftMenue
 	m_zmCraftMenueBackground.MakeTextureSprite("textures/gui/background/gui_ingame_baumenu.png");

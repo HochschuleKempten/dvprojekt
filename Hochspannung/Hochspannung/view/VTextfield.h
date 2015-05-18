@@ -27,11 +27,11 @@ NAMESPACE_VIEW_B
 		virtual void onMouseClickLeft(void) override final;
 		virtual void onMouseClickRight(void) override final;
 
-		void AddChar(const char& character);
+		void AddChar(const char character);
 		void deleteChar();
 		bool isActive();
 
-		void setLayer(float layer) override;
+		void setLayer(const float layer) override;
 		void updateRectangle(CFloatRect rect) override;
 
 		std::string getValue();
@@ -50,11 +50,11 @@ NAMESPACE_VIEW_B
 		bool m_bIsActive = false;
 		std::string m_sInputtext;
 		bool pressedBefore = false;
-		int m_iMaxChars;
+		unsigned int m_iMaxChars;
 		bool hasPlaceholder;
 		std::string m_sPlaceholder;
 	private:
-		void setActive(bool wert);
+		void setActive(const bool wert);
 	};
 
 	NAMESPACE_VIEW_E

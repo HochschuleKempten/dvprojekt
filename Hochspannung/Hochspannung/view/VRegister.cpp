@@ -30,15 +30,15 @@ NAMESPACE_VIEW_B
 
 	VRegister::~VRegister()
 	{
-		for (m_lIterGUIObjects = m_guiObjects.begin(); m_lIterGUIObjects != m_guiObjects.end(); ++m_lIterGUIObjects)
+		for (std::pair<std::string,VTab*> TabPair : m_tabs)
 		{
-			delete m_lIterGUIObjects->second;
+			delete TabPair.second;
 		}
-		m_guiObjects.clear();
-		if (m_hasBackground) delete m_background;
+		m_tabs.clear();
+		
 	}
 
-	void VRegister::onNotify(Event events)
+	void VRegister::onNotify(const Event& events)
 	{
 		switch (events)
 		{
@@ -97,35 +97,35 @@ NAMESPACE_VIEW_B
 	}
 
 
-	void VRegister::addTab(CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* background, Event events, std::string sName)
+	void VRegister::addTab(CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* background, const Event& events, const std::string& sName)
 	{
 		m_Guicontainer[sName] = new VTab(m_viewport, createRelativeRectangle(&m_zfRect, &CFloatRect(0.0F, 0.2F, 1.0F, 0.8F)), background);
 		m_tabs[sName] = dynamic_cast<VTab*>(m_Guicontainer[sName]);
 		m_Guicontainer[sName]->addObserver(this);
-		m_tabs[sName]->setLayer(getLayer() - 0.01);
-		m_Guicontainer[sName]->setLayer(getLayer() - 0.01);
+		m_tabs[sName]->setLayer(getLayer() - 0.01F);
+		m_Guicontainer[sName]->setLayer(getLayer() - 0.01F);
 		addButton(CFloatRect(0.0F, 0.0F, 0.5F, 0.1F), MaterialNormal, MaterialHover, events, sName);
-		m_guiObjects[sName]->setLayer(getLayer() - 0.01);
+		m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
 		calcButtonSize();
 	}
 
 	void VRegister::calcButtonSize()
 	{
 		int i = 0;
-		for (m_lIterGUIObjects = m_guiObjects.begin(); m_lIterGUIObjects != m_guiObjects.end(); ++m_lIterGUIObjects)
+		for (std::pair<std::string,IViewGUIObject*> ObjectPair : m_guiObjects)
 		{
 			//GUI Object Size Mehode hinzufügen
-			CFloatRect tempRect = m_lIterGUIObjects->second->getRectangle();
-			m_lIterGUIObjects->second->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(1.0F / static_cast<float>(m_guiObjects.size()) * static_cast<float>(i), 0.0F, 1.0F / static_cast<float>(m_guiObjects.size()), 0.2F)));
-			m_lIterGUIObjects->second->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(1.0F / static_cast<float>(m_guiObjects.size()) * static_cast<float>(i), 0.0F, 1.0F / static_cast<float>(m_guiObjects.size()), 0.2F)));
-			m_lIterGUIObjects->second->setLayer(0.3F);
+			CFloatRect tempRect = ObjectPair.second->getRectangle();
+			ObjectPair.second->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(1.0F / static_cast<float>(m_guiObjects.size()) * static_cast<float>(i), 0.0F, 1.0F / static_cast<float>(m_guiObjects.size()), 0.2F)));
+			ObjectPair.second->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(1.0F / static_cast<float>(m_guiObjects.size()) * static_cast<float>(i), 0.0F, 1.0F / static_cast<float>(m_guiObjects.size()), 0.2F)));
+			ObjectPair.second->setLayer(0.3F);
 			i++;
 		}
 	}
 
-	void VRegister::SwitchToTab(std::string sName)
+	void VRegister::SwitchToTab(const std::string& sName)
 	{
-		std::map<std::string, VTab*>::iterator it = m_tabs.find(sName);
+		std::unordered_map<std::string, VTab*>::iterator it = m_tabs.find(sName);
 		ASSERT(it != m_tabs.end(), "Tab not available");
 
 		for (it = m_tabs.begin(); it != m_tabs.end(); it++)
@@ -136,9 +136,9 @@ NAMESPACE_VIEW_B
 		m_tabs[sName]->switchOn();
 	}
 
-	VTab* VRegister::getTab(std::string sName)
+	VTab* VRegister::getTab(const std::string& sName)
 	{
-		std::map<std::string, VTab*>::iterator it = m_tabs.find(sName);
+		std::unordered_map<std::string, VTab*>::iterator it = m_tabs.find(sName);
 		ASSERT(it != m_tabs.end(), "Tab not available");
 		return m_tabs[sName];
 	}
