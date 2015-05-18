@@ -32,9 +32,10 @@ COfficeTowerViewingDeck::COfficeTowerViewingDeck(float fResize)
 
 	this->fResize = fResize;
 	
-	if (fResize == 1){
-		void InitWindows();
-		void AddWindows();
+	if (fResize==1){
+		InitWindows();
+		AddWindows();
+		
 	}
 
 	//Walls
@@ -85,7 +86,7 @@ void COfficeTowerViewingDeck::InitWindows() {
 	m_zgWindow.InitRect(CFloatRect(0.8F / fResize, 0.8F / fResize, 0.4F / fResize, 0.8F / fResize), true);
 	m_zgRailing.InitRect(CFloatRect(0.0F / fResize, 0.0F / fResize, 0.76F / fResize, 0.56 / fResize), true);
 	m_zgWindow.AddGeoWall(&m_zgFrame);
-
+	
 }
 
 void COfficeTowerViewingDeck::AddWindows() {

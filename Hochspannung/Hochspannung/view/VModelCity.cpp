@@ -121,7 +121,7 @@ void VModelCity::AddPlacements() {
 	m_zpFar.AddPlacement(&officeTower_02_3);
 	m_zpFar.AddPlacement(&smallOffice_01_3);
 	m_zpFar.AddPlacement(&smallOffice_02_3);
-
+	
 
 	
 	

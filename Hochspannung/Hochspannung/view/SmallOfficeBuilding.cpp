@@ -41,8 +41,8 @@ CSmallOfficeBuilding::CSmallOfficeBuilding(float fResize)
 
 
 	if (fResize == 1){
-		void InitWindows();
-		void AddWindows();
+		InitWindows();
+		AddWindows();
 	}
 
 	InitWalls();
