@@ -17,7 +17,7 @@ void VNuclearPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& obj
 	const float scale = 0.4f;
 	viewModel.getMainPlacement()->Scale(scale);
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
-	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f * scale);
+	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 100.0f * scale);
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VNuclearPowerPlant);

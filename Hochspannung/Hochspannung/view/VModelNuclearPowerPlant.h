@@ -83,7 +83,7 @@ private:
 
 
 
-	CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
+	//CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;
 
