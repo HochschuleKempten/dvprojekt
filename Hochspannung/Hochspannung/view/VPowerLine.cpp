@@ -3,6 +3,7 @@
 #include "VIdentifier.h"
 #include "VMaster.h"
 #include "VSoundLoader.h"
+#include "../logic/LRemoteOperation.h"
 
 NAMESPACE_VIEW_B
 
@@ -65,6 +66,7 @@ bool VPowerLine::clicked(action action)
 			 
 			 if (lPowerLine->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
 			 {   
+				 LRemoteOperation remoteOperation(lPowerLine->getLField()->getLPlayingField());
 				 lPowerLine->sabotage();
 				 return true; 
 			 }
