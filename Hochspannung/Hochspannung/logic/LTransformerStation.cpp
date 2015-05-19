@@ -41,10 +41,10 @@ void LTransformerStation::tick(const float fTimeDelta)
 
 void LTransformerStation::performDisposal()
 {
-	int superplus = lField->getLPlayingField()->getLocalCity()->getEnergySurplus();
-	if (superplus > 0)
+	int surplus = lField->getLPlayingField()->getLocalCity()->getEnergySurplus();
+	if (surplus > 0)
 	{
-		lField->getLPlayingField()->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(superplus * LBalanceLoader::getMoneyPerWatt()));
+		lField->getLPlayingField()->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(surplus * LBalanceLoader::getMoneyPerWatt()));
 	}
 }
 
