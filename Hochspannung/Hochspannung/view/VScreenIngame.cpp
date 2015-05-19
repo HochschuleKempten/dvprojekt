@@ -150,10 +150,23 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	//getContainer("DialogBox")->getGuiObject("MenueButtonBack")->setLayer(0.2F);
 
 	/********************************************************Energy AREA*************************************************************/
-	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialGreen, "Energy");
-	getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, false, "NeededEnergy");
-	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.3F);
+	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.3F, 0.05F, 0.7F), &VMaterialLoader::materialGreen, "Energy");
+	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1F);
+	//getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, false, "NeededEnergy");
+	VGraph * vgEnergyGraph = getContainer("BottomBar")->getContainer("Energy")->addGraph(CFloatRect(0.0F, 0.0F, 1.0F, 1.0F), "energyGraph");
+	vgEnergyGraph->addBar("EnergyBar", &VMaterialLoader::materialGreen);
+	vgEnergyGraph->addBar("SollEnergy", &VMaterialLoader::materialRed);
+	vgEnergyGraph->updateBar("EnergyBar", 50);
+	vgEnergyGraph->updateBar("SollEnergy", 20);
 
+
+	//VGraph* graph = new VGraph(m_viewport, CFloatRect(0.2F, 0.3f, 0.2F, 0.2F));
+	//graph->setLayer(0.01F);
+	//graph->addBar("EnergyBar", &VMaterialLoader::materialGreen);
+	//graph->addBar("SollEnergy", &VMaterialLoader::materialRed);
+	//graph->updateBar("EnergyBar", 50);
+	//graph->updateBar("SollEnergy", 20);
+	
 	switchCursor("textures/gui/default_zeiger.png", true);
 
 	//CFloatRect iwas = getRectForPixel(0, vUi->m_zf.m_iHeightWindow - 100, vUi->m_zf.m_iWidthWindow, 100);

@@ -87,36 +87,36 @@ VListView::VListView()
 	}
 
 
-	void VListView::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, std::string sName)
+	VButton* VListView::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, std::string sName)
 	{
 		m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
 
 		m_guiObjects[sName]->addObserver(this);
-
+		return CASTD<VButton*>(m_guiObjects[sName]);
 	}
 
-	void VListView::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
+	VTextfield* VListView::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
 	{
 		m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
 
 		m_guiObjects[sName]->addObserver(this);
-
+		return CASTD<VTextfield*>(m_guiObjects[sName]);
 	}
 
-	void VListView::addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName)
+	VText* VListView::addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName)
 	{
 		m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text);
 
 		m_guiObjects[sName]->addObserver(this);
-
+		return CASTD<VText*>(m_guiObjects[sName]);
 	}
 
-	void VListView::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, std::string sName)
+	COverlay* VListView::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, std::string sName)
 	{
 		m_Overlays[sName] = new COverlay();
 		m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
 		m_viewport->AddOverlay(m_Overlays[sName]);
-
+		return m_Overlays[sName];
 	}
 
 	void VListView::setLayer(float layer)
