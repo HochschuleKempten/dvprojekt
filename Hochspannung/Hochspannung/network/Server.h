@@ -16,8 +16,9 @@ public:
 	/**
 	 * @brief Constructor.
 	 * @param stName the server/game name.
+	 * @param stLocalAddress the local IP address to use.
 	 */
-	CServer(std::string stName);
+	explicit CServer(std::string stName, std::string stLocalAddress = "0.0.0.0");
 
 	/**
 	 * @brief Default constructor.
@@ -28,7 +29,7 @@ public:
 	 * @brief Stop the server.
 	 * Closes any active connection and stops sending/reciving messages.
 	 */
-	void stop();
+	void stop() override;
 
 	/**
 	 * @brief Sets the server/game name.
@@ -43,7 +44,7 @@ public:
 	std::string getName();
 
 private:
-	bool connect();
+	bool connect() override;
 	bool startTcpServer();
 	bool startUdpServer();
 
