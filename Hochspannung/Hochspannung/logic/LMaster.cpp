@@ -186,30 +186,6 @@ void LMaster::tick(const float fTimeDelta)
 			{
 				lPlayingField->showPlayingField();
 			}
-			else if (objectId == 300) //switch powerplant on/off
-			{
-				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
-				if (powerPlant != nullptr)
-				{
-					powerPlant->switchOnOff();
-				}
-			}
-			else if (objectId == 400) //sabotage powerplant (switch off)
-			{
-				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
-				if (powerPlant != nullptr)
-				{
-					powerPlant->sabotage();
-				}
-			}
-			else if (objectId == 500) //sabotage resource
-			{
-				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
-				if (powerPlant != nullptr)
-				{
-					powerPlant->sabotageResource();
-				}
-			}
 
 			break;
 		}
@@ -222,12 +198,6 @@ void LMaster::tick(const float fTimeDelta)
 		case(UPGRADE_OBJECT) :
 
 			lPlayingField->upgradeBuilding(x, y);
-
-			break;
-
-		case(START_GAME) :
-
-			//do nothing
 
 			break;
 
@@ -276,6 +246,62 @@ void LMaster::tick(const float fTimeDelta)
 
 					placeBuilding(row[column].iObjectID, rowNumber, column, plId);
 				}
+			}
+
+			break;
+		}
+
+		case(SEND_SABOTAGE) :
+		{
+			LSabotage::LSabotage objectToSabotage = static_cast<LSabotage::LSabotage>(objectId);
+
+			switch (objectToSabotage)
+			{
+			case(LSabotage::LSabotage::PowerLine) :
+			{
+				LPowerLine* powerLine = dynamic_cast<LPowerLine*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerLine != nullptr)
+				{
+					powerLine->sabotage();
+				}
+				break;
+			}
+
+			case(LSabotage::LSabotage::PowerPlant) :
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotage();
+				}
+
+				break;
+			}
+
+			case(LSabotage::LSabotage::Resource) :
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotageResource();
+				}
+
+				break;
+			}
+
+			default:
+				break;
+			}
+
+			break;
+		}
+
+		case(SEND_SWITCH_STATE) :
+		{
+			ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+			if (powerPlant != nullptr)
+			{
+				powerPlant->switchOnOff();
 			}
 
 			break;
@@ -364,6 +390,22 @@ void LMaster::sendDeleteObject(const int x, const int y)
 		ASSERT(b == true, "Error: sendDeleteObject.");
 		DEBUG_OUTPUT("----SENDDELETEOBJECT: x: " << x << ", y: " << y);
 
+	}
+}
+
+void LMaster::sendSabotage(const LSabotage::LSabotage sabotageId, const int x, const int y)
+{
+	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	{
+		networkService.sendSabotage(sabotageId, x, y);
+	}
+}
+
+void LMaster::sendPowerPlantSwitchState(const int x, const int y, const bool state)
+{
+	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	{
+		networkService.sendSwitchState(x, y, state);
 	}
 }
 

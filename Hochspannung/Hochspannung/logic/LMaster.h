@@ -3,6 +3,7 @@
 #include "IVTickObserver.h"
 #include "LGeneral.h"
 #include "../network/NetworkService.h"
+#include "LSabotage.h"
 
 NAMESPACE_LOGIC_B
 
@@ -40,6 +41,8 @@ public:
 	void sendSetObject(const int objectId, const int x, const int y, const std::string& value);
 	void sendSetMapRow(const int row, std::vector<Network::FieldTransfer> rowData);
 	void sendDeleteObject(const int x, const int y);
+	void sendSabotage(const LSabotage::LSabotage sabotageId, const int x, const int y);
+	void sendPowerPlantSwitchState(const int x, const int y, const bool state);
 	std::vector<Network::CGameObject> getGameList();
 	void searchGames();
 
