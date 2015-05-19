@@ -61,7 +61,7 @@ PS_INPUT_DOF_POST VS_DOF(VS_INPUT_DOF_POST input)
 
 float BlurFactor(in float fDepth)
 {
-	const float4 f4DOFDepths = float4(0.003f, 0.006f, 0.001f, 0.08f);//f4DoFParams;
+	const float4 f4DOFDepths = float4(0.003f, 0.005f, 0.001f, 0.08f);//f4DoFParams;
 	float f0 = 1.f - saturate((fDepth - f4DOFDepths.x) / max(f4DOFDepths.y - f4DOFDepths.x, 0.00001f));
 	float f1 = saturate((fDepth - f4DOFDepths.z) / max(f4DOFDepths.w - f4DOFDepths.z, 0.000001f));
 	float fBlur = saturate(f0 + f1);
@@ -98,7 +98,7 @@ float4 PS_DepthBlurGeneration(PS_INPUT_DOF_POST input) : SV_TARGET
 float4 PS_DepthofField(in PS_INPUT_DOF_POST input) : SV_TARGET
 {
 	float2 f2CenterCoord = input.f2TexCoord;
-
+	float2 f2rcpFrame = float2(fRcpFrameX, fRcpFrameY);
 	float2 f2OffsetConversion = f2rcpFrame;
 
 	float3 f3CenterColor = tex2D[7].Sample(linearSampler, f2CenterCoord).xyz;
@@ -115,7 +115,7 @@ float4 PS_DepthofField(in PS_INPUT_DOF_POST input) : SV_TARGET
 	{
 		const float fGatherBlurSize = 0.0035f;
 		float fCoCSize = fCenterBlur * fGatherBlurSize;
-		[loop]
+		[unroll(uNumDiscSamples)]
 		for (int i = 0; i < uNumDiscSamples; ++i)
 		{
 			float2 f2KernelVal = f2DiscKernel[i];
@@ -137,6 +137,6 @@ float4 PS_DepthofField(in PS_INPUT_DOF_POST input) : SV_TARGET
 	}
 
 	float3 f3FinalColor = f3ColorSum / f3TotalContribution;
-
-	return float4(f3FinalColor, 1.f);
+	
+	return float4(f3FinalColor, 1);
 }

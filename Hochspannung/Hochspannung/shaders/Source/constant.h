@@ -13,7 +13,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 //Constant for shadows (same as in lightutil.h)
-#define MAX_SHADOWCASTING_LIGHT_NUM 12
+#define MAX_SHADOWCASTING_LIGHT_NUM 24
 
 //////////////////////////////////////////////////////////////////////////
 //Constant buffers
@@ -64,7 +64,8 @@ cbuffer cbShadowConstants : register(b3)
 {
 	matrix g_mPointShadowViewProj[MAX_SHADOWCASTING_LIGHT_NUM][6];
 	matrix g_mSpotShadowViewProj[MAX_SHADOWCASTING_LIGHT_NUM];
-	float4 g_f4ShadowBias; // X: Texel offset from edge, Y: Underscan scale, Z: Z bias for points, W: Z bias for spots
+	float4 g_f4ShadowBias;
+	// X: Texel offset from edge, Y: Underscan scale, Z: Z bias for points, W: Z bias for spots
 }
 
 cbuffer cbVPLConstants : register(b4)
@@ -84,6 +85,8 @@ struct SVPLData
 //Samplers
 SamplerState g_Sampler				   : register(s0);
 SamplerComparisonState g_ShadowSampler : register(s1);
+SamplerState g_pointSampler			   : register(s2);
+
 
 //////////////////////////////////////////////////////////////////////////
 //Helper functions
@@ -149,7 +152,7 @@ float BlinnPhongSpec(float3 f3Normal, float3 f3LightDir, float fSpecpower)
 
 void SubsurfaceScattering(in float4 f4CenterAndRadius, in float3 f3ToLight, in float3 f3LightColor, in float4 float4TexColor,
 						  in float fThickValue, in float4 f4SSSBRDFParams, in float4 f4ColorSSS, in float4 f4VertexPos,
-						  in float3 f3CamPos, in float3 f3Normal, in bool bPointLight,
+						  in float3 f3CamPos, in float3 f3Normal,
 						  inout float3 f3LightColorSpecularResult, inout float3 f3LightDiffuseResult)
 {
 	const float fMaterialThickness = f4SSSBRDFParams.r;
@@ -170,7 +173,7 @@ void SubsurfaceScattering(in float4 f4CenterAndRadius, in float3 f3ToLight, in f
 	f4LightPos = f4CenterAndRadius;
 	f4LightPos.w = 1.f;
 
-	float fAttenuation = 10.f * (1.f / distance(f4LightPos, f4VertexPos));
+	float fAttenuation = 30.f * (1.f / distance(f4LightPos, f4VertexPos));
 
 	const float3 f3Eye = normalize(f3CamPos.xyz - f4VertexPos.xyz);
 	float4 f4DotLN = HalfLambert(f3LightDirSSS, f3Normal) * fAttenuation;
@@ -197,13 +200,13 @@ void SubsurfaceScattering(in float4 f4CenterAndRadius, in float3 f3ToLight, in f
 
 	float fEdge = max(dot(normalize(f3CamPos - f4VertexPos.xyz), f3Normal), 0);
 	[branch]
-	if ((fEdge < 0.8f) && (fMaterialThickness > 2.f))
+	if ((fEdge < 0.7f) && (fMaterialThickness > 2.f))
 	{
-		f3LightDiffuseResult.rgb *= f3IndirectLightComponent / 15.f;
-		f3LightColorSpecularResult.rgb *= f3IndirectLightComponent / 15.f;
+		f3LightDiffuseResult.rgb *= saturate(f3IndirectLightComponent * 0.06666f);
+		f3LightColorSpecularResult.rgb *= saturate(f3IndirectLightComponent * 0.06666f);
 	}
 	else
-	{		
+	{	
  		f3LightDiffuseResult *= f4FinColor.xyz;
  		f3LightColorSpecularResult *= f4FinColor.xyz;
 	}

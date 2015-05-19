@@ -3,9 +3,11 @@
 Texture2D tex2D[9] : register (t15); 
 
 #if(NUM_MSAA_SAMPLES <= 1)
-Texture2D<float> depthTex : register (t24);
+Texture2D<float> transparentDepthTex : register(t26);
+Texture2D<float> opaqueDepthTex : register(t24);
 #else
-Texture2DMS<float, NUM_MSAA_SAMPLES> depthTex : register (t24);
+Texture2DMS<float, NUM_MSAA_SAMPLES> transparentDepthTex : register(t26);
+Texture2DMS<float, NUM_MSAA_SAMPLES> opaqueDepthTex : register(t24);
 #endif
 
 Texture2D lumTex  : register(t25);
@@ -60,24 +62,51 @@ PS_INPUT_BLOOM_POST VS_BLOOMACCUM(VS_INPUT_BLOOM_POST input)
 float4 PS_BLOOMTEXTURE(PS_INPUT_BLOOM_POST input) : SV_TARGET
 {
 	float4 f4ColorOut = tex2D[7].Sample(linearSampler, input.f2TexCoord);
-	float fThreshold = 0.6f;
+	float fThreshold = .9;
 
 	return saturate((f4ColorOut - fThreshold) / (1.f - fThreshold));
 }
 
+float CalcGaussianWeight(int iSampleDist, float fSigma)
+{
+	float fG = 1.f / sqrt(2.f * 3.14159 * fSigma * fSigma);
+	return(fG * exp(-(iSampleDist * iSampleDist) / (2 * fSigma * fSigma)));
+}
+
+float4 Blur(in PS_INPUT_BLOOM_POST input, float2 f2TexScale, float fSigma)
+{
+	float4 f4Color = 0;
+	float2 f2FrameWidth = float2(1.f / fRcpFrameX, 1.f / fRcpFrameY);
+	for (int i = -6; i < 6; ++i)
+	{
+		float fWeight = CalcGaussianWeight(i, fSigma);
+		float2 f2TexCoord = input.f2TexCoord;
+		f2TexCoord -= (i / f2FrameWidth) * f2TexScale;
+		
+		float4 f4Sample = tex2D[8].Sample(linearSampler, f2TexCoord);
+		f4Color += f4Sample * fWeight;
+	}
+
+	return f4Color;
+}
+
+float4 BloomBlurH(in PS_INPUT_BLOOM_POST input)
+{
+	return(Blur(input, float2(1, 0), 1.8f));
+}
+
+float4 BloomBlurV(in PS_INPUT_BLOOM_POST input)
+{
+	return(Blur(input, float2(0, 1), 1.8f));
+}
+
 float4 PS_BLOOMBLUR(PS_INPUT_BLOOM_POST input) : SV_TARGET
 {
-	float fBlurDistance = 0.0015f;
-	float4 f4ColorOut  = tex2D[8].Sample(linearSampler, float2(input.f2TexCoord.x + fBlurDistance, 
-															   input.f2TexCoord.y + fBlurDistance) );
-	f4ColorOut += tex2D[8].Sample(linearSampler, float2(input.f2TexCoord.x - fBlurDistance,
-															   input.f2TexCoord.y - fBlurDistance) );
-	f4ColorOut += tex2D[8].Sample(linearSampler, float2(input.f2TexCoord.x + fBlurDistance,
-															   input.f2TexCoord.y - fBlurDistance) );
-	f4ColorOut += tex2D[8].Sample(linearSampler, float2(input.f2TexCoord.x - fBlurDistance,
-															   input.f2TexCoord.y + fBlurDistance) );
-
-	f4ColorOut *= 0.25;
+	float4 f4ColorOut = BloomBlurH(input);
+	f4ColorOut += BloomBlurV(input);
+	f4ColorOut *= 0.5f;
+	
+	f4ColorOut.w = 1.f;
 	return f4ColorOut;
 }
 
@@ -106,7 +135,7 @@ float4 PS_LUMINANCE(PS_INPUT_BLOOM_POST input) : SV_TARGET
 
 float4 PS_ADAPT_LUMINANCE(PS_INPUT_BLOOM_POST input) : SV_TARGET
 {
-	float fTau = 0.25f;
+	const float fTau = 1.f;
 	float fLastLum = exp(lumTex1.Sample(pointSampler, input.f2TexCoord).x);
 	float fCurrentLum = lumTex.Sample(pointSampler, input.f2TexCoord).x;
 
@@ -115,36 +144,39 @@ float4 PS_ADAPT_LUMINANCE(PS_INPUT_BLOOM_POST input) : SV_TARGET
 	return float4(log(fAdaptedLum), 1.f, 1.f, 1.f);
 }
 
+float LinearDepth(in float fZBufferDepth)
+{
+	return fDoFFar / (fZBufferDepth - fDoFNear);
+}
+
 float4 PS_BLOOMACCUM(PS_INPUT_BLOOM_POST input) : SV_TARGET
 {
 	float fOriginalIntesity = 1.f;
 	float fBloomIntesity = 1.3f;
 	float fOriginalSaturation = 1.f;
 	float fBloomSaturation = 1.3f;
+
 #if(NUM_MSAA_SAMPLES <= 1)
-	float fDepth = depthTex.Load(int3((int2)input.f4Pos.xy, 0)).x;
+	float fOpaqueDepth = LinearDepth(opaqueDepthTex.Load(int3(input.f4Pos.xy, 0)));
+	float fTransparentDepth = LinearDepth(transparentDepthTex.Load(int3(input.f4Pos.xy, 0)));
 #else
-	float fDepth = depthTex.Load(int3((int2)input.f4Pos.xy, 0), 0).x;
+	float fOpaqueDepth = LinearDepth(opaqueDepthTex.Load(int3(input.f4Pos.xy, 0), 0));
+	float fTransparentDepth = LinearDepth(transparentDepthTex.Load(int3(input.f4Pos.xy, 0), 0));
 #endif
-	fBloomIntesity *= (3 * fDepth);
-	float3 f3BloomColor = tex2D[8].Sample(linearSampler, input.f2TexCoord).xyz;
-	float3 f3OriginalColor = tex2D[7].Sample(linearSampler, input.f2TexCoord).xyz;
-
-	float fAvgLuminance = GetAvgLuminance(lumTex, input.f2TexCoord);
-	float fExposure = 0.f;
-	f3OriginalColor = ToneMap(f3OriginalColor, fAvgLuminance, 0, fOriginalSaturation, fExposure);
 	
-	f3BloomColor *= fBloomIntesity;
+	float fDepth = fTransparentDepth > fOpaqueDepth ? fOpaqueDepth : fTransparentDepth;
+	fDepth = 1.f - 1.3*fDepth;
 
-	float3 f3ColorOut = f3OriginalColor + f3BloomColor;
-	
-	return float4(f3ColorOut, 1.f);
+	fBloomIntesity *= (fDepth);
+	float4 f4BloomColor = tex2D[8].Sample(linearSampler, input.f2TexCoord) * fBloomIntesity;
+	float4 f4OriginalColor = tex2D[7].Sample(linearSampler, input.f2TexCoord) * fOriginalIntesity;
 
-
-	/*f4BloomColor = AdjustSaturationB(f4BloomColor, fBloomSaturation) * fBloomIntesity;
+	//float fAvgLuminance = GetAvgLuminance(lumTex, input.f2TexCoord);
+	//float fExposure = 0.f;
+	//f4OriginalColor.xyz = ToneMap(f4OriginalColor.xyz * fOriginalIntesity, fAvgLuminance, 0, 1.f, fExposure);
+	//f4BloomColor.xyz = ToneMap(f4BloomColor.xyz * fBloomIntesity, fAvgLuminance, 0, 1.f, fExposure);
+	f4BloomColor = AdjustSaturationB(f4BloomColor, fBloomSaturation) * fBloomIntesity;
 	f4OriginalColor = AdjustSaturationO(f4OriginalColor, fOriginalSaturation, input.f2TexCoord) * fOriginalIntesity;
-
-	f4OriginalColor *= (1.f - saturate(f4BloomColor));
 	
-	return saturate(f4OriginalColor + f4BloomColor);*/
+	return f4OriginalColor + f4BloomColor;
 }
