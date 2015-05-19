@@ -41,8 +41,11 @@ NAMESPACE_VIEW_B
 
 	void VButton::onMouseOut(void)
 	{
-		m_zoHover->SwitchOff();
-		m_zoNormal->SwitchOn();
+		if (!isActive())
+		{
+			m_zoHover->SwitchOff();
+			m_zoNormal->SwitchOn();
+		}
 	}
 
 	void VButton::onMouseClickLeft(void)
@@ -86,6 +89,21 @@ NAMESPACE_VIEW_B
 	CFloatRect VButton::getRectangle()
 	{
 		return m_zfrRect;
+	}
+
+	void VButton::setActive(bool value)
+	{
+		m_isActive = value;
+		if (m_isActive)
+		{
+			m_zoNormal->SwitchOff();
+			m_zoHover->SwitchOn();
+		}
+	}
+
+	bool VButton::isActive()
+	{
+		return m_isActive;
 	}
 
 	void VButton::switchOn()

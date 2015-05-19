@@ -63,6 +63,7 @@ NAMESPACE_VIEW_B
 
 	void VText::setLayer(float layer)
 	{
+		m_writing->SetLayer(layer);
 	}
 
 	void VText::updateRectangle(CFloatRect rect)

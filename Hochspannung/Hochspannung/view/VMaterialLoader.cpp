@@ -87,6 +87,13 @@ CMaterial VMaterialLoader::materialCraftmenuButtonOilPowerplantHover;
 CMaterial VMaterialLoader::materialCraftmenuButtonNuclearPowerplantHover;
 CMaterial VMaterialLoader::materialCraftmenuButtonPowerlineHover;
 
+//Sabotage
+CMaterial VMaterialLoader::materialSabotageButtonScissors;
+CMaterial VMaterialLoader::materialSabotageButtonStrike;
+
+CMaterial VMaterialLoader::materialSabotageButtonScissorsHover;
+CMaterial VMaterialLoader::materialSabotageButtonStrikeHover;
+
 //Icons
 CMaterial VMaterialLoader::materialIngameIconPopulation;
 CMaterial VMaterialLoader::materialIngameIconMoney;
@@ -143,6 +150,9 @@ CMaterial VMaterialLoader::materialWindowsofBuilding;
 //Background
 CMaterial VMaterialLoader::materialDefaultBackground;
 CMaterial VMaterialLoader::materialWhiteGreyBackground;
+
+//Test
+CMaterial VMaterialLoader::materialAnimationsVersuch;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
@@ -235,10 +245,20 @@ void VMaterialLoader::init()
 	materialCraftmenuButtonNuclearPowerplantHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_nuclearPowerPlantHover.png");
 	materialCraftmenuButtonPowerlineHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_powerLineHover.png");
 
+	//Sabotage
+	materialSabotageButtonScissors.MakeTextureSprite("textures/gui/Buttons/gui_ingame_scissors.png");
+	materialSabotageButtonStrike.MakeTextureSprite("textures/gui/Buttons/gui_ingame_strike.png");
+	
+	materialSabotageButtonScissorsHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_scissorsHover.png");
+	materialSabotageButtonStrikeHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_strikeHover.png");
+
 	//Test
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
 	materialBlue.MakeTextureSprite("textures\\blue_image.jpg");
 	materialGreen.MakeTextureSprite("textures\\green_image.jpg");
+
+	materialAnimationsVersuch.MakeTextureSprite("textures/fonts/FontArialShadow.png");
+	materialAnimationsVersuch.SetAni(16, 16, 5);
 
 	//Fonts
 	standardFont.Init("textures/fonts/FontArialShadow.png", true);

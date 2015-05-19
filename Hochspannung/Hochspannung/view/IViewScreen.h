@@ -189,6 +189,8 @@ NAMESPACE_VIEW_B
 
 		void switchCursor(char* imagefile, const bool bChromaKeying)
 		{
+			m_viewport->SubOverlay(m_pCursorImage);
+			delete m_pCursorImage;
 			m_pCursorImage = new COverlay();
 			m_pCursorImage->Init(imagefile, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F), bChromaKeying);
 			m_viewport->AddOverlay(m_pCursorImage);
