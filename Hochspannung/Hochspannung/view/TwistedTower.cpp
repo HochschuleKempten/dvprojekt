@@ -35,6 +35,9 @@ CTwistedTower::CTwistedTower(void)
 	//Translations
 	TranslateAll();
 
+	//Resize for Lods
+	ScaleForLod();
+
 }
 
 CTwistedTower::~CTwistedTower(void)
@@ -116,6 +119,12 @@ void CTwistedTower::TranslateAll() {
 	m_zpWallEast.AddGeo(&m_zgWallEast);
 	m_zpWallWest.TranslateDelta(2.8F, 0, 0.2F);
 	m_zpWallWest.AddGeo(&m_zgWallWest);
+
+}
+
+void CTwistedTower::ScaleForLod(){
+
+	this->Scale(fResize);
 
 }
 

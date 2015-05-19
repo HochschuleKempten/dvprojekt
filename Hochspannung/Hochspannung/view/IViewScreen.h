@@ -166,7 +166,7 @@ NAMESPACE_VIEW_B
 				m_pCursorImage = new COverlay();
 				m_pCursorImage->Init(&VMaterialLoader::m_zmDefaultCursor, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F));
 				m_viewport->AddOverlay(m_pCursorImage);
-				m_pCursorImage->SetLayer(0.0F);
+				m_pCursorImage->SetLayer(0.01F);
 				break;
 			case Hammer:
 				delete m_pCursorImage;
@@ -174,7 +174,7 @@ NAMESPACE_VIEW_B
 				m_pCursorImage = new COverlay();
 				m_pCursorImage->Init(&VMaterialLoader::m_zmHammerCursor, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F));
 				m_viewport->AddOverlay(m_pCursorImage);
-				m_pCursorImage->SetLayer(0.0F);
+				m_pCursorImage->SetLayer(0.01F);
 				break;
 			case Sabotage:
 				delete m_pCursorImage;
@@ -182,7 +182,7 @@ NAMESPACE_VIEW_B
 				m_pCursorImage = new COverlay();
 				m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F));
 				m_viewport->AddOverlay(m_pCursorImage);
-				m_pCursorImage->SetLayer(0.0F);
+				m_pCursorImage->SetLayer(0.01F);
 				break;
 			}
 		}
@@ -194,7 +194,7 @@ NAMESPACE_VIEW_B
 			m_pCursorImage = new COverlay();
 			m_pCursorImage->Init(imagefile, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F), bChromaKeying);
 			m_viewport->AddOverlay(m_pCursorImage);
-			m_pCursorImage->SetLayer(0.0F);
+			m_pCursorImage->SetLayer(0.01F);
 		}
 
 	

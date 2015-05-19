@@ -4,6 +4,7 @@
 #include "IViewBuilding.h"
 #include "../logic/IVPowerPlant.h"
 #include "VSoundLoader.h"
+#include "../logic/LRemoteOperation.h"
 
 NAMESPACE_VIEW_B
 
@@ -29,10 +30,16 @@ public:
 	{			
 		switch (action)
 		{
-			case action::switchOnOff: lPlant->switchOnOff(); return true; 
+			case action::switchOnOff:
+			{
+				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
+				lPlant->switchOnOff();
+				return true;
+			}
 			case action::sabotagePowerPlant: 
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
 				{
+					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
 					lPlant->sabotage(); 
 					return true; 
 				} 
@@ -41,6 +48,7 @@ public:
 			case action::sabotageResourceField: 
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
 				{
+					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
 					lPlant->sabotageResource(); 
 					return true;
 				}

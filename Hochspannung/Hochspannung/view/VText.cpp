@@ -28,6 +28,7 @@ NAMESPACE_VIEW_B
 	void VText::switchOn()
 	{
 		m_bisOn = true;
+		updateText(m_text);
 		m_writing->SwitchOn();
 		m_writing->PrintF("%s", const_cast<char*>(m_text.c_str()));
 	}
@@ -35,9 +36,9 @@ NAMESPACE_VIEW_B
 	void VText::switchOff()
 	{
 		m_bisOn = false;
+		updateText("");
 		m_writing->SwitchOff();
 		m_writing->PrintF("");
-		
 	}
 
 	void VText::onMouseOver()

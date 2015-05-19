@@ -50,7 +50,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	/* Use vektoria icon and default mouse-pointer */
 	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_ICON1));
-	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+	//wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcex.hCursor = LoadCursorFromFile("textures\\gui\\Cursor\\default_zeiger.cur");
+	
+	//SetCursor(LoadCursorFromFile())
 	wcex.lpszMenuName = NULL;
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;

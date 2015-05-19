@@ -36,7 +36,7 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		host();
 		while (networkService.getConnectionState() != Network::CONNECTED);
 	}
-	else DEBUG_EXPRESSION(if(ipAddress != "SINGLE_PLAYER"))
+	else if(ipAddress != "SINGLE_PLAYER")
 	{
 		connect(ipAddress);
 	}
@@ -46,7 +46,7 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		lPlayingField = new LPlayingField(this);
 	}
 
-	if (networkService.getType() != Network::Type::CLIENT) //todo (IP)
+	if (networkService.getType() != Network::Type::CLIENT)
 	{
 		lPlayingField->createFields();
 		lPlayingField->showPlayingField();
@@ -117,7 +117,7 @@ void LMaster::tick(const float fTimeDelta)
 		if (!gameListUpdatedFirst && timeLastCheck > 5.0f)
 		{
 			vMaster.updateGameList({
-				CGameObject(ip::address::from_string("172.16.28.21"), 1000, "Test1"),
+				CGameObject(ip::address::from_string("84.136.248.111"), 1000, "Test1"),
 				CGameObject(ip::address::from_string("222.9.2.171"), 500, "Test2")
 			});
 
@@ -127,7 +127,7 @@ void LMaster::tick(const float fTimeDelta)
 		if (!gameListUpdatedSecond && timeLastCheck > 8.0f)
 		{
 			vMaster.updateGameList({
-				CGameObject(ip::address::from_string("172.16.28.21"), 1000, "Test1"),
+				CGameObject(ip::address::from_string("84.136.248.111"), 1000, "Test1"),
 				CGameObject(ip::address::from_string("200.111.111.111"), 111, "Test3")
 			});
 
@@ -144,35 +144,61 @@ void LMaster::tick(const float fTimeDelta)
 		int objectId = transferObject.getTransObjectID();
 		int x = transferObject.getCoordX();
 		int y = transferObject.getCoordY();
-		int playerId = std::stoi(transferObject.getValue());
-		if (playerId == LPlayer::Local)
-		{
-			playerId = LPlayer::External;
-		}
-		else if (playerId == LPlayer::External)
-		{
-			playerId = LPlayer::Local;
-		}
+		
 
-		DEBUG_OUTPUT("objectId=" << objectId << ":x=" << x << ":y=" << y << ":playerId=" << playerId);
+		DEBUG_OUTPUT("objectId=" << objectId << ":x=" << x << ":y=" << y);
 
 		//regarding host
 		switch (transferObject.getAction())
 		{
 		case(SET_OBJECT) :
+		{
+			int playerId = std::stoi(transferObject.getValue());
+			if (playerId == LPlayer::Local)
+			{
+				playerId = LPlayer::Remote;
+			}
+			else if (playerId == LPlayer::Remote)
+			{
+				playerId = LPlayer::Local;
+			}
 
 			//buildings
 			if (objectId >= 100 && objectId < 109)
 			{
 				placeBuilding(objectId, x, y, playerId);
 			}
-			else if (playerId == -66) //= end of fieldcreation
+			else if (objectId == -666) //= end of fieldcreation
 			{
 				lPlayingField->showPlayingField();
 			}
+			else if (objectId == 300) //switch powerplant on/off
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->switchOnOff();
+				}
+			}
+			else if (objectId == 400)
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotage();
+				}
+			}
+			else if (objectId == 500)
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotageResource();
+				}
+			}
 
 			break;
-
+		}
 		case(DELETE_OBJECT) :
 
 			lPlayingField->removeBuilding(x, y);
@@ -227,9 +253,9 @@ void LMaster::tick(const float fTimeDelta)
 					int plId = row[column].iPlayerID;
 					if (plId == LPlayer::Local)
 					{
-						plId = LPlayer::External;
+						plId = LPlayer::Remote;
 					}
-					else if (plId == LPlayer::External)
+					else if (plId == LPlayer::Remote)
 					{
 						plId = LPlayer::Local;
 					}
@@ -297,7 +323,7 @@ void LMaster::sendSetObject(const int objectId, const int x, const int y, const 
 	{
 		bool b = networkService.sendSetObject(objectId, x, y, value);
 		ASSERT(b == true, "Error: sendSetObject.");
-		DEBUG_OUTPUT("Sent: Objectid: " + std::to_string(objectId) + ", x: " +std::to_string(x) + ", y:" + std::to_string(y) + ", value: " + value);
+		DEBUG_OUTPUT("----SENDSETOBJECT: Objectid: " + std::to_string(objectId) + ", x: " +std::to_string(x) + ", y:" + std::to_string(y) + ", value: " + value);
 	}
 }
 
@@ -307,7 +333,7 @@ void LMaster::sendSetMapRow(const int row, std::vector<Network::FieldTransfer> r
 	{
 		bool b = networkService.sendSetMapRow(row, rowData);
 		ASSERT(b == true, "Error: sendSetMapRow.");
-		DEBUG_OUTPUT("----Sent: row: " + std::to_string(row)+"-------");
+		DEBUG_OUTPUT("----SENDSETMAPROW: row: " + std::to_string(row)+"-------");
 		for (Network::FieldTransfer ft : rowData)
 		{
 			DEBUG_OUTPUT("ObjectId: " + std::to_string(ft.iObjectID) + ", PlayerId: " + std::to_string(ft.iPlayerID) + ", FieldLevel: " + std::to_string(ft.iFieldLevel) + ", FieldType: " + std::to_string(ft.iFieldType));
@@ -320,8 +346,9 @@ void LMaster::sendDeleteObject(const int x, const int y)
 {
 	if (networkService.getConnectionState() == Network::State::CONNECTED)
 	{
-		bool b= networkService.sendDeleteObject(x, y);
+		bool b = networkService.sendDeleteObject(x, y);
 		ASSERT(b == true, "Error: sendDeleteObject.");
+		DEBUG_OUTPUT("----SENDDELETEOBJECT: x: " << x << ", y: " << y);
 
 	}
 }

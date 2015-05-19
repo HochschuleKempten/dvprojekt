@@ -9,6 +9,7 @@ NAMESPACE_VIEW_B
 VSolarPowerPlant::VSolarPowerPlant(VMaster* vMaster, LSolarPowerPlant* lPlant)
 	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
 {
+	vMaster->registerObserver(this);
 }
 
 VSolarPowerPlant::~VSolarPowerPlant()

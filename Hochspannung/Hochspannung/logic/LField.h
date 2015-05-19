@@ -105,8 +105,8 @@ public:
 	bool isPlacingAllowed();
 	LPlayingField* getLPlayingField();
 	int getResources() const;
-	int deductResources(int value);
-	bool reduceRecources(int amount);
+	int deductResources(const int value);
+	bool reduceRecources(const int amount);
 
 	int getX() const
 	{

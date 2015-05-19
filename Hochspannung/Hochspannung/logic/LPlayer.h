@@ -12,7 +12,7 @@ public:
 	enum PlayerId
 	{
 		Local = 0x1,
-		External = 0x2
+		Remote = 0x2
 	};
 
 private:

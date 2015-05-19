@@ -16,8 +16,11 @@ Building02::Building02()
 Building02::Building02(float fResize)
 {
 	fresize = fResize;
-	InitWindows();
-	AddWindows();
+
+	if (fresize == 1){
+		InitWindows();
+		AddWindows();
+	}
 	InitWalls();
 	AddPlacements();
 	TranslateAll();
@@ -34,6 +37,7 @@ Building02::~Building02()
 
 void Building02::InitWindows(){
 
+	m_zgWallFrame.Init(1.F, 1.F, 0.5F, &VMaterialLoader::materialWindowsofBuilding);
 	m_zgWindow.InitRect(CFloatRect(0.2F, 0.9F, 0.2F, 0.1F), false);
 	m_zgWindow.AddGeoWall(&m_zgWallFrame);
 	
@@ -53,7 +57,7 @@ void Building02::AddWindows(){
 
 	void Building02::InitWalls(){
 
-		m_zgWallFrame.Init(1.F, 1.F, 0.5F, &VMaterialLoader::materialWindowsofBuilding);
+		
 		//m_zgWallGlass.Init(1.F, 1.F, 0.5F, &VMaterialLoader::materialWindowsofBuilding);
 		m_zWallNorth.Init(fstandardwidthwall / fresize, fstandardheightwall / fresize, fstandarddepthwall / fresize, &VMaterialLoader::materialBuilding02);
 		m_zgDach.Init(CHVector(fstandardwidthroof / fresize, fstandardheightroof / fresize, fstandarddepthroof / fresize, 0.F), &VMaterialLoader::materialBuilding02);

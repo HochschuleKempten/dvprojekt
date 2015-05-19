@@ -130,6 +130,11 @@ public:
 	{
 		return 0.0f;
 	}
+	inline void rotate(const float angle)
+	{
+		m_zpGrundflaeche.RotateYDelta(angle);
+		m_zpGrundflaeche2.RotateYDelta(angle);
+	}
 
 };
 

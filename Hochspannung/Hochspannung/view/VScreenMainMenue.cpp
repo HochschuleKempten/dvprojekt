@@ -92,7 +92,7 @@ NAMESPACE_VIEW_B
 
 	void VScreenMainMenue::tick(const float fTimeDelta)
 	{
-		updateCursorImagePos(&vUi->m_zkCursor);
+		//updateCursorImagePos(&vUi->m_zkCursor);
 
 		if (!vUi->m_zkCursor.ButtonPressedLeft())
 		{

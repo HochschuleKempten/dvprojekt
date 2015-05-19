@@ -74,12 +74,10 @@ NAMESPACE_VIEW_B
 	{
 		switch (events)
 		{
-#ifdef _DEBUG
 			case START_GAME:
 				vUi->vMaster->startSinglePlayerGame();
 				vUi->switchScreen("Ingame");
 				break;
-#endif
 			case LOBBY_HOST_GAME:
 				getContainer("WaitingDialog")->switchOn();
 				//vUi->vMaster->hostGame();

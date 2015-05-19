@@ -2,7 +2,7 @@
 
 #include "VGeneral.h"
 #include "../logic/LField.h"
-#include "../logic/LPlayer.h"
+#include "VIdentifier.h"
 
 NAMESPACE_VIEW_B
 
@@ -116,6 +116,7 @@ public:
 	static CMaterial materialRed;
 	static CMaterial materialBlue;
 	static CMaterial materialGreen;
+	static CMaterial materialLightGrey;
 
 	//WritingFonts
 	static CWritingFont standardFont;
@@ -129,9 +130,20 @@ public:
 	static CMaterial m_zmCable;
 
 	//Solarkraftwerktexturen
+	static CMaterial m_zmWindGrund;
+	static CMaterial m_zmWindrad;
+
+	//Solarkraftwerktexturen
 	static CMaterial m_zmSolarzelle;
 	static CMaterial m_zmSolarGrund;
 	static CMaterial m_zmSolarLOD;
+
+	//TODO (ViewModels) Why are there two atom textures?
+	//Atomkraftwerktexturen
+	static CMaterial m_zmAtomGrund;
+	static CMaterial m_zmAtomSchranke;
+	static CMaterial m_zmAtomZaun;
+	static CMaterial m_zmAtomReaktor;
 
 	//Atomkraftwerktexturen
 	static CMaterial m_zmAtomgrundWhite;
@@ -140,6 +152,25 @@ public:
 	static CMaterial m_zmAtomgrundGreen;
 	static CMaterial m_zmHolz;
 
+	//Oelkraftwerktexturen
+	static CMaterial m_zmOelGrund;
+	static CMaterial m_zmOelSchranke;
+	static CMaterial m_zmOelZaun;
+	static CMaterial m_zmOelGelbstahl;
+	static CMaterial m_zmOelGruenstahl;
+
+	//Umspannwerktexturen
+	static CMaterial m_zmUmspannBoden;
+	static CMaterial m_zmUmspannGrund;
+	static CMaterial m_zmUmspannIsolator;
+	static CMaterial m_zmUmspannLeitung;
+
+	//Kohlekraftwerktexturen
+	static CMaterial m_zmKohleBerg;
+	static CMaterial m_zmKohle;
+	static CMaterial m_zmKohleHolz;
+	static CMaterial m_zmKohleLore;
+	static CMaterial m_zmKohleBlack;
 
 	//PlayerColor
 	static std::unordered_map<int, CColor> colorPlayers;
@@ -167,8 +198,13 @@ public:
 	//CraftMenue
 	static CMaterial m_zmCraftMenueBackground;
 
+
 	//Test
 	static CMaterial materialAnimationsVersuch;
+
+	//Rotation adjustments
+	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
+
 };
 
 

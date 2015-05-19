@@ -16,12 +16,15 @@ public:
 	CLargeOfficeBuilding();
 	CLargeOfficeBuilding(float fResize);
 	~CLargeOfficeBuilding(void);
+
+
 	void InitWindows();
 	void AddWindows();
 	void InitWalls();
 	void AddPlacements();
 	void RotateAll();
 	void TranslateAll();
+	void scaleForLod();
 private:
 	
 

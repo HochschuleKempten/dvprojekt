@@ -93,12 +93,10 @@ void VMaster::hostGame()
 	lMaster->startNewGame();
 }
 
-#ifdef _DEBUG
 void VMaster::startSinglePlayerGame()
 {
 	lMaster->startNewGame("SINGLE_PLAYER");
 }
-#endif
 
 void VMaster::joinGame(const std::string& ipAddress)
 {

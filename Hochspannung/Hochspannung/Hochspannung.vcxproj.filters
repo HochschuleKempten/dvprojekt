@@ -313,9 +313,6 @@
     <ClInclude Include="view\Building03.h">
       <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
-    <ClInclude Include="logic\cpplinq.hpp">
-      <Filter>logic</Filter>
-    </ClInclude>
     <ClInclude Include="logic\IVTransformerStation.h">
       <Filter>logic\Interfaces</Filter>
     </ClInclude>
@@ -371,6 +368,9 @@
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VSoundLoader.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelCoalPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -592,6 +592,9 @@
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VSoundLoader.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelCoalPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

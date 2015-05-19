@@ -23,6 +23,7 @@ public:
 	void AddPlacements();
 	void RotateAll();
 	void TranslateAll();
+	void ScaleForLod();
 	
 
 private:

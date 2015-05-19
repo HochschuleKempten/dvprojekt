@@ -41,6 +41,7 @@ void VField::initField(const int rowIdx, const int colIdx)
 	std::string name = std::to_string(VIdentifier::VPlayingField) + ";" + std::to_string(rowIdx) + ";" + std::to_string(colIdx);
 	m_zp.SetName(name.c_str());
 
+	//Material needs to be copied so that hover is working
 	m_zmNormal = VMaterialLoader::fieldMaterials[VMaterialLoader::FieldPair(lField->getFieldType(), lField->getFieldLevel())];
 	ASSERT(m_zmNormal.m_ptextureDiffuse != nullptr, "Could not load the material for the field " << lField->getFieldType());
 	

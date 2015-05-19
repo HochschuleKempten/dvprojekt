@@ -79,7 +79,7 @@ private:
 
 	CGeoCylinder m_zgStaender;
 	CGeoWall m_zgQuerstange;
-	CGeoWall m_zgIsolator;
+	CGeoCylinder m_zgIsolator;
 	CGeoWall m_zgQuerstange2;
 	CGeoWall m_zgGeneratorKasten;
 	CGeoCylinder m_zgStecka;
