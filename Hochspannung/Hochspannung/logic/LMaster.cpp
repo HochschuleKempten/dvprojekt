@@ -37,7 +37,15 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		host();
 		while (networkService.getConnectionState() != Network::CONNECTED);
 	}
-	else if(ipAddress != "SINGLE_PLAYER")
+	else if (ipAddress == "SINGLE_PLAYER")
+	{
+		lPlayingField = new LPlayingField(this);
+		lPlayingField->createFields();
+		lPlayingField->showPlayingField();
+
+		return;
+	}
+	else
 	{
 		connect(ipAddress);
 	}
