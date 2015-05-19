@@ -51,7 +51,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	}
 
 	m_zl.Init(CHVector(1.0F, 1.0F, 1.0F),
-	          CColor(1.0F, 1.0F, 1.0F));
+			  CColor(1.0F, 1.0F, 1.0F));
 
 	m_scene.AddParallelLight(&m_zl);
 	m_scene.AddPlacement(&m_zpCamera);
@@ -101,7 +101,6 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	vUi->m_zf.AddViewport(&m_viewportModels);
 	/********************************************************Baumenu AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.22F, 0.00F, 0.51F, 1.0F), &VMaterialLoader::m_zmCraftMenueBackground, "Craftmenu");
-
 	getContainer("BottomBar")->getContainer("Craftmenu")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.00F, 0.105F, 1.0F,0.895F), "Register");
 	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->addTab(&VMaterialLoader::materialIngameButtonCraftmenu,
 		&VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_BUILDING, "TabBuilding");
@@ -130,8 +129,28 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("nuclearPowerPlant")->setLayer(0.2F);
 	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("powerLine")->setLayer(0.2F);
 
-	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
-	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
+	// Tabs
+	VTab* m_vtTabStatistics = CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics");
+	m_vtTabStatistics = CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics");
+
+	// Tab for statistics
+	m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonWindmill, "statisticWind");
+	m_vtTabStatistics->addText(CFloatRect(0.16f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countWind");
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.26f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, "statisticHydro");
+	m_vtTabStatistics->addText(CFloatRect(0.37f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countHydro");
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.51f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, "statisticSolar");
+	m_vtTabStatistics->addText(CFloatRect(0.62f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countSolar");
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, "statisticNuclear");
+	m_vtTabStatistics->addText(CFloatRect(0.16f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countNuclear");
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.26f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, "statisticCoal");
+	m_vtTabStatistics->addText(CFloatRect(0.37f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countCoal");
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.51f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOil");
+	m_vtTabStatistics->addText(CFloatRect(0.62f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countOil");
 
 	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->addText(CFloatRect(0,    0.075F,  0.3f, 0.4f), &VMaterialLoader::standardFont, "Windkraftwerke", "statisticWind");
 	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->addText(CFloatRect(3.0f, 0.075f,  0.3f, 0.4f), &VMaterialLoader::standardFont, "Wasserkraftwerke", "statisticHydro");
@@ -139,6 +158,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->addText(CFloatRect(0,    0.525f,  0.3f, 0.4f), &VMaterialLoader::standardFont, "Atomkraftwerke", "statisticNuclear");
 	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->addText(CFloatRect(3.0f, 0.525f,  0.3f, 0.4f), &VMaterialLoader::standardFont, "Kohlekraftwerke", "statisticCoal");
 	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->addText(CFloatRect(6.0f, 0.525f,  0.3f, 0.4f), &VMaterialLoader::standardFont, "Ölkraftwerke", "statisticOil");
+	
+	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
+	CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
+
 
 	/********************************************************Minimap AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.73F, 0.01F, 0.27F, 1.0F), &VMaterialLoader::materialMinimapBackground, "Minimap");
@@ -193,6 +216,8 @@ void VScreenIngame::onNotify(const Event& events)
 			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->switchOff();
 			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
 			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOn();
+			// TODO get stats and update statistics here
+			updatePowerPlants({ { "countOil", 10 }, { "countWind", 15 } }); // testing
 			break;
 
 		case SELECT_BUILDING_WINDMILL:
@@ -307,6 +332,13 @@ void VScreenIngame::updatePopulation(const int wert)
 void VScreenIngame::updateInfofield(const std::string& neuerText)
 {
 	//CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
+}
+
+void VScreenIngame::updatePowerPlants(const std::map<std::string, int> powerPlants) {
+	//VTab * tabStatistics = CASTD<VRegister *>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics");
+	for each (std::pair<std::string, int> plant in powerPlants) {
+		CASTD<VText*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->getGuiObject(plant.first))->updateText(std::to_string(plant.second));
+	}
 }
 
 CFloatRect VScreenIngame::getTopSpace()
