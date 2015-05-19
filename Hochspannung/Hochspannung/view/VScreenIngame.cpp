@@ -221,6 +221,7 @@ void VScreenIngame::onNotify(const Event& events)
 			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
 			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
 			break;
+
 		case SWITCH_TO_REGISTER_SABOTAGE:
 			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->switchOff();
 			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabSabotage")->switchOn();
