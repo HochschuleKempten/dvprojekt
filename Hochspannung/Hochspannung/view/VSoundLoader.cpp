@@ -32,8 +32,8 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(TRASSE_PLACED, "createTrasse");
 	setSoundEffectHelper(OBJECT_REMOVED, "delObject");
 	setSoundEffectHelper(OPERATION_CANCELED, "click");
-	setSoundEffectHelper(POWERPLANT_SWITCH_ON, "click");
-	setSoundEffectHelper(POWERPLANT_SWITCH_OFF, "click");
+	setSoundEffectHelper(POWERPLANT_SWITCH_ON, "gui_switch");
+	setSoundEffectHelper(POWERPLANT_SWITCH_OFF, "gui_switch");
 	setSoundEffectHelper(SABOTAGE_RECEIVED, "sabotage_received");
 	setSoundEffectHelper(SABOTAGE_EMITTED, "click");
 	setSoundEffectHelper(ENERGY_LOW, "lowEnergy");
