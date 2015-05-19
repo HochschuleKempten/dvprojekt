@@ -40,6 +40,8 @@ public:
 	void sendSetObject(const int objectId, const int x, const int y, const std::string& value);
 	void sendSetMapRow(const int row, std::vector<Network::FieldTransfer> rowData);
 	void sendDeleteObject(const int x, const int y);
+	std::vector<Network::CGameObject> getGameList();
+	void searchGames();
 
 	LPlayingField* getLPlayingField();
 	IVMaster* getVMaster();

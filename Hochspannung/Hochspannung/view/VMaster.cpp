@@ -64,7 +64,7 @@ void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
 	vUi.updateGameList(gameList);
 
 	//TODO (V) inform UI
-	DEBUG_OUTPUT("Updated List");
+	//DEBUG_OUTPUT("Updated List");
 	for (auto go : gameList)
 	{
 		DEBUG_OUTPUT("ip = " << go.getServerIP());
