@@ -5,7 +5,7 @@
 #include"IViewSubject.h"
 #include "VTextfield.h"
 #include "VText.h"
-#include "VGraph.h"
+
 
 NAMESPACE_VIEW_B
 
@@ -66,7 +66,7 @@ NAMESPACE_VIEW_B
 			{
 				 ObjectPair.second->switchOn();
 			}
-
+			
 			for (std::pair<std::string, COverlay*> OverlayPair : m_Overlays)
 			{
 				 OverlayPair.second->SwitchOn();
@@ -126,7 +126,6 @@ NAMESPACE_VIEW_B
 			m_guiObjects[sName]->setLayer(0.2F);
 			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
-			return CASTD<VButton*>(m_guiObjects[sName]);
 		}
 
 		virtual VTextfield* addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
@@ -136,7 +135,6 @@ NAMESPACE_VIEW_B
 			m_guiObjects[sName]->setLayer(0.2F);
 			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
-			return CASTD<VTextfield*>(m_guiObjects[sName]);
 		}
 
 		virtual VText* addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName)
@@ -146,16 +144,6 @@ NAMESPACE_VIEW_B
 			m_guiObjects[sName]->setLayer(0.2F);
 			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
-			return CASTD<VText*>(m_guiObjects[sName]);
-		}
-
-		virtual VGraph* addGraph(CFloatRect rect, std::string sName) {
-			m_guiObjects[sName] = new VGraph(m_viewport, createRelativeRectangle(&m_zfRect, &rect));
-			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
-			m_guiObjects[sName]->setLayer(0.2F);
-			m_guiObjects[sName]->setName(sName);
-			m_guiObjects[sName]->addObserver(this);
-			return CASTD<VGraph*>(m_guiObjects[sName]);
 		}
 
 		virtual COverlay * addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, std::string sName)
@@ -164,7 +152,6 @@ NAMESPACE_VIEW_B
 			m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
 			m_viewport->AddOverlay(m_Overlays[sName]);
 			m_Overlays[sName]->SetLayer(0.1F);
-			return m_Overlays[sName];
 		}
 
 		virtual void addViewport(CCamera* cam, CFloatRect rect, const std::string& sName)
@@ -263,7 +250,7 @@ NAMESPACE_VIEW_B
 		
 
 		std::unordered_map<std::string, CViewport*> m_viewports;
-
+		
 
 		virtual CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)
 		{

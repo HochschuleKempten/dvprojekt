@@ -51,6 +51,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+	//wcex.hCursor = LoadCursorFromFile("textures\\gui\\Cursor\\default_zeiger.cur");
+	//wcex.hCursor =  LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.png", IMAGE_CURSOR, 100, 100, LR_LOADTRANSPARENT);
+		
+	//SetCursor(LoadCursorFromFile())
 	wcex.lpszMenuName = NULL;
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;

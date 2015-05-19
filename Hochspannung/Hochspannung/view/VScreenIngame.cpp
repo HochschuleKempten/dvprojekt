@@ -23,9 +23,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	//Standard Init
 	m_zc.Init();
 	m_zb.InitFull("textures/black_image.jpg");
-
+	
 	m_viewport->AddBackground(&m_zb);
 	m_viewport->InitFull(&m_zc);
+
 
 	//Detailled model view
 	m_zmbackgroundModels.InitFull(&VMaterialLoader::materialDefaultBackground);
@@ -86,6 +87,11 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("Topbar")->addOverlay(CFloatRect(0.50F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon");
 	getContainer("Topbar")->addText(CFloatRect(0.601F, 0.2F, 0.2F, 0.85F), &VMaterialLoader::GoldFont, "0000", "moneyValue");
 
+	getContainer("Topbar")->getGuiObject("popValue")->setLayer(0.1F);
+	getContainer("Topbar")->getGuiObject("moneyValue")->setLayer(0.1F);
+
+	getContainer("Topbar")->getOverlay("TopPopulationIcon")->SetLayer(0.1F);
+	getContainer("Topbar")->getOverlay("TopMoneyIcon")->SetLayer(0.1F);
 
 	/********************************************************BOTTOM AREA*************************************************************/
 	//addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 0.75F, 1.0F, 0.25F), "BottomBar");
@@ -135,7 +141,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	// Set TabBuilding as default tab = turning off all other tabs
 	m_vtTabStatistics->switchOff();
 	m_vtTabSabotage->switchOff();
-
+	
 	/********************************************************Minimap AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.73F, 0.01F, 0.27F, 1.0F), &VMaterialLoader::materialMinimapBackground, "Minimap");
 	getContainer("BottomBar")->getContainer("Minimap")->addText(CFloatRect(0.01F, 0.3F, 0.80F, 0.1F), &VMaterialLoader::standardFont, "Minimap", "MinimapText");
@@ -198,6 +204,7 @@ void VScreenIngame::onNotify(Event events)
 			m_vtTabSabotage->switchOff();
 			m_vtTabStatistics->switchOff();
 			break;
+
 		case SWITCH_TO_REGISTER_SABOTAGE:
 			m_vtTabBuilding->switchOff();
 			m_vtTabSabotage->switchOn();
@@ -214,40 +221,97 @@ void VScreenIngame::onNotify(Event events)
 		case SELECT_BUILDING_WINDMILL:
 			updateInfofield("Windmill");
 			m_selectedBuilding = VIdentifier::VWindmillPowerPlant;
+			switchCursor("textures/hammer.png", true);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("windmill"))->setActive();
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("hydroPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("solarPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("coalPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("oilPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("nuclearPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("powerLine"))->setActive(false);
 			//TODO BuildMenue Button Windmill 
 			break;
 		case SELECT_BUILDING_COALPOWERPLANT:
 			updateInfofield("CoalPowerplant");
 			m_selectedBuilding = VIdentifier::VCoalPowerPlant;
+			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button CoalPowerplant 
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("windmill"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("hydroPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("solarPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("coalPowerPlant"))->setActive(true);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("oilPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("nuclearPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("powerLine"))->setActive(false);
 			break;
 		case SELECT_BUILDING_OILPOWERPLANT:
 			updateInfofield("OilPowerplant");
 			m_selectedBuilding = VIdentifier::VOilRefinery;
+			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button Oilpowerplant
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("windmill"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("hydroPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("solarPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("coalPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("oilPowerPlant"))->setActive(true);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("nuclearPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("powerLine"))->setActive(false);
 			break;
 		case SELECT_BUILDING_NUCLEARPOWERPLANT:
 			updateInfofield("NuclearPowerplant");
 			m_selectedBuilding = VIdentifier::VNuclearPowerPlant;
+			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button Nuclearpowerplant
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("windmill"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("hydroPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("solarPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("coalPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("oilPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("nuclearPowerPlant"))->setActive(true);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("powerLine"))->setActive(false);
 			break;
 		case SELECT_BUILDING_HYDROPOWERPLANT:
 			updateInfofield("HydroPowerplant");
 			m_selectedBuilding = VIdentifier::VHydroelectricPowerPlant;
+			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button Hydropowerplant
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("windmill"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("hydroPowerPlant"))->setActive(true);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("solarPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("coalPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("oilPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("nuclearPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("powerLine"))->setActive(false);
 			break;
 		case SELECT_BUILDING_SOLARPOWERPLANT:
 			updateInfofield("SolarPowerplant");
 			m_selectedBuilding = VIdentifier::VSolarPowerPlant;
+			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button Solarpowerplant
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("windmill"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("hydroPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("solarPowerPlant"))->setActive(true);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("coalPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("oilPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("nuclearPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("powerLine"))->setActive(false);
 			break;
 		case SELECT_BUILDING_POWERLINE:
 			updateInfofield("Powerline");
 			m_selectedBuilding = VIdentifier::VPowerLine;
+			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button Powerline
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("windmill"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("hydroPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("solarPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("coalPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("oilPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("nuclearPowerPlant"))->setActive(false);
+			CASTD<VButton*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("powerLine"))->setActive(true);
 			break;
 		default:
 			m_selectedBuilding = VIdentifier::Undefined;
+			switchCursor("textures/gui/default_zeiger.png", true);
 			notify(events);
 			break;
 	}
@@ -344,11 +408,12 @@ CFloatRect VScreenIngame::getBottomSpace()
 
 void VScreenIngame::tick(const float fTimeDelta)
 {
-	updateCursorImagePos(&vUi->m_zkCursor);
+	//updateCursorImagePos(&vUi->m_zkCursor);
 
 	if (!vUi->m_zkCursor.ButtonPressedLeft())
 	{
 		vUi->m_BlockCursorLeftPressed = false;
+		
 	}
 
 	handleInput();
@@ -588,7 +653,7 @@ void VScreenIngame::handleInput()
 std::map<int, std::vector<int>> VScreenIngame::pickElements()
 {
 	std::map<int, std::vector<int>> pickedElements;
-
+	
 	CGeos geos;
 	vUi->m_zkCursor.PickGeos(&geos);
 

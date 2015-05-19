@@ -27,7 +27,7 @@ NAMESPACE_VIEW_B
 
 	VScreenOptions::~VScreenOptions()
 	{
-
+		
 	}
 
 	void VScreenOptions::onNotify(const Event& events)

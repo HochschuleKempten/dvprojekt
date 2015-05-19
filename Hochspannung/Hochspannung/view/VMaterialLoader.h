@@ -93,6 +93,15 @@ public:
 	static CMaterial materialCraftmenuButtonNuclearPowerplantHover;
 	static CMaterial materialCraftmenuButtonPowerlineHover;
 	
+	//Sabotage
+	static CMaterial materialSabotageButtonScissors;
+	static CMaterial materialSabotageButtonStrike;
+	//static CMaterial materialCraftmenuButtonWindmill;
+
+	static CMaterial materialSabotageButtonScissorsHover;
+	static CMaterial materialSabotageButtonStrikeHover;
+	
+
 	//Infofield
 	static CMaterial materialInfofieldBackground;
 
@@ -189,8 +198,13 @@ public:
 	//CraftMenue
 	static CMaterial m_zmCraftMenueBackground;
 
+
+	//Test
+	static CMaterial materialAnimationsVersuch;
+
 	//Rotation adjustments
 	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
+
 };
 
 

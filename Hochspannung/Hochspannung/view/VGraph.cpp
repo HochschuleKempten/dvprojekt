@@ -52,10 +52,8 @@ NAMESPACE_VIEW_B
 	void VGraph::addBar(std::string sName, CMaterial* normalMaterial)
 	{
 		m_bars[sName] = new Bar(m_viewport, normalMaterial, createRelativeRectangle(&m_zfrRect, &CFloatRect(0, 0, 1, 1)), 10);
-		float layer = getLayer() - 0.01F * (m_bars.size() + 1);
-		m_bars[sName]->setLayer(layer);
 		calcHeight();
-		//calcWidth();
+		calcWidth();
 
 		//		m_bars[sName]->Init(normalMaterial, createRelativeRectangle(&m_zfrRect, &CFloatRect(0, 0, 0,0)));
 	}
@@ -71,47 +69,29 @@ NAMESPACE_VIEW_B
 		float fMaxSize = 0;
 		Bar* tempMax = nullptr;
 		CFloatRect tempRect;
-		//for (m_IterBars = m_bars.begin(); m_IterBars != m_bars.end(); ++m_IterBars)
-		//{
-		//	if (m_IterBars->second->get_m_f_value() > fMaxSize)
-		//	{
-		//		fMaxSize = m_IterBars->second->get_m_f_value();
-		//		tempMax = m_IterBars->second;
-		//	}
-		//}
-		//for (m_IterBars = m_bars.begin(); m_IterBars != m_bars.end(); ++m_IterBars)
-		//{
-		//	float part = 0;
-
-		//	tempRect = m_IterBars->second->getRectangle();
-		//	ASSERT(fMaxSize != 0, "Devision by zero.MaxSize is zero!");
-		//	part = m_IterBars->second->get_m_f_value() / fMaxSize;
-
-		//	tempRect.SetYSize(part);
-		//	m_IterBars->second->setRectangle(createRelativeRectangle(&m_zfrRect, &tempRect));
-		//	m_IterBars->second->updateRectangle(createRelativeRectangle(&m_zfrRect, &tempRect));
-		//}
-		//tempRect.SetYSize(1.0F);
-		//tempMax->setRectangle(createRelativeRectangle(&m_zfrRect, &tempRect));
-		//tempMax->updateRectangle(createRelativeRectangle(&m_zfrRect, &tempRect));
-		
-		// sorting height according to value
-		struct bar {
-			bool operator() (Bar* barI, Bar* barJ) {
-				return barI->get_m_f_value() > barJ->get_m_f_value();
+		for (m_IterBars = m_bars.begin(); m_IterBars != m_bars.end(); ++m_IterBars)
+		{
+			if (m_IterBars->second->get_m_f_value() > fMaxSize)
+			{
+				fMaxSize = m_IterBars->second->get_m_f_value();
+				tempMax = m_IterBars->second;
 			}
-		} compareBar;
-
-		std::vector<Bar*> sortedBars;
-		for each (std::pair<std::string, Bar*> bar in m_bars) {
-			sortedBars.push_back(bar.second);
-			std::sort(sortedBars.begin(), sortedBars.end(), compareBar);
 		}
+		for (m_IterBars = m_bars.begin(); m_IterBars != m_bars.end(); ++m_IterBars)
+		{
+			float part = 0;
 
-		for (int i = 0; i < sortedBars.size(); i++) {
-			sortedBars[i]->setLayer(getLayer () - 0.01F * (i+1));
+			tempRect = m_IterBars->second->getRectangle();
+			ASSERT(fMaxSize != 0, "Devision by zero.MaxSize is zero!");
+			part = m_IterBars->second->get_m_f_value() / fMaxSize;
+
+			tempRect.SetYSize(part);
+			m_IterBars->second->setRectangle(createRelativeRectangle(&m_zfrRect, &tempRect));
+			m_IterBars->second->updateRectangle(createRelativeRectangle(&m_zfrRect, &tempRect));
 		}
-		
+		tempRect.SetYSize(1.0F);
+		tempMax->setRectangle(createRelativeRectangle(&m_zfrRect, &tempRect));
+		tempMax->updateRectangle(createRelativeRectangle(&m_zfrRect, &tempRect));
 	}
 
 	float VGraph::getMaxHeight()

@@ -30,7 +30,7 @@ NAMESPACE_VIEW_B
 
 	VGroup::~VGroup()
 	{
-		}
+	}
 
 
 	void VGroup::onNotify(const Event& events)
@@ -47,7 +47,6 @@ NAMESPACE_VIEW_B
 		m_guiObjects[sName] = new VButton(m_viewport, rect, MaterialNormal, MaterialHover, clickAction);
 
 		m_guiObjects[sName]->addObserver(this);
-		return CASTD<VButton*>(m_guiObjects[sName]);
 	}
 
 	VTextfield*  VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
@@ -63,7 +62,6 @@ NAMESPACE_VIEW_B
 		m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text);
 
 		m_guiObjects[sName]->addObserver(this);
-		return CASTD<VText*>(m_guiObjects[sName]);
 	}
 
 	COverlay*  VGroup::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, std::string sName)
