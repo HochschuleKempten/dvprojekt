@@ -9,7 +9,7 @@ NAMESPACE_VIEW_B
 	{
 	public:
 		VText();
-		VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, string text);
+		VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text);
 
 		~VText();
 
@@ -21,8 +21,8 @@ NAMESPACE_VIEW_B
 		virtual void onMouseClickLeft(void) override final;
 		virtual void onMouseClickRight(void) override final;
 
-		void updateText(string text);
-		virtual void setLayer(float layer) override final;
+		void updateText(const std::string& text);
+		virtual void setLayer(const float layer) override final;
 		void updateRectangle(CFloatRect rect) override final;
 
 
@@ -30,7 +30,7 @@ NAMESPACE_VIEW_B
 
 		CWritingFont* m_writingFont;
 		CWriting* m_writing;
-		string m_text;
+		std::string m_text;
 	};
 
 	NAMESPACE_VIEW_E

@@ -5,8 +5,12 @@ NAMESPACE_VIEW_B
 
 VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 {
-	m_zpMain.AddPlacement(&m_zpBasis);
-	m_zpMain.AddPlacement(&m_zpKopf);
+	m_zpLOD[0].AddPlacement(&m_zpWindkraftwerk);
+	m_zpLOD[1].AddPlacement(&m_zpWindkraftwerk);
+	m_zpLOD[2].AddPlacement(&m_zpWindkraftwerk);
+	m_zpMain.AddPlacement(&m_zpWindkraftwerk);
+	m_zpWindkraftwerk.AddPlacement(&m_zpBasis);
+	m_zpWindkraftwerk.AddPlacement(&m_zpKopf);
 	m_zpBasis.AddPlacement(&m_zpTurm);
 	m_zpBasis.AddPlacement(&m_zpFundament);
 	m_zpBasis.AddPlacement(&m_zpNetzanschluss);
@@ -20,19 +24,19 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 	//Initialisierung der Koerper
 
 	//Initialisierung Turm
-	m_zgTurm.Init(0.6f, 0.2f, 8.0f, &VMaterialLoader::m_zmSolarGrund);
+	m_zgTurm.Init(0.6f, 0.2f, 8.0f, &VMaterialLoader::m_zmWindrad);
 
 	//Initialisierung Fundament
-	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &VMaterialLoader::m_zmSolarGrund);
+	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &VMaterialLoader::m_zmWindGrund);
 
 	//Initialisierung Netzanschluss
-	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &VMaterialLoader::m_zmSolarGrund);
+	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &VMaterialLoader::m_zmWindrad);
 
 	//Initialisierung Gondel
-	m_zgGondel.Init(CHVector(0.4f, 1.0f, 0.4f), &VMaterialLoader::m_zmSolarGrund);
+	m_zgGondel.Init(CHVector(0.4f, 1.0f, 0.4f), &VMaterialLoader::m_zmWindrad);
 
 	//Initialisierung Rotorblatt
-	m_zgRotorblatt.Init(CHVector(0.2f, 2.0f, 0.1f), &VMaterialLoader::m_zmSolarGrund);
+	m_zgRotorblatt.Init(CHVector(0.2f, 2.0f, 0.1f), &VMaterialLoader::m_zmWindrad);
 
 	
 

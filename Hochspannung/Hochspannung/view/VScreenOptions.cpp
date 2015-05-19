@@ -17,12 +17,14 @@ NAMESPACE_VIEW_B
 
 		m_background = new CBackground();
 
-		m_background->InitFull("textures\\MainMenueBackground.png");
+		m_background->InitFull(&VMaterialLoader::materialDefaultBackground);
 
 		m_viewport->AddBackground(m_background);
 
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
 		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "buttonBackMainMenue");
+
+		getContainer("Menue")->getGuiObject("buttonBackMainMenue")->setLayer(0.1F);
 
 		VGraph* graph = new VGraph(m_viewport, CFloatRect(0.2F, 0.3f, 0.2F, 0.2F));
 		graph->addBar("EngergyBar", &VMaterialLoader::materialGreen);
@@ -32,16 +34,10 @@ NAMESPACE_VIEW_B
 
 	VScreenOptions::~VScreenOptions()
 	{
-		for (m_IterGuicontainer = m_Guicontainer.begin(); m_IterGuicontainer != m_Guicontainer.end(); ++m_IterGuicontainer)
-		{
-			delete m_IterGuicontainer->second;
-		}
-		m_Guicontainer.clear();
-
-		delete m_viewport;
+		
 	}
 
-	void VScreenOptions::onNotify(Event events)
+	void VScreenOptions::onNotify(const Event& events)
 	{
 		switch (events)
 		{
@@ -64,7 +60,7 @@ NAMESPACE_VIEW_B
 	}
 
 
-	void VScreenOptions::tick()
+	void VScreenOptions::tick(const float fTimeDelta)
 	{
 		updateCursorImagePos(&vUi->m_zkCursor);
 
@@ -73,19 +69,17 @@ NAMESPACE_VIEW_B
 			vUi->m_BlockCursorLeftPressed = false;
 		}
 
-		map<string, IViewGUIContainer*> tempGuicontainer;
-		map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+		std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
 
 		checkShortcut(&vUi->m_zkKeyboard);
 		checkSpecialEvent(&vUi->m_zkCursor);
-		tempGuicontainer = getGuiContainerMap();
+		tempGuiContainer = getGuiContainerMap();
 
 		//For all containers in the screen
-		for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
+		for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainer)
 		{
-			checkGUIContainer(tempIterGuicontainer->second);
+			checkGUIContainer(ContainerPair.second);
 		}
-
 
 		if (vUi->m_zkCursor.ButtonPressedLeft())
 		{
@@ -95,22 +89,22 @@ NAMESPACE_VIEW_B
 
 	void VScreenOptions::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 	{
-		map<string, IViewGUIObject*>::iterator tempIterGUIObjects;
-		map<string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
+		std::unordered_map<std::string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
 
-		for (tempIterGUIObjects = tempGUIObjects.begin(); tempIterGUIObjects != tempGUIObjects.end(); tempIterGUIObjects++)
+		for (const std::pair<std::string, IViewGUIObject*>& ObjectPair : tempGUIObjects)
 		{
-			if (tempIterGUIObjects->second->isOn())
+			if (ObjectPair.second->isOn())
 			{
 				if (!vUi->m_BlockCursorLeftPressed)
 				{
 					//check for events
-					tempIterGUIObjects->second->checkEvent(&vUi->m_zkCursor, &vUi->m_zkKeyboard);
+					ObjectPair.second->checkEvent(&vUi->m_zkCursor, &vUi->m_zkKeyboard);
 				}
 				//if screen was changed
 				if (vUi->m_screenChanged)
 				{
 					vUi->m_screenChanged = false;
+
 					vUi->m_BlockCursorLeftPressed = true;
 					return;
 				}
@@ -118,22 +112,21 @@ NAMESPACE_VIEW_B
 		}
 	}
 
+
 	void VScreenOptions::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 	{
-		map<string, IViewGUIContainer*> tempGuiContainerMap;
-		map<string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
+		std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainerMap;
 
 		tempGuiContainerMap = tempGuicontainer->getGuiContainerMap();
 
 		checkGUIObjects(tempGuicontainer);
-
-		for (ItertempGuiContainerMap = tempGuiContainerMap.begin(); ItertempGuiContainerMap != tempGuiContainerMap.end(); ItertempGuiContainerMap++)
+		for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainerMap)
 		{
-			checkGUIObjects(ItertempGuiContainerMap->second);
+			checkGUIObjects(ContainerPair.second);
 
 			if (tempGuicontainer->getGuiContainerMap().size() > 0)
 			{
-				checkGUIContainer(ItertempGuiContainerMap->second);
+				checkGUIContainer(ContainerPair.second);
 			}
 		}
 	}
@@ -150,7 +143,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	void VScreenOptions::resize(int width, int height)
+	void VScreenOptions::resize(const int width, const int height)
 	{
 	}
 

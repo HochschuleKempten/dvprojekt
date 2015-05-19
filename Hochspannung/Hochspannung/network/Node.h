@@ -160,7 +160,7 @@ protected:
 	void handleConnectionError(const error_code& ec);
 
 	/**
-	 * @brief Returns a string from a char array
+	 * @brief Returns a std::string from a char array
 	 * @param mes the pointer to the message
 	 * @param maxLen the maximum length of the message
 	 * @return std::string

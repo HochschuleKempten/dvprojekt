@@ -6,7 +6,7 @@ NAMESPACE_VIEW_B
 
 VPlayingField::VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
 	: IViewObject(vMaster, &m_zp),
-      IVPlayingField(lPlayingField),
+	  IVPlayingField(lPlayingField),
 	  m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25),
 	  vFields(lPlayingField->getFieldLength(), lPlayingField->getFieldLength(), [this] (VField& vField)
 	  {
@@ -53,7 +53,7 @@ void VPlayingField::hoverField(const int x, const int y)
 
 void VPlayingField::initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr)
 {
-	vMaster->setVPlayingField(dynamic_pointer_cast<VPlayingField>(objPtr));
+	vMaster->setVPlayingField(std::dynamic_pointer_cast<VPlayingField>(objPtr));
 }
 
 void VPlayingField::buildPlayingField()
@@ -70,7 +70,6 @@ void VPlayingField::buildPlayingField()
 
 				vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
 				m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);
-				m_zpPlacementHolders[holder].Fasten();
 				m_zpPlacementHolders[holder].SetFrustumCullingOn();
 			}
 		}
@@ -87,11 +86,8 @@ void VPlayingField::buildPlayingField()
 	//}
 
 	float rows = CASTS<float>(vFields.getRows());
-	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getCityPosition().first), CASTS<float>(fieldSize * lPlayingField->getCityPosition().second), CASTS<float>(fieldSize * rows * 0.5));
-     
-	//m_zp.SetFrustumCullingOn();
-	//m_zp.Fasten();
-
+	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getLocalCity()->getLField()->getX()), CASTS<float>(fieldSize * lPlayingField->getLocalCity()->getLField()->getY()), CASTS<float>(fieldSize * rows * 0.5));
+	 
 	DEBUG_EXPRESSION(m_zp.SetName("#Placement VPlayingField"));
 
 #ifdef _DEBUG
@@ -111,6 +107,11 @@ void VPlayingField::objectRemoved(const int x, const int y)
 void VPlayingField::messageBuildingFailed(const std::string& message)
 {
 	DEBUG_OUTPUT("BuildMessage: " << message);
+}
+
+IViewBuilding * VPlayingField::getBuilding(const int x, const int y)
+{
+	return vFields[x][y].m_zViewBuilding.get();
 }
 
 

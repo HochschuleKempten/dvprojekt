@@ -21,7 +21,9 @@ public:
 	virtual void initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const int y) override;
 	virtual void updatePopulation(const int population) override;
 	virtual void updateEnergy(const int energy) override;
+	virtual void energyLow(const int superplus) override;
 	virtual ILBuilding* getLBuilding() override;
+	virtual bool clicked(action action) override;
 };
 
 

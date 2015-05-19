@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IViewObject.h"
+#include "VMaster.h"
 
 NAMESPACE_VIEW_B
 
@@ -10,6 +11,16 @@ class ILBuilding;
 class IViewBuilding : public IViewObject
 {
 public:
+	enum action
+	{
+		switchOnOff,
+		upgrade,
+		sabotagePowerPlant,
+		sabotagePowerLine,
+		sabotageResourceField
+	};
+
+public:
 	inline IViewBuilding(VMaster* vMaster, CPlacement* m_zp)
 		: IViewObject(vMaster, m_zp)
 	{}
@@ -17,6 +28,9 @@ public:
 	{}
 
 	virtual ILBuilding* getLBuilding() = 0;
+
+	virtual bool clicked(action action) = 0;
+	
 };
 
 #define SET_NAME_AND_COORDINATES(id) { std::stringstream stream; \

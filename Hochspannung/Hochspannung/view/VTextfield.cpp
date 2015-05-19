@@ -9,7 +9,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const string& Placeholder)
+	VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder)
 		:
 		m_bIsActive(false),
 		m_sInputtext(std::string())
@@ -19,9 +19,7 @@ NAMESPACE_VIEW_B
 
 		m_iMaxChars = MaxChars;
 		m_writingfont = &VMaterialLoader::standardFont;
-
 		m_writing = new CWriting();
-
 
 		//Initialize Writing
 		m_writing->Init(CFloatRect(m_zfrRect.GetXPos() + (m_zfrRect.GetXPos() / 100), m_zfrRect.GetYPos() - 0.01, m_zfrRect.GetXSize() - (m_zfrRect.GetXPos() / 100), m_zfrRect.GetYSize() + 0.06), m_iMaxChars,
@@ -65,7 +63,7 @@ NAMESPACE_VIEW_B
 		//Mouse
 		float fPosX;
 		float fPosY;
-		cursor->GetFractional(fPosX, fPosY, true);
+		cursor->GetFractional(fPosX, fPosY);
 		if (checkHover(fPosX, fPosY))
 		{
 			if (cursor->ButtonPressedLeft())
@@ -128,7 +126,7 @@ NAMESPACE_VIEW_B
 		m_bIsActive = false;
 	}
 
-	void VTextfield::AddChar(const char& character)
+	void VTextfield::AddChar(const char character)
 	{
 		if (m_sInputtext.length() < m_iMaxChars)
 		{
@@ -136,6 +134,7 @@ NAMESPACE_VIEW_B
 
 			m_writing->PrintF("%s", const_cast<char*>(m_sInputtext.c_str()));
 		}
+	
 	}
 
 	void VTextfield::deleteChar()
@@ -153,7 +152,7 @@ NAMESPACE_VIEW_B
 		return m_bIsActive;
 	}
 
-	void VTextfield::setLayer(float layer)
+	void VTextfield::setLayer(const float layer)
 	{
 		m_zoNormal->SetLayer(layer);
 		m_zoHover->SetLayer(layer);
@@ -164,7 +163,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	string VTextfield::getValue()
+	std::string VTextfield::getValue()
 	{
 		return m_sInputtext;
 	}
@@ -200,7 +199,7 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VTextfield::setActive(bool wert)
+	void VTextfield::setActive(const bool wert)
 	{
 		m_bIsActive = wert;
 	}

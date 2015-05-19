@@ -21,7 +21,7 @@ public:
 		WEST = 0x8
 	};
 
-	static Orientation getOpppositeOrienttion(const Orientation orientation)
+	static Orientation getOpppositeOrientation(const Orientation orientation)
 	{
 		switch (orientation) {
 			case NORTH: return SOUTH;
@@ -94,7 +94,11 @@ public:
 	{
 		this->value += value;
 	}
-
+	LField* getLField() const
+	{
+		return lField;
+	}
+		
 	virtual LIdentifier::LIdentifier getIdentifier() = 0;
 };
 

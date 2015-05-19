@@ -1,22 +1,22 @@
 #include "LBalanceLoader.h"
-#include <fstream>
+#include <boost\property_tree\ini_parser.hpp>
 
 NAMESPACE_LOGIC_B
 
-static const char* msgAssert = "LBalanceLoader is not initialized";
 
-DEBUG_EXPRESSION(bool LBalanceLoader::initDone = false);
 boost::property_tree::ptree LBalanceLoader::propertyTree;
+DEBUG_EXPRESSION(bool LBalanceLoader::initDone = false);
+DEBUG_EXPRESSION(static const char* const msgAssert = "LBalanceLoader is not initialized");
 
 void LBalanceLoader::init()
 {
-	DEBUG_EXPRESSION(initDone = true);
 	try {
 		boost::property_tree::read_ini("logic\\Balancing.ini", propertyTree);
 	} catch (boost::property_tree::ptree_error error) {
-		DEBUG_OUTPUT(error.what())
+		ASSERT("Can't read ini file" << error.what())
 	}
 
+	DEBUG_EXPRESSION(initDone = true);
 }
 
 int LBalanceLoader::getFieldStorage(const LField::FieldType fieldType)
@@ -32,6 +32,23 @@ int LBalanceLoader::getFieldStorage(const LField::FieldType fieldType)
 			return propertyTree.get<int>("FieldStorage.Nuclear", 0);
 		default:
 			return 0;
+	}
+}
+
+
+int LBalanceLoader::getConsumedResources(const LField::FieldType fieldType)
+{
+	ASSERT(initDone, msgAssert);
+
+	switch (fieldType) {
+	case LField::COAL:
+		return propertyTree.get<int>("ConsumedResources.Coal", 0);
+	case LField::OIL:
+		return propertyTree.get<int>("ConsumedResources.Oil", 0);
+	case LField::NUCLEAR:
+		return propertyTree.get<int>("ConsumedResources.Nuclear", 0);
+	default:
+		return 0;
 	}
 }
 
@@ -128,6 +145,12 @@ int LBalanceLoader::getMaxPopulation()
 {
 	ASSERT(initDone, msgAssert);
 	return propertyTree.get<int>("CityProperties.MaxPopulation", 0);
+}
+
+int LBalanceLoader::getMapOffset()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("CityProperties.MapOffset", 0);
 }
 
 NAMESPACE_LOGIC_E

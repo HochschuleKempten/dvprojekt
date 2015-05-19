@@ -23,7 +23,12 @@ public:
 	virtual void SetWASDRotationSensitivity(float fRotationSensitivity); // Setzt die Empfindlichkeit (Schnelligkeit) bei den Pfeil-Tasten in Bogenmaß / Sekunde für PlaceWASD
 	virtual float GetWASDTranslationSensitivity();
 	virtual float GetWASDRotationSensitivity();
-	virtual bool PlaceWASD(CPlacement & placementCamera, float & fTimeDelta, bool bEarth = false); // Vollkomme WASD Steuerung, true, falls Space Taste gedrückt wurde
+	virtual void SetWASDAltitude(float fa); // Setzt den Anfangswinkel bei einer WASD-PAN-Steuerung
+	virtual void SetWASDPanRadius(float fRadius); // Setzt den Radius bei einer WASD-PAN-Steuerung
+
+
+	virtual bool PlaceWASD(CPlacement & placementCamera, float & fTimeDelta, bool bEarth = false); // WASD Steuerung,  true, falls Space Taste gedrückt wurde
+	virtual bool PlaceWASDPan(CPlacement & placementCamera, CPlacement & placementCenter, float & fTimeDelta); // WASD Steuerung um ein Zentrum, true, falls Space Taste gedrückt wurde
 	virtual void GetMove(int &riAD, int &riSW, int &riFR, int &riLeftRight, int &riUpDown, int &riPageUpDown, bool &rbSpace);
 
 	void * pkeyboard;

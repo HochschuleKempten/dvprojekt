@@ -288,6 +288,42 @@ float3 texBRDF(PS_INPUT input,
 	return (f3DiffColor + f3nspec);
 }
 
+
+static const float pi = 3.14159265f;
+float2 SphericalMapping(float3 f3)
+{
+	float  phi = 0;
+
+
+	if ((f3.z >= 0) && (f3.x >= 0))
+	{
+		phi = atan(f3.x / f3.z);
+	}
+	if ((f3.z<0) && (f3.x >= 0))
+	{
+		phi = atan(f3.x / f3.z);
+		phi += pi;
+	}
+	if ((f3.z<0) && (f3.x<0))
+	{
+		phi = atan(f3.x / f3.z);
+		phi += pi;
+	}
+	if ((f3.z >= 0) && (f3.x<0))
+	{
+		phi = atan(f3.x / f3.z);
+		phi += 2 * pi;
+	}
+	
+	phi /= 2.f * pi;
+
+	float  theta = acos(f3.y);
+	theta /= pi;
+
+	return float2(phi, theta);
+}
+
+
 //--------------------------------------------------------------------------------------
 // Pixel Shader
 //--------------------------------------------------------------------------------------
@@ -304,8 +340,9 @@ float4 PS(PS_INPUT input) : SV_Target
 		input.f2TexCoord.x = fxPic / fxPics + input.f2TexCoord.x*(1 / fxPics);
 		input.f2TexCoord.y = fyPic / fyPics + input.f2TexCoord.y*(1 / fyPics);
 	}
-
 	float2 f2ParallaxTex = input.f2TexCoord;
+
+
 	const float3 f3aNormal = input.f3Normal;
 	if (uPOM == 1) //POM
 	{
@@ -522,9 +559,6 @@ float4 PS(PS_INPUT input) : SV_Target
 							}
 						}
 					}
-					//float4 f4BilVals = shadowMap.Gather(shadowSampler, alLight.f4LightPos.xy);
-					//float fMid = (f4BilVals.x + f4BilVals.y + f4BilVals.z + f4BilVals.w);
-					//fsum /= fMid;*/
 					shadowFactor = fsum / 16.f;
 				}
 				else
@@ -547,6 +581,7 @@ float4 PS(PS_INPUT input) : SV_Target
 	float3 f3Half;
 	float fSpecular = 0;
 	float4 f4SpecCol;
+	float4 f4ReflectionTexture;
 	if (uSpecular) // TEXTFLAG_SPECULAR
 	{
 		[unroll]
@@ -556,14 +591,17 @@ float4 PS(PS_INPUT input) : SV_Target
 			fSpecular += pow(saturate(dot(normalize(input.f3Normal), f3Half)), fA);
 		}
 		if (uSpecularWhite) // TEXFLAG_SPECULARWHITE
-			f4SpecCol = 2 * (fSpecular * f4Diffuse);
+			f4ReflectionTexture = 1;
 		else if (uSpecularAsImage)// TEXFLAG_SPECULARASIMAGE 
-			f4SpecCol = 2 * tex2D[0].Sample(linearSampler, f2ParallaxTex) * (fSpecular * f4Diffuse);
+			f4ReflectionTexture = tex2D[0].Sample(linearSampler, f2ParallaxTex);
 		else
-			f4SpecCol = 2 * tex2D[2].Sample(linearSampler, f2ParallaxTex) * (fSpecular * f4Diffuse);
+			f4ReflectionTexture = tex2D[2].Sample(linearSampler, f2ParallaxTex);
+		f4SpecCol.rgb = 2 * f4ReflectionTexture.bbb  * (fSpecular * f4Diffuse); // TODO: Besser als f4ReflectionTexture.bbbb wäre die Lichtfarbe
+		f4SpecCol.a = 1;
 	}
 	else
 	{
+		f4ReflectionTexture = 0;
 		f4SpecCol = 0;
 	}
 
@@ -638,7 +676,6 @@ float4 PS(PS_INPUT input) : SV_Target
 			fAlpha);
 
 	}
-
 	// Berechnung des Glowmappings:
 	float4 f4Glow;
 	if (uGlow) // TEXFLAG_GLOW
@@ -660,27 +697,25 @@ float4 PS(PS_INPUT input) : SV_Target
 		f4TexCol.rgb *= f4Diffuse.rgb;
 
 	// Alpha Mapping und Integration:
-	float4 f4ColorOut = f4ColorAmbient + f4TexCol + f4Glow + f4SpecCol;
+	float4 f4ColorOut = f4ColorAmbient + f4TexCol + f4Glow; 
 
-		//Berechnung des Environmentmappings
-		if (uEnvironment)
-		{
-			float3 f3EyeVector = normalize(input.f3CamPos - input.f4VertexPos.xyz);
-			float3 f3Reflection = reflect(f3EyeVector, input.f3Normal);
-			float3 f3Refraction = refract(f3EyeVector, input.f3Normal, .99f);
-
-			float4 f4RefrColor = tex2D[4].Sample(linearSampler, f3Refraction.xy);
-			float4 f4ReflColor = tex2D[4].Sample(linearSampler, f3Reflection.xy);
-			if (uReflectionMap)
-			{
-				float fReflectionFactor = tex2D[4].Sample(linearSampler, f2ParallaxTex).a;
-				f4ColorOut += fReflectionFactor * (lerp(f4RefrColor, f4ReflColor, .5f) / f4ColorSSS.a)*(length(f4ColorOut.rgb)*length(f4ColorOut.rgb));
-			}
-			else
-			{
-				f4ColorOut += (lerp(f4RefrColor, f4ReflColor, .5f) / f4ColorSSS.a)*(length(f4ColorOut.rgb)*length(f4ColorOut.rgb));
-			}
-		}
+	//Berechnung des Environmentmappings
+	if (uEnvironment)
+	{
+		float3 f3EyeVector = -normalize(input.f3CamPos - input.f4VertexPos.xyz);
+		float3 f3Reflection = reflect(f3EyeVector, input.f3Normal);
+		float3 f3Refraction = refract(f3EyeVector, input.f3Normal, .95f);
+		float4 f4RefrColor = tex2D[4].Sample(linearSampler, SphericalMapping(f3Refraction));
+		float4 f4ReflColor = tex2D[4].Sample(linearSampler, SphericalMapping(f3Reflection));
+		float fColorStrength = 1.0f - f4ReflectionTexture.r - f4ReflectionTexture.g - f4ReflectionTexture.b;
+//		fColorStrength = 1;
+		saturate(fColorStrength);
+		//		f4ColorOut = f4RefrColor*f4ReflectionTexture.r + f4ReflColor*f4ReflectionTexture.g + f4SpecCol*f4ReflectionTexture.b+fColorStrength*f4ColorOut;
+		f4ColorOut = f4RefrColor*f4ReflectionTexture.r + f4ReflColor*f4ReflectionTexture.g + f4SpecCol*f4ReflectionTexture.b + f4ColorOut*fColorStrength;
+		
+	}
+	else
+		f4ColorOut = f4ColorOut +f4SpecCol;
 
 
 	// Florian Schnell: dieser Fix erlaubt transparente Ambiente Texturen
@@ -802,6 +837,11 @@ float4 PS(PS_INPUT input) : SV_Target
 	{
 		// Hier ist Platz für Deinen eigenen Shader:
 	}
-	
+
+//	float4 f4ColorOut;
+//	float2 f2ParallaxTex = input.f2TexCoord;
+//	f4ColorOut = tex2D[0].Sample(linearSampler, f2ParallaxTex);
+
+
 	return f4ColorOut;
 }

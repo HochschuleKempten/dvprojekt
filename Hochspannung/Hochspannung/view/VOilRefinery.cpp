@@ -7,8 +7,10 @@ NAMESPACE_VIEW_B
 
 
 VOilRefinery::VOilRefinery(VMaster* vMaster, LOilRefinery* lPlant)
-	: IVPowerPlant(lPlant), IViewBuilding(vMaster, viewModel.getMainPlacement())
-{}
+	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
+{
+	vMaster->registerObserver(this);
+}
 
 VOilRefinery::~VOilRefinery()
 {}
@@ -19,18 +21,12 @@ void VOilRefinery::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, c
 
 	const float scale = 0.4f;
 	viewModel.getMainPlacement()->Scale(scale);
-	viewModel.getMainPlacement()->RotateYDelta(M_PI);
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
-	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() * scale * 0.5f);
+	//viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight());
 
-	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
+	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VOilRefinery);
-}
-
-ILBuilding* VOilRefinery::getLBuilding()
-{
-	return CASTD<ILBuilding*>(lPlant);
 }
 
 

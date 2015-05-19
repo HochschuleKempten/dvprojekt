@@ -2,7 +2,7 @@
 
 #include "VGeneral.h"
 #include "../logic/LField.h"
-#include "../logic/LPlayer.h"
+#include "VIdentifier.h"
 
 NAMESPACE_VIEW_B
 
@@ -31,6 +31,8 @@ public:
 	//MainMenue
 	static CMaterial materialMainMenue;
 	static CMaterial materialMainMenueHover;
+	static CMaterial materialMainMenueBackground;
+
 	//Buttons
 	static CMaterial materialButtonMainMenueNeuesSpiel;
 	static CMaterial materialButtonMainMenueNeuesSpielHover;
@@ -44,10 +46,11 @@ public:
 	static CMaterial materialButtonLobbyJoinGameHover;
 	static CMaterial materialButtonLobbyHostGame;
 	static CMaterial materialButtonLobbyHostGameHover;
+	static CMaterial materialButtonAbort;
+	static CMaterial materialButtonAbortHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
-	static CMaterial materialDialogBackground;
 	static CMaterial materialIngameBorder;
 	static CMaterial materialTopbar;
 	static CMaterial materialBottombarBorderTop;
@@ -55,6 +58,18 @@ public:
 	static CMaterial materialLobbyBigDialog;
 	static CMaterial materialBuildingButton;
 	static CMaterial materialBuildingButtonHover;
+
+
+	//Backgrounds
+	static CMaterial materialDialogBackground;
+	static CMaterial materialIngameMenueDialogBackground;
+	static CMaterial materialDefaultBackground;
+	static CMaterial materialWhiteGreyBackground;
+
+	//Icons
+	static CMaterial materialIngameIconPopulation;
+	static CMaterial materialIngameIconMoney;
+
 	//Buttons
 	static CMaterial materialIngameButtonCraftmenu;
 	static CMaterial materialIngameButtonSabotage;
@@ -78,6 +93,12 @@ public:
 	static CMaterial materialCraftmenuButtonNuclearPowerplantHover;
 	static CMaterial materialCraftmenuButtonPowerlineHover;
 	
+	//Infofield
+	static CMaterial materialInfofieldBackground;
+
+	//Minimap
+	static CMaterial materialMinimapBackground;
+
 	//Allgemein
 	//Buttons
 	static CMaterial materialButtonBack;
@@ -86,6 +107,7 @@ public:
 	static CMaterial materialRed;
 	static CMaterial materialBlue;
 	static CMaterial materialGreen;
+	static CMaterial materialLightGrey;
 
 	//WritingFonts
 	static CWritingFont standardFont;
@@ -99,8 +121,20 @@ public:
 	static CMaterial m_zmCable;
 
 	//Solarkraftwerktexturen
+	static CMaterial m_zmWindGrund;
+	static CMaterial m_zmWindrad;
+
+	//Solarkraftwerktexturen
 	static CMaterial m_zmSolarzelle;
 	static CMaterial m_zmSolarGrund;
+	static CMaterial m_zmSolarLOD;
+
+	//TODO (ViewModels) Why are there two atom textures?
+	//Atomkraftwerktexturen
+	static CMaterial m_zmAtomGrund;
+	static CMaterial m_zmAtomSchranke;
+	static CMaterial m_zmAtomZaun;
+	static CMaterial m_zmAtomReaktor;
 
 	//Atomkraftwerktexturen
 	static CMaterial m_zmAtomgrundWhite;
@@ -109,6 +143,25 @@ public:
 	static CMaterial m_zmAtomgrundGreen;
 	static CMaterial m_zmHolz;
 
+	//Oelkraftwerktexturen
+	static CMaterial m_zmOelGrund;
+	static CMaterial m_zmOelSchranke;
+	static CMaterial m_zmOelZaun;
+	static CMaterial m_zmOelGelbstahl;
+	static CMaterial m_zmOelGruenstahl;
+
+	//Umspannwerktexturen
+	static CMaterial m_zmUmspannBoden;
+	static CMaterial m_zmUmspannGrund;
+	static CMaterial m_zmUmspannIsolator;
+	static CMaterial m_zmUmspannLeitung;
+
+	//Kohlekraftwerktexturen
+	static CMaterial m_zmKohleBerg;
+	static CMaterial m_zmKohle;
+	static CMaterial m_zmKohleHolz;
+	static CMaterial m_zmKohleLore;
+	static CMaterial m_zmKohleBlack;
 
 	//PlayerColor
 	static std::unordered_map<int, CColor> colorPlayers;
@@ -116,12 +169,28 @@ public:
 	//PlayerFoundations
 	static std::unordered_map<int, CMaterial> materialFoundationPlayer;
 
+	//MaterialBuildings
+	static CMaterial materialBuilding01;
+	static CMaterial materialBuilding02;
+	static CMaterial materialBuilding03;
+	static CMaterial materialLargeOfficeBuilding;
+	static CMaterial materialAppartments;
+	static CMaterial materialOfficTowerViewingDeck;
+	static CMaterial materialTwistedTower;
+	static CMaterial materialSmallOfficeBuilding;
+
+	// MaterialWindowBuildings
+	static CMaterial materialWindowsofBuilding;
+
 	//Cursor
 	static CMaterial m_zmDefaultCursor;
 	static CMaterial m_zmHammerCursor;
 
 	//CraftMenue
 	static CMaterial m_zmCraftMenueBackground;
+
+	//Rotation adjustments
+	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
 };
 
 

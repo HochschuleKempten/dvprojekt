@@ -8,7 +8,7 @@
 #include "VDialog.h"
 #include "VRegister.h"
 #include "VGUIArea.h"
-
+#include "VListView.h"
 NAMESPACE_VIEW_B
 
 
@@ -32,6 +32,14 @@ NAMESPACE_VIEW_B
 
 		virtual ~IViewScreen()
 		{
+			for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : m_Guicontainer)
+			{
+				delete ContainerPair.second;
+			}
+			m_Guicontainer.clear();
+
+			delete m_viewport;
+			delete m_pCursorImage;
 		}
 
 		enum ScreenType
@@ -62,7 +70,7 @@ NAMESPACE_VIEW_B
 			m_isOn = false;
 		}
 
-		inline void addContainer(CViewport* viewport, const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const string& sName)
+		inline void addContainer(CViewport* viewport, const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, const std::string& sName)
 		{
 			m_viewport = viewport;
 			switch (containerType)
@@ -83,10 +91,14 @@ NAMESPACE_VIEW_B
 				m_Guicontainer[sName] = new VGUIArea(m_viewport, floatRect);
 				m_Guicontainer[sName]->addObserver(this);
 				break;
+			case IViewGUIContainer::ListView:
+				m_Guicontainer[sName] = new VListView(floatRect,m_viewport);
+				m_Guicontainer[sName]->addObserver(this);
+				break;
 			}
 		}
 
-		inline void addContainer(CViewport* viewport, const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, CMaterial* materialBackground, const string& sName)
+		inline void addContainer(CViewport* viewport, const IViewGUIContainer::ContainerType& containerType, const CFloatRect& floatRect, CMaterial* materialBackground, const std::string& sName)
 		{
 			m_viewport = viewport;
 			switch (containerType)
@@ -107,16 +119,20 @@ NAMESPACE_VIEW_B
 				m_Guicontainer[sName] = new VGUIArea(m_viewport, floatRect, materialBackground);
 				m_Guicontainer[sName]->addObserver(this);
 				break;
+			case IViewGUIContainer::ListView:
+				m_Guicontainer[sName] = new VListView(floatRect,m_viewport, materialBackground);
+				m_Guicontainer[sName]->addObserver(this);
+				break;
 			}
 		}
 
-		IViewGUIContainer* getContainer(string sName)
+		IViewGUIContainer* getContainer(const std::string& sName)
 		{
 			ASSERT(m_Guicontainer.find(sName) != m_Guicontainer.end(), "GUIContainer not available");
 			return m_Guicontainer[sName];
 		}
 
-		map<string, IViewGUIContainer*> getGuiContainerMap()
+		std::unordered_map<std::string, IViewGUIContainer*> getGuiContainerMap()
 		{
 			return m_Guicontainer;
 		}
@@ -128,8 +144,8 @@ NAMESPACE_VIEW_B
 
 		virtual void checkShortcut(CDeviceKeyboard* keyboard) =0;
 		virtual void checkSpecialEvent(CDeviceCursor* cursor) = 0;
-		virtual void tick() = 0;
-		virtual void resize(int width, int height) = 0;
+		virtual void tick(const float fTimeDelta) = 0;
+		virtual void resize(const int width, const int height) = 0;
 
 
 		virtual void startAnimation() = 0;
@@ -138,7 +154,7 @@ NAMESPACE_VIEW_B
 
 		virtual void EndEvent() = 0;
 
-		void switchCursor(CursorType cursorType)
+		void switchCursor(const CursorType& cursorType)
 		{
 			switch (cursorType)
 			{
@@ -148,56 +164,51 @@ NAMESPACE_VIEW_B
 				delete m_pCursorImage;
 
 				m_pCursorImage = new COverlay();
-				m_pCursorImage->Init(&VMaterialLoader::m_zmDefaultCursor, CFloatRect(0, 0, 0.05F, 0.05F));
+				m_pCursorImage->Init(&VMaterialLoader::m_zmDefaultCursor, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F));
 				m_viewport->AddOverlay(m_pCursorImage);
-				m_pCursorImage->SetLayer(0.0F);
+				m_pCursorImage->SetLayer(0.01F);
 				break;
 			case Hammer:
 				delete m_pCursorImage;
 
 				m_pCursorImage = new COverlay();
-				m_pCursorImage->Init(&VMaterialLoader::m_zmHammerCursor, CFloatRect(0, 0, 0.05F, 0.05F));
+				m_pCursorImage->Init(&VMaterialLoader::m_zmHammerCursor, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F));
 				m_viewport->AddOverlay(m_pCursorImage);
-				m_pCursorImage->SetLayer(0.0F);
+				m_pCursorImage->SetLayer(0.01F);
 				break;
 			case Sabotage:
 				delete m_pCursorImage;
 
 				m_pCursorImage = new COverlay();
-				m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0, 0, 0.05F, 0.05F));
+				m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F));
 				m_viewport->AddOverlay(m_pCursorImage);
-				m_pCursorImage->SetLayer(0.0F);
+				m_pCursorImage->SetLayer(0.01F);
 				break;
 			}
 		}
 
-		void switchCursor(char* imagefile, bool bChromaKeying)
+		void switchCursor(char* imagefile, const bool bChromaKeying)
 		{
 			m_pCursorImage = new COverlay();
-			m_pCursorImage->Init(imagefile, CFloatRect(0, 0, 0.05F, 0.05F), bChromaKeying);
+			m_pCursorImage->Init(imagefile, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F), bChromaKeying);
 			m_viewport->AddOverlay(m_pCursorImage);
-			m_pCursorImage->SetLayer(0.0F);
+			m_pCursorImage->SetLayer(0.01F);
 		}
 
-		/*virtual void updateCursorImagePos(float PosX,float PosY)
-	{
-		m_cursorImage->GetRect().SetXPos(PosX);
-		m_cursorImage->GetRect().SetYPos(PosY);
-	}*/
+	
 		virtual void updateCursorImagePos(CDeviceCursor* cursor)
 		{
-			float curPosX;
-			float curPosY;
+			//float curPosX;
+			//float curPosY;
 
-			cursor->GetFractional(curPosX, curPosY, true);
-			m_pCursorImage->SetRect(CFloatRect(curPosX, curPosY, 0.05, 0.05));
-			//m_pCursorImage->GetRect().SetYPos(curPosY);
+			//cursor->GetFractional(curPosX, curPosY, true);
+			//m_pCursorImage->SetRect(CFloatRect(curPosX, curPosY, 0.05F, 0.05F));
+			////m_pCursorImage->GetRect().SetYPos(curPosY);
 		}
 
 
 	protected:
-		map<string, IViewGUIContainer*> m_Guicontainer;
-		map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
+		std::unordered_map<std::string, IViewGUIContainer*> m_Guicontainer;
 
 		VUI* vUi;
 		CViewport* m_viewport;
@@ -206,6 +217,7 @@ NAMESPACE_VIEW_B
 		COverlay* m_pCursorImage = nullptr;
 
 		bool m_isOn = false;
+
 	};
 
 

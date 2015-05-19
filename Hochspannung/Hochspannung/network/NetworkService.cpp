@@ -184,7 +184,7 @@ bool CNetworkService::isActionAvailable() {
 
 bool CNetworkService::sendAsMessage(Action action, int iObjectID, int iCoordX, int iCoordY, std::string sValue) {
 	if (getConnectionState() == CONNECTED) {
-		// transforms the action to string
+		// transforms the action to std::string
 		// delimiter is a semicolon
 		std::string stMessage = boost::lexical_cast<std::string>(action)+";";
 		stMessage += boost::lexical_cast<std::string>(iObjectID)+";";

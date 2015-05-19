@@ -9,7 +9,7 @@ NAMESPACE_VIEW_B
 	public:
 		VTextfield();
 		//VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const float textSize);
-		VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const string& Placeholder);
+		VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder);
 		~VTextfield();
 
 		virtual void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard) override;
@@ -18,20 +18,23 @@ NAMESPACE_VIEW_B
 	void checkPressed(const float& fPosX, const float& fPosY, const bool& bLeftpressed) override final;
 	*/
 		virtual void switchOn() override final;
+
+		
+
 		virtual void switchOff() override final;
 		virtual void onMouseOver(void) override final;
 		virtual void onMouseOut(void) override final;
 		virtual void onMouseClickLeft(void) override final;
 		virtual void onMouseClickRight(void) override final;
 
-		void AddChar(const char& character);
+		void AddChar(const char character);
 		void deleteChar();
 		bool isActive();
 
-		void setLayer(float layer) override;
+		void setLayer(const float layer) override;
 		void updateRectangle(CFloatRect rect) override;
 
-		string getValue();
+		std::string getValue();
 
 	private:
 		COverlay* m_zoNormal;
@@ -45,13 +48,13 @@ NAMESPACE_VIEW_B
 		CWriting* m_writing;
 
 		bool m_bIsActive = false;
-		string m_sInputtext;
+		std::string m_sInputtext;
 		bool pressedBefore = false;
-		int m_iMaxChars;
+		unsigned int m_iMaxChars;
 		bool hasPlaceholder;
-		string m_sPlaceholder;
+		std::string m_sPlaceholder;
 	private:
-		void setActive(bool wert);
+		void setActive(const bool wert);
 	};
 
 	NAMESPACE_VIEW_E

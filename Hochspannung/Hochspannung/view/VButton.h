@@ -26,7 +26,7 @@ NAMESPACE_VIEW_B
 		virtual void onMouseClickLeft(void) override final;
 		virtual void onMouseClickRight(void) override final;
 
-		virtual void setLayer(float layer) override;
+		virtual void setLayer(const float layer) override;
 		virtual void updateRectangle(CFloatRect rect) override;
 		bool bGetHasHover();
 

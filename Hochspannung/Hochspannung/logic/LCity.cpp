@@ -22,7 +22,7 @@ void LCity::tick(const float fTimeDelta)
 	//if game is paused or not initialized or city from remote player, do nothing
 	if (!lField->getLPlayingField()->getLMaster()->isGamePaused() &&
 		lField->getLPlayingField()->isInitDone() &&
-		playerId == LPlayer::Local)
+		playerId & LPlayer::Local)
 	{
 		static float timeLastCheck = 0;
 
@@ -31,17 +31,27 @@ void LCity::tick(const float fTimeDelta)
 		{
 			int seconds = CASTS<int>(timeLastCheck);
 
+			//Increase population
 			setPopulationTotal(populationTotal + seconds * LBalanceLoader::getPopulationGrowth());
 
-			timeLastCheck = 0;
-		}
+			//Calculate energy value
+			lField->getLPlayingField()->calculateEnergyValueCity();
 
-		//Check energy storage (every tick)
-		int superplus = energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen());
-		if (superplus < 0)
-		{
-			//Player has lost
-			lField->getLPlayingField()->getLMaster()->gameOver(); //todo (IP) fix
+			//Check energy storage
+			int superplus = CASTS<int>(energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen()));
+			DEBUG_OUTPUT("superplus = " << superplus);
+
+			if (superplus >= 0 && superplus < 50)
+			{
+				vCity->energyLow(superplus);
+			}
+			else if (superplus < 0)
+			{
+				//Player has lost
+				lField->getLPlayingField()->getLMaster()->gameOver();
+			}
+
+			timeLastCheck = 0;
 		}
 
 		timeLastCheck += fTimeDelta;

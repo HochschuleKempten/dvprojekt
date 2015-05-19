@@ -12,7 +12,8 @@ public:
 	CGeoIkosaeder(void);
 	~CGeoIkosaeder(void);
 	CHVector GetPoint(int i);
-	void Init(CHVector vSize, CMaterial * pmaterial,  bool bFlip = false); // Initialisiert eine Geometrie mit Wuerfel 
+	void Init(float fRadius, CMaterial * pmaterial, bool bFlip = false); // Initialisiert eine Geometrie mit Wuerfel 
+	void Init(CHVector vSize, CMaterial * pmaterial, bool bFlip = false); // Initialisiert eine Geometrie mit Wuerfel 
 	void MakeFace(int iA, int iB, int iC, int & iIndex);
 
 	CHVector m_avPoint[12];

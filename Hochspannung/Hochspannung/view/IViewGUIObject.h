@@ -19,7 +19,7 @@ NAMESPACE_VIEW_B
 		{
 		};
 
-		virtual bool checkHover(const float& fPosX, const float& fPosY)
+		virtual bool checkHover(const float fPosX, const float fPosY)
 		{
 			//Prüfe ob X-Koordinate innerhalb des Buttons
 			if ((fPosX > m_zfrRect.GetXPos()) && (fPosX < (m_zfrRect.GetXPos() + m_zfrRect.GetXSize())))
@@ -52,7 +52,9 @@ NAMESPACE_VIEW_B
 			float fPosX;
 			float fPosY;
 
-			cursor->GetFractional(fPosX, fPosY, true);
+		
+
+			cursor->GetFractional(fPosX, fPosY);
 
 
 			if (checkHover(fPosX, fPosY))
@@ -86,7 +88,7 @@ NAMESPACE_VIEW_B
 			m_zfrRect = tempRect;
 		}
 
-		virtual void setLayer(float layer) = 0;
+		virtual void setLayer(const float layer) = 0;
 
 		virtual void updateRectangle(CFloatRect rect) = 0;
 
@@ -95,13 +97,21 @@ NAMESPACE_VIEW_B
 			return m_fLayer;
 		}
 
-
-		string sObjectName = "";
+		std::string getName()
+		{
+			return m_sName;
+		}
+		void setName(const std::string& sName)
+		{
+			 m_sName=sName;
+		}
+		
 		//virtual void resize(int width, int height);
 	protected:
 		CFloatRect m_zfrRect = CFloatRect(0, 0, 0, 0);
 		bool m_bisOn = true;
 		float m_fLayer = 1.0;
+		std::string m_sName = "";
 	};
 
 	NAMESPACE_VIEW_E

@@ -2,6 +2,8 @@
 #include "VPlayingField.h"
 #include "VIdentifier.h"
 #include "VMaster.h"
+#include "VSoundLoader.h"
+#include "../logic/LRemoteOperation.h"
 
 NAMESPACE_VIEW_B
 
@@ -10,18 +12,17 @@ static VModelPowerLine::DIRECTION convertOrientation(const int orientation)
 {
 	int modelOrientation = 0;
 
-	//The field is rotated by 180° so the orientations do not suit
 	if (orientation & ILBuilding::NORTH) {
-		modelOrientation |= VModelPowerLine::SOUTH;
-	}
-	if (orientation & ILBuilding::EAST) {
-		modelOrientation |= VModelPowerLine::WEST;
-	}
-	if (orientation & ILBuilding::SOUTH) {
 		modelOrientation |= VModelPowerLine::NORTH;
 	}
-	if (orientation & ILBuilding::WEST) {
+	if (orientation & ILBuilding::EAST) {
 		modelOrientation |= VModelPowerLine::EAST;
+	}
+	if (orientation & ILBuilding::SOUTH) {
+		modelOrientation |= VModelPowerLine::SOUTH;
+	}
+	if (orientation & ILBuilding::WEST) {
+		modelOrientation |= VModelPowerLine::WEST;
 	}
 
 	return static_cast<VModelPowerLine::DIRECTION>(modelOrientation);
@@ -29,7 +30,7 @@ static VModelPowerLine::DIRECTION convertOrientation(const int orientation)
 
 VPowerLine::VPowerLine(VMaster* vMaster, LPowerLine* lpowerLine)
 	: IVPowerLine(lpowerLine), IViewBuilding(vMaster, viewModel.getMainPlacement()),
-	  viewModel(vMaster->getPlayingField()->getFieldSize())
+	  viewModel(vMaster->getVPlayingField()->getFieldSize())
 {}
 
 VPowerLine::~VPowerLine()
@@ -39,10 +40,10 @@ void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const
 {
 	viewModel.initViewModel(this);
 	viewModel.Init(convertOrientation(orientation));
-	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
+	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0f));
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
 
-	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
+	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VPowerLine);
 }
@@ -56,5 +57,30 @@ ILBuilding* VPowerLine::getLBuilding()
 {
 	return CASTD<ILBuilding*>(lPowerLine);
 }
+
+bool VPowerLine::clicked(action action)
+{    
+	switch (action)
+	{			
+	     case action::sabotagePowerLine: 
+			 
+			 if (lPowerLine->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
+			 {   
+				 LRemoteOperation remoteOperation(lPowerLine->getLField()->getLPlayingField());
+				 lPowerLine->sabotage();
+				 return true; 
+			 }
+
+			 return false;
+			  
+	   default:ASSERT("Invalid action"); return false;
+	}
+}
+
+void VPowerLine::sabotagePowerLineRemoved()
+{
+	VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
+}
+
 
 NAMESPACE_VIEW_E

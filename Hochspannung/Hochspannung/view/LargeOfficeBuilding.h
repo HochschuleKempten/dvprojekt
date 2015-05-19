@@ -5,6 +5,7 @@
 
 
 #include "VGeneral.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -12,14 +13,18 @@ NAMESPACE_VIEW_B
 class CLargeOfficeBuilding : public CPlacement
 {
 public:
+	CLargeOfficeBuilding();
 	CLargeOfficeBuilding(float fResize);
 	~CLargeOfficeBuilding(void);
+
+
 	void InitWindows();
 	void AddWindows();
 	void InitWalls();
 	void AddPlacements();
 	void RotateAll();
 	void TranslateAll();
+	void scaleForLod();
 private:
 	
 

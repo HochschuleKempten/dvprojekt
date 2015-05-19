@@ -15,7 +15,7 @@
 inline std::vector<std::string> split(const std::string& str, const char delimiter)
 {
 	std::vector<std::string> internal;
-	std::stringstream ss(str); // Turn the string into a stream.
+	std::stringstream ss(str); // Turn the std::string into a stream.
 	std::string tok;
 
 	while (getline(ss, tok, delimiter)) {
@@ -48,7 +48,7 @@ inline std::string getClassName(const std::type_info& typeInfo)
 	std::regex txt_regex("class (?:\\w+::)*(\\w+)(?: \\*(?: \\w+)?)?$");
 	std::smatch base_match;
 
-	//Don't use a temporary string object here, because the results will refer to it
+	//Don't use a temporary std::string object here, because the results will refer to it
 	std::string fullName = typeInfo.name();
 
 	if (std::regex_search(fullName, base_match, txt_regex)) {

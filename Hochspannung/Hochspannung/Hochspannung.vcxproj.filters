@@ -313,9 +313,6 @@
     <ClInclude Include="view\Building03.h">
       <Filter>view\Headerdateien\buildings</Filter>
     </ClInclude>
-    <ClInclude Include="logic\cpplinq.hpp">
-      <Filter>logic</Filter>
-    </ClInclude>
     <ClInclude Include="logic\IVTransformerStation.h">
       <Filter>logic\Interfaces</Filter>
     </ClInclude>
@@ -354,6 +351,27 @@
     </ClInclude>
     <ClInclude Include="view\Bar.h">
       <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\LRemoteOperation.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IViewPowerPlant.h">
+      <Filter>view\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VListEntry.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VListView.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelTransformerStation.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VSoundLoader.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VModelCoalPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -549,9 +567,6 @@
     <ClCompile Include="logic\LBalanceLoader.cpp">
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>logic\Headerdateien</Filter>
-    </ClCompile>
     <ClCompile Include="view\VModelNuclearPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
@@ -566,6 +581,21 @@
     </ClCompile>
     <ClCompile Include="network\GameObject.cpp">
       <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VListEntry.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VListView.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelTransformerStation.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VSoundLoader.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelCoalPowerPlant.cpp">
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

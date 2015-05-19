@@ -2,6 +2,11 @@
 
 #include "IViewScreen.h"
 #include "VIdentifier.h"
+#include "VModelWindmillPowerPlant.h"
+#include "VModelSolarPowerplant.h"
+#include "VModelNuclearPowerPlant.h"
+#include "VModelOilRefinery.h"
+#include "VModelPowerLine.h"
 
 NAMESPACE_VIEW_B
 
@@ -9,9 +14,18 @@ NAMESPACE_VIEW_B
 class VScreenIngame : public IViewScreen
 {
 public:
+	enum BUILDINGTYPE {
+		BUILDING_WINDMILL,
+		BUILDING_HYDROPOWERPLANT,
+		BUILDING_SOLARPOWERPLANT,
+		BUILDING_NUCLEARPOWERPLANT,
+		BUILDING_COALPOWERPLANT,
+		BUILDING_OILPOWERPLANT,
+		BUILDING_POWERLINE
+	};
 	explicit VScreenIngame(VUI* vUi);
 	virtual ~VScreenIngame();
-	void onNotify(Event events) override;
+	void onNotify(const Event& events) override;
 	void switchOn() override;
 	void switchOff() override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
@@ -22,16 +36,18 @@ public:
 
 	void updatePopulation(const int wert);
 
-	void updateInfofield(const string& neuerText);
+	void updateInfofield(const std::string& neuerText);
+
+	void updatePowerPlants(std::map<std::string, int> powerPlants);
 
 	CFloatRect getTopSpace();
 
 	CFloatRect getBottomSpace();
 
-	void tick() override;
+	void tick(const float fTimeDelta) override;
 	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
 	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
-	void resize(int width, int height) override;
+	void resize(const int width, const int height) override;
 
 	void handleInput();
 	std::map<int, std::vector<int>> pickElements();
@@ -43,13 +59,20 @@ public:
 	void EndEvent() override;
 
 private:
-	CFloatRect getRectForPixel(int iPosX, int iPosY, int iSizeX, int iSizeY);
+	CFloatRect getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY);
+	void handleLeftClick(const std::map<int, std::vector<int>>& pickedElements);
+	void handleRightClick(const std::map<int, std::vector<int>>& pickedElements);
+
 	CScene m_scene;
 	//CViewport m_viewport;
 	CBackground m_zb;
 	CParallelLight m_zl;
 	CCamera m_zc;
 	CPlacement m_zpCamera;
+
+	VTab *statisticsTab;
+	VTab *sabotageTab;
+	VTab *buildingTab;
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;
@@ -61,15 +84,29 @@ private:
 	COverlay m_bottomBarSeperatorMenueMinimap;
 	COverlay m_bottomBarSeperatorMenueEnergy;
 
-	CCamera m_CamMiniMap;
-	CViewport m_minimap;
-	CPlacement m_zpMinimapCam;
-
-	bool bK = false;
+	//bool bK = false;
 	float mouseWheelPosition = 0.0F;
 	float cameraAngle = 0.0F;
 
 	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
+	bool clickActive = false;
+
+	//Detailled model view
+	CScene m_sceneModels;
+	CParallelLight m_zlModels;
+	CCamera m_CamModels;
+	CViewport m_viewportModels;
+	CBackground m_zmbackgroundModels;
+	CPlacement m_zpModels;
+
+	VModelWindmillPowerPlant modelWindmill;
+	VModelSolarPowerPlant modelSolar;
+	VModelNuclearPowerPlant modelNuclear;
+	VModelOilRefinery modelOil;
+	VModelPowerLine modelPowerline;
+	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
+
+	void updateModelView();
 };
 
 

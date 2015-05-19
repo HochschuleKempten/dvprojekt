@@ -38,14 +38,6 @@ enum EMapping
 	eMapping_Cylindrical_Tiled
 };
 
-struct SIntersection
-{
-
-	CHVector vPos;
-	float fDistanceSquare;
-	CHVector vNormal;
-	int iMatGlobal;
-};
 
 
 
@@ -75,9 +67,6 @@ public:
 	bool SubVertex(CVertex *vertex); // Hängt betreffendes Vertex ab, gibt true aus, wenn es funktioniert hat 
 
 	virtual void UpdateAABB();
-
-	void SwitchOn(); // Schaltet Geometrie an
-	void SwitchOff(); // Schaltet Geometrie aus
 
 	void MapPlanarX(); // Planares UV-Mapping entlang der X-Achse
 	void MapPlanarY();  // Planares UV-Mapping entlang der Y-Achse
@@ -137,6 +126,10 @@ public:
 	void AddGeo(CGeo * pgeo); // Hängt eine Geometrie an eine andere Geometrie an
 	bool SubGeo(CGeo * pgeo); // Hängt die Geometrie wieder von der aktuellen Geometrie ab, gibt true aus, wenns geklappt hat
 	CGeos * m_pgeos;
+
+
+//	virtual CHitPoint * Intersects(CRay & r) = 0; // berechnet, ob Strahl r ein Dreieck der Geometrie trifft, CHitpoint ist dann der Schnittpunkt
+//	virtual bool IsIntersecting(CRay & r) = 0; // berechnet, ob Strahl r ein Dreieck der Geometrie trifft, gibt true aus, wenn ja
 
 //	bool m_bChangedMaterial;
 

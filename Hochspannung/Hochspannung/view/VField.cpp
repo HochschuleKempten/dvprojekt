@@ -41,15 +41,15 @@ void VField::initField(const int rowIdx, const int colIdx)
 	std::string name = std::to_string(VIdentifier::VPlayingField) + ";" + std::to_string(rowIdx) + ";" + std::to_string(colIdx);
 	m_zp.SetName(name.c_str());
 
+	//Material needs to be copied so that hover is working
 	m_zmNormal = VMaterialLoader::fieldMaterials[VMaterialLoader::FieldPair(lField->getFieldType(), lField->getFieldLevel())];
 	ASSERT(m_zmNormal.m_ptextureDiffuse != nullptr, "Could not load the material for the field " << lField->getFieldType());
 	
-	//m_zg.Init(vPlayingField->size, &m_zmNormal);
 	m_zg.Init(vPlayingField->fieldSize, vPlayingField->fieldSize, &m_zmNormal);
+	m_zg.SetName(name.c_str());
 	m_zp.AddGeo(&m_zg);
 
-	m_zp.RotateZ(CASTS<float>(M_PI));	//Rotate the field so that the textures are correct
-	m_zp.TranslateXDelta(CASTS<float>(colIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0)));
+	m_zp.TranslateX(CASTS<float>(colIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0)));
 	m_zp.TranslateYDelta(CASTS<float>(rowIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0) * -1));
 
 	DEBUG_EXPRESSION(initDone = true);

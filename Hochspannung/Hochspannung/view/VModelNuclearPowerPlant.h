@@ -83,7 +83,7 @@ private:
 
 
 
-	CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
+	//CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;
 
@@ -93,7 +93,6 @@ public:
 	VModelNuclearPowerPlant();
 	virtual ~VModelNuclearPowerPlant() override;
 
-	//TODO (Solarkraftwerk) implement this
 	virtual float getHeight() override
 	{
 		return 4.3f;

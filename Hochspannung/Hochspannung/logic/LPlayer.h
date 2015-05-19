@@ -12,7 +12,7 @@ public:
 	enum PlayerId
 	{
 		Local = 0x1,
-		External = 0x2
+		Remote = 0x2
 	};
 
 private:
@@ -25,6 +25,8 @@ public:
 	int getMoney() const;
 	void addMoney(const int amount);
 	void subtractMoney(const int amount);
+	bool trySabotageAct();
+	int sabotageActs = 3;
 };
 
 

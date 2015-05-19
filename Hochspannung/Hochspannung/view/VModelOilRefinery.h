@@ -11,7 +11,7 @@ NAMESPACE_VIEW_B
 class VModelOilRefinery : public IViewModel
 {
 private:
-
+	
 	// Placements
 
 	CPlacement m_zpOelkraftwerk;
@@ -107,7 +107,7 @@ private:
 
 
 
-	CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
+	//CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;
 
@@ -122,6 +122,12 @@ public:
 	virtual float getWidth() override
 	{
 		return 0.0f;
+	}
+	inline void rotate(const float fTime)
+	{
+		m_zpHammer.TranslateDelta(CHVector(-1.15f, -2.0f, 0.0f));
+		m_zpHammer.RotateZDelta(fTime * PI);
+		m_zpHammer.TranslateDelta(CHVector(1.15f, 2.0f, 0.0f));
 	}
 
 };

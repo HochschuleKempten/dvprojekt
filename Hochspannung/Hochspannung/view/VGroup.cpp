@@ -30,16 +30,10 @@ NAMESPACE_VIEW_B
 
 	VGroup::~VGroup()
 	{
-		for (m_lIterGUIObjects = m_guiObjects.begin(); m_lIterGUIObjects != m_guiObjects.end(); ++m_lIterGUIObjects)
-		{
-			delete m_lIterGUIObjects->second;
-		}
-		m_guiObjects.clear();
-		if (m_hasBackground) delete m_background;
 	}
 
 
-	void VGroup::onNotify(Event events)
+	void VGroup::onNotify(const Event& events)
 	{
 		switch (events)
 		{
@@ -48,8 +42,35 @@ NAMESPACE_VIEW_B
 		}
 	}
 
+	void  VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, const Event& clickAction, const std::string& sName)
+	{
+		m_guiObjects[sName] = new VButton(m_viewport, rect, MaterialNormal, MaterialHover, clickAction);
 
-	void VGroup::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName)
+		m_guiObjects[sName]->addObserver(this);
+	}
+
+	void  VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const std::string& sName)
+	{
+		m_guiObjects[sName] = new VTextfield(m_viewport, rect, MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
+
+		m_guiObjects[sName]->addObserver(this);
+	}
+
+	void  VGroup::addText(CFloatRect rect, CWritingFont* writingFont, const std::string& text, const std::string& sName)
+	{
+		m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text);
+
+		m_guiObjects[sName]->addObserver(this);
+	}
+
+	void  VGroup::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::basic_string<char>& sName)
+	{
+		m_Overlays[sName] = new COverlay();
+		m_Overlays[sName]->Init(MaterialNormal, rect);
+		m_viewport->AddOverlay(m_Overlays[sName]);
+	}
+
+	void VGroup::addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName)
 	{
 		switch (containerType)
 		{
@@ -73,7 +94,7 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VGroup::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const string& sName)
+	void VGroup::addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::string& sName)
 	{
 		switch (containerType)
 		{

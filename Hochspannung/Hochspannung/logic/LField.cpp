@@ -15,20 +15,22 @@ LField::~LField()
 	removeBuilding();
 }
 
-void LField::setLPlayingField(LPlayingField* lPlayingField)
-{
-	this->lPlayingField = lPlayingField;
-}
-
 void LField::init(const FieldType fieldType, const FieldLevel fieldLevel)
 {
 	this->fieldType = fieldType;
 	this->fieldLevel = fieldLevel;
 
 	const std::unordered_map<LField::FieldLevel, double> fieldLevels = LBalanceLoader::getFieldLevelFactor();
-	energyStock = fieldType * fieldLevels.at(fieldLevel);
+	resourceStock = CASTS<int>(LBalanceLoader::getFieldStorage(LField::fieldType) * fieldLevels.at(fieldLevel));
 
-	energyLeft = energyStock;
+	resourceLeft = resourceStock;
+}
+
+void LField::setInitialValues(LPlayingField* lPlayingField, const int x, const int y)
+{
+	this->lPlayingField = lPlayingField;
+	this->x = x;
+	this->y = y;
 }
 
 LField::FieldType LField::getFieldType() const
@@ -36,30 +38,14 @@ LField::FieldType LField::getFieldType() const
 	return fieldType;
 }
 
-void LField::setFieldType(FieldType fieldType)
-{
-	this->fieldType = fieldType;
-
-	energyStock = fieldType * fieldLevel;
-	energyLeft = energyStock;
-}
-
 LField::FieldLevel LField::getFieldLevel() const
 {
 	return fieldLevel;
 }
 
-void LField::setFieldLevel(FieldLevel fieldLevel)
-{
-	this->fieldLevel = fieldLevel;
-
-	energyStock = fieldType * fieldLevel;
-	energyLeft = energyStock;
-}
-
 int LField::getBuildingId() const
 {
-	return buildingId;
+	return lBuilding == nullptr ? -1 : lBuilding->getIdentifier();
 }
 
 bool LField::removeBuilding()
@@ -84,7 +70,7 @@ ILBuilding* LField::getBuilding()
 	return lBuilding;
 }
 
-void LField::setIsPlacingAllowed(bool allowed)
+void LField::setIsPlacingAllowed(const bool allowed)
 {
 	buildingPlaced = allowed;
 }
@@ -97,6 +83,38 @@ bool LField::isPlacingAllowed()
 LPlayingField* LField::getLPlayingField()
 {
 	return lPlayingField;
+}
+
+int LField::getResources() const
+{
+	return resourceLeft;
+}
+
+int LField::deductResources(const int value)
+{
+	resourceLeft /= value;
+	return resourceLeft;
+}
+
+bool LField::reduceRecources(const int amount) 
+{
+	DEBUG_OUTPUT("resourceLeft begin: " << resourceLeft);
+
+	if (resourceLeft > 0) 
+	{
+		resourceLeft -= amount;
+
+		if (resourceLeft > 0)
+		{
+			return true;
+		}
+		else
+		{
+			resourceLeft = 0;
+		}
+	}
+	
+	return false;
 }
 
 NAMESPACE_LOGIC_E

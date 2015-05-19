@@ -10,6 +10,7 @@ class VModelSolarPowerPlant : public IViewModel
 {
 private:
 
+	//Placements LOD 0
 	CPlacement m_zpStabilisierung;
 	CPlacement m_zpCamera;
 	CPlacement m_zpSolarPowerplant;
@@ -59,6 +60,8 @@ private:
 	CPlacement m_zpZelle41;
 	CPlacement m_zpZelle42;
 
+	
+
 	CGeoCube m_zgStabilisierung;
 	CGeoCylinder m_zgSenkrechte;
 	CGeoCube m_zgSockel;
@@ -107,11 +110,18 @@ private:
 	CGeoCube m_zgSolarzelle42;
 
 
+
+	//Placements LOD 2
+
+	CPlacement m_zpSolarPowerplant2;
+	CPlacement m_zpGrundflaeche2;
+	CGeoCube m_zgGrundflaeche2;
+
+
 public:
 	VModelSolarPowerPlant();
 	virtual ~VModelSolarPowerPlant() override;
 
-	//TODO (Solarkraftwerk) implement this
 	virtual float getHeight() override
 	{
 		return 0.35f;
@@ -119,6 +129,11 @@ public:
 	virtual float getWidth() override
 	{
 		return 0.0f;
+	}
+	inline void rotate(const float angle)
+	{
+		m_zpGrundflaeche.RotateYDelta(angle);
+		m_zpGrundflaeche2.RotateYDelta(angle);
 	}
 
 };

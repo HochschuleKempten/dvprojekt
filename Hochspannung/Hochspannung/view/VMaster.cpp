@@ -6,6 +6,7 @@
 #include "IViewObject.h"
 #include "VMaterialLoader.h"
 #include "VScreenIngame.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -29,9 +30,17 @@ void VMaster::initScene(HWND hwnd, CSplash* psplash)
 	vUi.initUI(hwnd, psplash);
 }
 
-void VMaster::tick(float fTime, float fTimeDelta)
+void VMaster::tick(float /*fTime*/, float fTimeDelta)
 {
-	updateTick(fTimeDelta);
+	if (lMaster->isGamePaused())
+	{
+		//The logic side must be informed even in pause mode
+		lMaster->tick(fTimeDelta);
+	}
+	else
+	{
+		updateTick(fTimeDelta);
+	}
 }
 
 IVFactory* VMaster::getFactory()
@@ -43,13 +52,27 @@ void VMaster::gameOver()
 {
 	static bool informed = false;
 	if (!informed) {
+		VSoundLoader::playSoundeffect(VSoundLoader::GAME_OVER, nullptr);
 		DEBUG_OUTPUT("Game is over");
 		informed = true;
 	}
 	//TODO (V) do something useful here when UI is ready
 }
 
-VUI* HighVoltage::VMaster::getVUi()
+void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
+{
+	vUi.updateGameList(gameList);
+
+	//TODO (V) inform UI
+	DEBUG_OUTPUT("Updated List");
+	for (auto go : gameList)
+	{
+		DEBUG_OUTPUT("ip = " << go.getServerIP());
+		DEBUG_OUTPUT("name = " << go.getName());
+	}
+}
+
+VUI* VMaster::getVUi()
 {
 	return &vUi;
 }
@@ -70,12 +93,10 @@ void VMaster::hostGame()
 	lMaster->startNewGame();
 }
 
-#ifdef _DEBUG
 void VMaster::startSinglePlayerGame()
 {
 	lMaster->startNewGame("SINGLE_PLAYER");
 }
-#endif
 
 void VMaster::joinGame(const std::string& ipAddress)
 {
@@ -95,6 +116,12 @@ void VMaster::pauseGame()
 void VMaster::continueGame()
 {
 	//todo (V) implement
+}
+
+void VMaster::gameWon()
+{
+	VSoundLoader::playSoundeffect(VSoundLoader::GAME_WON, nullptr);
+	//TODO (V) implement
 }
 
 NAMESPACE_VIEW_E

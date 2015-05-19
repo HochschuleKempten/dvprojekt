@@ -1,10 +1,11 @@
 #pragma once
 
 #include "../logic/IVPlayingField.h"
-#include "../logic/LPlayingField.h"
+#include "../logic/LRemoteOperation.h"
 #include "../logic/Array2D.h"
 #include "IViewObject.h"
 #include "VField.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -38,26 +39,52 @@ public:
 	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField);
 	virtual ~VPlayingField();
 
-	//TODO (V) remove building again
 	template<typename T, typename... Args>
 	inline void tryBuildOnField(const int x, const int y, const Args... arguments)
 	{
-		lPlayingField->beginRemoteOperation();
-		if (!lPlayingField->placeBuilding<T>(x, y, LPlayer::Local, arguments...)) {
+		LRemoteOperation lRemoteOperation(lPlayingField);
+
+		bool operationSuccessful = lRemoteOperation.placeBuilding<T>(x, y, LPlayer::Local, arguments...);
+
+		if (operationSuccessful)
+		{
+			playSoundPlaceBuilding<T>(&vFields[x][y].m_zp);
+		}
+		else
+		{
+			VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, &vFields[x][y].m_zp);
 			DEBUG_OUTPUT("Could not place building at " << x << ", " << y);
 		}
-		lPlayingField->endRemoteOperation();
+	}
+
+	template<typename T>
+	inline void playSoundPlaceBuilding(CPlacement* placementField)
+	{
+		VSoundLoader::playSoundeffect(VSoundLoader::BUILDING_PLACED, placementField);
+	}
+	template<>
+	inline void playSoundPlaceBuilding<LPowerLine>(CPlacement* placementField)
+	{
+		VSoundLoader::playSoundeffect(VSoundLoader::TRASSE_PLACED, placementField);
 	}
 
 	inline void tryRemoveObject(const int x, const int y)
 	{
-		lPlayingField->beginRemoteOperation();
-		lPlayingField->removeBuilding(x, y);
-		lPlayingField->endRemoteOperation();
+		LRemoteOperation lRemoteOperation(lPlayingField);
+
+		if (lRemoteOperation.removeBuilding(x, y))
+		{
+			VSoundLoader::playSoundeffect(VSoundLoader::OBJECT_REMOVED, &vFields[x][y].m_zp);
+		}
+		else
+		{
+			VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, &vFields[x][y].m_zp);
+		}
 	}
 
 	void placeObject(const std::shared_ptr<IViewBuilding>& objPtr, const int x, const int y);
 	void hoverField(const int x, const int y);
+	IViewBuilding * getBuilding(const int x, const int y);
 
 	virtual void initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr) override;
 	virtual void buildPlayingField() override;

@@ -27,7 +27,7 @@ NAMESPACE_VIEW_B
 
 		m_background = new CBackground();
 
-		m_background->InitFull("textures\\MainMenueBackground.png");
+		m_background->InitFull(&VMaterialLoader::materialDefaultBackground);
 
 		m_viewport->AddBackground(m_background);
 
@@ -35,23 +35,18 @@ NAMESPACE_VIEW_B
 		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "BackMainMenue");
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.33F, 0.0F, 0.33F, 1.0F), "Text");
 		getContainer("Text")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 1.0F, 1.0F, 0.35F), "GUIField");
-		getContainer("Text")->addText(CFloatRect(0.0F, 0.35F, 1.0, 0.15), &VMaterialLoader::GoldFont, "2D-GUI und Interaktion", "GUI");
-		getContainer("Text")->addText(CFloatRect(0.0F, 0.5F, 1.0, 0.1), &VMaterialLoader::standardFont, "Patrick Benkowitsch", "Benkowitsch");
-		getContainer("Text")->addText(CFloatRect(0.0F, 0.6F, 1.0, 0.1), &VMaterialLoader::standardFont, "Manfred Wippel", "Wippel");
+		getContainer("Text")->addText(CFloatRect(0.0F, 0.35F, 1.0F, 0.15F), &VMaterialLoader::GoldFont, "2D-GUI und Interaktion", "GUI");
+		getContainer("Text")->addText(CFloatRect(0.0F, 0.5F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Patrick Benkowitsch", "Benkowitsch");
+		getContainer("Text")->addText(CFloatRect(0.0F, 0.6F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Manfred Wippel", "Wippel");
+
+		getContainer("Menue")->getGuiObject("BackMainMenue")->setLayer(0.1F);
 	}
 
 	VScreenCredits::~VScreenCredits()
 	{
-		for (m_IterGuicontainer = m_Guicontainer.begin(); m_IterGuicontainer != m_Guicontainer.end(); ++m_IterGuicontainer)
-		{
-			delete m_IterGuicontainer->second;
-		}
-		m_Guicontainer.clear();
-
-		delete m_viewport;
 	}
 
-	void VScreenCredits::onNotify(Event events)
+	void VScreenCredits::onNotify(const Event& events)
 	{
 		switch (events)
 		{
@@ -73,7 +68,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	void VScreenCredits::tick()
+	void VScreenCredits::tick(const float fTimeDelta)
 	{
 		updateCursorImagePos(&vUi->m_zkCursor);
 
@@ -82,17 +77,16 @@ NAMESPACE_VIEW_B
 			vUi->m_BlockCursorLeftPressed = false;
 		}
 
-		map<string, IViewGUIContainer*> tempGuicontainer;
-		map<string, IViewGUIContainer*>::iterator tempIterGuicontainer;
+		std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
 
 		checkShortcut(&vUi->m_zkKeyboard);
 		checkSpecialEvent(&vUi->m_zkCursor);
-		tempGuicontainer = getGuiContainerMap();
+		tempGuiContainer = getGuiContainerMap();
 
 		//For all containers in the screen
-		for (tempIterGuicontainer = tempGuicontainer.begin(); tempIterGuicontainer != tempGuicontainer.end(); tempIterGuicontainer++)
+		for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainer)
 		{
-			checkGUIContainer(tempIterGuicontainer->second);
+			checkGUIContainer(ContainerPair.second);
 		}
 
 		if (vUi->m_zkCursor.ButtonPressedLeft())
@@ -100,25 +94,24 @@ NAMESPACE_VIEW_B
 			vUi->m_BlockCursorLeftPressed = true;
 		}
 	}
-
 	void VScreenCredits::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 	{
-		map<string, IViewGUIObject*>::iterator tempIterGUIObjects;
-		map<string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
+		std::unordered_map<std::string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
 
-		for (tempIterGUIObjects = tempGUIObjects.begin(); tempIterGUIObjects != tempGUIObjects.end(); tempIterGUIObjects++)
+		for (const std::pair<std::string, IViewGUIObject*>& ObjectPair : tempGUIObjects)
 		{
-			if (tempIterGUIObjects->second->isOn())
+			if (ObjectPair.second->isOn())
 			{
 				if (!vUi->m_BlockCursorLeftPressed)
 				{
 					//check for events
-					tempIterGUIObjects->second->checkEvent(&vUi->m_zkCursor, &vUi->m_zkKeyboard);
+					ObjectPair.second->checkEvent(&vUi->m_zkCursor, &vUi->m_zkKeyboard);
 				}
 				//if screen was changed
 				if (vUi->m_screenChanged)
 				{
 					vUi->m_screenChanged = false;
+
 					vUi->m_BlockCursorLeftPressed = true;
 					return;
 				}
@@ -126,27 +119,26 @@ NAMESPACE_VIEW_B
 		}
 	}
 
+
 	void VScreenCredits::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 	{
-		map<string, IViewGUIContainer*> tempGuiContainerMap;
-		map<string, IViewGUIContainer*>::iterator ItertempGuiContainerMap;
+		std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainerMap;
 
 		tempGuiContainerMap = tempGuicontainer->getGuiContainerMap();
 
 		checkGUIObjects(tempGuicontainer);
-
-		for (ItertempGuiContainerMap = tempGuiContainerMap.begin(); ItertempGuiContainerMap != tempGuiContainerMap.end(); ItertempGuiContainerMap++)
+		for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainerMap)
 		{
-			checkGUIObjects(ItertempGuiContainerMap->second);
+			checkGUIObjects(ContainerPair.second);
 
 			if (tempGuicontainer->getGuiContainerMap().size() > 0)
 			{
-				checkGUIContainer(ItertempGuiContainerMap->second);
+				checkGUIContainer(ContainerPair.second);
 			}
 		}
 	}
 
-	void VScreenCredits::resize(int width, int height)
+	void VScreenCredits::resize(const int width, const int height)
 	{
 	}
 

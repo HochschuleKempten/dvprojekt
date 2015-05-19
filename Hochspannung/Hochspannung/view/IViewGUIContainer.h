@@ -24,14 +24,30 @@ NAMESPACE_VIEW_B
 			Group,
 			Dialog,
 			Register,
-			GUIArea
+			GUIArea,
+			ListView
 		};
 
 		virtual ~IViewGUIContainer()
 		{
-			for (m_lIterGUIObjects = m_guiObjects.begin(); m_lIterGUIObjects != m_guiObjects.end(); ++m_lIterGUIObjects)
+			for (std::pair<std::string,IViewGUIContainer*> ContainerPair : m_Guicontainer)
 			{
-				delete m_lIterGUIObjects->second;
+				delete ContainerPair.second;
+			}
+			m_Guicontainer.clear();
+			
+			for (std::pair<std::string, IViewGUIObject*> ObjectPair : m_guiObjects)
+			{
+				delete ObjectPair.second;
+			}
+			m_guiObjects.clear();
+			for (std::pair<std::string, COverlay*> OverlayPair : m_Overlays)
+			{
+				delete OverlayPair.second;
+			}
+			for (std::pair<std::string, CViewport*> ViewportPair : m_viewports)
+			{
+				delete ViewportPair.second;
 			}
 			m_guiObjects.clear();
 			if (m_hasBackground) delete m_background;
@@ -41,34 +57,61 @@ NAMESPACE_VIEW_B
 		{
 			if (m_hasBackground)m_background->SwitchOn();
 
-			for (m_lIterGUIObjects = m_guiObjects.begin(); m_lIterGUIObjects != m_guiObjects.end(); m_lIterGUIObjects++)
+			for (std::pair<std::string, IViewGUIContainer*> ContainerPair : m_Guicontainer)
 			{
-				m_lIterGUIObjects->second->switchOn();
+				 ContainerPair.second->switchOn();
 			}
 
-
-			//For all containers in the screen
-			for (m_IterGuicontainer = m_Guicontainer.begin(); m_IterGuicontainer != m_Guicontainer.end(); m_IterGuicontainer++)
+			for (std::pair<std::string, IViewGUIObject*> ObjectPair : m_guiObjects)
 			{
-				m_IterGuicontainer->second->switchOn();
+				 ObjectPair.second->switchOn();
 			}
+			
+			for (std::pair<std::string, COverlay*> OverlayPair : m_Overlays)
+			{
+				 OverlayPair.second->SwitchOn();
+			}
+			for (std::pair<std::string, CViewport*> ViewportPair : m_viewports)
+			{
+				ViewportPair.second->SwitchOn();
+			}
+
+			for each (std::pair<std::string, COverlay *> overlay in m_Overlays)
+			{
+				overlay.second->SwitchOn();
+			}
+
+			m_bOn = true;
 		};
 
 		virtual void switchOff()
 		{
 			if (m_hasBackground)m_background->SwitchOff();
 
-			for (m_lIterGUIObjects = m_guiObjects.begin(); m_lIterGUIObjects != m_guiObjects.end(); m_lIterGUIObjects++)
+			for (std::pair<std::string, IViewGUIContainer*> ContainerPair : m_Guicontainer)
 			{
-				m_lIterGUIObjects->second->switchOff();
+				ContainerPair.second->switchOff();
 			}
 
-
-			//For all containers in the screen
-			for (m_IterGuicontainer = m_Guicontainer.begin(); m_IterGuicontainer != m_Guicontainer.end(); m_IterGuicontainer++)
+			for (std::pair<std::string, IViewGUIObject*> ObjectPair : m_guiObjects)
 			{
-				m_IterGuicontainer->second->switchOff();
+				ObjectPair.second->switchOff();
 			}
+
+			for (std::pair<std::string, COverlay*> OverlayPair : m_Overlays)
+			{
+				OverlayPair.second->SwitchOff();
+			}
+			for (std::pair<std::string, CViewport*> ViewportPair : m_viewports)
+			{
+				ViewportPair.second->SwitchOff();
+			}
+
+			for each (std::pair<std::string, COverlay *> overlay in m_Overlays)
+			{
+				overlay.second->SwitchOff ();
+			}
+			m_bOn = false;
 		};
 
 		virtual bool isOn()
@@ -76,88 +119,111 @@ NAMESPACE_VIEW_B
 			return m_bOn;
 		}
 
-		virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, string sName)
+		virtual void addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, const Event& clickAction, const std::string& sName)
 		{
-			m_guiObjects[sName] = new VButton(m_viewport, rect, MaterialNormal, MaterialHover, clickAction);
-
+			m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
+			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
+			m_guiObjects[sName]->setLayer(0.2F);
+			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
 		}
 
-		virtual void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const string& Placeholder, string sName)
+		virtual void addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const std::string& sName)
 		{
-			m_guiObjects[sName] = new VTextfield(m_viewport, rect, MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
-
+			m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
+			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
+			m_guiObjects[sName]->setLayer(0.2F);
+			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
 		}
 
-		virtual void addText(CFloatRect rect, CWritingFont* writingFont, string text, string sName)
+		virtual void addText(CFloatRect rect, CWritingFont* writingFont, const std::string& text, const std::string& sName)
 		{
-			m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text);
-
+			m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text);
+			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
+			m_guiObjects[sName]->setLayer(0.2F);
+			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
 		}
 
-		virtual void addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, string sName)
+		virtual void addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::string& sName)
 		{
 			m_Overlays[sName] = new COverlay();
-			m_Overlays[sName]->Init(MaterialNormal, rect);
+			m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
 			m_viewport->AddOverlay(m_Overlays[sName]);
+			m_Overlays[sName]->SetLayer(0.1F);
 		}
 
-		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const string& sName) = 0;
+		virtual void addViewport(CCamera* cam, CFloatRect rect, const std::string& sName)
+		{
+			m_viewports[sName] = new CViewport();
+			m_viewports[sName]->Init(cam, createRelativeRectangle(&m_zfRect, &rect));
+		}
+		virtual void addViewport(CViewport* viewport,CCamera* cam, CFloatRect rect, CBackground* background, const std::string& sName)
+		{
+			m_viewports[sName] = viewport;
+			m_viewports[sName]->Init(cam, createRelativeRectangle(&m_zfRect, &rect));
+			m_viewports[sName]->AddBackground(background);
+		}
+		virtual CViewport* getViewport(const std::string& sName)
+		{
+			return m_viewports[sName];
+		}
+
+		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::string& sName) = 0;
 
 
-		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const string& sName) = 0;
+		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName) = 0;
 
 
-		virtual void setLayer(float layer)
+		virtual void setLayer(const float layer)
 		{
 			float fLayerDiff = layer - getLayer();
 
 			if (m_hasBackground)m_background->SetLayer(layer);
 
-			for (m_lIterGUIObjects = m_guiObjects.begin(); m_lIterGUIObjects != m_guiObjects.end(); m_lIterGUIObjects++)
+			for (std::pair<std::string, IViewGUIObject*> ObjectPair : m_guiObjects)
 			{
-				m_lIterGUIObjects->second->setLayer(m_lIterGUIObjects->second->getLayer() + fLayerDiff);
+				ObjectPair.second->setLayer(ObjectPair.second->getLayer() + fLayerDiff);
 			}
 
 
 			//For all containers in the screen
-			for (m_IterGuicontainer = m_Guicontainer.begin(); m_IterGuicontainer != m_Guicontainer.end(); m_IterGuicontainer++)
+			for (std::pair<std::string, IViewGUIContainer*> ContainerPair : m_Guicontainer)
 			{
-				m_IterGuicontainer->second->setLayer(m_IterGuicontainer->second->getLayer() + fLayerDiff);
+				ContainerPair.second->setLayer(ContainerPair.second->getLayer() + fLayerDiff);
 			}
 		}
 
 
-		IViewGUIContainer* getContainer(string sName)
+		IViewGUIContainer* getContainer(const std::string& sName)
 		{
 			ASSERT(m_Guicontainer.find(sName) != m_Guicontainer.end(), "GUIContainer not available");
 			return m_Guicontainer[sName];
 		}
 
-		map<string, IViewGUIContainer*> getGuiContainerMap()
+		std::unordered_map<std::string, IViewGUIContainer*> getGuiContainerMap()
 		{
 			return m_Guicontainer;
 		}
 
-		COverlay* getOverlay(string sName)
+		COverlay* getOverlay(const std::string& sName)
 		{
 			ASSERT(m_Overlays.find(sName) != m_Overlays.end(), "Overlay not available");
 			return m_Overlays[sName];
 		}
 
-		map<string, COverlay*> getOverlayMap()
+		std::unordered_map<std::string, COverlay*> getOverlayMap()
 		{
 			return m_Overlays;
 		}
 
-		map<string, IViewGUIObject*> getGuiObjectList()
+		std::unordered_map<std::string, IViewGUIObject*> getGuiObjectList()
 		{
 			return m_guiObjects;
 		}
 
-		IViewGUIObject* getGuiObject(string sName)
+		IViewGUIObject* getGuiObject(const std::string& sName)
 		{
 			return m_guiObjects[sName];
 		}
@@ -175,14 +241,16 @@ NAMESPACE_VIEW_B
 		CViewport* m_viewport;
 		COverlay* m_background;
 		CFloatRect m_zfRect;
-		map<string, IViewGUIObject*> m_guiObjects;
-		map<string, IViewGUIObject*>::iterator m_lIterGUIObjects;
+		std::unordered_map<std::string, IViewGUIObject*> m_guiObjects;
 
-		map<string, IViewGUIContainer*> m_Guicontainer;
-		map<string, IViewGUIContainer*>::iterator m_IterGuicontainer;
+		std::unordered_map<std::string, IViewGUIContainer*> m_Guicontainer;
+		
 
-		map<string, COverlay*> m_Overlays;
-		map<string, COverlay*>::iterator m_IterOverlays;
+		std::unordered_map<std::string, COverlay*> m_Overlays;
+		
+
+		std::unordered_map<std::string, CViewport*> m_viewports;
+		
 
 		virtual CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)
 		{

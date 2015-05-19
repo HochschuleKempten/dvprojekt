@@ -77,6 +77,8 @@ namespace Vektoria
 		ID3D11Device* m_pdevice;
 		ID3D11DeviceContext* m_pdevicecontext;
 
+		bool m_bMirrorRendering;
+
 	};
 }
 

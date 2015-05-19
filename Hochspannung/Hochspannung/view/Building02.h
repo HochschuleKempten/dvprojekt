@@ -18,7 +18,7 @@ private:
 	CPlacement m_zpWallWest;
 	CPlacement m_zpWallEast;
 	CPlacement m_zpWallSouth;
-
+	CPlacement m_zpbuilding02;
 	
 
 	CGeoCube m_zgDach;
@@ -33,9 +33,21 @@ private:
 	CGeoWall m_zgWallGlass;
 	CMaterial m_zmWallGlass;
 
+	CMaterial m_zm;
+
+	float fstandardwidthwall = 5.F;
+	float fstandardheightwall = 5.F;
+	float fstandarddepthwall = 0.1F;
+
+	float fstandardwidthroof = 2.6F;
+	float fstandardheightroof = 0.1F;
+	float fstandarddepthroof = 2.6F;
+	
+	float fresize;
 
 public:
 	Building02();
+	Building02(float fResize);
 	~Building02();
 
 	void InitWindows();
@@ -43,6 +55,7 @@ public:
 	void InitWalls();
 	void AddPlacements();
 	void TranslateAll();
+	void scaleforLoDs();
 };
 
 

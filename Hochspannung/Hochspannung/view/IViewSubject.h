@@ -29,26 +29,47 @@ NAMESPACE_VIEW_B
 			observers_.remove(observer);
 		}
 
-	protected:
-		void notify(IViewUIObserver::Event evente)
+		void addObserverExt(IViewUIObserver* observer)
 		{
-			for (lIterObservers = observers_.begin(); lIterObservers != observers_.end(); ++lIterObservers)
+			observersExt_.push_back(observer);
+		}
+
+		void removeObserverExt(IViewUIObserver* observer)
+		{
+			observersExt_.remove(observer);
+		}
+
+	protected:
+		void notify(const IViewUIObserver::Event& evente)
+		{
+			for (IViewUIObserver* obs : observers_)
 			{
 				if (evente == IViewUIObserver::QUIT_GAME)
 				{
-					(*lIterObservers)->onNotify(evente);
+					obs->onNotify(evente);
 					break;
 				}
 				else
 				{
-					(*lIterObservers)->onNotify(evente);
+					obs->onNotify(evente);
 				}
 			}
 		}
 
+		void notifyExt(const IViewUIObserver::Event& evente, const std::string& sName)
+		{
+			for (IViewUIObserver* obsExt : observersExt_)
+			{
+				
+					obsExt->onNotifyExt(evente,sName);
+				
+			}
+		}
+
 	private:
-		list<IViewUIObserver*> observers_;
-		list<IViewUIObserver*>::iterator lIterObservers;
+		std::list<IViewUIObserver*> observers_;
+		std::list<IViewUIObserver*> observersExt_;
+		
 	};
 
 	NAMESPACE_VIEW_E

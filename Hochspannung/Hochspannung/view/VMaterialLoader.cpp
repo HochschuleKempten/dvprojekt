@@ -1,9 +1,13 @@
 #include "VMaterialLoader.h"
+#include "../logic/LPlayer.h"
 
 NAMESPACE_VIEW_B
 
 
 std::map<VMaterialLoader::FieldPair, CMaterial> VMaterialLoader::fieldMaterials;
+
+//MainMenue
+CMaterial VMaterialLoader::materialMainMenueBackground;
 
 CMaterial VMaterialLoader::materialCoalPowerPlant;
 CMaterial VMaterialLoader::materialHydroelectricPowerPlant;
@@ -17,7 +21,13 @@ CMaterial VMaterialLoader::materialTopbar;
 CMaterial VMaterialLoader::materialRed;
 CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
+CMaterial VMaterialLoader::materialLightGrey;
 
+//Infofield
+CMaterial VMaterialLoader::materialInfofieldBackground;
+
+//Minimap
+CMaterial VMaterialLoader::materialMinimapBackground;
 
 //Lobby Buttons
 
@@ -48,6 +58,12 @@ CMaterial VMaterialLoader::materialLobbyBigDialog;
 CMaterial VMaterialLoader::materialBuildingButton;
 CMaterial VMaterialLoader::materialBuildingButtonHover;
 
+CMaterial VMaterialLoader::materialButtonAbort;
+CMaterial VMaterialLoader::materialButtonAbortHover;
+
+
+//Ingame
+CMaterial VMaterialLoader::materialIngameMenueDialogBackground;
 //Ingame Buttons
 CMaterial VMaterialLoader::materialIngameButtonCraftmenu;
 CMaterial VMaterialLoader::materialIngameButtonSabotage;
@@ -73,6 +89,10 @@ CMaterial VMaterialLoader::materialCraftmenuButtonOilPowerplantHover;
 CMaterial VMaterialLoader::materialCraftmenuButtonNuclearPowerplantHover;
 CMaterial VMaterialLoader::materialCraftmenuButtonPowerlineHover;
 
+//Icons
+CMaterial VMaterialLoader::materialIngameIconPopulation;
+CMaterial VMaterialLoader::materialIngameIconMoney;
+
 //WritingFont
 CWritingFont VMaterialLoader::standardFont;
 CWritingFont VMaterialLoader::GoldFont;
@@ -84,9 +104,20 @@ CMaterial VMaterialLoader::m_zmIsolator;
 CMaterial VMaterialLoader::m_zmRing;
 CMaterial VMaterialLoader::m_zmCable;
 
+//Windkraftwerktexturen
+CMaterial VMaterialLoader::m_zmWindGrund;
+CMaterial VMaterialLoader::m_zmWindrad;
+
 //Solarkraftwerktexturen
 CMaterial VMaterialLoader::m_zmSolarzelle;
 CMaterial VMaterialLoader::m_zmSolarGrund;
+CMaterial VMaterialLoader::m_zmSolarLOD;
+
+//Atomkraftwerktexturen
+CMaterial VMaterialLoader::m_zmAtomGrund;
+CMaterial VMaterialLoader::m_zmAtomSchranke;
+CMaterial VMaterialLoader::m_zmAtomZaun;
+CMaterial VMaterialLoader::m_zmAtomReaktor;
 
 //Atomkraftwerktexturen
 CMaterial VMaterialLoader::m_zmAtomgrundWhite;
@@ -94,6 +125,26 @@ CMaterial VMaterialLoader::m_zmAtomgrundGrey;
 CMaterial VMaterialLoader::m_zmSchranke;
 CMaterial VMaterialLoader::m_zmAtomgrundGreen;
 CMaterial VMaterialLoader::m_zmHolz;
+
+//Oelkraftwerktexturen
+CMaterial VMaterialLoader::m_zmOelGrund;
+CMaterial VMaterialLoader::m_zmOelSchranke;
+CMaterial VMaterialLoader::m_zmOelZaun;
+CMaterial VMaterialLoader::m_zmOelGelbstahl;
+CMaterial VMaterialLoader::m_zmOelGruenstahl;
+
+//Umspannwerktexturen
+CMaterial VMaterialLoader::m_zmUmspannBoden;
+CMaterial VMaterialLoader::m_zmUmspannGrund;
+CMaterial VMaterialLoader::m_zmUmspannIsolator;
+CMaterial VMaterialLoader::m_zmUmspannLeitung;
+
+//Kohlekraftwerktexturen
+CMaterial VMaterialLoader::m_zmKohleBerg;
+CMaterial VMaterialLoader::m_zmKohle;
+CMaterial VMaterialLoader::m_zmKohleHolz;
+CMaterial VMaterialLoader::m_zmKohleLore;
+CMaterial VMaterialLoader::m_zmKohleBlack;
 
 //PlayerColor
 std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
@@ -107,6 +158,23 @@ CMaterial VMaterialLoader::m_zmHammerCursor;
 
 //CraftMenue
 CMaterial VMaterialLoader::m_zmCraftMenueBackground;
+
+//MaterialBuilding
+CMaterial VMaterialLoader::materialBuilding01;
+CMaterial VMaterialLoader::materialBuilding02;
+CMaterial VMaterialLoader::materialBuilding03;
+CMaterial VMaterialLoader::materialLargeOfficeBuilding;
+CMaterial VMaterialLoader::materialAppartments;
+CMaterial VMaterialLoader::materialOfficTowerViewingDeck;
+CMaterial VMaterialLoader::materialTwistedTower;
+CMaterial VMaterialLoader::materialSmallOfficeBuilding;
+
+// MaterialWindowBuildings
+CMaterial VMaterialLoader::materialWindowsofBuilding;
+
+//Background
+CMaterial VMaterialLoader::materialDefaultBackground;
+CMaterial VMaterialLoader::materialWhiteGreyBackground;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
@@ -151,6 +219,11 @@ void VMaterialLoader::init()
 	materialButtonMainMenueSpielBeendenHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_exit_hover.png");
 	materialButtonBack.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back.png");
 	materialButtonBackHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back_hover.png");
+	materialButtonAbort.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort.png");
+	materialButtonAbortHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort_hover.png");
+
+	//MainMenue Background
+	materialMainMenueBackground.MakeTextureSprite("textures/gui/background/wasserkraftwerk.png");
 
 	//Lobby Buttons
 	materialButtonLobbyJoinGame.MakeTextureSprite("textures/gui/Buttons/ButtonJoinGame.png");
@@ -166,6 +239,8 @@ void VMaterialLoader::init()
 	materialLobbyBigDialog.MakeTextureSprite("textures\\LobbyBigDialog.png");
 	materialBuildingButton.MakeTextureSprite("textures\\BuildingButton.png");
 	materialBuildingButtonHover.MakeTextureSprite("textures\\BuildingButtonHover.png");
+	materialIngameMenueDialogBackground.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_MenueDialog_Background.png");
+	materialWhiteGreyBackground.MakeTextureSprite("textures/gui/background/gui_background_whitegrey.png");
 
 	//Interface - Selection Buttons
 	materialIngameButtonCraftmenu.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_craftmenu.png");
@@ -176,46 +251,64 @@ void VMaterialLoader::init()
 	materialIngameButtonStatisticsHover.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_statistics_hover.png");
 
 	//Interface - Panel_Building
-	materialCraftmenuButtonWindmill.MakeTextureSprite("textures\\Buttons\\BuildingButtonWindmill.png");
-	materialCraftmenuButtonHydroPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonHydroPowerplant.png");
-	materialCraftmenuButtonSolarPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonSolarPowerplant.png");
-	materialCraftmenuButtonCoalPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonCoalPowerplant.png");
-	materialCraftmenuButtonOilPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonOilPowerplant.png");
-	materialCraftmenuButtonNuclearPowerplant.MakeTextureSprite("textures\\Buttons\\BuildingButtonNuclearPowerplant.png");
-	materialCraftmenuButtonPowerline.MakeTextureSprite("textures\\Buttons\\BuildingButtonPowerline.png");
+	materialCraftmenuButtonWindmill.MakeTextureSprite("textures/gui/Buttons/gui_ingame_airPowerPlant.png");
+	materialCraftmenuButtonHydroPowerplant.MakeTextureSprite("textures/gui/Buttons/gui_ingame_hydroPowerPlant.png");
+	materialCraftmenuButtonSolarPowerplant.MakeTextureSprite("textures/gui/Buttons/gui_ingame_solarPowerPlant.png");
+	materialCraftmenuButtonCoalPowerplant.MakeTextureSprite("textures/gui/Buttons/gui_ingame_coalPowerPlant.png");
+	materialCraftmenuButtonOilPowerplant.MakeTextureSprite("textures/gui/Buttons/gui_ingame_oilPowerPlant.png");
+	materialCraftmenuButtonNuclearPowerplant.MakeTextureSprite("textures/gui/Buttons/gui_ingame_nuclearPowerPlant.png");
+	materialCraftmenuButtonPowerline.MakeTextureSprite("textures/gui/Buttons/gui_ingame_powerLine.png");
 
-	materialCraftmenuButtonWindmillHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonWindmillHover.png");
-	materialCraftmenuButtonHydroPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonHydroPowerplantHover.png");
-	materialCraftmenuButtonSolarPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonSolarPowerplantHover.png");
-	materialCraftmenuButtonCoalPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonCoalPowerplantHover.png");
-	materialCraftmenuButtonOilPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonOilPowerplantHover.png");
-	materialCraftmenuButtonNuclearPowerplantHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonNuclearPowerplantHover.png");
-	materialCraftmenuButtonPowerlineHover.MakeTextureSprite("textures\\Buttons\\BuildingButtonPowerlineHover.png");
+	materialCraftmenuButtonWindmillHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_airPowerPlantHover.png");
+	materialCraftmenuButtonHydroPowerplantHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_hydroPowerPlantHover.png");
+	materialCraftmenuButtonSolarPowerplantHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_solarPowerPlantHover.png");
+	materialCraftmenuButtonCoalPowerplantHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_coalPowerPlantHover.png");
+	materialCraftmenuButtonOilPowerplantHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_oilPowerPlantHover.png");
+	materialCraftmenuButtonNuclearPowerplantHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_nuclearPowerPlantHover.png");
+	materialCraftmenuButtonPowerlineHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_powerLineHover.png");
 
 	//Test
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
 	materialBlue.MakeTextureSprite("textures\\blue_image.jpg");
 	materialGreen.MakeTextureSprite("textures\\green_image.jpg");
+	materialLightGrey.MakeTextureSprite("textures\\lightgrey_image.png");
 
 	//Fonts
 	standardFont.Init("textures/fonts/FontArialShadow.png", true);
-	standardFont.SetTableSize(16, 6);
+	standardFont.SetTableSize(16, 16);
 	GoldFont.Init("textures/fonts/FontArialShadowGold.png", true);
-	GoldFont.SetTableSize(16, 6);
-
+	GoldFont.SetTableSize(16, 16);
+	standardFont.SetTransparencyOn();
+	GoldFont.SetTransparencyOn();
 	//Building - Trasse
 	m_zmConcrete.MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse.png");
 	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
 	m_zmConcrete.MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 
-	m_zmStrut.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmStrut.MakeTextureDiffuse("textures/buildings/strommast_diffuse.png");
 	m_zmIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmRing.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmCable.MakeTextureDiffuse("textures\\white_image.jpg");
 
+	//Windkraftwerktexturen
+	m_zmWindGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
+	m_zmWindrad.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindGrund.SetTextureSpecularAsDiffuse();
+
 	//Solarkraftwerktexturen
 	m_zmSolarGrund.MakeTextureDiffuse("textures\\white_image.jpg");
-	m_zmSolarzelle.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmSolarzelle.MakeTextureDiffuse("textures\\buildings\\SolarPanel_diffuse.jpg");
+	m_zmSolarzelle.MakeTextureBump("textures\\buildings\\SolarPanel_bump.jpg");
+	m_zmSolarLOD.MakeTextureDiffuse("textures\\SolarLOD.jpg");
+
+	//Atomkraftwerktexturen
+	m_zmAtomGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
+	m_zmAtomSchranke.MakeTextureDiffuse("textures\\Powerplants\\Schranke.jpg");
+	m_zmAtomZaun.MakeTextureDiffuse("textures\\Powerplants\\Holz.jpg");
+	m_zmAtomReaktor.MakeTextureDiffuse("textures\\white_image.jpg");
+	m_zmAtomGrund.SetTextureSpecularAsDiffuse();
+	m_zmAtomSchranke.SetTextureSpecularAsDiffuse();
+	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
 
 	//Atomkraftwerktexturen
 	m_zmAtomgrundWhite.MakeTextureDiffuse("textures\\white_image.jpg");
@@ -223,27 +316,117 @@ void VMaterialLoader::init()
 	m_zmSchranke.MakeTextureDiffuse("Textures\\schranke.jpg");
 	m_zmAtomgrundGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
 	m_zmHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
+
+	//Oelkraftwerktexturen
+	m_zmOelGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
+	m_zmOelSchranke.MakeTextureDiffuse("textures\\Powerplants\\Schranke.jpg");
+	m_zmOelZaun.MakeTextureDiffuse("textures\\Powerplants\\Holz.jpg");
+	m_zmOelGelbstahl.MakeTextureDiffuse("textures\\Powerplants\\Gelbstahl.png");
+	m_zmOelGruenstahl.MakeTextureDiffuse("textures\\Powerplants\\Gruenstahl.png");
+	m_zmOelGrund.SetTextureSpecularAsDiffuse();
+	m_zmAtomSchranke.SetTextureSpecularAsDiffuse();
+	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
+
+	//Umspannwerktexturen
+	m_zmUmspannBoden.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
+	m_zmUmspannGrund.MakeTextureDiffuse("textures\\Powerplants\\Gruenstahl.png");
+	m_zmUmspannIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmUmspannLeitung.MakeTextureDiffuse("textures\\Powerplants\\Grau.jpg");
+	m_zmUmspannBoden.SetTextureSpecularAsDiffuse();
+
+	//Kohlekraftwerktexturen
+	m_zmKohle.MakeTextureDiffuse("Textures\\kohle_image.jpg");
+	m_zmKohleBerg.MakeTextureDiffuse("Textures\\berg_image.jpg");
+	m_zmKohleHolz.MakeTextureDiffuse("Textures\\holz_image.jpg");
+	m_zmKohleLore.MakeTextureDiffuse("Textures\\lore_image.jpg");
+	m_zmKohleBlack.MakeTextureDiffuse("Textures\\black_image.jpg");
+	m_zmKohleBerg.SetTextureSpecularAsDiffuse();
 	
 	//Building - Foundation
-	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::External), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
+	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(222.0f / 255.0f, 186.0f / 255.0f, 69.0f / 255.0f));
 	//Local player
 	materialFoundationPlayer[LPlayer::Local].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_local.png");
 	materialFoundationPlayer[LPlayer::Local].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
 	materialFoundationPlayer[LPlayer::Local].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 	//Opponent
-	materialFoundationPlayer[LPlayer::External].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_opponent.png");
-	materialFoundationPlayer[LPlayer::External].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
-	materialFoundationPlayer[LPlayer::External].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
+	materialFoundationPlayer[LPlayer::Remote].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_opponent.png");
+	materialFoundationPlayer[LPlayer::Remote].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
+	materialFoundationPlayer[LPlayer::Remote].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 
 	//Cursor
 	m_zmDefaultCursor.MakeTextureSprite("textures\\gui\\default_zeiger.png");
 	m_zmHammerCursor.MakeTextureSprite("textures\\gui\\Hammer.png");
+	m_zmDefaultCursor.SetTransparencyOn();
+	m_zmHammerCursor.SetTransparencyOn();
 
 	//CraftMenue
-	m_zmCraftMenueBackground.MakeTextureSprite("textures\\gui\\texture_gui_background_darkgrey.png");
+	m_zmCraftMenueBackground.MakeTextureSprite("textures/gui/background/gui_ingame_baumenu.png");
 
+	//Infofield
+	materialInfofieldBackground.MakeTextureSprite("textures/gui/background/gui_ingame_infofield.png");
+
+	//Minimap
+	materialMinimapBackground.MakeTextureSprite("textures/gui/background/gui_ingame_minimap.png");
+
+	//Icons
+	materialIngameIconPopulation.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Population.png");
+	materialIngameIconMoney.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Money.png");
+
+	//Default Background
+	materialDefaultBackground.MakeTextureSprite("textures/gui/interface/texture_gui_background_lightgrey.png");
+
+	//CityBuildings
+
+	materialBuilding01.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialBuilding01.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialBuilding01.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+
+	materialBuilding02.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialBuilding02.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialBuilding02.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+
+	materialBuilding03.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialBuilding03.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialBuilding03.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+	
+	materialAppartments.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialAppartments.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialAppartments.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+
+	materialLargeOfficeBuilding.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialLargeOfficeBuilding.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialBuilding03.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+
+	materialOfficTowerViewingDeck.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialOfficTowerViewingDeck.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialOfficTowerViewingDeck.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+
+	materialSmallOfficeBuilding.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialSmallOfficeBuilding.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialSmallOfficeBuilding.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+
+	materialTwistedTower.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialTwistedTower.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialTwistedTower.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+	
 }
 
+//Rotation adjustments
+float VMaterialLoader::getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta)
+{
+	switch (powerPlant)
+	{
+		//case VIdentifier::VCoalPowerPlant: break;
+		//case VIdentifier::VHydroelectricPowerPlant: break;
+		case VIdentifier::VWindmillPowerPlant: return CASTS<float>((2.0 * M_PI / 2.0) * fTimeDelta);	//Number of seconds per rotation
+		case VIdentifier::VSolarPowerPlant: return CASTS<float>((2.0 * M_PI / 4.0) * fTimeDelta);
+		case VIdentifier::VOilRefinery: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
+		//case VIdentifier::VNuclearPowerPlant: break;
+		default:
+			ASSERT("No Rotation for this power plant available");
+			return 1.0;
+	}
+}
 
 NAMESPACE_VIEW_E

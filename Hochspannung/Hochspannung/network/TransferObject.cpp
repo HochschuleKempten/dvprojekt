@@ -56,7 +56,7 @@ std::vector<FieldTransfer> CTransferObject::getValueAsVector() {
 	FieldTransfer fieldTransfer;
 
 	std::vector<std::string> fieldTransferStrings;
-	std::stringstream ss(m_sValue); // Turn the string into a stream.
+	std::stringstream ss(m_sValue); // Turn the std::string into a stream.
 	std::string tok;
 
 	while (getline(ss, tok, '$')) {

@@ -9,6 +9,8 @@ class Building03 : public CPlacement
 private:
 
 	//Gebäude03
+	CPlacement m_zpbuilding03;
+
 	CGeoWall m_zWallNorth;
 	CPlacement m_zpWallNorth;
 	CMaterial m_zmWallNorth;
@@ -34,12 +36,21 @@ private:
 
 
 	//Boden
+	float fstandardwidthwall = 5.F;
+	float fstandardheightwall = 10.F;
+	float fstandarddepthwall = 0.1F;
 
+	float fstandardwidthroof = 2.6F;
+	float fstandardheightroof = 0.1F;
+	float fstandarddepthroof = 2.6F;
+
+	float fresize ;
 	
 
 public:
 
 	Building03();
+	Building03(float fResize);
 	~Building03();
 
 	void InitWindows();
@@ -47,6 +58,7 @@ public:
 	void InitWalls();
 	void AddPlacements();
 	void TranslateAll();
+	void scaleforLoDs();
 
 };
 

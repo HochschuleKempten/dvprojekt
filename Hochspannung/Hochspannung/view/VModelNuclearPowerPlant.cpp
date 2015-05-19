@@ -6,47 +6,51 @@ NAMESPACE_VIEW_B
 VModelNuclearPowerPlant::VModelNuclearPowerPlant()
 {
 
-
+	m_zpLOD[0].AddPlacement(&m_zpAtomkraftwerk);
+	m_zpLOD[1].AddPlacement(&m_zpAtomkraftwerk);
+	m_zpLOD[2].AddPlacement(&m_zpAtomkraftwerk);
 	//Initialisierung Fundament
 	//m_zgFundament.Init(10.0f, 0.3f, 10.0f, &m_zmGreen);
 
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAtomgrundGreen);
+	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAtomGrund);
 
 	//Initialisierung Kuehlturm
-	m_zgKuehlturm.InitTubeWave(1.2f, 4.0f, 0.2f, 0.1f, 3.5f, &VMaterialLoader::m_zmAtomgrundGrey, 0.2f, true, true);
+	m_zgKuehlturm.InitTubeWave(1.2f, 4.0f, 0.2f, 0.1f, 3.5f, &VMaterialLoader::m_zmAtomGrund, 0.2f, true, true);
 
 	//Initialisierung Reaktorturm
-	m_zgReaktorTurm.InitStraight(0.6f, 0.6f, 1.2f, &VMaterialLoader::m_zmAtomgrundWhite, 32);
+	m_zgReaktorTurm.InitStraight(0.6f, 0.6f, 1.2f, &VMaterialLoader::m_zmAtomReaktor, 32);
 
 	//Initialisierung Reaktorkopf
-	m_zgReaktorKopf.Init(0.6f, &VMaterialLoader::m_zmAtomgrundWhite, 32, 32);
+	m_zgReaktorKopf.Init(0.6f, &VMaterialLoader::m_zmAtomReaktor, 32, 32);
 
 	//Initialisierung Kamin
-	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true);
+	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, &VMaterialLoader::m_zmAtomGrund, 32, true);
 
 	//Initialisierung Pfosten
-	m_zgPfosten.Init(0.2f, 1.1f, 0.2f, &VMaterialLoader::m_zmHolz);
+	m_zgPfosten.Init(0.2f, 1.1f, 0.2f, &VMaterialLoader::m_zmAtomZaun);
 
 	//Initialisierung Balken
-	m_zgBalkenLang.Init(4.7f, 0.1f, 0.1f, &VMaterialLoader::m_zmHolz);
-	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, &VMaterialLoader::m_zmHolz);
+	m_zgBalkenLang.Init(4.7f, 0.1f, 0.1f, &VMaterialLoader::m_zmAtomZaun);
+	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, &VMaterialLoader::m_zmAtomZaun);
 
 	//Initialisierung Trassen
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 
 	//Initialisierung Drehelement
-	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true, true);
+	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, &VMaterialLoader::m_zmAtomGrund, 32, true, true);
 
 	//Initialisierung Schranke
-	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, &VMaterialLoader::m_zmSchranke);
+	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, &VMaterialLoader::m_zmAtomSchranke);
 
 
 
 
 
 	//Placements
-
+	m_zpLOD[0].AddPlacement(&m_zpAtomkraftwerk);
+	m_zpLOD[1].AddPlacement(&m_zpAtomkraftwerk);
+	m_zpLOD[2].AddPlacement(&m_zpAtomkraftwerk);
 	m_zpMain.AddPlacement(&m_zpAtomkraftwerk);
 	m_zpAtomkraftwerk.AddPlacement(&m_zpFundament);
 	m_zpAtomkraftwerk.AddPlacement(&m_zpKuehlturm1);
@@ -95,13 +99,13 @@ VModelNuclearPowerPlant::VModelNuclearPowerPlant()
 	m_zpReaktor2.AddPlacement(&m_zpReaktorKopf2);
 
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte11);
-	m_zpGebaeudeHaelfte11.AddPlacement(Gebaeude);
+	//m_zpGebaeudeHaelfte11.AddPlacement(Gebaeude);
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte12);
-	m_zpGebaeudeHaelfte12.AddPlacement(Gebaeude);
+	//m_zpGebaeudeHaelfte12.AddPlacement(Gebaeude);
 	m_zpGebaeude2.AddPlacement(&m_zpGebaeudeHaelfte21);
-	m_zpGebaeudeHaelfte21.AddPlacement(Gebaeude);
+	//m_zpGebaeudeHaelfte21.AddPlacement(Gebaeude);
 	m_zpGebaeude2.AddPlacement(&m_zpGebaeudeHaelfte22);
-	m_zpGebaeudeHaelfte22.AddPlacement(Gebaeude);
+	//m_zpGebaeudeHaelfte22.AddPlacement(Gebaeude);
 
 	//Adding
 

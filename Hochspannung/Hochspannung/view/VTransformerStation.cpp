@@ -3,32 +3,41 @@
 #include "VIdentifier.h"
 #include "VMaster.h"
 #include "../logic/LTransformerStation.h"
-#include "VUI.h"
 
 NAMESPACE_VIEW_B
 
 
 VTransformerStation::VTransformerStation(VMaster *vMaster, LTransformerStation* lTransformerStation)
-	: IVTransformerStation(lTransformerStation), IViewBuilding(vMaster, &m_zp)
-{
-	m_zg.Init(1.2f, &VMaterialLoader::materialGreen);
-	m_zp.AddGeo(&m_zg);
-}
+	: IVTransformerStation(lTransformerStation), IViewBuilding(vMaster, viewModel.getMainPlacement())
+{}
 
 VTransformerStation::~VTransformerStation()
 {}
 
 void VTransformerStation::initTransformerStation(const std::shared_ptr<IVTransformerStation>& objPtr, const int x, const int y)
 {
-	//viewModel.initViewModel(this);
-	vMaster->getPlayingField()->placeObject(dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
+	viewModel.initViewModel(this);
+	
+	viewModel.getMainPlacement()->Scale(0.4f);
+	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
+	//viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
+	
+	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	//SET_NAME_AND_COORDINATES(VIdentifier::VTransformerStation);
+	SET_NAME_AND_COORDINATES(VIdentifier::VTransformerStation);
 }
 
 ILBuilding* VTransformerStation::getLBuilding()
 {
 	return CASTD<ILBuilding*>(lTransformerStation);
+}
+
+bool VTransformerStation::clicked(action action)
+{
+	switch (action)
+	{
+	default:ASSERT("Invalid action"); return false;
+	}
 }
 
 NAMESPACE_VIEW_E

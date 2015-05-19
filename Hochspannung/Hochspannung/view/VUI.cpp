@@ -7,8 +7,6 @@
 #include "VScreenCredits.h"
 #include "VScreenOptions.h"
 #include "../logic/LMaster.h"
-#include <Windows.h>
-#include <VersionHelpers.h>
 
 NAMESPACE_VIEW_B
 
@@ -25,12 +23,7 @@ VUI::~VUI()
 void VUI::initUI(HWND hwnd, CSplash* psplash)
 {
 	m_zr.Init(psplash);
-	if (IsWindows8OrGreater()) {
-		m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
-	}
-	else {
-		m_zf.Init(hwnd);
-	}
+	m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50_Basic, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
 	m_zr.AddFrameHere(&m_zf);
 
 	m_zf.AddDeviceKeyboard(&m_zkKeyboard);
@@ -51,7 +44,7 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	switchScreen("MainMenue");
 }
 
-void VUI::onNotify(Event evente)
+void VUI::onNotify(const Event& evente)
 {
 	switch (evente) {
 		case QUIT_GAME:
@@ -84,12 +77,12 @@ void VUI::resize(int width, int height)
 	m_zf.ReSize(width, height);
 	activeScreen->resize(width, height);
 
-	for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++) {
-		m_iterScreens->second->resize(width, height);
+	for (std::pair<std::string,IViewScreen*> ScreenPair : m_screens) {
+		ScreenPair.second->resize(width, height);
 	}
 }
 
-void VUI::addScreen(const string& sName, const IViewScreen::ScreenType screenType)
+void VUI::addScreen(const std::string& sName, const IViewScreen::ScreenType screenType)
 {
 	switch (screenType) {
 		case IViewScreen::ScreenType::MainMenue:
@@ -128,6 +121,8 @@ void VUI::switchScreen(const std::string& switchTo)
 	activeScreen = m_screens[switchTo];
 	activeScreen->switchOn();
 	activeScreen->StartEvent();
+
+	m_screenChanged = true;
 }
 
 IViewScreen* VUI::getScreen(const std::string& sName)
@@ -138,20 +133,24 @@ IViewScreen* VUI::getScreen(const std::string& sName)
 
 void VUI::updateMoney(const int wert)
 {
-	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
 }
 
 void VUI::updatePopulation(const int wert)
 {
-	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
 }
 
-
+void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
+{
+	CASTD<VScreenLobby*>(m_screens["Lobby"])->updateHostList(gameList);
+}
 
 void VUI::tick(const float fTimeDelta)
 {
-	m_zr.Tick(const_cast<float&>(fTimeDelta));
-	activeScreen->tick();
+	float fTimeDeltaCopy = fTimeDelta;	//Copy needed because Vektoria means to change the time variable for some reasons (prevent undefined behaviour: http://en.cppreference.com/w/cpp/language/const_cast)
+	m_zr.Tick(fTimeDeltaCopy);
+	activeScreen->tick(fTimeDelta);
 
 }
 

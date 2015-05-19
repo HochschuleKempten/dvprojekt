@@ -31,6 +31,7 @@ class VUI : public IVTickObserver, public IViewUIObserver
 	friend class VScreenOptions;
 	friend class VScreenCredits;
 	friend class VScreenLobby;
+
 private:
 	VMaster* vMaster;
 
@@ -42,8 +43,7 @@ private:
 	CDeviceMouse m_zkMouse;
 
 	IViewScreen* activeScreen = nullptr;
-	std::map<std::string, IViewScreen*> m_screens;
-	std::map<std::string, IViewScreen*>::iterator m_iterScreens;
+	std::unordered_map<std::string, IViewScreen*> m_screens;
 
 	bool isQuit;
 	bool m_screenChanged = false;
@@ -55,17 +55,18 @@ public:
 
 	virtual void tick(const float fTimeDelta) override;
 
-	virtual void onNotify(Event events) override;
+	virtual void onNotify(const Event& events) override;
 
-	void addScreen(const string& sName, const IViewScreen::ScreenType);
-	void switchScreen(const string& switchTo);
-	IViewScreen* getScreen(const string& sName);
+	void addScreen(const std::string& sName, const IViewScreen::ScreenType);
+	void switchScreen(const std::string& switchTo);
+	IViewScreen* getScreen(const std::string& sName);
 
 	void initUI(HWND hwnd, CSplash* psplash);
 
 	void resize(int width, int height);
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
+	void updateGameList(const std::vector<Network::CGameObject>& gameList);
 
 	//void checkGUIContainer(IViewGUIContainer* guiContainer);
 };

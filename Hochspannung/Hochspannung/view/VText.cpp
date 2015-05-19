@@ -6,7 +6,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, string text)
+	VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text)
 	{
 		m_zfrRect = rect;
 		m_text = text;
@@ -16,23 +16,29 @@ NAMESPACE_VIEW_B
 		viewport->AddWriting(m_writing);
 
 		m_writing->PrintF("%s", const_cast<char*>(m_text.c_str()));
+		
 	}
 
 
 	VText::~VText()
 	{
+		delete m_writing;
 	}
 
 	void VText::switchOn()
 	{
 		m_bisOn = true;
+		updateText(m_text);
 		m_writing->SwitchOn();
+		m_writing->PrintF("%s", const_cast<char*>(m_text.c_str()));
 	}
 
 	void VText::switchOff()
 	{
 		m_bisOn = false;
+		updateText("");
 		m_writing->SwitchOff();
+		m_writing->PrintF("");
 	}
 
 	void VText::onMouseOver()
@@ -51,7 +57,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	void VText::updateText(string text)
+	void VText::updateText(const std::string& text)
 	{
 		m_writing->PrintF("%s", const_cast<char*>(text.c_str()));
 	}
