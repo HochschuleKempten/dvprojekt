@@ -38,7 +38,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_minimap.Init(&m_CamMiniMap, CFloatRect(0.8F, 0.765F, 0.195F, 0.23F));
 
 	m_zl.Init(CHVector(1.0F, 1.0F, 1.0F),
-	          CColor(1.0F, 1.0F, 1.0F));
+			  CColor(1.0F, 1.0F, 1.0F));
 
 	m_scene.AddPlacement(&m_zpMinimapCam);
 	m_scene.AddParallelLight(&m_zl);
@@ -96,35 +96,41 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	vrRegister->setLayer(0.7);
 
 	// Tabs
-	VTab * vtTabStatistics = CASTD<VRegister*>(vrRegister)->getTab("TabStatistics");
-	VTab * vtTabSabotage   = CASTD<VRegister*>(vrRegister)->getTab("TabSabotage");
-	VTab * vtTabBuilding   = CASTD<VRegister*>(vrRegister)->getTab("TabBuilding");
+	m_vtTabStatistics = CASTD<VRegister*>(vrRegister)->getTab("TabStatistics");
+	m_vtTabSabotage   = CASTD<VRegister*>(vrRegister)->getTab("TabSabotage");
+	m_vtTabBuilding   = CASTD<VRegister*>(vrRegister)->getTab("TabBuilding");
 
-	//CraftMenu
-	vtTabBuilding->addButton(CFloatRect(0.025F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonWindmill, &VMaterialLoader::materialCraftmenuButtonWindmillHover, SELECT_BUILDING_WINDMILL, "windmill");
-	vtTabBuilding->addButton(CFloatRect(0.275F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, &VMaterialLoader::materialCraftmenuButtonHydroPowerplantHover, SELECT_BUILDING_HYDROPOWERPLANT, "hydroPowerPlant");
-	vtTabBuilding->addButton(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, &VMaterialLoader::materialCraftmenuButtonSolarPowerplantHover, SELECT_BUILDING_SOLARPOWERPLANT, "solarPowerPlant");
-	vtTabBuilding->addButton(CFloatRect(0.025F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, &VMaterialLoader::materialCraftmenuButtonNuclearPowerplantHover, SELECT_BUILDING_NUCLEARPOWERPLANT, "nuclearPowerPlant");
-	vtTabBuilding->addButton(CFloatRect(0.275F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, &VMaterialLoader::materialCraftmenuButtonCoalPowerplantHover, SELECT_BUILDING_COALPOWERPLANT, "coalPowerPlant");
-	vtTabBuilding->addButton(CFloatRect(0.525F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, &VMaterialLoader::materialCraftmenuButtonOilPowerplantHover, SELECT_BUILDING_OILPOWERPLANT, "oilPowerPlant");
-	vtTabBuilding->addButton(CFloatRect(0.775F, 0.525F, 0.20F, 0.4F), &VMaterialLoader::materialCraftmenuButtonPowerline, &VMaterialLoader::materialCraftmenuButtonPowerlineHover, SELECT_BUILDING_POWERLINE, "powerLine");
+	// Tab for building
+	m_vtTabBuilding->addButton(CFloatRect(0.025F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonWindmill, &VMaterialLoader::materialCraftmenuButtonWindmillHover, SELECT_BUILDING_WINDMILL, "windmill");
+	m_vtTabBuilding->addButton(CFloatRect(0.275F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, &VMaterialLoader::materialCraftmenuButtonHydroPowerplantHover, SELECT_BUILDING_HYDROPOWERPLANT, "hydroPowerPlant");
+	m_vtTabBuilding->addButton(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, &VMaterialLoader::materialCraftmenuButtonSolarPowerplantHover, SELECT_BUILDING_SOLARPOWERPLANT, "solarPowerPlant");
+	m_vtTabBuilding->addButton(CFloatRect(0.025F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, &VMaterialLoader::materialCraftmenuButtonNuclearPowerplantHover, SELECT_BUILDING_NUCLEARPOWERPLANT, "nuclearPowerPlant");
+	m_vtTabBuilding->addButton(CFloatRect(0.275F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, &VMaterialLoader::materialCraftmenuButtonCoalPowerplantHover, SELECT_BUILDING_COALPOWERPLANT, "coalPowerPlant");
+	m_vtTabBuilding->addButton(CFloatRect(0.525F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, &VMaterialLoader::materialCraftmenuButtonOilPowerplantHover, SELECT_BUILDING_OILPOWERPLANT, "oilPowerPlant");
+	m_vtTabBuilding->addButton(CFloatRect(0.775F, 0.525F, 0.20F, 0.4F), &VMaterialLoader::materialCraftmenuButtonPowerline, &VMaterialLoader::materialCraftmenuButtonPowerlineHover, SELECT_BUILDING_POWERLINE, "powerLine");
 
-	vtTabBuilding->getGuiObject("windmill")->setLayer(0.2F);
-	vtTabBuilding->getGuiObject("hydroPowerPlant")->setLayer(0.2F);
-	vtTabBuilding->getGuiObject("solarPowerPlant")->setLayer(0.2F);
-	vtTabBuilding->getGuiObject("coalPowerPlant")->setLayer(0.2F);
-	vtTabBuilding->getGuiObject("oilPowerPlant")->setLayer(0.2F);
-	vtTabBuilding->getGuiObject("nuclearPowerPlant")->setLayer(0.2F);
-	vtTabBuilding->getGuiObject("powerLine")->setLayer(0.2F);
+	// Tab for statistics
+	m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonWindmill, "true", "statisticWind");
+	m_vtTabStatistics->addText(CFloatRect(0.16f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countWind");
 
-	// StatsMenu
-	vtTabStatistics->addText(CFloatRect(0.025F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::standardFont, "windmillCount", "windmillCount");
-	vtTabStatistics->addButton(CFloatRect(0.275F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonWindmill, &VMaterialLoader::materialCraftmenuButtonWindmillHover, SELECT_BUILDING_WINDMILL, "windmillCountbtn");
-	
+	m_vtTabStatistics->addOverlay(CFloatRect(0.26f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, "true", "statisticHydro");
+	m_vtTabStatistics->addText(CFloatRect(0.37f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countHydro");
 
-	vtTabSabotage->switchOff();
-	vtTabStatistics->switchOff();
+	m_vtTabStatistics->addOverlay(CFloatRect(0.51f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, "true", "statisticSolar");
+	m_vtTabStatistics->addText(CFloatRect(0.62f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countSolar");
 
+	m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, "true", "statisticNuclear");
+	m_vtTabStatistics->addText(CFloatRect(0.16f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countNuclear");
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.26f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, "true", "statisticCoal");
+	m_vtTabStatistics->addText(CFloatRect(0.37f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countCoal");
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.51f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "true", "statisticOil");
+	m_vtTabStatistics->addText(CFloatRect(0.62f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countOil");
+
+	// Set TabBuilding as default tab = turning off all other tabs
+	m_vtTabStatistics->switchOff();
+	m_vtTabSabotage->switchOff();
 
 	/********************************************************Minimap AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.73F, 0.01F, 0.27F, 1.0F), &VMaterialLoader::materialMinimapBackground, "Minimap");
@@ -139,7 +145,9 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING, "MenueButtonContinue");
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.27F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "MenueButtonQuit");
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.44F, 0.80F, 0.15F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "MenueButtonBack");
-
+	//getContainer("DialogBox")->getGuiObject("MenueButtonContinue")->setLayer(0.2F);
+	//getContainer("DialogBox")->getGuiObject("MenueButtonQuit")->setLayer(0.2F);
+	//getContainer("DialogBox")->getGuiObject("MenueButtonBack")->setLayer(0.2F);
 
 	/********************************************************Energy AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialGreen, "Energy");
@@ -169,19 +177,21 @@ void VScreenIngame::onNotify(Event events)
 	switch (events)
 	{
 		case SWITCH_TO_REGISTER_BUILDING:
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->switchOn();
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
+			m_vtTabBuilding->switchOn();
+			m_vtTabSabotage->switchOff();
+			m_vtTabStatistics->switchOff();
 			break;
 		case SWITCH_TO_REGISTER_SABOTAGE:
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->switchOff();
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabSabotage")->switchOn();
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
+			m_vtTabBuilding->switchOff();
+			m_vtTabSabotage->switchOn();
+			m_vtTabStatistics->switchOff();
 			break;
 		case SWITCH_TO_REGISTER_STATISTICS:
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabBuilding")->switchOff();
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabSabotage")->switchOff();
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOn();
+			m_vtTabBuilding->switchOff();
+			m_vtTabSabotage->switchOff();
+			m_vtTabStatistics->switchOn();
+			// TODO get stats and update statistics here
+			updatePowerPlants({ { "countOil", 10 }, { "countWind", 15 } }); // testing
 			break;
 
 		case SELECT_BUILDING_WINDMILL:
@@ -294,6 +304,13 @@ void VScreenIngame::updatePopulation(const int wert)
 void VScreenIngame::updateInfofield(const std::string& neuerText)
 {
 	CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
+}
+
+void VScreenIngame::updatePowerPlants(const std::map<std::string, int> powerPlants) {
+	//VTab * tabStatistics = CASTD<VRegister *>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics");
+	for each (std::pair<std::string, int> plant in powerPlants) {
+		CASTD<VText*>(m_vtTabStatistics->getGuiObject(plant.first))->updateText(std::to_string(plant.second));
+	}
 }
 
 CFloatRect VScreenIngame::getTopSpace()
@@ -567,21 +584,6 @@ void VScreenIngame::StartEvent()
 
 void VScreenIngame::EndEvent()
 { }
-
-
-//************************************
-// Method:    updateStats
-// FullName:  HighVoltage::VScreenIngame::updateStats
-// Access:    public 
-// Returns:   void
-// Qualifier:
-// Parameter: std::map<std::string, int> plants
-//************************************
-void HighVoltage::VScreenIngame::updateStats(std::map<std::string, int> plants) {
-	for each (std::pair<std::string, int> plant in plants) {
-		//CASTD<VText*>(getContainer("Bottom")->getGuiObject("moneyValue"))->updateText(std::to_string(1));
-	}
-}
 
 CFloatRect VScreenIngame::getRectForPixel(int iPosX, int iPosY, int iSizeX, int iSizeY)
 {

@@ -9,6 +9,15 @@ NAMESPACE_VIEW_B
 class VScreenIngame : public IViewScreen
 {
 public:
+	enum BUILDINGTYPE {
+		BUILDING_WINDMILL,
+		BUILDING_HYDROPOWERPLANT,
+		BUILDING_SOLARPOWERPLANT,
+		BUILDING_NUCLEARPOWERPLANT,
+		BUILDING_COALPOWERPLANT,
+		BUILDING_OILPOWERPLANT,
+		BUILDING_POWERLINE
+	};
 	explicit VScreenIngame(VUI* vUi);
 	virtual ~VScreenIngame();
 	void onNotify(Event events) override;
@@ -23,6 +32,8 @@ public:
 	void updatePopulation(const int wert);
 
 	void updateInfofield(const std::string& neuerText);
+
+	void updatePowerPlants(std::map<std::string, int> powerPlants);
 
 	CFloatRect getTopSpace();
 
@@ -42,7 +53,6 @@ public:
 	void StartEvent() override;
 	void EndEvent() override;
 
-	void updateStats(std::map<std::string, int>);
 private:
 	CFloatRect getRectForPixel(int iPosX, int iPosY, int iSizeX, int iSizeY);
 	void handleLeftClick(bool& clickActive, const std::map<int, std::vector<int>>& pickedElements);
@@ -55,6 +65,10 @@ private:
 	CParallelLight m_zl;
 	CCamera m_zc;
 	CPlacement m_zpCamera;
+
+	VTab *statisticsTab;
+	VTab *sabotageTab;
+	VTab *buildingTab;
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;
@@ -75,6 +89,11 @@ private:
 	float cameraAngle = 0.0F;
 
 	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
+
+	// for ease of usage
+	VTab * m_vtTabStatistics = nullptr;
+	VTab * m_vtTabSabotage   = nullptr;
+	VTab * m_vtTabBuilding   = nullptr;
 };
 
 
