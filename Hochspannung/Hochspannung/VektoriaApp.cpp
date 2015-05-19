@@ -50,10 +50,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	/* Use vektoria icon and default mouse-pointer */
 	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_ICON1));
-	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+	//wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
 	//wcex.hCursor = LoadCursorFromFile("textures\\gui\\Cursor\\default_zeiger.cur");
-	//wcex.hCursor =  LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.png", IMAGE_CURSOR, 100, 100, LR_LOADTRANSPARENT);
+	wcex.hCursor = static_cast<HCURSOR>(LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
 		
+	//SetSystemCursor(static_cast<HCURSOR>(LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.png", IMAGE_CURSOR, 128, 128, LR_LOADTRANSPARENT));
+
+
 	//SetCursor(LoadCursorFromFile())
 	wcex.lpszMenuName = NULL;
 	wcex.cbClsExtra = 0;
@@ -75,8 +78,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		WS_OVERLAPPEDWINDOW,    /* default window */
 		CW_USEDEFAULT,          /* Windows decides the position */
 		CW_USEDEFAULT,          /* where the window ends up on the screen */
-		1280,                   /* The programs width */
-		720,                   /* and height in pixels */
+		GetSystemMetrics(SM_CXSCREEN),                   /* The programs width */
+		GetSystemMetrics(SM_CYSCREEN),                   /* and height in pixels */
 		HWND_DESKTOP,           /* The window is a child-window to desktop */
 		NULL,                   /* No menu */
 		hInstance,              /* Program Instance handler */
@@ -87,6 +90,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		MessageBox(NULL, _T("Call to CreateWindow failed!"), _T("VektoriaV9App"), NULL);
 		return 1;
 	}
+
+	//g_bFullscreen = true;
+	//ChangeDisplay(hWnd);
 
 	CSplash splash;
 	//splash.Init(hWnd, hInstance);
