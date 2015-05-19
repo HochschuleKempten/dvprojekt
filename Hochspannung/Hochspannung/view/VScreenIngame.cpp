@@ -347,14 +347,9 @@ void VScreenIngame::tick(const float fTimeDelta)
 		vUi->m_BlockCursorLeftPressed = true;
 	}
 
-	const double secWindmill = 2.0;	//Number of seconds per rotation
-	modelWindmill.rotate(CASTS<float>((2.0 * M_PI / secWindmill) * fTimeDelta));
-
-	const double secOil = 8.0;	//Number of seconds per rotation
-	modelOil.rotate(CASTS<float>((2.0 * M_PI / secOil) * fTimeDelta));
-
-	const double secSolar = 4.0;	//Number of seconds per rotation
-	modelSolar.rotate(CASTS<float>((2.0 * M_PI / secSolar) * fTimeDelta));
+	modelWindmill.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VWindmillPowerPlant, fTimeDelta));
+	modelOil.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VOilRefinery, fTimeDelta));
+	modelSolar.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VSolarPowerPlant, fTimeDelta));
 }
 
 void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)

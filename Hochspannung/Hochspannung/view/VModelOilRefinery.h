@@ -125,9 +125,9 @@ public:
 	}
 	inline void rotate(const float fTime)
 	{
-		m_zpHammer.TranslateDelta(CHVector(0.0f, -2.0f, 0.0f));
+		m_zpHammer.TranslateDelta(CHVector(-1.15f, -2.0f, 0.0f));
 		m_zpHammer.RotateZDelta(fTime * PI);
-		m_zpHammer.TranslateDelta(CHVector(0.0f, 2.0f, 0.0f));
+		m_zpHammer.TranslateDelta(CHVector(1.15f, 2.0f, 0.0f));
 	}
 
 };

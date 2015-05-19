@@ -1,17 +1,14 @@
 #include "VCoalPowerPlant.h"
 #include "VPlayingField.h"
-#include "VMaterialLoader.h"
 #include "VIdentifier.h"
 
 NAMESPACE_VIEW_B
 
 
 VCoalPowerPlant::VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant)
-	: IViewPowerPlant(lPlant, vMaster, &m_zp)
+	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
 {
-	m_zg.Init(2.0, 2.0, &VMaterialLoader::materialCoalPowerPlant, 24, true);
-	m_zp.Init();
-	m_zp.AddGeo(&m_zg);
+	vMaster->registerObserver(this);
 }
 
 VCoalPowerPlant::~VCoalPowerPlant()
@@ -19,10 +16,16 @@ VCoalPowerPlant::~VCoalPowerPlant()
 
 void VCoalPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {
-	//viewModel.initViewModel(this);
+	viewModel.initViewModel(this);
+
+	const float scale = 0.3f;
+	viewModel.getMainPlacement()->Scale(scale);
+	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0));
+	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() * 0.5f * scale);
+
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	//SET_NAME_AND_COORDINATES(VIdentifier::VCoalPowerPlant);
+	SET_NAME_AND_COORDINATES(VIdentifier::VCoalPowerPlant);
 }
 
 

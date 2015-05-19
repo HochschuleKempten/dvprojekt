@@ -410,5 +410,21 @@ void VMaterialLoader::init()
 	
 }
 
+//Rotation adjustments
+float VMaterialLoader::getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta)
+{
+	switch (powerPlant)
+	{
+		//case VIdentifier::VCoalPowerPlant: break;
+		//case VIdentifier::VHydroelectricPowerPlant: break;
+		case VIdentifier::VWindmillPowerPlant: return CASTS<float>((2.0 * M_PI / 2.0) * fTimeDelta);	//Number of seconds per rotation
+		case VIdentifier::VSolarPowerPlant: return CASTS<float>((2.0 * M_PI / 4.0) * fTimeDelta);
+		case VIdentifier::VOilRefinery: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
+		//case VIdentifier::VNuclearPowerPlant: break;
+		default:
+			ASSERT("No Rotation for this power plant available");
+			return 1.0;
+	}
+}
 
 NAMESPACE_VIEW_E

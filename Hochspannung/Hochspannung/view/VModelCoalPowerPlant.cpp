@@ -49,12 +49,12 @@ VModelCoalPowerPlant::VModelCoalPowerPlant()
 	m_zpKohlekraftwerk.AddPlacement(&m_zpGleis);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpMineneingang);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpMinenLore);
-	m_zpKohlekraftwerk.AddPlacement(&m_zpGebaeude);
+	//m_zpKohlekraftwerk.AddPlacement(&m_zpGebaeude);
 
-	m_zpGebaeude.AddPlacement(Gebaeude);
-	m_zpGebaeude.AddPlacement(&m_zpKamin1);
-	m_zpGebaeude.AddPlacement(&m_zpKamin2);
-	m_zpGebaeude.AddPlacement(&m_zpKamin3);
+	//m_zpGebaeude.AddPlacement(Gebaeude);
+	//m_zpGebaeude.AddPlacement(&m_zpKamin1);
+	//m_zpGebaeude.AddPlacement(&m_zpKamin2);
+	//m_zpGebaeude.AddPlacement(&m_zpKamin3);
 
 	m_zpGebirge.AddPlacement(&m_zpBerg1);
 	m_zpGebirge.AddPlacement(&m_zpBerg2);
@@ -198,7 +198,7 @@ VModelCoalPowerPlant::VModelCoalPowerPlant()
 	m_zpMinenLore.Translate(CHVector(-1.98f, 0.025f, 2.1f));
 
 
-	Gebaeude->ScaleZDelta(3.0f);
+	//Gebaeude->ScaleZDelta(3.0f);
 	m_zpKamin1.Translate(CHVector(0.75f, 1.5f, 0.8f));
 	m_zpKamin1.AddGeo(&m_zgKamin);
 	m_zpKamin2.Translate(CHVector(1.75f, 1.5f, 0.8f));
@@ -207,7 +207,7 @@ VModelCoalPowerPlant::VModelCoalPowerPlant()
 	m_zpKamin3.AddGeo(&m_zgKamin);
 
 
-	m_zpGebaeude.Translate(CHVector(0.3f, 0.3f, 1.0f));
+	//m_zpGebaeude.Translate(CHVector(0.3f, 0.3f, 1.0f));
 
 }
 

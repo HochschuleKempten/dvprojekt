@@ -2,6 +2,7 @@
 
 #include "VGeneral.h"
 #include "../logic/LField.h"
+#include "VIdentifier.h"
 
 NAMESPACE_VIEW_B
 
@@ -186,6 +187,9 @@ public:
 
 	//CraftMenue
 	static CMaterial m_zmCraftMenueBackground;
+
+	//Rotation adjustments
+	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
 };
 
 

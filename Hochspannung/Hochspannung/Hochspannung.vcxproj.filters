@@ -370,6 +370,9 @@
     <ClInclude Include="view\VSoundLoader.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\VModelCoalPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -589,6 +592,9 @@
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VSoundLoader.cpp">
+      <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelCoalPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

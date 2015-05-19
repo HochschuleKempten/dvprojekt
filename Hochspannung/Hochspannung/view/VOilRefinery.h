@@ -24,8 +24,7 @@ public:
 	{
 		if (isOn)
 		{
-			const double sec = 8.0;	//Number of seconds per rotation
-			viewModel.rotate(CASTS<float>((2.0 * M_PI / sec) * fTimeDelta));
+			viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VOilRefinery, fTimeDelta));
 		}
 	}
 };
