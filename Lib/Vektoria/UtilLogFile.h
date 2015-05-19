@@ -16,10 +16,12 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-using namespace Vektoria;
-
 #include "windows.h"
 #include <stdio.h>
+
+namespace Vektoria
+{
+
 
 
 // Anfang und Ende:
@@ -47,6 +49,6 @@ void ULDebug(LPCSTR szMsg, ...); // Schreibt eine DEBUG-Meldung ins Logfile
 void ULVector(LPCSTR szVektor, CHVector v); // Schreibt die 4 Tupelinhalte des homogenen Vektors v ins Logfile, szVektor ist der Name des Vektors
 void ULMat(LPCSTR szMat, CHMat m); // Schreibt  die 16 Tupelinhalte der homogenen Matrix m ins Logfile, szMat ist der Name der Matrix
 
-
+}
 
 #endif 

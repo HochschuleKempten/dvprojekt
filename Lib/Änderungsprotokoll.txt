@@ -3011,7 +3011,7 @@ Zwei neue nützliche Funktionen in CPlacement:
 	void PlaceSphericalLocal(float fRadius, float faAzimuth, float faAltitude, CPlacement * pzpCenter);// Plaziert das Placment anhand Azimut, Elevation und Radiús im lokalen Koordinatensystem um ein anderes Zielplacement (gut, um Zielplacement von allen Seiten anzuschauen, wenn beide Placements direkt an Szene hängen) 
 
 
-2015-05-07 TB
+2015-05-07 TB:
 Picking-Routinen erkennen jetzt auch, ob Nodes ein- oder ausgeschaltet sind
 PickPlacements gibt intelligentere Liste aus (mehrfache Instanzen ein- und desselben Placements werden nur noch einmal aufgelistet
 Neue Routinen in CPlacments:
@@ -3021,7 +3021,7 @@ Spherical EnvironmentalMapping wurde um 90° gedreht, damit es kompatibel zur Sta
 Bugfix: Projektionsmatrix bei SpotLights war bezüglich FarClippingPlane falsch
 Testbed Materials erweitert
 
-2015-05-10 TB
+2015-05-10 TB:
 Neue Klasse für Kollisionspunkte: 
 - CHitPoint
 Neue Picking-Routinen:
@@ -3030,3 +3030,15 @@ Neue Picking-Routinen:
 - PickHitPoints();
 Ikosaeder und Tetraeder können auch durch Radius Initialisiert werden
 
+2015-05-11 TB:
+V13 Patch 2 Erstellt
+
+2015-05-15 TB:
+Alle Intersect, IsIntersecting, PickGeos, etc.-Routinen haben jetzt einen Vertices-Limitierung
+Shaders-Basic beschleunigt 
+Spherical Environmental Mapping beschleunigt
+Spherical Environmental Mapping in Richtung der Z-Achse gedreht
+Fresnel Parameter in CMaterial eingefürgt (TODO an Shader weiterreichen)
+Picking-Routinen beschleunigt
+Mehr Fehlermeldungen 
+Splash-Screen sicherer gemacht

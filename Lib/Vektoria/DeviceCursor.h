@@ -40,8 +40,8 @@ public:
 	CGeo * PickGeo(CHVector & vIntersection, float & fDistanceSquare); // Gibt dasjenige Geo mit der niedersten Hierarchiestufe aus, welches unter dem Cursor liegt, falls kein Geo gefunden wurde ist das Ergebnis NULL, vIntersection ist der genaue Schnittpunkt, fDistanceSquare ist das Quadrat der Entfernung zwischen Strahlursprung und Schnittpunkt, kann bei großen Geometrien einige Millisekunden dauern, ist dafür sehr exakt
 
 	void PickPlacements(CPlacements * pzps, bool bPickOnlyPlacementsWithDirectGeos = false); // Gibt alle Placements in pzps aus, welches unter dem Cursor liegen. Achtung, pzps muss muss ein Pointer auf ein instanziertes Placement-Objekt sein. 
-	void PickGeos(CGeos * pzgs); // Gibt alle Geos aus, welches unter dem Cursor liegen. Achtung, pzgs muss muss ein Pointer auf ein instanziertes Geos-Objekt sein. 
-	void PickHitPoints(CHitPoints * phitpoints); // Gibt alle Geos mit Zusatzinformationen aus, welches unter dem Cursor liegen. Achtung, phitpoints muss muss ein Pointer auf ein instanziertes Hitpoints-Objekt sein. 
+	void PickGeos(CGeos * pzgs, int iMaxVertices = INT_MAX); // Gibt alle Geos aus, welches unter dem Cursor liegen. Achtung, pzgs muss muss ein Pointer auf ein instanziertes Geos-Objekt sein. 
+	void PickHitPoints(CHitPoints * phitpoints, int iMaxVertices = INT_MAX); // Gibt alle Geos mit Zusatzinformationen aus, welches unter dem Cursor liegen. Achtung, phitpoints muss muss ein Pointer auf ein instanziertes Hitpoints-Objekt sein. 
 
 	void SetFrame(HWND & hwnd, int & ixFrameSize, int & iyFrameSize);
 	HWND m_hwnd;

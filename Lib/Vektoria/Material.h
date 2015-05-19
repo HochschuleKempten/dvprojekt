@@ -1,8 +1,10 @@
 #pragma once
 #include "Node.h"
 #include "Textures.h"
+#include "../VektoriaMath/HMat.h"
 #include "../VektoriaMath/Color.h"
 #include <string>
+
 
 #include "DistributedGlobal.h"
 
@@ -116,7 +118,7 @@ namespace Vektoria
 		CImage * MakeTextureSpecular(char * acPath);
 		CImage * MakeTextureBump(char * acPath);
 		CImage * MakeTextureHeight(char * acPath, bool bIsConeMap = false); //== Parallax Occlusion Mapping mit Heightmap oder Relaxed Conemap
-		CImage * MakeTextureEnvironment(char * acPath);
+		CImage * MakeTextureEnvironment(char * acPath); // Setzt Environmentak Map für Refletion und Refraktion
 		CImage * MakeTextureSky(char * acPath); // Erzeugt eine Texturhierarchie, die für Skymaps, Skydomes etc. geeignet ist  
 		CImage * MakeTextureThickness(char * acPath, CColor colorSSS); // Materialdickebeschreibung für Subsurfacescattering und Farbe des Subsurfaces
 		CImage * MakeTextureSprite(char * acPath); // Erzeugt eine Texturhierarchie, die für Sprites wie Backgrounds, Overlays, Writings und WritingChars geeignet ist   
@@ -125,24 +127,34 @@ namespace Vektoria
 		void SetBot(int ixPics, int iyPics); // Erzeugt ein steuerbares Material
 		void SetPic(int ixPic, int iyPic); // Setzt Unterbild bei animierten oder steuerbaren Materialien
 
-		void SetShadingOn();
-		void SetShadingOff();
-		void SetTextureGlowWhite();
-		void SetTextureGlowBlack();
-		void SetTextureGlowAsDiffuse();
-		void SetTextureGlowAsAmbient();
-		void SetTextureSpecularWhite();
-		void SetTextureSpecularBlack();
-		void SetTextureSpecularAsDiffuse();
+		void SetShadingOn(); // schaltet das Shading an (default)
+		void SetShadingOff(); // schaltet das Shading aus
+		void SetTextureGlowWhite(); // Unbeleuchtete Seite ist weiß 
+		void SetTextureGlowBlack(); // Unbeleuchtete Seite ist komplett schwarz 
+		void SetTextureGlowAsDiffuse(); // Die Textur für die unbeleuchtete Seite ist genau die Gleiche wie die diffuse Textur 
+		void SetTextureGlowAsAmbient(); // Die Textur für die unbeleuchtete Seite ist genau die Gleiche wie die ambiente Farbe
+		void SetTextureSpecularWhite(); // Setzt Glanzlicht überall auf volle Stärke
+		void SetTextureSpecularBlack(); // Schaltet Glanzlicht aus
+		void SetTextureSpecularAsDiffuse(); // Glanzlichttextur ist genau die Gleiche wie die diffuse Textur
 		void SetTextureTexBRDF(); // Texturbasiertes BRDF mit Normal- und Heightmap. Benötigt POM und Bumpmapping => TODO: Rausmachen !!!!
 		void SetReflectionMap(); // Setzt Alphakanal der Environmentmap als Reflectionmap => TODO: Rausmachen !!!!
 
-		void SetColorAmbient(CColor color); // Ambient-Light für
+
+		void SetRefractionRatio(float fRectractionRatio); // Setzt die Ratio 
+		float m_fRefractionRatio;
+	
+		void SetFresnel(float fFresnel); // Setzt den Fresnel-Faktor 
+		float m_fFresnel;
+
+		void SetMat(CHMat mColor); // Setzt die Colorshift-Matrix
+		CHMat m_mColor;
+
+		void SetColorAmbient(CColor color); // Setzt Ambient-Light
 		void SetBumpStrength(float fBumpStrength); // Die Stärke der Bumpmap, Default = 1.0f, auch negative Werte ist  
-		void SetSpecularSharpness(float fSpecularSharpness);
-		void SetIndexOfRefraction(float fIOR); // Brechungsindex
-		void SetDiffuseSharpness(float fDiffuseSharpness);
-		void SetTransparency(float frTransparancy);
+		void SetSpecularSharpness(float fSpecularSharpness); // setzt die Schärfe des Glanzlichtes
+		void SetIndexOfRefraction(float fIOR); // Setzt Brechungsindex
+		void SetDiffuseSharpness(float fDiffuseSharpness); // Setzt die Schärfe zwischen Diffuser und 
+		void SetTransparency(float frTransparancy); // Setzt Durchsichtigkeit
 		void SetAbsoluteMaterialThickness(float fThickness); // Absolute Materialdicke für Subsurfacescattering, auch im Basic-Renderer
 		void SetRimLightStrength(float fRimStrength); // Stärke der Glanzlichter des Subsurfacescattering
 		void SetSubSurfaceColor(CColor color);
