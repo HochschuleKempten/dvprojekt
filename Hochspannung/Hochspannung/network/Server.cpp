@@ -5,8 +5,8 @@
 
 namespace Network {
 
-CServer::CServer(std::string stName) :
-CNode(), m_acceptor(m_ioService), m_stName(stName) {
+CServer::CServer(std::string stName, std::string stLocalAddress) :
+CNode(stLocalAddress), m_stName(stName), m_acceptor(m_ioService) {
 }
 
 CServer::~CServer() {

@@ -19,10 +19,7 @@ private:
 	 */
 	CNetworkService();
 
-	/**
-	 * @brief Copy constructor.
-	 */
-	CNetworkService(const CNetworkService&);
+	CNetworkService(const CNetworkService&) = delete;
 
 public:
 	/**
@@ -165,6 +162,24 @@ public:
 	bool sendSetMapRow(int iRow, std::vector<FieldTransfer> vRowData);
 
 	/**
+	* @brief Send the command for a sabotage.
+	* @param iSabotageID the ID of the sabotage.
+	* @param iCoordX the x-coordinate for the sabotage.
+	* @param iCoordY the y-coordinate for the sabotage.
+	* @return true if message could be sent, false otherwise.
+	*/
+	bool sendSabotage(int iSabotageID, int iCoordX, int iCoordY);
+
+	/**
+	* @brief Send the command for turning a powerplant on or off.
+	* @param iCoordX the x-coordinate for the powerplant to be turned on/off.
+	* @param iCoordY the y-coordinate for the powerplant to be turned on/off.
+	* @param bStateOn the state to be sent.
+	* @return true if message could be sent, false otherwise.
+	*/
+	bool sendSwitchState(int iCoordX, int iCoordY, bool bStateOn);
+
+	/**
 	 * @brief Returns the next action from deque, if available.
 	 * @return the first CTransferObject from the deque, or an empty object if none is available.
 	 */
@@ -176,6 +191,12 @@ public:
 	 */
 	bool isActionAvailable();
 
+	/**
+	 * @brief Set the local IP address to use.
+	 * @param stLocalAddress the local address to use.
+	 */
+	void setLocalAddress(std::string stLocalAddress);
+
 private:
 	/**
 	 * @brief Transorm the command to a CMessage and send it.
@@ -184,12 +205,12 @@ private:
 	 * @param iCoordX the x coordinate.
 	 * @param iCoordY the y coordinate.
 	 * @param sValue any other value to send.
-	 * @return true if message could be sent, false otherwise.
 	 */
-	bool sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = "");
+	void sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = "");
 
 	CNode* m_pNode = nullptr;
 	Type m_type;
+	std::string m_stLocalAddress;
 };
 
 }

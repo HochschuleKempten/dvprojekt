@@ -4,7 +4,6 @@
 #include <boost\asio\ip\tcp.hpp>
 #include <boost\asio\ip\udp.hpp>
 #include <boost\asio\deadline_timer.hpp>
-#include <boost\asio\streambuf.hpp>
 #include <deque>
 #include "Message.h"
 #include "TransferObject.h"
@@ -38,9 +37,10 @@ public:
 	const static unsigned short m_usPortUdp = 14999;
 
 	/**
-	 * @brief Default constructor.
+	 * @brief Constructor.
+	 * @param stLocalAddress the local IP address to use.
 	 */
-	CNode();
+	explicit CNode(std::string stLocalAddress = "0.0.0.0");
 
 	/**
 	 * @brief Default deconstructor.
@@ -76,7 +76,7 @@ public:
 	 * @brief Sends the given message
 	 * @param message the CMessage to send
 	 */ 
-	void write(const CMessage& message);
+	void write(CMessage& message);
 
 	/**
 	 * @brief Returns the next action from deque, if available.
@@ -103,6 +103,12 @@ public:
 	 * @param the error code.
 	 */
 	void checkConnectionHandler(const error_code& error);
+
+	/**
+	 * @brief Set the local IP address to use.
+	 * @param stLocalAddress the local address to use.
+	 */
+	void setLocalAddress(std::string stLocalAddress);
 
 protected:
 
@@ -132,10 +138,10 @@ protected:
 
 	/**
 	 * @brief Write handler.
-	 * This handler is called when async_write completes. 
+	 * This handler is called when async_write completes.
 	 * Don`t call it directly!
 	 */
-	void writeCompleteHandler(const error_code& ec, std::size_t length);
+	void writeCompleteHandler(const error_code& ec, std::size_t /*length*/);
 
 	/**
 	 * @brief Read handler.
@@ -159,17 +165,10 @@ protected:
 	 */
 	void handleConnectionError(const error_code& ec);
 
-	/**
-	 * @brief Returns a std::string from a char array
-	 * @param mes the pointer to the message
-	 * @param maxLen the maximum length of the message
-	 * @return std::string
-	 */
-	std::string retrieveString(char* mes, unsigned int maxLen);
-
 	io_service m_ioService;
 	io_service::work m_work;
 	boost::thread m_thread;
+
 	ip::tcp::socket m_socketTcp;
 	ip::udp::socket m_socketUdp;
 	ip::tcp::endpoint m_localEndpointTcp;
