@@ -30,7 +30,7 @@ NAMESPACE_VIEW_B
 
 	VGroup::~VGroup()
 	{
-	}
+		}
 
 
 	void VGroup::onNotify(const Event& events)
@@ -42,32 +42,36 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void  VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, const Event& clickAction, const std::string& sName)
+	VButton*  VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, std::string sName)
 	{
 		m_guiObjects[sName] = new VButton(m_viewport, rect, MaterialNormal, MaterialHover, clickAction);
 
 		m_guiObjects[sName]->addObserver(this);
+		return CASTD<VButton*>(m_guiObjects[sName]);
 	}
 
-	void  VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const std::string& sName)
+	VTextfield*  VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
 	{
 		m_guiObjects[sName] = new VTextfield(m_viewport, rect, MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
 
 		m_guiObjects[sName]->addObserver(this);
+		return CASTD<VTextfield*>(m_guiObjects[sName]);
 	}
 
-	void  VGroup::addText(CFloatRect rect, CWritingFont* writingFont, const std::string& text, const std::string& sName)
+	VText*  VGroup::addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName)
 	{
 		m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text);
 
 		m_guiObjects[sName]->addObserver(this);
+		return CASTD<VText*>(m_guiObjects[sName]);
 	}
 
-	void  VGroup::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::basic_string<char>& sName)
+	COverlay*  VGroup::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, std::string sName)
 	{
 		m_Overlays[sName] = new COverlay();
 		m_Overlays[sName]->Init(MaterialNormal, rect);
 		m_viewport->AddOverlay(m_Overlays[sName]);
+		return m_Overlays[sName];
 	}
 
 	void VGroup::addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName)

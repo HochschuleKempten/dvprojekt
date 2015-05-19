@@ -19,7 +19,11 @@ public:
 	void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName) override;
 
 
-	void setLayer(const float layer) override;
+	VButton* addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, std::string sName) override;
+	VTextfield* addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName) override;
+	VText* addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName) override;
+	COverlay* addOverlay(CFloatRect rect, CMaterial* MaterialNormal, bool bChromaKeying, std::string sName) override;
+	void setLayer(float layer) override;
 	
 	void addEntry(const std::string& sName);
 	void updateList(const std::vector <Network::CGameObject>& hostList);
