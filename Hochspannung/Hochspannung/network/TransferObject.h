@@ -21,7 +21,12 @@ enum Action {
 	SET_MAPROW,
 
 	CHECK_CONNECTION,
-	CHECK_RESPONSE
+	CHECK_RESPONSE,
+
+	SEND_SABOTAGE,
+	SEND_SWITCH_STATE,
+
+	SEND_STATISTIC
 };
 
 struct FieldTransfer {
@@ -53,9 +58,9 @@ public:
 	void setValue(std::string sValue);
 
 	/**
-	* @brief A get function for the m_sValue member of TransferObject.
-	* @return std::vector<FieldTransfer>
-	*/
+	 * @brief A get function for the m_sValue member of TransferObject.
+	 * @return std::vector<FieldTransfer>
+	 */
 	std::vector<FieldTransfer> getValueAsVector();
 
 private:

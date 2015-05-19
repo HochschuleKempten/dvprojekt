@@ -17,10 +17,10 @@ class CClient : public CNode {
 public:
 	/**
 	 * @brief Constructor that takes the ip and port.
-	 * @param stIP the IP of the target server.
-	 * @param usPortTcpServer the tcp port of the target server.
+	 * @param stRemoteAddress the IP address of the target server.
+	 * @param usRemotePortTcp the tcp port of the target server.
 	 */
-	CClient(const std::string& stIP = "", unsigned short usPortTcpServer = m_usPortTcp);
+	explicit CClient(std::string stRemoteAddress = "", unsigned short usRemotePortTcp = m_usPortTcp);
 
 	/**
 	 * @brief Default constructor.
@@ -29,11 +29,11 @@ public:
 
 	/**
 	 * @brief Sets the servers connection data.
-	 * @param stIP the IP of the target server.
-	 * @param usPortTcpServer the port to connect to.
+	 * @param stRemoteAddress the IP address of the target server.
+	 * @param usRemotePortTcp the port to connect to.
 	 * @return true if the given data is valid, false otherwise.
 	 */
-	bool setServerData(const std::string& stIP, unsigned short usPortTcpServer = m_usPortTcp);
+	bool setServerData(std::string stRemoteAddress, unsigned short usRemotePortTcp = m_usPortTcp);
 
 	/**
 	 * @brief Searches for game server in the local network.
@@ -52,6 +52,7 @@ private:
 	bool startUdpClient();
 
 	void connectCompleteHandler(const error_code& error);
+	void connectTimoutHandler(const error_code& error);
 	void udpDataRecievedHandler(const boost::system::error_code& error, std::size_t bytesTransferred);
 	void udpDataSentHandler(const boost::system::error_code& error, std::size_t bytesTransferred);
 

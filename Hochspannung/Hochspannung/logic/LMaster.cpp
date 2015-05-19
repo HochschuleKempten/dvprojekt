@@ -37,7 +37,15 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		host();
 		while (networkService.getConnectionState() != Network::CONNECTED);
 	}
-	else if(ipAddress != "SINGLE_PLAYER")
+	else if (ipAddress == "SINGLE_PLAYER")
+	{
+		lPlayingField = new LPlayingField(this);
+		lPlayingField->createFields();
+		lPlayingField->showPlayingField();
+
+		return;
+	}
+	else
 	{
 		connect(ipAddress);
 	}
@@ -223,13 +231,13 @@ void LMaster::tick(const float fTimeDelta)
 
 			break;
 
-		case(END_GAME) :
+		case(END_GAME) : //todo (IP) send 
 
 			gameOver();
 
 			break;
 
-		case(PAUSE_GAME) :
+		case(PAUSE_GAME) ://todo (IP) send 
 
 			vMaster.pauseGame();
 
@@ -237,7 +245,7 @@ void LMaster::tick(const float fTimeDelta)
 
 			break;
 
-		case(CONTINUE_GAME) :
+		case(CONTINUE_GAME) ://todo (IP) send 
 
 			vMaster.continueGame();
 

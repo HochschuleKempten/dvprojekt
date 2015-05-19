@@ -1,4 +1,7 @@
 #include "Message.h"
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 namespace Network {
 
@@ -14,8 +17,8 @@ CMessage::~CMessage() {
 }
 
 void CMessage::setContent(const char* pcContent) {
-	m_iBodyLength = std::strlen(pcContent);
-	std::memcpy(getBody(), pcContent, m_iBodyLength);
+	m_iBodyLength = strlen(pcContent);
+	memcpy(getBody(), pcContent, m_iBodyLength);
 	encodeHeader();
 }
 
@@ -44,8 +47,8 @@ void CMessage::setBodyLength(int iBodyLength) {
 
 bool CMessage::decodeHeader() {
 	char header[iHeaderLength + 1] = "";
-	std::strncat(header, m_acData, iHeaderLength);
-	m_iBodyLength = std::atoi(header);
+	strncat(header, m_acData, iHeaderLength);
+	m_iBodyLength = atoi(header);
 
 	if (m_iBodyLength > iMaxBodyLength) {
 		m_iBodyLength = 0;
@@ -56,8 +59,8 @@ bool CMessage::decodeHeader() {
 
 void CMessage::encodeHeader() {
 	char header[iHeaderLength + 1] = "";
-	std::sprintf(header, "%4d", static_cast<int>(m_iBodyLength));
-	std::memcpy(m_acData, header, iHeaderLength);
+	sprintf(header, "%4d", static_cast<int>(m_iBodyLength));
+	memcpy(m_acData, header, iHeaderLength);
 }
 
 }
