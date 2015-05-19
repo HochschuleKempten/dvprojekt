@@ -9,27 +9,25 @@ cbuffer ObjectInfo : register(b0)
 
 cbuffer TexInfo : register(b7)
 {
-	float4 f4ColorEffect : packoffset(c0);
-	float fBlurStrength : packoffset(c1.x);
-	uint uBlur : packoffset(c1.y);
-	uint uEnhancedEdges : packoffset(c1.z);
-	uint uMeanFilter : packoffset(c1.w);
-	float fBloomOriginalIntensity : packoffset(c2.x);
-	float fBloomIntensity : packoffset(c2.y);
-	float fBloomOriginalSaturation : packoffset(c2.z);
-	float fBloomSaturation : packoffset(c2.w);
-	float fRayExposure : packoffset(c3.x);
-	float fRayDecay : packoffset(c3.y);
-	float fRayDensity : packoffset(c3.z);
-	float fRayWeight : packoffset(c3.w);
-	float fTimeDelta : packoffset(c4.x);
-	float fBloomBlurDistance : packoffset(c4.y);
-	float fDoFFar : packoffset(c4.z);
-	float fDoFNear : packoffset(c4.w);
-	float2 f2RayLightPos : packoffset(c5.x);
-	float2 f2rcpFrame : packoffset(c5.z);
-	float4 f4rcpFrameOpt : packoffset(c6);
-	float4 f4DoFParams : packoffset(c7);
+	float fBloomOriginalIntensity	: packoffset(c0.x);
+	float fBloomIntensity			: packoffset(c0.y);
+	float fBloomOriginalSaturation	: packoffset(c0.z);
+	float fBloomSaturation			: packoffset(c0.w);
+	float fRayExposure				: packoffset(c1.x);
+	float fRayDecay					: packoffset(c1.y);
+	float fRayDensity				: packoffset(c1.z);
+	float fRayWeight				: packoffset(c1.w);
+	float fTimeDelta				: packoffset(c2.x);
+	float fBloomBlurDistance		: packoffset(c2.y);
+	float fDoFFar					: packoffset(c2.z);
+	float fDoFNear					: packoffset(c2.w);
+	float fRcpFrameX				: packoffset(c3.x);
+	float fRcpFrameY				: packoffset(c3.y);
+	uint uPad5						: packoffset(c3.z);
+	uint uPad6						: packoffset(c3.w);
+	float4 f4GodRayPos				: packoffset(c4);
+	float4 f4rcpFrameOpt			: packoffset(c5);
+	float4 f4DoFParams				: packoffset(c6);
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -89,16 +89,49 @@ VListView::VListView(CFloatRect floatRect, CViewport* viewport)
 	}
 
 
-	void VListView::setLayer(const float layer)
-	{
-	}
+VButton* VListView::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, std::string sName)
+{
+	m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
 
-	void VListView::addEntry(const std::string& sName)
+	m_guiObjects[sName]->addObserver(this);
+	return CASTD<VButton*>(m_guiObjects[sName]);
+}
+
+VTextfield* VListView::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
+{
+	m_guiObjects[sName] = new VListEntry(m_viewport, &VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, sName);
+
+	m_guiObjects[sName]->addObserver(this);
+	return CASTD<VTextfield*>(m_guiObjects[sName]);
+}
+
+VText* VListView::addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName)
+{
+	for (const std::string& key : m_entries)
 	{
-		m_guiObjects[sName] = new VListEntry(m_viewport, &VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, sName);
-		
+		delete m_guiObjects[key];
+		m_guiObjects.erase(key);
+
+	m_guiObjects[sName]->addObserver(this);
+	return CASTD<VText*>(m_guiObjects[sName]);
+}
+	m_entries.clear();
+
+COverlay* VListView::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::string &sName)
+{
+	m_Overlays[sName] = new COverlay();
+	m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
+	m_viewport->AddOverlay(m_Overlays[sName]);
+	return m_Overlays[sName];
+}
+
+}
+
+void VListView::addEntry(CMaterial* MaterialEntryNormal, CMaterial* MaterialEntryHover, const std::string &sName)
+	{
+	m_entries[sName] = new VListEntry(m_viewport, MaterialEntryNormal, MaterialEntryHover,sName);
+	m_guiObjects[sName] = m_entries[sName];
 		m_guiObjects[sName]->addObserverExt(this);
-		m_guiObjects[sName]->setLayer(0.1F);
 		calcEntrySize(); 
 	}
 
@@ -151,6 +184,13 @@ VListView::VListView(CFloatRect floatRect, CViewport* viewport)
 
 	VListView::~VListView()
 {
+	//TODO refactor
+	//for (m_lIterGUIObjects = m_guiObjects.begin(); m_lIterGUIObjects != m_guiObjects.end(); ++m_lIterGUIObjects)
+	//{
+	//	delete m_lIterGUIObjects->second;
+	//}
+	//m_guiObjects.clear();
+	//if (m_hasBackground) delete m_background;
 }
 
 NAMESPACE_VIEW_E

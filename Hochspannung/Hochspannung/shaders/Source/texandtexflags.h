@@ -1,19 +1,20 @@
 //////////////////////////////////////////////////////////////////////
 //input tex for shaders
 Texture2D tex2D[7] : register (t15);
+Texture2D leantex : register(t27);
 
 /////////////////////////////////////////////////////////////////////
 //shader options
 cbuffer TexInfo : register(b5)
 {
 	float4 f4ColorAmbient : packoffset(c0);
-	float fA : packoffset(c1); // specular sharpness
+	float fA : packoffset(c1.x); // specular sharpness
 	float fH : packoffset(c1.y);// diffuse sharpness
 	float fBumpStrength : packoffset(c1.z);
 	float frTransparency : packoffset(c1.w);
 	float4 f4ColorSSS : packoffset(c2);
 	float4 f4SSSBRDFParams : packoffset(c3);
-	uint uImage : packoffset(c4);
+	uint uImage : packoffset(c4.x);
 	uint uGlow : packoffset(c4.y);
 	uint uSpecular : packoffset(c4.z);
 	uint uBump : packoffset(c4.w);
@@ -37,10 +38,18 @@ cbuffer TexInfo : register(b5)
 	uint uiyPos : packoffset(c9.y);
 	uint uixPics : packoffset(c9.z);
 	uint uiyPics : packoffset(c9.w);
-	float fSpecularRoughness : packoffset(c10.x);
-	float fSpecularIOR : packoffset(c10.y);
-	uint uPad1 : packoffset(c10.z);
-	uint uPad2 : packoffset(c10.w);
+	float fRoughness : packoffset(c10.x);
+	float fIOR : packoffset(c10.y);
+	float fSpecular : packoffset(c10.z);
+	float fMetallic : packoffset(c10.w);
+	float fSubSurface : packoffset(c11.x);
+	float fAnistropic : packoffset(c11.y);
+	float fSheen : packoffset(c11.z);
+	float fSheenTint : packoffset(c11.w);
+	float fClearCoat : packoffset(c12.x);
+	float fClearCoatGloss : packoffset(c12.y);
+	float fSpecularTint : packoffset(c12.z);
+	uint uTextureAddressMode : packoffset(c12.w);
 }
 
 cbuffer ViewportArt : register(b6)

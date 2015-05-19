@@ -120,9 +120,7 @@ float FilterShadowRand(Texture2D atlas, float3 f3uv)
 		[unroll(iKernelWidth)] for (int j = -iKernelLevel; j <= iKernelLevel; j++)
 		{
 			float fFlatNum = i + iKernelLevel + j + iKernelLevel;
-			/*fShadow += atlas.SampleCmpLevelZero(g_ShadowSampler,
-												f3uv.xy + TexOffset2(i, j, 8192, 8192, 3.f, f2Pos),
-												f3uv.z, int2(i, j)).r;*/
+	
 			fShadow += atlas.SampleCmpLevelZero(g_ShadowSampler,
 				f3uv.xy + f2DiscKernel[fFlatNum] * fDivisor,
 				f3uv.z, int2(i, j)).r;
@@ -139,7 +137,7 @@ float ApplyPointShadow(uint uShadowIndex, in float3 f3Position, float3 f3LightDi
 	f3uv.z = -f3uv.z;
 
 	int iFace = Vector3ToFace(f3uv.xyz);
-	//f2TexCoordDiff = float2(0, 0);
+	
 	float4 f4ShadowTexCoord = mul(float4(f3Position, 1.f), g_mPointShadowViewProj[uShadowIndex][iFace]);
 	f4ShadowTexCoord.xyz = f4ShadowTexCoord.xyz / f4ShadowTexCoord.w;
 
@@ -178,8 +176,9 @@ void ApplyPointLighting(uniform bool bShadow, in Buffer<float4> pointLightCenter
 	in Buffer<float4> pointLightColorBuffer,
 	in uint uLightIndex, in float3 f3Position,
 	in float3 f3Norm, in float3 f3ViewDir,
-	in float2 f2TexCoordDiff, in float4 f4SpecMapCol,
+	in float2 f2TexCoord, in float4 f4SpecMapCol,
 	in float4 f4DiffMapColor,
+	in float3 f3Tangent, float3 f3Bitangent,
 	out float3 f3LightColorDiffuseResult,
 	out float3 f3LightColorSpecularResult)
 {
@@ -193,46 +192,30 @@ void ApplyPointLighting(uniform bool bShadow, in Buffer<float4> pointLightCenter
 	f3LightColorSpecularResult = float3(0.f, 0.f, 0.f);
 
 	float fRad = f4CenterAndRadius.w;
-	if (fLightDistance < fRad)
-	{
-		float fx = fLightDistance / fRad;
-		//inverse squared falloff :
-		// -(1/k)*(1-(k+1)/(1+k*x^2))
-		// k=20: -(1/20)*(1 - 21/(1+20*x^2))
-		//float fFallOff = -0.05 + 1.05 / (1 + 20 * fx * fx);
-		
-		float fFallOff = fRad * (saturate(pow((1.f - pow(fx, 4)), 2))) / ((fLightDistance * fLightDistance) + 1);
 
-		f3LightColorDiffuseResult = pointLightColorBuffer[uLightIndex].rgb * saturate(dot(f3LightDir, f3Norm)) * fFallOff;
-		f3LightColorDiffuseResult *= fH;
-		float3 f3HalfAngle = normalize(f3ViewDir + f3LightDir);
-		//f3LightColorSpecularResult = pointLightColorBuffer[uLightIndex].rgb * pow(saturate(dot(f3HalfAngle, f3Norm)), fA) * fFallOff;
-		float fSpecMul = fLightingFuncGGX(f3Norm, f3ViewDir, f3ToLight, fSpecularRoughness, fSpecularIOR);
-		f3LightColorSpecularResult = pointLightColorBuffer[uLightIndex].rgb * fSpecMul * fFallOff;
-		//f3LightColorDiffuseResult = pointLightColorBuffer[uLightIndex].rgb *
-		//	BRDF(f3ToLight, f3ViewDir, f3Norm, fSpecularRoughness, fSpecularIOR, f4DiffMapColor.xyz) * fFallOff;
-		
-		[branch]
-		if (uSpecularWhite)
-			f3LightColorSpecularResult = 2 * (f3LightColorSpecularResult * f3LightColorDiffuseResult);
-		else if (uSpecularAsImage)
-			f3LightColorSpecularResult = 2 * f4SpecMapCol.xyz * (f3LightColorSpecularResult * f3LightColorDiffuseResult);
-		else
-			f3LightColorSpecularResult = 2 * f4SpecMapCol.xyz * (f3LightColorSpecularResult * f3LightColorDiffuseResult);
+	float2 f2LeanB = leantex.Sample(g_Sampler, float3(f2TexCoord, 0.f));
+	float3 f3LeanM = leantex.Sample(g_Sampler, float3(f2TexCoord, 1.f));
 	
+	[branch]
+	if (fLightDistance < fRad)
+	{	
+		float fx = fLightDistance / fRad;
+		
+		float fFallOff = saturate((pow((1.f - pow(fx, 4)), 2)) / ((fLightDistance * fLightDistance) + 1.f));
+		
+		f3LightColorDiffuseResult = saturate(pointLightColorBuffer[uLightIndex].rgb * BRDF(f3ToLight, f3ViewDir, f3Norm, fRoughness, fIOR, f4DiffMapColor.xyz,
+											 f3Tangent, f3Bitangent, f2LeanB, f3LeanM) * fFallOff);
+		
 		if (bShadow)
 		{
-			float fShadowRes = ApplyPointShadow(uLightIndex, f3Position, f3LightDir, fx, f2TexCoordDiff);
+			float fShadowRes = ApplyPointShadow(uLightIndex, f3Position, f3LightDir, fx, f2TexCoord);
 			f3LightColorDiffuseResult *= fShadowRes;
 			f3LightColorSpecularResult *= fShadowRes;
 		}
 
-		f3LightColorDiffuseResult *= 16;
-		f3LightColorSpecularResult *= 16;
+		f3LightColorDiffuseResult *= 2.f;
 	}
 }
-
-
 
 //************************************
 // Method:    	ApplySpotLighting
@@ -261,6 +244,7 @@ void ApplySpotLighting(uniform bool bShadow, in Buffer<float4> spotLightCenterAn
 											 in float3 f3Norm, in float3 f3ViewDir,
 											 in float2 f2TexCoord, in float4 f4SpecMapCol,
 											 in float4 f4DiffMapColor,
+											 in float3 f3Tangent, in float3 f3Bitangent,
 											 out float3 f3LightColorDiffuseResult,
 											 out float3 f3LightColorSpecularResult)
 {
@@ -280,47 +264,31 @@ void ApplySpotLighting(uniform bool bShadow, in Buffer<float4> spotLightCenterAn
 	float3 f3ToLight = f3LightPosition - f3Position;
 	float3 f3ToLightNormalized = normalize(f3ToLight);
 	float fLightDistance = length(f3ToLight);
-	float fCosineOfCurrentAngle = dot(-f3ToLightNormalized, f3SpotLightDir);
+	float fCosineOfCurrentAngle = dot(-f3ToLightNormalized, normalize(f3SpotLightDir));
 
 	f3LightColorDiffuseResult = float3(0.f, 0.f, 0.f);
 	f3LightColorSpecularResult = float3(0.f, 0.f, 0.f);
-
+	
 	float fRad = f4SpotParams.w;
 	float fCosineOfConeAngle = (f4SpotParams.z > 0.f) ? f4SpotParams.z : -f4SpotParams.z;
 
+	float2 f2LeanB = leantex.Sample(g_Sampler, float3(f2TexCoord, 0.f));
+	float3 f3LeanM = leantex.Sample(g_Sampler, float3(f2TexCoord, 1.f));
+	
+	[branch]
 	if (fLightDistance < fRad && fCosineOfCurrentAngle > fCosineOfConeAngle)
 	{
 		float fRadialAttenuation = (fCosineOfCurrentAngle - fCosineOfConeAngle) / (1.f - fCosineOfCurrentAngle);
 		fRadialAttenuation = saturate(fRadialAttenuation * fRadialAttenuation);
 
 		float fx = fLightDistance / fRad;
-		//inverse squared falloff :
-		// -(1/k)*(1-(k+1)/(1+k*x^2))
-		// k=20: -(1/20)*(1 - 21/(1+20*x^2))
-// 		float fK = 1.f;
-// 		float fFallOff = -(1.f / fK) * (1.f - (fK + 1.f) / (1 + fK*fx*fx));
-		//float fFallOff = -0.05 + 1.05 / (1 + 20 * fx * fx);
-		float fFallOff = fRad * (saturate(pow((1.f - pow(fx, 4)), 2))) / ((fLightDistance * fLightDistance) + 1);
-		f3LightColorDiffuseResult = spotLightColorBuffer[uLightIndex].rgb * saturate(dot(f3ToLightNormalized, f3Norm)) 
-			* fFallOff * fRadialAttenuation;
-		f3LightColorDiffuseResult *= fH;
-		float3 f3HalfAngle = normalize(f3ViewDir + f3ToLightNormalized);
-		//f3LightColorSpecularResult = spotLightColorBuffer[uLightIndex].rgb * pow(saturate(dot(f3HalfAngle, f3Norm)), fA)
-		//	* fFallOff * fRadialAttenuation;
-		float fSpecMul = fLightingFuncGGX(f3Norm, -f3ViewDir, f3ToLight, fSpecularRoughness, fSpecularIOR);
-		f3LightColorSpecularResult = spotLightColorBuffer[uLightIndex].rgb * fSpecMul * fFallOff * fRadialAttenuation;
-		//f3LightColorDiffuseResult = spotLightColorBuffer[uLightIndex].rgb *
-		//	BRDF(f3ToLight, f3ViewDir, f3Norm, fSpecularRoughness, fSpecularIOR, f4DiffMapColor.xyz) * fFallOff * fRadialAttenuation;
 		
-		// specular mapping
+		double fFallOff = saturate((pow((1.f - pow(fx, 4)), 2)) / ((fLightDistance * fLightDistance) + 1.f));
+
+		f3LightColorDiffuseResult = saturate(spotLightColorBuffer[uLightIndex].rgb * BRDF(f3ToLight, f3ViewDir, f3Norm, fRoughness, fIOR, f4DiffMapColor.xyz,
+											f3Tangent, f3Bitangent, f2LeanB, f3LeanM) * fFallOff * fRadialAttenuation);
+				
 		[branch]
-		if (uSpecularWhite)
-			f3LightColorSpecularResult = 2 * (f3LightColorSpecularResult * f3LightColorDiffuseResult);
-		else if (uSpecularAsImage)
-			f3LightColorSpecularResult = 2 * f4SpecMapCol.xyz * (f3LightColorSpecularResult * f3LightColorDiffuseResult);
-		else
-			f3LightColorSpecularResult = 2 * f4SpecMapCol.xyz * (f3LightColorSpecularResult * f3LightColorDiffuseResult);
-		
 		if (bShadow)
 		{
 			float fShadowRes = ApplySpotShadow(uLightIndex, f3Position);
@@ -328,14 +296,14 @@ void ApplySpotLighting(uniform bool bShadow, in Buffer<float4> spotLightCenterAn
 			f3LightColorSpecularResult *= fShadowRes;
 		}
 		
- 		f3LightColorDiffuseResult *= 16.f;
- 		f3LightColorSpecularResult *= 16.f;
+  		f3LightColorDiffuseResult *= 2.f;
 	}
 }
 
 void ApplyVPLLighting(in StructuredBuffer<float4> vplCenterAndRadiusBuffer, in StructuredBuffer<SVPLData> vplDataBuffer,
-					  in uint uLightIndex, in float3 f3Position, in float3 f3Norm,
-					  out float3 f3LightColorDiffuseResult)
+	in uint uLightIndex, in float3 f3Position, in float3 f3Norm, in float3 f3ViewDir, in float4 f4DiffMapColor,
+	in float3 f3Tangent, in float3 f3Bitangent,
+	out float3 f3LightColorDiffuseResult)
 {
 	float4 f4CenterAndRadius = vplCenterAndRadiusBuffer[uLightIndex];
 	SVPLData data = vplDataBuffer[uLightIndex];
@@ -347,16 +315,20 @@ void ApplyVPLLighting(in StructuredBuffer<float4> vplCenterAndRadiusBuffer, in S
 	f3LightColorDiffuseResult = float3(0.f, 0.f, 0.f);
 
 	float fRad = f4CenterAndRadius.w;
-	float fVPLNormalDotDir = max(0.f, dot(data.f4Direction.xyz, -f3LightDir));
+	float fVPLNormalDotDir = max(0.f, dot(data.f4Direction.xyz, f3ToLight));
 
+	[branch]
 	if (fLightDistance < fRad && fVPLNormalDotDir > 0.f)
 	{
 		float3 f3LightColor = data.f4Color.rgb;
-
+		                            
 		float fx = fLightDistance / fRad;
-		float fFallOff = smoothstep(1.f, 0.f, fx);
+		
+		float fFallOff = saturate((pow((1.f - pow(fx, 4)), 2)) / ((fLightDistance * fLightDistance) + 1.f));
 		
 		float fSourceLightDotL = dot(data.f4SourceLightDirection.xyz, f3Norm);
+
+		[branch]
 		if (fSourceLightDotL < 0.f)
 		{
 			fSourceLightDotL = 1.f + (fSourceLightDotL / g_fVPLRemoveBackFaceContrib);
@@ -365,7 +337,8 @@ void ApplyVPLLighting(in StructuredBuffer<float4> vplCenterAndRadiusBuffer, in S
 		{
 			fSourceLightDotL = 1.f;
 		}
-
+		
 		f3LightColorDiffuseResult = f3LightColor * saturate(dot(f3LightDir, f3Norm)) * fFallOff * fVPLNormalDotDir * fSourceLightDotL;
+
 	}
 }

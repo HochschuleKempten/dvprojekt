@@ -77,9 +77,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		_T("VektoriaApp"),	/* Title Text */
 		WS_OVERLAPPEDWINDOW,    /* default window */
 		CW_USEDEFAULT,          /* Windows decides the position */
-		CW_USEDEFAULT,          /* where the window ends up on the screen */
-		GetSystemMetrics(SM_CXSCREEN),                   /* The programs width */
-		GetSystemMetrics(SM_CYSCREEN),                   /* and height in pixels */
+		CW_USEDEFAULT, 
+		1280,
+		720,/* where the window ends up on the screen */
+		//GetSystemMetrics(SM_CXSCREEN),                   /* The programs width */
+		//GetSystemMetrics(SM_CYSCREEN),                   /* and height in pixels */
 		HWND_DESKTOP,           /* The window is a child-window to desktop */
 		NULL,                   /* No menu */
 		hInstance,              /* Program Instance handler */
