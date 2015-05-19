@@ -80,8 +80,8 @@ NAMESPACE_VIEW_B
 				break;
 			case LOBBY_HOST_GAME:
 				getContainer("WaitingDialog")->switchOn();
-				//vUi->vMaster->hostGame();
-				//vUi->switchScreen("Ingame");
+				vUi->vMaster->hostGame();
+				vUi->switchScreen("Ingame");
 				//notify(LOBBY_HOST_GAME);
 				break;
 			case LOBBY_JOIN_GAME:
