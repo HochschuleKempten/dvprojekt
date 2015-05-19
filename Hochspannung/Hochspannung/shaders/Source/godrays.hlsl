@@ -35,7 +35,7 @@ struct VS_OUTPUT_GODRAYS
 {
 	float4 f4Pos : SV_POSITION0;
 	float2 f2TexCoord : TEXCOORD0;
-	float2 f4LightPos : TEXCOORD1;
+	float4 f4LightPos : TEXCOORD1;
 };
 
 VS_OUTPUT_GODRAYS VS_GODRAYS(VS_INPUT_GODRAYS input)
@@ -44,6 +44,9 @@ VS_OUTPUT_GODRAYS VS_GODRAYS(VS_INPUT_GODRAYS input)
 
 	output.f2TexCoord = input.f2TexCoord;
 	output.f4Pos = mul(input.f4Pos, World);
+	float4 f4LightPosIn = float4(f4GodRayPos.x, -f4GodRayPos.y, f4GodRayPos.z, 1.f);
+	f4LightPosIn = mul(f4LightPosIn, World);
+	output.f4LightPos = mul(f4LightPosIn, g_mViewProj);
 	
 	return output;
 }
@@ -71,7 +74,7 @@ float4 PS_GODRAYS_PRE(VS_OUTPUT_GODRAYS input) : SV_TARGET
 
 	f4Color.x = f4Color.y < f4Color.x ? f4Color.x : f4Color.y;
 
-	f4Color = float4(1.f - 1000*f4Color.x, 1.f - 1000*f4Color.x, 1.f - 1000*f4Color.x, 1.f);
+	f4Color = float4(1-1000*f4Color.x, 1-1000*f4Color.x, 1-1000*f4Color.x, 1.f);
 	f4Color = saturate(f4Color);
 	
 	return f4Color;
@@ -79,18 +82,20 @@ float4 PS_GODRAYS_PRE(VS_OUTPUT_GODRAYS input) : SV_TARGET
 
 float4 PS_GODRAYS_ACCUM(VS_OUTPUT_GODRAYS input) : SV_TARGET
 {
-	float2 f2LightPos = f2RayLightPos;
-	f2LightPos += f2rcpFrame;
+	float2 f2LightPos = float2((input.f4LightPos.x*fRcpFrameX) + 0.5f, (input.f4LightPos.y*fRcpFrameY) + 0.5f);
+	
 	const int iNumSamples = 150;
 
 	float2 f2DeltaTexCoord = float2(input.f2TexCoord - f2LightPos);
 	float2 f2texCoord = input.f2TexCoord;
 	f2DeltaTexCoord *= 1.f / float(iNumSamples) * fRayDensity;
-	float fIllumDecay = .5f;
+	float fIllumDecay = 1.f;
 
 	float4 f4SceneColor = tex2D[7].Sample(linearSampler, input.f2TexCoord);
+	float4 f4Depth = godRayTex.Sample(pointSampler, input.f2TexCoord);
+	
 	float4 f4SceneColorCurr = f4SceneColor;
-	[unroll]
+	[unroll(iNumSamples)]
 	for (int i = 0; i < iNumSamples; i++)
 	{
 		f2texCoord -= f2DeltaTexCoord;
@@ -101,7 +106,7 @@ float4 PS_GODRAYS_ACCUM(VS_OUTPUT_GODRAYS input) : SV_TARGET
 	}
 	
 	f4SceneColor *= fRayExposure;
-	f4SceneColorCurr += 0.5 * f4SceneColor;
-
+	f4SceneColorCurr += f4Depth * f4SceneColor;
+	f4SceneColor.a = 1.f;
 	return f4SceneColorCurr;
 }
