@@ -1,4 +1,5 @@
 #include "VMaterialLoader.h"
+#include "../logic/LPlayer.h"
 
 NAMESPACE_VIEW_B
 
@@ -102,17 +103,33 @@ CMaterial VMaterialLoader::m_zmIsolator;
 CMaterial VMaterialLoader::m_zmRing;
 CMaterial VMaterialLoader::m_zmCable;
 
+//Windkraftwerktexturen
+CMaterial VMaterialLoader::m_zmWindGrund;
+CMaterial VMaterialLoader::m_zmWindrad;
+
 //Solarkraftwerktexturen
 CMaterial VMaterialLoader::m_zmSolarzelle;
 CMaterial VMaterialLoader::m_zmSolarGrund;
 CMaterial VMaterialLoader::m_zmSolarLOD;
 
 //Atomkraftwerktexturen
-CMaterial VMaterialLoader::m_zmAtomgrundWhite;
-CMaterial VMaterialLoader::m_zmAtomgrundGrey;
-CMaterial VMaterialLoader::m_zmSchranke;
-CMaterial VMaterialLoader::m_zmAtomgrundGreen;
-CMaterial VMaterialLoader::m_zmHolz;
+CMaterial VMaterialLoader::m_zmAtomGrund;
+CMaterial VMaterialLoader::m_zmAtomSchranke;
+CMaterial VMaterialLoader::m_zmAtomZaun;
+CMaterial VMaterialLoader::m_zmAtomReaktor;
+
+//Oelkraftwerktexturen
+CMaterial VMaterialLoader::m_zmOelGrund;
+CMaterial VMaterialLoader::m_zmOelSchranke;
+CMaterial VMaterialLoader::m_zmOelZaun;
+CMaterial VMaterialLoader::m_zmOelGelbstahl;
+CMaterial VMaterialLoader::m_zmOelGruenstahl;
+
+//Umspannwerktexturen
+CMaterial VMaterialLoader::m_zmUmspannBoden;
+CMaterial VMaterialLoader::m_zmUmspannGrund;
+CMaterial VMaterialLoader::m_zmUmspannIsolator;
+CMaterial VMaterialLoader::m_zmUmspannLeitung;
 
 //PlayerColor
 std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
@@ -139,6 +156,10 @@ CMaterial VMaterialLoader::materialSmallOfficeBuilding;
 
 // MaterialWindowBuildings
 CMaterial VMaterialLoader::materialWindowsofBuilding;
+
+//Background
+CMaterial VMaterialLoader::materialDefaultBackground;
+CMaterial VMaterialLoader::materialWhiteGreyBackground;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
@@ -204,6 +225,7 @@ void VMaterialLoader::init()
 	materialBuildingButton.MakeTextureSprite("textures\\BuildingButton.png");
 	materialBuildingButtonHover.MakeTextureSprite("textures\\BuildingButtonHover.png");
 	materialIngameMenueDialogBackground.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_MenueDialog_Background.png");
+	materialWhiteGreyBackground.MakeTextureSprite("textures/gui/background/gui_background_whitegrey.png");
 
 	//Interface - Selection Buttons
 	materialIngameButtonCraftmenu.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_craftmenu.png");
@@ -252,6 +274,11 @@ void VMaterialLoader::init()
 	m_zmRing.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmCable.MakeTextureDiffuse("textures\\white_image.jpg");
 
+	//Windkraftwerktexturen
+	m_zmWindGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
+	m_zmWindrad.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindGrund.SetTextureSpecularAsDiffuse();
+
 	//Solarkraftwerktexturen
 	m_zmSolarGrund.MakeTextureDiffuse("textures\\white_image.jpg");
 	m_zmSolarzelle.MakeTextureDiffuse("textures\\buildings\\SolarPanel_diffuse.jpg");
@@ -259,27 +286,48 @@ void VMaterialLoader::init()
 	m_zmSolarLOD.MakeTextureDiffuse("textures\\SolarLOD.jpg");
 
 	//Atomkraftwerktexturen
-	m_zmAtomgrundWhite.MakeTextureDiffuse("textures\\white_image.jpg");
-	m_zmAtomgrundGrey.MakeTextureDiffuse("Textures\\grey_image.jpg");
-	m_zmSchranke.MakeTextureDiffuse("Textures\\schranke.jpg");
-	m_zmAtomgrundGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
-	m_zmHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
+	m_zmAtomGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
+	m_zmAtomSchranke.MakeTextureDiffuse("textures\\Powerplants\\Schranke.jpg");
+	m_zmAtomZaun.MakeTextureDiffuse("textures\\Powerplants\\Holz.jpg");
+	m_zmAtomReaktor.MakeTextureDiffuse("textures\\white_image.jpg");
+	m_zmAtomGrund.SetTextureSpecularAsDiffuse();
+	m_zmAtomSchranke.SetTextureSpecularAsDiffuse();
+	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
+
+	//Oelkraftwerktexturen
+	m_zmOelGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
+	m_zmOelSchranke.MakeTextureDiffuse("textures\\Powerplants\\Schranke.jpg");
+	m_zmOelZaun.MakeTextureDiffuse("textures\\Powerplants\\Holz.jpg");
+	m_zmOelGelbstahl.MakeTextureDiffuse("textures\\Powerplants\\Gelbstahl.png");
+	m_zmOelGruenstahl.MakeTextureDiffuse("textures\\Powerplants\\Gruenstahl.png");
+	m_zmOelGrund.SetTextureSpecularAsDiffuse();
+	m_zmAtomSchranke.SetTextureSpecularAsDiffuse();
+	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
+
+	//Umspannwerktexturen
+	m_zmUmspannBoden.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
+	m_zmUmspannGrund.MakeTextureDiffuse("textures\\Powerplants\\Gruenstahl.png");
+	m_zmUmspannIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
+	m_zmUmspannLeitung.MakeTextureDiffuse("textures\\Powerplants\\Grau.jpg");
+	m_zmUmspannBoden.SetTextureSpecularAsDiffuse();
 	
 	//Building - Foundation
-	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::External), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
+	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(222.0f / 255.0f, 186.0f / 255.0f, 69.0f / 255.0f));
 	//Local player
 	materialFoundationPlayer[LPlayer::Local].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_local.png");
 	materialFoundationPlayer[LPlayer::Local].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
 	materialFoundationPlayer[LPlayer::Local].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 	//Opponent
-	materialFoundationPlayer[LPlayer::External].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_opponent.png");
-	materialFoundationPlayer[LPlayer::External].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
-	materialFoundationPlayer[LPlayer::External].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
+	materialFoundationPlayer[LPlayer::Remote].MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse_player_opponent.png");
+	materialFoundationPlayer[LPlayer::Remote].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
+	materialFoundationPlayer[LPlayer::Remote].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 
 	//Cursor
 	m_zmDefaultCursor.MakeTextureSprite("textures\\gui\\default_zeiger.png");
 	m_zmHammerCursor.MakeTextureSprite("textures\\gui\\Hammer.png");
+	m_zmDefaultCursor.SetTransparencyOn();
+	m_zmHammerCursor.SetTransparencyOn();
 
 	//CraftMenue
 	m_zmCraftMenueBackground.MakeTextureSprite("textures/gui/background/gui_ingame_baumenu.png");
@@ -293,6 +341,9 @@ void VMaterialLoader::init()
 	//Icons
 	materialIngameIconPopulation.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Population.png");
 	materialIngameIconMoney.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Money.png");
+
+	//Default Background
+	materialDefaultBackground.MakeTextureSprite("textures/gui/interface/texture_gui_background_lightgrey.png");
 }
 
 

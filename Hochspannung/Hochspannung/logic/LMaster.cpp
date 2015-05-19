@@ -36,7 +36,7 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		host();
 		while (networkService.getConnectionState() != Network::CONNECTED);
 	}
-	else DEBUG_EXPRESSION(if(ipAddress != "SINGLE_PLAYER"))
+	else if(ipAddress != "SINGLE_PLAYER")
 	{
 		connect(ipAddress);
 	}
@@ -46,7 +46,7 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		lPlayingField = new LPlayingField(this);
 	}
 
-	if (networkService.getType() != Network::Type::CLIENT) //todo (IP)
+	if (networkService.getType() != Network::Type::CLIENT)
 	{
 		lPlayingField->createFields();
 		lPlayingField->showPlayingField();
@@ -109,41 +109,96 @@ void LMaster::tick(const float fTimeDelta)
 
 	static float timeLastCheck = 0;
 
+	//Just for testing
+	try
+	{
+		static bool gameListUpdatedFirst = false;
+		static bool gameListUpdatedSecond = TRUE;
+		if (!gameListUpdatedFirst && timeLastCheck > 5.0f)
+		{
+			vMaster.updateGameList({
+				CGameObject(ip::address::from_string("84.136.248.111"), 1000, "Test1"),
+				CGameObject(ip::address::from_string("222.9.2.171"), 500, "Test2")
+			});
+
+			gameListUpdatedFirst = true;
+			gameListUpdatedSecond = false;
+		}
+		if (!gameListUpdatedSecond && timeLastCheck > 8.0f)
+		{
+			vMaster.updateGameList({
+				CGameObject(ip::address::from_string("84.136.248.111"), 1000, "Test1"),
+				CGameObject(ip::address::from_string("200.111.111.111"), 111, "Test3")
+			});
+
+			gameListUpdatedSecond = true;
+		}
+	}
+	catch (boost::system::system_error error) {
+		ASSERT(error.what());
+	}
+
 	if (timeLastCheck > 0.25F && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
 	{
 		CTransferObject transferObject = networkService.getNextActionToExecute();
 		int objectId = transferObject.getTransObjectID();
 		int x = transferObject.getCoordX();
 		int y = transferObject.getCoordY();
-		int playerId = std::stoi(transferObject.getValue());
-		if (playerId == LPlayer::Local)
-		{
-			playerId = LPlayer::External;
-		}
-		else if (playerId == LPlayer::External)
-		{
-			playerId = LPlayer::Local;
-		}
+		
 
-		DEBUG_OUTPUT("objectId=" << objectId << ":x=" << x << ":y=" << y << ":playerId=" << playerId);
+		DEBUG_OUTPUT("objectId=" << objectId << ":x=" << x << ":y=" << y);
 
 		//regarding host
 		switch (transferObject.getAction())
 		{
 		case(SET_OBJECT) :
+		{
+			int playerId = std::stoi(transferObject.getValue());
+			if (playerId == LPlayer::Local)
+			{
+				playerId = LPlayer::Remote;
+			}
+			else if (playerId == LPlayer::Remote)
+			{
+				playerId = LPlayer::Local;
+			}
 
 			//buildings
 			if (objectId >= 100 && objectId < 109)
 			{
 				placeBuilding(objectId, x, y, playerId);
 			}
-			else if (playerId == -66) //= end of fieldcreation
+			else if (objectId == -666) //= end of fieldcreation
 			{
 				lPlayingField->showPlayingField();
 			}
+			else if (objectId == 300) //switch powerplant on/off
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->switchOnOff();
+				}
+			}
+			else if (objectId == 400)
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotage();
+				}
+			}
+			else if (objectId == 500)
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotageResource();
+				}
+			}
 
 			break;
-
+		}
 		case(DELETE_OBJECT) :
 
 			lPlayingField->removeBuilding(x, y);
@@ -198,9 +253,9 @@ void LMaster::tick(const float fTimeDelta)
 					int plId = row[column].iPlayerID;
 					if (plId == LPlayer::Local)
 					{
-						plId = LPlayer::External;
+						plId = LPlayer::Remote;
 					}
-					else if (plId == LPlayer::External)
+					else if (plId == LPlayer::Remote)
 					{
 						plId = LPlayer::Local;
 					}
@@ -291,7 +346,7 @@ void LMaster::sendDeleteObject(const int x, const int y)
 {
 	if (networkService.getConnectionState() == Network::State::CONNECTED)
 	{
-		bool b= networkService.sendDeleteObject(x, y);
+		bool b = networkService.sendDeleteObject(x, y);
 		ASSERT(b == true, "Error: sendDeleteObject.");
 
 	}
@@ -313,9 +368,5 @@ LPlayer* LMaster::getPlayer(const int idxPlayer)
 	return &lPlayers[idxPlayer];
 }
 
-std::vector<Network::CGameObject> LMaster::getGameList()
-{
-	return networkService.getGameList();
-}
 
 NAMESPACE_LOGIC_E

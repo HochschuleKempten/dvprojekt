@@ -36,7 +36,7 @@ public:
 	void setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingField);
 	void resize(int width, int height);
 
-	DEBUG_EXPRESSION(void startSinglePlayerGame());
+	void startSinglePlayerGame();
 	void hostGame();
 	void joinGame(const std::string& ipAddress);
 
@@ -45,6 +45,7 @@ public:
 	virtual void continueGame() override;
 	virtual void gameWon() override;
 	virtual void gameOver() override;
+	virtual void updateGameList(const std::vector<Network::CGameObject>& gameList) override;
 	virtual IVFactory* getFactory() override;
 
 	inline VPlayingField* getVPlayingField()

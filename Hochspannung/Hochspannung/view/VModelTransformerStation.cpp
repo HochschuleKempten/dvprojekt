@@ -13,28 +13,28 @@ VModelTransformerStation::VModelTransformerStation()
 	m_zpMain.AddPlacement(&m_zpUmspannwerk);
 
 	//Initialisierung Fundament
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAtomgrundGreen);
+	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmUmspannBoden);
 	//Initalisierung Ständer
-	m_zgStaender.Init(0.05f, 0.05f, 1.5f, &VMaterialLoader::m_zmAtomgrundGrey);
+	m_zgStaender.Init(0.05f, 0.05f, 1.5f, &VMaterialLoader::m_zmUmspannGrund);
 	//Initalisierung Querstange
-	m_zgQuerstange.Init(2.0f, 0.1f, 0.1f, &VMaterialLoader::m_zmAtomgrundGrey);
+	m_zgQuerstange.Init(2.0f, 0.1f, 0.1f, &VMaterialLoader::m_zmUmspannGrund);
 	//Initalisierung Isolator
 	m_zgIsolator.InitTubeWave(1.2f, 4.0f, 0.2f, 0.5f, 0.7f, &m_zmGrey, 0.2f, true, true);
 	//Initalisierung Querstange2
-	m_zgQuerstange2.Init(0.1f, 0.1f, 2.0f, &VMaterialLoader::m_zmAtomgrundGrey);
+	m_zgQuerstange2.Init(0.1f, 0.1f, 2.0f, &VMaterialLoader::m_zmUmspannGrund);
 	//Initialisierung Trasssen
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 	m_zTrasse3.Init();
 	//Initialisierung Generator
-	m_zgGeneratorKasten.Init(2.5f, 1.9f, 3.3f, &VMaterialLoader::m_zmAtomgrundGrey);
+	m_zgGeneratorKasten.Init(2.5f, 1.9f, 3.3f, &VMaterialLoader::m_zmUmspannGrund);
 	//Initialisierung Stecka
-	m_zgStecka.Init(0.03f, 0.03f, 1.0f, &VMaterialLoader::m_zmAtomgrundGrey);
+	m_zgStecka.Init(0.03f, 0.03f, 1.0f, &VMaterialLoader::m_zmUmspannGrund);
 	//Initialisierung Kugel
-	m_zgKugel.Init(0.05f, &VMaterialLoader::m_zmAtomgrundGrey);
+	m_zgKugel.Init(0.05f, &VMaterialLoader::m_zmIsolator);
 	//Initialisierung Kabel
-	m_zgKabelMitte.Init(0.01f, 0.01f, 1.1f, &VMaterialLoader::m_zmAtomgrundGrey);
-	m_zgKabelSeite.Init(0.01f, 0.01f, 1.6f, &VMaterialLoader::m_zmAtomgrundGrey);
+	m_zgKabelMitte.Init(0.01f, 0.01f, 1.1f, &VMaterialLoader::m_zmUmspannLeitung);
+	m_zgKabelSeite.Init(0.01f, 0.01f, 1.6f, &VMaterialLoader::m_zmUmspannLeitung);
 
 
 

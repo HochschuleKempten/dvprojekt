@@ -11,11 +11,11 @@ class VModelPowerLine : public IViewModel
 public:
 	enum DIRECTION
 	{
-		NONE  = 0x0,
+		NONE = 0x0,
 		NORTH = 0x8,
-		EAST  = 0x4,
+		EAST = 0x4,
 		SOUTH = 0x2,
-		WEST  = 0x1
+		WEST = 0x1
 	};
 
 	enum PYLONTYPE
@@ -46,12 +46,18 @@ private:
 	CPlacement m_zpRingLoD2[16];
 	CPlacement m_zpRingLoD3[16];
 	CPlacement m_zpLine[4];
+	CPlacement m_zpLineLOD1[4];
+	CPlacement m_zpLineLOD2[4];
+	CPlacement m_zpLineLOD3[4];
 
 	CGeoCube m_zgArm;
 	CGeoCube m_zgUpperArm;
 	CGeoCube m_zgArmConnection;
 	CGeoCube m_zgPole;
+	CGeoCube m_zgPoleLOD2[4];
+	CGeoCube m_zgPoleLOD3;
 	CGeoCube m_zgRoof;
+	CGeoCube m_zgRoofLOD2;
 	CGeoCube m_zgStrut;
 	CGeoCylinder m_zgLine;
 	CGeoCylinder m_zgIsolatorLoD1;
@@ -69,7 +75,10 @@ private:
 	CPlacement m_zpUpperLeftArmPole[4];
 	CPlacement m_zpUpperRightArmPole[4];
 	CPlacement m_zpPole[4];
+	CPlacement m_zpPoleLOD2[4];
+	CPlacement m_zpPoleLOD3;
 	CPlacement m_zpRoof[4];
+	CPlacement m_zpRoofLOD2[4];
 	CPlacement m_zpStruts[80];
 
 	CTriangleList *m_zpTriangleIsolatorLoD1;
@@ -109,7 +118,9 @@ private:
 
 	CHMat cablePathPoints[20];
 	CHMats cablePath;
-	CGeoSweep geosweepCable;
+	CGeoSweep geosweepCableLOD1;
+	CGeoSweep geosweepCableLOD2;
+	CGeoSweep geosweepCableLOD3;
 
 	bool m_fCablesDone = false;
 	void InitCables(float fSegmentLength1 = 0.2, float fSegmentLength2 = 2.0, int iPrecision = 10, float fCableThickness = 0.1f);

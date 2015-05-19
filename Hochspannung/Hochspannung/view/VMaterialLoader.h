@@ -2,7 +2,6 @@
 
 #include "VGeneral.h"
 #include "../logic/LField.h"
-#include "../logic/LPlayer.h"
 
 NAMESPACE_VIEW_B
 
@@ -51,7 +50,6 @@ public:
 
 	//Ingame
 	static CMaterial materialIngameCraft;
-	static CMaterial materialDialogBackground;
 	static CMaterial materialIngameBorder;
 	static CMaterial materialTopbar;
 	static CMaterial materialBottombarBorderTop;
@@ -60,7 +58,12 @@ public:
 	static CMaterial materialBuildingButton;
 	static CMaterial materialBuildingButtonHover;
 
+
+	//Backgrounds
+	static CMaterial materialDialogBackground;
 	static CMaterial materialIngameMenueDialogBackground;
+	static CMaterial materialDefaultBackground;
+	static CMaterial materialWhiteGreyBackground;
 
 	//Icons
 	static CMaterial materialIngameIconPopulation;
@@ -116,17 +119,32 @@ public:
 	static CMaterial m_zmCable;
 
 	//Solarkraftwerktexturen
+	static CMaterial m_zmWindGrund;
+	static CMaterial m_zmWindrad;
+
+	//Solarkraftwerktexturen
 	static CMaterial m_zmSolarzelle;
 	static CMaterial m_zmSolarGrund;
 	static CMaterial m_zmSolarLOD;
 
 	//Atomkraftwerktexturen
-	static CMaterial m_zmAtomgrundWhite;
-	static CMaterial m_zmAtomgrundGrey;
-	static CMaterial m_zmSchranke;
-	static CMaterial m_zmAtomgrundGreen;
-	static CMaterial m_zmHolz;
+	static CMaterial m_zmAtomGrund;
+	static CMaterial m_zmAtomSchranke;
+	static CMaterial m_zmAtomZaun;
+	static CMaterial m_zmAtomReaktor;
 
+	//Oelkraftwerktexturen
+	static CMaterial m_zmOelGrund;
+	static CMaterial m_zmOelSchranke;
+	static CMaterial m_zmOelZaun;
+	static CMaterial m_zmOelGelbstahl;
+	static CMaterial m_zmOelGruenstahl;
+
+	//Umspannwerktexturen
+	static CMaterial m_zmUmspannBoden;
+	static CMaterial m_zmUmspannGrund;
+	static CMaterial m_zmUmspannIsolator;
+	static CMaterial m_zmUmspannLeitung;
 
 	//PlayerColor
 	static std::unordered_map<int, CColor> colorPlayers;

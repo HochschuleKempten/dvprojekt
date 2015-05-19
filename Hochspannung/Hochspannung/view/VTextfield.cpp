@@ -19,7 +19,6 @@ NAMESPACE_VIEW_B
 
 		m_iMaxChars = MaxChars;
 		m_writingfont = &VMaterialLoader::standardFont;
-
 		m_writing = new CWriting();
 
 		//Initialize Writing
@@ -64,7 +63,7 @@ NAMESPACE_VIEW_B
 		//Mouse
 		float fPosX;
 		float fPosY;
-		cursor->GetFractional(fPosX, fPosY, true);
+		cursor->GetFractional(fPosX, fPosY);
 		if (checkHover(fPosX, fPosY))
 		{
 			if (cursor->ButtonPressedLeft())
@@ -127,7 +126,7 @@ NAMESPACE_VIEW_B
 		m_bIsActive = false;
 	}
 
-	void VTextfield::AddChar(const char& character)
+	void VTextfield::AddChar(const char character)
 	{
 		if (m_sInputtext.length() < m_iMaxChars)
 		{
@@ -135,6 +134,7 @@ NAMESPACE_VIEW_B
 
 			m_writing->PrintF("%s", const_cast<char*>(m_sInputtext.c_str()));
 		}
+	
 	}
 
 	void VTextfield::deleteChar()
@@ -152,7 +152,7 @@ NAMESPACE_VIEW_B
 		return m_bIsActive;
 	}
 
-	void VTextfield::setLayer(float layer)
+	void VTextfield::setLayer(const float layer)
 	{
 		m_zoNormal->SetLayer(layer);
 		m_zoHover->SetLayer(layer);
@@ -199,7 +199,7 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VTextfield::setActive(bool wert)
+	void VTextfield::setActive(const bool wert)
 	{
 		m_bIsActive = wert;
 	}

@@ -40,7 +40,6 @@ bool LPlayer::trySabotageAct()
 		DEBUG_OUTPUT("Lets be nasty!  " << sabotageActs);
 		return true;
 	}
-
 	else
 	{
 		DEBUG_OUTPUT("No sabotage Acts left! ");

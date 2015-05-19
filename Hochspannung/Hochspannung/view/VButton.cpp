@@ -55,7 +55,7 @@ NAMESPACE_VIEW_B
 		//ToDo
 	}
 
-	void VButton::setLayer(float layer)
+	void VButton::setLayer(const float layer)
 	{
 		m_zoNormal->SetLayer(layer);
 		m_zoHover->SetLayer(layer);

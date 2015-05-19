@@ -1,5 +1,6 @@
 #pragma once
 #include "IViewGUIObject.h"
+#include "VText.h"
 
 NAMESPACE_VIEW_B
 
@@ -19,7 +20,7 @@ public:
 	void onMouseOut() override;
 	void onMouseClickLeft() override;
 	void onMouseClickRight() override;
-	void setLayer(float layer) override;
+	void setLayer(const float layer) override;
 	void updateRectangle(CFloatRect rect) override;
 
 
@@ -45,13 +46,15 @@ private:
 	COverlay* m_zoActive;
 	COverlay* m_zoHover;
 
-	std::string m_sName;
+	CWriting* iwas;
 
 	bool m_bHasHover;
 
-	CWritingFont* m_writingfont;
+	CViewport* m_viewport;
 
-	CWriting* m_writing;
+	//CWriting* m_writing;
+
+	//VText* m_text;
 
 	bool m_bIsActive = false;
 

@@ -59,6 +59,19 @@ void VMaster::gameOver()
 	//TODO (V) do something useful here when UI is ready
 }
 
+void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
+{
+	vUi.updateGameList(gameList);
+
+	//TODO (V) inform UI
+	DEBUG_OUTPUT("Updated List");
+	for (auto go : gameList)
+	{
+		DEBUG_OUTPUT("ip = " << go.getServerIP());
+		DEBUG_OUTPUT("name = " << go.getName());
+	}
+}
+
 VUI* VMaster::getVUi()
 {
 	return &vUi;
@@ -80,12 +93,10 @@ void VMaster::hostGame()
 	lMaster->startNewGame();
 }
 
-#ifdef _DEBUG
 void VMaster::startSinglePlayerGame()
 {
 	lMaster->startNewGame("SINGLE_PLAYER");
 }
-#endif
 
 void VMaster::joinGame(const std::string& ipAddress)
 {

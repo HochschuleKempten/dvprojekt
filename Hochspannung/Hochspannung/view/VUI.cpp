@@ -25,7 +25,7 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	m_zr.Init(psplash);
 
 	//get computer name
-	std::vector<const char*> computerNameBlacklist{ "TITANIC-TABLET" };	//Opt-in when you want to compile the shaders at every start
+	std::vector<const char*> computerNameBlacklist{ "TITANIC-TABLET", "TITANIC","FRAMECATCHER-PC", "IVO-NOTEBOOK" };	//Opt-in when you want to compile the shaders at every start
 	unsigned long bufCharCount = 32767;
 	char buf[32767];
 
@@ -58,7 +58,7 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	switchScreen("MainMenue");
 }
 
-void VUI::onNotify(Event evente)
+void VUI::onNotify(const Event& evente)
 {
 	switch (evente) {
 		case QUIT_GAME:
@@ -91,8 +91,8 @@ void VUI::resize(int width, int height)
 	m_zf.ReSize(width, height);
 	activeScreen->resize(width, height);
 
-	for (m_iterScreens = m_screens.begin(); m_iterScreens != m_screens.end(); m_iterScreens++) {
-		m_iterScreens->second->resize(width, height);
+	for (std::pair<std::string,IViewScreen*> ScreenPair : m_screens) {
+		ScreenPair.second->resize(width, height);
 	}
 }
 
@@ -135,6 +135,8 @@ void VUI::switchScreen(const std::string& switchTo)
 	activeScreen = m_screens[switchTo];
 	activeScreen->switchOn();
 	activeScreen->StartEvent();
+
+	m_screenChanged = true;
 }
 
 IViewScreen* VUI::getScreen(const std::string& sName)
@@ -145,20 +147,24 @@ IViewScreen* VUI::getScreen(const std::string& sName)
 
 void VUI::updateMoney(const int wert)
 {
-	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
 }
 
 void VUI::updatePopulation(const int wert)
 {
-	dynamic_cast<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
 }
 
-
+void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
+{
+	CASTD<VScreenLobby*>(m_screens["Lobby"])->updateHostList(gameList);
+}
 
 void VUI::tick(const float fTimeDelta)
 {
-	m_zr.Tick(const_cast<float&>(fTimeDelta));
-	activeScreen->tick();
+	float fTimeDeltaCopy = fTimeDelta;	//Copy needed because Vektoria means to change the time variable for some reasons (prevent undefined behaviour: http://en.cppreference.com/w/cpp/language/const_cast)
+	m_zr.Tick(fTimeDeltaCopy);
+	activeScreen->tick(fTimeDelta);
 
 }
 

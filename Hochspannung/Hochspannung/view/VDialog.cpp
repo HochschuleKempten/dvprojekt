@@ -1,6 +1,4 @@
 #include "VDialog.h"
-#include "VTextfield.h"
-#include "VText.h"
 #include "VGroup.h"
 #include "VRegister.h"
 #include "VGUIArea.h"
@@ -29,7 +27,7 @@ NAMESPACE_VIEW_B
 		m_zfRect = floatRect;
 	}
 
-	void VDialog::onNotify(Event events)
+	void VDialog::onNotify(const Event& events)
 	{
 		switch (events)
 		{

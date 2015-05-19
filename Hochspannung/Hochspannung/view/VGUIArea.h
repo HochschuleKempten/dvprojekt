@@ -14,10 +14,10 @@ NAMESPACE_VIEW_B
 
 		~VGUIArea();
 
-		void onNotify(Event events) override;
+		void onNotify(const Event& events) override;
 
 		void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName) override;
-		void addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const std::string& sName) override;
+		void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::string& sName) override;
 	};
 
 	NAMESPACE_VIEW_E

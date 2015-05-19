@@ -1,6 +1,5 @@
 #include "VGUIArea.h"
 #include "VGroup.h"
-#include "VMaterialLoader.h"
 #include "VRegister.h"
 #include "VDialog.h"
 #include "VListView.h"
@@ -31,15 +30,9 @@ NAMESPACE_VIEW_B
 
 	VGUIArea::~VGUIArea()
 	{
-		for (m_lIterGUIObjects = m_guiObjects.begin(); m_lIterGUIObjects != m_guiObjects.end(); ++m_lIterGUIObjects)
-		{
-			delete m_lIterGUIObjects->second;
-		}
-		m_guiObjects.clear();
-		if (m_hasBackground) delete m_background;
 	}
 
-	void VGUIArea::onNotify(Event events)
+	void VGUIArea::onNotify(const Event& events)
 	{
 		switch (events)
 		{

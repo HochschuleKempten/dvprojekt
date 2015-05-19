@@ -27,15 +27,9 @@ NAMESPACE_VIEW_B
 
 	VTab::~VTab()
 	{
-		for (m_lIterGUIObjects = m_guiObjects.begin(); m_lIterGUIObjects != m_guiObjects.end(); ++m_lIterGUIObjects)
-		{
-			delete m_lIterGUIObjects->second;
-		}
-		m_guiObjects.clear();
-		if (m_hasBackground) delete m_background;
 	}
 
-	void VTab::onNotify(Event events)
+	void VTab::onNotify(const Event& events)
 	{
 		switch (events)
 		{

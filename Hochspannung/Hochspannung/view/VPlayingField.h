@@ -60,7 +60,6 @@ public:
 	template<typename T>
 	inline void playSoundPlaceBuilding(CPlacement* placementField)
 	{
-		//TODO (V) play different sound when building cannot be placed
 		VSoundLoader::playSoundeffect(VSoundLoader::BUILDING_PLACED, placementField);
 	}
 	template<>
