@@ -89,7 +89,7 @@ VListView::VListView(CFloatRect floatRect, CViewport* viewport)
 	}
 
 
-VButton* VListView::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, Event clickAction, std::string sName)
+VButton* VListView::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, const Event& clickAction, const std::string& sName)
 {
 	m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
 
@@ -97,7 +97,7 @@ VButton* VListView::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMater
 	return CASTD<VButton*>(m_guiObjects[sName]);
 }
 
-VTextfield* VListView::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int& MaxChars, const std::string& Placeholder, std::string sName)
+VTextfield* VListView::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const std::string& sName)
 {
 	m_guiObjects[sName] = new VListEntry(m_viewport, &VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, sName);
 
@@ -105,19 +105,19 @@ VTextfield* VListView::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, 
 	return CASTD<VTextfield*>(m_guiObjects[sName]);
 }
 
-VText* VListView::addText(CFloatRect rect, CWritingFont* writingFont, std::string text, std::string sName)
+VText* VListView::addText(CFloatRect rect, CWritingFont* writingFont, const std::string& text, const std::string& sName)
 {
 	for (const std::string& key : m_entries)
 	{
 		delete m_guiObjects[key];
 		m_guiObjects.erase(key);
 
-	m_guiObjects[sName]->addObserver(this);
-	return CASTD<VText*>(m_guiObjects[sName]);
-}
+		m_guiObjects[sName]->addObserver(this);
+		return CASTD<VText*>(m_guiObjects[sName]);
+	}
 	m_entries.clear();
-
-COverlay* VListView::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::string &sName)
+}
+COverlay* VListView::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::string& sName)
 {
 	m_Overlays[sName] = new COverlay();
 	m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
@@ -125,12 +125,14 @@ COverlay* VListView::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, cons
 	return m_Overlays[sName];
 }
 
-}
-
-void VListView::addEntry(CMaterial* MaterialEntryNormal, CMaterial* MaterialEntryHover, const std::string &sName)
+	void VListView::setLayer(float layer)
 	{
-	m_entries[sName] = new VListEntry(m_viewport, MaterialEntryNormal, MaterialEntryHover,sName);
-	m_guiObjects[sName] = m_entries[sName];
+	}
+
+	void VListView::addEntry(const std::string& sName)
+	{
+	m_entries.push_back(sName);
+	m_guiObjects[sName] = new VListEntry(m_viewport, &VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, sName);
 		m_guiObjects[sName]->addObserverExt(this);
 		calcEntrySize(); 
 	}
