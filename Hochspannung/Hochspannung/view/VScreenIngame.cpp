@@ -652,7 +652,17 @@ void VScreenIngame::handleInput()
 	}
 	else if (vUi->m_zkCursor.ButtonPressedRight())
 	{
-		handleRightClick(pickedElements);
+		if (!clickActive)
+		{
+			m_selectedBuilding = VIdentifier::Undefined;
+			updateModelView();
+
+			clickActive = true;
+		}
+	}
+	else if (vUi->m_zkKeyboard.KeyPressed(DIK_T))
+	{
+		handleTestClick(pickedElements);
 	}
 	else
 	{
@@ -755,7 +765,7 @@ void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& picke
 	}
 }
 
-void VScreenIngame::handleRightClick(const std::map<int, std::vector<int>>& pickedElements)
+void VScreenIngame::handleTestClick(const std::map<int, std::vector<int>>& pickedElements)
 {
 	if (!clickActive)
 	{
@@ -842,17 +852,19 @@ void VScreenIngame::handleRightClick(const std::map<int, std::vector<int>>& pick
 
 void VScreenIngame::updateModelView()
 {
-	if (m_selectedBuilding != VIdentifier::Undefined) {
-		static IViewModel* previousModel = nullptr;
+	static IViewModel* previousModel = nullptr;
 
-		if (previousModel != nullptr) {
-			m_sceneModels.SubPlacement(previousModel->getMainPlacement());
-		}
+	if (previousModel != nullptr) {
+		m_sceneModels.SubPlacement(previousModel->getMainPlacement());
+	}
 
-		if (models.count(m_selectedBuilding) > 0) {
-			previousModel = models.at(m_selectedBuilding);
-			m_sceneModels.AddPlacement(previousModel->getMainPlacement());
-		}
+	if (models.count(m_selectedBuilding) > 0) {
+		previousModel = models.at(m_selectedBuilding);
+		m_sceneModels.AddPlacement(previousModel->getMainPlacement());
+	}
+	else
+	{	//Disable action
+		previousModel = nullptr;
 	}
 }
 

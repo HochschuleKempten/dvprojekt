@@ -61,7 +61,7 @@ public:
 private:
 	CFloatRect getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY);
 	void handleLeftClick(const std::map<int, std::vector<int>>& pickedElements);
-	void handleRightClick(const std::map<int, std::vector<int>>& pickedElements);
+	void handleTestClick(const std::map<int, std::vector<int>>& pickedElements);
 
 	CScene m_scene;
 	//CViewport m_viewport;
