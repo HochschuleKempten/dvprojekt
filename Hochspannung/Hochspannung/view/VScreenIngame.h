@@ -70,9 +70,9 @@ private:
 	CCamera m_zc;
 	CPlacement m_zpCamera;
 
-	VTab *statisticsTab;
-	VTab *sabotageTab;
-	VTab *buildingTab;
+	VTab *m_vtTabStatistics;
+	VTab *m_vtTabSabotage;
+	VTab *m_vtTabBuilding;
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;

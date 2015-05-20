@@ -19,11 +19,15 @@ public:
 	void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName) override;
 
 
-	void setLayer(const float layer) override;
+	VButton* addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, const Event& clickAction, const std::string& sName) override;
+	VTextfield* addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const std::string& sName) override;
+	VText* addText(CFloatRect rect, CWritingFont* writingFont, const std::string& text, const std::string& sName) override;
+	COverlay* addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::string& sName) override;
+	void setLayer(float layer) override;
 	
 	void addEntry(const std::string& sName);
 	void updateList(const std::vector <Network::CGameObject>& hostList);
-	void onNotifyExt(const Event& evente, const std::basic_string<char>& sName) override;
+	void onNotifyExt(const Event& evente, const std::string& sName) override;
 
 	IViewGUIObject* getSelectedItem();
 

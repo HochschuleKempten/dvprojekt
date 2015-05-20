@@ -31,7 +31,7 @@ NAMESPACE_VIEW_B
 
 		iwas->PrintF("Hallo");
 		iwas->SetLayer(0.1F);
-		VMaterialLoader::standardFont.SwitchOff();
+		//VMaterialLoader::standardFont.SwitchOff();
 		iwas->SwitchOff();
 
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F), "LobbyRunningGames");

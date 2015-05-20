@@ -189,6 +189,8 @@ NAMESPACE_VIEW_B
 
 		void switchCursor(char* imagefile, const bool bChromaKeying)
 		{
+			m_viewport->SubOverlay(m_pCursorImage);
+			delete m_pCursorImage;
 			m_pCursorImage = new COverlay();
 			m_pCursorImage->Init(imagefile, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F), bChromaKeying);
 			m_viewport->AddOverlay(m_pCursorImage);
@@ -198,12 +200,12 @@ NAMESPACE_VIEW_B
 	
 		virtual void updateCursorImagePos(CDeviceCursor* cursor)
 		{
-			//float curPosX;
-			//float curPosY;
+			float curPosX;
+			float curPosY;
 
-			//cursor->GetFractional(curPosX, curPosY, true);
-			//m_pCursorImage->SetRect(CFloatRect(curPosX, curPosY, 0.05F, 0.05F));
-			////m_pCursorImage->GetRect().SetYPos(curPosY);
+			cursor->GetFractional(curPosX, curPosY, true);
+			m_pCursorImage->SetRect(CFloatRect(curPosX, curPosY, 0.05F, 0.05F));
+			//m_pCursorImage->GetRect().SetYPos(curPosY);
 		}
 
 

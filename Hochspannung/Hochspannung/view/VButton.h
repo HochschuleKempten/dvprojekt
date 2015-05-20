@@ -41,12 +41,16 @@ NAMESPACE_VIEW_B
 
 		//ClickAction getAction();
 
+		void setActive(bool value=true);
+
 	private:
 
 		COverlay* m_zoNormal;
 		COverlay* m_zoHover;
 
 		bool m_bHasHover;
+		bool m_isActive=false;
+		bool isActive();
 
 		IViewUIObserver::Event action;
 	};

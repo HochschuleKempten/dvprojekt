@@ -20,6 +20,11 @@ NAMESPACE_VIEW_B
 		m_background = new CBackground();
 		m_headline = new COverlay();
 
+		COverlay* testAnim=new COverlay();
+
+		testAnim->Init(&VMaterialLoader::materialAnimationsVersuch, CFloatRect(0.1F, 0.1F, 0.1F, 0.1F));
+		m_viewport->AddOverlay(testAnim);
+
 		m_background->InitFull(&VMaterialLoader::materialMainMenueBackground);
 		//m_flash->Init("textures\\Blitz.png", CFloatRect(0.75F, 0.2F, 0.20F, 0.7F));
 		//m_headline->Init("textures\\Hochvolt.png", CFloatRect(0.20F, 0.05F, 0.6F, 0.15F));
@@ -87,7 +92,7 @@ NAMESPACE_VIEW_B
 
 	void VScreenMainMenue::tick(const float fTimeDelta)
 	{
-		updateCursorImagePos(&vUi->m_zkCursor);
+		//updateCursorImagePos(&vUi->m_zkCursor);
 
 		if (!vUi->m_zkCursor.ButtonPressedLeft())
 		{
