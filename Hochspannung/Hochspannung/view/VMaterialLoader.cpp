@@ -197,12 +197,9 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].SetTextureSpecularBlack();
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].SetTextureSpecularBlack();
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].SetTextureSpecularBlack();
-	//fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
-	//fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
-	//fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
 }
 
 void VMaterialLoader::init()
