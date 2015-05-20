@@ -190,12 +190,19 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 {
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
 	std::string textureSpecular = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_specular.png");
+	std::string textureBump = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_bump.png");
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureDiffuse(const_cast<char*>(textureDiffuse.c_str()));
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].SetTextureSpecularBlack();
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].SetTextureSpecularBlack();
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].SetTextureSpecularBlack();
+	//fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+	//fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+	//fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
 }
 
 void VMaterialLoader::init()
