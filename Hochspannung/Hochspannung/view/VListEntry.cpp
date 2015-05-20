@@ -11,6 +11,8 @@ VListEntry::VListEntry()
 VListEntry::VListEntry(CViewport* viewport,CMaterial* MaterialNormal, CMaterial* MaterialHover, const std::string& sName):
 m_bHasHover(false)
 {
+	m_ObjectType = LIST_ENTRY;
+
 	m_viewport = viewport;
 	//m_zfrRect = rect;
 	m_zoNormal = new COverlay();

@@ -38,7 +38,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_sceneModels.AddPlacement(&m_zpModels);
 	m_zpModels.TranslateZ(10.0f);
 	m_zpModels.RotateXDelta(-0.5f);
-
+	
 	//Init models
 	modelPowerline.Init(VModelPowerLine::NORTH | VModelPowerLine::EAST | VModelPowerLine::SOUTH | VModelPowerLine::WEST);
 	models.emplace(VIdentifier::VWindmillPowerPlant, &modelWindmill);
@@ -232,13 +232,7 @@ void VScreenIngame::onNotify(const Event& events)
 			updateInfofield("Windmill");
 			m_selectedBuilding = VIdentifier::VWindmillPowerPlant;
 			switchCursor("textures/hammer.png", true);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("windmill"))->setActive();
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("hydroPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("solarPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("coalPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("oilPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("nuclearPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("powerLine"))->setActive(false);
+			setActiveButton("windmill");
 			//TODO BuildMenue Button Windmill 
 			break;
 		case SELECT_BUILDING_COALPOWERPLANT:
@@ -246,78 +240,44 @@ void VScreenIngame::onNotify(const Event& events)
 			m_selectedBuilding = VIdentifier::VCoalPowerPlant;
 			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button CoalPowerplant 
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("windmill"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("hydroPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("solarPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("coalPowerPlant"))->setActive(true);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("oilPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("nuclearPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("powerLine"))->setActive(false);
+			setActiveButton("coalPowerPlant");
 			break;
 		case SELECT_BUILDING_OILPOWERPLANT:
 			updateInfofield("OilPowerplant");
 			m_selectedBuilding = VIdentifier::VOilRefinery;
 			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button Oilpowerplant
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("windmill"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("hydroPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("solarPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("coalPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("oilPowerPlant"))->setActive(true);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("nuclearPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("powerLine"))->setActive(false);
+			setActiveButton("oilPowerPlant");
 			break;
 		case SELECT_BUILDING_NUCLEARPOWERPLANT:
 			updateInfofield("NuclearPowerplant");
 			m_selectedBuilding = VIdentifier::VNuclearPowerPlant;
 			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button Nuclearpowerplant
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("windmill"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("hydroPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("solarPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("coalPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("oilPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("nuclearPowerPlant"))->setActive(true);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("powerLine"))->setActive(false);
+			setActiveButton("nuclearPowerPlant");
 			break;
 		case SELECT_BUILDING_HYDROPOWERPLANT:
 			updateInfofield("HydroPowerplant");
 			m_selectedBuilding = VIdentifier::VHydroelectricPowerPlant;
 			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button Hydropowerplant
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("windmill"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("hydroPowerPlant"))->setActive(true);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("solarPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("coalPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("oilPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("nuclearPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("powerLine"))->setActive(false);
+			setActiveButton("hydroPowerPlant");
 			break;
 		case SELECT_BUILDING_SOLARPOWERPLANT:
 			updateInfofield("SolarPowerplant");
 			m_selectedBuilding = VIdentifier::VSolarPowerPlant;
 			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button Solarpowerplant
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("windmill"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("hydroPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("solarPowerPlant"))->setActive(true);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("coalPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("oilPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("nuclearPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("powerLine"))->setActive(false);
+			
+			setActiveButton("solarPowerPlant");
 			break;
 		case SELECT_BUILDING_POWERLINE:
 			updateInfofield("Powerline");
 			m_selectedBuilding = VIdentifier::VPowerLine;
 			switchCursor("textures/hammer.png", true);
 			//TODO BuildMenue Button Powerline
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("windmill"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("hydroPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("solarPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("coalPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("oilPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("nuclearPowerPlant"))->setActive(false);
-			CASTD<VButton*>(m_vtTabBuilding->getGuiObject("powerLine"))->setActive(true);
+			
+			setActiveButton("powerLine");
 			break;
 		default:
 			m_selectedBuilding = VIdentifier::Undefined;
@@ -382,6 +342,23 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 		}
 		else
 			updateInfofield(standard);*/
+
+	if (vUi->m_zkCursor.ButtonPressedRight())
+	{
+		if (activeButton)
+		{
+			activeButton->setActive(false);
+			if (m_selectedBuilding!=VIdentifier::Undefined)
+			{
+				m_selectedBuilding = VIdentifier::Undefined;
+				updateModelView();
+			}
+			
+			activeButton = nullptr;
+		}
+		
+		
+	}
 }
 
 void VScreenIngame::updateMoney(const int wert)
@@ -696,7 +673,52 @@ void VScreenIngame::StartEvent()
 void VScreenIngame::EndEvent()
 { }
 
-CFloatRect VScreenIngame::getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY)
+std::unordered_map<std::string, IViewGUIObject*> VScreenIngame::getScreenObjects()
+	{
+		std::unordered_map<std::string, IViewGUIObject*> resultObjectList;
+
+		for (std::pair<std::string, IViewGUIContainer*> container : m_Guicontainer)
+		{
+			std::unordered_map<std::string, IViewGUIObject*> tempMap=getObjects(container.second);
+			if (tempMap.size()!=0)
+			resultObjectList.insert(tempMap.begin(), tempMap.end());
+		}
+
+		return resultObjectList;
+	}
+
+std::unordered_map<std::string, IViewGUIObject*>VScreenIngame::getObjects(IViewGUIContainer* container)
+	{
+		static std::unordered_map<std::string, IViewGUIObject*> objectList;
+		
+		std::unordered_map<std::string, IViewGUIObject*> tempObjectList = container->getGuiObjectList();
+		objectList.insert(tempObjectList.begin(), tempObjectList.end());
+		
+		if (container->getGuiContainerMap().size() == 0) return objectList;
+		else
+		{
+			for (std::pair<std::string, IViewGUIContainer*> containerCon : container->getGuiContainerMap())
+			{
+				getObjects(containerCon.second);
+			}
+		}
+		return std::unordered_map<std::string, IViewGUIObject*>();
+	}
+
+	void VScreenIngame::setActiveButton(const std::string& sName)
+	{
+		std::unordered_map<std::string, IViewGUIObject*> objectList=getScreenObjects();
+
+		if (activeButton)
+		activeButton->setActive(false);
+
+		ASSERT(objectList[sName]->getType() == IViewGUIObject::ObjectType::BUTTON, "The Element is not a Button");
+		CASTD<VButton*>(objectList[sName])->setActive();
+		activeButton = CASTD<VButton*>(objectList[sName]);
+		
+	}
+
+	CFloatRect VScreenIngame::getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY)
 {
 	CFloatRect tempRectangle;
 	const int iFensterBreite = vUi->m_zf.m_iWidthWindow;

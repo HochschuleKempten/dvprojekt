@@ -8,6 +8,7 @@ NAMESPACE_VIEW_B
 
 	VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text)
 	{
+		m_ObjectType = TEXT;
 		m_zfrRect = rect;
 		m_text = text;
 		m_writing = new CWriting();

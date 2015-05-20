@@ -58,10 +58,17 @@ public:
 	void StartEvent() override;
 	void EndEvent() override;
 
+	void setActiveButton(const std::string& sName);
+
+	std::unordered_map<std::string, IViewGUIObject*> getScreenObjects();
+	std::unordered_map<std::string, IViewGUIObject*> getObjects(IViewGUIContainer* container);
+
 private:
 	CFloatRect getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY);
 	void handleLeftClick(const std::map<int, std::vector<int>>& pickedElements);
 	void handleRightClick(const std::map<int, std::vector<int>>& pickedElements);
+
+	VButton* activeButton=nullptr;
 
 	CScene m_scene;
 	//CViewport m_viewport;
