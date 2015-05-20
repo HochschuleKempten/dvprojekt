@@ -21,6 +21,7 @@ LMaster::LMaster(IVMaster& vMaster)
 {
 	vMaster.registerObserver(this);
 	LBalanceLoader::init();
+	searchGames(); //start searching	
 }
 
 LMaster::~LMaster()
@@ -36,7 +37,15 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		host();
 		while (networkService.getConnectionState() != Network::CONNECTED);
 	}
-	else if(ipAddress != "SINGLE_PLAYER")
+	else if (ipAddress == "SINGLE_PLAYER")
+	{
+		lPlayingField = new LPlayingField(this);
+		lPlayingField->createFields();
+		lPlayingField->showPlayingField();
+
+		return;
+	}
+	else
 	{
 		connect(ipAddress);
 	}
@@ -109,33 +118,38 @@ void LMaster::tick(const float fTimeDelta)
 
 	static float timeLastCheck = 0;
 
-	//Just for testing
-	try
+	////Just for testing
+	//try
+	//{
+	//	static bool gameListUpdatedFirst = false;
+	//	static bool gameListUpdatedSecond = TRUE;
+	//	if (!gameListUpdatedFirst && timeLastCheck > 5.0f)
+	//	{
+	//		vMaster.updateGameList({
+	//			CGameObject(ip::address::from_string("172.16.16.71"), 1000, "Test1"),
+	//			CGameObject(ip::address::from_string("222.9.2.171"), 500, "Test2")
+	//		});
+
+	//		gameListUpdatedFirst = true;
+	//		gameListUpdatedSecond = false;
+	//	}
+	//	if (!gameListUpdatedSecond && timeLastCheck > 8.0f)
+	//	{
+	//		vMaster.updateGameList({
+	//			CGameObject(ip::address::from_string("172.16.16.71"), 1000, "Test1"),
+	//			CGameObject(ip::address::from_string("200.111.111.111"), 111, "Test3")
+	//		});
+
+	//		gameListUpdatedSecond = true;
+	//	}
+	//}
+	//catch (boost::system::system_error error) {
+	//	ASSERT(error.what());
+	//}
+
+	if (timeLastCheck > 3.0F)
 	{
-		static bool gameListUpdatedFirst = false;
-		static bool gameListUpdatedSecond = TRUE;
-		if (!gameListUpdatedFirst && timeLastCheck > 5.0f)
-		{
-			vMaster.updateGameList({
-				CGameObject(ip::address::from_string("84.136.248.111"), 1000, "Test1"),
-				CGameObject(ip::address::from_string("222.9.2.171"), 500, "Test2")
-			});
-
-			gameListUpdatedFirst = true;
-			gameListUpdatedSecond = false;
-		}
-		if (!gameListUpdatedSecond && timeLastCheck > 8.0f)
-		{
-			vMaster.updateGameList({
-				CGameObject(ip::address::from_string("84.136.248.111"), 1000, "Test1"),
-				CGameObject(ip::address::from_string("200.111.111.111"), 111, "Test3")
-			});
-
-			gameListUpdatedSecond = true;
-		}
-	}
-	catch (boost::system::system_error error) {
-		ASSERT(error.what());
+		vMaster.updateGameList(getGameList());
 	}
 
 	if (timeLastCheck > 0.25F && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
@@ -172,30 +186,6 @@ void LMaster::tick(const float fTimeDelta)
 			{
 				lPlayingField->showPlayingField();
 			}
-			else if (objectId == 300) //switch powerplant on/off
-			{
-				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
-				if (powerPlant != nullptr)
-				{
-					powerPlant->switchOnOff();
-				}
-			}
-			else if (objectId == 400)
-			{
-				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
-				if (powerPlant != nullptr)
-				{
-					powerPlant->sabotage();
-				}
-			}
-			else if (objectId == 500)
-			{
-				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
-				if (powerPlant != nullptr)
-				{
-					powerPlant->sabotageResource();
-				}
-			}
 
 			break;
 		}
@@ -211,19 +201,13 @@ void LMaster::tick(const float fTimeDelta)
 
 			break;
 
-		case(START_GAME) :
-
-			//do nothing
-
-			break;
-
-		case(END_GAME) :
+		case(END_GAME) : //todo (IP) send 
 
 			gameOver();
 
 			break;
 
-		case(PAUSE_GAME) :
+		case(PAUSE_GAME) ://todo (IP) send 
 
 			vMaster.pauseGame();
 
@@ -231,7 +215,7 @@ void LMaster::tick(const float fTimeDelta)
 
 			break;
 
-		case(CONTINUE_GAME) :
+		case(CONTINUE_GAME) ://todo (IP) send 
 
 			vMaster.continueGame();
 
@@ -262,6 +246,62 @@ void LMaster::tick(const float fTimeDelta)
 
 					placeBuilding(row[column].iObjectID, rowNumber, column, plId);
 				}
+			}
+
+			break;
+		}
+
+		case(SEND_SABOTAGE) :
+		{
+			LSabotage::LSabotage objectToSabotage = static_cast<LSabotage::LSabotage>(objectId);
+
+			switch (objectToSabotage)
+			{
+			case(LSabotage::LSabotage::PowerLine) :
+			{
+				LPowerLine* powerLine = dynamic_cast<LPowerLine*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerLine != nullptr)
+				{
+					powerLine->sabotage();
+				}
+				break;
+			}
+
+			case(LSabotage::LSabotage::PowerPlant) :
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotage();
+				}
+
+				break;
+			}
+
+			case(LSabotage::LSabotage::Resource) :
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotageResource();
+				}
+
+				break;
+			}
+
+			default:
+				break;
+			}
+
+			break;
+		}
+
+		case(SEND_SWITCH_STATE) :
+		{
+			ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+			if (powerPlant != nullptr)
+			{
+				powerPlant->switchOnOff();
 			}
 
 			break;
@@ -351,6 +391,33 @@ void LMaster::sendDeleteObject(const int x, const int y)
 		DEBUG_OUTPUT("----SENDDELETEOBJECT: x: " << x << ", y: " << y);
 
 	}
+}
+
+void LMaster::sendSabotage(const LSabotage::LSabotage sabotageId, const int x, const int y)
+{
+	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	{
+		networkService.sendSabotage(sabotageId, x, y);
+	}
+}
+
+void LMaster::sendPowerPlantSwitchState(const int x, const int y, const bool state)
+{
+	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	{
+		networkService.sendSwitchState(x, y, state);
+	}
+}
+
+std::vector<Network::CGameObject> LMaster::getGameList()
+{
+	return networkService.getGameList();
+}
+
+void LMaster::searchGames()
+{
+	networkService.searchGames();
+	DEBUG_OUTPUT("Started searching for games...");
 }
 
 LPlayingField* LMaster::getLPlayingField()

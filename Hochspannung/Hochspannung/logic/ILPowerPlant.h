@@ -79,7 +79,7 @@ public:
 			if (!lField->getLPlayingField()->isLocalOperation())
 			{
 				std::pair<int, int> coordinates = lField->getCoordinates();
-				lField->getLPlayingField()->getLMaster()->sendSetObject(300, coordinates.first, coordinates.second, std::to_string(-1));
+				lField->getLPlayingField()->getLMaster()->sendPowerPlantSwitchState(coordinates.first, coordinates.second, isActivated);
 			}
 
 			lField->getLPlayingField()->recalculateCityConnections();
@@ -96,7 +96,7 @@ public:
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSetObject(400, coordinates.first, coordinates.second, std::to_string(-1));
+			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::LSabotage::PowerPlant, coordinates.first, coordinates.second);
 		}
 	}
 
@@ -108,8 +108,7 @@ public:
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSetObject(500, coordinates.first, coordinates.second, std::to_string(-1));
-
+			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::LSabotage::Resource, coordinates.first, coordinates.second);
 		}
 	}
 };

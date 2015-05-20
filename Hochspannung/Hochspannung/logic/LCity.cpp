@@ -38,14 +38,14 @@ void LCity::tick(const float fTimeDelta)
 			lField->getLPlayingField()->calculateEnergyValueCity();
 
 			//Check energy storage
-			int superplus = CASTS<int>(energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen()));
-			DEBUG_OUTPUT("superplus = " << superplus);
+			int surplus = CASTS<int>(energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen()));
+			DEBUG_OUTPUT("surplus = " << surplus);
 
-			if (superplus >= 0 && superplus < 50)
+			if (surplus >= 0 && surplus < 50)
 			{
-				vCity->energyLow(superplus);
+				vCity->energyLow(surplus);
 			}
-			else if (superplus < 0)
+			else if (surplus < 0)
 			{
 				//Player has lost
 				lField->getLPlayingField()->getLMaster()->gameOver();

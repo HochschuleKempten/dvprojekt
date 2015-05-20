@@ -38,9 +38,9 @@ void VCity::updateEnergy(const int energy)
 	DEBUG_OUTPUT("City new energy value = " << energy);
 }
 
-void VCity::energyLow(const int superplus)
+void VCity::energyLow(const int surplus)
 {
-	//TODO (V) inform gui about superplus
+	//TODO (V) inform gui about surplus
 	VSoundLoader::playSoundeffect(VSoundLoader::ENERGY_LOW, getPlacement());
 }
 

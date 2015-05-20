@@ -398,7 +398,7 @@ void VMaterialLoader::init()
 
 	//CityBuildings
 
-	materialBuilding01.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialBuilding01.MakeTextureDiffuse("textures\\buildings\\Hauswand_3.png");
 	materialBuilding01.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
 	materialBuilding01.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
@@ -406,23 +406,23 @@ void VMaterialLoader::init()
 	materialBuilding02.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
 	materialBuilding02.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
-	materialBuilding03.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialBuilding03.MakeTextureDiffuse("textures\\buildings\\Hauswand_4.png");
 	materialBuilding03.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
 	materialBuilding03.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 	
-	materialAppartments.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialAppartments.MakeTextureDiffuse("textures\\buildings\\Hauswand_2.png");
 	materialAppartments.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
 	materialAppartments.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
-	materialLargeOfficeBuilding.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialLargeOfficeBuilding.MakeTextureDiffuse("textures\\buildings\\Hauswand_2.png");
 	materialLargeOfficeBuilding.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
 	materialBuilding03.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
-	materialOfficTowerViewingDeck.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialOfficTowerViewingDeck.MakeTextureDiffuse("textures\\buildings\\Hauswand_1.png");
 	materialOfficTowerViewingDeck.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
 	materialOfficTowerViewingDeck.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
-	materialSmallOfficeBuilding.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
+	materialSmallOfficeBuilding.MakeTextureDiffuse("textures\\buildings\\Hauswand_4.png");
 	materialSmallOfficeBuilding.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
 	materialSmallOfficeBuilding.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 

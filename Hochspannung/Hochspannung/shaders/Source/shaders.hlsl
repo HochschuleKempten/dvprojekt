@@ -295,26 +295,25 @@ float2 SphericalMapping(float3 f3)
 	float  phi = 0;
 
 
-	if ((f3.z >= 0) && (f3.x >= 0))
+	phi = atan(f3.x / f3.z);
+	if (f3.x >= 0)
 	{
-		phi = atan(f3.x / f3.z);
+		if ((f3.z < 0))
+		{
+			phi += pi;
+		}
 	}
-	if ((f3.z<0) && (f3.x >= 0))
+	else
 	{
-		phi = atan(f3.x / f3.z);
-		phi += pi;
+		if (f3.z<0)
+		{
+			phi += pi;
+		}
+		else
+			phi += 2 * pi;
+
 	}
-	if ((f3.z<0) && (f3.x<0))
-	{
-		phi = atan(f3.x / f3.z);
-		phi += pi;
-	}
-	if ((f3.z >= 0) && (f3.x<0))
-	{
-		phi = atan(f3.x / f3.z);
-		phi += 2 * pi;
-	}
-	
+
 	phi /= 2.f * pi;
 
 	float  theta = acos(f3.y);

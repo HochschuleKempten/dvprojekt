@@ -20,7 +20,12 @@ LPowerLine::~LPowerLine()
 
 bool LPowerLine::sabotage()
 {
-	//TODO (L) inform enemy over network
+	//todo (L) what should happen here?
+	if (!lField->getLPlayingField()->isLocalOperation())
+	{
+		std::pair<int, int> coordinates = lField->getCoordinates();
+		lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::LSabotage::PowerLine, coordinates.first, coordinates.second);
+	}
 	return true;
 }
 

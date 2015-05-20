@@ -642,7 +642,7 @@ std::map<int, std::vector<int>> VScreenIngame::pickElements()
 	std::map<int, std::vector<int>> pickedElements;
 	
 	CGeos geos;
-	vUi->m_zkCursor.PickGeos(&geos);
+	vUi->m_zkCursor.PickGeos(&geos, 5);
 
 	for (int i = 0; i < geos.m_iGeos; i++)
 	{

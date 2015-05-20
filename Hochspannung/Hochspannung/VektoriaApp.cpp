@@ -97,7 +97,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ChangeDisplay(hWnd);
 
 	CSplash splash;
-	//splash.Init(hWnd, hInstance);
+	splash.Init(hWnd, hInstance);
 	splash.Show();
 
 
