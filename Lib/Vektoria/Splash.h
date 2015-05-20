@@ -47,6 +47,9 @@ namespace Vektoria
 		HWND m_hwndSplash;
 		HWND m_hwndProgressBar;
 		bool m_bShowed;
+		int m_idInit;
+		int m_idShow;
+
 	};
 
 }

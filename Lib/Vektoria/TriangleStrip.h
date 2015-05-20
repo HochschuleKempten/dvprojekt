@@ -46,8 +46,8 @@ public:
 	void EstimateTangentsAndBinormals(); // Versucht, die Tangenten und die Binormalen für das Bumpmapping aus den gegebenen UV-Koordianten zu erraten  
 
 	bool Intersects(CRay & r, CHVector & vIntersection, float & fDistanceSquare, int & iMatGlobal); // berechnet, ob Strahl r irgendein Dreieck der Geometrie trifft, vIntersection ist dann der Schnittpunkt (nicht unbedingt der Nächste nd nicht unbedingt derjenige der zum Betrachter zeigt!)
-	CHitPoint * Intersects(CRay & r); // berechnet, ob Strahl r ein Dreieck der Geometrie trifft, CHitpoint ist dann der Schnittpunkt
-	bool IsIntersecting(CRay & r); // berechnet, ob Strahl r ein Dreieck der Geometrie trifft, gibt true aus, wenn ja
+	CHitPoint * Intersects(CRay & r, int iMaxVertices = INT_MAX); // berechnet, ob Strahl r ein Dreieck der Geometrie trifft, CHitpoint ist dann der Schnittpunkt
+	bool IsIntersecting(CRay & r, int iMaxVertices = INT_MAX); // berechnet, ob Strahl r ein Dreieck der Geometrie trifft, gibt true aus, wenn ja
 
 private:
 	void AddIndexFirst(int iIndex);
