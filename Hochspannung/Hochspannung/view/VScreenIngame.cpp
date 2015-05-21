@@ -22,7 +22,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_viewport = new CViewport();
 	//Standard Init
 	m_zc.Init();
-	m_zb.InitFull("textures/black_image.jpg");
+	m_zb.InitFull("textures/3d-office-wallpaper.jpg");
 	
 	m_viewport->AddBackground(&m_zb);
 	m_viewport->InitFull(&m_zc);

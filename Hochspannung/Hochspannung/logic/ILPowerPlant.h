@@ -15,7 +15,7 @@ class ILPowerPlant : public ILBuilding,  IVTickObserver
 {
 protected:
 	std::shared_ptr<IVPowerPlant> vPowerPlant;
-	bool isActivated = true;
+	bool isActivated = false;
 	bool isSabotaged = false;
 
 public:
@@ -58,23 +58,18 @@ public:
 		}
 	};
 		
-
-	void switchOnOff()
+	void switchOn()
 	{
+		if (isActivated)
+		{
+			return;
+		}
+
 		if (!isSabotaged)
 		{
-			if (isActivated)
-			{
-				isActivated = false;
-				vPowerPlant->switchedOff();
-				DEBUG_OUTPUT("Powerplant OFF");
-			}
-			else
-			{
-				isActivated = true;
-				vPowerPlant->switchedOn();
-				DEBUG_OUTPUT("Powerplant ON");
-			}
+			isActivated = true;
+			vPowerPlant->switchedOn();
+			DEBUG_OUTPUT("Powerplant ON");
 
 			if (!lField->getLPlayingField()->isLocalOperation())
 			{
@@ -83,6 +78,40 @@ public:
 			}
 
 			lField->getLPlayingField()->recalculateCityConnections();
+		}
+	}
+
+	void switchOff()
+	{
+		if (!isActivated)
+		{
+			return;
+		}
+
+		if (!isSabotaged)
+		{
+			isActivated = false;
+			vPowerPlant->switchedOff();
+			DEBUG_OUTPUT("Powerplant OFF");
+
+			if (!lField->getLPlayingField()->isLocalOperation())
+			{
+				std::pair<int, int> coordinates = lField->getCoordinates();
+				lField->getLPlayingField()->getLMaster()->sendPowerPlantSwitchState(coordinates.first, coordinates.second, isActivated);
+			}
+
+			lField->getLPlayingField()->recalculateCityConnections();
+		}
+	}
+
+	void switchOnOff()
+	{
+		//TODO (L) remove
+		if (isActivated) {
+			switchOff();
+		}
+		else {
+			switchOn();
 		}
 	}
 
