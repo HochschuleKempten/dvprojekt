@@ -12,6 +12,7 @@
 #include "LTransformerStation.h"
 #include "LBalanceLoader.h"
 #include "LPowerLine.h"
+#include <boost\lexical_cast.hpp>
 
 NAMESPACE_LOGIC_B
 
@@ -147,7 +148,7 @@ void LMaster::tick(const float fTimeDelta)
 	//	ASSERT(error.what());
 	//}
 
-	if (timeLastCheck > 3.0F && (lPlayingField != nullptr) ? !lPlayingField->isInitDone() : true)
+	if (timeLastCheck > 3.0F && (lPlayingField != nullptr ? !lPlayingField->isInitDone() : true))
 	{
 		vMaster.updateGameList(getGameList());
 	}
@@ -301,7 +302,15 @@ void LMaster::tick(const float fTimeDelta)
 			ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 			if (powerPlant != nullptr)
 			{
-				powerPlant->switchOnOff();
+				bool isActivated = boost::lexical_cast<bool>(transferObject.getValue());
+				if (isActivated)
+				{
+					powerPlant->switchOn();
+				}
+				else
+				{
+					powerPlant->switchOff();
+				}
 			}
 
 			break;

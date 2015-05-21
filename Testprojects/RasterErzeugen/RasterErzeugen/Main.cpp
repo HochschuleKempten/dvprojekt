@@ -59,15 +59,23 @@ int raster()
 
 int main()
 {
-	const int numberOfImages = 9;
-	std::string totalName = "Sabotagebutton/Bombe";
+	const int numberOfImages = 8;
+	std::string totalName = "Sabotagebutton/Streik";
 	cv::Mat imgFirst = cv::imread(totalName + "0.png", -1);
-	cv::Mat imgTotal(imgFirst.rows, imgFirst.cols * numberOfImages, imgFirst.type());
+	cv::Mat imgTotal(imgFirst.rows * 2, imgFirst.cols * (numberOfImages / 2), imgFirst.type());
 
 	for (int i = 0; i < numberOfImages; i++)
 	{
 		std::string imgName = std::string(totalName + std::to_string(i) + ".png");
 		cv::Mat imgCurrent = cv::imread(imgName, -1);
+
+		int rowOffset = 0;
+		int colNumber = i;
+		if (i >= numberOfImages / 2)
+		{
+			rowOffset = imgFirst.rows;
+			colNumber = i - numberOfImages / 2;
+		}
 
 		//Copy image
 		for (int rows = 0; rows < imgCurrent.rows; rows++)
@@ -76,7 +84,7 @@ int main()
 			{
 				for (int channel = 0; channel < 4; channel++)
 				{
-					imgTotal.at<Vec4b>(rows, cols + i*imgFirst.cols)[channel] = imgCurrent.at<Vec4b>(rows, cols)[channel];
+					imgTotal.at<Vec4b>(rows + rowOffset, cols + colNumber*imgFirst.cols)[channel] = imgCurrent.at<Vec4b>(rows, cols)[channel];
 				}
 			}
 		}

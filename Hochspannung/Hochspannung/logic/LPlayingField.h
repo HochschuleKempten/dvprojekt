@@ -35,6 +35,7 @@ struct LPlayingFieldHasher
 class LMaster;
 class LPowerLine;
 class LRemoteOperation;
+class ILPowerPlant;
 
 class LPlayingField
 {
@@ -54,6 +55,7 @@ private:
 	LCity* localCity = nullptr;
 	LCity* remoteCity = nullptr;
 	LTransformerStation* transformerStation = nullptr;
+	std::vector<ILPowerPlant*> powerPlants;
 
 	/** @brief Stores every unused coordinates. Is empty after correct initialization */
 	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> unusedCoordinates;
@@ -102,7 +104,13 @@ private:
 	};
 
 	template<typename T>
-	void setSpecialBuildings(const int /*x*/, const int /*y*/, const int /*playerId*/) {}
+	void setSpecialBuildings(const int x, const int y, const int /*playerId*/)
+	{
+		if (std::is_base_of<ILPowerPlant, T>::value)
+		{
+			powerPlants.emplace_back(CASTD<ILPowerPlant*>(getField(x, y)->getBuilding()));
+		}
+	}
 	template<>
 	void setSpecialBuildings<LCity>(const int x, const int y, const int playerId)
 	{
@@ -185,6 +193,7 @@ private:
 	void addBuildingToGraph(const int x, const int y, const int orientation);
 	void adjustOrientationsAround(const int x, const int y, const int orientation);
 	void printGraph();
+	void checkPowerPlants();
 
 	/**
 	* @brief Sets grass on every field around the given coordinates.
@@ -244,6 +253,7 @@ public:
 	}
 	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);
 	LField* getField(const int x, const int y);
+	LField* getField(const std::pair<int, int>& coordinates);
 	int getFieldLength();
 	LMaster* getLMaster();
 	IVPlayingField* getVPlayingField();
@@ -253,7 +263,16 @@ public:
 	}
 	void recalculateCityConnections()
 	{
-		cityConnectionsRecalculate = true;
+		static bool isCheckInProgress = false;
+
+		//Avoid recursion
+		if (!isCheckInProgress)
+		{
+			isCheckInProgress = true;
+			cityConnectionsRecalculate = true;
+			checkPowerPlants();	//Can again lead to a call to recalculateCityConnections()
+			isCheckInProgress = false;
+		}
 	}
 };
 

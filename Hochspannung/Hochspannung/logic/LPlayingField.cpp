@@ -147,8 +147,8 @@ void LPlayingField::recheckConnectedBuildings()
 	//http://stackoverflow.com/questions/800955/remove-if-equivalent-for-stdmap
 	for (auto it = connectedBuildings.begin(); it != connectedBuildings.end(); /* No incrementation here */)
 	{
-		std::vector<int> buildingsConnectedWithCity = strongConnectedSearch(powerLineGraph, it->first);
-		bool connected = std::find(buildingsConnectedWithCity.begin(), buildingsConnectedWithCity.end(), it->second) != buildingsConnectedWithCity.end();
+		std::vector<int> buildingsConnection = strongConnectedSearch(powerLineGraph, it->first);
+		bool connected = std::find(buildingsConnection.begin(), buildingsConnection.end(), it->second) != buildingsConnection.end();
 
 		if (!connected)
 		{
@@ -389,6 +389,11 @@ LField* LPlayingField::getField(const int x, const int y)
 	return &fieldArray[x][y];
 }
 
+LField* LPlayingField::getField(const std::pair<int, int>& coordinates)
+{
+	return &fieldArray[coordinates.first][coordinates.second];
+}
+
 int LPlayingField::getFieldLength()
 {
 	return fieldLength;
@@ -449,11 +454,12 @@ std::vector<int> LPlayingField::getCityConnections()
 {
 	static std::vector<int> cityConnections;
 
-	if (cityConnectionsRecalculate) {
+	if (cityConnectionsRecalculate)
+	{
 		cityConnections = strongConnectedSearch(powerLineGraph, convertIndex(localCity->getLField()->getCoordinates()));
 		cityConnectionsRecalculate = false;
 	}
-	
+
 	return cityConnections;
 }
 
@@ -489,19 +495,19 @@ void LPlayingField::addBuildingToGraph(const int x, const int y, const int orien
 void LPlayingField::adjustOrientationsAround(const int x, const int y, const int orientation)
 {
 	auto adjustOrientation = [this, x, y, orientation](const int xEnd, const int yEnd, ILBuilding::Orientation checkOrientation)
-	{
-		if (orientation & checkOrientation)
-		{
-			if (checkIndex(xEnd, yEnd))
 			{
-				LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
-				if (plOther != nullptr && getField(x,y)->getBuilding()->getPlayerId() == plOther->getPlayerId())
+				if (orientation & checkOrientation)
 				{
-					plOther->updatedOrientation(ILBuilding::getOpppositeOrientation(checkOrientation));
+					if (checkIndex(xEnd, yEnd))
+					{
+						LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
+						if (plOther != nullptr && getField(x, y)->getBuilding()->getPlayerId() == plOther->getPlayerId())
+						{
+							plOther->updatedOrientation(ILBuilding::getOpppositeOrientation(checkOrientation));
+						}
+					}
 				}
-			}
-		}
-	};
+			};
 
 	adjustOrientation(x - 1, y, ILBuilding::NORTH);
 	adjustOrientation(x, y + 1, ILBuilding::EAST);
@@ -531,6 +537,27 @@ void LPlayingField::printGraph()
 	//Install graphviz from http://www.graphviz.org/ and run
 	//dot -Tpng -o graph.png graph.dot
 	//See http://blog.milania.de/index.php?/archives/13-Boost-Graphen-mit-Hilfe-von-Graphviz-anzeigen.html for more information
+}
+
+void LPlayingField::checkPowerPlants()
+{
+	std::vector<int> cityConnections = getCityConnections();
+
+	//First turn everything
+	for (ILPowerPlant* p : powerPlants)
+	{
+		p->switchOff();
+	}
+
+	//Then turn every remaining power plant
+	for (const int pPos : cityConnections)
+	{
+		ILPowerPlant* p = dynamic_cast<ILPowerPlant*>(getField(convertIndex(pPos))->getBuilding());
+		if (p != nullptr)
+		{
+			p->switchOn();
+		}
+	}
 }
 
 template <bool cross>
