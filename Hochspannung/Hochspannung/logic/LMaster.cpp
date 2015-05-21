@@ -21,7 +21,7 @@ LMaster::LMaster(IVMaster& vMaster)
 {
 	vMaster.registerObserver(this);
 	LBalanceLoader::init();
-	searchGames(); //start searching	
+	searchGames(); //start searching
 }
 
 LMaster::~LMaster()
@@ -147,7 +147,7 @@ void LMaster::tick(const float fTimeDelta)
 	//	ASSERT(error.what());
 	//}
 
-	if (timeLastCheck > 3.0F)
+	if (timeLastCheck > 3.0F && (lPlayingField != nullptr) ? !lPlayingField->isInitDone() : true)
 	{
 		vMaster.updateGameList(getGameList());
 	}
