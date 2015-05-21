@@ -26,7 +26,7 @@ private:
 
 public:
 	LPlayer(LMaster* lMaster);
-	~LPlayer();
+	virtual ~LPlayer();
 	virtual void tick(const float fTimeDelta) override;
 	int getMoney() const;
 	void addMoney(const int amount);
