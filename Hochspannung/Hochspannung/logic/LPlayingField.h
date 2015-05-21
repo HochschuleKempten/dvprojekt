@@ -41,6 +41,7 @@ class LPlayingField
 {
 	NON_COPYABLE(LPlayingField);
 	friend class LMaster;
+	friend class ILPowerPlant;
 	friend class LRemoteOperation;
 
 private:
@@ -243,6 +244,7 @@ public:
 	void recheckConnectedBuildings();
 	bool checkConnectionBuildings(const ILBuilding* b1, const ILBuilding* b2);
 	bool isTransformstationConnected();
+
 	void calculateEnergyValueCity();
 	std::vector<int> getCityConnections();
 

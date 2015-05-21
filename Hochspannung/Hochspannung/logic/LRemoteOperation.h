@@ -3,6 +3,7 @@
 #include "LGeneral.h"
 #include "LUtility.h"
 #include "LPlayingField.h"
+#include "ILPowerPlant.h"
 
 NAMESPACE_LOGIC_B
 
@@ -17,6 +18,7 @@ class LRemoteOperation
 
 private:
 	LPlayingField* lPlayingField = nullptr;
+	ILPowerPlant* lPowerPlant = nullptr;
 
 private:
 	//Objects of this class should never be allocated on the heap
@@ -29,11 +31,17 @@ public:
 	{
 		lPlayingField->beginRemoteOperation();
 	}
+	inline LRemoteOperation(LPlayingField* lPlayingField, ILPowerPlant* lPowerPlant)
+		: lPlayingField(lPlayingField), lPowerPlant(lPowerPlant)
+	{
+		lPlayingField->beginRemoteOperation();
+	}
 	inline ~LRemoteOperation()
 	{
 		lPlayingField->endRemoteOperation();
 	}
 
+	//LPlayingField methods
 	template <typename T, typename... Args>
 	inline bool placeBuilding(const int x, const int y, const int playerId, const Args... arguments)
 	{
@@ -46,6 +54,24 @@ public:
 	inline void upgradeBuilding(const int x, const int y)
 	{
 		lPlayingField->upgradeBuilding(x, y);
+	}
+
+	//ILPowerPlant methods
+	inline void switchOn()
+	{
+		lPowerPlant->switchOn();
+	}
+	inline void switchOff()
+	{
+		lPowerPlant->switchOff();
+	}
+	inline void sabotage()
+	{
+		lPowerPlant->sabotage();
+	}
+	inline void sabotageResource()
+	{
+		lPowerPlant->sabotageResource();
 	}
 };
 

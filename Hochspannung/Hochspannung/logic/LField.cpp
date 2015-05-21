@@ -96,25 +96,21 @@ int LField::deductResources(const int value)
 	return resourceLeft;
 }
 
-bool LField::reduceRecources(const int amount) 
+int LField::reduceRecources(const int amount) 
 {
 	DEBUG_OUTPUT("resourceLeft begin: " << resourceLeft);
 
-	if (resourceLeft > 0) 
+	if (resourceLeft - amount <= 0)
 	{
-		resourceLeft -= amount;
+		//Can't reduce all, reduce what is possible
+		resourceLeft = 0;
 
-		if (resourceLeft > 0)
-		{
-			return true;
-		}
-		else
-		{
-			resourceLeft = 0;
-		}
+		return resourceLeft - amount;
 	}
 	
-	return false;
+	//Enough ressources left on the field to reduce the desired amount
+	resourceLeft -= amount;
+	return amount;
 }
 
 NAMESPACE_LOGIC_E

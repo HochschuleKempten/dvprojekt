@@ -32,26 +32,37 @@ public:
 		{
 			case action::switchOnOff:
 			{
-				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
-				lPlant->switchOnOff();
+				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
+				if (isOn)
+				{
+					remoteOperation.switchOff();
+				}
+				else
+				{
+					remoteOperation.switchOn();
+				}
+
 				return true;
 			}
 			case action::sabotagePowerPlant: 
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
 				{
 					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
-					lPlant->sabotage(); 
+					remoteOperation.sabotage();
 					return true; 
 				} 
+
 				return false;
 
 			case action::sabotageResourceField: 
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
 				{
 					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
-					lPlant->sabotageResource(); 
+					remoteOperation.sabotageResource();
+
 					return true;
 				}
+
 				return false;
 
 			default:ASSERT("Invalid action"); return false;

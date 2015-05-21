@@ -106,7 +106,7 @@ public:
 	LPlayingField* getLPlayingField();
 	int getResources() const;
 	int deductResources(const int value);
-	bool reduceRecources(const int amount);
+	int reduceRecources(const int amount);
 
 	int getX() const
 	{
