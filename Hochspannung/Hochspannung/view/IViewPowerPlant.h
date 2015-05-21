@@ -5,6 +5,7 @@
 #include "../logic/IVPowerPlant.h"
 #include "VSoundLoader.h"
 #include "../logic/LRemoteOperation.h"
+#include "../logic/LSabotage.h"
 
 NAMESPACE_VIEW_B
 
@@ -37,7 +38,7 @@ public:
 				return true;
 			}
 			case action::sabotagePowerPlant: 
-				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
+				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
 				{
 					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
 					lPlant->sabotage(); 
@@ -46,7 +47,7 @@ public:
 				return false;
 
 			case action::sabotageResourceField: 
-				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
+				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::Resource))
 				{
 					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
 					lPlant->sabotageResource(); 

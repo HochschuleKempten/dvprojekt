@@ -51,6 +51,7 @@ private:
 	FieldLevel fieldLevel = LEVEL1;
 	int resourceStock = 0;
 	int resourceLeft = 0;
+	float resourceSabotageFactor;
 	int x = -1;
 	int y = -1;
 
@@ -105,7 +106,7 @@ public:
 	bool isPlacingAllowed();
 	LPlayingField* getLPlayingField();
 	int getResources() const;
-	int deductResources(const int value);
+	int deductResources();
 	bool reduceRecources(const int amount);
 
 	int getX() const

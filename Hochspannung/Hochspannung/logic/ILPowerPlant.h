@@ -29,7 +29,7 @@ public:
 	inline virtual ~ILPowerPlant()
 	{}
 
-	int virtual getEnergyValue()
+	virtual int getEnergyValue()
 	{
 		if (isActivated)
 		{
@@ -45,7 +45,7 @@ public:
 		{
 			static float timeLastCheck = 0;
 			
-			if (timeLastCheck > 300) 
+			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
 			{
 				isSabotaged = false;
 				LRemoteOperation remoteOperation(lField->getLPlayingField());
@@ -102,7 +102,7 @@ public:
 
 	void sabotageResource()
 	{
-		int newValue = this->getLField()->deductResources(2);
+		int newValue = this->getLField()->deductResources();
 		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
 
 		if (!lField->getLPlayingField()->isLocalOperation())

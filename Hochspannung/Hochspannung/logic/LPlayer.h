@@ -1,12 +1,14 @@
 #pragma once
+#include "IVTickObserver.h"
 #include "LGeneral.h"
+#include "LSabotage.h"
 
 NAMESPACE_LOGIC_B
 
 
 class LMaster;
 
-class LPlayer
+class LPlayer : public IVTickObserver
 {
 public:
 	enum PlayerId
@@ -18,15 +20,19 @@ public:
 private:
 	int money = 5700;
 	LMaster* lMaster;
+	int coolDownCounterPowerLine = 0;
+	int coolDownCounterResource = 0;
+	int coolDownCounterPowerPlant = 0;
 
 public:
 	LPlayer(LMaster* lMaster);
 	~LPlayer();
+	virtual void tick(const float fTimeDelta) override;
 	int getMoney() const;
 	void addMoney(const int amount);
 	void subtractMoney(const int amount);
-	bool trySabotageAct();
-	int sabotageActs = 3;
+	bool trySabotageAct(const LSabotage::LSabotage sabotageType);
+	int sabotageActs = -1;
 };
 
 
