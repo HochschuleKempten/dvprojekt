@@ -81,7 +81,7 @@ private:
 
 	void sabotageResource()
 	{
-		int newValue = this->getLField()->deductResources(2);
+		int newValue = this->getLField()->deductResources();
 		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
 
 		if (!lField->getLPlayingField()->isLocalOperation())
@@ -107,7 +107,7 @@ public:
 	inline virtual ~ILPowerPlant()
 	{}
 
-	int virtual getEnergyValue()
+	virtual int getEnergyValue()
 	{
 		if (isActivated)
 		{
@@ -123,7 +123,7 @@ public:
 		{
 			static float timeLastCheck = 0;
 			
-			if (timeLastCheck > 300) 
+			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
 			{
 				isSabotaged = false;
 				//Can't use LRemoteOperation here because of circular reference
@@ -143,7 +143,7 @@ public:
 		DEBUG_EXPRESSION(static bool lastRessourcesUsed = false);
 
 		const int consumedRessources = LBalanceLoader::getConsumedResources(LField::NUCLEAR);
-		int amountReduced = lField->reduceRecources(consumedRessources);
+		int amountReduced = lField->reduceResources(consumedRessources);
 
 		if (amountReduced < consumedRessources)
 		{

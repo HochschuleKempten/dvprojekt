@@ -77,7 +77,40 @@ public:
 	 * @brief Offset for placing the city on the map (relative from the top left corner for the first and bottom right corner for the second player).
 	 */
 	static int getMapOffset();
-};
+	/**
+	 * @brief Cost for sabotating a powerline.
+	 */
+	static int getCostSabotagePowerLine();
+	/**
+	* @brief Cost for sabotating a powerplant.
+	*/
+	static int getCostSabotagePowerPlant();
+	/**
+	* @brief Cost for sabotating a resource.
+	*/
+	static int getCostSabotageResource();
+	/**
+	* @brief Cooldown after sabotating a powerline.
+	*/
+	static int getCooldownTimeSabotagePowerLine();
+	/**
+	* @brief Cooldown after sabotating a powerplant.
+	*/
+	static int getCooldownTimeSabotagePowerPlant();
+	/**
+	* @brief Cooldown after sabotating a resource.
+	*/
+	static int getCooldownTimeSabotageResource();
 
+	static int getCooldownTimeReactivationPowerPlant();
+	/**
+	* @brief Factor for resource sabotage.
+	*/
+	static float getFactorSabotageResource();
+	/**
+	* @brief Sabotage acts.
+	*/
+	static int getSabotageActs();
+};
 
 NAMESPACE_LOGIC_E

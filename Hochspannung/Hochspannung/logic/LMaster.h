@@ -20,7 +20,7 @@ private:
 	IVMaster& vMaster;
 	LPlayingField* lPlayingField = nullptr;
 	bool gamePaused = false;
-	std::vector<LPlayer> lPlayers;
+	LPlayer* lPlayers;
 	Network::CNetworkService& networkService;
 
 private:
