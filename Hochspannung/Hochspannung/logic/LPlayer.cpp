@@ -14,6 +14,7 @@ LPlayer::LPlayer(LMaster* lMaster)
 
 LPlayer::~LPlayer()
 {
+	lMaster->getVMaster()->unregisterObserver(this);
 }
 
 void LPlayer::tick(const float fTimeDelta)
