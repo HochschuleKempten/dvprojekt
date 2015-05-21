@@ -150,6 +150,7 @@ void LMaster::tick(const float fTimeDelta)
 
 	if (timeLastCheck > 3.0F && (lPlayingField != nullptr ? !lPlayingField->isInitDone() : true))
 	{
+		DEBUG_OUTPUT("Updated gamelist.");
 		vMaster.updateGameList(getGameList());
 	}
 

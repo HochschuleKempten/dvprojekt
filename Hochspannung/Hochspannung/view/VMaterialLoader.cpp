@@ -92,9 +92,11 @@ CMaterial VMaterialLoader::materialCraftmenuButtonPowerlineHover;
 //Sabotage
 CMaterial VMaterialLoader::materialSabotageButtonScissors;
 CMaterial VMaterialLoader::materialSabotageButtonStrike;
+CMaterial VMaterialLoader::materialSabotageButtonBomb;
 
 CMaterial VMaterialLoader::materialSabotageButtonScissorsHover;
 CMaterial VMaterialLoader::materialSabotageButtonStrikeHover;
+CMaterial VMaterialLoader::materialSabotageButtonBombHover;
 
 //Icons
 CMaterial VMaterialLoader::materialIngameIconPopulation;
@@ -185,6 +187,9 @@ CMaterial VMaterialLoader::materialWhiteGreyBackground;
 
 //Test
 CMaterial VMaterialLoader::materialAnimationsVersuch;
+
+//Animierte Texturen
+CMaterial VMaterialLoader::materialAnimSabotageBomb;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
@@ -284,9 +289,11 @@ void VMaterialLoader::init()
 	//Sabotage
 	materialSabotageButtonScissors.MakeTextureSprite("textures/gui/Buttons/gui_ingame_scissors.png");
 	materialSabotageButtonStrike.MakeTextureSprite("textures/gui/Buttons/gui_ingame_strike.png");
+	materialSabotageButtonBomb.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_bomb.png");
 	
 	materialSabotageButtonScissorsHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_scissorsHover.png");
 	materialSabotageButtonStrikeHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_strikeHover.png");
+	materialSabotageButtonBombHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_bombHover.png");
 
 	//Test
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
@@ -298,9 +305,9 @@ void VMaterialLoader::init()
 	materialAnimationsVersuch.SetAni(16, 16, 0.5);
 
 	//Fonts
-	standardFont.Init("textures/fonts/FontArialShadow.png", true);
+	standardFont.Init("textures/fonts/FontArialShadow.png",false);
 	standardFont.SetTableSize(16, 16);
-	GoldFont.Init("textures/fonts/FontArialShadowGold.png", true);
+	GoldFont.Init("textures/fonts/FontArialShadowGold.png", false);
 	GoldFont.SetTableSize(16, 16);
 	standardFont.SetTransparencyOn();
 	GoldFont.SetTransparencyOn();
@@ -435,6 +442,12 @@ void VMaterialLoader::init()
 	materialTwistedTower.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
 	materialTwistedTower.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 	
+
+	//Animierte Texturen
+	materialAnimSabotageBomb.MakeTextureSprite("textures/gui/animiert/Bombe.png");
+	materialAnimSabotageBomb.SetAni(8, 2, 1);
+	//materialAnimSabotageBomb.MakeTextureSprite("textures/fonts/FontArialShadow.png");
+	//materialAnimSabotageBomb.SetAni(16, 16, 1);
 }
 
 //Rotation adjustments

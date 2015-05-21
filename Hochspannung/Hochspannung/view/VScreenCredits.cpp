@@ -23,7 +23,7 @@ NAMESPACE_VIEW_B
 		vUi->m_zf.AddViewport(m_viewport);
 
 		//Cursor
-		switchCursor("textures/gui/default_zeiger.png", true);
+		
 
 		m_background = new CBackground();
 
@@ -70,7 +70,7 @@ NAMESPACE_VIEW_B
 
 	void VScreenCredits::tick(const float fTimeDelta)
 	{
-		updateCursorImagePos(&vUi->m_zkCursor);
+		
 
 		if (!vUi->m_zkCursor.ButtonPressedLeft())
 		{
