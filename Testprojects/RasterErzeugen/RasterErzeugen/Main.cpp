@@ -17,7 +17,7 @@ void rotateCenter(cv::Mat& src, double angle, cv::Mat& dst)
 	cv::warpAffine(src, dst, r, cv::Size(len, len));
 }
 
-int main()
+int raster()
 {
 	//Settings
 	string name = "LuftaufnahmeDiffuse";
@@ -27,20 +27,23 @@ int main()
 	int height = img.rows / rasterSize;
 	int width = img.cols / rasterSize;
 
-	if (height != width) {
+	if (height != width)
+	{
 		cout << "The image needs to have an aspect ratio of 1:1, abort" << endl;
 		return -1;
 	}
 
-	for (int rowIdx = 0; rowIdx < rasterSize; rowIdx++) {
-		for (int colIdx = 0; colIdx < rasterSize; colIdx++) {
+	for (int rowIdx = 0; rowIdx < rasterSize; rowIdx++)
+	{
+		for (int colIdx = 0; colIdx < rasterSize; colIdx++)
+		{
 			/*
-			 * #--------> x
-			 * |
-			 * |
-			 * |
-			 * y
-			 */
+			* #--------> x
+			* |
+			* |
+			* |
+			* y
+			*/
 			Mat field = img(Rect(colIdx * height, rowIdx * width, width, height)).clone();
 
 			//CGeoCube needs to be rotated by 180°
@@ -52,4 +55,33 @@ int main()
 	}
 
 	cout << "Everything done" << endl;
+}
+
+int main()
+{
+	const int numberOfImages = 9;
+	std::string totalName = "Sabotagebutton/Bombe";
+	cv::Mat imgFirst = cv::imread(totalName + "0.png", -1);
+	cv::Mat imgTotal(imgFirst.rows, imgFirst.cols * numberOfImages, imgFirst.type());
+
+	for (int i = 0; i < numberOfImages; i++)
+	{
+		std::string imgName = std::string(totalName + std::to_string(i) + ".png");
+		cv::Mat imgCurrent = cv::imread(imgName, -1);
+
+		//Copy image
+		for (int rows = 0; rows < imgCurrent.rows; rows++)
+		{
+			for (int cols = 0; cols < imgCurrent.cols; cols++)
+			{
+				for (int channel = 0; channel < 4; channel++)
+				{
+					imgTotal.at<Vec4b>(rows, cols + i*imgFirst.cols)[channel] = imgCurrent.at<Vec4b>(rows, cols)[channel];
+				}
+			}
+		}
+	}
+
+	cv::imwrite(totalName + ".png", imgTotal);
+	return 0;
 }

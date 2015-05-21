@@ -353,7 +353,8 @@ void VMaterialLoader::init()
 
 	//Umspannwerktexturen
 	m_zmUmspannBoden.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
-	m_zmUmspannGrund.MakeTextureDiffuse("textures\\Powerplants\\Gruenstahl.png");
+	m_zmUmspannGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton_light.png");
+	m_zmUmspannGrund.MakeTextureBump("textures\\Powerplants\\Beton_light_bump.png");
 	m_zmUmspannIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmUmspannLeitung.MakeTextureDiffuse("textures\\Powerplants\\Grau.jpg");
 	m_zmUmspannBoden.SetTextureSpecularAsDiffuse();
