@@ -100,7 +100,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		CW_USEDEFAULT,          /* Windows decides the position */
 		CW_USEDEFAULT, 
 		width,
-		height,/* where the window ends up on the screen */
+		height - 50,/* where the window ends up on the screen */
 		//GetSystemMetrics(SM_CXSCREEN),                   /* The programs width */
 		//GetSystemMetrics(SM_CYSCREEN),                   /* and height in pixels */
 		HWND_DESKTOP,           /* The window is a child-window to desktop */

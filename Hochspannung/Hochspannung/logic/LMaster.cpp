@@ -27,7 +27,9 @@ LMaster::LMaster(IVMaster& vMaster)
 
 LMaster::~LMaster()
 {
+	vMaster.unregisterObserver(this);
 	delete lPlayingField;
+	delete[] lPlayers;
 	networkService.close();
 }
 

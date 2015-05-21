@@ -15,7 +15,9 @@ LCity::LCity(LField* lField, const int x, const int y, const int playerId)
 }
 
 LCity::~LCity()
-{}
+{
+	lField->getLPlayingField()->getLMaster()->getVMaster()->unregisterObserver(this);
+}
 
 void LCity::tick(const float fTimeDelta)
 {

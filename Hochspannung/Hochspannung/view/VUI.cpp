@@ -18,7 +18,9 @@ VUI::VUI(VMaster* vMaster)
 }
 
 VUI::~VUI()
-{}
+{
+	vMaster->unregisterObserver(this);
+}
 
 void VUI::initUI(HWND hwnd, CSplash* psplash)
 {

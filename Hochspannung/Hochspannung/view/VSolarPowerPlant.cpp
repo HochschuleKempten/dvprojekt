@@ -13,7 +13,9 @@ VSolarPowerPlant::VSolarPowerPlant(VMaster* vMaster, LSolarPowerPlant* lPlant)
 }
 
 VSolarPowerPlant::~VSolarPowerPlant()
-{}
+{
+	vMaster->unregisterObserver(this);
+}
 
 void VSolarPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {

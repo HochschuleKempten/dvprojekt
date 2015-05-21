@@ -105,7 +105,9 @@ public:
 	}
 
 	inline virtual ~ILPowerPlant()
-	{}
+	{
+		lField->getLPlayingField()->getLMaster()->getVMaster()->unregisterObserver(this);
+	}
 
 	virtual int getEnergyValue()
 	{

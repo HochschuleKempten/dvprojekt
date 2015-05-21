@@ -12,7 +12,9 @@ VCoalPowerPlant::VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant)
 }
 
 VCoalPowerPlant::~VCoalPowerPlant()
-{}
+{
+	vMaster->unregisterObserver(this);
+}
 
 void VCoalPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {

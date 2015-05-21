@@ -18,6 +18,7 @@ LTransformerStation::LTransformerStation(LField* lField, const int x, const int 
 
 LTransformerStation::~LTransformerStation()
 {
+	lField->getLPlayingField()->getLMaster()->getVMaster()->unregisterObserver(this);
 }
 
 void LTransformerStation::tick(const float fTimeDelta)
