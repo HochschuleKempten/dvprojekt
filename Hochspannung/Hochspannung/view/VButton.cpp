@@ -9,7 +9,9 @@ NAMESPACE_VIEW_B
 	VButton::VButton(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) :
 		m_bHasHover(false),
 		action(IViewUIObserver::NOTHING)
+		
 	{
+		m_ObjectType = BUTTON;
 		m_zfrRect = rect;
 		m_zoNormal = new COverlay();
 		m_zoNormal->Init(MaterialNormal, m_zfrRect);

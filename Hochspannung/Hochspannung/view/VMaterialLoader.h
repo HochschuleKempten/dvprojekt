@@ -96,11 +96,11 @@ public:
 	//Sabotage
 	static CMaterial materialSabotageButtonScissors;
 	static CMaterial materialSabotageButtonStrike;
-	//static CMaterial materialCraftmenuButtonWindmill;
+	static CMaterial materialSabotageButtonBomb;
 
 	static CMaterial materialSabotageButtonScissorsHover;
 	static CMaterial materialSabotageButtonStrikeHover;
-	
+	static CMaterial materialSabotageButtonBombHover;
 
 	//Infofield
 	static CMaterial materialInfofieldBackground;
@@ -204,6 +204,11 @@ public:
 
 	//Rotation adjustments
 	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
+
+
+	//Animierte Texturen
+
+	static CMaterial materialAnimSabotageBomb;
 
 };
 

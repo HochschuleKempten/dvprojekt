@@ -15,6 +15,15 @@ NAMESPACE_VIEW_B
 	class IViewGUIObject :public IViewSubject
 	{
 	public:
+
+		enum ObjectType
+		{
+			BUTTON,
+			TEXT,
+			TEXTFIELD,
+			LIST_ENTRY
+		};
+
 		virtual ~IViewGUIObject()
 		{
 		};
@@ -106,12 +115,18 @@ NAMESPACE_VIEW_B
 			 m_sName=sName;
 		}
 		
+		ObjectType getType()
+		{
+			return m_ObjectType;
+		}
+
 		//virtual void resize(int width, int height);
 	protected:
 		CFloatRect m_zfrRect = CFloatRect(0, 0, 0, 0);
 		bool m_bisOn = true;
 		float m_fLayer = 1.0;
 		std::string m_sName = "";
+		ObjectType m_ObjectType;
 	};
 
 	NAMESPACE_VIEW_E

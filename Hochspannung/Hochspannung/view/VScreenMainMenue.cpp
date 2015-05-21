@@ -14,7 +14,7 @@ NAMESPACE_VIEW_B
 
 		//Cursor
 		//switchCursor(CursorType::Default);
-		switchCursor("textures/gui/default_zeiger.png", true);
+		
 
 		m_flash = new COverlay();
 		m_background = new CBackground();
@@ -92,7 +92,7 @@ NAMESPACE_VIEW_B
 
 	void VScreenMainMenue::tick(const float fTimeDelta)
 	{
-		//updateCursorImagePos(&vUi->m_zkCursor);
+		
 
 		if (!vUi->m_zkCursor.ButtonPressedLeft())
 		{

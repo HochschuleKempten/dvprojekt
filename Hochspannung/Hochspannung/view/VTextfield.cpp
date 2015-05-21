@@ -14,6 +14,7 @@ NAMESPACE_VIEW_B
 		m_bIsActive(false),
 		m_sInputtext(std::string())
 	{
+		m_ObjectType = TEXTFIELD;
 		m_zfrRect = rect;
 		m_sPlaceholder = Placeholder;
 
