@@ -20,10 +20,10 @@ NAMESPACE_VIEW_B
 		
 
 		m_bigDialog = new COverlay();
-		m_bigDialog->Init(&VMaterialLoader::materialWhiteGreyBackground, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F));
-		m_bigDialog->SetLayer(0.9F);
+		//m_bigDialog->Init(&VMaterialLoader::materialWhiteGreyBackground, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F));
+		//m_bigDialog->SetLayer(0.9F);
 		m_viewport->AddBackground(m_background);
-		m_viewport->AddOverlay(m_bigDialog);
+		//m_viewport->AddOverlay(m_bigDialog);
 
 		CWriting* iwas=new CWriting();
 		iwas->Init(CFloatRect(0.1F, 0.8f, 0.2F, 0.1F), 10, &VMaterialLoader::standardFont);
@@ -34,12 +34,12 @@ NAMESPACE_VIEW_B
 		//VMaterialLoader::standardFont.SwitchOff();
 		iwas->SwitchOff();
 
-		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F), "LobbyRunningGames");
-		getContainer("LobbyRunningGames")->addTextfield(CFloatRect(0.1F, 0.10F, 0.80F, 0.1F), &VMaterialLoader::materialIngameBorder, &VMaterialLoader::materialRed, &VMaterialLoader::materialGreen, 30, "Suche IP-Adresse...", "textfieldIP");
+		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F),&VMaterialLoader::materialLobbyRunningGamesBackground, "LobbyRunningGames");
+		getContainer("LobbyRunningGames")->addTextfield(CFloatRect(0.1F, 0.10F, 0.80F, 0.1F), &VMaterialLoader::materialIngameBorder, &VMaterialLoader::materialRed, &VMaterialLoader::materialGreen, 19, "Suche IP-Adresse...", "textfieldIP");
 		
 		
 		//ListView
-		getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6), "HostList");
+		getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6),&VMaterialLoader::materialLobbyGamelistBackground, "HostList");
 		
 		
 

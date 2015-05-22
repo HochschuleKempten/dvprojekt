@@ -1,7 +1,7 @@
 
 #include "VTextfield.h"
 #include "VMaterialLoader.h"
-
+#include "VUIHelper.h"
 
 NAMESPACE_VIEW_B
 
@@ -23,9 +23,10 @@ NAMESPACE_VIEW_B
 		m_writing = new CWriting();
 
 		//Initialize Writing
-		m_writing->Init(CFloatRect(m_zfrRect.GetXPos() + (m_zfrRect.GetXPos() / 100), m_zfrRect.GetYPos() - 0.01, m_zfrRect.GetXSize() - (m_zfrRect.GetXPos() / 100), m_zfrRect.GetYSize() + 0.06), m_iMaxChars,
-		                m_writingfont);
-
+		/*m_writing->Init(CFloatRect(m_zfrRect.GetXPos() + (m_zfrRect.GetXPos() / 100), m_zfrRect.GetYPos() - 0.01, m_zfrRect.GetXSize() - (m_zfrRect.GetXPos() / 100), m_zfrRect.GetYSize() + 0.06), m_iMaxChars,
+		                m_writingfont);*/
+		m_writing->Init(CREATE_RELATIVE_RECT(&rect, &CFloatRect(0.02F, 0.02F, 0.98F, 1.59F)),m_iMaxChars,m_writingfont);
+		
 		m_zoNormal = new COverlay();
 		m_zoNormal->Init(MaterialNormal, m_zfrRect);
 		m_zoActive = new COverlay();

@@ -253,6 +253,7 @@
     <ClInclude Include="view\VTextfield.h" />
     <ClInclude Include="view\VTransformerStation.h" />
     <ClInclude Include="view\VUI.h" />
+    <ClInclude Include="view\VUIHelper.h" />
     <ClInclude Include="view\VWindmillPowerPlant.h" />
   </ItemGroup>
   <ItemGroup>

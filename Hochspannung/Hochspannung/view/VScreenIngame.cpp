@@ -82,7 +82,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.0F, 0.8F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar");
 	//getContainer("Topbar")->addText(CFloatRect(0.10F, 0.2F, 0.2F, 0.65F), &VMaterialLoader::standardFont, "Bevoelkerung:", "population");
 	getContainer("Topbar")->addOverlay(CFloatRect(0.1F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconPopulation, "TopPopulationIcon");
-	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.1F, 0.2F, 0.85F), &VMaterialLoader::standardFont, "0000", "popValue");
+	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.1F, 0.15F, 0.9F), &VMaterialLoader::standardFont, "0000", "popValue");
 	//getContainer("Topbar")->addText(CFloatRect(0.50F, 0.2F, 0.2F, 0.65F), &VMaterialLoader::GoldFont, "Geld:", "money");
 	getContainer("Topbar")->addOverlay(CFloatRect(0.50F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon");
 	getContainer("Topbar")->addText(CFloatRect(0.601F, 0.2F, 0.2F, 0.85F), &VMaterialLoader::GoldFont, "0000", "moneyValue");
