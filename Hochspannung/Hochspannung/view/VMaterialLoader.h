@@ -70,6 +70,8 @@ public:
 	static CMaterial materialLobbyGamelistBackground;
 	static CMaterial materialListEntryBackground;
 	static CMaterial materialListEntryHoverBackground;
+	static CMaterial materialTextfieldBackground;
+	static CMaterial materialTextfieldHoverBackground;
 
 	//Icons
 	static CMaterial materialIngameIconPopulation;

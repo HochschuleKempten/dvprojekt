@@ -233,35 +233,35 @@ void VScreenIngame::onNotify(const Event& events)
 		case SELECT_BUILDING_WINDMILL:
 			updateInfofield("Windmill");
 			m_selectedBuilding = VIdentifier::VWindmillPowerPlant;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			setActiveButton("windmill");
 			//TODO BuildMenue Button Windmill 
 			break;
 		case SELECT_BUILDING_COALPOWERPLANT:
 			updateInfofield("CoalPowerplant");
 			m_selectedBuilding = VIdentifier::VCoalPowerPlant;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button CoalPowerplant 
 			setActiveButton("coalPowerPlant");
 			break;
 		case SELECT_BUILDING_OILPOWERPLANT:
 			updateInfofield("OilPowerplant");
 			m_selectedBuilding = VIdentifier::VOilRefinery;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Oilpowerplant
 			setActiveButton("oilPowerPlant");
 			break;
 		case SELECT_BUILDING_NUCLEARPOWERPLANT:
 			updateInfofield("NuclearPowerplant");
 			m_selectedBuilding = VIdentifier::VNuclearPowerPlant;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Nuclearpowerplant
 			setActiveButton("nuclearPowerPlant");
 			break;
 		case SELECT_BUILDING_HYDROPOWERPLANT:
 			updateInfofield("HydroPowerplant");
 			m_selectedBuilding = VIdentifier::VHydroelectricPowerPlant;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Hydropowerplant
 			setActiveButton("hydroPowerPlant");
 			break;
@@ -270,26 +270,29 @@ void VScreenIngame::onNotify(const Event& events)
 			m_selectedBuilding = VIdentifier::VSolarPowerPlant;
 			
 			//TODO BuildMenue Button Solarpowerplant
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			setActiveButton("solarPowerPlant");
 			break;
 		case SELECT_BUILDING_POWERLINE:
 			updateInfofield("Powerline");
 			m_selectedBuilding = VIdentifier::VPowerLine;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Powerline
 			
 			setActiveButton("powerLine");
 			break;
 		case SELECT_SABOTAGE_POWERLINECUT:
-			
+			vUi->switchCursor(vUi->CursorType::Sabotage);
+			setActiveButton("sabotagePowerlineCut");
 				break;
 		case SELECT_SABOTAGE_STRIKE:
-			
+			vUi->switchCursor(vUi->CursorType::Sabotage);
+			setActiveButton("sabotageStrike");
 				break;
 			
 		case SELECT_SABOTAGE_BOMB:
-		
+			vUi->switchCursor(vUi->CursorType::Sabotage);
+			setActiveButton("sabotageBomb");
 			break;
 		
 		default:
@@ -368,11 +371,13 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 
 	if (vUi->m_zkCursor.ButtonPressedRight())
 	{
-		if (activeButton)
+		if (activeButton!=nullptr)
 		{
+			vUi->switchCursor(vUi->CursorType::Default);
 			activeButton->setActive(false);
 			if (m_selectedBuilding!=VIdentifier::Undefined)
 			{
+				
 				m_selectedBuilding = VIdentifier::Undefined;
 				updateModelView();
 			}

@@ -188,6 +188,8 @@ CMaterial VMaterialLoader::materialLobbyRunningGamesBackground;
 CMaterial VMaterialLoader::materialLobbyGamelistBackground;
 CMaterial VMaterialLoader::materialListEntryBackground;
 CMaterial VMaterialLoader::materialListEntryHoverBackground;
+CMaterial VMaterialLoader::materialTextfieldBackground;
+CMaterial VMaterialLoader::materialTextfieldHoverBackground;
 
 //Test
 CMaterial VMaterialLoader::materialAnimationsVersuch;
@@ -453,7 +455,7 @@ void VMaterialLoader::init()
 
 	//Animierte Texturen
 	materialAnimSabotageBomb.MakeTextureSprite("textures/gui/animiert/Bombe.png");
-	materialAnimSabotageBomb.SetAni(8, 2, 1);
+	materialAnimSabotageBomb.SetAni(9, 2, 1);
 	//materialAnimSabotageBomb.MakeTextureSprite("textures/fonts/FontArialShadow.png");
 	//materialAnimSabotageBomb.SetAni(16, 16, 1);
 
@@ -462,6 +464,8 @@ void VMaterialLoader::init()
 	materialLobbyGamelistBackground.MakeTextureSprite("textures/gui/background/ListView.png");
 	materialListEntryBackground.MakeTextureSprite("textures/gui/background/gui_ListEntry.png");
 	materialListEntryHoverBackground.MakeTextureSprite("textures/gui/background/gui_ListEntryHover.png");
+	materialTextfieldBackground.MakeTextureSprite("textures/gui/background/gui_textfield_background.png");
+	materialTextfieldHoverBackground.MakeTextureSprite("textures/gui/background/gui_textfield_backgroundHover.png");
 }
 
 //Rotation adjustments

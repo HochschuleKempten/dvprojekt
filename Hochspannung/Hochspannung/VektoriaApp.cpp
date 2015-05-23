@@ -52,10 +52,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	//wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
 	//wcex.hCursor = LoadCursorFromFile("textures\\gui\\Cursor\\default_zeiger.cur");
-	wcex.hCursor = static_cast<HCURSOR>(LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
-		
-	//SetSystemCursor(static_cast<HCURSOR>(LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.png", IMAGE_CURSOR, 128, 128, LR_LOADTRANSPARENT));
+	wcex.hCursor = nullptr;
+	SetCursor(static_cast<HCURSOR>(LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE)));
+	
+	/*SetSystemCursor(
+		static_cast<HCURSOR>(LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE)),
+		(ULONG)IDC_ARROW
+		);*/
+	
 
+	//SetSystemCursor(static_cast<HCURSOR>(LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.png", IMAGE_CURSOR, 128, 128, LR_LOADTRANSPARENT));
+	LPRECT rectangle=nullptr;
+	GetWindowRect(hWnd, rectangle);
+	ClipCursor(rectangle);
 
 	//SetCursor(LoadCursorFromFile())
 	wcex.lpszMenuName = NULL;

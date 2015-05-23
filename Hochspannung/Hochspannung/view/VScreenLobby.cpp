@@ -35,7 +35,7 @@ NAMESPACE_VIEW_B
 		iwas->SwitchOff();
 
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F),&VMaterialLoader::materialLobbyRunningGamesBackground, "LobbyRunningGames");
-		getContainer("LobbyRunningGames")->addTextfield(CFloatRect(0.1F, 0.10F, 0.80F, 0.1F), &VMaterialLoader::materialIngameBorder, &VMaterialLoader::materialRed, &VMaterialLoader::materialGreen, 19, "Suche IP-Adresse...", "textfieldIP");
+		getContainer("LobbyRunningGames")->addTextfield(CFloatRect(0.1F, 0.10F, 0.80F, 0.1F), &VMaterialLoader::materialTextfieldBackground, &VMaterialLoader::materialTextfieldHoverBackground, &VMaterialLoader::materialTextfieldHoverBackground, 19, "Suche IP-Adresse...", "textfieldIP");
 		
 		
 		//ListView

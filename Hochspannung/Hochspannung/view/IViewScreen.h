@@ -51,12 +51,7 @@ NAMESPACE_VIEW_B
 			Lobby
 		};
 
-		enum CursorType
-		{
-			Default,
-			Hammer,
-			Sabotage,
-		};
+		
 
 		virtual void switchOn()
 		{

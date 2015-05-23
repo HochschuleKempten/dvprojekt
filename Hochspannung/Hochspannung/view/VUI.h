@@ -56,6 +56,8 @@ private:
 	bool m_screenChanged = false;
 	bool m_BlockCursorLeftPressed = false;
 
+	HWND m_hwnd = nullptr;
+
 	HCURSOR m_Default_Cursor;
 	HCURSOR m_Hammer_Cursor;
 	HCURSOR m_Sabotage_Cursor;
