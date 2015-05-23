@@ -37,7 +37,7 @@ private:
 
 	void calcEntrySize();
 
-	IViewGUIObject* m_selectedItem;
+	IViewGUIObject* m_selectedItem=nullptr;
 	
 };
 

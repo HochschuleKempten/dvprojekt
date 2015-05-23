@@ -86,7 +86,7 @@ NAMESPACE_VIEW_B
 				break;
 			case LOBBY_JOIN_GAME:
 				
-				if (CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName().empty())
+				if (CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()==nullptr)
 				{
 					vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
 				}
