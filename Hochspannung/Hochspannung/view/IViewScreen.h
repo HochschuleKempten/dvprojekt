@@ -154,50 +154,7 @@ NAMESPACE_VIEW_B
 
 		virtual void EndEvent() = 0;
 
-		void switchCursor(const CursorType& cursorType)
-		{
-			switch (cursorType)
-			{
-			default:
-				break;
-			case Default:
-				delete m_pCursorImage;
-
-				m_pCursorImage = new COverlay();
-				m_pCursorImage->Init(&VMaterialLoader::m_zmDefaultCursor, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F));
-				m_viewport->AddOverlay(m_pCursorImage);
-				m_pCursorImage->SetLayer(0.01F);
-				break;
-			case Hammer:
-				delete m_pCursorImage;
-
-				m_pCursorImage = new COverlay();
-				m_pCursorImage->Init(&VMaterialLoader::m_zmHammerCursor, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F));
-				m_viewport->AddOverlay(m_pCursorImage);
-				m_pCursorImage->SetLayer(0.01F);
-				break;
-			case Sabotage:
-				delete m_pCursorImage;
-
-				m_pCursorImage = new COverlay();
-				m_pCursorImage->Init(&VMaterialLoader::materialRed, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F));
-				m_viewport->AddOverlay(m_pCursorImage);
-				m_pCursorImage->SetLayer(0.01F);
-				break;
-			}
-		}
-
-		void switchCursor(char* imagefile, const bool bChromaKeying)
-		{
-			m_viewport->SubOverlay(m_pCursorImage);
-			delete m_pCursorImage;
-			m_pCursorImage = new COverlay();
-			m_pCursorImage->Init(imagefile, CFloatRect(0.0F, 0.0F, 0.05F, 0.05F), bChromaKeying);
-			m_viewport->AddOverlay(m_pCursorImage);
-			m_pCursorImage->SetLayer(0.01F);
-		}
-
-	
+		
 		virtual void updateCursorImagePos(CDeviceCursor* cursor)
 		{
 			float curPosX;
