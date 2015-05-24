@@ -24,6 +24,12 @@ VUI::~VUI()
 
 void VUI::initUI(HWND hwnd, CSplash* psplash)
 {
+	m_hwnd = hwnd;
+
+	m_Default_Cursor = static_cast<HCURSOR>(LoadImage(HINSTANCE(GetWindowLong(hwnd, GWLP_HINSTANCE)), "textures\\gui\\Cursor\\default_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
+	m_Hammer_Cursor = static_cast<HCURSOR>(LoadImage(HINSTANCE(GetWindowLong(hwnd, GWLP_HINSTANCE)), "textures\\gui\\Cursor\\hammer_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
+	m_Sabotage_Cursor = static_cast<HCURSOR>(LoadImage(HINSTANCE(GetWindowLong(hwnd, GWLP_HINSTANCE)), "textures\\gui\\Cursor\\bomb_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
+
 	m_zr.Init(psplash);
 	m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50_Basic, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
 	m_zr.AddFrameHere(&m_zf);
@@ -148,7 +154,38 @@ void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
 	CASTD<VScreenLobby*>(m_screens["Lobby"])->updateHostList(gameList);
 }
 
-void VUI::tick(const float fTimeDelta)
+	void VUI::switchCursor(const CursorType& cursorType)
+	{
+		LPRECT rectangle = nullptr;
+		switch (cursorType)
+		{
+			
+
+		default:
+			break;
+		case Default:
+			
+			SetCursor(m_Default_Cursor);
+			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Default_Cursor));
+			//GetWindowRect(m_hwnd, rectangle);
+			//ClipCursor(rectangle);
+			break;
+		case Hammer:
+			SetCursor(m_Hammer_Cursor);
+			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Hammer_Cursor));
+			//GetWindowRect(m_hwnd, rectangle);
+			//ClipCursor(rectangle);
+			break;
+		case Sabotage:
+			SetCursor(m_Sabotage_Cursor);
+			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Default_Cursor));
+			//GetWindowRect(m_hwnd, rectangle);
+			//ClipCursor(rectangle);
+			break;
+		}
+	}
+
+	void VUI::tick(const float fTimeDelta)
 {
 	float fTimeDeltaCopy = fTimeDelta;	//Copy needed because Vektoria means to change the time variable for some reasons (prevent undefined behaviour: http://en.cppreference.com/w/cpp/language/const_cast)
 	m_zr.Tick(fTimeDeltaCopy);

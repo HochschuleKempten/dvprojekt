@@ -82,7 +82,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.0F, 0.8F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar");
 	//getContainer("Topbar")->addText(CFloatRect(0.10F, 0.2F, 0.2F, 0.65F), &VMaterialLoader::standardFont, "Bevoelkerung:", "population");
 	getContainer("Topbar")->addOverlay(CFloatRect(0.1F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconPopulation, "TopPopulationIcon");
-	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.1F, 0.2F, 0.85F), &VMaterialLoader::standardFont, "0000", "popValue");
+	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.1F, 0.15F, 0.9F), &VMaterialLoader::standardFont, "0000", "popValue");
 	//getContainer("Topbar")->addText(CFloatRect(0.50F, 0.2F, 0.2F, 0.65F), &VMaterialLoader::GoldFont, "Geld:", "money");
 	getContainer("Topbar")->addOverlay(CFloatRect(0.50F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon");
 	getContainer("Topbar")->addText(CFloatRect(0.601F, 0.2F, 0.2F, 0.85F), &VMaterialLoader::GoldFont, "0000", "moneyValue");
@@ -233,35 +233,35 @@ void VScreenIngame::onNotify(const Event& events)
 		case SELECT_BUILDING_WINDMILL:
 			updateInfofield("Windmill");
 			m_selectedBuilding = VIdentifier::VWindmillPowerPlant;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			setActiveButton("windmill");
 			//TODO BuildMenue Button Windmill 
 			break;
 		case SELECT_BUILDING_COALPOWERPLANT:
 			updateInfofield("CoalPowerplant");
 			m_selectedBuilding = VIdentifier::VCoalPowerPlant;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button CoalPowerplant 
 			setActiveButton("coalPowerPlant");
 			break;
 		case SELECT_BUILDING_OILPOWERPLANT:
 			updateInfofield("OilPowerplant");
 			m_selectedBuilding = VIdentifier::VOilRefinery;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Oilpowerplant
 			setActiveButton("oilPowerPlant");
 			break;
 		case SELECT_BUILDING_NUCLEARPOWERPLANT:
 			updateInfofield("NuclearPowerplant");
 			m_selectedBuilding = VIdentifier::VNuclearPowerPlant;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Nuclearpowerplant
 			setActiveButton("nuclearPowerPlant");
 			break;
 		case SELECT_BUILDING_HYDROPOWERPLANT:
 			updateInfofield("HydroPowerplant");
 			m_selectedBuilding = VIdentifier::VHydroelectricPowerPlant;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Hydropowerplant
 			setActiveButton("hydroPowerPlant");
 			break;
@@ -270,26 +270,29 @@ void VScreenIngame::onNotify(const Event& events)
 			m_selectedBuilding = VIdentifier::VSolarPowerPlant;
 			
 			//TODO BuildMenue Button Solarpowerplant
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			setActiveButton("solarPowerPlant");
 			break;
 		case SELECT_BUILDING_POWERLINE:
 			updateInfofield("Powerline");
 			m_selectedBuilding = VIdentifier::VPowerLine;
-			
+			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Powerline
 			
 			setActiveButton("powerLine");
 			break;
 		case SELECT_SABOTAGE_POWERLINECUT:
-			
+			vUi->switchCursor(vUi->CursorType::Sabotage);
+			setActiveButton("sabotagePowerlineCut");
 				break;
 		case SELECT_SABOTAGE_STRIKE:
-			
+			vUi->switchCursor(vUi->CursorType::Sabotage);
+			setActiveButton("sabotageStrike");
 				break;
 			
 		case SELECT_SABOTAGE_BOMB:
-		
+			vUi->switchCursor(vUi->CursorType::Sabotage);
+			setActiveButton("sabotageBomb");
 			break;
 		
 		default:
@@ -368,11 +371,13 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 
 	if (vUi->m_zkCursor.ButtonPressedRight())
 	{
-		if (activeButton)
+		if (activeButton!=nullptr)
 		{
+			vUi->switchCursor(vUi->CursorType::Default);
 			activeButton->setActive(false);
 			if (m_selectedBuilding!=VIdentifier::Undefined)
 			{
+				
 				m_selectedBuilding = VIdentifier::Undefined;
 				updateModelView();
 			}

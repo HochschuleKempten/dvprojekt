@@ -60,11 +60,18 @@ public:
 	static CMaterial materialBuildingButtonHover;
 
 
+
 	//Backgrounds
 	static CMaterial materialDialogBackground;
 	static CMaterial materialIngameMenueDialogBackground;
 	static CMaterial materialDefaultBackground;
 	static CMaterial materialWhiteGreyBackground;
+	static CMaterial materialLobbyRunningGamesBackground;
+	static CMaterial materialLobbyGamelistBackground;
+	static CMaterial materialListEntryBackground;
+	static CMaterial materialListEntryHoverBackground;
+	static CMaterial materialTextfieldBackground;
+	static CMaterial materialTextfieldHoverBackground;
 
 	//Icons
 	static CMaterial materialIngameIconPopulation;

@@ -184,6 +184,12 @@ CMaterial VMaterialLoader::materialWindowsofBuilding;
 //Background
 CMaterial VMaterialLoader::materialDefaultBackground;
 CMaterial VMaterialLoader::materialWhiteGreyBackground;
+CMaterial VMaterialLoader::materialLobbyRunningGamesBackground;
+CMaterial VMaterialLoader::materialLobbyGamelistBackground;
+CMaterial VMaterialLoader::materialListEntryBackground;
+CMaterial VMaterialLoader::materialListEntryHoverBackground;
+CMaterial VMaterialLoader::materialTextfieldBackground;
+CMaterial VMaterialLoader::materialTextfieldHoverBackground;
 
 //Test
 CMaterial VMaterialLoader::materialAnimationsVersuch;
@@ -305,8 +311,10 @@ void VMaterialLoader::init()
 	materialAnimationsVersuch.SetAni(16, 16, 0.5);
 
 	//Fonts
-	standardFont.Init("textures/fonts/FontArialShadow.png",false);
-	standardFont.SetTableSize(16, 16);
+	//standardFont.Init("textures/fonts/FontArialShadow.png",false);
+	//standardFont.SetTableSize(16, 16);
+	standardFont.Init("textures/fonts/SystematicJ.png", false);
+	standardFont.SetTableSize(16,16);
 	GoldFont.Init("textures/fonts/FontArialShadowGold.png", false);
 	GoldFont.SetTableSize(16, 16);
 	standardFont.SetTransparencyOn();
@@ -445,9 +453,17 @@ void VMaterialLoader::init()
 
 	//Animierte Texturen
 	materialAnimSabotageBomb.MakeTextureSprite("textures/gui/animiert/Bombe.png");
-	materialAnimSabotageBomb.SetAni(8, 2, 1);
+	materialAnimSabotageBomb.SetAni(9, 2, 1);
 	//materialAnimSabotageBomb.MakeTextureSprite("textures/fonts/FontArialShadow.png");
 	//materialAnimSabotageBomb.SetAni(16, 16, 1);
+
+	//Background
+	materialLobbyRunningGamesBackground.MakeTextureSprite("textures/gui/background/gui_lobby_RunningGamesBackround.png");
+	materialLobbyGamelistBackground.MakeTextureSprite("textures/gui/background/ListView.png");
+	materialListEntryBackground.MakeTextureSprite("textures/gui/background/gui_ListEntry.png");
+	materialListEntryHoverBackground.MakeTextureSprite("textures/gui/background/gui_ListEntryHover.png");
+	materialTextfieldBackground.MakeTextureSprite("textures/gui/background/gui_textfield_background.png");
+	materialTextfieldHoverBackground.MakeTextureSprite("textures/gui/background/gui_textfield_backgroundHover.png");
 }
 
 //Rotation adjustments

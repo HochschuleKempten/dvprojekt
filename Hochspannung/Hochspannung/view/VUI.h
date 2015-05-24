@@ -32,6 +32,13 @@ class VUI : public IVTickObserver, public IViewUIObserver
 	friend class VScreenCredits;
 	friend class VScreenLobby;
 
+	enum CursorType
+	{
+		Default,
+		Hammer,
+		Sabotage,
+	};
+
 private:
 	VMaster* vMaster;
 
@@ -48,6 +55,12 @@ private:
 	bool isQuit;
 	bool m_screenChanged = false;
 	bool m_BlockCursorLeftPressed = false;
+
+	HWND m_hwnd = nullptr;
+
+	HCURSOR m_Default_Cursor;
+	HCURSOR m_Hammer_Cursor;
+	HCURSOR m_Sabotage_Cursor;
 
 public:
 	explicit VUI(VMaster* vMaster);
@@ -67,6 +80,12 @@ public:
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
 	void updateGameList(const std::vector<Network::CGameObject>& gameList);
+	void switchCursor(const CursorType& cursorType);
+
+	
+
+
+	
 
 	//void checkGUIContainer(IViewGUIContainer* guiContainer);
 };

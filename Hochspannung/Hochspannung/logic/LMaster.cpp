@@ -122,33 +122,33 @@ void LMaster::tick(const float fTimeDelta)
 	static float timeLastCheck = 0;
 
 	////Just for testing
-	//try
-	//{
-	//	static bool gameListUpdatedFirst = false;
-	//	static bool gameListUpdatedSecond = TRUE;
-	//	if (!gameListUpdatedFirst && timeLastCheck > 5.0f)
-	//	{
-	//		vMaster.updateGameList({
-	//			CGameObject(ip::address::from_string("172.16.16.71"), 1000, "Test1"),
-	//			CGameObject(ip::address::from_string("222.9.2.171"), 500, "Test2")
-	//		});
+	/*try
+	{
+		static bool gameListUpdatedFirst = false;
+		static bool gameListUpdatedSecond = TRUE;
+		if (!gameListUpdatedFirst && timeLastCheck > 5.0f)
+		{
+			vMaster.updateGameList({
+				CGameObject(ip::address::from_string("172.16.16.71"), 1000, "Test1"),
+				CGameObject(ip::address::from_string("222.9.2.171"), 500, "Test2")
+			});
 
-	//		gameListUpdatedFirst = true;
-	//		gameListUpdatedSecond = false;
-	//	}
-	//	if (!gameListUpdatedSecond && timeLastCheck > 8.0f)
-	//	{
-	//		vMaster.updateGameList({
-	//			CGameObject(ip::address::from_string("172.16.16.71"), 1000, "Test1"),
-	//			CGameObject(ip::address::from_string("200.111.111.111"), 111, "Test3")
-	//		});
+			gameListUpdatedFirst = true;
+			gameListUpdatedSecond = false;
+		}
+		if (!gameListUpdatedSecond && timeLastCheck > 8.0f)
+		{
+			vMaster.updateGameList({
+				CGameObject(ip::address::from_string("172.16.16.71"), 1000, "Test1"),
+				CGameObject(ip::address::from_string("200.111.111.111"), 111, "Test3")
+			});
 
-	//		gameListUpdatedSecond = true;
-	//	}
-	//}
-	//catch (boost::system::system_error error) {
-	//	ASSERT(error.what());
-	//}
+			gameListUpdatedSecond = true;
+		}
+	}
+	catch (boost::system::system_error error) {
+		ASSERT(error.what());
+	}*/
 
 	if (timeLastCheck > 3.0F && (lPlayingField != nullptr ? !lPlayingField->isInitDone() : true))
 	{

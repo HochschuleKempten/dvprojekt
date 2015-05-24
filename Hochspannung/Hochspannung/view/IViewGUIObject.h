@@ -120,6 +120,8 @@ NAMESPACE_VIEW_B
 			return m_ObjectType;
 		}
 
+		
+
 		//virtual void resize(int width, int height);
 	protected:
 		CFloatRect m_zfrRect = CFloatRect(0, 0, 0, 0);

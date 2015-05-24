@@ -132,7 +132,7 @@ COverlay* VListView::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, cons
 	void VListView::addEntry(const std::string& sName)
 	{
 	m_entries.push_back(sName);
-	m_guiObjects[sName] = new VListEntry(m_viewport, &VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, sName);
+	m_guiObjects[sName] = new VListEntry(m_viewport, &VMaterialLoader::materialListEntryBackground, &VMaterialLoader::materialListEntryHoverBackground, sName);
 		m_guiObjects[sName]->addObserverExt(this);
 		calcEntrySize(); 
 	}
