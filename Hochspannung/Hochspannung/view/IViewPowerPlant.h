@@ -48,7 +48,7 @@ public:
 			case action::sabotagePowerPlant: 
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
 				{
-					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
+					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
 					remoteOperation.sabotage();
 					return true; 
 				} 
@@ -58,7 +58,7 @@ public:
 			case action::sabotageResourceField: 
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::Resource))
 				{
-					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
+					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
 					remoteOperation.sabotageResource();
 
 					return true;

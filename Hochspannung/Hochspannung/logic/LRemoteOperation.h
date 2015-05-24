@@ -19,6 +19,7 @@ class LRemoteOperation
 private:
 	LPlayingField* lPlayingField = nullptr;
 	ILPowerPlant* lPowerPlant = nullptr;
+	DEBUG_EXPRESSION(const char* const msglPowerPlantNotInitialized = "lPowerPlant is not initialized. Make sure you pass a valid pointer to ILPowerPlant in the constructor");
 
 private:
 	//Objects of this class should never be allocated on the heap
@@ -59,18 +60,22 @@ public:
 	//ILPowerPlant methods
 	inline void switchOn()
 	{
+		ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
 		lPowerPlant->switchOn();
 	}
 	inline void switchOff()
 	{
+		ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
 		lPowerPlant->switchOff();
 	}
 	inline void sabotage()
 	{
+		ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
 		lPowerPlant->sabotage();
 	}
 	inline void sabotageResource()
 	{
+		ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
 		lPowerPlant->sabotageResource();
 	}
 };

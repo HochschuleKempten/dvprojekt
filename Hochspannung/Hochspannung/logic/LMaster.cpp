@@ -17,7 +17,7 @@
 NAMESPACE_LOGIC_B
 
 LMaster::LMaster(IVMaster& vMaster)
-	: vMaster(vMaster), lPlayers(new LPlayer[2]{ this, this }),
+	: vMaster(vMaster), lPlayers(new LPlayer[2]{ LPlayer(this), LPlayer(this) }),
 		networkService(Network::CNetworkService::instance())
 {
 	vMaster.registerObserver(this);

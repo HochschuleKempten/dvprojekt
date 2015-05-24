@@ -25,7 +25,7 @@ private:
 	int coolDownCounterPowerPlant = 0;
 
 public:
-	LPlayer(LMaster* lMaster);
+	explicit LPlayer(LMaster* lMaster);
 	virtual ~LPlayer();
 	virtual void tick(const float fTimeDelta) override;
 	int getMoney() const;

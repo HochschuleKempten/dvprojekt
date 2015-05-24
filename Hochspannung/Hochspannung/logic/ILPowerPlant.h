@@ -81,6 +81,7 @@ private:
 
 	void sabotageResource()
 	{
+		DEBUG_OUTPUT("Try to sabotage ressource field. Old ressource value: " << getLField()->getResources());
 		int newValue = this->getLField()->deductResources();
 		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
 
