@@ -24,8 +24,6 @@ void LField::init(const FieldType fieldType, const FieldLevel fieldLevel)
 	resourceStock = CASTS<int>(LBalanceLoader::getFieldStorage(LField::fieldType) * fieldLevels.at(fieldLevel));
 
 	resourceLeft = resourceStock;
-
-	resourceSabotageFactor = LBalanceLoader::getFactorSabotageResource();
 }
 
 void LField::setInitialValues(LPlayingField* lPlayingField, const int x, const int y)
@@ -94,7 +92,7 @@ int LField::getResources() const
 
 int LField::deductResources()
 {
-	resourceLeft /= resourceSabotageFactor;
+	resourceLeft *= LBalanceLoader::getFactorSabotageResource();;
 	return resourceLeft;
 }
 

@@ -1,5 +1,7 @@
 #include "LPlayer.h"
 #include "LMaster.h"
+#include "LPlayingField.h"
+#include "ILPowerPlant.h"
 #include "IVMaster.h"
 #include "LBalanceLoader.h"
 
@@ -76,7 +78,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case (LSabotage::PowerLine) :
 			if (coolDownCounterPowerLine > 0)
 			{
-				DEBUG_OUTPUT("Powerline sabotage not possible, you have to wait " << coolDownCounterPowerLine << " seconds.");
+				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerline sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
 				return false;
 			}
 
@@ -86,7 +88,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case(LSabotage::PowerPlant) :
 			if (coolDownCounterPowerPlant > 0)
 			{
-				DEBUG_OUTPUT("Powerplant sabotage not possible, you have to wait " << coolDownCounterPowerPlant << " seconds.");
+				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerline sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
 				return false;
 			}
 
@@ -96,7 +98,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case(LSabotage::Resource) :
 			if (coolDownCounterResource > 0)
 			{
-				DEBUG_OUTPUT("Resource sabotage not possible, you have to wait " << coolDownCounterResource << " seconds.");
+				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerline sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
 				return false;
 			}
 
@@ -121,16 +123,43 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		{
 			sabotageActs--;
 			subtractMoney(sabotageCost);
-			DEBUG_OUTPUT("Sabotage acts left: " << sabotageActs);
+			lMaster->getVMaster()->updateRemainingSabotageActs(sabotageActs);
+
 			return true;
 		}
 
-		DEBUG_OUTPUT("You do not have enough money or have to wait!");
+		lMaster->getVMaster()->messageSabotageFailed("You do not have enough money or have to wait!");
 		return false;
 	}
 
-	DEBUG_OUTPUT("No sabotage acts left!");
+	lMaster->getVMaster()->messageSabotageFailed("No sabotage acts left!");
 	return false;
+}
+
+void LPlayer::addPowerPlant(ILPowerPlant* powerPlant)
+{
+	powerPlants.emplace_back(powerPlant);
+}
+
+void LPlayer::checkPowerPlants()
+{
+	std::vector<int> cityConnections = lMaster->getLPlayingField()->getCityConnections();
+
+	//First turn everything
+	for (ILPowerPlant* p : powerPlants)
+	{
+		p->switchOff();
+	}
+
+	//Then turn every remaining power plant
+	for (const int pPos : cityConnections)
+	{
+		ILPowerPlant* p = dynamic_cast<ILPowerPlant*>(lMaster->getLPlayingField()->getField(lMaster->getLPlayingField()->convertIndex(pPos))->getBuilding());
+		if (p != nullptr)
+		{
+			p->switchOn();
+		}
+	}
 }
 
 NAMESPACE_LOGIC_E

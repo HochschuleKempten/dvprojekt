@@ -51,7 +51,6 @@ private:
 	FieldLevel fieldLevel = LEVEL1;
 	int resourceStock = 0;
 	int resourceLeft = 0;
-	float resourceSabotageFactor;
 	int x = -1;
 	int y = -1;
 
@@ -82,11 +81,11 @@ public:
 	{
 		//TODO (L) introduce building names 
 		if (buildingPlaced) {
-			lPlayingField->getVPlayingField()->messageBuildingFailed(std::string("Ein ") + getClassName(T) +  std::string(" kann hier nicht platziert werden, da auf dem Feld ") + std::to_string(fieldType) +  std::string(" bereits ein Gebäude steht."));
+			lPlayingField->getLMaster()->getVMaster()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann hier nicht platziert werden, da auf dem Feld ") + std::to_string(fieldType) + std::string(" bereits ein Gebäude steht."));
 			return false;
 		}
 		if (!checkBuildingType<T>()) {
-			lPlayingField->getVPlayingField()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann nicht auf einem Feld vom Typ ") + std::to_string(fieldType) + std::string(" platziert werden"));
+			lPlayingField->getLMaster()->getVMaster()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann nicht auf einem Feld vom Typ ") + std::to_string(fieldType) + std::string(" platziert werden"));
 			return false;
 		}
 

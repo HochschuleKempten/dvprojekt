@@ -72,6 +72,18 @@ void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
 	}
 }
 
+void VMaster::messageSabotageFailed(const std::string& message)
+{
+	//TODO (V) show message
+	DEBUG_OUTPUT("SabotageMessage: " << message);
+}
+
+void VMaster::messageBuildingFailed(const std::string& message)
+{
+	//TODO (V) show message
+	DEBUG_OUTPUT("BuildMessage: " << message);
+}
+
 VUI* VMaster::getVUi()
 {
 	return &vUi;
@@ -106,6 +118,12 @@ void VMaster::joinGame(const std::string& ipAddress)
 void VMaster::updateMoney(const int money)
 {
 	vUi.updateMoney(money);
+}
+
+void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
+{
+	//TODO (V) inform UI
+	DEBUG_OUTPUT("Remaining sabotage acts: " << remainingSabotageActs);
 }
 
 void VMaster::pauseGame()

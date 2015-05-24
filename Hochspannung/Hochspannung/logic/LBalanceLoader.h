@@ -53,6 +53,8 @@ public:
 	 * @brief Specifies the factor of money returned when selling buildings.
 	 */
 	static double getSellRevenue();
+	static int getDefaultMoney();
+
 	static std::unordered_map<LField::FieldType, double> getFieldTypeRatio();
 	static std::unordered_map<LField::FieldLevel, double> getFieldLevelFactor();
 

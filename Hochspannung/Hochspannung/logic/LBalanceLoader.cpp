@@ -86,6 +86,12 @@ double LBalanceLoader::getSellRevenue()
 	return propertyTree.get<double>("DifficultyScale.SellRevenue", 0.0);
 }
 
+int LBalanceLoader::getDefaultMoney()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<double>("DifficultyScale.DefaultMoney", 0);
+}
+
 std::unordered_map<LField::FieldType, double> LBalanceLoader::getFieldTypeRatio()
 {
 	ASSERT(initDone, msgAssert);

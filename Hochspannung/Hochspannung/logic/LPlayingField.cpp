@@ -195,7 +195,7 @@ bool LPlayingField::checkConnectionBuildings(const ILBuilding* b1, const ILBuild
 
 bool LPlayingField::isTransformstationConnected()
 {
-	return checkConnectionBuildings(localCity, transformerStation);
+	return checkConnectionBuildings(lMaster->getPlayer(LPlayer::Local)->getCity(), transformerStation);
 }
 
 bool LPlayingField::removeBuilding(const int x, const int y)
@@ -409,6 +409,20 @@ IVPlayingField* LPlayingField::getVPlayingField()
 	return vPlayingField.get();
 }
 
+void LPlayingField::recalculateCityConnections()
+{
+	static bool isCheckInProgress = false;
+
+	//Avoid recursion
+	if (!isCheckInProgress)
+	{
+		isCheckInProgress = true;
+		cityConnectionsRecalculate = true;
+		lMaster->getPlayer(LPlayer::Local)->checkPowerPlants();	//Can again lead to a call to recalculateCityConnections()
+		isCheckInProgress = false;
+	}
+}
+
 bool LPlayingField::checkIndex(const int x, const int y)
 {
 	return (x >= 0) && (x < fieldLength) && (y >= 0) && (y < fieldLength);
@@ -447,7 +461,7 @@ void LPlayingField::calculateEnergyValueCity()
 		}
 	}
 
-	getLocalCity()->setEnergy(energyValue);
+	lMaster->getPlayer(LPlayer::Local)->getCity()->setEnergy(energyValue);
 }
 
 std::vector<int> LPlayingField::getCityConnections()
@@ -456,7 +470,7 @@ std::vector<int> LPlayingField::getCityConnections()
 
 	if (cityConnectionsRecalculate)
 	{
-		cityConnections = strongConnectedSearch(powerLineGraph, convertIndex(localCity->getLField()->getCoordinates()));
+		cityConnections = strongConnectedSearch(powerLineGraph, convertIndex(lMaster->getPlayer(LPlayer::Local)->getCity()->getLField()->getCoordinates()));
 		cityConnectionsRecalculate = false;
 	}
 
@@ -537,27 +551,6 @@ void LPlayingField::printGraph()
 	//Install graphviz from http://www.graphviz.org/ and run
 	//dot -Tpng -o graph.png graph.dot
 	//See http://blog.milania.de/index.php?/archives/13-Boost-Graphen-mit-Hilfe-von-Graphviz-anzeigen.html for more information
-}
-
-void LPlayingField::checkPowerPlants()
-{
-	std::vector<int> cityConnections = getCityConnections();
-
-	//First turn everything
-	for (ILPowerPlant* p : powerPlants)
-	{
-		p->switchOff();
-	}
-
-	//Then turn every remaining power plant
-	for (const int pPos : cityConnections)
-	{
-		ILPowerPlant* p = dynamic_cast<ILPowerPlant*>(getField(convertIndex(pPos))->getBuilding());
-		if (p != nullptr)
-		{
-			p->switchOn();
-		}
-	}
 }
 
 template <bool cross>

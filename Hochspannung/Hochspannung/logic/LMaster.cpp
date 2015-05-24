@@ -17,11 +17,17 @@
 NAMESPACE_LOGIC_B
 
 LMaster::LMaster(IVMaster& vMaster)
-	: vMaster(vMaster), lPlayers(new LPlayer[2]{ LPlayer(this), LPlayer(this) }),
-		networkService(Network::CNetworkService::instance())
+: vMaster(vMaster), networkService(Network::CNetworkService::instance())
 {
 	vMaster.registerObserver(this);
+
+	lPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(this));
+	lPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(this));
+
 	LBalanceLoader::init();
+	getPlayer(LPlayer::Local)->addMoney(LBalanceLoader::getDefaultMoney());
+	getPlayer(LPlayer::Local)->addMoney(LBalanceLoader::getDefaultMoney());
+
 	searchGames(); //start searching
 }
 
@@ -29,7 +35,6 @@ LMaster::~LMaster()
 {
 	vMaster.unregisterObserver(this);
 	delete lPlayingField;
-	delete[] lPlayers;
 	networkService.close();
 }
 
@@ -442,10 +447,10 @@ IVMaster* LMaster::getVMaster()
 	return &vMaster;
 }
 
-LPlayer* LMaster::getPlayer(const int idxPlayer)
+LPlayer* LMaster::getPlayer(const int playerId)
 {
-	ASSERT(idxPlayer >= 0 && idxPlayer <= 1, "Wrong idx for player");
-	return &lPlayers[idxPlayer];
+	ASSERT(lPlayers.count(static_cast<LPlayer::PlayerId>(playerId)) > 0, "Invalid playerId. There is no player with the id " << playerId << " available");
+	return &lPlayers[static_cast<LPlayer::PlayerId>(playerId)];
 }
 
 

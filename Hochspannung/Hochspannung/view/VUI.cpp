@@ -141,7 +141,11 @@ IViewScreen* VUI::getScreen(const std::string& sName)
 
 void VUI::updateMoney(const int wert)
 {
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
+	//Only update if UI is ready
+	if (m_screens.count("Ingame") > 0)
+	{
+		CASTD<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
+	}
 }
 
 void VUI::updatePopulation(const int wert)

@@ -11,12 +11,13 @@ NAMESPACE_LOGIC_B
 
 
 class LRemoteOperation;
+class LPlayer;
 
 class ILPowerPlant : public ILBuilding, IVTickObserver
 {
 	friend class LRemoteOperation;
 	friend class LMaster;
-	friend class LPlayingField;
+	friend class LPlayer;
 
 private:
 	void switchOn()
