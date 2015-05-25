@@ -6,7 +6,6 @@
 #include "VScreenLobby.h"
 #include "VScreenCredits.h"
 #include "VScreenOptions.h"
-#include "../logic/LMaster.h"
 
 NAMESPACE_VIEW_B
 
@@ -58,7 +57,6 @@ void VUI::onNotify(const Event& evente)
 		case QUIT_GAME:
 			isQuit = true;
 			PostQuitMessage(0);
-			vMaster->lMaster->gameOver();
 			break;
 		case SEARCH_IP:
 			break;

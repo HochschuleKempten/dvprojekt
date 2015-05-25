@@ -157,8 +157,14 @@ void LMaster::tick(const float fTimeDelta)
 
 	if (timeLastCheck > 3.0F && (lPlayingField != nullptr ? !lPlayingField->isInitDone() : true))
 	{
-		DEBUG_OUTPUT("Updated gamelist.");
-		vMaster.updateGameList(getGameList());
+		bool updated = false;
+		std::vector<CGameObject> gameList = getGameList(&updated);
+
+		if (updated)
+		{
+			DEBUG_OUTPUT("Updated gamelist.");
+			vMaster.updateGameList(gameList);
+		}
 	}
 
 	if (timeLastCheck > 0.25F && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
@@ -426,9 +432,29 @@ void LMaster::sendPowerPlantSwitchState(const int x, const int y, const bool sta
 	}
 }
 
-std::vector<Network::CGameObject> LMaster::getGameList()
+std::vector<Network::CGameObject> LMaster::getGameList(bool* updated)
 {
-	return networkService.getGameList();
+	static std::vector<Network::CGameObject> prevGameList;
+	std::vector<Network::CGameObject> newGameList = networkService.getGameList();
+
+	if (newGameList != prevGameList)
+	{
+		newGameList = prevGameList;
+
+		if (updated != nullptr)
+		{
+			*updated = true;
+		}
+	}
+	else
+	{
+		if (updated != nullptr)
+		{
+			*updated = false;
+		}
+	}
+
+	return newGameList;
 }
 
 void LMaster::searchGames()

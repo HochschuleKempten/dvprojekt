@@ -44,7 +44,7 @@ public:
 	void sendDeleteObject(const int x, const int y);
 	void sendSabotage(const LSabotage::LSabotage sabotageId, const int x, const int y);
 	void sendPowerPlantSwitchState(const int x, const int y, const bool state);
-	std::vector<Network::CGameObject> getGameList();
+	std::vector<Network::CGameObject> getGameList(bool* updated = nullptr);
 	void searchGames();
 
 	LPlayingField* getLPlayingField();

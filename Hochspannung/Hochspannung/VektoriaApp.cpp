@@ -32,7 +32,7 @@ CGame* g_pgame = nullptr;
 
 //From http://stackoverflow.com/questions/8690619/how-to-get-screen-resolution-in-c
 // Get the horizontal and vertical screen sizes in pixel
-void GetDesktopResolution(int& horizontal, int& vertical)
+static void GetDesktopResolution(int& horizontal, int& vertical)
 {
 	RECT desktop;
 	// Get a handle to the desktop window
@@ -108,8 +108,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		WS_OVERLAPPEDWINDOW,    /* default window */
 		CW_USEDEFAULT,          /* Windows decides the position */
 		CW_USEDEFAULT, 
-		width,
-		height - 50,/* where the window ends up on the screen */
+		width - 100,
+		height - 100,/* where the window ends up on the screen */
 		//GetSystemMetrics(SM_CXSCREEN),                   /* The programs width */
 		//GetSystemMetrics(SM_CYSCREEN),                   /* and height in pixels */
 		HWND_DESKTOP,           /* The window is a child-window to desktop */
@@ -214,6 +214,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			g_bFullscreen = !g_bFullscreen;
 			ChangeDisplay(hwnd);
+			int width = 1280;
+			int height = 720;
+			GetDesktopResolution(width, height);
+			g_pgame->WindowReSize(width, height);
 		}
 		//if (wParam != VK_ESCAPE) break;
 		break;

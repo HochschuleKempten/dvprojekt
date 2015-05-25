@@ -31,7 +31,8 @@ private:
 	LCity* city = nullptr;
 
 public:
-	LPlayer() {}
+	LPlayer()
+	{}
 	explicit LPlayer(LMaster* lMaster);
 	virtual ~LPlayer();
 	virtual void tick(const float fTimeDelta) override;
