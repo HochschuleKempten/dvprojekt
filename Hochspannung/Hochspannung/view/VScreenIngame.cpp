@@ -12,6 +12,7 @@
 #include "../logic/LPlayer.h"
 #include "VSoundLoader.h"
 #include "VPowerLine.h"
+#include "../logic/LBalanceLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -102,8 +103,16 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.00F, 0.00F, 0.22F, 1.0F), &VMaterialLoader::materialInfofieldBackground, "Infofield");
 	//getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.01F, 0.3F, 0.80F, 0.1F), &VMaterialLoader::standardFont, "Infofeld", "infoText");
 	//getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText")->setLayer(0.2F);
-	getContainer("BottomBar")->getContainer("Infofield")->addViewport(&m_viewportModels, &m_CamModels, CFloatRect(0.1F, 0.2F, 0.75F, 0.8F), &m_zmbackgroundModels,"DetailedModels");
+	getContainer("BottomBar")->getContainer("Infofield")->addViewport(&m_viewportModels, &m_CamModels, CFloatRect(0.1F, 0.2F, 0.75F, 0.4F), &m_zmbackgroundModels,"DetailedModels");
+	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.10F, 0.65F, 0.60F, 0.13F), &VMaterialLoader::standardFont, "100", "PowerInfo");
+	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.10F, 0.83F, 0.6F, 0.13F), &VMaterialLoader::standardFont, "1000", "MoneyInfo");
+	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.65F, 0.25, 0.13F), &VMaterialLoader::materialIngameIconEnergy, "EngergyInfoIcon");
+	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.83F, 0.25, 0.13F), &VMaterialLoader::materialIngameIconMoney, "MoneyInfoIcon");
 	getContainer("BottomBar")->getContainer("Infofield")->setLayer(0.2F);
+	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOff();
+	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOff();
+	getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOff();
+	getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOff();
 	vUi->m_zf.AddViewport(&m_viewportModels);
 	/********************************************************Baumenu AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.22F, 0.00F, 0.51F, 1.0F), &VMaterialLoader::m_zmCraftMenueBackground, "Craftmenu");
@@ -235,6 +244,14 @@ void VScreenIngame::onNotify(const Event& events)
 			m_selectedBuilding = VIdentifier::VWindmillPowerPlant;
 			vUi->switchCursor(vUi->CursorType::Hammer);
 			setActiveButton("windmill");
+			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LWindmillPowerPlant)));
+			//CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText();
+			
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
+			
 			//TODO BuildMenue Button Windmill 
 			break;
 		case SELECT_BUILDING_COALPOWERPLANT:
@@ -243,6 +260,11 @@ void VScreenIngame::onNotify(const Event& events)
 			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button CoalPowerplant 
 			setActiveButton("coalPowerPlant");
+			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LCoalPowerPlant)));
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 			break;
 		case SELECT_BUILDING_OILPOWERPLANT:
 			updateInfofield("OilPowerplant");
@@ -250,6 +272,11 @@ void VScreenIngame::onNotify(const Event& events)
 			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Oilpowerplant
 			setActiveButton("oilPowerPlant");
+			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LOilRefinery)));
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 			break;
 		case SELECT_BUILDING_NUCLEARPOWERPLANT:
 			updateInfofield("NuclearPowerplant");
@@ -257,6 +284,11 @@ void VScreenIngame::onNotify(const Event& events)
 			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Nuclearpowerplant
 			setActiveButton("nuclearPowerPlant");
+			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LNuclearPowerPlant)));
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 			break;
 		case SELECT_BUILDING_HYDROPOWERPLANT:
 			updateInfofield("HydroPowerplant");
@@ -264,6 +296,11 @@ void VScreenIngame::onNotify(const Event& events)
 			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Hydropowerplant
 			setActiveButton("hydroPowerPlant");
+			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LHydroelectricPowerPlant)));
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 			break;
 		case SELECT_BUILDING_SOLARPOWERPLANT:
 			updateInfofield("SolarPowerplant");
@@ -272,14 +309,23 @@ void VScreenIngame::onNotify(const Event& events)
 			//TODO BuildMenue Button Solarpowerplant
 			vUi->switchCursor(vUi->CursorType::Hammer);
 			setActiveButton("solarPowerPlant");
+			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LSolarPowerPlant)));
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 			break;
 		case SELECT_BUILDING_POWERLINE:
 			updateInfofield("Powerline");
 			m_selectedBuilding = VIdentifier::VPowerLine;
 			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Powerline
-			
+			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LPowerLine)));
 			setActiveButton("powerLine");
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 			break;
 		case SELECT_SABOTAGE_POWERLINECUT:
 			vUi->switchCursor(vUi->CursorType::Sabotage);
@@ -375,6 +421,12 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 		{
 			vUi->switchCursor(vUi->CursorType::Default);
 			activeButton->setActive(false);
+
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOff();
+			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOff();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOff();
+			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOff();
+
 			if (m_selectedBuilding!=VIdentifier::Undefined)
 			{
 				
