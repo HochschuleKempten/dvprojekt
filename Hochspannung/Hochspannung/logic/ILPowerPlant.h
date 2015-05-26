@@ -6,75 +6,55 @@
 #include "LMaster.h"
 #include "IVMaster.h"
 #include "IVPowerPlant.h"
-#include "LRemoteOperation.h"
 
 NAMESPACE_LOGIC_B
 
 
-class ILPowerPlant : public ILBuilding,  IVTickObserver
+class LRemoteOperation;
+class LPlayer;
+
+class ILPowerPlant : public ILBuilding, IVTickObserver
 {
-protected:
-	std::shared_ptr<IVPowerPlant> vPowerPlant;
-	bool isActivated = true;
-	bool isSabotaged = false;
+	friend class LRemoteOperation;
+	friend class LMaster;
+	friend class LPlayer;
 
-public:
-	inline ILPowerPlant(LField* lField, const int playerId, std::shared_ptr<IVPowerPlant> vPowerPlant)
-		: ILBuilding(lField, playerId),
-		vPowerPlant(vPowerPlant)
-	{
-		lField->getLPlayingField()->getLMaster()->getVMaster()->registerObserver(this);
-	}
-
-	inline virtual ~ILPowerPlant()
-	{}
-
-	int virtual getEnergyValue()
+private:
+	void switchOn()
 	{
 		if (isActivated)
 		{
-			return LBalanceLoader::getProducedEnergy(this->getIdentifier());
+			return;
 		}
 
-		return 0;	
-	}
-
-	virtual void tick(const float fTimeDelta) override
-	{
-		if (isSabotaged && this->getPlayerId() == LPlayer::Local)
-		{
-			static float timeLastCheck = 0;
-			
-			if (timeLastCheck > 300) 
-			{
-				isSabotaged = false;
-				LRemoteOperation remoteOperation(lField->getLPlayingField());
-				this->switchOnOff();
-				timeLastCheck = 0;
-				DEBUG_OUTPUT("Your powerplant is reactivated after the sabotage act");
-			}
-
-			timeLastCheck += fTimeDelta;
-		}
-	};
-		
-
-	void switchOnOff()
-	{
 		if (!isSabotaged)
 		{
-			if (isActivated)
+			isActivated = true;
+			vPowerPlant->switchedOn();
+			DEBUG_OUTPUT("Powerplant ON");
+
+			if (!lField->getLPlayingField()->isLocalOperation())
 			{
-				isActivated = false;
-				vPowerPlant->switchedOff();
-				DEBUG_OUTPUT("Powerplant OFF");
+				std::pair<int, int> coordinates = lField->getCoordinates();
+				lField->getLPlayingField()->getLMaster()->sendPowerPlantSwitchState(coordinates.first, coordinates.second, isActivated);
 			}
-			else
-			{
-				isActivated = true;
-				vPowerPlant->switchedOn();
-				DEBUG_OUTPUT("Powerplant ON");
-			}
+
+			lField->getLPlayingField()->recalculateCityConnections();
+		}
+	}
+
+	void switchOff()
+	{
+		if (!isActivated)
+		{
+			return;
+		}
+
+		if (!isSabotaged)
+		{
+			isActivated = false;
+			vPowerPlant->switchedOff();
+			DEBUG_OUTPUT("Powerplant OFF");
 
 			if (!lField->getLPlayingField()->isLocalOperation())
 			{
@@ -102,7 +82,8 @@ public:
 
 	void sabotageResource()
 	{
-		int newValue = this->getLField()->deductResources(2);
+		DEBUG_OUTPUT("Try to sabotage ressource field. Old ressource value: " << getLField()->getResources());
+		int newValue = this->getLField()->deductResources();
 		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
 
 		if (!lField->getLPlayingField()->isLocalOperation())
@@ -110,6 +91,78 @@ public:
 			std::pair<int, int> coordinates = lField->getCoordinates();
 			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::LSabotage::Resource, coordinates.first, coordinates.second);
 		}
+	}
+
+protected:
+	std::shared_ptr<IVPowerPlant> vPowerPlant;
+	bool isActivated = false;
+	bool isSabotaged = false;
+
+public:
+	inline ILPowerPlant(LField* lField, const int playerId, std::shared_ptr<IVPowerPlant> vPowerPlant)
+		: ILBuilding(lField, playerId),
+		vPowerPlant(vPowerPlant)
+	{
+		lField->getLPlayingField()->getLMaster()->getVMaster()->registerObserver(this);
+	}
+
+	inline virtual ~ILPowerPlant()
+	{
+		lField->getLPlayingField()->getLMaster()->getVMaster()->unregisterObserver(this);
+	}
+
+	virtual int getEnergyValue()
+	{
+		if (isActivated)
+		{
+			return LBalanceLoader::getProducedEnergy(this->getIdentifier());
+		}
+
+		return 0;	
+	}
+
+	virtual void tick(const float fTimeDelta) override
+	{
+		if (isSabotaged && this->getPlayerId() == LPlayer::Local)
+		{
+			static float timeLastCheck = 0;
+			
+			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
+			{
+				isSabotaged = false;
+				//Can't use LRemoteOperation here because of circular reference
+				lField->getLPlayingField()->beginRemoteOperation();
+				switchOn();
+				lField->getLPlayingField()->endRemoteOperation();
+				timeLastCheck = 0;
+				DEBUG_OUTPUT("Your powerplant is reactivated after the sabotage act");
+			}
+
+			timeLastCheck += fTimeDelta;
+		}
+	};
+
+	int fossilRessourceCheck()
+	{
+		DEBUG_EXPRESSION(static bool lastRessourcesUsed = false);
+
+		const int consumedRessources = LBalanceLoader::getConsumedResources(LField::NUCLEAR);
+		int amountReduced = lField->reduceResources(consumedRessources);
+
+		if (amountReduced < consumedRessources)
+		{
+			ASSERT(!lastRessourcesUsed, "Last ressources of field are used twice");
+			DEBUG_EXPRESSION(lastRessourcesUsed = true);
+
+			//No more ressources are left, so switch the power plant off
+			switchOff();
+
+			//Last step returns proportionally ressources
+			return LBalanceLoader::getProducedEnergy(this->getIdentifier()) * amountReduced / consumedRessources;
+		}
+
+		//Normal energy value was reduced
+		return LBalanceLoader::getProducedEnergy(this->getIdentifier());
 	}
 };
 

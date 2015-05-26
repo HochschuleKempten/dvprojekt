@@ -68,6 +68,11 @@ private:
 	void handleLeftClick(const std::map<int, std::vector<int>>& pickedElements);
 	void handleTestClick(const std::map<int, std::vector<int>>& pickedElements);
 
+	bool tryBuilding(const int x, const int y);
+	bool trySabotage(const int x, const int y);
+
+	void updateModelView();
+
 	VButton* activeButton=nullptr;
 
 	CScene m_scene;
@@ -98,6 +103,8 @@ private:
 	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
 
+	IViewBuilding::action selectedAction = IViewBuilding::Undefined;
+
 	//Detailled model view
 	CScene m_sceneModels;
 	CParallelLight m_zlModels;
@@ -113,7 +120,6 @@ private:
 	VModelPowerLine modelPowerline;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
 
-	void updateModelView();
 };
 
 

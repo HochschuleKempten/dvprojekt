@@ -13,6 +13,7 @@ class IViewBuilding : public IViewObject
 public:
 	enum action
 	{
+		Undefined,
 		switchOnOff,
 		upgrade,
 		sabotagePowerPlant,

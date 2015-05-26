@@ -13,7 +13,9 @@ VWindmillPowerPlant::VWindmillPowerPlant(VMaster* vMaster, LWindmillPowerPlant* 
 }
 
 VWindmillPowerPlant::~VWindmillPowerPlant()
-{}
+{
+	vMaster->unregisterObserver(this);
+}
 
 void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {

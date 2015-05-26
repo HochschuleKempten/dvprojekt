@@ -86,7 +86,9 @@ void VPlayingField::buildPlayingField()
 	//}
 
 	float rows = CASTS<float>(vFields.getRows());
-	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getLocalCity()->getLField()->getX()), CASTS<float>(fieldSize * lPlayingField->getLocalCity()->getLField()->getY()), CASTS<float>(fieldSize * rows * 0.5));
+	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getLMaster()->getPlayer(LPlayer::Local)->getCity()->getLField()->getX()),
+						CASTS<float>(fieldSize * lPlayingField->getLMaster()->getPlayer(LPlayer::Local)->getCity()->getLField()->getY()),
+						CASTS<float>(fieldSize * rows * 0.5));
 	 
 	DEBUG_EXPRESSION(m_zp.SetName("#Placement VPlayingField"));
 
@@ -102,11 +104,6 @@ void VPlayingField::buildPlayingField()
 void VPlayingField::objectRemoved(const int x, const int y)
 {
 	vFields[x][y].removeBuilding();
-}
-
-void VPlayingField::messageBuildingFailed(const std::string& message)
-{
-	DEBUG_OUTPUT("BuildMessage: " << message);
 }
 
 IViewBuilding * VPlayingField::getBuilding(const int x, const int y)

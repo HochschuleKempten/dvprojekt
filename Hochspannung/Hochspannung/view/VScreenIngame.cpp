@@ -23,8 +23,8 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_viewport = new CViewport();
 	//Standard Init
 	m_zc.Init();
-	m_zb.InitFull("textures/black_image.jpg");
-	
+	m_zb.InitFull("textures/3d-office-wallpaper.jpg");
+
 	m_viewport->AddBackground(&m_zb);
 	m_viewport->InitFull(&m_zc);
 
@@ -33,13 +33,13 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zmbackgroundModels.InitFull(&VMaterialLoader::materialDefaultBackground);
 	m_CamModels.Init();
 	m_zlModels.Init(CHVector(1.0F, 1.0F, 1.0F),
-					CColor(1.0F, 1.0F, 1.0F));
+	                CColor(1.0F, 1.0F, 1.0F));
 	m_zpModels.AddCamera(&m_CamModels);
 	m_sceneModels.AddParallelLight(&m_zlModels);
 	m_sceneModels.AddPlacement(&m_zpModels);
 	m_zpModels.TranslateZ(10.0f);
 	m_zpModels.RotateXDelta(-0.5f);
-	
+
 	//Init models
 	modelPowerline.Init(VModelPowerLine::NORTH | VModelPowerLine::EAST | VModelPowerLine::SOUTH | VModelPowerLine::WEST);
 	models.emplace(VIdentifier::VWindmillPowerPlant, &modelWindmill);
@@ -48,18 +48,19 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	models.emplace(VIdentifier::VOilRefinery, &modelOil);
 	models.emplace(VIdentifier::VPowerLine, &modelPowerline);
 
-	for (const std::pair<VIdentifier::VIdentifier, IViewModel*>& p : models) {
+	for (const std::pair<VIdentifier::VIdentifier, IViewModel*>& p : models)
+	{
 		p.second->initViewModel(nullptr);
 	}
 
 	m_zl.Init(CHVector(1.0F, 1.0F, 1.0F),
-			  CColor(1.0F, 1.0F, 1.0F));
+	          CColor(1.0F, 1.0F, 1.0F));
 
 	m_scene.AddParallelLight(&m_zl);
 	m_scene.AddPlacement(&m_zpCamera);
 
 	vUi->m_zf.AddViewport(m_viewport);
-	
+
 	vUi->m_zr.AddScene(&m_scene);
 	vUi->m_zr.AddScene(&m_sceneModels);
 
@@ -103,11 +104,13 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.00F, 0.00F, 0.22F, 1.0F), &VMaterialLoader::materialInfofieldBackground, "Infofield");
 	//getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.01F, 0.3F, 0.80F, 0.1F), &VMaterialLoader::standardFont, "Infofeld", "infoText");
 	//getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText")->setLayer(0.2F);
+
 	getContainer("BottomBar")->getContainer("Infofield")->addViewport(&m_viewportModels, &m_CamModels, CFloatRect(0.1F, 0.2F, 0.75F, 0.4F), &m_zmbackgroundModels,"DetailedModels");
 	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.10F, 0.65F, 0.60F, 0.13F), &VMaterialLoader::standardFont, "100", "PowerInfo");
 	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.10F, 0.83F, 0.6F, 0.13F), &VMaterialLoader::standardFont, "1000", "MoneyInfo");
 	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.65F, 0.25, 0.13F), &VMaterialLoader::materialIngameIconEnergy, "EngergyInfoIcon");
 	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.83F, 0.25, 0.13F), &VMaterialLoader::materialIngameIconMoney, "MoneyInfoIcon");
+
 	getContainer("BottomBar")->getContainer("Infofield")->setLayer(0.2F);
 	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOff();
 	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOff();
@@ -116,11 +119,11 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	vUi->m_zf.AddViewport(&m_viewportModels);
 	/********************************************************Baumenu AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.22F, 0.00F, 0.51F, 1.0F), &VMaterialLoader::m_zmCraftMenueBackground, "Craftmenu");
-	getContainer("BottomBar")->getContainer("Craftmenu")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.00F, 0.105F, 1.0F,0.895F), "Register");
-	
-	VRegister * vrRegister=CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"));
+	getContainer("BottomBar")->getContainer("Craftmenu")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.00F, 0.105F, 1.0F, 0.895F), "Register");
+
+	VRegister* vrRegister = CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"));
 	vrRegister->addTab(&VMaterialLoader::materialIngameButtonCraftmenu, &VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_BUILDING, "TabBuilding");
-	vrRegister->addTab(&VMaterialLoader::materialIngameButtonSabotage, &VMaterialLoader::materialIngameButtonSabotageHover, &VMaterialLoader::materialDefaultBackground,SWITCH_TO_REGISTER_SABOTAGE, "TabSabotage");
+	vrRegister->addTab(&VMaterialLoader::materialIngameButtonSabotage, &VMaterialLoader::materialIngameButtonSabotageHover, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_SABOTAGE, "TabSabotage");
 	vrRegister->addTab(&VMaterialLoader::materialIngameButtonStatistics, &VMaterialLoader::materialIngameButtonStatisticsHover, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_STATISTICS, "TabStatistics");
 	vrRegister->setLayer(0.7);
 
@@ -147,7 +150,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vtTabBuilding->getGuiObject("oilPowerPlant")->setLayer(0.2F);
 	m_vtTabBuilding->getGuiObject("nuclearPowerPlant")->setLayer(0.2F);
 	m_vtTabBuilding->getGuiObject("powerLine")->setLayer(0.2F);
-	
+
 	m_vtTabSabotage->addButton(CFloatRect(0.025F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonScissors, &VMaterialLoader::materialSabotageButtonScissorsHover, SELECT_SABOTAGE_POWERLINECUT, "sabotagePowerlineCut");
 	m_vtTabSabotage->addButton(CFloatRect(0.275F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonStrike, &VMaterialLoader::materialSabotageButtonStrikeHover, SELECT_SABOTAGE_STRIKE, "sabotageStrike");
 	m_vtTabSabotage->addButton(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonBomb, &VMaterialLoader::materialSabotageButtonBombHover, SELECT_SABOTAGE_BOMB, "sabotageBomb");
@@ -176,7 +179,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	m_vtTabStatistics->addOverlay(CFloatRect(0.51f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOil");
 	m_vtTabStatistics->addText(CFloatRect(0.62f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countOil");
-	
+
 	m_vtTabSabotage->switchOff();
 	m_vtTabStatistics->switchOff();
 
@@ -204,7 +207,6 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
 	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.3F);
 
-	
 
 	//CFloatRect iwas = getRectForPixel(0, vUi->m_zf.m_iHeightWindow - 100, vUi->m_zf.m_iWidthWindow, 100);
 
@@ -213,8 +215,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 }
 
 VScreenIngame::~VScreenIngame()
-{
-}
+{}
 
 void VScreenIngame::onNotify(const Event& events)
 {
@@ -236,7 +237,7 @@ void VScreenIngame::onNotify(const Event& events)
 			m_vtTabSabotage->switchOff();
 			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOn();
 			// TODO get stats and update statistics here
-			updatePowerPlants({ { "countOil", 10 }, { "countWind", 15 } }); // testing
+			updatePowerPlants({{"countOil", 10},{"countWind", 15}}); // testing
 			break;
 
 		case SELECT_BUILDING_WINDMILL:
@@ -305,7 +306,7 @@ void VScreenIngame::onNotify(const Event& events)
 		case SELECT_BUILDING_SOLARPOWERPLANT:
 			updateInfofield("SolarPowerplant");
 			m_selectedBuilding = VIdentifier::VSolarPowerPlant;
-			
+
 			//TODO BuildMenue Button Solarpowerplant
 			vUi->switchCursor(vUi->CursorType::Hammer);
 			setActiveButton("solarPowerPlant");
@@ -320,29 +321,35 @@ void VScreenIngame::onNotify(const Event& events)
 			m_selectedBuilding = VIdentifier::VPowerLine;
 			vUi->switchCursor(vUi->CursorType::Hammer);
 			//TODO BuildMenue Button Powerline
+
 			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LPowerLine)));
+
 			setActiveButton("powerLine");
 			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
 			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
 			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
 			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 			break;
+
 		case SELECT_SABOTAGE_POWERLINECUT:
 			vUi->switchCursor(vUi->CursorType::Sabotage);
 			setActiveButton("sabotagePowerlineCut");
-				break;
+			selectedAction = IViewBuilding::sabotagePowerLine;
+			break;
 		case SELECT_SABOTAGE_STRIKE:
 			vUi->switchCursor(vUi->CursorType::Sabotage);
 			setActiveButton("sabotageStrike");
-				break;
-			
+			selectedAction = IViewBuilding::sabotagePowerPlant;
+			break;
 		case SELECT_SABOTAGE_BOMB:
 			vUi->switchCursor(vUi->CursorType::Sabotage);
 			setActiveButton("sabotageBomb");
+			selectedAction = IViewBuilding::sabotageResourceField;
 			break;
-		
+
 		default:
 			m_selectedBuilding = VIdentifier::Undefined;
+			selectedAction = IViewBuilding::Undefined;
 			notify(events);
 			break;
 	}
@@ -372,15 +379,14 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	static bool bK = false;
 	static bool enabled = true;
 
-	if (keyboard->KeyPressed(DIK_M)&& enabled)
+	if (keyboard->KeyPressed(DIK_M) && enabled)
 	{
 		enabled = false;
 		m_vtTabSabotage->getGuiObject("sabotageBomb")->switchOff();
-		
-		m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F),&VMaterialLoader::materialAnimSabotageBomb,"AnimBomb");
-		
+
+		m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageBomb, "AnimBomb");
 	}
-	
+
 
 	if (!keyboard->KeyPressed(DIK_ESCAPE))
 	{
@@ -417,10 +423,11 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 
 	if (vUi->m_zkCursor.ButtonPressedRight())
 	{
-		if (activeButton!=nullptr)
+		if (activeButton != nullptr)
 		{
 			vUi->switchCursor(vUi->CursorType::Default);
 			activeButton->setActive(false);
+
 
 			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOff();
 			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOff();
@@ -428,16 +435,14 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOff();
 
 			if (m_selectedBuilding!=VIdentifier::Undefined)
+
 			{
-				
 				m_selectedBuilding = VIdentifier::Undefined;
 				updateModelView();
 			}
-			
+
 			activeButton = nullptr;
 		}
-		
-		
 	}
 }
 
@@ -456,9 +461,11 @@ void VScreenIngame::updateInfofield(const std::string& neuerText)
 	//CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
 }
 
-void VScreenIngame::updatePowerPlants(const std::map<std::string, int> powerPlants) {
+void VScreenIngame::updatePowerPlants(const std::map<std::string, int> powerPlants)
+{
 	//VTab * tabStatistics = CASTD<VRegister *>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics");
-	for each (std::pair<std::string, int> plant in powerPlants) {
+	for each (std::pair<std::string, int> plant in powerPlants)
+	{
 		CASTD<VText*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->getGuiObject(plant.first))->updateText(std::to_string(plant.second));
 	}
 }
@@ -475,11 +482,9 @@ CFloatRect VScreenIngame::getBottomSpace()
 
 void VScreenIngame::tick(const float fTimeDelta)
 {
-
 	if (!vUi->m_zkCursor.ButtonPressedLeft())
 	{
 		vUi->m_BlockCursorLeftPressed = false;
-		
 	}
 
 	handleInput();
@@ -561,13 +566,16 @@ void VScreenIngame::handleInput()
 	static bool keyPressed = false;
 	float direction = 1.0f;
 
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL)) {
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
+	{
 		direction = -1.0f;
 	}
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_U)) {
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_U))
+	{
 		m_zpModels.RotateXDelta(0.1f * direction);
 	}
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_I)) {
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_I))
+	{
 		m_zpModels.TranslateZDelta(0.1f * direction);
 	}
 
@@ -690,7 +698,7 @@ void VScreenIngame::handleInput()
 	static float cursorYOld = -5.0f;
 	float cursorX, cursorY;
 	bool insideFrame = vUi->m_zkCursor.GetFractional(cursorX, cursorY);
-	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY >(1.0f - bottomSpace.GetYSize()) || fabs(cursorXOld - cursorX) + fabs(cursorYOld - cursorY) <= 0.05)
+	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY > (1.0f - bottomSpace.GetYSize()) || fabs(cursorXOld - cursorX) + fabs(cursorYOld - cursorY) <= 0.05)
 	{
 		//Restrict picking when not in window or cursor is only over UI or when the cursor doesn't move much
 		return;
@@ -729,7 +737,7 @@ void VScreenIngame::handleInput()
 std::map<int, std::vector<int>> VScreenIngame::pickElements()
 {
 	std::map<int, std::vector<int>> pickedElements;
-	
+
 	CGeos geos;
 	vUi->m_zkCursor.PickGeos(&geos, 5);
 
@@ -763,51 +771,50 @@ void VScreenIngame::EndEvent()
 { }
 
 std::unordered_map<std::string, IViewGUIObject*> VScreenIngame::getScreenObjects()
-	{
-		std::unordered_map<std::string, IViewGUIObject*> resultObjectList;
+{
+	std::unordered_map<std::string, IViewGUIObject*> resultObjectList;
 
-		for (std::pair<std::string, IViewGUIContainer*> container : m_Guicontainer)
-		{
-			std::unordered_map<std::string, IViewGUIObject*> tempMap=getObjects(container.second);
-			if (tempMap.size()!=0)
+	for (std::pair<std::string, IViewGUIContainer*> container : m_Guicontainer)
+	{
+		std::unordered_map<std::string, IViewGUIObject*> tempMap = getObjects(container.second);
+		if (tempMap.size() != 0)
 			resultObjectList.insert(tempMap.begin(), tempMap.end());
-		}
-
-		return resultObjectList;
 	}
 
-std::unordered_map<std::string, IViewGUIObject*>VScreenIngame::getObjects(IViewGUIContainer* container)
+	return resultObjectList;
+}
+
+std::unordered_map<std::string, IViewGUIObject*> VScreenIngame::getObjects(IViewGUIContainer* container)
+{
+	static std::unordered_map<std::string, IViewGUIObject*> objectList;
+
+	std::unordered_map<std::string, IViewGUIObject*> tempObjectList = container->getGuiObjectList();
+	objectList.insert(tempObjectList.begin(), tempObjectList.end());
+
+	if (container->getGuiContainerMap().size() == 0) return objectList;
+	else
 	{
-		static std::unordered_map<std::string, IViewGUIObject*> objectList;
-		
-		std::unordered_map<std::string, IViewGUIObject*> tempObjectList = container->getGuiObjectList();
-		objectList.insert(tempObjectList.begin(), tempObjectList.end());
-		
-		if (container->getGuiContainerMap().size() == 0) return objectList;
-		else
+		for (std::pair<std::string, IViewGUIContainer*> containerCon : container->getGuiContainerMap())
 		{
-			for (std::pair<std::string, IViewGUIContainer*> containerCon : container->getGuiContainerMap())
-			{
-				getObjects(containerCon.second);
-			}
+			getObjects(containerCon.second);
 		}
-		return std::unordered_map<std::string, IViewGUIObject*>();
 	}
+	return std::unordered_map<std::string, IViewGUIObject*>();
+}
 
-	void VScreenIngame::setActiveButton(const std::string& sName)
-	{
-		std::unordered_map<std::string, IViewGUIObject*> objectList=getScreenObjects();
+void VScreenIngame::setActiveButton(const std::string& sName)
+{
+	std::unordered_map<std::string, IViewGUIObject*> objectList = getScreenObjects();
 
-		if (activeButton)
+	if (activeButton)
 		activeButton->setActive(false);
 
-		ASSERT(objectList[sName]->getType() == IViewGUIObject::ObjectType::BUTTON, "The Element is not a Button");
-		CASTD<VButton*>(objectList[sName])->setActive();
-		activeButton = CASTD<VButton*>(objectList[sName]);
-		
-	}
+	ASSERT(objectList[sName]->getType() == IViewGUIObject::ObjectType::BUTTON, "The Element is not a Button");
+	CASTD<VButton*>(objectList[sName])->setActive();
+	activeButton = CASTD<VButton*>(objectList[sName]);
+}
 
-	CFloatRect VScreenIngame::getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY)
+CFloatRect VScreenIngame::getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY)
 {
 	CFloatRect tempRectangle;
 	const int iFensterBreite = vUi->m_zf.m_iWidthWindow;
@@ -834,31 +841,24 @@ void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& picke
 			int x = pickedElements.at(VIdentifier::VPlayingField)[0];
 			int y = pickedElements.at(VIdentifier::VPlayingField)[1];
 
-			switch (m_selectedBuilding)
+			if (m_selectedBuilding != VIdentifier::Undefined)
 			{
-				case VIdentifier::VPowerLine:
-					vUi->vMaster->getVPlayingField()->tryBuildOnField<LPowerLine>(x, y);
-					break;
-				case VIdentifier::VWindmillPowerPlant:
-					vUi->vMaster->getVPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);
-					break;
-				case VIdentifier::VCoalPowerPlant:
-					vUi->vMaster->getVPlayingField()->tryBuildOnField<LCoalPowerPlant>(x, y);
-					break;
-				case VIdentifier::VHydroelectricPowerPlant:
-					vUi->vMaster->getVPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(x, y);
-					break;
-				case VIdentifier::VNuclearPowerPlant:
-					vUi->vMaster->getVPlayingField()->tryBuildOnField<LNuclearPowerPlant>(x, y);
-					break;
-				case VIdentifier::VOilRefinery:
-					vUi->vMaster->getVPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
-					break;
-				case VIdentifier::VSolarPowerPlant:
-					vUi->vMaster->getVPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
-					break;
-				default:
-					break;
+				if (!tryBuilding(x, y))
+				{
+					VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, nullptr);
+				}
+			}
+
+			if (selectedAction != IViewBuilding::Undefined)
+			{
+				if (trySabotage(x, y))
+				{
+					VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_EMITTED, nullptr);
+				}
+				else
+				{
+					VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, nullptr);
+				}
 			}
 		}
 
@@ -883,21 +883,21 @@ void VScreenIngame::handleTestClick(const std::map<int, std::vector<int>>& picke
 			{
 				//Check if player is allowed to sabotage (check cooldown or count or wahtever)
 
-				if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Remote) 
+				if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Remote)
 				{
-				/*if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Local)
+					/*if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Local)
 				{*/
 					auto sabotageSoundHelper = [] (const bool operationSuccessful)
-					{
-						if (operationSuccessful)
-						{
-							VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_EMITTED, nullptr);
-						}
-						else
-						{
-							VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, nullptr);
-						}
-					};
+							{
+								if (operationSuccessful)
+								{
+									VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_EMITTED, nullptr);
+								}
+								else
+								{
+									VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, nullptr);
+								}
+							};
 
 					//Switch enemys Powerplant Off
 					if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
@@ -951,20 +951,106 @@ void VScreenIngame::handleTestClick(const std::map<int, std::vector<int>>& picke
 	}
 }
 
+bool VScreenIngame::tryBuilding(const int x, const int y)
+{
+	switch (m_selectedBuilding)
+	{
+		case VIdentifier::VPowerLine:
+			vUi->vMaster->getVPlayingField()->tryBuildOnField<LPowerLine>(x, y);
+			break;
+		case VIdentifier::VWindmillPowerPlant:
+			vUi->vMaster->getVPlayingField()->tryBuildOnField<LWindmillPowerPlant>(x, y);
+			break;
+		case VIdentifier::VCoalPowerPlant:
+			vUi->vMaster->getVPlayingField()->tryBuildOnField<LCoalPowerPlant>(x, y);
+			break;
+		case VIdentifier::VHydroelectricPowerPlant:
+			vUi->vMaster->getVPlayingField()->tryBuildOnField<LHydroelectricPowerPlant>(x, y);
+			break;
+		case VIdentifier::VNuclearPowerPlant:
+			vUi->vMaster->getVPlayingField()->tryBuildOnField<LNuclearPowerPlant>(x, y);
+			break;
+		case VIdentifier::VOilRefinery:
+			vUi->vMaster->getVPlayingField()->tryBuildOnField<LOilRefinery>(x, y);
+			break;
+		case VIdentifier::VSolarPowerPlant:
+			vUi->vMaster->getVPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
+			break;
+		default:
+			return false;
+	}
+
+	return true;
+}
+
+bool VScreenIngame::trySabotage(const int x, const int y)
+{
+	IViewBuilding* vbuilding = vUi->vMaster->getVPlayingField()->getBuilding(x, y);
+
+	//No building selected
+	if (vbuilding == nullptr)
+	{
+		return false;
+	}
+
+	//Own building selected
+	if (vbuilding->getLBuilding()->getPlayerId() != LPlayer::PlayerId::Remote)
+	{
+		return false;
+	}
+
+	switch (selectedAction)
+	{
+		case IViewBuilding::sabotagePowerPlant:
+			//No power plant selected
+			if (dynamic_cast<IVPowerPlant*>(vbuilding) == nullptr)
+			{
+				return false;
+			}
+
+			return vbuilding->clicked(IViewBuilding::sabotagePowerPlant);
+
+		case IViewBuilding::sabotagePowerLine:
+			{
+				//No powerline selected
+				if (dynamic_cast<VPowerLine*>(vbuilding) == nullptr)
+				{
+					return false;
+				}
+
+				bool operationSuccessful = vbuilding->clicked(IViewBuilding::sabotagePowerLine);
+				if (operationSuccessful)
+				{
+					//only remove it if action was successfull
+					vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
+				}
+				return operationSuccessful;
+			}
+		case IViewBuilding::sabotageResourceField:
+			// Deduct enemys resources
+			return vbuilding->clicked(IViewBuilding::sabotageResourceField);
+
+		default:
+			return false;
+	}
+}
+
 void VScreenIngame::updateModelView()
 {
 	static IViewModel* previousModel = nullptr;
 
-	if (previousModel != nullptr) {
+	if (previousModel != nullptr)
+	{
 		m_sceneModels.SubPlacement(previousModel->getMainPlacement());
 	}
 
-	if (models.count(m_selectedBuilding) > 0) {
+	if (models.count(m_selectedBuilding) > 0)
+	{
 		previousModel = models.at(m_selectedBuilding);
 		m_sceneModels.AddPlacement(previousModel->getMainPlacement());
 	}
 	else
-	{	//Disable action
+	{ //Disable action
 		previousModel = nullptr;
 	}
 }

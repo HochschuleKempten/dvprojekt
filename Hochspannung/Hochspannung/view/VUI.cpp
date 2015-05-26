@@ -6,7 +6,6 @@
 #include "VScreenLobby.h"
 #include "VScreenCredits.h"
 #include "VScreenOptions.h"
-#include "../logic/LMaster.h"
 
 NAMESPACE_VIEW_B
 
@@ -18,7 +17,9 @@ VUI::VUI(VMaster* vMaster)
 }
 
 VUI::~VUI()
-{}
+{
+	vMaster->unregisterObserver(this);
+}
 
 void VUI::initUI(HWND hwnd, CSplash* psplash)
 {
@@ -56,7 +57,6 @@ void VUI::onNotify(const Event& evente)
 		case QUIT_GAME:
 			isQuit = true;
 			PostQuitMessage(0);
-			vMaster->lMaster->gameOver();
 			break;
 		case SEARCH_IP:
 			break;
@@ -139,7 +139,11 @@ IViewScreen* VUI::getScreen(const std::string& sName)
 
 void VUI::updateMoney(const int wert)
 {
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
+	//Only update if UI is ready
+	if (m_screens.count("Ingame") > 0)
+	{
+		CASTD<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
+	}
 }
 
 void VUI::updatePopulation(const int wert)

@@ -209,12 +209,9 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureBump(const_cast<char*>(textureBump.c_str()));
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].SetTextureSpecularBlack();
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].SetTextureSpecularBlack();
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].SetTextureSpecularBlack();
-	//fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
-	//fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
-	//fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureSpecular(const_cast<char*>(textureSpecular.c_str()));
 }
 
 void VMaterialLoader::init()
@@ -372,7 +369,8 @@ void VMaterialLoader::init()
 
 	//Umspannwerktexturen
 	m_zmUmspannBoden.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
-	m_zmUmspannGrund.MakeTextureDiffuse("textures\\Powerplants\\Gruenstahl.png");
+	m_zmUmspannGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton_light.png");
+	m_zmUmspannGrund.MakeTextureBump("textures\\Powerplants\\Beton_light_bump.png");
 	m_zmUmspannIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmUmspannLeitung.MakeTextureDiffuse("textures\\Powerplants\\Grau.jpg");
 	m_zmUmspannBoden.SetTextureSpecularAsDiffuse();

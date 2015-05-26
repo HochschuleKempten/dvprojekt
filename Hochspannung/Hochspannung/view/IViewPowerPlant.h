@@ -5,6 +5,7 @@
 #include "../logic/IVPowerPlant.h"
 #include "VSoundLoader.h"
 #include "../logic/LRemoteOperation.h"
+#include "../logic/LSabotage.h"
 
 NAMESPACE_VIEW_B
 
@@ -32,26 +33,37 @@ public:
 		{
 			case action::switchOnOff:
 			{
-				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
-				lPlant->switchOnOff();
+				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
+				if (isOn)
+				{
+					remoteOperation.switchOff();
+				}
+				else
+				{
+					remoteOperation.switchOn();
+				}
+
 				return true;
 			}
 			case action::sabotagePowerPlant: 
-				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
+				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
 				{
-					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
-					lPlant->sabotage(); 
+					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
+					remoteOperation.sabotage();
 					return true; 
 				} 
+
 				return false;
 
 			case action::sabotageResourceField: 
-				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
+				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::Resource))
 				{
-					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField());
-					lPlant->sabotageResource(); 
+					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
+					remoteOperation.sabotageResource();
+
 					return true;
 				}
+
 				return false;
 
 			default:ASSERT("Invalid action"); return false;

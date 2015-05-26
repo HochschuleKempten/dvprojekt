@@ -41,11 +41,14 @@ public:
 	void joinGame(const std::string& ipAddress);
 
 	virtual void updateMoney(const int money) override;
+	virtual void updateRemainingSabotageActs(const int remainingSabotageActs) override;
 	virtual void pauseGame() override;
 	virtual void continueGame() override;
 	virtual void gameWon() override;
 	virtual void gameOver() override;
 	virtual void updateGameList(const std::vector<Network::CGameObject>& gameList) override;
+	virtual void messageSabotageFailed(const std::string& message) override;
+	virtual void messageBuildingFailed(const std::string& message) override;
 	virtual IVFactory* getFactory() override;
 
 	inline VPlayingField* getVPlayingField()

@@ -35,11 +35,13 @@ struct LPlayingFieldHasher
 class LMaster;
 class LPowerLine;
 class LRemoteOperation;
+class ILPowerPlant;
 
 class LPlayingField
 {
 	NON_COPYABLE(LPlayingField);
 	friend class LMaster;
+	friend class ILPowerPlant;
 	friend class LRemoteOperation;
 
 private:
@@ -51,8 +53,6 @@ private:
 	using Graph = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;
 
-	LCity* localCity = nullptr;
-	LCity* remoteCity = nullptr;
 	LTransformerStation* transformerStation = nullptr;
 
 	/** @brief Stores every unused coordinates. Is empty after correct initialization */
@@ -102,18 +102,17 @@ private:
 	};
 
 	template<typename T>
-	void setSpecialBuildings(const int /*x*/, const int /*y*/, const int /*playerId*/) {}
+	void setSpecialBuildings(const int x, const int y, const int playerId)
+	{
+		if (std::is_base_of<ILPowerPlant, T>::value)
+		{
+			lMaster->getPlayer(playerId)->addPowerPlant(CASTD<ILPowerPlant*>(getField(x, y)->getBuilding()));
+		}
+	}
 	template<>
 	void setSpecialBuildings<LCity>(const int x, const int y, const int playerId)
 	{
-		if (playerId == LPlayer::Local)
-		{
-			localCity = CASTD<LCity*>(getField(x, y)->getBuilding());
-		}
-		else if (playerId == LPlayer::Remote)
-		{
-			remoteCity = CASTD<LCity*>(getField(x, y)->getBuilding());
-		}
+		lMaster->getPlayer(playerId)->setCity(CASTD<LCity*>(getField(x, y)->getBuilding()));
 	}
 	template<>
 	void setSpecialBuildings<LTransformerStation>(const int x, const int y, const int /*playerId*/)
@@ -130,7 +129,7 @@ private:
 
 		//Check costs
 		if (playerId & LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < LBalanceLoader::getCost<T>()) {
-			vPlayingField->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") +
+			lMaster->getVMaster()->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") +
 												 std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") +
 												 std::to_string(LBalanceLoader::getCost<T>()) + std::string(" benötigt."));
 			return false;
@@ -178,10 +177,6 @@ private:
 	void endRemoteOperation();
 
 	bool hasFriendlyNeighbor(const int x, const int y);
-	bool checkIndex(const int x, const int y);
-	int convertIndex(const std::pair<int, int>& coordinates);
-	int convertIndex(const int x, const int y);
-	std::pair<int, int> convertIndex(const int idx);
 	void addBuildingToGraph(const int x, const int y, const int orientation);
 	void adjustOrientationsAround(const int x, const int y, const int orientation);
 	void printGraph();
@@ -234,9 +229,16 @@ public:
 	void recheckConnectedBuildings();
 	bool checkConnectionBuildings(const ILBuilding* b1, const ILBuilding* b2);
 	bool isTransformstationConnected();
+
 	void calculateEnergyValueCity();
 	std::vector<int> getCityConnections();
 
+	void recalculateCityConnections();
+
+	bool checkIndex(const int x, const int y);
+	int convertIndex(const std::pair<int, int>& coordinates);
+	int convertIndex(const int x, const int y);
+	std::pair<int, int> convertIndex(const int idx);
 	bool isInitDone();
 	bool isLocalOperation() const
 	{
@@ -244,17 +246,10 @@ public:
 	}
 	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);
 	LField* getField(const int x, const int y);
+	LField* getField(const std::pair<int, int>& coordinates);
 	int getFieldLength();
 	LMaster* getLMaster();
 	IVPlayingField* getVPlayingField();
-	LCity* getLocalCity() const
-	{
-		return localCity;
-	}
-	void recalculateCityConnections()
-	{
-		cityConnectionsRecalculate = true;
-	}
 };
 
 

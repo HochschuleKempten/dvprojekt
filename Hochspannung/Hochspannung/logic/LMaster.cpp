@@ -12,20 +12,28 @@
 #include "LTransformerStation.h"
 #include "LBalanceLoader.h"
 #include "LPowerLine.h"
+#include <boost\lexical_cast.hpp>
 
 NAMESPACE_LOGIC_B
 
 LMaster::LMaster(IVMaster& vMaster)
-		: vMaster(vMaster), lPlayers({ this, this }),
-		networkService(Network::CNetworkService::instance())
+: vMaster(vMaster), networkService(Network::CNetworkService::instance())
 {
 	vMaster.registerObserver(this);
+
+	lPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(this));
+	lPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(this));
+
 	LBalanceLoader::init();
-	searchGames(); //start searching	
+	getPlayer(LPlayer::Local)->addMoney(LBalanceLoader::getDefaultMoney());
+	getPlayer(LPlayer::Local)->addMoney(LBalanceLoader::getDefaultMoney());
+
+	searchGames(); //start searching
 }
 
 LMaster::~LMaster()
 {
+	vMaster.unregisterObserver(this);
 	delete lPlayingField;
 	networkService.close();
 }
@@ -147,9 +155,16 @@ void LMaster::tick(const float fTimeDelta)
 		ASSERT(error.what());
 	}*/
 
-	if (timeLastCheck > 3.0F)
+	if (timeLastCheck > 3.0F && (lPlayingField != nullptr ? !lPlayingField->isInitDone() : true))
 	{
-		vMaster.updateGameList(getGameList());
+		bool updated = false;
+		std::vector<CGameObject> gameList = getGameList(&updated);
+
+		if (updated)
+		{
+			DEBUG_OUTPUT("Updated gamelist.");
+			vMaster.updateGameList(gameList);
+		}
 	}
 
 	if (timeLastCheck > 0.25F && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
@@ -301,7 +316,15 @@ void LMaster::tick(const float fTimeDelta)
 			ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 			if (powerPlant != nullptr)
 			{
-				powerPlant->switchOnOff();
+				bool isActivated = boost::lexical_cast<bool>(transferObject.getValue());
+				if (isActivated)
+				{
+					powerPlant->switchOn();
+				}
+				else
+				{
+					powerPlant->switchOff();
+				}
 			}
 
 			break;
@@ -409,9 +432,29 @@ void LMaster::sendPowerPlantSwitchState(const int x, const int y, const bool sta
 	}
 }
 
-std::vector<Network::CGameObject> LMaster::getGameList()
+std::vector<Network::CGameObject> LMaster::getGameList(bool* updated)
 {
-	return networkService.getGameList();
+	static std::vector<Network::CGameObject> prevGameList;
+	std::vector<Network::CGameObject> newGameList = networkService.getGameList();
+
+	if (newGameList != prevGameList)
+	{
+		newGameList = prevGameList;
+
+		if (updated != nullptr)
+		{
+			*updated = true;
+		}
+	}
+	else
+	{
+		if (updated != nullptr)
+		{
+			*updated = false;
+		}
+	}
+
+	return newGameList;
 }
 
 void LMaster::searchGames()
@@ -430,10 +473,10 @@ IVMaster* LMaster::getVMaster()
 	return &vMaster;
 }
 
-LPlayer* LMaster::getPlayer(const int idxPlayer)
+LPlayer* LMaster::getPlayer(const int playerId)
 {
-	ASSERT(idxPlayer >= 0 && idxPlayer <= 1, "Wrong idx for player");
-	return &lPlayers[idxPlayer];
+	ASSERT(lPlayers.count(static_cast<LPlayer::PlayerId>(playerId)) > 0, "Invalid playerId. There is no player with the id " << playerId << " available");
+	return &lPlayers[static_cast<LPlayer::PlayerId>(playerId)];
 }
 
 

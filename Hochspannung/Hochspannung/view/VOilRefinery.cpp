@@ -13,7 +13,9 @@ VOilRefinery::VOilRefinery(VMaster* vMaster, LOilRefinery* lPlant)
 }
 
 VOilRefinery::~VOilRefinery()
-{}
+{
+	vMaster->unregisterObserver(this);
+}
 
 void VOilRefinery::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {
