@@ -28,6 +28,7 @@ private:
 	int coolDownCounterPowerPlant = 0;
 	int sabotageActs = -1;
 	std::vector<ILPowerPlant*> powerPlants;
+	std::vector<ILPowerPlant*> prevConnectedPowerPlants;
 	LCity* city = nullptr;
 
 public:

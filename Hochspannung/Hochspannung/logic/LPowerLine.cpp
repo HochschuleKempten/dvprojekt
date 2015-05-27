@@ -18,7 +18,7 @@ LPowerLine::~LPowerLine()
 {
 }
 
-bool LPowerLine::sabotage()
+void LPowerLine::sabotagePowerLine()
 {
 	//todo (L) what should happen here?
 	if (!lField->getLPlayingField()->isLocalOperation())
@@ -26,7 +26,6 @@ bool LPowerLine::sabotage()
 		std::pair<int, int> coordinates = lField->getCoordinates();
 		lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::LSabotage::PowerLine, coordinates.first, coordinates.second);
 	}
-	return true;
 }
 
 void LPowerLine::updatedOrientation(const int additionalOrientation)

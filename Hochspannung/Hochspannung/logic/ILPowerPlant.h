@@ -6,6 +6,7 @@
 #include "LMaster.h"
 #include "IVMaster.h"
 #include "IVPowerPlant.h"
+#include "LRemoteOperation.h"
 
 NAMESPACE_LOGIC_B
 
@@ -72,7 +73,7 @@ private:
 		}
 	}
 
-	void sabotage()
+	void sabotagePowerPlant()
 	{
 		switchOff();
 		isSabotaged = true;
@@ -135,10 +136,8 @@ public:
 			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
 			{
 				isSabotaged = false;	//TODO (L) Send end of sabotage over network?
-				//Can't use LRemoteOperation here because of circular reference
-				lField->getLPlayingField()->beginRemoteOperation();
-				switchOn();
-				lField->getLPlayingField()->endRemoteOperation();
+				LRemoteOperation remoteOperation(lField->getLPlayingField(), this);
+				remoteOperation.switchOn();
 				timeLastCheck = 0;
 				DEBUG_OUTPUT("Your powerplant is reactivated after the sabotage act");
 			}
@@ -160,9 +159,8 @@ public:
 			DEBUG_EXPRESSION(lastRessourcesUsed = true);
 
 			//No more ressources are left, so switch the power plant off
-			lField->getLPlayingField()->beginRemoteOperation();
-			switchOff();
-			lField->getLPlayingField()->endRemoteOperation();
+			LRemoteOperation remoteOperation(lField->getLPlayingField(), this);
+			remoteOperation.switchOff();
 
 			//Last step returns proportionally ressources
 			return LBalanceLoader::getProducedEnergy(this->getIdentifier()) * amountReduced / consumedRessources;

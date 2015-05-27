@@ -277,7 +277,7 @@ void LMaster::tick(const float fTimeDelta)
 				LPowerLine* powerLine = dynamic_cast<LPowerLine*>(lPlayingField->getField(x, y)->getBuilding());
 				if (powerLine != nullptr)
 				{
-					powerLine->sabotage();
+					powerLine->sabotagePowerLine();
 				}
 				break;
 			}
@@ -287,7 +287,7 @@ void LMaster::tick(const float fTimeDelta)
 				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 				if (powerPlant != nullptr)
 				{
-					powerPlant->sabotage();
+					powerPlant->sabotagePowerPlant();
 				}
 
 				break;

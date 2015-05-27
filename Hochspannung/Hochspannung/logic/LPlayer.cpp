@@ -155,34 +155,55 @@ void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
 void LPlayer::checkPowerPlants()
 {
 	std::vector<int> cityConnections = lMaster->getLPlayingField()->getCityConnections();
-	std::vector<ILPowerPlant*> connectedPowerPlants;
+	std::vector<ILPowerPlant*> currentConnectedPowerPlants;
 
 	for (const int pPos : cityConnections)
 	{
 		ILPowerPlant* p = dynamic_cast<ILPowerPlant*>(lMaster->getLPlayingField()->getField(lMaster->getLPlayingField()->convertIndex(pPos))->getBuilding());
 		if (p != nullptr)
 		{
-			connectedPowerPlants.emplace_back(p);
+			currentConnectedPowerPlants.emplace_back(p);
 		}
 	}
 
-	std::vector<ILPowerPlant*> differences;
-	std::sort(powerPlants.begin(), powerPlants.end());
-	std::sort(connectedPowerPlants.begin(), connectedPowerPlants.end());
+	std::vector<ILPowerPlant*> differencesPrevCurrent;
+	std::vector<ILPowerPlant*> differencesCurrentPrev;
 
-	std::set_symmetric_difference(
-		powerPlants.begin(),
-		powerPlants.end(),
-		connectedPowerPlants.begin(),
-		connectedPowerPlants.end(),
-		std::back_inserter(differences));
+	//The ranges need to be sorted before difference is calculated
+	std::sort(prevConnectedPowerPlants.begin(), prevConnectedPowerPlants.end());
+	std::sort(currentConnectedPowerPlants.begin(), currentConnectedPowerPlants.end());
 
-	for (ILPowerPlant* p : differences)
+	//Prev - Current --> turn off
+	std::set_difference(
+		prevConnectedPowerPlants.begin(),
+		prevConnectedPowerPlants.end(),
+		currentConnectedPowerPlants.begin(),
+		currentConnectedPowerPlants.end(),
+		std::back_inserter(differencesPrevCurrent));
+
+	//Current - Prev --> turn on
+	std::set_difference(
+		currentConnectedPowerPlants.begin(),
+		currentConnectedPowerPlants.end(),
+		prevConnectedPowerPlants.begin(),
+		prevConnectedPowerPlants.end(),
+		std::back_inserter(differencesCurrentPrev));
+
+	for (ILPowerPlant* p : differencesPrevCurrent)
 	{
 		//The check is only done by the player itself, so this is always a remote operation
 		LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
 		remoteOperation.switchOff();
 	}
+
+	for (ILPowerPlant* p : differencesCurrentPrev)
+	{
+		//The check is only done by the player itself, so this is always a remote operation
+		LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
+		remoteOperation.switchOn();
+	}
+
+	prevConnectedPowerPlants = currentConnectedPowerPlants;
 }
 
 NAMESPACE_LOGIC_E

@@ -49,7 +49,7 @@ public:
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
 				{
 					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
-					remoteOperation.sabotage();
+					remoteOperation.sabotagePowerPlant();
 					return true; 
 				} 
 

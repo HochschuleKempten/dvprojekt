@@ -41,7 +41,6 @@ class LPlayingField
 {
 	NON_COPYABLE(LPlayingField);
 	friend class LMaster;
-	friend class ILPowerPlant;
 	friend class LRemoteOperation;
 
 private:

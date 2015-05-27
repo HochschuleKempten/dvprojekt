@@ -269,6 +269,7 @@
     <ClCompile Include="logic\LOilRefinery.cpp" />
     <ClCompile Include="logic\LPlayer.cpp" />
     <ClCompile Include="logic\LPlayingField.cpp" />
+    <ClCompile Include="logic\LRemoteOperation.cpp" />
     <ClCompile Include="logic\LSolarPowerPlant.cpp" />
     <ClCompile Include="logic\LPowerLine.cpp" />
     <ClCompile Include="logic\LTransformerStation.cpp" />

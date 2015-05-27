@@ -609,6 +609,9 @@
     <ClCompile Include="view\VGraphRatio.cpp">
       <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="logic\LRemoteOperation.cpp">
+      <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders.hlsl">
