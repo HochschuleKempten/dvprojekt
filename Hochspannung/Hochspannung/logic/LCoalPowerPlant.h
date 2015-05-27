@@ -14,7 +14,7 @@ public:
 
 	int getEnergyValue() override;
 
-	LIdentifier::LIdentifier getIdentifier() override
+	LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LCoalPowerPlant;
 	};

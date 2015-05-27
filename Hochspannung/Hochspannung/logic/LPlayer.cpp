@@ -138,7 +138,14 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 
 void LPlayer::addPowerPlant(ILPowerPlant* powerPlant)
 {
+	//TODO (L) inform ui
 	powerPlants.emplace_back(powerPlant);
+}
+
+void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
+{
+	//TODO (L) inform ui
+	powerPlants.erase(std::remove(powerPlants.begin(), powerPlants.end(), powerPlant), powerPlants.end());
 }
 
 void LPlayer::checkPowerPlants()

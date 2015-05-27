@@ -99,7 +99,7 @@ public:
 	FieldType getFieldType() const;
 	FieldLevel getFieldLevel() const;
 	int getBuildingId() const;
-	bool removeBuilding();
+	bool removeBuilding(const std::function<void(const ILBuilding* const)>& fnBeforeDelete = nullptr);
 	ILBuilding * getBuilding();
 	void setIsPlacingAllowed(const bool allowed);
 	bool isPlacingAllowed();

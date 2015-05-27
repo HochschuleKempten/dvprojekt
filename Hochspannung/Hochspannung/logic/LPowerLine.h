@@ -21,7 +21,7 @@ public:
 
 	bool sabotage();
 
-	virtual LIdentifier::LIdentifier getIdentifier() override
+	virtual LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LPowerLine;
 	}

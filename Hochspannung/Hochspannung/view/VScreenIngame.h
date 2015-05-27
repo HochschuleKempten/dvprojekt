@@ -49,9 +49,6 @@ public:
 	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(const int width, const int height) override;
 
-	void handleInput();
-	std::map<int, std::vector<int>> pickElements();
-
 	void addToScene(CPlacement* placement);
 
 	void startAnimation() override;
@@ -64,6 +61,9 @@ public:
 	std::unordered_map<std::string, IViewGUIObject*> getObjects(IViewGUIContainer* container);
 
 private:
+	void handleInput();
+	std::map<int, std::vector<int>> pickElements();
+
 	CFloatRect getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY);
 	void handleLeftClick(const std::map<int, std::vector<int>>& pickedElements);
 	void handleTestClick(const std::map<int, std::vector<int>>& pickedElements);

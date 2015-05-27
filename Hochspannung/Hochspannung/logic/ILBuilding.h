@@ -99,7 +99,7 @@ public:
 		return lField;
 	}
 		
-	virtual LIdentifier::LIdentifier getIdentifier() = 0;
+	virtual LIdentifier::LIdentifier getIdentifier() const = 0;
 };
 
 

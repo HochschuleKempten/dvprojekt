@@ -202,7 +202,16 @@ bool LPlayingField::removeBuilding(const int x, const int y)
 {
 	int playerId = getField(x, y)->getBuilding() != nullptr ? getField(x, y)->getBuilding()->getPlayerId() : -1;
 
-	if (getField(x, y)->removeBuilding())
+	const bool removeSuccessful = getField(x, y)->removeBuilding([this, playerId] (const ILBuilding* const building)
+	{
+		const ILPowerPlant*  powerPlant = dynamic_cast<const ILPowerPlant* const>(building);
+		if (powerPlant != nullptr)
+		{
+			lMaster->getPlayer(playerId)->removePowerPlant(powerPlant);
+		}
+	});
+
+	if (removeSuccessful)
 	{
 		vPlayingField->objectRemoved(x, y);
 

@@ -41,6 +41,7 @@ public:
 	void subtractMoney(const int amount);
 	bool trySabotageAct(const LSabotage::LSabotage sabotageType);
 	void addPowerPlant(ILPowerPlant* powerPlant);
+	void removePowerPlant(const ILPowerPlant* const powerPlant);
 	void checkPowerPlants();
 	LCity* getCity() const
 	{

@@ -13,7 +13,7 @@ NAMESPACE_LOGIC_B
 class LRemoteOperation;
 class LPlayer;
 
-class ILPowerPlant : public ILBuilding, IVTickObserver
+class ILPowerPlant : public ILBuilding, public IVTickObserver
 {
 	friend class LRemoteOperation;
 	friend class LMaster;
@@ -69,14 +69,15 @@ private:
 	void sabotage()
 	{
 		isSabotaged = true;
-		isActivated = false;
-		vPowerPlant->switchedOff();
 		DEBUG_OUTPUT("Powerplant sabotated, it's deactivated for 5 mins");
 
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::LSabotage::PowerPlant, coordinates.first, coordinates.second);
+			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::PowerPlant, coordinates.first, coordinates.second);
+
+			//Switch off will be sent seperate over network
+			vPowerPlant->switchedOff();
 		}
 	}
 
@@ -89,7 +90,7 @@ private:
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::LSabotage::Resource, coordinates.first, coordinates.second);
+			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Resource, coordinates.first, coordinates.second);
 		}
 	}
 
@@ -129,7 +130,7 @@ public:
 			
 			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
 			{
-				isSabotaged = false;
+				isSabotaged = false;	//TODO (L) Send end of sabotage over network?
 				//Can't use LRemoteOperation here because of circular reference
 				lField->getLPlayingField()->beginRemoteOperation();
 				switchOn();
@@ -147,7 +148,7 @@ public:
 		DEBUG_EXPRESSION(static bool lastRessourcesUsed = false);
 
 		const int consumedRessources = LBalanceLoader::getConsumedResources(LField::NUCLEAR);
-		int amountReduced = lField->reduceResources(consumedRessources);
+		const int amountReduced = lField->reduceResources(consumedRessources);
 
 		if (amountReduced < consumedRessources)
 		{
@@ -155,7 +156,9 @@ public:
 			DEBUG_EXPRESSION(lastRessourcesUsed = true);
 
 			//No more ressources are left, so switch the power plant off
+			lField->getLPlayingField()->beginRemoteOperation();
 			switchOff();
+			lField->getLPlayingField()->endRemoteOperation();
 
 			//Last step returns proportionally ressources
 			return LBalanceLoader::getProducedEnergy(this->getIdentifier()) * amountReduced / consumedRessources;

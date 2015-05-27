@@ -12,7 +12,7 @@ public:
 	LWindmillPowerPlant(LField* lField, const int x, const int y, const int playerId);
 	~LWindmillPowerPlant();
 	
-	LIdentifier::LIdentifier getIdentifier() override
+	LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LWindmillPowerPlant;
 	};
