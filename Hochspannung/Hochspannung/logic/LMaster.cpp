@@ -127,7 +127,7 @@ void LMaster::tick(const float fTimeDelta)
 	static float timeLastCheck = 0;
 
 	////Just for testing
-	/*try
+	try
 	{
 		static bool gameListUpdatedFirst = false;
 		static bool gameListUpdatedSecond = TRUE;
@@ -153,7 +153,7 @@ void LMaster::tick(const float fTimeDelta)
 	}
 	catch (boost::system::system_error error) {
 		ASSERT(error.what());
-	}*/
+	}
 
 	if (timeLastCheck > 3.0F && (lPlayingField != nullptr ? !lPlayingField->isInitDone() : true))
 	{

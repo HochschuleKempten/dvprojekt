@@ -6,13 +6,17 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text)
+VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text, const float layer)
 	{
 		m_ObjectType = TEXT;
 		m_zfrRect = rect;
 		m_text = text;
 		m_writing = new CWriting();
 		m_writing->Init(m_zfrRect, m_text.length(), writingFont);
+
+		m_fLayer = layer;
+
+		m_writing->SetLayer(m_fLayer);
 
 		viewport->AddWriting(m_writing);
 

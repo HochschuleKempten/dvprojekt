@@ -9,7 +9,7 @@ NAMESPACE_VIEW_B
 	{
 	public:
 		VText();
-		VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text);
+		VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text, const float layer);
 
 		~VText();
 

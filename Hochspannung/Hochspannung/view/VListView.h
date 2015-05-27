@@ -5,40 +5,35 @@
 
 NAMESPACE_VIEW_B
 
-class VListView :
-	public IViewGUIContainer
-{
-public:
+	class VListView :
+		public IViewGUIContainer
+	{
+	public:
 		VListView();
 		~VListView();
-	VListView(CFloatRect floatRect, CViewport* viewport);
-	VListView(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground);
+		VListView(CFloatRect floatRect, CViewport* viewport, const float layer);
+		VListView(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground, const float layer);
 
-	void onNotify(const Event& evente) override;
-	void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::string& sName) override;
-	void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName) override;
+		void onNotify(const Event& evente) override;
+		void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::basic_string<char>& sName, const float layer) override;
+		void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::basic_string<char>& sName, const float layer) override;
 
 
-	VButton* addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, const Event& clickAction, const std::string& sName) override;
-	VTextfield* addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const std::string& sName) override;
-	VText* addText(CFloatRect rect, CWritingFont* writingFont, const std::string& text, const std::string& sName) override;
-	COverlay* addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::string& sName) override;
-	void setLayer(float layer) override;
-	
-	void addEntry(const std::string& sName);
-	void updateList(const std::vector <Network::CGameObject>& hostList);
-	void onNotifyExt(const Event& evente, const std::string& sName) override;
+		void setLayer(float layer) override;
 
-	IViewGUIObject* getSelectedItem();
+		void addEntry(const std::string& sName, const float layer);
+		void updateList(const std::vector<Network::CGameObject>& hostList);
+		void onNotifyExt(const Event& evente, const std::string& sName) override;
 
-private:
+		IViewGUIObject* getSelectedItem();
 
-	std::vector<std::string> m_entries;
+	private:
 
-	void calcEntrySize();
+		std::vector<std::string> m_entries;
 
-	IViewGUIObject* m_selectedItem=nullptr;
-	
-};
+		void calcEntrySize();
 
-NAMESPACE_VIEW_E
+		IViewGUIObject* m_selectedItem = nullptr;
+	};
+
+	NAMESPACE_VIEW_E

@@ -14,7 +14,7 @@ NAMESPACE_VIEW_B
 	public:
 
 		VButton();
-		VButton(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction);
+		VButton(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction, const float layer);
 		~VButton();
 
 
@@ -41,7 +41,7 @@ NAMESPACE_VIEW_B
 
 		//ClickAction getAction();
 
-		void setActive(bool value=true);
+		void setActive(bool value = true);
 
 	private:
 
@@ -49,7 +49,7 @@ NAMESPACE_VIEW_B
 		COverlay* m_zoHover;
 
 		bool m_bHasHover;
-		bool m_isActive=false;
+		bool m_isActive = false;
 		bool isActive();
 
 		IViewUIObserver::Event action;

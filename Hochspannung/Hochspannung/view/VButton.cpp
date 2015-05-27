@@ -6,7 +6,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	VButton::VButton(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction) :
+VButton::VButton(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction, const float layer) :
 		m_bHasHover(false),
 		action(IViewUIObserver::NOTHING)
 		
@@ -21,6 +21,11 @@ NAMESPACE_VIEW_B
 		m_bHasHover = true;
 
 		action = clickAction;
+
+		m_fLayer = layer;
+
+		m_zoNormal->SetLayer(m_fLayer);
+		m_zoHover->SetLayer(m_fLayer);
 
 		viewport->AddOverlay(getNormalOverlay());
 

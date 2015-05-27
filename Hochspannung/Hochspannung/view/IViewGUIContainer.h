@@ -119,45 +119,54 @@ NAMESPACE_VIEW_B
 			return m_bOn;
 		}
 
-		virtual VButton* addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, const Event& clickAction, const std::string& sName)
+		virtual VButton* addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, const Event& clickAction, const std::string& sName, const float layer)
 		{
-			m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
-			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
-			m_guiObjects[sName]->setLayer(0.2F);
+			m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction, layer);
+			
 			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
+				
 
 			return CASTD<VButton*>(m_guiObjects[sName]);
 		}
 
-		virtual VTextfield* addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const std::string& sName)
+		virtual VTextfield* addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const std::string& sName, const float layer)
 		{
-			m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder);
-			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
-			m_guiObjects[sName]->setLayer(0.2F);
+			m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder, layer);
+			
 			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
+
 
 			return CASTD<VTextfield*>(m_guiObjects[sName]);
 		}
 
-		virtual VText* addText(CFloatRect rect, CWritingFont* writingFont, const std::string& text, const std::string& sName)
+		virtual VText* addText(CFloatRect rect, CWritingFont* writingFont, const std::string& text, const std::string& sName, const float layer)
 		{
-			m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text);
-			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
-			m_guiObjects[sName]->setLayer(0.2F);
+			m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text, layer);
+			
 			m_guiObjects[sName]->setName(sName);
 			m_guiObjects[sName]->addObserver(this);
+
 
 			return CASTD<VText*>(m_guiObjects[sName]);
 		}
 
-		virtual COverlay* addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::string& sName)
+		virtual COverlay* addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::string& sName, const float layer)
 		{
 			m_Overlays[sName] = new COverlay();
 			m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
 			m_viewport->AddOverlay(m_Overlays[sName]);
-			m_Overlays[sName]->SetLayer(0.1F);
+			
+			if (layer == NULL)
+			{
+				m_Overlays[sName]->SetLayer(getLayer() - 0.01F);
+			}
+			else
+			{
+				m_Overlays[sName]->SetLayer(layer);
+			}
+
 			return m_Overlays[sName];
 		}
 
@@ -181,15 +190,15 @@ NAMESPACE_VIEW_B
 			return m_viewports[sName];
 		}
 
-		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::string& sName) = 0;
+		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::string& sName, const float layer) = 0;
 
 
-		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName) = 0;
+		virtual void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName, const float layer) = 0;
 
 
 		virtual void setLayer(const float layer)
 		{
-			float fLayerDiff = layer - getLayer();
+			float fLayerDiff = layer - 0.01F;
 
 			if (m_hasBackground)m_background->SetLayer(layer);
 
@@ -220,7 +229,7 @@ NAMESPACE_VIEW_B
 
 		COverlay* getOverlay(const std::string& sName)
 		{
-			ASSERT(m_Overlays.find(sName) != m_Overlays.end(), "Overlay not available");
+			 ASSERT(m_Overlays.find(sName) != m_Overlays.end(), "Overlay not available");
 			return m_Overlays[sName];
 		}
 

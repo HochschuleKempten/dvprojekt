@@ -1,6 +1,7 @@
 #include "VScreenLobby.h"
 #include "VUI.h"
 #include "VMaster.h"
+#include <thread>
 
 NAMESPACE_VIEW_B
 
@@ -12,56 +13,50 @@ NAMESPACE_VIEW_B
 		vUi->m_zf.AddViewport(m_viewport);
 
 		//Cursor
-		
+
 
 		m_background = new CBackground();
-		
+
 		m_background->InitFull(&VMaterialLoader::materialDefaultBackground);
-		
+
 
 		m_bigDialog = new COverlay();
-		//m_bigDialog->Init(&VMaterialLoader::materialWhiteGreyBackground, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F));
-		//m_bigDialog->SetLayer(0.9F);
-		m_viewport->AddBackground(m_background);
-		//m_viewport->AddOverlay(m_bigDialog);
 
-		CWriting* iwas=new CWriting();
+		m_viewport->AddBackground(m_background);
+
+
+		CWriting* iwas = new CWriting();
 		iwas->Init(CFloatRect(0.1F, 0.8f, 0.2F, 0.1F), 10, &VMaterialLoader::standardFont);
 		m_viewport->AddWriting(iwas);
 
 		iwas->PrintF("Hallo");
 		iwas->SetLayer(0.1F);
-		//VMaterialLoader::standardFont.SwitchOff();
+
 		iwas->SwitchOff();
 
-		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F),&VMaterialLoader::materialLobbyRunningGamesBackground, "LobbyRunningGames");
-		getContainer("LobbyRunningGames")->addTextfield(CFloatRect(0.1F, 0.10F, 0.80F, 0.1F), &VMaterialLoader::materialTextfieldBackground, &VMaterialLoader::materialTextfieldHoverBackground, &VMaterialLoader::materialTextfieldHoverBackground, 19, "Suche IP-Adresse...", "textfieldIP");
-		
-		
+		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F), &VMaterialLoader::materialLobbyRunningGamesBackground, "LobbyRunningGames", 0.5F);
+		getContainer("LobbyRunningGames")->addTextfield(CFloatRect(0.1F, 0.10F, 0.80F, 0.1F), &VMaterialLoader::materialTextfieldBackground, &VMaterialLoader::materialTextfieldHoverBackground, &VMaterialLoader::materialTextfieldHoverBackground, 19, "Suche IP-Adresse...", "textfieldIP", 0.4F);
+
+
 		//ListView
-		getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6),&VMaterialLoader::materialLobbyGamelistBackground, "HostList");
-		
-		
-
-		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
-		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "buttonBackToPlaymode");
-		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.05F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyHostGame, &VMaterialLoader::materialButtonLobbyHostGameHover, LOBBY_HOST_GAME, "buttonHostGame");
-		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.19F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyJoinGame, &VMaterialLoader::materialButtonLobbyJoinGameHover, LOBBY_JOIN_GAME, "buttonJoinGame");
-		DEBUG_EXPRESSION(getContainer("Menue")->addButton(CFloatRect(0.65F, 0.33F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, START_GAME, "buttonStartGame"));
-		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.33F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, START_GAME, "buttonStartGame");
-
-		addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.3F, 0.45F, 0.3F, 0.2F), &VMaterialLoader::materialGreen, "WaitingDialog");
-		getContainer("WaitingDialog")->addText(CFloatRect(0.1F, 0.1F, 0.8F, 0.2F), &VMaterialLoader::standardFont, "Warte auf Mitspieler", "TextWaitingDialog");
-		getContainer("WaitingDialog")->addButton(CFloatRect(0.2F, 0.35F, 0.6F, 0.2), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover,NOTHING,"HostCancel");
+		getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6), &VMaterialLoader::materialLobbyGamelistBackground, "HostList", 0.4F);
 
 
-		getContainer("WaitingDialog")->setLayer(0.5);
+		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue", 0.6F);
+		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "buttonBackToPlaymode", 0.2F);
+		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.05F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyHostGame, &VMaterialLoader::materialButtonLobbyHostGameHover, LOBBY_HOST_GAME, "buttonHostGame", 0.2F);
+		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.19F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyJoinGame, &VMaterialLoader::materialButtonLobbyJoinGameHover, LOBBY_JOIN_GAME, "buttonJoinGame", 0.2F);
+		DEBUG_EXPRESSION(getContainer("Menue")->addButton(CFloatRect(0.65F, 0.33F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, START_GAME, "buttonStartGame", 0.2F));
+
+
+		addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.3F, 0.45F, 0.3F, 0.2F), &VMaterialLoader::materialGreen, "WaitingDialog", 0.19F);
+		getContainer("WaitingDialog")->addText(CFloatRect(0.1F, 0.1F, 0.8F, 0.2F), &VMaterialLoader::standardFont, "Warte auf Mitspieler", "TextWaitingDialog", 0.15F);
+		getContainer("WaitingDialog")->addButton(CFloatRect(0.2F, 0.65F, 0.6F, 0.2F), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover, NOTHING, "HostCancel", 0.14F);
+
+		addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.2F, 0.30F, 0.4F, 0.4F), &VMaterialLoader::materialGreen, "HostDialog", 0.001F);
+
+
 		getContainer("WaitingDialog")->switchOff();
-	
-		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->setLayer(0.3F);
-		getContainer("Menue")->getGuiObject("buttonHostGame")->setLayer(0.3F);
-		getContainer("Menue")->getGuiObject("buttonJoinGame")->setLayer(0.3F);
-		DEBUG_EXPRESSION(getContainer("Menue")->getGuiObject("buttonStartGame")->setLayer(0.3F));
 	}
 
 	VScreenLobby::~VScreenLobby()
@@ -74,32 +69,36 @@ NAMESPACE_VIEW_B
 	{
 		switch (events)
 		{
-			case START_GAME:
-				vUi->vMaster->startSinglePlayerGame();
-				vUi->switchScreen("Ingame");
-				break;
-			case LOBBY_HOST_GAME:
-				getContainer("WaitingDialog")->switchOn();
-				vUi->vMaster->hostGame();
-				vUi->switchScreen("Ingame");
-				//notify(LOBBY_HOST_GAME);
-				break;
-			case LOBBY_JOIN_GAME:
-				
-				if (CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()==nullptr)
-				{
-					vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
-				}
-				else
-				{
-					vUi->vMaster->joinGame(CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName());
-				}
-				vUi->switchScreen("Ingame");
-				//notify(LOBBY_JOIN_GAME);
-				break;
-			default:
-				notify(events);
-				break;
+		case START_GAME:
+			vUi->vMaster->startSinglePlayerGame();
+			vUi->switchScreen("Ingame");
+			break;
+		case LOBBY_HOST_GAME:
+
+			//std::thread([this] { this->getContainer("WaitingDialog")->switchOn(); }).join();
+			getContainer("HostDialog")->switchOn();
+
+			//std::thread([this] { this->vUi->vMaster->hostGame(); this->vUi->switchScreen("Ingame"); }).detach();
+
+
+			//notify(LOBBY_HOST_GAME);
+			break;
+		case LOBBY_JOIN_GAME:
+
+			if (CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem() == nullptr)
+			{
+				vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
+			}
+			else
+			{
+				vUi->vMaster->joinGame(CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName());
+			}
+			vUi->switchScreen("Ingame");
+			//notify(LOBBY_JOIN_GAME);
+			break;
+		default:
+			notify(events);
+			break;
 		}
 	}
 
@@ -120,15 +119,13 @@ NAMESPACE_VIEW_B
 
 	void VScreenLobby::tick(const float fTimeDelta)
 	{
-		
-
 		if (!vUi->m_zkCursor.ButtonPressedLeft())
 		{
 			vUi->m_BlockCursorLeftPressed = false;
 		}
 
 		std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
-		
+
 
 		checkShortcut(&vUi->m_zkKeyboard);
 		checkSpecialEvent(&vUi->m_zkCursor);
