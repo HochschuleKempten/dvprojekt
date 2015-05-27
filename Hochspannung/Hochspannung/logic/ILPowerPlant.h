@@ -74,6 +74,7 @@ private:
 
 	void sabotage()
 	{
+		switchOff();
 		isSabotaged = true;
 		DEBUG_OUTPUT("Powerplant sabotated, it's deactivated for 5 mins");
 
@@ -81,9 +82,6 @@ private:
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
 			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::PowerPlant, coordinates.first, coordinates.second);
-
-			//Switch off will be sent seperate over network
-			vPowerPlant->switchedOff();
 		}
 	}
 
