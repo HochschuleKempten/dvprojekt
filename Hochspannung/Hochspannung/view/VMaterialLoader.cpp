@@ -101,6 +101,7 @@ CMaterial VMaterialLoader::materialSabotageButtonBombHover;
 //Icons
 CMaterial VMaterialLoader::materialIngameIconPopulation;
 CMaterial VMaterialLoader::materialIngameIconMoney;
+CMaterial VMaterialLoader::materialIngameIconEnergy;
 
 //WritingFont
 CWritingFont VMaterialLoader::standardFont;
@@ -412,6 +413,7 @@ void VMaterialLoader::init()
 	//Icons
 	materialIngameIconPopulation.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Population.png");
 	materialIngameIconMoney.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Money.png");
+	materialIngameIconEnergy.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Energy.png");
 
 	//Default Background
 	materialDefaultBackground.MakeTextureSprite("textures/gui/interface/texture_gui_background_lightgrey.png");

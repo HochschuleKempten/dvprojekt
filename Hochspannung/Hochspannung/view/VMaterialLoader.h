@@ -76,6 +76,8 @@ public:
 	//Icons
 	static CMaterial materialIngameIconPopulation;
 	static CMaterial materialIngameIconMoney;
+	static CMaterial materialIngameIconEnergy;
+	
 
 	//Buttons
 	static CMaterial materialIngameButtonCraftmenu;
