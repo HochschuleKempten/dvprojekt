@@ -24,10 +24,13 @@ public:
 
 	void addBar(std::string sName,CMaterial* normalMaterial);
 	void updateBar(std::string sName, float wert);
+	void updateBar2(std::string sName, float wert);
+
 private:
 	CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect);
 	void calcWidth();
 	void calcHeight();
+	void recalcRectangles();
 	float getMaxHeight();
 	CViewport* m_viewport;
 	std::map<std::string, Bar*> m_bars;

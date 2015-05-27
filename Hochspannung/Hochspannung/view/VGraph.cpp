@@ -52,8 +52,10 @@ NAMESPACE_VIEW_B
 	void VGraph::addBar(std::string sName, CMaterial* normalMaterial)
 	{
 		m_bars[sName] = new Bar(m_viewport, normalMaterial, createRelativeRectangle(&m_zfrRect, &CFloatRect(0, 0, 1, 1)), 10);
-		calcHeight();
-		calcWidth();
+		//calcHeight();
+		//calcWidth();
+
+		recalcRectangles();
 
 		//		m_bars[sName]->Init(normalMaterial, createRelativeRectangle(&m_zfrRect, &CFloatRect(0, 0, 0,0)));
 	}
@@ -62,6 +64,11 @@ NAMESPACE_VIEW_B
 	{
 		m_bars[sName]->set_m_f_value(wert);
 		calcHeight();
+	}
+
+	void VGraph::updateBar2(std::string sName, float wert) {
+		m_bars[sName]->set_m_f_value(wert);
+		recalcRectangles();
 	}
 
 	void VGraph::calcHeight()
@@ -92,6 +99,36 @@ NAMESPACE_VIEW_B
 		tempRect.SetYSize(1.0F);
 		tempMax->setRectangle(createRelativeRectangle(&m_zfrRect, &tempRect));
 		tempMax->updateRectangle(createRelativeRectangle(&m_zfrRect, &tempRect));
+	}
+
+	void VGraph::recalcRectangles() {
+		float fMaxValue     = 0;
+		float fNewWidthPart = (m_bars.size() > 0) ? m_zfrRect.GetXSize() / m_bars.size() : 0;
+		float part          = 0;
+		int i               = 0;
+		CFloatRect tempRect;
+
+		// get maximum value among all bars
+		for each (std::pair<std::string, Bar*> bar in m_bars) {
+			if (bar.second->get_m_f_value() > fMaxValue) {
+				fMaxValue = bar.second->get_m_f_value();
+			}
+		}
+
+		// recalculate rectangles for every bar
+		for each (std::pair<std::string, Bar*> bar in m_bars) {
+			//ASSERT(fMaxValue != 0, "Division by zero. MaxSize is zero!");
+
+			tempRect = bar.second->getRectangle();
+			part     = (fMaxValue > 0) ? bar.second->get_m_f_value() / fMaxValue : 0;
+			tempRect.SetXPos(m_zfrRect.GetXPos () + i * fNewWidthPart);
+			tempRect.SetYPos(m_zfrRect.GetYPos() + (m_zfrRect.GetYSize() - part * m_zfrRect.GetYSize()));
+			tempRect.SetXSize(fNewWidthPart);
+			tempRect.SetYSize(m_zfrRect.GetYSize() * part);
+			bar.second->setRectangle(tempRect);
+			bar.second->updateRectangle(tempRect);
+			i++;
+		}
 	}
 
 	float VGraph::getMaxHeight()

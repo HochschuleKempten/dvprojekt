@@ -38,7 +38,9 @@ public:
 
 	void updateInfofield(const std::string& neuerText);
 
-	void updatePowerPlants(std::map<std::string, int> powerPlants);
+	void updatePowerPlants(std::map<VScreenIngame::BUILDINGTYPE, int> powerPlants);
+
+	void updateGraph(float fProduced, float fNeeded);
 
 	CFloatRect getTopSpace();
 
@@ -86,6 +88,8 @@ private:
 	VTab *m_vtTabSabotage;
 	VTab *m_vtTabBuilding;
 
+	VGraph *m_vgGraphEnergy;
+
 	COverlay m_bottomBar;
 	COverlay m_topBar;
 	COverlay m_bottomBarBorderTop;
@@ -105,7 +109,7 @@ private:
 
 	IViewBuilding::action selectedAction = IViewBuilding::Undefined;
 
-	//Detailled model view
+	//Detailed model view
 	CScene m_sceneModels;
 	CParallelLight m_zlModels;
 	CCamera m_CamModels;
@@ -119,7 +123,7 @@ private:
 	VModelOilRefinery modelOil;
 	VModelPowerLine modelPowerline;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
-
+	std::map<VScreenIngame::BUILDINGTYPE, std::string> m_powerPlantsNameMapping;
 };
 
 

@@ -5,7 +5,7 @@
 #include"IViewSubject.h"
 #include "VTextfield.h"
 #include "VText.h"
-
+#include "VGraph.h"
 
 NAMESPACE_VIEW_B
 
@@ -168,6 +168,17 @@ NAMESPACE_VIEW_B
 
 			return m_viewports[sName];
 		}
+
+		virtual VGraph* addGraph(CFloatRect rect, const std::string& sName) {
+			m_guiObjects[sName] = new VGraph(m_viewport, createRelativeRectangle(&m_zfRect, &rect));
+			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
+			m_guiObjects[sName]->setLayer(0.2F);
+			m_guiObjects[sName]->setName(sName);
+			m_guiObjects[sName]->addObserver(this);
+
+			return CASTD<VGraph *>(m_guiObjects[sName]);
+		}
+
 		virtual CViewport* addViewport(CViewport* viewport,CCamera* cam, CFloatRect rect, CBackground* background, const std::string& sName)
 		{
 			m_viewports[sName] = viewport;
@@ -176,6 +187,7 @@ NAMESPACE_VIEW_B
 
 			return m_viewports[sName];
 		}
+
 		virtual CViewport* getViewport(const std::string& sName)
 		{
 			return m_viewports[sName];
