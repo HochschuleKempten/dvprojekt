@@ -191,10 +191,11 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	// Renewable / fossil energy Statistics
 	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.175F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainer");
-	m_fgGraphEnergyRatio = m_vtTabStatistics->getContainer("RenFosEnergyContainer")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialGreen);
+	m_vgGraphEnergyRatio = m_vtTabStatistics->getContainer("RenFosEnergyContainer")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialGreen);
 	m_vtTabStatistics->getContainer("RenFosEnergyContainer")->setLayer(0.2F);
 
-	m_fgGraphEnergyRatio->toggleType();
+	m_vgGraphEnergyRatio->toggleType();
+	updateGraphRatio(0.9f);
 
 	m_vtTabSabotage->switchOff();
 	m_vtTabStatistics->switchOff();
@@ -490,6 +491,10 @@ void VScreenIngame::updateGraph(float fProduced, float fNeeded)
 {
 	m_vgGraphEnergy->updateBar2("producedEnergy", fProduced);
 	m_vgGraphEnergy->updateBar2("neededEnergy", fProduced);
+}
+
+void VScreenIngame::updateGraphRatio(float fRatio) {
+	m_vgGraphEnergyRatio->updateValue(fRatio);
 }
 
 CFloatRect VScreenIngame::getTopSpace()
