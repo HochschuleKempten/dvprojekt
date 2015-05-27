@@ -13,7 +13,7 @@ NAMESPACE_VIEW_B
 class IViewPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 protected:
-	bool isOn = true;
+	bool isOn = false;
 
 public:
 	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp)

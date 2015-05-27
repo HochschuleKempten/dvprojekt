@@ -141,6 +141,9 @@ void LPlayer::addPowerPlant(ILPowerPlant* powerPlant)
 {
 	//TODO (L) inform ui
 	powerPlants.emplace_back(powerPlant);
+
+	LRemoteOperation remoteOperation(lMaster->getLPlayingField(), powerPlant);
+	remoteOperation.switchOn();
 }
 
 void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
@@ -152,25 +155,33 @@ void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
 void LPlayer::checkPowerPlants()
 {
 	std::vector<int> cityConnections = lMaster->getLPlayingField()->getCityConnections();
+	std::vector<ILPowerPlant*> connectedPowerPlants;
 
-	//First turn everything
-	for (ILPowerPlant* p : powerPlants)
-	{
-		//The check is only done by the player itself, so this is always a remote operation
-		LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
-		remoteOperation.switchOff();
-	}
-
-	//Then turn every remaining power plant
 	for (const int pPos : cityConnections)
 	{
 		ILPowerPlant* p = dynamic_cast<ILPowerPlant*>(lMaster->getLPlayingField()->getField(lMaster->getLPlayingField()->convertIndex(pPos))->getBuilding());
 		if (p != nullptr)
 		{
-			//The check is only done by the player itself, so this is always a remote operation
-			LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
-			remoteOperation.switchOn();
+			connectedPowerPlants.emplace_back(p);
 		}
+	}
+
+	std::vector<ILPowerPlant*> differences;
+	std::sort(powerPlants.begin(), powerPlants.end());
+	std::sort(connectedPowerPlants.begin(), connectedPowerPlants.end());
+
+	std::set_symmetric_difference(
+		powerPlants.begin(),
+		powerPlants.end(),
+		connectedPowerPlants.begin(),
+		connectedPowerPlants.end(),
+		std::back_inserter(differences));
+
+	for (ILPowerPlant* p : differences)
+	{
+		//The check is only done by the player itself, so this is always a remote operation
+		LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
+		remoteOperation.switchOff();
 	}
 }
 
