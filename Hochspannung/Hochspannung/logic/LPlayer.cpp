@@ -4,6 +4,7 @@
 #include "ILPowerPlant.h"
 #include "IVMaster.h"
 #include "LBalanceLoader.h"
+#include "LRemoteOperation.h"
 
 NAMESPACE_LOGIC_B
 
@@ -155,7 +156,9 @@ void LPlayer::checkPowerPlants()
 	//First turn everything
 	for (ILPowerPlant* p : powerPlants)
 	{
-		p->switchOff();
+		//The check is only done by the player itself, so this is always a remote operation
+		LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
+		remoteOperation.switchOff();
 	}
 
 	//Then turn every remaining power plant
@@ -164,7 +167,9 @@ void LPlayer::checkPowerPlants()
 		ILPowerPlant* p = dynamic_cast<ILPowerPlant*>(lMaster->getLPlayingField()->getField(lMaster->getLPlayingField()->convertIndex(pPos))->getBuilding());
 		if (p != nullptr)
 		{
-			p->switchOn();
+			//The check is only done by the player itself, so this is always a remote operation
+			LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
+			remoteOperation.switchOn();
 		}
 	}
 }

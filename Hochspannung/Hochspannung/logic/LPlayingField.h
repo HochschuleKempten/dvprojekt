@@ -62,7 +62,7 @@ private:
 	/** @brief Stores the 1D coordinates for each pair of buildings which are connected */
 	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> connectedBuildings;
 
-	bool localOperation = true;
+	int localOperation = 0;
 	bool initDone = false;
 	bool cityConnectionsRecalculate = true;
 
@@ -242,7 +242,7 @@ public:
 	bool isInitDone();
 	bool isLocalOperation() const
 	{
-		return localOperation;
+		return localOperation == 0;
 	}
 	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);
 	LField* getField(const int x, const int y);

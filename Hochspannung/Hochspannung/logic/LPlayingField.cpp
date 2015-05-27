@@ -128,12 +128,13 @@ int LPlayingField::linkPowerlines(const int x, const int y, const int playerId)
 
 void LPlayingField::beginRemoteOperation()
 {
-	localOperation = false;
+	localOperation++;
 }
 
 void LPlayingField::endRemoteOperation()
 {
-	localOperation = true;
+	localOperation--;
+	ASSERT(localOperation >= 0, "Called to endRemoteOperation() too often (probably forgotten call to beginRemoteOperation()).");
 }
 
 void LPlayingField::initField(const int x, const int y, const LField::FieldType fieldType, const LField::FieldLevel fieldLevel)
