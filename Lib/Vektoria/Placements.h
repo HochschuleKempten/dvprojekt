@@ -41,7 +41,7 @@ public:
 
 	void SearchForCameras(CCameras * pcameras);
 
-
+	CPlacement * Pick(CRay & r);
 
 
 	CPlacement ** m_applacement;

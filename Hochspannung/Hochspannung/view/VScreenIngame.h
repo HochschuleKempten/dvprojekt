@@ -38,7 +38,7 @@ public:
 
 	void updateInfofield(const std::string& neuerText);
 
-	void updatePowerPlants(std::map<BUILDINGTYPE, int> powerPlants);
+	void updatePowerPlants(const std::map<BUILDINGTYPE, int>& powerPlants);
 
 	void updateGraph(float fProduced, float fNeeded);
 

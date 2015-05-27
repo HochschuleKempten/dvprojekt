@@ -3034,7 +3034,7 @@ Ikosaeder und Tetraeder können auch durch Radius Initialisiert werden
 V13 Patch 2 Erstellt
 
 2015-05-15 TB:
-Alle Intersect, IsIntersecting, PickGeos, etc.-Routinen haben jetzt einen Vertices-Limitierung
+Alle Intersect, IsIntersecting, PickGeos, etc.-Routinen haben jetzt eine Vertices-Limitierung
 Shaders-Basic beschleunigt 
 Spherical Environmental Mapping beschleunigt
 Spherical Environmental Mapping in Richtung der Z-Achse gedreht
@@ -3042,3 +3042,28 @@ Fresnel Parameter in CMaterial eingefürgt (TODO an Shader weiterreichen)
 Picking-Routinen beschleunigt
 Mehr Fehlermeldungen 
 Splash-Screen sicherer gemacht
+
+2015-05-20 TB:
+Bugfix: PickOverlays pickte nicht immer das oberste Objekt
+Bugfix: SwitchOff funktionierte nicht bei Writings 
+Neue Picking-Routine in CDeviceCursor:
+- 	CGeo * PickGeoPreselected(CGeos & zgs); // Untersucht nur diejenigen Geos, die in der Liste CGeos angegeben sind und pickt nur darus eine Geo aus, falls kein Geo gefunden wurde, ist das Ergebnis NULL. Diese Funktion kann das Picking stark beschleunigen
+
+2015-05-21 TB:
+Neue Picking-Routinen in CDeviceCursor:
+	CHitPoint * PickHitPoint(); // Gibt den nähesten HitPoint aus, der unter dem Cursor liegt, falls kein Geo gefunden wurde ist das Ergebnis NULL, vIntersection ist der genaue Schnittpunkt, fDistanceSquare ist das Quadrat der Entfernung zwischen Strahlursprung und Schnittpunkt, kann bei großen Geometrien einige Millisekunden dauern, ist dafür sehr exakt
+	void PickOverlays(COverlays * pzos); // Gibt alle Overlays in pzos aus, welche unter dem Cursor liegen, unabhängig davon, ob sie eventuell von anderen Overlays verdeckt werden. Achtung, pzos muss muss ein Pointer auf ein instanziertes Geos-Objekt sein. 
+	void PickPlacements(CPlacements * pzps, bool bPickOnlyPlacementsWithDirectGeos = false); // Gibt alle Placements in pzps aus, welches unter dem Cursor liegen. Achtung, pzps muss muss ein Pointer auf ein instanziertes Placement-Objekt sein. 
+	COverlay * PickOverlayPreselected(COverlays & zos); // Untersucht nur diejenigen Overlays, die in der Liste zos angegeben sind und pickt nur darus eine Geo aus, falls kein Geo gefunden wurde, ist das Ergebnis NULL. Diese Funktion kann das Picking stark beschleunigen
+	CPlacement * PickPlacementPreselected(CPlacements & zps); // Untersucht nur diejenigen Placements, die in der Liste zps angegeben sind und pickt nur darus eine Geo aus, falls kein Geo gefunden wurde, ist das Ergebnis NULL. Diese Funktion kann das Picking stark beschleunigen
+	CHitPoint * PickHitPointPreselected(CGeos & zgs); // Untersucht nur diejenigen HitPoints, die durch die Liste zgs erzeugt werden können
+Neue Ray-Kollisionsroutinen in COverlays, CPlacements etc.
+
+2015-05-22 TB: P
+Bugfix: ProgressBar auf Splash Screen hatte rote Streifen
+Bugfix: ProgressBar-Methode SetProgress wurde mit Call-By-Reference angesprochen
+Bugfix: In Basic-Shader & wurden spekulare Materialen weiß dargestellt
+Reduced-Shader hinzugefügt (für Demos, die durch einen abgespeckten Shader die Performanz darstellen und für Projekte (wie das aktuelle Hochspannung-Projekt) welche eher Performanz als Darstellungsschönheit benötigen).
+Mehr Fehlermeldungen für das Log-File
+
+

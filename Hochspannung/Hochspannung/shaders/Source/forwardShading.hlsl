@@ -198,23 +198,23 @@ float2 SphericalMapping(float3 f3)
 {
 	float  phi = 0;
 
-	if ((f3.x >= 0) && (f3.z >= 0))
+	if ((f3.z >= 0) && (f3.x >= 0))
 	{
-		phi = atan(f3.z / f3.x);
+		phi = atan(f3.x / f3.z);
 	}
-	if ((f3.x<0) && (f3.z >= 0))
+	if ((f3.z<0) && (f3.x >= 0))
 	{
-		phi = atan(f3.z / f3.x);
+		phi = atan(f3.x / f3.z);
 		phi += pi;
 	}
-	if ((f3.x<0) && (f3.z<0))
+	if ((f3.z<0) && (f3.x<0))
 	{
-		phi = atan(f3.z / f3.x);
+		phi = atan(f3.x / f3.z);
 		phi += pi;
 	}
-	if ((f3.x >= 0) && (f3.z<0))
+	if ((f3.z >= 0) && (f3.x<0))
 	{
-		phi = atan(f3.z / f3.x);
+		phi = atan(f3.x / f3.z);
 		phi += 2 * pi;
 	}
 	phi /= 2.f * pi;
@@ -246,30 +246,6 @@ float4 RenderScenePS(VS_OUTPUT input) : SV_TARGET
 	float3 f3AccumSpecular = float3(0.f, 0.f, 0.f);
 
 	float2 f2ParallaxTex = input.f2TexCoord;
-
-	/*float3 f3N = normalize(input.f3Normal);
-	input.f3Tangent = normalize(input.f3Tangent);
-	input.f3Bitangent = normalize(input.f3Bitangent);
-
-	float3 f3X, f3Y;
-	float3 f3C1 = cross(f3N, float3(0.f, 0.f, 1.f));
-	float3 f3C2 = cross(f3N, float3(0.f, 1.f, 0.f));
-	float3 f3C3 = cross(f3N, float3(1.f, 0.f, 0.f));
-	[branch]
-	if (length(f3C1) > length(f3C2) || length(f3C1) > length(f3C3))
-	{
-		f3X = normalize(f3C1);
-
-	}
-	else if (length(f3C2) > length(f3C1) || length(f3C2) > length(f3C3))
-	{
-		f3X = normalize(f3C2);
-	}
-	else
-	{
-		f3X = normalize(f3C3);
-	}
-	f3Y = normalize(-cross(f3N, f3X));*/
 
 	float3 f3PosDDx = ddx(input.f4VertexPos.xyz);
 	float3 f3PosDDy = ddy(input.f4VertexPos.xyz);
@@ -374,7 +350,7 @@ float4 RenderScenePS(VS_OUTPUT input) : SV_TARGET
 	if (uBump)
 	{
 		float3 f3BumpNormal = ((2 * (tex2D[3].Sample(g_Sampler, f2ParallaxTex))) - 1.f).xyz;
-			f3BumpNormal *= fBumpStrength;
+		f3BumpNormal *= fBumpStrength;
 		input.f3Normal += f3BumpNormal.x * input.f3Tangent + f3BumpNormal.y * input.f3Bitangent;
 		input.f3Normal = normalize(input.f3Normal);
 	}
