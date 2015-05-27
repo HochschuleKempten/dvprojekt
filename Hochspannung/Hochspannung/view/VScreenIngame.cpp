@@ -481,7 +481,8 @@ void VScreenIngame::updatePowerPlants(const std::map<VScreenIngame::BUILDINGTYPE
 
 void VScreenIngame::updateGraph(float fProduced, float fNeeded)
 {
-
+	m_vgGraphEnergy->updateBar2("producedEnergy", fProduced);
+	m_vgGraphEnergy->updateBar2("neededEnergy", fProduced);
 }
 
 CFloatRect VScreenIngame::getTopSpace()
