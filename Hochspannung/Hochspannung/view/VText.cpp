@@ -16,7 +16,7 @@ NAMESPACE_VIEW_B
 
 		viewport->AddWriting(m_writing);
 
-		m_writing->PrintF("%s", const_cast<char*>(m_text.c_str()));
+		m_writing->PrintF("%s", &m_text[0]);
 		
 	}
 
@@ -31,7 +31,7 @@ NAMESPACE_VIEW_B
 		m_bisOn = true;
 		updateText(m_text);
 		m_writing->SwitchOn();
-		m_writing->PrintF("%s", const_cast<char*>(m_text.c_str()));
+		m_writing->PrintF("%s", &m_text[0]);
 	}
 
 	void VText::switchOff()
@@ -60,7 +60,7 @@ NAMESPACE_VIEW_B
 
 	void VText::updateText(const std::string& text)
 	{
-		m_writing->PrintF("%s", const_cast<char*>(text.c_str()));
+		m_writing->PrintF("%s", &text[0]);
 	}
 
 	void VText::setLayer(float layer)

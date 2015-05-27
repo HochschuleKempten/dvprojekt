@@ -48,7 +48,7 @@ NAMESPACE_VIEW_B
 		m_zoHover->SetLayer(0.7F);
 		m_zoActive->SetLayer(0.7F);
 
-		m_writing->PrintF("%s", const_cast<char*>(m_sPlaceholder.c_str()));
+		m_writing->PrintF("%s", &m_sPlaceholder[0]);
 	}
 
 	VTextfield::~VTextfield()
@@ -81,7 +81,7 @@ NAMESPACE_VIEW_B
 				m_zoActive->SwitchOff();
 				if (m_sInputtext.empty())
 				{
-					m_writing->PrintF("%s", const_cast<char*>(m_sPlaceholder.c_str()));
+					m_writing->PrintF("%s", &m_sPlaceholder[0]);
 				}
 			}
 		}
@@ -134,7 +134,7 @@ NAMESPACE_VIEW_B
 		{
 			m_sInputtext += character;
 
-			m_writing->PrintF("%s", const_cast<char*>(m_sInputtext.c_str()));
+			m_writing->PrintF("%s", &m_sInputtext[0]);
 		}
 	
 	}
@@ -145,7 +145,7 @@ NAMESPACE_VIEW_B
 		{
 			/*m_sInputtext.erase(m_sInputtext.length()-2,1);*/
 			m_sInputtext.resize(m_sInputtext.length() - 1);
-			m_writing->PrintF("%s", const_cast<char*>(m_sInputtext.c_str()));
+			m_writing->PrintF("%s", &m_sInputtext[0]);
 		}
 	}
 
