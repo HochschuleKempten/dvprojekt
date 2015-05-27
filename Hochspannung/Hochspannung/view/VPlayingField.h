@@ -36,6 +36,9 @@ private:
 	CPlacement m_zp;
 
 public:
+	static CGeos geosField;
+
+public:
 	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField);
 	virtual ~VPlayingField();
 

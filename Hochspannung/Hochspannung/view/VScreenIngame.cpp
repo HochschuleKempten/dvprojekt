@@ -768,24 +768,21 @@ std::map<int, std::vector<int>> VScreenIngame::pickElements()
 {
 	std::map<int, std::vector<int>> pickedElements;
 
-	CGeos geos;
-	vUi->m_zkCursor.PickGeos(&geos, 5);
+	CGeo* pickedGeo = vUi->m_zkCursor.PickGeoPreselected(VPlayingField::geosField);
 
-	for (int i = 0; i < geos.m_iGeos; i++)
+	if (pickedGeo != nullptr)
 	{
-		std::vector<std::string> nameParts = split(geos.m_apgeo[i]->GetName(), ';');
+		std::vector<std::string> nameParts = split(pickedGeo->GetName(), ';');
+		ASSERT(nameParts.size() == 3, "The picked geo has an invalid name");
 
-		if (nameParts.size() == 3) //Currently all valid name parts consists of 3 elements
+		//Convert the arguments to integer (skip the first one, because its the key for the map
+		std::vector<int> namePartsInt;
+		for (size_t j = 1; j < nameParts.size(); j++)
 		{
-			//Convert the arguments to integer (skip the first one, because its the key for the map
-			std::vector<int> namePartsInt;
-			for (size_t j = 1; j < nameParts.size(); j++)
-			{
-				namePartsInt.emplace_back(std::stoi(nameParts[j]));
-			}
-
-			pickedElements[std::stoi(nameParts[0])] = namePartsInt;
+			namePartsInt.emplace_back(std::stoi(nameParts[j]));
 		}
+
+		pickedElements[std::stoi(nameParts[0])] = namePartsInt;
 	}
 
 	return pickedElements;
