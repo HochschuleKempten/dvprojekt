@@ -423,7 +423,7 @@ void LPlayingField::recalculateCityConnections()
 	static bool isCheckInProgress = false;
 
 	//Avoid recursion
-	if (!isCheckInProgress)
+	if (!isCheckInProgress && isInitDone())
 	{
 		isCheckInProgress = true;
 		cityConnectionsRecalculate = true;

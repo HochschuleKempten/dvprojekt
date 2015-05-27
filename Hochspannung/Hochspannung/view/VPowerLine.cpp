@@ -68,7 +68,7 @@ bool VPowerLine::clicked(action action)
 			 if (lPowerLine->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerLine))
 			 {   
 				 LRemoteOperation remoteOperation(lPowerLine->getLField()->getLPlayingField());
-				 lPowerLine->sabotage();
+				 lPowerLine->sabotage();//TODO (JS) call over remote operation
 				 return true; 
 			 }
 

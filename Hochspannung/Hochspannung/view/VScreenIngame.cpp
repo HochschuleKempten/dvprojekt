@@ -464,7 +464,7 @@ void VScreenIngame::updateInfofield(const std::string& neuerText)
 void VScreenIngame::updatePowerPlants(const std::map<std::string, int> powerPlants)
 {
 	//VTab * tabStatistics = CASTD<VRegister *>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics");
-	for each (std::pair<std::string, int> plant in powerPlants)
+	for (const std::pair<std::string, int>& plant : powerPlants)
 	{
 		CASTD<VText*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->getGuiObject(plant.first))->updateText(std::to_string(plant.second));
 	}
