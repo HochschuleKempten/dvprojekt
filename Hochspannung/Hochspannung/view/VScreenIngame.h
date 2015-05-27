@@ -89,6 +89,7 @@ private:
 	VTab *m_vtTabBuilding;
 
 	VGraph *m_vgGraphEnergy;
+	VGraphRatio *m_fgGraphEnergyRatio;
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;

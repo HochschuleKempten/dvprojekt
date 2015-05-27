@@ -189,6 +189,13 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vtTabStatistics->addOverlay(CFloatRect(0.51f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOil");
 	m_vtTabStatistics->addText(CFloatRect(0.62f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT]);
 
+	// Renewable / fossil energy Statistics
+	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.175F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainer");
+	m_fgGraphEnergyRatio = m_vtTabStatistics->getContainer("RenFosEnergyContainer")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialGreen);
+	m_vtTabStatistics->getContainer("RenFosEnergyContainer")->setLayer(0.2F);
+
+	m_fgGraphEnergyRatio->toggleType();
+
 	m_vtTabSabotage->switchOff();
 	m_vtTabStatistics->switchOff();
 

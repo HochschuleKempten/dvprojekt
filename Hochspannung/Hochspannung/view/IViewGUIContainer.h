@@ -6,6 +6,7 @@
 #include "VTextfield.h"
 #include "VText.h"
 #include "VGraph.h"
+#include "VGraphRatio.h"
 
 NAMESPACE_VIEW_B
 
@@ -177,6 +178,16 @@ NAMESPACE_VIEW_B
 			m_guiObjects[sName]->addObserver(this);
 
 			return CASTD<VGraph *>(m_guiObjects[sName]);
+		}
+
+		virtual VGraphRatio* addGraphRatio(CFloatRect rect, const std::string& sName, CMaterial* normalMaterial) {
+			m_guiObjects[sName] = new VGraphRatio(m_viewport, createRelativeRectangle(&m_zfRect, &rect), normalMaterial);
+			//m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
+			m_guiObjects[sName]->setLayer(0.2F);
+			m_guiObjects[sName]->setName(sName);
+			m_guiObjects[sName]->addObserver(this);
+
+			return CASTD<VGraphRatio *>(m_guiObjects[sName]);
 		}
 
 		virtual CViewport* addViewport(CViewport* viewport,CCamera* cam, CFloatRect rect, CBackground* background, const std::string& sName)
