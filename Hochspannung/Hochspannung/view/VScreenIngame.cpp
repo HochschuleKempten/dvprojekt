@@ -194,8 +194,17 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vgGraphEnergyRatio = m_vtTabStatistics->getContainer("RenFosEnergyContainer")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialGreen);
 	m_vtTabStatistics->getContainer("RenFosEnergyContainer")->setLayer(0.2F);
 
-	m_vgGraphEnergyRatio->toggleType();
-	updateGraphRatio(0.9f);
+	//m_vgGraphEnergyRatio->toggleType();
+	//updateGraphRatio(0.9f);
+
+	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.9F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy");
+	m_vgGraphEnergy = m_vtTabStatistics->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph");
+	m_vtTabStatistics->getContainer("Energy")->setLayer(0.1f);
+
+	m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
+	m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
+	m_vgGraphEnergy->updateBar2("neededEnergy", 10);
+	m_vgGraphEnergy->updateBar2("producedEnergy", 50);
 
 	m_vtTabSabotage->switchOff();
 	m_vtTabStatistics->switchOff();
@@ -220,13 +229,13 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("DialogBox")->getGuiObject("MenueButtonBack")->setLayer(0.1F);
 
 	/********************************************************Energy AREA*************************************************************/
-	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy");
-	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1F);
-	m_vgGraphEnergy = getContainer("BottomBar")->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph"); // ->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
-	m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
-	m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
-	m_vgGraphEnergy->updateBar2("neededEnergy", 10);
-	m_vgGraphEnergy->updateBar2("producedEnergy", 50);
+	//getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy");
+	//getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1F);
+	//m_vgGraphEnergy = getContainer("BottomBar")->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph"); // ->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
+	//m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
+	//m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
+	//m_vgGraphEnergy->updateBar2("neededEnergy", 10);
+	//m_vgGraphEnergy->updateBar2("producedEnergy", 50);
 
 	//CFloatRect iwas = getRectForPixel(0, vUi->m_zf.m_iHeightWindow - 100, vUi->m_zf.m_iWidthWindow, 100);
 
@@ -244,20 +253,18 @@ void VScreenIngame::onNotify(const Event& events)
 		case SWITCH_TO_REGISTER_BUILDING:
 			m_vtTabBuilding->switchOn();
 			m_vtTabSabotage->switchOff();
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
+			m_vtTabStatistics->switchOff();
 			break;
 
 		case SWITCH_TO_REGISTER_SABOTAGE:
 			m_vtTabBuilding->switchOff();
 			m_vtTabSabotage->switchOn();
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
+			m_vtTabStatistics->switchOff();
 			break;
 		case SWITCH_TO_REGISTER_STATISTICS:
 			m_vtTabBuilding->switchOff();
 			m_vtTabSabotage->switchOff();
-			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOn();
-			// TODO get stats and update statistics here
-			updatePowerPlants({{BUILDINGTYPE::BUILDING_WINDMILL, 11},{BUILDINGTYPE::BUILDING_OILPOWERPLANT, 15}}); // testing
+			m_vtTabStatistics->switchOn();
 			break;
 
 		case SELECT_BUILDING_WINDMILL:
