@@ -156,8 +156,12 @@ private:
 		if (buildingPlaced) {
 			setSpecialBuildings<T>(x, y, playerId);
 			adjustOrientationsAround(x, y, getField(x, y)->getBuilding()->getOrientation());
-			recalculateCityConnections();
-			
+
+			if (playerId == LPlayer::Local)
+			{
+				recalculateCityConnections();
+			}
+
 			//-----network-----
 			if (!isLocalOperation())
 			{

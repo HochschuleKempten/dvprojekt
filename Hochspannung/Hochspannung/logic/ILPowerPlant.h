@@ -39,7 +39,10 @@ private:
 				lField->getLPlayingField()->getLMaster()->sendPowerPlantSwitchState(coordinates.first, coordinates.second, isActivated);
 			}
 
-			lField->getLPlayingField()->recalculateCityConnections();
+			if (playerId == LPlayer::Local)
+			{
+				lField->getLPlayingField()->recalculateCityConnections();
+			}
 		}
 	}
 
@@ -62,7 +65,10 @@ private:
 				lField->getLPlayingField()->getLMaster()->sendPowerPlantSwitchState(coordinates.first, coordinates.second, isActivated);
 			}
 
-			lField->getLPlayingField()->recalculateCityConnections();
+			if (playerId == LPlayer::Local)
+			{
+				lField->getLPlayingField()->recalculateCityConnections();
+			}
 		}
 	}
 
