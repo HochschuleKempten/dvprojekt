@@ -139,17 +139,29 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 
 void LPlayer::addPowerPlant(ILPowerPlant* powerPlant)
 {
-	//TODO (L) inform ui
 	powerPlants.emplace_back(powerPlant);
 
 	LRemoteOperation remoteOperation(lMaster->getLPlayingField(), powerPlant);
 	remoteOperation.switchOn();
+
+	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier());
 }
 
 void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
 {
-	//TODO (L) inform ui
 	powerPlants.erase(std::remove(powerPlants.begin(), powerPlants.end(), powerPlant), powerPlants.end());
+
+	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier());
+}
+
+void LPlayer::addPowerLine(LPowerLine* powerLine)
+{
+	powerLines.emplace_back(powerLine);
+}
+
+void LPlayer::removePowerLine(const LPowerLine* const powerLine)
+{
+	powerLines.erase(std::remove(powerLines.begin(), powerLines.end(), powerLine), powerLines.end());
 }
 
 void LPlayer::checkPowerPlants()

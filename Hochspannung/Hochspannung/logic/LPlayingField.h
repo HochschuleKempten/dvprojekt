@@ -109,6 +109,11 @@ private:
 		}
 	}
 	template<>
+	void setSpecialBuildings<LPowerLine>(const int x, const int y, const int playerId)
+	{
+		lMaster->getPlayer(playerId)->addPowerLine(CASTD<LPowerLine*>(getField(x, y)->getBuilding()));
+	}
+	template<>
 	void setSpecialBuildings<LCity>(const int x, const int y, const int playerId)
 	{
 		lMaster->getPlayer(playerId)->setCity(CASTD<LCity*>(getField(x, y)->getBuilding()));

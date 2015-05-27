@@ -256,8 +256,7 @@ void VScreenIngame::onNotify(const Event& events)
 			m_vtTabBuilding->switchOff();
 			m_vtTabSabotage->switchOff();
 			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOn();
-			// TODO get stats and update statistics here
-			updatePowerPlants({{BUILDINGTYPE::BUILDING_WINDMILL, 11},{BUILDINGTYPE::BUILDING_OILPOWERPLANT, 15}}); // testing
+			updatePowerPlants();
 			break;
 
 		case SELECT_BUILDING_WINDMILL:
@@ -481,10 +480,45 @@ void VScreenIngame::updateInfofield(const std::string& neuerText)
 	//CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
 }
 
-void VScreenIngame::updatePowerPlants(const std::map<BUILDINGTYPE, int>& powerPlants)
+void VScreenIngame::updateAddedPowerPlant(const LIdentifier::LIdentifier id)
+{
+	switch (id)
+	{
+		case LIdentifier::LCoalPowerPlant: statPlacedBuildings[BUILDING_COALPOWERPLANT]++; break;
+		case LIdentifier::LHydroelectricPowerPlant: statPlacedBuildings[BUILDING_HYDROPOWERPLANT]++; break;
+		case LIdentifier::LNuclearPowerPlant: statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]++; break;
+		case LIdentifier::LOilRefinery: statPlacedBuildings[BUILDING_OILPOWERPLANT]++; break;
+		case LIdentifier::LSolarPowerPlant: statPlacedBuildings[BUILDING_SOLARPOWERPLANT]++; break;
+		case LIdentifier::LWindmillPowerPlant: statPlacedBuildings[BUILDING_WINDMILL]++; break;
+		case LIdentifier::LPowerLine: statPlacedBuildings[BUILDING_POWERLINE]++; break;
+		default: break;
+	}
+}
+
+void VScreenIngame::updateRemovedPowerPlant(const LIdentifier::LIdentifier id)
+{
+	switch (id)
+	{
+		case LIdentifier::LCoalPowerPlant: statPlacedBuildings[BUILDING_COALPOWERPLANT]--; break;
+		case LIdentifier::LHydroelectricPowerPlant: statPlacedBuildings[BUILDING_HYDROPOWERPLANT]--; break;
+		case LIdentifier::LNuclearPowerPlant: statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]--; break;
+		case LIdentifier::LOilRefinery: statPlacedBuildings[BUILDING_OILPOWERPLANT]--; break;
+		case LIdentifier::LSolarPowerPlant: statPlacedBuildings[BUILDING_SOLARPOWERPLANT]--; break;
+		case LIdentifier::LWindmillPowerPlant: statPlacedBuildings[BUILDING_WINDMILL]--; break;
+		case LIdentifier::LPowerLine: statPlacedBuildings[BUILDING_POWERLINE]--; break;
+		default: break;
+	}
+}
+
+void VScreenIngame::updateNumberPowerLines(const int newNumberPowerLines)
+{
+	statPlacedBuildings[BUILDING_POWERLINE] = newNumberPowerLines;
+}
+
+void VScreenIngame::updatePowerPlants()
 {
 	//VTab * tabStatistics = CASTD<VRegister *>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics");
-	for (const std::pair<BUILDINGTYPE, int>& plant : powerPlants)
+	for (const std::pair<BUILDINGTYPE, int>& plant : statPlacedBuildings)
 	{
 		CASTD<VText*>(m_vtTabStatistics->getGuiObject(m_powerPlantsNameMapping[plant.first]))->updateText(std::to_string(plant.second));
 	}

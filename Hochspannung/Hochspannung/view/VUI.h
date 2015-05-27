@@ -79,6 +79,9 @@ public:
 	void resize(int width, int height);
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
+	void updateAddedPowerPlant(const LIdentifier::LIdentifier id);
+	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id);
+	void updateNumberPowerLines(const int newNumberPowerLines);
 	void updateGameList(const std::vector<Network::CGameObject>& gameList);
 	void switchCursor(const CursorType& cursorType);
 

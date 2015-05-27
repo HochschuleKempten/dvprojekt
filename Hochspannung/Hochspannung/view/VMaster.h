@@ -42,6 +42,9 @@ public:
 
 	virtual void updateMoney(const int money) override;
 	virtual void updateRemainingSabotageActs(const int remainingSabotageActs) override;
+	virtual void updateAddedPowerPlant(const LIdentifier::LIdentifier id) override;
+	virtual void updateRemovedPowerPlant(const LIdentifier::LIdentifier id) override;
+	virtual void updateNumberPowerLines(const int newNumberPowerLines) override;
 	virtual void pauseGame() override;
 	virtual void continueGame() override;
 	virtual void gameWon() override;

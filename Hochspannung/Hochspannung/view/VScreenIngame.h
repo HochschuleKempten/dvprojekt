@@ -38,7 +38,10 @@ public:
 
 	void updateInfofield(const std::string& neuerText);
 
-	void updatePowerPlants(const std::map<BUILDINGTYPE, int>& powerPlants);
+	void updateAddedPowerPlant(const LIdentifier::LIdentifier id);
+	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id);
+	void updateNumberPowerLines(const int newNumberPowerLines);
+	void updatePowerPlants();
 
 	void updateGraph(float fProduced, float fNeeded);
 
@@ -111,6 +114,8 @@ private:
 	bool clickActive = false;
 
 	IViewBuilding::action selectedAction = IViewBuilding::Undefined;
+
+	std::map<VScreenIngame::BUILDINGTYPE, int> statPlacedBuildings;
 
 	//Detailed model view
 	CScene m_sceneModels;

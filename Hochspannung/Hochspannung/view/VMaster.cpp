@@ -131,6 +131,21 @@ void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
 	DEBUG_OUTPUT("Remaining sabotage acts: " << remainingSabotageActs);
 }
 
+void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id)
+{
+	vUi.updateAddedPowerPlant(id);
+}
+
+void VMaster::updateRemovedPowerPlant(const LIdentifier::LIdentifier id)
+{
+	vUi.updateRemovedPowerPlant(id);
+}
+
+void VMaster::updateNumberPowerLines(const int newNumberPowerLines)
+{
+	vUi.updateNumberPowerLines(newNumberPowerLines);
+}
+
 void VMaster::pauseGame()
 {
 	//todo (V) implement

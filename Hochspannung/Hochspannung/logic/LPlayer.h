@@ -8,6 +8,7 @@
 NAMESPACE_LOGIC_B
 
 class ILPowerPlant;
+class LPowerLine;
 class LMaster;
 class LCity;
 
@@ -29,6 +30,7 @@ private:
 	int sabotageActs = -1;
 	std::vector<ILPowerPlant*> powerPlants;
 	std::vector<ILPowerPlant*> prevConnectedPowerPlants;
+	std::vector<LPowerLine*> powerLines;
 	LCity* city = nullptr;
 
 public:
@@ -43,6 +45,8 @@ public:
 	bool trySabotageAct(const LSabotage::LSabotage sabotageType);
 	void addPowerPlant(ILPowerPlant* powerPlant);
 	void removePowerPlant(const ILPowerPlant* const powerPlant);
+	void addPowerLine(LPowerLine* powerLine);
+	void removePowerLine(const LPowerLine* const powerLine);
 	void checkPowerPlants();
 	LCity* getCity() const
 	{
