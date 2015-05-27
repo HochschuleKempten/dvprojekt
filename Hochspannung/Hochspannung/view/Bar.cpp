@@ -20,6 +20,7 @@ Bar::~Bar()
 
 void Bar::switchOff()
 {
+	mp_zoSurface->SwitchOff();
 }
 
 void Bar::onMouseOver()
@@ -49,5 +50,6 @@ void Bar::updateRectangle(CFloatRect rect)
 
 void Bar::switchOn()
 {
+	mp_zoSurface->SwitchOn();
 }
 NAMESPACE_VIEW_E

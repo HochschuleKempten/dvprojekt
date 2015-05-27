@@ -3,13 +3,13 @@
 #include "Bar.h"
 
 NAMESPACE_VIEW_B
-class VGraph :
+class VGraphRatio :
 	public IViewGUIObject
 {
 public:
-	VGraph(CViewport* viewport, CFloatRect& rect);
+	VGraphRatio(CViewport* viewport, CFloatRect& rect, CMaterial* normalMaterial, bool bVertical = true);
 
-	~VGraph();
+	~VGraphRatio();
 
 
 	void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard) override;
@@ -22,19 +22,16 @@ public:
 	void setLayer(float layer) override;
 	void updateRectangle(CFloatRect rect) override;
 
-	void addBar(std::string sName,CMaterial* normalMaterial);
-	void updateBar(std::string sName, float wert);
-	void updateBar2(std::string sName, float wert);
+	void updateValue(float fRatio);
+	void toggleType();
+	void switchVertical();
+	void switchHorizontal();
 
 private:
-	CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect);
-	void calcWidth();
-	void calcHeight();
 	void recalcRectangles();
-	float getMaxHeight();
 	CViewport* m_viewport;
-	std::map<std::string, Bar*> m_bars;
-	std::map<std::string, Bar*>::iterator m_IterBars;
+	Bar* m_bar;
+	bool m_bVertical;
 };
 
 NAMESPACE_VIEW_E

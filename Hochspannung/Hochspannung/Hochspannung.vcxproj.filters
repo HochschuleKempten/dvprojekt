@@ -379,6 +379,9 @@
     <ClInclude Include="view\VUIHelper.h">
       <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\VGraphRatio.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -602,6 +605,9 @@
     </ClCompile>
     <ClCompile Include="view\VModelCoalPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VGraphRatio.cpp">
+      <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
