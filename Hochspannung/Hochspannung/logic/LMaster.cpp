@@ -40,6 +40,11 @@ LMaster::~LMaster()
 
 void LMaster::startNewGame(const std::string& ipAddress)
 {
+	if (lPlayingField == nullptr)
+	{
+		lPlayingField = new LPlayingField(this);
+	}
+
 	if (ipAddress.empty())
 	{
 		host();
@@ -47,7 +52,6 @@ void LMaster::startNewGame(const std::string& ipAddress)
 	}
 	else if (ipAddress == "SINGLE_PLAYER")
 	{
-		lPlayingField = new LPlayingField(this);
 		lPlayingField->createFields();
 		lPlayingField->showPlayingField();
 
@@ -58,10 +62,6 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		connect(ipAddress);
 	}
 
-	if (lPlayingField == nullptr)
-	{
-		lPlayingField = new LPlayingField(this);
-	}
 
 	if (networkService.getType() != Network::Type::CLIENT)
 	{
@@ -74,10 +74,8 @@ void LMaster::gameOver()
 {
 	vMaster.gameOver();
 
-	if (networkService.getConnectionState() == Network::CONNECTED)
-	{
-		networkService.close();
-	}
+	networkService.sendStopGame();
+	networkService.close();
 }
 
 void LMaster::placeBuilding(const int buildingId, const int x, const int y, const int playerId)
@@ -223,9 +221,10 @@ void LMaster::tick(const float fTimeDelta)
 
 			break;
 
-		case(END_GAME) : //todo (IP) send 
+		case(END_GAME) :
 
-			gameOver();
+			//enemy player has lost the game
+			vMaster.gameWon();
 
 			break;
 
