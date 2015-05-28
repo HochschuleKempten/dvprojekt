@@ -38,6 +38,11 @@ void VCity::updateEnergy(const int energy)
 	DEBUG_OUTPUT("City new energy value = " << energy);
 }
 
+void VCity::updateEnergySurplus(const int surplus)
+{
+	DEBUG_OUTPUT("Surplus = " << surplus);
+}
+
 void VCity::energyLow(const int surplus)
 {
 	//TODO (V) inform gui about surplus
