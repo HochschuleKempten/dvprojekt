@@ -114,8 +114,8 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	vUi->m_zf.AddViewport(&m_viewportModels);
 
 	/********************************************************Baumenu AREA*************************************************************/
-	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.22F, 0.00F, 0.51F, 1.0F), &VMaterialLoader::m_zmCraftMenueBackground, "Craftmenu", 0.5F);
-	getContainer("BottomBar")->getContainer("Craftmenu")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.00F, 0.105F, 1.0F, 0.895F), "Register", 0.3F);
+	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.22F, 0.00F, 0.51F, 1.0F), "Craftmenu", 0.5F);
+	getContainer("BottomBar")->getContainer("Craftmenu")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.00F, 0.0F, 1.0F, 1.0F), "Register", 0.3F);
 
 	VRegister* vrRegister = CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"));
 	vrRegister->addTab(&VMaterialLoader::materialIngameButtonCraftmenu, &VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_BUILDING, "TabBuilding", 0.2F);
@@ -140,8 +140,12 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	m_vtTabSabotage->addButton(CFloatRect(0.025F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonScissors, &VMaterialLoader::materialSabotageButtonScissorsHover, SELECT_SABOTAGE_POWERLINECUT, "sabotagePowerlineCut", 0.1F);
 	m_vtTabSabotage->addButton(CFloatRect(0.275F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonStrike, &VMaterialLoader::materialSabotageButtonStrikeHover, SELECT_SABOTAGE_STRIKE, "sabotageStrike", 0.1F);
-	m_vtTabSabotage->addButton(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonBomb, &VMaterialLoader::materialSabotageButtonBombHover, SELECT_SABOTAGE_BOMB, "sabotageBomb", 0.1F);
+	m_vtTabSabotage->addButton(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonHalf, &VMaterialLoader::materialSabotageButtonHalfHover, SELECT_SABOTAGE_HALF, "sabotageHalf", 0.1F);
 
+	m_vtTabSabotage->addButton(CFloatRect(0.025F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonPowerOn, &VMaterialLoader::materialSabotageButtonPowerOnHover, SELECT_SABOTAGE_POWERON, "sabotagePowerOn", 0.1F);
+	m_vtTabSabotage->addButton(CFloatRect(0.275F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonPowerOff, &VMaterialLoader::materialSabotageButtonPowerOffHover, SELECT_SABOTAGE_POWEROFF, "sabotagePowerOff", 0.1F);
+	m_vtTabSabotage->addButton(CFloatRect(0.525F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonSell, &VMaterialLoader::materialSabotageButtonSellHover, SELECT_SABOTAGE_SELL, "sabotageSell", 0.1F);
+	
 
 	// Tab for statistics
 	m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonWindmill, "statisticWind", 0.1F);
@@ -174,7 +178,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	/********************************************************Minimap AREA*************************************************************/
-	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.73F, 0.01F, 0.27F, 1.0F), &VMaterialLoader::materialMinimapBackground, "Minimap", 0.3F);
+	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.73F, 0.00F, 0.27F, 1.0F), &VMaterialLoader::materialMinimapBackground, "Minimap", 0.3F);
 	getContainer("BottomBar")->getContainer("Minimap")->addText(CFloatRect(0.01F, 0.3F, 0.80F, 0.1F), &VMaterialLoader::standardFont, "Minimap", "MinimapText", 0.1F);
 
 
@@ -330,10 +334,23 @@ void VScreenIngame::onNotify(const Event& events)
 		setActiveButton("sabotageStrike");
 		selectedAction = IViewBuilding::sabotagePowerPlant;
 		break;
-	case SELECT_SABOTAGE_BOMB:
+	case SELECT_SABOTAGE_HALF:
 		vUi->switchCursor(vUi->CursorType::Sabotage);
-		setActiveButton("sabotageBomb");
+		setActiveButton("sabotageHalf");
 		selectedAction = IViewBuilding::sabotageResourceField;
+		break;
+
+	case SELECT_SABOTAGE_POWERON:
+		vUi->switchCursor(vUi->CursorType::PowerOn);
+		setActiveButton("sabotagePowerOn");
+		break;
+	case SELECT_SABOTAGE_POWEROFF:
+		vUi->switchCursor(vUi->CursorType::PowerOff);
+		setActiveButton("sabotagePowerOff");
+		break;
+	case SELECT_SABOTAGE_SELL:
+		vUi->switchCursor(vUi->CursorType::Sell);
+		setActiveButton("sabotageSell");
 		break;
 
 	default:
@@ -371,7 +388,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	if (keyboard->KeyPressed(DIK_M) && enabled)
 	{
 		enabled = false;
-		m_vtTabSabotage->getGuiObject("sabotageBomb")->switchOff();
+		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
 
 
 		m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageBomb, "AnimBomb", 0.2F);
@@ -379,7 +396,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	if (keyboard->KeyPressed(DIK_N) && !enabled)
 	{
 		enabled = false;
-		m_vtTabSabotage->getGuiObject("sabotageBomb")->switchOn();
+		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
 
 		m_vtTabSabotage->getOverlay("AnimBomb")->SwitchOff();
 		VMaterialLoader::materialAnimSabotageBomb.SetBot(1, 1);
@@ -387,7 +404,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	if (keyboard->KeyPressed(DIK_B))
 	{
 		enabled = false;
-		m_vtTabSabotage->getGuiObject("sabotageBomb")->switchOff();
+		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
 
 		m_vtTabSabotage->getOverlay("AnimBomb")->SwitchOn();
 	}

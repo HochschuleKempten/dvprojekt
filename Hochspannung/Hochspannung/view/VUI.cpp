@@ -28,6 +28,10 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	m_Default_Cursor = static_cast<HCURSOR>(LoadImage(HINSTANCE(GetWindowLong(hwnd, GWLP_HINSTANCE)), "textures\\gui\\Cursor\\default_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
 	m_Hammer_Cursor = static_cast<HCURSOR>(LoadImage(HINSTANCE(GetWindowLong(hwnd, GWLP_HINSTANCE)), "textures\\gui\\Cursor\\hammer_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
 	m_Sabotage_Cursor = static_cast<HCURSOR>(LoadImage(HINSTANCE(GetWindowLong(hwnd, GWLP_HINSTANCE)), "textures\\gui\\Cursor\\bomb_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
+	m_PowerOn_Cursor = static_cast<HCURSOR>(LoadImage(HINSTANCE(GetWindowLong(hwnd, GWLP_HINSTANCE)), "textures\\gui\\Cursor\\poweron_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
+	m_PowerOff_Cursor = static_cast<HCURSOR>(LoadImage(HINSTANCE(GetWindowLong(hwnd, GWLP_HINSTANCE)), "textures\\gui\\Cursor\\poweroff_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
+	m_Sell_Cursor = static_cast<HCURSOR>(LoadImage(HINSTANCE(GetWindowLong(hwnd, GWLP_HINSTANCE)), "textures\\gui\\Cursor\\sell_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
+
 
 	m_zr.Init(psplash);
 	m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50_Basic, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
@@ -195,7 +199,28 @@ void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
 			break;
 		case Sabotage:
 			SetCursor(m_Sabotage_Cursor);
-			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Default_Cursor));
+			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Sabotage_Cursor));
+			//GetWindowRect(m_hwnd, rectangle);
+			//ClipCursor(rectangle);
+			break;
+
+		case PowerOn:
+			SetCursor(m_PowerOn_Cursor);
+			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_PowerOn_Cursor));
+			//GetWindowRect(m_hwnd, rectangle);
+			//ClipCursor(rectangle);
+			break;
+
+		case PowerOff:
+			SetCursor(m_PowerOff_Cursor);
+			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_PowerOff_Cursor));
+			//GetWindowRect(m_hwnd, rectangle);
+			//ClipCursor(rectangle);
+			break;
+
+		case Sell:
+			SetCursor(m_Sell_Cursor);
+			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Sell_Cursor));
 			//GetWindowRect(m_hwnd, rectangle);
 			//ClipCursor(rectangle);
 			break;

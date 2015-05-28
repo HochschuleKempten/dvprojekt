@@ -48,6 +48,8 @@ public:
 	static CMaterial materialButtonLobbyHostGameHover;
 	static CMaterial materialButtonAbort;
 	static CMaterial materialButtonAbortHover;
+	static CMaterial materialButtonRefresh;
+	static CMaterial materialButtonRefreshHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
@@ -105,11 +107,17 @@ public:
 	//Sabotage
 	static CMaterial materialSabotageButtonScissors;
 	static CMaterial materialSabotageButtonStrike;
-	static CMaterial materialSabotageButtonBomb;
+	static CMaterial materialSabotageButtonHalf;
+	static CMaterial materialSabotageButtonPowerOn;
+	static CMaterial materialSabotageButtonPowerOff;
+	static CMaterial materialSabotageButtonSell;
 
 	static CMaterial materialSabotageButtonScissorsHover;
 	static CMaterial materialSabotageButtonStrikeHover;
-	static CMaterial materialSabotageButtonBombHover;
+	static CMaterial materialSabotageButtonHalfHover;
+	static CMaterial materialSabotageButtonPowerOnHover;
+	static CMaterial materialSabotageButtonPowerOffHover;
+	static CMaterial materialSabotageButtonSellHover;
 
 	//Infofield
 	static CMaterial materialInfofieldBackground;
