@@ -6,7 +6,7 @@ NAMESPACE_VIEW_B
 class Bar:public IViewGUIObject
 {
 public:
-	Bar(CViewport* viewport, CMaterial *material, CFloatRect rect, float value);
+	Bar(CViewport* viewport, CMaterial* material, CFloatRect rect, float value);
 	~Bar();
 
 	void switchOn() override;
@@ -43,8 +43,6 @@ public:
 private:
 	COverlay* mp_zoSurface = nullptr;
 	float m_fValue = 0;
-	
-		
 };
 
 NAMESPACE_VIEW_E

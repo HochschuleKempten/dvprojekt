@@ -9,50 +9,50 @@
 //---------------------------------------------------
 NAMESPACE_VIEW_B
 
-	class VButton:public IViewGUIObject
-	{
-	public:
+class VButton:public IViewGUIObject
+{
+public:
 
-		VButton();
-		VButton(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction, const float layer);
-		~VButton();
-
-
-		virtual void switchOn() override final;
-		virtual void switchOff() override final;
-
-		virtual void onMouseOver(void) override final;
-		virtual void onMouseOut(void) override final;
-		virtual void onMouseClickLeft(void) override final;
-		virtual void onMouseClickRight(void) override final;
-
-		virtual void setLayer(const float layer) override;
-		virtual void updateRectangle(CFloatRect rect) override;
-		bool bGetHasHover();
+	VButton();
+	VButton(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction, const float layer);
+	~VButton();
 
 
-		//Getter
+	virtual void switchOn() override final;
+	virtual void switchOff() override final;
 
-		COverlay* getHoverOverlay();
-		COverlay* getNormalOverlay();
+	virtual void onMouseOver(void) override final;
+	virtual void onMouseOut(void) override final;
+	virtual void onMouseClickLeft(void) override final;
+	virtual void onMouseClickRight(void) override final;
 
-		CFloatRect getRectangle() override;
+	virtual void setLayer(const float layer) override;
+	virtual void updateRectangle(CFloatRect rect) override;
+	bool bGetHasHover();
 
 
-		//ClickAction getAction();
+	//Getter
 
-		void setActive(bool value = true);
+	COverlay* getHoverOverlay();
+	COverlay* getNormalOverlay();
 
-	private:
+	CFloatRect getRectangle() override;
 
-		COverlay* m_zoNormal;
-		COverlay* m_zoHover;
 
-		bool m_bHasHover;
-		bool m_isActive = false;
-		bool isActive();
+	//ClickAction getAction();
 
-		IViewUIObserver::Event action;
-	};
+	void setActive(bool value = true);
 
-	NAMESPACE_VIEW_E
+private:
+
+	COverlay* m_zoNormal;
+	COverlay* m_zoHover;
+
+	bool m_bHasHover;
+	bool m_isActive = false;
+	bool isActive();
+
+	IViewUIObserver::Event action;
+};
+
+NAMESPACE_VIEW_E

@@ -9,13 +9,12 @@ VGraphRatio::VGraphRatio(CViewport* viewport, CFloatRect& rect, CMaterial* norma
 	m_zfrRect = rect;
 	m_bVertical = bVertical;
 
-	m_bar = new Bar(viewport, normalMaterial, CFloatRect(0, 0, 1, 1), 0.3F); 
+	m_bar = new Bar(viewport, normalMaterial, CFloatRect(0, 0, 1, 1), 0.3F);
 	updateValue(0.3f);
 }
 
 VGraphRatio::~VGraphRatio()
 {
-
 }
 
 void VGraphRatio::checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)
@@ -56,12 +55,14 @@ void VGraphRatio::updateRectangle(CFloatRect rect)
 {
 }
 
-void VGraphRatio::updateValue(float fRatio) {
+void VGraphRatio::updateValue(float fRatio)
+{
 	m_bar->set_m_f_value(fRatio);
 	recalcRectangles();
 }
 
-void VGraphRatio::recalcRectangles() {
+void VGraphRatio::recalcRectangles()
+{
 	CFloatRect tempRect;
 
 	tempRect = m_bar->getRectangle();
@@ -74,17 +75,20 @@ void VGraphRatio::recalcRectangles() {
 	m_bar->updateRectangle(tempRect);
 }
 
-void VGraphRatio::toggleType() {
+void VGraphRatio::toggleType()
+{
 	m_bVertical = !m_bVertical;
 	recalcRectangles();
 }
 
-void VGraphRatio::switchVertical() {
+void VGraphRatio::switchVertical()
+{
 	m_bVertical = true;
 	recalcRectangles();
 }
 
-void VGraphRatio::switchHorizontal() {
+void VGraphRatio::switchHorizontal()
+{
 	m_bVertical = false;
 	recalcRectangles();
 }
