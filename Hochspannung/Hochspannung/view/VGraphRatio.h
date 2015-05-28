@@ -3,6 +3,7 @@
 #include "Bar.h"
 
 NAMESPACE_VIEW_B
+
 class VGraphRatio :
 	public IViewGUIObject
 {

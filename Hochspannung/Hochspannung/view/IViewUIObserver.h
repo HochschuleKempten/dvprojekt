@@ -2,13 +2,13 @@
 #include "VGeneral.h"
 
 NAMESPACE_VIEW_B
+
 //---------------------------------------------------
 // IViewUIObserver Interface
 // Beschreibung:
 //
 // Autor: Patrick Benkowitsch
 //---------------------------------------------------
-
 
 
 class IViewUIObserver
@@ -44,11 +44,15 @@ public:
 		NOTHING
 	};
 
-	virtual ~IViewUIObserver() {}
+	virtual ~IViewUIObserver()
+	{
+	}
 
 	virtual void onNotify(const Event& evente) = 0;
-	virtual void onNotifyExt(const Event& evente, const std::string& sName) 
-	{};
 
+	virtual void onNotifyExt(const Event& evente, const std::string& sName)
+	{
+	};
 };
+
 NAMESPACE_VIEW_E
