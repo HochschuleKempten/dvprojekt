@@ -35,14 +35,12 @@ void VCity::updatePopulation(const int population)
 
 void VCity::updateEnergy(const int energy)
 {
-	DEBUG_OUTPUT("City new energy value = " << energy);
+	//todo (L)
 }
 
 void VCity::updateEnergySurplus(const int surplus)
 {
 	vMaster->getVUi()->updateEnergySurplus(CASTS<float>(lCity->getEnergySurplusRatio()));
-	DEBUG_OUTPUT("Surplus = " << surplus);
-	DEBUG_OUTPUT("SurplusRatio = " << CASTS<float>(lCity->getEnergySurplusRatio()));
 }
 
 void VCity::energyLow(const int surplus)

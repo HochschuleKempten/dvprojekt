@@ -124,35 +124,6 @@ void LMaster::tick(const float fTimeDelta)
 
 	static float timeLastCheck = 0;
 
-	////Just for testing
-	//try
-	//{
-	//	static bool gameListUpdatedFirst = false;
-	//	static bool gameListUpdatedSecond = TRUE;
-	//	if (!gameListUpdatedFirst && timeLastCheck > 5.0f)
-	//	{
-	//		vMaster.updateGameList({
-	//			CGameObject(ip::address::from_string("172.16.16.71"), 1000, "Test1"),
-	//			CGameObject(ip::address::from_string("222.9.2.171"), 500, "Test2")
-	//		});
-
-	//		gameListUpdatedFirst = true;
-	//		gameListUpdatedSecond = false;
-	//	}
-	//	if (!gameListUpdatedSecond && timeLastCheck > 8.0f)
-	//	{
-	//		vMaster.updateGameList({
-	//			CGameObject(ip::address::from_string("172.16.16.71"), 1000, "Test1"),
-	//			CGameObject(ip::address::from_string("200.111.111.111"), 111, "Test3")
-	//		});
-
-	//		gameListUpdatedSecond = true;
-	//	}
-	//}
-	//catch (boost::system::system_error error) {
-	//	ASSERT(error.what());
-	//}
-
 	if (timeLastCheck > 3.0F && (lPlayingField != nullptr ? !lPlayingField->isInitDone() : true))
 	{
 		bool updated = false;
@@ -165,146 +136,179 @@ void LMaster::tick(const float fTimeDelta)
 		}
 	}
 
-	if (timeLastCheck > 0.25F && networkService.getConnectionState() == CONNECTED && networkService.isActionAvailable())
+	static bool firstConnectDone = false;
+
+	if (networkService.getConnectionState() == CONNECTED)
 	{
-		CTransferObject transferObject = networkService.getNextActionToExecute();
-		int objectId = transferObject.getTransObjectID();
-		int x = transferObject.getCoordX();
-		int y = transferObject.getCoordY();
-		
 
-		DEBUG_OUTPUT("objectId=" << objectId << ":x=" << x << ":y=" << y);
-
-		//regarding host
-		switch (transferObject.getAction())
+		if (timeLastCheck > 0.25F && networkService.isActionAvailable())
 		{
-		case(SET_OBJECT) :
-		{
-			int playerId = std::stoi(transferObject.getValue());
-			if (playerId == LPlayer::Local)
-			{
-				playerId = LPlayer::Remote;
-			}
-			else if (playerId == LPlayer::Remote)
-			{
-				playerId = LPlayer::Local;
-			}
+			firstConnectDone = true;
 
-			//buildings
-			if (objectId >= 100 && objectId < 109)
+			CTransferObject transferObject = networkService.getNextActionToExecute();
+			int objectId = transferObject.getTransObjectID();
+			int x = transferObject.getCoordX();
+			int y = transferObject.getCoordY();
+
+
+			DEBUG_OUTPUT("objectId=" << objectId << ":x=" << x << ":y=" << y);
+
+			//regarding host
+			switch (transferObject.getAction())
 			{
-				placeBuilding(objectId, x, y, playerId);
+			case(SET_OBJECT) :
+			{
+				int playerId = std::stoi(transferObject.getValue());
+				if (playerId == LPlayer::Local)
+				{
+					playerId = LPlayer::Remote;
+				}
+				else if (playerId == LPlayer::Remote)
+				{
+					playerId = LPlayer::Local;
+				}
+
+				//buildings
+				if (objectId >= 100 && objectId < 109)
+				{
+					placeBuilding(objectId, x, y, playerId);
+				}
+				else if (objectId == -666) //= end of fieldcreation
+				{
+					networkService.sendStartGame(); //notifiy host (client is ready)
+					lPlayingField->showPlayingField();
+				}
+
+				break;
 			}
-			else if (objectId == -666) //= end of fieldcreation
-			{
-				networkService.sendStartGame(); //notifiy host (client is ready)
+			case(DELETE_OBJECT) :
+
+				lPlayingField->removeBuilding(x, y);
+
+				break;
+
+			case(UPGRADE_OBJECT) :
+
+				lPlayingField->upgradeBuilding(x, y);
+
+				break;
+
+			case(START_GAME) :
+
 				lPlayingField->showPlayingField();
-			}
 
-			break;
-		}
-		case(DELETE_OBJECT) :
-
-			lPlayingField->removeBuilding(x, y);
-
-			break;
-
-		case(UPGRADE_OBJECT) :
-
-			lPlayingField->upgradeBuilding(x, y);
-
-			break;
-
-		case(START_GAME) :
-
-			lPlayingField->showPlayingField();
-
-			break;
-
-		case(END_GAME) :
-
-			//enemy player has lost the game
-			vMaster.gameWon();
-
-			break;
-
-		case(PAUSE_GAME) ://todo (IP) send 
-
-			vMaster.pauseGame();
-
-			gamePaused = true;
-
-			break;
-
-		case(CONTINUE_GAME) ://todo (IP) send 
-
-			vMaster.continueGame();
-
-			gamePaused = false;
-
-			break;
-
-		case(SET_MAPROW) :
-		{
-			std::vector<FieldTransfer> row = transferObject.getValueAsVector();
-			int rowNumber = x;
-
-			for (int column = 0; column < CASTS<int>(row.size()); column++)
-			{
-				lPlayingField->initField(rowNumber, column, static_cast<LField::FieldType>(row[column].iFieldType), static_cast<LField::FieldLevel>(row[column].iFieldLevel));
-
-				if (row[column].iObjectID != -1)
-				{
-					int plId = row[column].iPlayerID;
-					if (plId == LPlayer::Local)
-					{
-						plId = LPlayer::Remote;
-					}
-					else if (plId == LPlayer::Remote)
-					{
-						plId = LPlayer::Local;
-					}
-
-					placeBuilding(row[column].iObjectID, rowNumber, column, plId);
-				}
-			}
-
-			break;
-		}
-
-		case(SEND_SABOTAGE) :
-		{
-			LSabotage::LSabotage objectToSabotage = static_cast<LSabotage::LSabotage>(objectId);
-
-			switch (objectToSabotage)
-			{
-			case(LSabotage::LSabotage::PowerLine) :
-			{
-				LPowerLine* powerLine = dynamic_cast<LPowerLine*>(lPlayingField->getField(x, y)->getBuilding());
-				if (powerLine != nullptr)
-				{
-					powerLine->sabotagePowerLine();
-				}
 				break;
-			}
 
-			case(LSabotage::LSabotage::PowerPlant) :
+			case(END_GAME) :
+
+				//enemy player has lost the game
+				vMaster.gameWon();
+
+				break;
+
+			case(PAUSE_GAME) ://todo (IP) send 
+
+				vMaster.pauseGame();
+
+				gamePaused = true;
+
+				break;
+
+			case(CONTINUE_GAME) ://todo (IP) send 
+
+				vMaster.continueGame();
+
+				gamePaused = false;
+
+				break;
+
+			case(SET_MAPROW) :
 			{
-				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
-				if (powerPlant != nullptr)
+				std::vector<FieldTransfer> row = transferObject.getValueAsVector();
+				int rowNumber = x;
+
+				for (int column = 0; column < CASTS<int>(row.size()); column++)
 				{
-					powerPlant->sabotagePowerPlant();
+					lPlayingField->initField(rowNumber, column, static_cast<LField::FieldType>(row[column].iFieldType), static_cast<LField::FieldLevel>(row[column].iFieldLevel));
+
+					if (row[column].iObjectID != -1)
+					{
+						int plId = row[column].iPlayerID;
+						if (plId == LPlayer::Local)
+						{
+							plId = LPlayer::Remote;
+						}
+						else if (plId == LPlayer::Remote)
+						{
+							plId = LPlayer::Local;
+						}
+
+						placeBuilding(row[column].iObjectID, rowNumber, column, plId);
+					}
 				}
 
 				break;
 			}
 
-			case(LSabotage::LSabotage::Resource) :
+			case(SEND_SABOTAGE) :
+			{
+				LSabotage::LSabotage objectToSabotage = static_cast<LSabotage::LSabotage>(objectId);
+
+				switch (objectToSabotage)
+				{
+				case(LSabotage::LSabotage::PowerLine) :
+				{
+					LPowerLine* powerLine = dynamic_cast<LPowerLine*>(lPlayingField->getField(x, y)->getBuilding());
+					if (powerLine != nullptr)
+					{
+						powerLine->sabotagePowerLine();
+					}
+					break;
+				}
+
+				case(LSabotage::LSabotage::PowerPlant) :
+				{
+					ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+					if (powerPlant != nullptr)
+					{
+						powerPlant->sabotagePowerPlant();
+					}
+
+					break;
+				}
+
+				case(LSabotage::LSabotage::Resource) :
+				{
+					ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+					if (powerPlant != nullptr)
+					{
+						powerPlant->sabotageResource();
+					}
+
+					break;
+				}
+
+				default:
+					break;
+				}
+
+				break;
+			}
+
+			case(SEND_SWITCH_STATE) :
 			{
 				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 				if (powerPlant != nullptr)
 				{
-					powerPlant->sabotageResource();
+					bool isActivated = boost::lexical_cast<bool>(transferObject.getValue());
+					if (isActivated)
+					{
+						powerPlant->switchOn();
+					}
+					else
+					{
+						powerPlant->switchOff();
+					}
 				}
 
 				break;
@@ -314,33 +318,16 @@ void LMaster::tick(const float fTimeDelta)
 				break;
 			}
 
-			break;
+			timeLastCheck = 0;
 		}
 
-		case(SEND_SWITCH_STATE) :
+	}
+	else
+	{
+		if (firstConnectDone)
 		{
-			ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
-			if (powerPlant != nullptr)
-			{
-				bool isActivated = boost::lexical_cast<bool>(transferObject.getValue());
-				if (isActivated)
-				{
-					powerPlant->switchOn();
-				}
-				else
-				{
-					powerPlant->switchOff();
-				}
-			}
-
-			break;
+			DEBUG_OUTPUT("-------------------Connection lost!");
 		}
-
-		default:
-			break;
-		}
-
-		timeLastCheck = 0;
 	}
 
 	timeLastCheck += fTimeDelta;

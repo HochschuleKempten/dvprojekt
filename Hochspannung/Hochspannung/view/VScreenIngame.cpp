@@ -673,8 +673,6 @@ void VScreenIngame::handleInput()
 				mouseWheelPosition += cameraStength * 4.0f;
 			}
 		}
-
-		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
 	}
 
 
@@ -684,7 +682,6 @@ void VScreenIngame::handleInput()
 		{
 			m_zpCamera.RotateZDelta(cameraStength / 10.0f);
 			cameraAngle += cameraStength / 10.0f;
-			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
 		}
 	}
 
@@ -694,7 +691,6 @@ void VScreenIngame::handleInput()
 		{
 			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
 			cameraAngle -= cameraStength / 10.0f;
-			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
 		}
 	}
 
@@ -704,14 +700,12 @@ void VScreenIngame::handleInput()
 		{
 			m_zpCamera.RotateZDelta(cameraStength / 10.0f);
 			cameraAngle += cameraStength / 10.f;
-			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
 		}
 
 		if (cameraAngle > 0.0f)
 		{
 			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
 			cameraAngle -= cameraStength / 10.0f;
-			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
 		}
 	}
 
