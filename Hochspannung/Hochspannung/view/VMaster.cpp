@@ -131,19 +131,28 @@ void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
 	DEBUG_OUTPUT("Remaining sabotage acts: " << remainingSabotageActs);
 }
 
-void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id)
+void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
-	vUi.updateAddedPowerPlant(id);
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateAddedPowerPlant(id);
+	}
 }
 
-void VMaster::updateRemovedPowerPlant(const LIdentifier::LIdentifier id)
+void VMaster::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
-	vUi.updateRemovedPowerPlant(id);
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateRemovedPowerPlant(id);
+	}
 }
 
-void VMaster::updateNumberPowerLines(const int newNumberPowerLines)
+void VMaster::updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId)
 {
-	vUi.updateNumberPowerLines(newNumberPowerLines);
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateNumberPowerLines(newNumberPowerLines);
+	}
 }
 
 void VMaster::pauseGame()

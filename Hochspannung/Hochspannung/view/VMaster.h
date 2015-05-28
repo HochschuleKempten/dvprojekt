@@ -4,6 +4,7 @@
 #include "VFactory.h"
 #include "VUI.h"
 #include "../logic/IVMaster.h"
+#include "../logic/LPlayer.h"
 
 NAMESPACE_VIEW_B
 
@@ -42,9 +43,9 @@ public:
 
 	virtual void updateMoney(const int money) override;
 	virtual void updateRemainingSabotageActs(const int remainingSabotageActs) override;
-	virtual void updateAddedPowerPlant(const LIdentifier::LIdentifier id) override;
-	virtual void updateRemovedPowerPlant(const LIdentifier::LIdentifier id) override;
-	virtual void updateNumberPowerLines(const int newNumberPowerLines) override;
+	virtual void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) override;
+	virtual void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) override;
+	virtual void updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId) override;
 	virtual void pauseGame() override;
 	virtual void continueGame() override;
 	virtual void gameWon() override;
