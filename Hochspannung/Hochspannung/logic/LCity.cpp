@@ -84,9 +84,21 @@ int LCity::getEnergySurplus() const
 	return energySurplus;
 }
 
+double LCity::getEnergySurplusRatio() const
+{
+	return CASTS<double>(getEnergySurplus()) / CASTS<double>(maxSurplus);
+}
+
 void LCity::setEnergySurplus(const int surplus)
 {
-	this->energySurplus = surplus;
+	if (surplus > maxSurplus)
+	{
+		this->energySurplus = maxSurplus;
+	}
+	else
+	{
+		this->energySurplus = surplus;
+	}
 
 	if (energySurplus >= 0 && energySurplus < 50)
 	{

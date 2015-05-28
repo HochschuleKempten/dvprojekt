@@ -159,6 +159,12 @@ int LBalanceLoader::getMapOffset()
 	return propertyTree.get<int>("CityProperties.MapOffset", 0);
 }
 
+int LBalanceLoader::getMaxSurplus()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("CityProperties.MaxSurplus", 0);
+}
+
 int LBalanceLoader::getCostSabotagePowerLine()
 {
 	ASSERT(initDone, msgAssert);

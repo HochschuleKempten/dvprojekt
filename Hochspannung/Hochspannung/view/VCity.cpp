@@ -40,7 +40,9 @@ void VCity::updateEnergy(const int energy)
 
 void VCity::updateEnergySurplus(const int surplus)
 {
+	vMaster->getVUi()->updateEnergySurplus(CASTS<float>(lCity->getEnergySurplusRatio()));
 	DEBUG_OUTPUT("Surplus = " << surplus);
+	DEBUG_OUTPUT("SurplusRatio = " << CASTS<float>(lCity->getEnergySurplusRatio()));
 }
 
 void VCity::energyLow(const int surplus)

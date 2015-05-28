@@ -80,6 +80,11 @@ public:
 	 */
 	static int getMapOffset();
 	/**
+	 * @brief Maximal surplus the player can have.
+	 */
+	static int getMaxSurplus();
+
+	/**
 	 * @brief Cost for sabotating a powerline.
 	 */
 	static int getCostSabotagePowerLine();
