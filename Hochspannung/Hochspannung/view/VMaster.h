@@ -28,6 +28,7 @@ public:
 	virtual ~VMaster();
 
 	void setLMaster(LMaster* lMaster);
+	LMaster* getLMaster() const;
 
 	void initScene(HWND hwnd, CSplash* psplash);
 	void tick(float fTime, float fTimeDelta);
