@@ -73,18 +73,23 @@ NAMESPACE_VIEW_B
 		VSoundLoader::init(&m_scene);
 		VSoundLoader::playBackgroundMusicIngame();
 
+		// initialize statistics constants and string mappings for power plants
+		m_powerPlantsNameMapping[BUILDING_HYDROPOWERPLANT] = "countHydro";
+		m_powerPlantsNameMapping[BUILDING_SOLARPOWERPLANT] = "countSolar";
+		m_powerPlantsNameMapping[BUILDING_NUCLEARPOWERPLANT] = "countNuclear";
+		m_powerPlantsNameMapping[BUILDING_COALPOWERPLANT] = "countCoal";
+		m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT] = "countOil";
+		m_powerPlantsNameMapping[BUILDING_WINDMILL] = "countWind";
+
 		//Bottom Bar
-
-
 		/********************************************************TOP AREA***************************************************************/
 		addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.0F, 0.8F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar", 0.3F);
 
 		getContainer("Topbar")->addOverlay(CFloatRect(0.1F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconPopulation, "TopPopulationIcon", 0.1F);
 		getContainer("Topbar")->addText(CFloatRect(0.201F, 0.1F, 0.15F, 0.9F), &VMaterialLoader::standardFont, "0000", "popValue", 0.1F);
-
+	
 		getContainer("Topbar")->addOverlay(CFloatRect(0.50F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon", 0.1F);
 		getContainer("Topbar")->addText(CFloatRect(0.601F, 0.2F, 0.2F, 0.85F), &VMaterialLoader::GoldFont, "0000", "moneyValue", 0.1F);
-
 
 		/********************************************************BOTTOM AREA*************************************************************/
 
@@ -133,7 +138,6 @@ NAMESPACE_VIEW_B
 		m_vtTabBuilding->addButton(CFloatRect(0.525F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, &VMaterialLoader::materialCraftmenuButtonOilPowerplantHover, SELECT_BUILDING_OILPOWERPLANT, "oilPowerPlant", 0.1F);
 		m_vtTabBuilding->addButton(CFloatRect(0.775F, 0.525F, 0.20F, 0.4F), &VMaterialLoader::materialCraftmenuButtonPowerline, &VMaterialLoader::materialCraftmenuButtonPowerlineHover, SELECT_BUILDING_POWERLINE, "powerLine", 0.1F);
 
-
 		m_vtTabSabotage->addButton(CFloatRect(0.025F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonScissors, &VMaterialLoader::materialSabotageButtonScissorsHover, SELECT_SABOTAGE_POWERLINECUT, "sabotagePowerlineCut", 0.1F);
 		m_vtTabSabotage->addButton(CFloatRect(0.275F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonStrike, &VMaterialLoader::materialSabotageButtonStrikeHover, SELECT_SABOTAGE_STRIKE, "sabotageStrike", 0.1F);
 		m_vtTabSabotage->addButton(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonBomb, &VMaterialLoader::materialSabotageButtonBombHover, SELECT_SABOTAGE_BOMB, "sabotageBomb", 0.1F);
@@ -141,22 +145,29 @@ NAMESPACE_VIEW_B
 
 		// Tab for statistics
 		m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonWindmill, "statisticWind", 0.1F);
-		m_vtTabStatistics->addText(CFloatRect(0.16f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countWind", 0.1F);
+		m_vtTabStatistics->addText(CFloatRect(0.16f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_WINDMILL], 0.1F);
 
 		m_vtTabStatistics->addOverlay(CFloatRect(0.26f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, "statisticHydro", 0.1F);
-		m_vtTabStatistics->addText(CFloatRect(0.37f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countHydro", 0.1F);
+		m_vtTabStatistics->addText(CFloatRect(0.37f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_HYDROPOWERPLANT], 0.1F);
 
 		m_vtTabStatistics->addOverlay(CFloatRect(0.51f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, "statisticSolar", 0.1F);
-		m_vtTabStatistics->addText(CFloatRect(0.62f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countSolar", 0.1F);
+		m_vtTabStatistics->addText(CFloatRect(0.62f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_SOLARPOWERPLANT], 0.1F);
 
 		m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, "statisticNuclear", 0.1F);
-		m_vtTabStatistics->addText(CFloatRect(0.16f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countNuclear", 0.1F);
+		m_vtTabStatistics->addText(CFloatRect(0.16f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_NUCLEARPOWERPLANT], 0.1F);
 
 		m_vtTabStatistics->addOverlay(CFloatRect(0.26f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, "statisticCoal", 0.1F);
-		m_vtTabStatistics->addText(CFloatRect(0.37f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countCoal", 0.1F);
+		m_vtTabStatistics->addText(CFloatRect(0.37f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_COALPOWERPLANT], 0.1F);
 
 		m_vtTabStatistics->addOverlay(CFloatRect(0.51f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOil", 0.1F);
-		m_vtTabStatistics->addText(CFloatRect(0.62f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", "countOil", 0.1F);
+		m_vtTabStatistics->addText(CFloatRect(0.62f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT], 0.1F);
+
+		// Renewable / fossil energy Statistics
+		m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.175F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainer", 0.2F);
+		m_vgGraphEnergyRatio = m_vtTabStatistics->getContainer("RenFosEnergyContainer")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialGreen);
+
+		m_vgGraphEnergyRatio->toggleType();
+		updateGraphRatio(0.9f);
 
 		m_vtTabSabotage->switchOff();
 		m_vtTabStatistics->switchOff();
@@ -170,11 +181,18 @@ NAMESPACE_VIEW_B
 		/***********************************************************Dialog******************************************************************/
 		addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialIngameMenueDialogBackground, "DialogBox", 0.3F);
 
-
 		getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING, "MenueButtonContinue", 0.2F);
 		getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.27F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "MenueButtonQuit", 0.2F);
 		getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.44F, 0.80F, 0.15F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "MenueButtonBack", 0.2F);
 
+		/********************************************************Energy AREA*************************************************************/
+		getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy", 0.5F);
+		getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1F);
+		m_vgGraphEnergy = getContainer("BottomBar")->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph"); // ->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
+		m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
+		m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
+		m_vgGraphEnergy->updateBar2("neededEnergy", 10);
+		m_vgGraphEnergy->updateBar2("producedEnergy", 50);
 
 		/********************************************************Energy AREA*************************************************************/
 		getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialGreen, "Energy", 0.2F);
@@ -208,8 +226,7 @@ NAMESPACE_VIEW_B
 			m_vtTabBuilding->switchOff();
 			m_vtTabSabotage->switchOff();
 			CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOn();
-			// TODO get stats and update statistics here
-			updatePowerPlants({{"countOil", 10},{"countWind", 15}}); // testing
+			updatePowerPlants();
 			break;
 
 		case SELECT_BUILDING_WINDMILL:
@@ -433,166 +450,199 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VScreenIngame::updateMoney(const int wert)
-	{
-		CASTD<VText*>(getContainer("Topbar")->getGuiObject("moneyValue"))->updateText(std::to_string(wert));
-	}
+void VScreenIngame::updateMoney(const int wert)
+{
+	CASTD<VText*>(getContainer("Topbar")->getGuiObject("moneyValue"))->updateText(std::to_string(wert));
+}
 
-	void VScreenIngame::updatePopulation(const int wert)
-	{
-		CASTD<VText*>(getContainer("Topbar")->getGuiObject("popValue"))->updateText(std::to_string(wert));
-	}
+void VScreenIngame::updatePopulation(const int wert)
+{
+	CASTD<VText*>(getContainer("Topbar")->getGuiObject("popValue"))->updateText(std::to_string(wert));
+}
 
-	void VScreenIngame::updateInfofield(const std::string& neuerText)
-	{
-	}
+void VScreenIngame::updateInfofield(const std::string& neuerText)
+{
+	//CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
+}
 
-	void VScreenIngame::updatePowerPlants(const std::map<std::string, int> powerPlants)
+void VScreenIngame::updateAddedPowerPlant(const LIdentifier::LIdentifier id)
+{
+	switch (id)
 	{
-		//VTab * tabStatistics = CASTD<VRegister *>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics");
-		for each (std::pair<std::string, int> plant in powerPlants)
+		case LIdentifier::LCoalPowerPlant: statPlacedBuildings[BUILDING_COALPOWERPLANT]++; break;
+		case LIdentifier::LHydroelectricPowerPlant: statPlacedBuildings[BUILDING_HYDROPOWERPLANT]++; break;
+		case LIdentifier::LNuclearPowerPlant: statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]++; break;
+		case LIdentifier::LOilRefinery: statPlacedBuildings[BUILDING_OILPOWERPLANT]++; break;
+		case LIdentifier::LSolarPowerPlant: statPlacedBuildings[BUILDING_SOLARPOWERPLANT]++; break;
+		case LIdentifier::LWindmillPowerPlant: statPlacedBuildings[BUILDING_WINDMILL]++; break;
+		case LIdentifier::LPowerLine: statPlacedBuildings[BUILDING_POWERLINE]++; break;
+		default: break;
+	}
+}
+
+void VScreenIngame::updateRemovedPowerPlant(const LIdentifier::LIdentifier id)
+{
+	switch (id)
+	{
+		case LIdentifier::LCoalPowerPlant: statPlacedBuildings[BUILDING_COALPOWERPLANT]--; break;
+		case LIdentifier::LHydroelectricPowerPlant: statPlacedBuildings[BUILDING_HYDROPOWERPLANT]--; break;
+		case LIdentifier::LNuclearPowerPlant: statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]--; break;
+		case LIdentifier::LOilRefinery: statPlacedBuildings[BUILDING_OILPOWERPLANT]--; break;
+		case LIdentifier::LSolarPowerPlant: statPlacedBuildings[BUILDING_SOLARPOWERPLANT]--; break;
+		case LIdentifier::LWindmillPowerPlant: statPlacedBuildings[BUILDING_WINDMILL]--; break;
+		case LIdentifier::LPowerLine: statPlacedBuildings[BUILDING_POWERLINE]--; break;
+		default: break;
+	}
+}
+
+void VScreenIngame::updateNumberPowerLines(const int newNumberPowerLines)
+{
+	statPlacedBuildings[BUILDING_POWERLINE] = newNumberPowerLines;
+}
+
+void VScreenIngame::updatePowerPlants()
+{
+	//VTab * tabStatistics = CASTD<VRegister *>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics");
+	for (const std::pair<BUILDINGTYPE, int>& plant : statPlacedBuildings)
+	{
+		CASTD<VText*>(m_vtTabStatistics->getGuiObject(m_powerPlantsNameMapping[plant.first]))->updateText(std::to_string(plant.second));
+	}
+}
+
+void VScreenIngame::updateGraph(float fProduced, float fNeeded)
+{
+	m_vgGraphEnergy->updateBar2("producedEnergy", fProduced);
+	m_vgGraphEnergy->updateBar2("neededEnergy", fProduced);
+}
+
+void VScreenIngame::updateGraphRatio(float fRatio) {
+	m_vgGraphEnergyRatio->updateValue(fRatio);
+}
+
+CFloatRect VScreenIngame::getTopSpace()
+{
+	return getContainer("Topbar")->getRectangle();
+}
+
+CFloatRect VScreenIngame::getBottomSpace()
+{
+	return getContainer("BottomBar")->getRectangle();
+}
+
+void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
+{
+	std::unordered_map<std::string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
+
+	for (const std::pair<std::string, IViewGUIObject*>& ObjectPair : tempGUIObjects)
+	{
+		if (ObjectPair.second->isOn())
 		{
-			CASTD<VText*>(CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->getGuiObject(plant.first))->updateText(std::to_string(plant.second));
+			if (!vUi->m_BlockCursorLeftPressed)
+			{
+				//check for events
+				ObjectPair.second->checkEvent(&vUi->m_zkCursor, &vUi->m_zkKeyboard);
+			}
+			//if screen was changed
+			if (vUi->m_screenChanged)
+			{
+				vUi->m_screenChanged = false;
+
+				vUi->m_BlockCursorLeftPressed = true;
+				return;
+			}
 		}
 	}
+}
 
-	CFloatRect VScreenIngame::getTopSpace()
+
+void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
+{
+	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainerMap;
+
+	tempGuiContainerMap = tempGuicontainer->getGuiContainerMap();
+
+	checkGUIObjects(tempGuicontainer);
+	for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainerMap)
 	{
-		return getContainer("Topbar")->getRectangle();
-	}
+		checkGUIObjects(ContainerPair.second);
 
-	CFloatRect VScreenIngame::getBottomSpace()
-	{
-		return getContainer("BottomBar")->getRectangle();
-	}
-
-	void VScreenIngame::tick(const float fTimeDelta)
-	{
-		if (!vUi->m_zkCursor.ButtonPressedLeft())
-		{
-			vUi->m_BlockCursorLeftPressed = false;
-		}
-
-		handleInput();
-
-		std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
-
-		checkShortcut(&vUi->m_zkKeyboard);
-		checkSpecialEvent(&vUi->m_zkCursor);
-		tempGuiContainer = getGuiContainerMap();
-
-		//For all containers in the screen
-		for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainer)
+		if (tempGuicontainer->getGuiContainerMap().size() > 0)
 		{
 			checkGUIContainer(ContainerPair.second);
 		}
-
-		if (vUi->m_zkCursor.ButtonPressedLeft())
-		{
-			vUi->m_BlockCursorLeftPressed = true;
-		}
-
-		modelWindmill.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VWindmillPowerPlant, fTimeDelta));
-		modelOil.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VOilRefinery, fTimeDelta));
-		modelSolar.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VSolarPowerPlant, fTimeDelta));
 	}
+}
 
-	void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
+void VScreenIngame::resize(const int width, const int height)
+{
+	m_viewport->ReSize();
+}
+
+void VScreenIngame::handleInput()
+{
+	static bool keyPressed = false;
+	float direction = 1.0f;
+
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
 	{
-		std::unordered_map<std::string, IViewGUIObject*> tempGUIObjects = tempGuicontainer->getGuiObjectList();
-
-		for (const std::pair<std::string, IViewGUIObject*>& ObjectPair : tempGUIObjects)
-		{
-			if (ObjectPair.second->isOn())
-			{
-				if (!vUi->m_BlockCursorLeftPressed)
-				{
-					//check for events
-					ObjectPair.second->checkEvent(&vUi->m_zkCursor, &vUi->m_zkKeyboard);
-				}
-				//if screen was changed
-				if (vUi->m_screenChanged)
-				{
-					vUi->m_screenChanged = false;
-
-					vUi->m_BlockCursorLeftPressed = true;
-					return;
-				}
-			}
-		}
+		direction = -1.0f;
+	}
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_U))
+	{
+		m_zpModels.RotateXDelta(0.1f * direction);
+	}
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_I))
+	{
+		m_zpModels.TranslateZDelta(0.1f * direction);
 	}
 
 
-	void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
+	const float cameraStength = 1.0f;
+
+	//Left + Right: 
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_A))
 	{
-		std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainerMap;
+		m_zpCamera.TranslateXDelta(-cameraStength);
+	}
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_D))
+	{
+		m_zpCamera.TranslateXDelta(cameraStength);
+	}
 
-		tempGuiContainerMap = tempGuicontainer->getGuiContainerMap();
+	//Back + Forward
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_S))
+	{
+		m_zpCamera.TranslateYDelta(-cameraStength);
+	}
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_W))
+	{
+		m_zpCamera.TranslateYDelta(cameraStength);
+	}
 
-		checkGUIObjects(tempGuicontainer);
-		for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainerMap)
+	//Zoom In + Out
+	const float mouseWheelPositionMin = -18.0f;
+	const float mouseWheelPositionMax = 50.0f;
+
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_UP))
+	{
+		if (mouseWheelPosition > mouseWheelPositionMin)
 		{
-			checkGUIObjects(ContainerPair.second);
-
-			if (tempGuicontainer->getGuiContainerMap().size() > 0)
-			{
-				checkGUIContainer(ContainerPair.second);
-			}
+			m_zpCamera.TranslateZDelta(-cameraStength * 4.0f);
+			mouseWheelPosition += -cameraStength * 4.0f;
+		}
+	}
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_DOWN))
+	{
+		if (mouseWheelPosition < mouseWheelPositionMax)
+		{
+			m_zpCamera.TranslateZDelta(cameraStength * 4.0f);
+			mouseWheelPosition += cameraStength * 4.0f;
 		}
 	}
 
-
-	void VScreenIngame::resize(const int width, const int height)
+	if (vUi->m_zkMouse.GetRelativeZ() != 0.0f)
 	{
-		m_viewport->ReSize();
-	}
-
-	void VScreenIngame::handleInput()
-	{
-		static bool keyPressed = false;
-		float direction = 1.0f;
-
-		if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
-		{
-			direction = -1.0f;
-		}
-		if (vUi->m_zkKeyboard.KeyPressed(DIK_U))
-		{
-			m_zpModels.RotateXDelta(0.1f * direction);
-		}
-		if (vUi->m_zkKeyboard.KeyPressed(DIK_I))
-		{
-			m_zpModels.TranslateZDelta(0.1f * direction);
-		}
-
-
-		const float cameraStength = 1.0f;
-
-		//Left + Right: 
-		if (vUi->m_zkKeyboard.KeyPressed(DIK_A))
-		{
-			m_zpCamera.TranslateXDelta(-cameraStength);
-		}
-		if (vUi->m_zkKeyboard.KeyPressed(DIK_D))
-		{
-			m_zpCamera.TranslateXDelta(cameraStength);
-		}
-
-		//Back + Forward
-		if (vUi->m_zkKeyboard.KeyPressed(DIK_S))
-		{
-			m_zpCamera.TranslateYDelta(-cameraStength);
-		}
-		if (vUi->m_zkKeyboard.KeyPressed(DIK_W))
-		{
-			m_zpCamera.TranslateYDelta(cameraStength);
-		}
-
-		//Zoom In + Out
-		const float mouseWheelPositionMin = -18.0f;
-		const float mouseWheelPositionMax = 50.0f;
-
-		if (vUi->m_zkKeyboard.KeyPressed(DIK_UP))
+		if (vUi->m_zkMouse.GetRelativeZ() > 0.0f)
 		{
 			if (mouseWheelPosition > mouseWheelPositionMin)
 			{
@@ -600,7 +650,7 @@ NAMESPACE_VIEW_B
 				mouseWheelPosition += -cameraStength * 4.0f;
 			}
 		}
-		if (vUi->m_zkKeyboard.KeyPressed(DIK_DOWN))
+		else
 		{
 			if (mouseWheelPosition < mouseWheelPositionMax)
 			{
@@ -609,70 +659,51 @@ NAMESPACE_VIEW_B
 			}
 		}
 
-		if (vUi->m_zkMouse.GetRelativeZ() != 0.0f)
-		{
-			if (vUi->m_zkMouse.GetRelativeZ() > 0.0f)
-			{
-				if (mouseWheelPosition > mouseWheelPositionMin)
-				{
-					m_zpCamera.TranslateZDelta(-cameraStength * 4.0f);
-					mouseWheelPosition += -cameraStength * 4.0f;
-				}
-			}
-			else
-			{
-				if (mouseWheelPosition < mouseWheelPositionMax)
-				{
-					m_zpCamera.TranslateZDelta(cameraStength * 4.0f);
-					mouseWheelPosition += cameraStength * 4.0f;
-				}
-			}
+		DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
+	}
 
-			DEBUG_OUTPUT("Mousewheel Pos:::" << mouseWheelPosition);
+
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_E))
+	{
+		if (cameraAngle < 0.5f)
+		{
+			m_zpCamera.RotateZDelta(cameraStength / 10.0f);
+			cameraAngle += cameraStength / 10.0f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
+		}
+	}
+
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_Q))
+	{
+		if (cameraAngle > -0.5f)
+		{
+			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
+			cameraAngle -= cameraStength / 10.0f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
+		}
+	}
+
+	if (!vUi->m_zkKeyboard.KeyPressed(DIK_Q) && !vUi->m_zkKeyboard.KeyPressed(DIK_E))
+	{
+		if (cameraAngle < 0.0f)
+		{
+			m_zpCamera.RotateZDelta(cameraStength / 10.0f);
+			cameraAngle += cameraStength / 10.f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
 		}
 
-
-		if (vUi->m_zkKeyboard.KeyPressed(DIK_E))
+		if (cameraAngle > 0.0f)
 		{
-			if (cameraAngle < 0.5f)
-			{
-				m_zpCamera.RotateZDelta(cameraStength / 10.0f);
-				cameraAngle += cameraStength / 10.0f;
-				DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
-			}
+			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
+			cameraAngle -= cameraStength / 10.0f;
+			DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
 		}
+	}
 
-		if (vUi->m_zkKeyboard.KeyPressed(DIK_Q))
-		{
-			if (cameraAngle > -0.5f)
-			{
-				m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
-				cameraAngle -= cameraStength / 10.0f;
-				DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
-			}
-		}
+	CFloatRect topSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getTopSpace();
+	CFloatRect bottomSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getBottomSpace();
 
-		if (!vUi->m_zkKeyboard.KeyPressed(DIK_Q) && !vUi->m_zkKeyboard.KeyPressed(DIK_E))
-		{
-			if (cameraAngle < 0.0f)
-			{
-				m_zpCamera.RotateZDelta(cameraStength / 10.0f);
-				cameraAngle += cameraStength / 10.f;
-				DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
-			}
-
-			if (cameraAngle > 0.0f)
-			{
-				m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
-				cameraAngle -= cameraStength / 10.0f;
-				DEBUG_OUTPUT("Camera Angle:::" << cameraAngle);
-			}
-		}
-
-		CFloatRect topSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getTopSpace();
-		CFloatRect bottomSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getBottomSpace();
-
-		/*
+	/*
 	(0,0)=(x,y)
 	#----> x (1,0)
 	|
@@ -680,72 +711,101 @@ NAMESPACE_VIEW_B
 	y
 	(0,1)
 	*/
-		static float cursorXOld = -5.0f;
-		static float cursorYOld = -5.0f;
-		float cursorX, cursorY;
-		bool insideFrame = vUi->m_zkCursor.GetFractional(cursorX, cursorY);
-		if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY > (1.0f - bottomSpace.GetYSize()) || fabs(cursorXOld - cursorX) + fabs(cursorYOld - cursorY) <= 0.05)
-		{
-			//Restrict picking when not in window or cursor is only over UI or when the cursor doesn't move much
-			return;
-		}
-
-		std::map<int, std::vector<int>> pickedElements = pickElements();
-		if (pickedElements.count(VIdentifier::VPlayingField) > 0)
-		{
-			vUi->vMaster->getVPlayingField()->hoverField(pickedElements[VIdentifier::VPlayingField][0], pickedElements[VIdentifier::VPlayingField][1]);
-		}
-
-		if (vUi->m_zkCursor.ButtonPressedLeft())
-		{
-			handleLeftClick(pickedElements);
-		}
-		else if (vUi->m_zkCursor.ButtonPressedRight())
-		{
-			if (!clickActive)
-			{
-				m_selectedBuilding = VIdentifier::Undefined;
-				updateModelView();
-
-				clickActive = true;
-			}
-		}
-		else if (vUi->m_zkKeyboard.KeyPressed(DIK_T))
-		{
-			handleTestClick(pickedElements);
-		}
-		else
-		{
-			clickActive = false;
-		}
-	}
-
-	std::map<int, std::vector<int>> VScreenIngame::pickElements()
+	static float cursorXOld = -5.0f;
+	static float cursorYOld = -5.0f;
+	float cursorX, cursorY;
+	bool insideFrame = vUi->m_zkCursor.GetFractional(cursorX, cursorY);
+	if (!insideFrame || cursorY < topSpace.GetYSize() || cursorY >(1.0f - bottomSpace.GetYSize()) || fabs(cursorXOld - cursorX) + fabs(cursorYOld - cursorY) <= 0.05)
 	{
-		std::map<int, std::vector<int>> pickedElements;
+		//Restrict picking when not in window or cursor is only over UI or when the cursor doesn't move much
+		return;
+	}
 
-		CGeos geos;
-		vUi->m_zkCursor.PickGeos(&geos, 5);
+	std::map<int, std::vector<int>> pickedElements = pickElements();
+	if (pickedElements.count(VIdentifier::VPlayingField) > 0)
+	{
+		vUi->vMaster->getVPlayingField()->hoverField(pickedElements[VIdentifier::VPlayingField][0], pickedElements[VIdentifier::VPlayingField][1]);
+	}
 
-		for (int i = 0; i < geos.m_iGeos; i++)
+	if (vUi->m_zkCursor.ButtonPressedLeft())
+	{
+		handleLeftClick(pickedElements);
+	}
+	else if (vUi->m_zkCursor.ButtonPressedRight())
+	{
+		if (!clickActive)
 		{
-			std::vector<std::string> nameParts = split(geos.m_apgeo[i]->GetName(), ';');
+			m_selectedBuilding = VIdentifier::Undefined;
+			updateModelView();
 
-			if (nameParts.size() == 3) //Currently all valid name parts consists of 3 elements
-			{
-				//Convert the arguments to integer (skip the first one, because its the key for the map
-				std::vector<int> namePartsInt;
-				for (size_t j = 1; j < nameParts.size(); j++)
-				{
-					namePartsInt.emplace_back(std::stoi(nameParts[j]));
-				}
+			clickActive = true;
+		}
+	}
+	else if (vUi->m_zkKeyboard.KeyPressed(DIK_T))
+	{
+		handleTestClick(pickedElements);
+	}
+	else
+	{
+		clickActive = false;
+	}
+}
 
-				pickedElements[std::stoi(nameParts[0])] = namePartsInt;
-			}
+void VScreenIngame::tick(const float fTimeDelta)
+{
+	if (!vUi->m_zkCursor.ButtonPressedLeft())
+	{
+		vUi->m_BlockCursorLeftPressed = false;
+	}
+
+	handleInput();
+
+	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
+
+	checkShortcut(&vUi->m_zkKeyboard);
+	checkSpecialEvent(&vUi->m_zkCursor);
+	tempGuiContainer = getGuiContainerMap();
+
+	//For all containers in the screen
+	for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainer)
+	{
+		checkGUIContainer(ContainerPair.second);
+	}
+
+	if (vUi->m_zkCursor.ButtonPressedLeft())
+	{
+		vUi->m_BlockCursorLeftPressed = true;
+	}
+
+	modelWindmill.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VWindmillPowerPlant, fTimeDelta));
+	modelOil.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VOilRefinery, fTimeDelta));
+	modelSolar.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VSolarPowerPlant, fTimeDelta));
+
+}
+
+std::map<int, std::vector<int>> VScreenIngame::pickElements()
+{
+	std::map<int, std::vector<int>> pickedElements;
+
+	CGeo* pickedGeo = vUi->m_zkCursor.PickGeoPreselected(VPlayingField::geosField);
+
+	if (pickedGeo != nullptr)
+	{
+		std::vector<std::string> nameParts = split(pickedGeo->GetName(), ';');
+		ASSERT(nameParts.size() == 3, "The picked geo has an invalid name");
+
+		//Convert the arguments to integer (skip the first one, because its the key for the map
+		std::vector<int> namePartsInt;
+		for (size_t j = 1; j < nameParts.size(); j++)
+		{
+			namePartsInt.emplace_back(std::stoi(nameParts[j]));
 		}
 
-		return pickedElements;
+		pickedElements[std::stoi(nameParts[0])] = namePartsInt;
 	}
+
+	return pickedElements;
+}
 
 	void VScreenIngame::startAnimation()
 	{

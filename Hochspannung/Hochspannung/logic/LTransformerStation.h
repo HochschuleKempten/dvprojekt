@@ -23,7 +23,7 @@ public:
 
 	void performDisposal();
 
-	virtual LIdentifier::LIdentifier getIdentifier() override
+	virtual LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LTransformerStation;
 	}

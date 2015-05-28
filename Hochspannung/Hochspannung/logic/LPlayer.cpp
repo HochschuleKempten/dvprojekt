@@ -4,6 +4,7 @@
 #include "ILPowerPlant.h"
 #include "IVMaster.h"
 #include "LBalanceLoader.h"
+#include "LRemoteOperation.h"
 
 NAMESPACE_LOGIC_B
 
@@ -139,27 +140,82 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 void LPlayer::addPowerPlant(ILPowerPlant* powerPlant)
 {
 	powerPlants.emplace_back(powerPlant);
+
+	LRemoteOperation remoteOperation(lMaster->getLPlayingField(), powerPlant);
+	remoteOperation.switchOn();
+
+	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier());
+}
+
+void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
+{
+	powerPlants.erase(std::remove(powerPlants.begin(), powerPlants.end(), powerPlant), powerPlants.end());
+
+	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier());
+}
+
+void LPlayer::addPowerLine(LPowerLine* powerLine)
+{
+	powerLines.emplace_back(powerLine);
+}
+
+void LPlayer::removePowerLine(const LPowerLine* const powerLine)
+{
+	powerLines.erase(std::remove(powerLines.begin(), powerLines.end(), powerLine), powerLines.end());
 }
 
 void LPlayer::checkPowerPlants()
 {
 	std::vector<int> cityConnections = lMaster->getLPlayingField()->getCityConnections();
+	std::vector<ILPowerPlant*> currentConnectedPowerPlants;
 
-	//First turn everything
-	for (ILPowerPlant* p : powerPlants)
-	{
-		p->switchOff();
-	}
-
-	//Then turn every remaining power plant
 	for (const int pPos : cityConnections)
 	{
 		ILPowerPlant* p = dynamic_cast<ILPowerPlant*>(lMaster->getLPlayingField()->getField(lMaster->getLPlayingField()->convertIndex(pPos))->getBuilding());
 		if (p != nullptr)
 		{
-			p->switchOn();
+			currentConnectedPowerPlants.emplace_back(p);
 		}
 	}
+
+	std::vector<ILPowerPlant*> differencesPrevCurrent;
+	std::vector<ILPowerPlant*> differencesCurrentPrev;
+
+	//The ranges need to be sorted before difference is calculated
+	std::sort(prevConnectedPowerPlants.begin(), prevConnectedPowerPlants.end());
+	std::sort(currentConnectedPowerPlants.begin(), currentConnectedPowerPlants.end());
+
+	//Prev - Current --> turn off
+	std::set_difference(
+		prevConnectedPowerPlants.begin(),
+		prevConnectedPowerPlants.end(),
+		currentConnectedPowerPlants.begin(),
+		currentConnectedPowerPlants.end(),
+		std::back_inserter(differencesPrevCurrent));
+
+	//Current - Prev --> turn on
+	std::set_difference(
+		currentConnectedPowerPlants.begin(),
+		currentConnectedPowerPlants.end(),
+		prevConnectedPowerPlants.begin(),
+		prevConnectedPowerPlants.end(),
+		std::back_inserter(differencesCurrentPrev));
+
+	for (ILPowerPlant* p : differencesPrevCurrent)
+	{
+		//The check is only done by the player itself, so this is always a remote operation
+		LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
+		remoteOperation.switchOff();
+	}
+
+	for (ILPowerPlant* p : differencesCurrentPrev)
+	{
+		//The check is only done by the player itself, so this is always a remote operation
+		LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
+		remoteOperation.switchOn();
+	}
+
+	prevConnectedPowerPlants = currentConnectedPowerPlants;
 }
 
 NAMESPACE_LOGIC_E

@@ -128,12 +128,13 @@ int LPlayingField::linkPowerlines(const int x, const int y, const int playerId)
 
 void LPlayingField::beginRemoteOperation()
 {
-	localOperation = false;
+	localOperation++;
 }
 
 void LPlayingField::endRemoteOperation()
 {
-	localOperation = true;
+	localOperation--;
+	ASSERT(localOperation >= 0, "Called to endRemoteOperation() too often (probably forgotten call to beginRemoteOperation()).");
 }
 
 void LPlayingField::initField(const int x, const int y, const LField::FieldType fieldType, const LField::FieldLevel fieldLevel)
@@ -202,7 +203,24 @@ bool LPlayingField::removeBuilding(const int x, const int y)
 {
 	int playerId = getField(x, y)->getBuilding() != nullptr ? getField(x, y)->getBuilding()->getPlayerId() : -1;
 
-	if (getField(x, y)->removeBuilding())
+	const bool removeSuccessful = getField(x, y)->removeBuilding([this, playerId] (const ILBuilding* const building)
+	{
+		const ILPowerPlant* const powerPlant = dynamic_cast<const ILPowerPlant* const>(building);
+		if (powerPlant != nullptr)
+		{
+			lMaster->getPlayer(playerId)->removePowerPlant(powerPlant);
+			return;
+		}
+
+		const LPowerLine* const powerLine = dynamic_cast<const LPowerLine* const>(building);
+		if (powerLine != nullptr)
+		{
+			lMaster->getPlayer(playerId)->removePowerLine(powerLine);
+			return;
+		}
+	});
+
+	if (removeSuccessful)
 	{
 		vPlayingField->objectRemoved(x, y);
 
@@ -414,7 +432,7 @@ void LPlayingField::recalculateCityConnections()
 	static bool isCheckInProgress = false;
 
 	//Avoid recursion
-	if (!isCheckInProgress)
+	if (!isCheckInProgress && isInitDone())
 	{
 		isCheckInProgress = true;
 		cityConnectionsRecalculate = true;

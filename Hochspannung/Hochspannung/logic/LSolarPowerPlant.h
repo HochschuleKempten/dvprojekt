@@ -12,7 +12,7 @@ public:
 	LSolarPowerPlant(LField* lField, const int x, const int y, const int playerId);
 	~LSolarPowerPlant();
 	
-	LIdentifier::LIdentifier getIdentifier() override
+	LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LSolarPowerPlant;
 	};

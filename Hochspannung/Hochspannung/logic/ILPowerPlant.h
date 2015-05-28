@@ -6,6 +6,7 @@
 #include "LMaster.h"
 #include "IVMaster.h"
 #include "IVPowerPlant.h"
+#include "LRemoteOperation.h"
 
 NAMESPACE_LOGIC_B
 
@@ -13,7 +14,7 @@ NAMESPACE_LOGIC_B
 class LRemoteOperation;
 class LPlayer;
 
-class ILPowerPlant : public ILBuilding, IVTickObserver
+class ILPowerPlant : public ILBuilding, public IVTickObserver
 {
 	friend class LRemoteOperation;
 	friend class LMaster;
@@ -39,7 +40,10 @@ private:
 				lField->getLPlayingField()->getLMaster()->sendPowerPlantSwitchState(coordinates.first, coordinates.second, isActivated);
 			}
 
-			lField->getLPlayingField()->recalculateCityConnections();
+			if (playerId == LPlayer::Local)
+			{
+				lField->getLPlayingField()->recalculateCityConnections();
+			}
 		}
 	}
 
@@ -62,21 +66,23 @@ private:
 				lField->getLPlayingField()->getLMaster()->sendPowerPlantSwitchState(coordinates.first, coordinates.second, isActivated);
 			}
 
-			lField->getLPlayingField()->recalculateCityConnections();
+			if (playerId == LPlayer::Local)
+			{
+				lField->getLPlayingField()->recalculateCityConnections();
+			}
 		}
 	}
 
-	void sabotage()
+	void sabotagePowerPlant()
 	{
+		switchOff();
 		isSabotaged = true;
-		isActivated = false;
-		vPowerPlant->switchedOff();
 		DEBUG_OUTPUT("Powerplant sabotated, it's deactivated for 5 mins");
 
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::LSabotage::PowerPlant, coordinates.first, coordinates.second);
+			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::PowerPlant, coordinates.first, coordinates.second);
 		}
 	}
 
@@ -89,7 +95,7 @@ private:
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::LSabotage::Resource, coordinates.first, coordinates.second);
+			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Resource, coordinates.first, coordinates.second);
 		}
 	}
 
@@ -129,11 +135,9 @@ public:
 			
 			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
 			{
-				isSabotaged = false;
-				//Can't use LRemoteOperation here because of circular reference
-				lField->getLPlayingField()->beginRemoteOperation();
-				switchOn();
-				lField->getLPlayingField()->endRemoteOperation();
+				isSabotaged = false;	//TODO (L) Send end of sabotage over network?
+				LRemoteOperation remoteOperation(lField->getLPlayingField(), this);
+				remoteOperation.switchOn();
 				timeLastCheck = 0;
 				DEBUG_OUTPUT("Your powerplant is reactivated after the sabotage act");
 			}
@@ -147,7 +151,7 @@ public:
 		DEBUG_EXPRESSION(static bool lastRessourcesUsed = false);
 
 		const int consumedRessources = LBalanceLoader::getConsumedResources(LField::NUCLEAR);
-		int amountReduced = lField->reduceResources(consumedRessources);
+		const int amountReduced = lField->reduceResources(consumedRessources);
 
 		if (amountReduced < consumedRessources)
 		{
@@ -155,7 +159,8 @@ public:
 			DEBUG_EXPRESSION(lastRessourcesUsed = true);
 
 			//No more ressources are left, so switch the power plant off
-			switchOff();
+			LRemoteOperation remoteOperation(lField->getLPlayingField(), this);
+			remoteOperation.switchOff();
 
 			//Last step returns proportionally ressources
 			return LBalanceLoader::getProducedEnergy(this->getIdentifier()) * amountReduced / consumedRessources;

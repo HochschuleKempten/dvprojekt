@@ -49,6 +49,7 @@ namespace Vektoria
 		void SetInnerOn(); // l‰sst Overlay innerhalb vom Vateroverlay erscheinen
 		void SetInnerOff();  // l‰sst Overlay auﬂerhalb vom Vateroverlay (aber trotzdem ausgerichtet an Vaterkoordinaten) erscheinen (Default)
 
+
 		CApiRender * GetApiRender();
 		COverlays * m_poverlays;
 		bool m_bBehind;

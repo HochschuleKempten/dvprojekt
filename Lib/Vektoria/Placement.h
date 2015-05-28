@@ -50,8 +50,6 @@ private:
 	void Draw(CCamera * pcamera, CHMat & mGlobalFather, int & itFatherIsInFrustum, bool & bTickTack);
 	bool m_bTickTack;
 
-	CPlacement * PickPlacement(CRay & r, float & fMin, float & fMax);
-	void PickPlacements(CRay & r, CPlacements * pzps, bool bPickOnlyPlacementsWithDirectGeos);
 
 public:
 	CPlacement();
@@ -189,6 +187,9 @@ public:
 	void SetBVHExactCalculationOff();
 	void SetBVHExactCalculationByFather();
 
+	CPlacement * PickPlacement(CRay & r, float & fMin, float & fMax); // Schaut, ob Placement mit der irgendeiner Boundingbox der Unterhueirarchie kollidiert, fMin und fMax geben die Ausmaﬂdistanzen des gefundnen Placments aus 
+	void PickPlacements(CRay & r, CPlacements * pzps, bool bPickOnlyPlacementsWithDirectGeos);
+	bool IsIntersecting(CRay & r); // Schaut, ob Strahl r mit der BoundingBox irgendeiner Instanz dieses Placments kollidiert
 
 	bool m_bBillboard;
 	int m_eBillboardType;

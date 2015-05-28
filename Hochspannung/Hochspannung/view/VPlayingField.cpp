@@ -4,6 +4,8 @@
 NAMESPACE_VIEW_B
 
 
+CGeos VPlayingField::geosField;
+
 VPlayingField::VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
 	: IViewObject(vMaster, &m_zp),
 	  IVPlayingField(lPlayingField),
@@ -71,6 +73,7 @@ void VPlayingField::buildPlayingField()
 				vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
 				m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);
 				m_zpPlacementHolders[holder].SetFrustumCullingOn();
+				geosField.Add(&vFields[rowIdx][colIdx].m_zg);
 			}
 		}
 	}

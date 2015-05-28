@@ -48,12 +48,18 @@ int LField::getBuildingId() const
 	return lBuilding == nullptr ? -1 : lBuilding->getIdentifier();
 }
 
-bool LField::removeBuilding()
+bool LField::removeBuilding(const std::function<void(const ILBuilding* const)>& fnBeforeDelete)
 {
 	if (lBuilding != nullptr)
 	{
 		//Player gets money back
 		lPlayingField->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(LBalanceLoader::getSellRevenue() * lBuilding->getValue()));
+
+		//Last possibility to work with the object before delete
+		if (fnBeforeDelete != nullptr)
+		{
+			fnBeforeDelete(lBuilding);
+		}
 
 		delete lBuilding;
 		lBuilding = nullptr;
@@ -92,7 +98,7 @@ int LField::getResources() const
 
 int LField::deductResources()
 {
-	resourceLeft *= LBalanceLoader::getFactorSabotageResource();;
+	resourceLeft *= LBalanceLoader::getFactorSabotageResource();
 	return resourceLeft;
 }
 

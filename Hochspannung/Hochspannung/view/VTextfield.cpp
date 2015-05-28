@@ -52,7 +52,7 @@ VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* Materia
 
 		m_writing->SetLayer(m_fLayer - 0.01f);
 
-		m_writing->PrintF("%s", const_cast<char*>(m_sPlaceholder.c_str()));
+		m_writing->PrintF("%s", &m_sPlaceholder[0]);
 	}
 
 	VTextfield::~VTextfield()
@@ -85,7 +85,7 @@ VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* Materia
 				m_zoActive->SwitchOff();
 				if (m_sInputtext.empty())
 				{
-					m_writing->PrintF("%s", const_cast<char*>(m_sPlaceholder.c_str()));
+					m_writing->PrintF("%s", &m_sPlaceholder[0]);
 				}
 			}
 		}
@@ -138,7 +138,7 @@ VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* Materia
 		{
 			m_sInputtext += character;
 
-			m_writing->PrintF("%s", const_cast<char*>(m_sInputtext.c_str()));
+			m_writing->PrintF("%s", &m_sInputtext[0]);
 		}
 	
 	}
@@ -149,7 +149,7 @@ VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* Materia
 		{
 			/*m_sInputtext.erase(m_sInputtext.length()-2,1);*/
 			m_sInputtext.resize(m_sInputtext.length() - 1);
-			m_writing->PrintF("%s", const_cast<char*>(m_sInputtext.c_str()));
+			m_writing->PrintF("%s", &m_sInputtext[0]);
 		}
 	}
 

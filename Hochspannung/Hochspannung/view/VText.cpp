@@ -20,7 +20,7 @@ VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, co
 
 		viewport->AddWriting(m_writing);
 
-		m_writing->PrintF("%s", const_cast<char*>(m_text.c_str()));
+		m_writing->PrintF("%s", &m_text[0]);
 		
 	}
 
@@ -35,7 +35,7 @@ VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, co
 		m_bisOn = true;
 		updateText(m_text);
 		m_writing->SwitchOn();
-		m_writing->PrintF("%s", const_cast<char*>(m_text.c_str()));
+		m_writing->PrintF("%s", &m_text[0]);
 	}
 
 	void VText::switchOff()
@@ -64,7 +64,7 @@ VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, co
 
 	void VText::updateText(const std::string& text)
 	{
-		m_writing->PrintF("%s", const_cast<char*>(text.c_str()));
+		m_writing->PrintF("%s", &text[0]);
 	}
 
 	void VText::setLayer(float layer)

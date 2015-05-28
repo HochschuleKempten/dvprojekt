@@ -216,6 +216,7 @@
     <ClInclude Include="view\VDialog.h" />
     <ClInclude Include="view\VField.h" />
     <ClInclude Include="view\VGraph.h" />
+    <ClInclude Include="view\VGraphRatio.h" />
     <ClInclude Include="view\VGUIArea.h" />
     <ClInclude Include="view\VListEntry.h" />
     <ClInclude Include="view\VListView.h" />
@@ -268,6 +269,7 @@
     <ClCompile Include="logic\LOilRefinery.cpp" />
     <ClCompile Include="logic\LPlayer.cpp" />
     <ClCompile Include="logic\LPlayingField.cpp" />
+    <ClCompile Include="logic\LRemoteOperation.cpp" />
     <ClCompile Include="logic\LSolarPowerPlant.cpp" />
     <ClCompile Include="logic\LPowerLine.cpp" />
     <ClCompile Include="logic\LTransformerStation.cpp" />
@@ -300,6 +302,7 @@
     <ClCompile Include="view\VDialog.cpp" />
     <ClCompile Include="view\VField.cpp" />
     <ClCompile Include="view\VGraph.cpp" />
+    <ClCompile Include="view\VGraphRatio.cpp" />
     <ClCompile Include="view\VGUIArea.cpp" />
     <ClCompile Include="view\VListEntry.cpp" />
     <ClCompile Include="view\VListView.cpp" />

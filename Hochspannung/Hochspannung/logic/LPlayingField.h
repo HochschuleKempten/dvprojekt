@@ -41,7 +41,6 @@ class LPlayingField
 {
 	NON_COPYABLE(LPlayingField);
 	friend class LMaster;
-	friend class ILPowerPlant;
 	friend class LRemoteOperation;
 
 private:
@@ -62,7 +61,7 @@ private:
 	/** @brief Stores the 1D coordinates for each pair of buildings which are connected */
 	std::unordered_set<std::pair<int, int>, LPlayingFieldHasher> connectedBuildings;
 
-	bool localOperation = true;
+	int localOperation = 0;
 	bool initDone = false;
 	bool cityConnectionsRecalculate = true;
 
@@ -108,6 +107,11 @@ private:
 		{
 			lMaster->getPlayer(playerId)->addPowerPlant(CASTD<ILPowerPlant*>(getField(x, y)->getBuilding()));
 		}
+	}
+	template<>
+	void setSpecialBuildings<LPowerLine>(const int x, const int y, const int playerId)
+	{
+		lMaster->getPlayer(playerId)->addPowerLine(CASTD<LPowerLine*>(getField(x, y)->getBuilding()));
 	}
 	template<>
 	void setSpecialBuildings<LCity>(const int x, const int y, const int playerId)
@@ -156,8 +160,12 @@ private:
 		if (buildingPlaced) {
 			setSpecialBuildings<T>(x, y, playerId);
 			adjustOrientationsAround(x, y, getField(x, y)->getBuilding()->getOrientation());
-			recalculateCityConnections();
-			
+
+			if (playerId == LPlayer::Local)
+			{
+				recalculateCityConnections();
+			}
+
 			//-----network-----
 			if (!isLocalOperation())
 			{
@@ -242,7 +250,7 @@ public:
 	bool isInitDone();
 	bool isLocalOperation() const
 	{
-		return localOperation;
+		return localOperation == 0;
 	}
 	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);
 	LField* getField(const int x, const int y);

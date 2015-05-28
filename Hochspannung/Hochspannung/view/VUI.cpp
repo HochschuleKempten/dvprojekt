@@ -151,6 +151,21 @@ void VUI::updatePopulation(const int wert)
 	CASTD<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
 }
 
+void VUI::updateAddedPowerPlant(const LIdentifier::LIdentifier id)
+{
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateAddedPowerPlant(id);
+}
+
+void VUI::updateRemovedPowerPlant(const LIdentifier::LIdentifier id)
+{
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateRemovedPowerPlant(id);
+}
+
+void VUI::updateNumberPowerLines(const int newNumberPowerLines)
+{
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateNumberPowerLines(newNumberPowerLines);
+}
+
 void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
 {
 	CASTD<VScreenLobby*>(m_screens["Lobby"])->updateHostList(gameList);

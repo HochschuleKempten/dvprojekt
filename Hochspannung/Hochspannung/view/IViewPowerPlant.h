@@ -13,7 +13,7 @@ NAMESPACE_VIEW_B
 class IViewPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 protected:
-	bool isOn = true;
+	bool isOn = false;
 
 public:
 	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp)
@@ -49,7 +49,7 @@ public:
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
 				{
 					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
-					remoteOperation.sabotage();
+					remoteOperation.sabotagePowerPlant();
 					return true; 
 				} 
 

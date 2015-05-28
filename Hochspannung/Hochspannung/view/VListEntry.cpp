@@ -171,8 +171,10 @@ VListEntry::~VListEntry()
 		iwas = new CWriting();
 		iwas->SetRect(rect);
 		iwas->Init(createRelativeRectangle(&rect, &CFloatRect(0.1F, 0.1F, 0.9F, 0.9F)), m_sName.length(), &VMaterialLoader::standardFont);
-		iwas->PrintF(const_cast<char*>(m_sName.c_str()));
+
+		iwas->PrintF(&m_sName[0]);
 		iwas->SetLayer(getLayer()-0.01F);
+
 		m_viewport->AddWriting(iwas);
 		
 		m_zfrRect = rect;
