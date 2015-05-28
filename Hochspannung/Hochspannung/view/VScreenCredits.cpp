@@ -31,15 +31,14 @@ NAMESPACE_VIEW_B
 
 		m_viewport->AddBackground(m_background);
 
-		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue");
-		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "BackMainMenue");
-		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.33F, 0.0F, 0.33F, 1.0F), "Text");
-		getContainer("Text")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 1.0F, 1.0F, 0.35F), "GUIField");
-		getContainer("Text")->addText(CFloatRect(0.0F, 0.35F, 1.0F, 0.15F), &VMaterialLoader::GoldFont, "2D-GUI und Interaktion", "GUI");
-		getContainer("Text")->addText(CFloatRect(0.0F, 0.5F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Patrick Benkowitsch", "Benkowitsch");
-		getContainer("Text")->addText(CFloatRect(0.0F, 0.6F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Manfred Wippel", "Wippel");
+		addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue",0.5F);
+		getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "BackMainMenue",0.1F);
+		addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.33F, 0.0F, 0.33F, 1.0F), "Text",0.4F);
+		getContainer("Text")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 1.0F, 1.0F, 0.35F), "GUIField", 0.1F);
+		getContainer("Text")->addText(CFloatRect(0.0F, 0.35F, 1.0F, 0.15F), &VMaterialLoader::GoldFont, "2D-GUI und Interaktion", "GUI", 0.1F);
+		getContainer("Text")->addText(CFloatRect(0.0F, 0.5F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Patrick Benkowitsch", "Benkowitsch", 0.1F);
+		getContainer("Text")->addText(CFloatRect(0.0F, 0.6F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Manfred Wippel", "Wippel", 0.1F);
 
-		getContainer("Menue")->getGuiObject("BackMainMenue")->setLayer(0.1F);
 	}
 
 	VScreenCredits::~VScreenCredits()

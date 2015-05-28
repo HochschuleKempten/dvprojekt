@@ -8,7 +8,7 @@ VListEntry::VListEntry()
 {
 }
 
-VListEntry::VListEntry(CViewport* viewport,CMaterial* MaterialNormal, CMaterial* MaterialHover, const std::string& sName):
+VListEntry::VListEntry(CViewport* viewport, CMaterial* MaterialNormal, CMaterial* MaterialHover, const std::string& sName, const float layer) :
 m_bHasHover(false)
 {
 	m_ObjectType = LIST_ENTRY;
@@ -27,10 +27,12 @@ m_bHasHover(false)
 
 	m_sName = sName;
 
+	m_fLayer = layer;
+
 	
 	 iwas = new CWriting();
 	
-
+	
 
 	viewport->AddWriting(iwas);
 	viewport->AddOverlay(m_zoActive);
@@ -40,9 +42,11 @@ m_bHasHover(false)
 	m_zoHover->SwitchOff();
 	m_zoActive->SwitchOff();
 	
-	m_zoHover->SetLayer(0.19);
-	m_zoNormal->SetLayer(0.19);
-	m_zoActive->SetLayer(0.19);
+
+	m_zoHover->SetLayer(m_fLayer);
+	m_zoNormal->SetLayer(m_fLayer);
+	m_zoActive->SetLayer(m_fLayer);
+	iwas->SetLayer(m_fLayer-0.01F);
 	
 }
 
@@ -116,7 +120,7 @@ VListEntry::~VListEntry()
 	{
 		m_zoNormal->SetLayer(layer);
 		m_zoHover->SetLayer(layer);
-		//m_writing->SetLayer(layer-0.01F);
+		iwas->SetLayer(layer-0.01F);
 	}
 
 	bool VListEntry::isActive()
@@ -167,8 +171,10 @@ VListEntry::~VListEntry()
 		iwas = new CWriting();
 		iwas->SetRect(rect);
 		iwas->Init(createRelativeRectangle(&rect, &CFloatRect(0.1F, 0.1F, 0.9F, 0.9F)), m_sName.length(), &VMaterialLoader::standardFont);
+
 		iwas->PrintF(&m_sName[0]);
-		iwas->SetLayer(0.1F);
+		iwas->SetLayer(getLayer()-0.01F);
+
 		m_viewport->AddWriting(iwas);
 		
 		m_zfrRect = rect;

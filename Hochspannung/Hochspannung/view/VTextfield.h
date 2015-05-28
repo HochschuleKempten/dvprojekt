@@ -8,18 +8,14 @@ NAMESPACE_VIEW_B
 	{
 	public:
 		VTextfield();
-		//VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const float textSize);
-		VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder);
+
+		VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const float layer);
 		~VTextfield();
 
 		virtual void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard) override;
 
-		/*bool checkHover(const float& fPosX, const float& fPosY) override final;
-	void checkPressed(const float& fPosX, const float& fPosY, const bool& bLeftpressed) override final;
-	*/
 		virtual void switchOn() override final;
 
-		
 
 		virtual void switchOff() override final;
 		virtual void onMouseOver(void) override final;
@@ -40,8 +36,6 @@ NAMESPACE_VIEW_B
 		COverlay* m_zoNormal;
 		COverlay* m_zoActive;
 		COverlay* m_zoHover;
-
-		//CFloatRect m_zfrRect;
 
 		CWritingFont* m_writingfont;
 

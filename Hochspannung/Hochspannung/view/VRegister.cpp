@@ -10,18 +10,20 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	VRegister::VRegister(CFloatRect floatRect, CViewport* viewport)
+VRegister::VRegister(CFloatRect floatRect, CViewport* viewport, const float layer)
 	{
+		m_fLayer = layer;
 		m_viewport = viewport;
 		m_zfRect = floatRect;
 	}
 
-	VRegister::VRegister(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground)
+VRegister::VRegister(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground, const float layer)
 	{
+		m_fLayer = layer;
 		m_viewport = viewport;
 		m_zfRect = floatRect;
 		m_background = new COverlay();
-		m_background->SetLayer(0.9F);
+		m_background->SetLayer(m_fLayer);
 		m_background->Init(materialBackground, m_zfRect);
 		//float breiteButton = floatRect.GetXSize() / anzahlRegisterkarten;
 		m_viewport->AddOverlay(m_background);
@@ -48,7 +50,7 @@ NAMESPACE_VIEW_B
 		}
 	}
 
-	void VRegister::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName)
+	void VRegister::addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::basic_string<char>& sName, const float layer)
 	{
 		switch (containerType)
 		{
@@ -57,22 +59,22 @@ NAMESPACE_VIEW_B
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		case Dialog:
-			m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+			m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal, layer);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		case Register:
-			m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, MaterialNormal);
+			m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, MaterialNormal, layer);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		case GUIArea:
-			m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+			m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal, layer);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		default: break;
 		}
 	}
 
-	void VRegister::addContainer(const IViewGUIContainer::ContainerType& containerType, CFloatRect& floatRect, const std::string& sName)
+	void VRegister::addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::basic_string<char>& sName, const float layer)
 	{
 		switch (containerType)
 		{
@@ -81,15 +83,15 @@ NAMESPACE_VIEW_B
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		case Dialog:
-			m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
+			m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), layer);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		case Register:
-			m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport);
+			m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, layer);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		case GUIArea:
-			m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
+			m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), layer);
 			m_Guicontainer[sName]->addObserver(this);
 			break;
 		default: break;
@@ -97,15 +99,13 @@ NAMESPACE_VIEW_B
 	}
 
 
-	void VRegister::addTab(CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* background, const Event& events, const std::string& sName)
+	void VRegister::addTab(CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* background, const Event& events, const std::string& sName, const float layer)
 	{
-		m_Guicontainer[sName] = new VTab(m_viewport, createRelativeRectangle(&m_zfRect, &CFloatRect(0.0F, 0.2F, 1.0F, 0.8F)), background);
+		m_Guicontainer[sName] = new VTab(m_viewport, createRelativeRectangle(&m_zfRect, &CFloatRect(0.0F, 0.2F, 1.0F, 0.8F)), background, layer);
 		m_tabs[sName] = dynamic_cast<VTab*>(m_Guicontainer[sName]);
 		m_Guicontainer[sName]->addObserver(this);
-		m_tabs[sName]->setLayer(getLayer() - 0.01F);
-		m_Guicontainer[sName]->setLayer(getLayer() - 0.01F);
-		addButton(CFloatRect(0.0F, 0.0F, 0.5F, 0.1F), MaterialNormal, MaterialHover, events, sName);
-		m_guiObjects[sName]->setLayer(getLayer() - 0.01F);
+		
+		addButton(CFloatRect(0.0F, 0.0F, 0.5F, 0.1F), MaterialNormal, MaterialHover, events, sName, layer-0.01F);
 		calcButtonSize();
 	}
 
@@ -118,7 +118,7 @@ NAMESPACE_VIEW_B
 			CFloatRect tempRect = ObjectPair.second->getRectangle();
 			ObjectPair.second->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(1.0F / static_cast<float>(m_guiObjects.size()) * static_cast<float>(i), 0.0F, 1.0F / static_cast<float>(m_guiObjects.size()), 0.2F)));
 			ObjectPair.second->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(1.0F / static_cast<float>(m_guiObjects.size()) * static_cast<float>(i), 0.0F, 1.0F / static_cast<float>(m_guiObjects.size()), 0.2F)));
-			ObjectPair.second->setLayer(0.3F);
+			//ObjectPair.second->setLayer(0.3F);
 			i++;
 		}
 	}

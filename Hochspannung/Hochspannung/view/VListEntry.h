@@ -1,66 +1,63 @@
 #pragma once
 #include "IViewGUIObject.h"
-#include "VText.h"
 
 NAMESPACE_VIEW_B
 
-class VListEntry :
-	public IViewGUIObject
-{
-public:
-	
-	VListEntry();
-	VListEntry(CViewport* viewport,CMaterial* MaterialNormal, CMaterial* MaterialHover, const std::string& sName);
+	class VListEntry :
+		public IViewGUIObject
+	{
+	public:
 
-	~VListEntry();
-	
-	void switchOn() override;
-	void switchOff() override;
-	void onMouseOver() override;
-	void onMouseOut() override;
-	void onMouseClickLeft() override;
-	void onMouseClickRight() override;
-	void setLayer(const float layer) override;
-	void updateRectangle(CFloatRect rect) override;
+		VListEntry();
+		VListEntry(CViewport* viewport, CMaterial* MaterialNormal, CMaterial* MaterialHover, const std::string& sName, const float layer);
 
+		~VListEntry();
 
-	void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard) override;
-	bool bGetHasHover();
-
-	bool isActive();
-
-	//Getter
-
-	COverlay* getHoverOverlay();
-	COverlay* getNormalOverlay();
-
-	CFloatRect getRectangle() override;
+		void switchOn() override;
+		void switchOff() override;
+		void onMouseOver() override;
+		void onMouseOut() override;
+		void onMouseClickLeft() override;
+		void onMouseClickRight() override;
+		void setLayer(const float layer) override;
+		void updateRectangle(CFloatRect rect) override;
 
 
-	//ClickAction getAction();
+		void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard) override;
+		bool bGetHasHover();
 
-private:
+		bool isActive();
+
+		//Getter
+
+		COverlay* getHoverOverlay();
+		COverlay* getNormalOverlay();
+
+		CFloatRect getRectangle() override;
 
 
-	COverlay* m_zoNormal;
-	COverlay* m_zoActive;
-	COverlay* m_zoHover;
+	private:
 
-	CWriting* iwas;
 
-	bool m_bHasHover;
+		COverlay* m_zoNormal;
+		COverlay* m_zoActive;
+		COverlay* m_zoHover;
 
-	CViewport* m_viewport;
+		CWriting* iwas;
 
-	//CWriting* m_writing;
+		bool m_bHasHover;
 
-	//VText* m_text;
+		CViewport* m_viewport;
 
-	bool m_bIsActive = false;
+		//CWriting* m_writing;
 
-	void setActive(bool wert);
+		//VText* m_text;
 
-	CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect);
-};
+		bool m_bIsActive = false;
 
-NAMESPACE_VIEW_E
+		void setActive(bool wert);
+
+		CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect);
+	};
+
+	NAMESPACE_VIEW_E

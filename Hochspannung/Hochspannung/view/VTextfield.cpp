@@ -9,7 +9,7 @@ NAMESPACE_VIEW_B
 	{
 	}
 
-	VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder)
+VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const float layer)
 		:
 		m_bIsActive(false),
 		m_sInputtext(std::string())
@@ -17,6 +17,8 @@ NAMESPACE_VIEW_B
 		m_ObjectType = TEXTFIELD;
 		m_zfrRect = rect;
 		m_sPlaceholder = Placeholder;
+
+		m_fLayer = layer;
 
 		m_iMaxChars = MaxChars;
 		m_writingfont = &VMaterialLoader::standardFont;
@@ -44,9 +46,11 @@ NAMESPACE_VIEW_B
 		m_zoHover->SwitchOff();
 		m_zoActive->SwitchOff();
 
-		m_zoNormal->SetLayer(0.7F);
-		m_zoHover->SetLayer(0.7F);
-		m_zoActive->SetLayer(0.7F);
+		m_zoNormal->SetLayer(m_fLayer);
+		m_zoHover->SetLayer(m_fLayer);
+		m_zoActive->SetLayer(m_fLayer);
+
+		m_writing->SetLayer(m_fLayer - 0.01f);
 
 		m_writing->PrintF("%s", &m_sPlaceholder[0]);
 	}
