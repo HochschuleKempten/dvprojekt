@@ -27,8 +27,6 @@ LMaster::LMaster(IVMaster& vMaster)
 	LBalanceLoader::init();
 	getPlayer(LPlayer::Local)->addMoney(LBalanceLoader::getDefaultMoney());
 	getPlayer(LPlayer::Local)->addMoney(LBalanceLoader::getDefaultMoney());
-
-	searchGames(); //start searching
 }
 
 LMaster::~LMaster()
