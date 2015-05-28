@@ -2,6 +2,7 @@
 #include "VUI.h"
 #include "VMaster.h"
 #include <thread>
+#include "../logic/LMaster.h"
 
 NAMESPACE_VIEW_B
 
@@ -97,7 +98,7 @@ void VScreenLobby::onNotify(const Event& events)
 		vUi->switchScreen("Ingame");
 		break;
 	case REFRESH_GAME_LIST:
-		
+		vUi->vMaster->getLMaster()->searchGames();
 		break;
 	default:
 		notify(events);
