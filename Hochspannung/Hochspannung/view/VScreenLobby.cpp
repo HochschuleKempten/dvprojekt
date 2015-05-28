@@ -80,6 +80,7 @@ void VScreenLobby::onNotify(const Event& events)
 
 		//std::thread([this] { this->vUi->vMaster->hostGame(); this->vUi->switchScreen("Ingame"); }).detach();
 
+		this->vUi->vMaster->hostGame(); this->vUi->switchScreen("Ingame");
 
 		//notify(LOBBY_HOST_GAME);
 		break;
