@@ -13,6 +13,8 @@ class LCity : public ILBuilding, public IVTickObserver
 private:
 	int populationTotal = LBalanceLoader::getStartPopulation();
 	int energy = -1;
+	int energySurplus = 0;
+	const int maxSurplus = LBalanceLoader::getMaxSurplus();
 	std::shared_ptr<IVCity> vCity;
 
 public:
@@ -24,7 +26,9 @@ public:
 	void setEnergy(const int energy);
 	int getEnergy() const;
 	void setPopulationTotal(const int populationTotal);
-	int getEnergySurplus();
+	int getEnergySurplus() const;
+	double getEnergySurplusRatio() const;	//[0;1]
+	void setEnergySurplus(const int surplus);
 
 	virtual LIdentifier::LIdentifier getIdentifier() const override
 	{

@@ -104,8 +104,6 @@ int LField::deductResources()
 
 int LField::reduceResources(const int amount)
 {
-	DEBUG_OUTPUT("resourceLeft begin: " << resourceLeft);
-
 	if (resourceLeft - amount <= 0)
 	{
 		//Can't reduce all, reduce what is possible

@@ -25,6 +25,11 @@ void VMaster::setLMaster(LMaster* lMaster)
 	this->lMaster = lMaster;
 }
 
+LMaster* VMaster::getLMaster() const
+{
+	return lMaster;
+}
+
 void VMaster::initScene(HWND hwnd, CSplash* psplash)
 {	
 	vUi.initUI(hwnd, psplash);

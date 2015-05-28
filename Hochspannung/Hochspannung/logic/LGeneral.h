@@ -1,6 +1,5 @@
 #pragma once
 
-//Include only if no precompiled header is set
 #include <vector>
 #include <map>
 #include <list>
