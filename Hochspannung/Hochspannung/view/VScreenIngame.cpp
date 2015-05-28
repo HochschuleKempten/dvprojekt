@@ -13,6 +13,7 @@
 #include "VSoundLoader.h"
 #include "VPowerLine.h"
 #include "../logic/LBalanceLoader.h"
+#include <thread>
 
 NAMESPACE_VIEW_B
 
@@ -86,11 +87,16 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.0F, 0.8F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar", 0.3F);
 
 	getContainer("Topbar")->addOverlay(CFloatRect(0.1F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconPopulation, "TopPopulationIcon", 0.1F);
-	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.1F, 0.15F, 0.9F), &VMaterialLoader::standardFont, "0000", "popValue", 0.1F);
+	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.2F, 0.1F, 0.85F), &VMaterialLoader::standardFont, "0000", "popValue", 0.1F);
 
 	getContainer("Topbar")->addOverlay(CFloatRect(0.50F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon", 0.1F);
 	getContainer("Topbar")->addText(CFloatRect(0.601F, 0.2F, 0.2F, 0.85F), &VMaterialLoader::GoldFont, "0000", "moneyValue", 0.1F);
 
+	/********************************************************TOP MESSAGE AREA***************************************************************/
+	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.1F, 0.8F, 0.06F), &VMaterialLoader::materialErrorBackground, "MessageArea", 0.3F);
+	getContainer("MessageArea")->addText(CFloatRect(0.2F,0.2F,0.6F,0.8F), &VMaterialLoader::errorFont, "Aktion hier nicht moeglich", "Messagebox", 0.1F);
+	
+	getContainer("MessageArea")->switchOff();
 	/********************************************************BOTTOM AREA*************************************************************/
 
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, getRectForPixel(0, vUi->m_zf.m_iHeightWindow - 180, vUi->m_zf.m_iWidthWindow, 180), "BottomBar", 0.9F);
@@ -100,7 +106,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.00F, 0.00F, 0.22F, 1.0F), &VMaterialLoader::materialInfofieldBackground, "Infofield", 0.3F);
 
 
-	getContainer("BottomBar")->getContainer("Infofield")->addViewport(&m_viewportModels, &m_CamModels, CFloatRect(0.1F, 0.2F, 0.75F, 0.4F), &m_zmbackgroundModels, "DetailedModels");
+	getContainer("BottomBar")->getContainer("Infofield")->addViewport(&m_viewportModels, &m_CamModels, CFloatRect(0.1F, 0.05F, 0.75F, 0.55F), &m_zmbackgroundModels, "DetailedModels");
 	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.20F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "100", "PowerInfo", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.20F, 0.80F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "1000", "MoneyInfo", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.70F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconEnergy, "EngergyInfoIcon", 0.1F);
@@ -384,6 +390,11 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 {
 	static bool bK = false;
 	static bool enabled = true;
+
+	if (keyboard->KeyPressed(DIK_V))
+	{
+		showMessage("Test test test...", 4);
+	}
 
 	if (keyboard->KeyPressed(DIK_M) && enabled)
 	{
@@ -874,6 +885,21 @@ std::unordered_map<std::string, IViewGUIObject*> VScreenIngame::getObjects(IView
 		}
 	}
 	return std::unordered_map<std::string, IViewGUIObject*>();
+}
+
+void VScreenIngame::showMessage(const char* message, int timeSeconds)
+{
+	static bool brunning = false;
+	if (!brunning)
+	{
+		std::thread([this, message, timeSeconds] { CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox"))->updateText(message);
+		brunning = true;
+		getContainer("MessageArea")->switchOn();
+		std::this_thread::sleep_for(std::chrono::seconds(timeSeconds));
+		getContainer("MessageArea")->switchOff();
+		brunning = false;
+		}).detach();
+	}
 }
 
 void VScreenIngame::setActiveButton(const std::string& sName)

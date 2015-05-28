@@ -74,6 +74,7 @@ public:
 	static CMaterial materialListEntryHoverBackground;
 	static CMaterial materialTextfieldBackground;
 	static CMaterial materialTextfieldHoverBackground;
+	static CMaterial materialErrorBackground;
 
 	//Icons
 	static CMaterial materialIngameIconPopulation;
@@ -138,6 +139,7 @@ public:
 	//WritingFonts
 	static CWritingFont standardFont;
 	static CWritingFont GoldFont;
+	static CWritingFont errorFont;
 	
 	//Trassentexturen
 	static CMaterial m_zmConcrete;

@@ -64,6 +64,8 @@ public:
 	std::unordered_map<std::string, IViewGUIObject*> getScreenObjects();
 	std::unordered_map<std::string, IViewGUIObject*> getObjects(IViewGUIContainer* container);
 
+	void showMessage(const char* message,int timeSeconds);
+
 private:
 	void handleInput();
 	std::map<int, std::vector<int>> pickElements();

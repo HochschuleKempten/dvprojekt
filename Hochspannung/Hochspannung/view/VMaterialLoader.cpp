@@ -65,6 +65,7 @@ CMaterial VMaterialLoader::materialButtonAbortHover;
 
 //Ingame
 CMaterial VMaterialLoader::materialIngameMenueDialogBackground;
+CMaterial VMaterialLoader::materialErrorBackground;
 //Ingame Buttons
 CMaterial VMaterialLoader::materialIngameButtonCraftmenu;
 CMaterial VMaterialLoader::materialIngameButtonSabotage;
@@ -113,6 +114,7 @@ CMaterial VMaterialLoader::materialIngameIconEnergy;
 //WritingFont
 CWritingFont VMaterialLoader::standardFont;
 CWritingFont VMaterialLoader::GoldFont;
+CWritingFont VMaterialLoader::errorFont;
 
 //Trassentexturen
 CMaterial VMaterialLoader::m_zmConcrete;
@@ -341,6 +343,11 @@ void VMaterialLoader::init()
 	GoldFont.Init("textures/fonts/SystematicJGold.png", false);
 	GoldFont.SetTableSize(16, 16);
 
+	errorFont.Init("textures/fonts/SystematicJError.png", false);
+	errorFont.SetTableSize(16, 16);
+
+	
+
 	standardFont.SetTransparencyOn();
 	GoldFont.SetTransparencyOn();
 	//Building - Trasse
@@ -489,6 +496,7 @@ void VMaterialLoader::init()
 	materialListEntryHoverBackground.MakeTextureSprite("textures/gui/background/gui_ListEntryHover.png");
 	materialTextfieldBackground.MakeTextureSprite("textures/gui/background/gui_textfield_background.png");
 	materialTextfieldHoverBackground.MakeTextureSprite("textures/gui/background/gui_textfield_backgroundHover.png");
+	materialErrorBackground.MakeTextureSprite("textures/gui/background/gui_error_background.png");
 }
 
 //Rotation adjustments
