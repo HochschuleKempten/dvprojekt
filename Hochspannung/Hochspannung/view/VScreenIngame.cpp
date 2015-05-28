@@ -252,7 +252,7 @@ void VScreenIngame::onNotify(const Event& events)
 		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
 		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 
-
+		
 		break;
 	case SELECT_BUILDING_COALPOWERPLANT:
 		updateInfofield("CoalPowerplant");
@@ -265,6 +265,9 @@ void VScreenIngame::onNotify(const Event& events)
 		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
 		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
 		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
+		
+		
+
 		break;
 	case SELECT_BUILDING_OILPOWERPLANT:
 		updateInfofield("OilPowerplant");
@@ -277,6 +280,8 @@ void VScreenIngame::onNotify(const Event& events)
 		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
 		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
 		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
+		
+
 		break;
 	case SELECT_BUILDING_NUCLEARPOWERPLANT:
 		updateInfofield("NuclearPowerplant");
@@ -887,7 +892,7 @@ std::unordered_map<std::string, IViewGUIObject*> VScreenIngame::getObjects(IView
 	return std::unordered_map<std::string, IViewGUIObject*>();
 }
 
-void VScreenIngame::showMessage(const char* message, int timeSeconds)
+void VScreenIngame::showMessage(const char* message, const int timeSeconds)
 {
 	static bool brunning = false;
 	if (!brunning)
@@ -900,6 +905,36 @@ void VScreenIngame::showMessage(const char* message, int timeSeconds)
 		brunning = false;
 		}).detach();
 	}
+}
+
+void VScreenIngame::startCooldown(const INTERACTIONS& interaction)
+{
+	
+	switch (interaction)
+	{
+	case SABOTAGE_CUTPOWERLINE:
+		std::thread([this] {
+		m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOff();
+		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotagePowerLine())); 
+		m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOn();
+		}).detach();
+		break;
+	case SABOTAGE_STRIKE:
+		std::thread([this] {
+		m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
+		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotagePowerPlant())); 
+		m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
+		}).detach();
+		break;
+	case SABOTAGE_HALF:
+		std::thread([this] {
+		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
+		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotageResource())); 
+		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
+		}).detach();
+		break;
+	}
+
 }
 
 void VScreenIngame::setActiveButton(const std::string& sName)

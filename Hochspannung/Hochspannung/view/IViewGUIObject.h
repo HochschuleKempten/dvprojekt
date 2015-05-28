@@ -120,6 +120,10 @@ public:
 		return m_ObjectType;
 	}
 
+	void disable()
+	{
+		m_bisOn = false;
+	}
 
 	//virtual void resize(int width, int height);
 protected:
@@ -128,6 +132,7 @@ protected:
 	float m_fLayer = 1.0;
 	std::string m_sName = "";
 	ObjectType m_ObjectType;
+	
 };
 
 NAMESPACE_VIEW_E
