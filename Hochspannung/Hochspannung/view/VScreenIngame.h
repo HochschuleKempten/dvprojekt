@@ -90,7 +90,6 @@ private:
 	VButton* activeButton = nullptr;
 
 	CScene m_scene;
-	//CViewport m_viewport;
 	CBackground m_zb;
 	CParallelLight m_zl;
 	CCamera m_zc;
@@ -127,7 +126,6 @@ private:
 
 	//Detailled model view
 	CScene m_sceneModels;
-	CParallelLight m_zlModels;
 	CCamera m_CamModels;
 	CViewport m_viewportModels;
 	CBackground m_zmbackgroundModels;

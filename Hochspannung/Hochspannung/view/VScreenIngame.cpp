@@ -14,6 +14,7 @@
 #include "VPowerLine.h"
 #include "../logic/LBalanceLoader.h"
 #include <thread>
+#include "IViewPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
@@ -33,10 +34,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	//Detailled model view
 	m_zmbackgroundModels.InitFull(&VMaterialLoader::materialDefaultBackground);
 	m_CamModels.Init();
-	m_zlModels.Init(CHVector(1.0F, 1.0F, 1.0F),
-	                CColor(1.0F, 1.0F, 1.0F));
 	m_zpModels.AddCamera(&m_CamModels);
-	m_sceneModels.AddParallelLight(&m_zlModels);
 	m_sceneModels.AddPlacement(&m_zpModels);
 	m_zpModels.TranslateZ(10.0f);
 	m_zpModels.RotateXDelta(-0.5f);
@@ -54,8 +52,8 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 		p.second->initViewModel(nullptr);
 	}
 
-	m_zl.Init(CHVector(1.0F, 1.0F, 1.0F),
-	          CColor(1.0F, 1.0F, 1.0F));
+	m_zl.Init(CHVector(0.1F, 0.5F, 1.0F),
+	          CColor(0.7F, 0.7F, 0.7F));
 
 	m_scene.AddParallelLight(&m_zl);
 	m_scene.AddPlacement(&m_zpCamera);
@@ -1181,6 +1179,11 @@ bool VScreenIngame::trySabotage(const int x, const int y)
 		}
 	case IViewBuilding::sabotageResourceField:
 		// Deduct enemys resources
+		if (dynamic_cast<IViewPowerPlant*>(vbuilding) == nullptr)
+		{
+			return false;
+		}
+
 		return vbuilding->clicked(IViewBuilding::sabotageResourceField);
 
 	default:
