@@ -14,11 +14,19 @@ class IViewPowerPlant : public IVPowerPlant, public IViewBuilding
 {
 protected:
 	bool isOn = false;
+	CGeoQuad quadForAnimation;
+	CPlacement placementForAnimation;
+	CMaterial animationMaterial = VMaterialLoader::materialAnimSabotagePowerPlant;
 
 public:
 	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp)
 		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp)
-	{}
+	{
+		this->quadForAnimation.Init(2, 2, &animationMaterial);
+		placementForAnimation.AddGeo(&quadForAnimation);
+		placementForAnimation.TranslateY(4.0);
+	}
+
 	inline virtual ~IViewPowerPlant() override
 	{}
 
@@ -45,15 +53,12 @@ public:
 
 				return true;
 			}
-			case action::sabotagePowerPlant: 
-				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
-				{
-					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
-					remoteOperation.sabotagePowerPlant();
-					return true; 
-				} 
-
-				return false;
+			case action::sabotagePowerPlant:
+			{
+				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
+				return remoteOperation.sabotagePowerPlant();
+			//TODO (V)Change other cases according to this one	
+			}			
 
 			case action::sabotageResourceField: 
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::Resource))
@@ -87,9 +92,17 @@ public:
 		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
 	}
 
-	virtual void sabotagePowerPlantSwitchedOff() override
-	{
+	virtual void sabotagePowerPlantSwitchedOff(const int seconds) override
+	{	
+		animationMaterial.SetAni(4, 2, 8.0 / seconds);
+		getPlacement()->AddPlacement(&placementForAnimation);
 		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
+	}
+
+	virtual void sabotagePowerPlantSwitchedOn() override
+	{
+		getPlacement()->SubPlacement(&placementForAnimation);
+		animationMaterial.SetAni(4, 2, 0.0);
 	}
 };
 
