@@ -24,19 +24,21 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 	//Initialisierung der Koerper
 
 	//Initialisierung Turm
-	m_zgTurm.Init(0.6f, 0.2f, 8.0f, &VMaterialLoader::m_zmWindrad);
+	m_zgTurm.Init(0.6f, 0.2f, 8.0f, &VMaterialLoader::m_zmWindRad);
 
 	//Initialisierung Fundament
 	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &VMaterialLoader::m_zmWindGrund);
 
 	//Initialisierung Netzanschluss
-	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &VMaterialLoader::m_zmWindrad);
+	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &VMaterialLoader::m_zmWindRad);
 
 	//Initialisierung Gondel
-	m_zgGondel.Init(CHVector(0.4f, 1.0f, 0.4f), &VMaterialLoader::m_zmWindrad);
+	m_zgGondel.Init(CHVector(0.4f, 1.0f, 0.4f), &VMaterialLoader::m_zmWindRad);
 
 	//Initialisierung Rotorblatt
-	m_zgRotorblatt.Init(CHVector(0.2f, 2.0f, 0.1f), &VMaterialLoader::m_zmWindrad);
+	m_zgRotorblatt1.Init(CHVector(0.2f, 2.0f, 0.1f), &VMaterialLoader::m_zmWindFluegel1);
+	m_zgRotorblatt2.Init(CHVector(0.2f, 2.0f, 0.1f), &VMaterialLoader::m_zmWindFluegel2);
+	m_zgRotorblatt3.Init(CHVector(0.2f, 2.0f, 0.1f), &VMaterialLoader::m_zmWindFluegel3);
 
 	
 
@@ -51,15 +53,15 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 	m_zpGondel.AddGeo(&m_zgGondel);
 
 	m_zpRotorblatt1.Translate(CHVector(0.0f, 9.3f, 0.8f));
-	m_zpRotorblatt1.AddGeo(&m_zgRotorblatt);
+	m_zpRotorblatt1.AddGeo(&m_zgRotorblatt1);
 
 	m_zpRotorblatt2.RotateZDelta((2 * PI) / 3);
 	m_zpRotorblatt2.TranslateDelta(CHVector(-1.5f, 6.3f, 0.75f));
-	m_zpRotorblatt2.AddGeo(&m_zgRotorblatt);
+	m_zpRotorblatt2.AddGeo(&m_zgRotorblatt2);
 
 	m_zpRotorblatt3.RotateZ(2 * (2 * PI) / 3);
 	m_zpRotorblatt3.TranslateDelta(CHVector(1.5f, 6.3f, 0.75f));
-	m_zpRotorblatt3.AddGeo(&m_zgRotorblatt);
+	m_zpRotorblatt3.AddGeo(&m_zgRotorblatt3);
 
 	m_zpBasis.TranslateDelta(CHVector(0.0f, -7.0f, 0.0f));
 	m_zpKopf.TranslateDelta(CHVector(0.0f, -7.2f, 0.0f));

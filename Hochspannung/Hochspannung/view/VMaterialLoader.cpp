@@ -116,7 +116,10 @@ CMaterial VMaterialLoader::m_zmCable;
 
 //Windkraftwerktexturen
 CMaterial VMaterialLoader::m_zmWindGrund;
-CMaterial VMaterialLoader::m_zmWindrad;
+CMaterial VMaterialLoader::m_zmWindRad;
+CMaterial VMaterialLoader::m_zmWindFluegel1;
+CMaterial VMaterialLoader::m_zmWindFluegel2;
+CMaterial VMaterialLoader::m_zmWindFluegel3;
 
 //Solarkraftwerktexturen
 CMaterial VMaterialLoader::m_zmSolarzelle;
@@ -332,7 +335,10 @@ void VMaterialLoader::init()
 
 	//Windkraftwerktexturen
 	m_zmWindGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
-	m_zmWindrad.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindRad.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindFluegel1.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindFluegel2.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindFluegel3.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
 	m_zmWindGrund.SetTextureSpecularAsDiffuse();
 
 	//Solarkraftwerktexturen

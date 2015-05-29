@@ -138,9 +138,13 @@ public:
 	static CMaterial m_zmRing;
 	static CMaterial m_zmCable;
 
-	//Solarkraftwerktexturen
+	//Windkraftwerktexturen
 	static CMaterial m_zmWindGrund;
-	static CMaterial m_zmWindrad;
+	static CMaterial m_zmWindRad;
+	static CMaterial m_zmWindFluegel1;
+	static CMaterial m_zmWindFluegel2;
+	static CMaterial m_zmWindFluegel3;
+
 
 	//Solarkraftwerktexturen
 	static CMaterial m_zmSolarzelle;

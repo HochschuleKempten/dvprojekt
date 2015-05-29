@@ -31,7 +31,9 @@ private:
 	CGeoWall m_zgFundament;
 	CGeoWall m_zgNetzanschluss;
 	CGeoEllipsoid m_zgGondel;
-	CGeoEllipsoid m_zgRotorblatt;
+	CGeoEllipsoid m_zgRotorblatt1;
+	CGeoEllipsoid m_zgRotorblatt2;
+	CGeoEllipsoid m_zgRotorblatt3;
 
 
 
