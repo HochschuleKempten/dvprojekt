@@ -21,7 +21,9 @@ public:
 	virtual void switchedOn() = 0;
 	virtual void switchedOff() = 0;
 	virtual void sabotageRessourcesReduced() = 0;
-	virtual void sabotagePowerPlantSwitchedOff() = 0;
+	virtual void sabotagePowerPlantSwitchedOff(const int seconds) = 0;
+	virtual void sabotagePowerPlantSwitchedOn() = 0;
+
 };
 
 NAMESPACE_LOGIC_E

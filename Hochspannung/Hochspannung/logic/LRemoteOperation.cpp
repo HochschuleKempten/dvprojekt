@@ -46,10 +46,10 @@ void LRemoteOperation::switchOff()
 	lPowerPlant->switchOff();
 }
 
-void LRemoteOperation::sabotagePowerPlant()
+bool LRemoteOperation::sabotagePowerPlant()
 {
 	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
-	lPowerPlant->sabotagePowerPlant();
+	return lPowerPlant->sabotagePowerPlant();
 }
 
 void LRemoteOperation::sabotageResource()

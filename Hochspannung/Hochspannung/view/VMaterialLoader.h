@@ -229,6 +229,8 @@ public:
 
 	static CMaterial materialAnimSabotageBomb;
 
+	// Animiert Textur für Sabotage Cooldown Infoanzeige
+	static CMaterial materialAnimSabotagePowerPlant;
 };
 
 

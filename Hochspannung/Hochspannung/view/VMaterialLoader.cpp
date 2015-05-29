@@ -207,6 +207,9 @@ CMaterial VMaterialLoader::materialAnimationsVersuch;
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotageBomb;
 
+//Animierte Texturen
+CMaterial VMaterialLoader::materialAnimSabotagePowerPlant;
+
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
@@ -489,6 +492,8 @@ void VMaterialLoader::init()
 	//materialAnimSabotageBomb.MakeTextureSprite("textures/fonts/FontArialShadow.png");
 	//materialAnimSabotageBomb.SetAni(16, 16, 1);
 
+	materialAnimSabotagePowerPlant.MakeTextureSprite("textures\\Streik.png");
+	
 	//Background
 	materialLobbyRunningGamesBackground.MakeTextureSprite("textures/gui/background/gui_lobby_RunningGamesBackround.png");
 	materialLobbyGamelistBackground.MakeTextureSprite("textures/gui/background/ListView.png");

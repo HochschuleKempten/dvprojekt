@@ -48,8 +48,10 @@ public:
 	//ILPowerPlant methods
 	void switchOn();
 	void switchOff();
-	void sabotagePowerPlant();
+	bool sabotagePowerPlant();
 	void sabotageResource();
+
+	//TODO (V) Make rest bools also
 
 	//LPowerLine methods
 	void sabotagePowerLine();

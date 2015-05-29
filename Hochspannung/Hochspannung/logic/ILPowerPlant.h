@@ -73,17 +73,27 @@ private:
 		}
 	}
 
-	void sabotagePowerPlant()
-	{
-		switchOff();
-		isSabotaged = true;
-		DEBUG_OUTPUT("Powerplant sabotated, it's deactivated for 5 mins");
+	//TODO (V) make rest bools also
 
-		if (!lField->getLPlayingField()->isLocalOperation())
+	bool sabotagePowerPlant()
+	{
+		if (this->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
 		{
-			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::PowerPlant, coordinates.first, coordinates.second);
+			switchOff();
+			isSabotaged = true;
+			vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
+			DEBUG_OUTPUT("Powerplant sabotated, it's deactivated for 5 mins");
+
+			if (!lField->getLPlayingField()->isLocalOperation())
+			{
+				std::pair<int, int> coordinates = lField->getCoordinates();
+				lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::PowerPlant, coordinates.first, coordinates.second);
+			}
+
+			return true;
 		}
+
+		return false;
 	}
 
 	void sabotageResource()
@@ -136,10 +146,11 @@ public:
 			
 			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
 			{
-				isSabotaged = false;	//TODO (L) Send end of sabotage over network?
+				isSabotaged = false;
 				LRemoteOperation remoteOperation(lField->getLPlayingField(), this);
 				remoteOperation.switchOn();
 				timeLastCheck = 0;
+				vPowerPlant->sabotagePowerPlantSwitchedOn(); 
 				DEBUG_OUTPUT("Your powerplant is reactivated after the sabotage act");
 			}
 
