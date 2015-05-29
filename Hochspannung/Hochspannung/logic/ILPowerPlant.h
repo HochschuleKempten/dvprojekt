@@ -103,6 +103,7 @@ protected:
 	std::shared_ptr<IVPowerPlant> vPowerPlant;
 	bool isActivated = false;
 	bool isSabotaged = false;
+	DEBUG_EXPRESSION(bool lastRessourcesUsed = false);
 
 public:
 	inline ILPowerPlant(LField* lField, const int playerId, std::shared_ptr<IVPowerPlant> vPowerPlant)
@@ -148,8 +149,6 @@ public:
 
 	int fossilRessourceCheck()
 	{
-		DEBUG_EXPRESSION(static bool lastRessourcesUsed = false);
-
 		const int consumedRessources = LBalanceLoader::getConsumedResources(LField::NUCLEAR);
 		const int amountReduced = lField->reduceResources(consumedRessources);
 

@@ -88,7 +88,7 @@ void VPlayingField::buildPlayingField()
 	//	}
 	//}
 
-	float rows = CASTS<float>(vFields.getRows());
+	const float rows = CASTS<float>(vFields.getRows());
 	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getLMaster()->getPlayer(LPlayer::Local)->getCity()->getLField()->getX()),
 						CASTS<float>(fieldSize * lPlayingField->getLMaster()->getPlayer(LPlayer::Local)->getCity()->getLField()->getY()),
 						CASTS<float>(fieldSize * rows * 0.5));

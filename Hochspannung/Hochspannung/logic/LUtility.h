@@ -10,7 +10,6 @@
 #include <Windows.h>
 #include <fcntl.h>
 #include <io.h>
-#include <math.h>
 
 inline std::vector<std::string> split(const std::string& str, const char delimiter)
 {
@@ -183,11 +182,11 @@ inline void redirectIOToConsole()
 	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), consoleInfo.dwSize);
 
 	// redirect unbuffered STDOUT to the console
-	lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+	lStdHandle = reinterpret_cast<long>(GetStdHandle(STD_OUTPUT_HANDLE));
 	hConsoleHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 	pFile = _fdopen(hConsoleHandle, "w");
 	*stdout = *pFile;
-	setvbuf(stdout, NULL, _IONBF, 0);
+	setvbuf(stdout, nullptr, _IONBF, 0);
 }
 #endif // _DEBUG
 
