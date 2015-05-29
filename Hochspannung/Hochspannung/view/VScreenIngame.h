@@ -25,6 +25,13 @@ public:
 		BUILDING_POWERLINE
 	};
 
+	enum INTERACTIONS
+	{
+		SABOTAGE_CUTPOWERLINE,
+		SABOTAGE_STRIKE,
+		SABOTAGE_HALF
+	};
+
 	explicit VScreenIngame(VUI* vUi);
 	virtual ~VScreenIngame();
 	void onNotify(const Event& events) override;
@@ -63,6 +70,9 @@ public:
 
 	std::unordered_map<std::string, IViewGUIObject*> getScreenObjects();
 	std::unordered_map<std::string, IViewGUIObject*> getObjects(IViewGUIContainer* container);
+
+	void showMessage(const char* message,const int timeSeconds);
+	void startCooldown(const INTERACTIONS& interaction);
 
 private:
 	void handleInput();

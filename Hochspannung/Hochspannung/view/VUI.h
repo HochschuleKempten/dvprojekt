@@ -37,6 +37,9 @@ class VUI : public IVTickObserver, public IViewUIObserver
 		Default,
 		Hammer,
 		Sabotage,
+		PowerOn,
+		PowerOff,
+		Sell
 	};
 
 private:
@@ -61,6 +64,9 @@ private:
 	HCURSOR m_Default_Cursor;
 	HCURSOR m_Hammer_Cursor;
 	HCURSOR m_Sabotage_Cursor;
+	HCURSOR m_PowerOn_Cursor;
+	HCURSOR m_PowerOff_Cursor;
+	HCURSOR m_Sell_Cursor;
 
 public:
 	explicit VUI(VMaster* vMaster);
