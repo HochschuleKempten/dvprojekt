@@ -87,7 +87,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.0F, 0.8F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar", 0.3F);
 
 	getContainer("Topbar")->addOverlay(CFloatRect(0.1F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconPopulation, "TopPopulationIcon", 0.1F);
-	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.2F, 0.1F, 0.85F), &VMaterialLoader::standardFont, "0000", "popValue", 0.1F);
+	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.2F, 0.2F, 0.85F), &VMaterialLoader::standardFont, "0000", "popValue", 0.1F);
 
 	getContainer("Topbar")->addOverlay(CFloatRect(0.50F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon", 0.1F);
 	getContainer("Topbar")->addText(CFloatRect(0.601F, 0.2F, 0.2F, 0.85F), &VMaterialLoader::GoldFont, "0000", "moneyValue", 0.1F);
@@ -154,30 +154,44 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	
 
 	// Tab for statistics
-	m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonWindmill, "statisticWind", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.16f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_WINDMILL], 0.1F);
 
-	m_vtTabStatistics->addOverlay(CFloatRect(0.26f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, "statisticHydro", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.37f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_HYDROPOWERPLANT], 0.1F);
+m_vtTabStatistics->addText(CFloatRect(0.125f, 0.03f, 0.11f, 0.2f), &VMaterialLoader::standardFont, "Gebaeude", "buildingText",0.1F);
 
-	m_vtTabStatistics->addOverlay(CFloatRect(0.51f, 0.175f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, "statisticSolar", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.62f, 0.2f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_SOLARPOWERPLANT], 0.1F);
+m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.25f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonWindmill, "statisticWind",0.1F);
+m_vtTabStatistics->addText(CFloatRect(0.12f, 0.3f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_WINDMILL],0.1F);
 
-	m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, "statisticNuclear", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.16f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_NUCLEARPOWERPLANT], 0.1F);
+m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.50f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, "statisticHydro", 0.1F);
+m_vtTabStatistics->addText(CFloatRect(0.12f, 0.55f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_HYDROPOWERPLANT], 0.1F);
 
-	m_vtTabStatistics->addOverlay(CFloatRect(0.26f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, "statisticCoal", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.37f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_COALPOWERPLANT], 0.1F);
+m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.75f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, "statisticSolar", 0.1F);
+m_vtTabStatistics->addText(CFloatRect(0.12f, 0.8f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_SOLARPOWERPLANT], 0.1F);
 
-	m_vtTabStatistics->addOverlay(CFloatRect(0.51f, 0.625f, 0.1f, 0.2f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOil", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.62f, 0.65f, 0.1f, 0.2f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT], 0.1F);
+m_vtTabStatistics->addOverlay(CFloatRect(0.22f, 0.25f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, "statisticNuclear", 0.1F);
+m_vtTabStatistics->addText(CFloatRect(0.29f, 0.3f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_NUCLEARPOWERPLANT], 0.1F);
+
+m_vtTabStatistics->addOverlay(CFloatRect(0.22f, 0.50f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, "statisticCoal", 0.1F);
+m_vtTabStatistics->addText(CFloatRect(0.29f, 0.55f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_COALPOWERPLANT], 0.1F);
+
+m_vtTabStatistics->addOverlay(CFloatRect(0.22f, 0.75f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOil", 0.1F);
+m_vtTabStatistics->addText(CFloatRect(0.29f, 0.8f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT], 0.1F);
 
 	// Renewable / fossil energy Statistics
-	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.175F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainer", 0.2F);
-	m_vgGraphEnergyRatio = m_vtTabStatistics->getContainer("RenFosEnergyContainer")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialGreen);
+	
+	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.825F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainerEnemy",0.2);
+	m_vgGraphEnergyRatio = m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatioEnemy", &VMaterialLoader::materialGreen);
+	m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->setLayer(0.2F);
 
-	m_vgGraphEnergyRatio->toggleType();
-	updateGraphRatio(0.9f);
+	//m_vgGraphEnergyRatio->toggleType();
+	//updateGraphRatio(0.9f);
+
+	//m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.9F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy");
+	//m_vgGraphEnergy = m_vtTabStatistics->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph");
+	//m_vtTabStatistics->getContainer("Energy")->setLayer(0.1f);
+
+	//m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
+	//m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
+	//m_vgGraphEnergy->updateBar2("neededEnergy", 10);
+	//m_vgGraphEnergy->updateBar2("producedEnergy", 50);
 
 	m_vtTabSabotage->switchOff();
 	m_vtTabStatistics->switchOff();
@@ -196,17 +210,19 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.44F, 0.80F, 0.15F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "MenueButtonBack", 0.2F);
 
 	/********************************************************Energy AREA*************************************************************/
-	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy", 0.5F);
-	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1F);
-	m_vgGraphEnergy = getContainer("BottomBar")->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph"); // ->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
-	m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
-	m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
-	m_vgGraphEnergy->updateBar2("neededEnergy", 10);
-	m_vgGraphEnergy->updateBar2("producedEnergy", 50);
 
-	/********************************************************Energy AREA*************************************************************/
-	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialGreen, "Energy", 0.2F);
-	getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy", 0.1F);
+	//getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy");
+	//getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1F);
+	//m_vgGraphEnergy = getContainer("BottomBar")->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph"); // ->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
+	//m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
+	//m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
+	//m_vgGraphEnergy->updateBar2("neededEnergy", 10);
+	//m_vgGraphEnergy->updateBar2("producedEnergy", 50);
+
+
+	///********************************************************Energy AREA*************************************************************/
+	//getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialGreen, "Energy", 0.2F);
+	//getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy", 0.1F);
 
 
 	m_viewport->SwitchOff();
@@ -221,6 +237,7 @@ void VScreenIngame::onNotify(const Event& events)
 {
 	switch (events)
 	{
+
 	case SWITCH_TO_REGISTER_BUILDING:
 		m_vtTabBuilding->switchOn();
 		m_vtTabSabotage->switchOff();
@@ -369,6 +386,7 @@ void VScreenIngame::onNotify(const Event& events)
 		selectedAction = IViewBuilding::Undefined;
 		notify(events);
 		break;
+
 	}
 
 	updateModelView();
