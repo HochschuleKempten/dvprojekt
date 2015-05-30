@@ -90,7 +90,6 @@ private:
 	VButton* activeButton = nullptr;
 
 	CScene m_scene;
-	CBackground m_zb;
 	CParallelLight m_zl;
 	CCamera m_zc;
 	CPlacement m_zpCamera;

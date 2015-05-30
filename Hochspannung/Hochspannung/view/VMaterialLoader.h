@@ -75,6 +75,7 @@ public:
 	static CMaterial materialTextfieldBackground;
 	static CMaterial materialTextfieldHoverBackground;
 	static CMaterial materialErrorBackground;
+	static CBackground materialIngameBackground;
 
 	//Icons
 	static CMaterial materialIngameIconPopulation;
@@ -231,6 +232,8 @@ public:
 
 	// Animiert Textur für Sabotage Cooldown Infoanzeige
 	static CMaterial materialAnimSabotagePowerPlant;
+	static int materialAnimSabotagePowerPlant_x;
+	static int materialAnimSabotagePowerPlant_y;
 };
 
 

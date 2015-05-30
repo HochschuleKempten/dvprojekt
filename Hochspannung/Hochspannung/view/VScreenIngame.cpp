@@ -23,13 +23,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	: IViewScreen(vUi)
 {
 	m_viewport = new CViewport();
-	//Standard Init
+	
 	m_zc.Init();
-	m_zb.InitFull("textures/3d-office-wallpaper.jpg");
-
-	m_viewport->AddBackground(&m_zb);
+	m_viewport->AddBackground(&VMaterialLoader::materialIngameBackground);
 	m_viewport->InitFull(&m_zc);
-
 
 	//Detailled model view
 	m_zmbackgroundModels.InitFull(&VMaterialLoader::materialDefaultBackground);
@@ -65,9 +62,13 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
 	m_zpCamera.AddCamera(&m_zc);
-	m_zpCamera.TranslateZ(50.0F);
-	m_zpCamera.RotateXDelta(0.15F * PI);
-	m_zpCamera.RotateZDelta(0.15F);
+	m_zpCamera.TranslateZ(60.0F);
+
+	m_zpCamera.TranslateYDelta(5.5f);
+	m_zpCamera.RotateXDelta(0.40F * PI);
+
+	//m_zpCamera.RotateXDelta(0.20F * PI);
+	//m_zpCamera.RotateZDelta(0.15F);
 
 	VSoundLoader::init(&m_scene);
 	VSoundLoader::playBackgroundMusicIngame();
@@ -618,7 +619,6 @@ void VScreenIngame::checkGUIObjects(IViewGUIContainer* tempGuicontainer)
 	}
 }
 
-
 void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 {
 	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainerMap;
@@ -660,10 +660,8 @@ void VScreenIngame::handleInput()
 		m_zpModels.TranslateZDelta(0.1f * direction);
 	}
 
-
 	const float cameraStength = 1.0f;
-
-	//Left + Right: 
+	//Left + Right:
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_A))
 	{
 		m_zpCamera.TranslateXDelta(-cameraStength);

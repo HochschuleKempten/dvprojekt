@@ -25,6 +25,7 @@ public:
 		this->quadForAnimation.Init(2, 2, &animationMaterial);
 		placementForAnimation.AddGeo(&quadForAnimation);
 		placementForAnimation.TranslateY(4.0);
+		animationMaterial.SwitchOff();
 	}
 
 	inline virtual ~IViewPowerPlant() override
@@ -36,7 +37,7 @@ public:
 	}
 
 	virtual bool clicked(action action) override
-	{			
+	{
 		switch (action)
 		{
 			case action::switchOnOff:
@@ -57,8 +58,8 @@ public:
 			{
 				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
 				return remoteOperation.sabotagePowerPlant();
-			//TODO (V)Change other cases according to this one	
-			}			
+				//TODO (V)Change other cases according to this one	
+			}
 
 			case action::sabotageResourceField: 
 				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::Resource))
@@ -72,7 +73,7 @@ public:
 				return false;
 
 			default:ASSERT("Invalid action"); return false;
-		}				
+		}
 	}
 
 	virtual void switchedOn() override
@@ -94,15 +95,21 @@ public:
 
 	virtual void sabotagePowerPlantSwitchedOff(const int seconds) override
 	{	
-		animationMaterial.SetAni(4, 2, 8.0 / seconds);
+		animationMaterial.SwitchOn();
+		animationMaterial.SetAni(VMaterialLoader::materialAnimSabotagePowerPlant_x,
+								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
+								 CASTS<float>(VMaterialLoader::materialAnimSabotagePowerPlant_x * VMaterialLoader::materialAnimSabotagePowerPlant_y) / CASTS<float>(seconds));
 		getPlacement()->AddPlacement(&placementForAnimation);
 		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
 	}
 
 	virtual void sabotagePowerPlantSwitchedOn() override
 	{
+		animationMaterial.SwitchOff();
 		getPlacement()->SubPlacement(&placementForAnimation);
-		animationMaterial.SetAni(4, 2, 0.0);
+		animationMaterial.SetAni(VMaterialLoader::materialAnimSabotagePowerPlant_x,
+								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
+								 0.0f);
 	}
 };
 

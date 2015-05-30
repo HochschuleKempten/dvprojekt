@@ -81,8 +81,12 @@ private:
 		{
 			switchOff();
 			isSabotaged = true;
-			vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
-			DEBUG_OUTPUT("Powerplant sabotated, it's deactivated for 5 mins");
+
+			//if (playerId == LPlayer::Local)	//TODO (L) just for testing
+			//{
+				vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
+			//}
+			//TODO (L) inform UI
 
 			if (!lField->getLPlayingField()->isLocalOperation())
 			{
@@ -147,10 +151,13 @@ public:
 			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
 			{
 				isSabotaged = false;
+				vPowerPlant->sabotagePowerPlantSwitchedOn(); 
+
 				LRemoteOperation remoteOperation(lField->getLPlayingField(), this);
 				remoteOperation.switchOn();
 				timeLastCheck = 0;
-				vPowerPlant->sabotagePowerPlantSwitchedOn(); 
+
+				//TODO (L) inform UI
 				DEBUG_OUTPUT("Your powerplant is reactivated after the sabotage act");
 			}
 

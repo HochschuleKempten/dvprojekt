@@ -200,6 +200,7 @@ CMaterial VMaterialLoader::materialListEntryBackground;
 CMaterial VMaterialLoader::materialListEntryHoverBackground;
 CMaterial VMaterialLoader::materialTextfieldBackground;
 CMaterial VMaterialLoader::materialTextfieldHoverBackground;
+CBackground VMaterialLoader::materialIngameBackground;
 
 //Test
 CMaterial VMaterialLoader::materialAnimationsVersuch;
@@ -209,6 +210,8 @@ CMaterial VMaterialLoader::materialAnimSabotageBomb;
 
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotagePowerPlant;
+int VMaterialLoader::materialAnimSabotagePowerPlant_x;
+int VMaterialLoader::materialAnimSabotagePowerPlant_y;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
@@ -492,7 +495,9 @@ void VMaterialLoader::init()
 	//materialAnimSabotageBomb.MakeTextureSprite("textures/fonts/FontArialShadow.png");
 	//materialAnimSabotageBomb.SetAni(16, 16, 1);
 
-	materialAnimSabotagePowerPlant.MakeTextureSprite("textures\\Streik.png");
+	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/strike.png");
+	materialAnimSabotagePowerPlant_x = 15;
+	materialAnimSabotagePowerPlant_y = 2;
 	
 	//Background
 	materialLobbyRunningGamesBackground.MakeTextureSprite("textures/gui/background/gui_lobby_RunningGamesBackround.png");
@@ -502,6 +507,7 @@ void VMaterialLoader::init()
 	materialTextfieldBackground.MakeTextureSprite("textures/gui/background/gui_textfield_background.png");
 	materialTextfieldHoverBackground.MakeTextureSprite("textures/gui/background/gui_textfield_backgroundHover.png");
 	materialErrorBackground.MakeTextureSprite("textures/gui/background/gui_error_background.png");
+	materialIngameBackground.InitFull("textures/background.jpg");
 }
 
 //Rotation adjustments

@@ -98,6 +98,7 @@ public:
 	VModelCoalPowerPlant();
 	virtual ~VModelCoalPowerPlant() override;
 
+	void init();
 
 	virtual float getHeight() override
 	{
