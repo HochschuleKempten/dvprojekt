@@ -159,6 +159,10 @@ CMaterial VMaterialLoader::m_zmKohleHolz;
 CMaterial VMaterialLoader::m_zmKohleLore;
 CMaterial VMaterialLoader::m_zmKohleBlack;
 
+//Wasserkraftwerktexturen
+CMaterial VMaterialLoader::m_zmWasser;
+
+
 //PlayerColor
 std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
 
@@ -389,6 +393,10 @@ void VMaterialLoader::init()
 	m_zmKohleBlack.MakeTextureDiffuse("Textures\\black_image.jpg");
 	m_zmKohleBerg.SetTextureSpecularAsDiffuse();
 	
+	//Wasserkraftwerktexturen
+	m_zmWasser.MakeTextureDiffuse("Textures\\Wasser_textur.jpg");
+
+
 	//Building - Foundation
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(222.0f / 255.0f, 186.0f / 255.0f, 69.0f / 255.0f));

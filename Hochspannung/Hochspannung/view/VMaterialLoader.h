@@ -185,6 +185,10 @@ public:
 	static CMaterial m_zmKohleLore;
 	static CMaterial m_zmKohleBlack;
 
+	//Wasserkraftwerktexturen
+	static CMaterial m_zmWasser;
+
+
 	//PlayerColor
 	static std::unordered_map<int, CColor> colorPlayers;
 
