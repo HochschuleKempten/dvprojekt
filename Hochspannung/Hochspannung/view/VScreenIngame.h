@@ -44,6 +44,8 @@ public:
 
 	void updateGraphRatio(float fRatio);
 
+	void updateGraphRatioEnemy(float fRatio);
+
 	CFloatRect getTopSpace();
 
 	CFloatRect getBottomSpace();
@@ -92,6 +94,7 @@ private:
 
 	VGraph *m_vgGraphEnergy;
 	VGraphRatio *m_vgGraphEnergyRatio;
+	VGraphRatio *m_vgGraphEnergyRatioEnemy;
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;

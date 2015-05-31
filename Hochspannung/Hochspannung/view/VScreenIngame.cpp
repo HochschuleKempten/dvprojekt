@@ -197,11 +197,12 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vtTabStatistics->getContainer("RenFosEnergyContainer")->setLayer(0.2F);
 
 	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.825F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainerEnemy");
-	m_vgGraphEnergyRatio = m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatioEnemy", &VMaterialLoader::materialGreen);
+	m_vgGraphEnergyRatioEnemy = m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatioEnemy", &VMaterialLoader::materialGreen);
 	m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->setLayer(0.2F);
 
 	//m_vgGraphEnergyRatio->toggleType();
-	//updateGraphRatio(0.9f);
+	updateGraphRatio(0.9f);
+	updateGraphRatioEnemy(0.5f);
 
 	//m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.9F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy");
 	//m_vgGraphEnergy = m_vtTabStatistics->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph");
@@ -508,6 +509,11 @@ void VScreenIngame::updateGraph(float fProduced, float fNeeded)
 
 void VScreenIngame::updateGraphRatio(float fRatio) {
 	m_vgGraphEnergyRatio->updateValue(fRatio);
+}
+
+void VScreenIngame::updateGraphRatioEnemy(float fRatio) {
+	
+	m_vgGraphEnergyRatioEnemy->updateValue(fRatio);
 }
 
 CFloatRect VScreenIngame::getTopSpace()
