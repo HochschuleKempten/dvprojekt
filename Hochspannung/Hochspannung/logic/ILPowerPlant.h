@@ -100,17 +100,22 @@ private:
 		return false;
 	}
 
-	void sabotageResource()
+	bool sabotageResource()
 	{
-		DEBUG_OUTPUT("Try to sabotage ressource field. Old ressource value: " << getLField()->getResources());
-		int newValue = this->getLField()->deductResources();
-		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
-
-		if (!lField->getLPlayingField()->isLocalOperation())
+		if (this->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
 		{
-			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Resource, coordinates.first, coordinates.second);
+			DEBUG_OUTPUT("Try to sabotage ressource field. Old ressource value: " << getLField()->getResources());
+			int newValue = this->getLField()->deductResources();
+			DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
+
+			if (!lField->getLPlayingField()->isLocalOperation())
+			{
+				std::pair<int, int> coordinates = lField->getCoordinates();
+				lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Resource, coordinates.first, coordinates.second);
+			}
+			return true;
 		}
+		return false;
 	}
 
 protected:

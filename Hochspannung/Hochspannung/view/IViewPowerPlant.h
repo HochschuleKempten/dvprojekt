@@ -58,19 +58,13 @@ public:
 			{
 				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
 				return remoteOperation.sabotagePowerPlant();
-				//TODO (V)Change other cases according to this one	
 			}
 
 			case action::sabotageResourceField: 
-				if (lPlant->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::Resource))
-				{
+			{
 					LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
-					remoteOperation.sabotageResource();
-
-					return true;
-				}
-
-				return false;
+			     	return remoteOperation.sabotageResource();
+			}			
 
 			default:ASSERT("Invalid action"); return false;
 		}

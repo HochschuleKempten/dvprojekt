@@ -52,16 +52,16 @@ bool LRemoteOperation::sabotagePowerPlant()
 	return lPowerPlant->sabotagePowerPlant();
 }
 
-void LRemoteOperation::sabotageResource()
+bool LRemoteOperation::sabotageResource()
 {
 	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
-	lPowerPlant->sabotageResource();
+	return lPowerPlant->sabotageResource();
 }
 
-void LRemoteOperation::sabotagePowerLine()
+bool LRemoteOperation::sabotagePowerLine()
 {
 	ASSERT(lPowerLine != nullptr, "lPowerLine is not initialized. Make sure you pass a valid pointer to LPowerLine in the constructor");
-	lPowerLine->sabotagePowerLine();
+    return lPowerLine->sabotagePowerLine();
 }
 
 NAMESPACE_LOGIC_E

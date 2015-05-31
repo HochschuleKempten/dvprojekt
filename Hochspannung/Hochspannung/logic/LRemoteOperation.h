@@ -49,12 +49,12 @@ public:
 	void switchOn();
 	void switchOff();
 	bool sabotagePowerPlant();
-	void sabotageResource();
+	bool sabotageResource();
 
 	//TODO (V) Make rest bools also
 
 	//LPowerLine methods
-	void sabotagePowerLine();
+	bool sabotagePowerLine();
 };
 
 NAMESPACE_LOGIC_E
