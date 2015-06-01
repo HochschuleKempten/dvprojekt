@@ -49,7 +49,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 		p.second->initViewModel(nullptr);
 	}
 
-	m_zl.Init(CHVector(0.1F, 0.5F, 1.0F),
+	m_zl.Init(CHVector(0.1F, 0.5F, 0.7F),
 	          CColor(0.7F, 0.7F, 0.7F));
 
 	m_scene.AddParallelLight(&m_zl);
@@ -64,8 +64,9 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zpCamera.AddCamera(&m_zc);
 	m_zpCamera.TranslateZ(60.0F);
 
-	m_zpCamera.TranslateYDelta(5.5f);
+	m_zpCamera.TranslateYDelta(6.5f);
 	m_zpCamera.RotateXDelta(0.40F * PI);
+	m_zpCamera.TranslateZDelta(5.0f);
 
 	//m_zpCamera.RotateXDelta(0.20F * PI);
 	//m_zpCamera.RotateZDelta(0.15F);
