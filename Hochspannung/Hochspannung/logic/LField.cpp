@@ -48,12 +48,18 @@ int LField::getBuildingId() const
 	return lBuilding == nullptr ? -1 : lBuilding->getIdentifier();
 }
 
-bool LField::removeBuilding()
+bool LField::removeBuilding(const std::function<void(const ILBuilding* const)>& fnBeforeDelete)
 {
 	if (lBuilding != nullptr)
 	{
 		//Player gets money back
 		lPlayingField->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(LBalanceLoader::getSellRevenue() * lBuilding->getValue()));
+
+		//Last possibility to work with the object before delete
+		if (fnBeforeDelete != nullptr)
+		{
+			fnBeforeDelete(lBuilding);
+		}
 
 		delete lBuilding;
 		lBuilding = nullptr;
@@ -90,31 +96,25 @@ int LField::getResources() const
 	return resourceLeft;
 }
 
-int LField::deductResources(const int value)
+int LField::deductResources()
 {
-	resourceLeft /= value;
+	resourceLeft *= LBalanceLoader::getFactorSabotageResource();
 	return resourceLeft;
 }
 
-bool LField::reduceRecources(const int amount) 
+int LField::reduceResources(const int amount)
 {
-	DEBUG_OUTPUT("resourceLeft begin: " << resourceLeft);
-
-	if (resourceLeft > 0) 
+	if (resourceLeft - amount <= 0)
 	{
-		resourceLeft -= amount;
+		//Can't reduce all, reduce what is possible
+		resourceLeft = 0;
 
-		if (resourceLeft > 0)
-		{
-			return true;
-		}
-		else
-		{
-			resourceLeft = 0;
-		}
+		return resourceLeft - amount;
 	}
 	
-	return false;
+	//Enough ressources left on the field to reduce the desired amount
+	resourceLeft -= amount;
+	return amount;
 }
 
 NAMESPACE_LOGIC_E

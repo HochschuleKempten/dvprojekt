@@ -4,6 +4,7 @@
 #include "VMaster.h"
 #include "VSoundLoader.h"
 #include "../logic/LRemoteOperation.h"
+#include "../logic/LSabotage.h"
 
 NAMESPACE_VIEW_B
 
@@ -62,17 +63,12 @@ bool VPowerLine::clicked(action action)
 {    
 	switch (action)
 	{			
-	     case action::sabotagePowerLine: 
-			 
-			 if (lPowerLine->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct())
+	     case action::sabotagePowerLine: 						
 			 {   
-				 LRemoteOperation remoteOperation(lPowerLine->getLField()->getLPlayingField());
-				 lPowerLine->sabotage();
-				 return true; 
+				 LRemoteOperation remoteOperation(lPowerLine->getLField()->getLPlayingField(), lPowerLine);
+				 return remoteOperation.sabotagePowerLine();
 			 }
 
-			 return false;
-			  
 	   default:ASSERT("Invalid action"); return false;
 	}
 }

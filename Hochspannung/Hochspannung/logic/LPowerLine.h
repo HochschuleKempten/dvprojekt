@@ -6,11 +6,18 @@
 NAMESPACE_LOGIC_B
 
 class IVPowerLine;
+class LRemoteOperation;
 
 class LPowerLine : public ILBuilding
 {
+	friend class LRemoteOperation;
+	friend class LMaster;
+
 private:
 	std::shared_ptr<IVPowerLine> vPowerLine;
+
+private:
+	bool sabotagePowerLine();
 
 public:
 	// set orientation of the powerline with the bitwise operator (|) (example: PowerLineOrientation::NORTH|PowerLineOrientation::EAST)
@@ -19,9 +26,8 @@ public:
 
 	void updatedOrientation(const int additionalOrientation);
 
-	bool sabotage();
 
-	virtual LIdentifier::LIdentifier getIdentifier() override
+	virtual LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LPowerLine;
 	}

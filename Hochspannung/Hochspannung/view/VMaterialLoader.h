@@ -48,6 +48,8 @@ public:
 	static CMaterial materialButtonLobbyHostGameHover;
 	static CMaterial materialButtonAbort;
 	static CMaterial materialButtonAbortHover;
+	static CMaterial materialButtonRefresh;
+	static CMaterial materialButtonRefreshHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
@@ -60,15 +62,26 @@ public:
 	static CMaterial materialBuildingButtonHover;
 
 
+
 	//Backgrounds
 	static CMaterial materialDialogBackground;
 	static CMaterial materialIngameMenueDialogBackground;
 	static CMaterial materialDefaultBackground;
 	static CMaterial materialWhiteGreyBackground;
+	static CMaterial materialLobbyRunningGamesBackground;
+	static CMaterial materialLobbyGamelistBackground;
+	static CMaterial materialListEntryBackground;
+	static CMaterial materialListEntryHoverBackground;
+	static CMaterial materialTextfieldBackground;
+	static CMaterial materialTextfieldHoverBackground;
+	static CMaterial materialErrorBackground;
+	static CBackground materialIngameBackground;
 
 	//Icons
 	static CMaterial materialIngameIconPopulation;
 	static CMaterial materialIngameIconMoney;
+	static CMaterial materialIngameIconEnergy;
+	
 
 	//Buttons
 	static CMaterial materialIngameButtonCraftmenu;
@@ -96,11 +109,17 @@ public:
 	//Sabotage
 	static CMaterial materialSabotageButtonScissors;
 	static CMaterial materialSabotageButtonStrike;
-	//static CMaterial materialCraftmenuButtonWindmill;
+	static CMaterial materialSabotageButtonHalf;
+	static CMaterial materialSabotageButtonPowerOn;
+	static CMaterial materialSabotageButtonPowerOff;
+	static CMaterial materialSabotageButtonSell;
 
 	static CMaterial materialSabotageButtonScissorsHover;
 	static CMaterial materialSabotageButtonStrikeHover;
-	
+	static CMaterial materialSabotageButtonHalfHover;
+	static CMaterial materialSabotageButtonPowerOnHover;
+	static CMaterial materialSabotageButtonPowerOffHover;
+	static CMaterial materialSabotageButtonSellHover;
 
 	//Infofield
 	static CMaterial materialInfofieldBackground;
@@ -121,6 +140,7 @@ public:
 	//WritingFonts
 	static CWritingFont standardFont;
 	static CWritingFont GoldFont;
+	static CWritingFont errorFont;
 	
 	//Trassentexturen
 	static CMaterial m_zmConcrete;
@@ -205,6 +225,15 @@ public:
 	//Rotation adjustments
 	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
 
+
+	//Animierte Texturen
+
+	static CMaterial materialAnimSabotageBomb;
+
+	// Animiert Textur für Sabotage Cooldown Infoanzeige
+	static CMaterial materialAnimSabotagePowerPlant;
+	static int materialAnimSabotagePowerPlant_x;
+	static int materialAnimSabotagePowerPlant_y;
 };
 
 

@@ -11,6 +11,7 @@
 #include "Vektoria\Timer.h"
 #include "Vektoria\Splash.h"
 #include "Mmsystem.h"
+#include "wtypes.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -28,6 +29,22 @@ static void ChangeDisplay(HWND);
 
 
 CGame* g_pgame = nullptr;
+
+//From http://stackoverflow.com/questions/8690619/how-to-get-screen-resolution-in-c
+// Get the horizontal and vertical screen sizes in pixel
+static void GetDesktopResolution(int& horizontal, int& vertical)
+{
+	RECT desktop;
+	// Get a handle to the desktop window
+	const HWND hDesktop = GetDesktopWindow();
+	// Get the size of screen to the variable desktop
+	GetWindowRect(hDesktop, &desktop);
+	// The top left corner will have coordinates (0,0)
+	// and the bottom right corner will have coordinates
+	// (horizontal, vertical)
+	horizontal = desktop.right;
+	vertical = desktop.bottom;
+}
 
 
 //--------------------------------------------------------------------------------------
@@ -50,14 +67,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	/* Use vektoria icon and default mouse-pointer */
 	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_ICON1));
-	//wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-	//wcex.hCursor = LoadCursorFromFile("textures\\gui\\Cursor\\default_zeiger.cur");
-	wcex.hCursor = static_cast<HCURSOR>(LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE));
-		
-	//SetSystemCursor(static_cast<HCURSOR>(LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.png", IMAGE_CURSOR, 128, 128, LR_LOADTRANSPARENT));
+	wcex.hCursor = nullptr;
+	SetCursor(static_cast<HCURSOR>(LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE)));
+	
 
+	LPRECT rectangle=nullptr;
+	GetWindowRect(hWnd, rectangle);
+	ClipCursor(rectangle);
 
-	//SetCursor(LoadCursorFromFile())
 	wcex.lpszMenuName = NULL;
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
@@ -70,6 +87,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		return 1;
 	}
 
+	int width = 1280;
+	int height = 720;
+	GetDesktopResolution(width, height);
+
 	/* The class is registered, let's create the program*/
 	hWnd = CreateWindowEx(
 		0,                      /* Extended possibilites for variation */
@@ -78,8 +99,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		WS_OVERLAPPEDWINDOW,    /* default window */
 		CW_USEDEFAULT,          /* Windows decides the position */
 		CW_USEDEFAULT, 
-		1280,
-		720,/* where the window ends up on the screen */
+		width - 100,
+		height - 100,/* where the window ends up on the screen */
 		//GetSystemMetrics(SM_CXSCREEN),                   /* The programs width */
 		//GetSystemMetrics(SM_CYSCREEN),                   /* and height in pixels */
 		HWND_DESKTOP,           /* The window is a child-window to desktop */
@@ -184,6 +205,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			g_bFullscreen = !g_bFullscreen;
 			ChangeDisplay(hwnd);
+			int width = 1280;
+			int height = 720;
+			GetDesktopResolution(width, height);
+			g_pgame->WindowReSize(width, height);
 		}
 		//if (wParam != VK_ESCAPE) break;
 		break;

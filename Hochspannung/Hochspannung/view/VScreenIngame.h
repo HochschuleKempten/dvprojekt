@@ -14,7 +14,8 @@ NAMESPACE_VIEW_B
 class VScreenIngame : public IViewScreen
 {
 public:
-	enum BUILDINGTYPE {
+	enum BUILDINGTYPE
+	{
 		BUILDING_WINDMILL,
 		BUILDING_HYDROPOWERPLANT,
 		BUILDING_SOLARPOWERPLANT,
@@ -23,6 +24,14 @@ public:
 		BUILDING_OILPOWERPLANT,
 		BUILDING_POWERLINE
 	};
+
+	enum INTERACTIONS
+	{
+		SABOTAGE_CUTPOWERLINE,
+		SABOTAGE_STRIKE,
+		SABOTAGE_HALF
+	};
+
 	explicit VScreenIngame(VUI* vUi);
 	virtual ~VScreenIngame();
 	void onNotify(const Event& events) override;
@@ -33,12 +42,14 @@ public:
 
 	//Schnittstellenmethoden
 	void updateMoney(const int wert);
-
 	void updatePopulation(const int wert);
-
 	void updateInfofield(const std::string& neuerText);
-
-	void updatePowerPlants(std::map<std::string, int> powerPlants);
+	void updateAddedPowerPlant(const LIdentifier::LIdentifier id);
+	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id);
+	void updateNumberPowerLines(const int newNumberPowerLines);
+	void updatePowerPlants();
+	void updateGraph(float fProduced, float fNeeded);
+	void updateGraphRatio(float fRatio);
 
 	CFloatRect getTopSpace();
 
@@ -49,30 +60,46 @@ public:
 	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(const int width, const int height) override;
 
-	void handleInput();
-	std::map<int, std::vector<int>> pickElements();
-
 	void addToScene(CPlacement* placement);
 
 	void startAnimation() override;
 	void StartEvent() override;
 	void EndEvent() override;
 
+	void setActiveButton(const std::string& sName);
+
+	std::unordered_map<std::string, IViewGUIObject*> getScreenObjects();
+	std::unordered_map<std::string, IViewGUIObject*> getObjects(IViewGUIContainer* container);
+
+	void showMessage(const char* message,const int timeSeconds);
+	void startCooldown(const INTERACTIONS& interaction);
+
 private:
+	void handleInput();
+	std::map<int, std::vector<int>> pickElements();
+
 	CFloatRect getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY);
 	void handleLeftClick(const std::map<int, std::vector<int>>& pickedElements);
 	void handleTestClick(const std::map<int, std::vector<int>>& pickedElements);
 
+	bool tryBuilding(const int x, const int y);
+	bool trySabotage(const int x, const int y);
+
+	void updateModelView();
+
+	VButton* activeButton = nullptr;
+
 	CScene m_scene;
-	//CViewport m_viewport;
-	CBackground m_zb;
 	CParallelLight m_zl;
 	CCamera m_zc;
 	CPlacement m_zpCamera;
 
-	VTab *m_vtTabStatistics;
-	VTab *m_vtTabSabotage;
-	VTab *m_vtTabBuilding;
+	VTab* m_vtTabStatistics;
+	VTab* m_vtTabSabotage;
+	VTab* m_vtTabBuilding;
+
+	VGraph* m_vgGraphEnergy;
+	VGraphRatio* m_vgGraphEnergyRatio;
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;
@@ -91,9 +118,13 @@ private:
 	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
 
+	std::map<BUILDINGTYPE, int> statPlacedBuildings;
+	std::map<BUILDINGTYPE, std::string> m_powerPlantsNameMapping;
+
+	IViewBuilding::action selectedAction = IViewBuilding::Undefined;
+
 	//Detailled model view
 	CScene m_sceneModels;
-	CParallelLight m_zlModels;
 	CCamera m_CamModels;
 	CViewport m_viewportModels;
 	CBackground m_zmbackgroundModels;
@@ -105,8 +136,6 @@ private:
 	VModelOilRefinery modelOil;
 	VModelPowerLine modelPowerline;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
-
-	void updateModelView();
 };
 
 

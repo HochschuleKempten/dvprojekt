@@ -1,6 +1,5 @@
 #pragma once
 #include "IViewGUIObject.h"
-#include "VText.h"
 
 NAMESPACE_VIEW_B
 
@@ -8,12 +7,12 @@ class VListEntry :
 	public IViewGUIObject
 {
 public:
-	
+
 	VListEntry();
-	VListEntry(CViewport* viewport,CMaterial* MaterialNormal, CMaterial* MaterialHover, const std::string& sName);
+	VListEntry(CViewport* viewport, CMaterial* MaterialNormal, CMaterial* MaterialHover, const std::string& sName, const float layer);
 
 	~VListEntry();
-	
+
 	void switchOn() override;
 	void switchOff() override;
 	void onMouseOver() override;
@@ -36,8 +35,6 @@ public:
 
 	CFloatRect getRectangle() override;
 
-
-	//ClickAction getAction();
 
 private:
 

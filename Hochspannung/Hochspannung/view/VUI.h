@@ -16,11 +16,7 @@ class VScreenCredits;
 class VScreenLobby;
 
 /**
- * @brief The VUI class is responsible for representing the interface to the user and handles the user input.
- *
- * The Vektoria-Objects can have a name (<code>.setName()</code>). This is needed to find out what elements have been clicked by the user.
- * To distinct between needed names for the game logic and names for debugging purposes, all debug names shall start with a # to
- * introduce a comment in the name system.
+ * @brief The VUI class is the base class for the UI.
  */
 class VUI : public IVTickObserver, public IViewUIObserver
 {
@@ -32,10 +28,19 @@ class VUI : public IVTickObserver, public IViewUIObserver
 	friend class VScreenCredits;
 	friend class VScreenLobby;
 
+	enum CursorType
+	{
+		Default,
+		Hammer,
+		Sabotage,
+		PowerOn,
+		PowerOff,
+		Sell
+	};
+
 private:
 	VMaster* vMaster;
 
-	//TODO (V) resize viewports?
 	CRoot m_zr;
 	CFrame m_zf;
 	CDeviceKeyboard m_zkKeyboard;
@@ -48,6 +53,15 @@ private:
 	bool isQuit;
 	bool m_screenChanged = false;
 	bool m_BlockCursorLeftPressed = false;
+
+	HWND m_hwnd = nullptr;
+
+	HCURSOR m_Default_Cursor;
+	HCURSOR m_Hammer_Cursor;
+	HCURSOR m_Sabotage_Cursor;
+	HCURSOR m_PowerOn_Cursor;
+	HCURSOR m_PowerOff_Cursor;
+	HCURSOR m_Sell_Cursor;
 
 public:
 	explicit VUI(VMaster* vMaster);
@@ -66,9 +80,13 @@ public:
 	void resize(int width, int height);
 	void updateMoney(const int wert);
 	void updatePopulation(const int wert);
+	void updateAddedPowerPlant(const LIdentifier::LIdentifier id);
+	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id);
+	void updateNumberPowerLines(const int newNumberPowerLines);
+	void updateEnergySurplus(const float surplusRatio);
 	void updateGameList(const std::vector<Network::CGameObject>& gameList);
-
-	//void checkGUIContainer(IViewGUIContainer* guiContainer);
+	void switchCursor(const CursorType& cursorType);
+	void showMessage(const std::string& message);
 };
 
 

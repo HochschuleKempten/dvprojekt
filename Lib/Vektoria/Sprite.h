@@ -31,7 +31,9 @@ namespace Vektoria
 
 		void Copy(CSprite & sprite);
 
-		void SetLayer(float fLayer);
+		void SetLayer(float fLayerDistance); // gibt den virtuellen "Abstand" des Layers vom Beobachter an
+		float GetLayer(); // erfrägt den virtuellen "Abstand" des Layers vom Beobachter
+
 		void Init(char * acPath, CFloatRect & floatrect, bool bChromaKeying = false);
 		void Init(CImage * pimage, CFloatRect & floatrect, bool bChromaKeying = false);
 		void Init(CMaterial * pmaterial, CFloatRect & floatrect);
@@ -43,6 +45,7 @@ namespace Vektoria
 
 		void SetViewport(CViewport * pviewport);
 		void SetTransparency(float frTransparency);
+		void SetMaterial(CMaterial * pmaterial);
 
 		void SetRect(CFloatRect & floatrect);
 		CFloatRect GetRect();

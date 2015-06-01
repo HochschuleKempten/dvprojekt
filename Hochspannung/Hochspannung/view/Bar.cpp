@@ -1,9 +1,8 @@
 #include "Bar.h"
 NAMESPACE_VIEW_B
 
-	
 
-Bar::Bar(CViewport* viewport, CMaterial *material, CFloatRect rect, float value) :mp_zoSurface(nullptr), m_fValue(0.0F)
+Bar::Bar(CViewport* viewport, CMaterial* material, CFloatRect rect, float value) :mp_zoSurface(nullptr), m_fValue(0.0F)
 {
 	mp_zoSurface = new COverlay();
 	mp_zoSurface->Init(material, rect);
@@ -20,6 +19,7 @@ Bar::~Bar()
 
 void Bar::switchOff()
 {
+	mp_zoSurface->SwitchOff();
 }
 
 void Bar::onMouseOver()
@@ -49,5 +49,7 @@ void Bar::updateRectangle(CFloatRect rect)
 
 void Bar::switchOn()
 {
+	mp_zoSurface->SwitchOn();
 }
+
 NAMESPACE_VIEW_E

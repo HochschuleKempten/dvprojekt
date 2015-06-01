@@ -4,6 +4,7 @@
 #include "LGeneral.h"
 #include "../network/NetworkService.h"
 #include "LSabotage.h"
+#include "LPlayer.h"
 
 NAMESPACE_LOGIC_B
 
@@ -20,7 +21,7 @@ private:
 	IVMaster& vMaster;
 	LPlayingField* lPlayingField = nullptr;
 	bool gamePaused = false;
-	std::vector<LPlayer> lPlayers;
+	std::unordered_map<LPlayer::PlayerId, LPlayer> lPlayers;
 	Network::CNetworkService& networkService;
 
 private:
@@ -43,12 +44,12 @@ public:
 	void sendDeleteObject(const int x, const int y);
 	void sendSabotage(const LSabotage::LSabotage sabotageId, const int x, const int y);
 	void sendPowerPlantSwitchState(const int x, const int y, const bool state);
-	std::vector<Network::CGameObject> getGameList();
+	std::vector<Network::CGameObject> getGameList(bool* updated = nullptr);
 	void searchGames();
 
 	LPlayingField* getLPlayingField();
 	IVMaster* getVMaster();
-	LPlayer* getPlayer(const int idxPlayer);
+	LPlayer* getPlayer(const int playerId);
 	bool isGamePaused() const
 	{
 		return gamePaused;

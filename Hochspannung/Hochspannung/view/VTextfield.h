@@ -3,58 +3,52 @@
 
 NAMESPACE_VIEW_B
 
-	class VTextfield :
-		public IViewGUIObject
-	{
-	public:
-		VTextfield();
-		//VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const float textSize);
-		VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder);
-		~VTextfield();
+class VTextfield :
+	public IViewGUIObject
+{
+public:
+	VTextfield();
 
-		virtual void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard) override;
+	VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const float layer);
+	~VTextfield();
 
-		/*bool checkHover(const float& fPosX, const float& fPosY) override final;
-	void checkPressed(const float& fPosX, const float& fPosY, const bool& bLeftpressed) override final;
-	*/
-		virtual void switchOn() override final;
+	virtual void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard) override;
 
-		
+	virtual void switchOn() override final;
 
-		virtual void switchOff() override final;
-		virtual void onMouseOver(void) override final;
-		virtual void onMouseOut(void) override final;
-		virtual void onMouseClickLeft(void) override final;
-		virtual void onMouseClickRight(void) override final;
 
-		void AddChar(const char character);
-		void deleteChar();
-		bool isActive();
+	virtual void switchOff() override final;
+	virtual void onMouseOver(void) override final;
+	virtual void onMouseOut(void) override final;
+	virtual void onMouseClickLeft(void) override final;
+	virtual void onMouseClickRight(void) override final;
 
-		void setLayer(const float layer) override;
-		void updateRectangle(CFloatRect rect) override;
+	void AddChar(const char character);
+	void deleteChar();
+	bool isActive();
 
-		std::string getValue();
+	void setLayer(const float layer) override;
+	void updateRectangle(CFloatRect rect) override;
 
-	private:
-		COverlay* m_zoNormal;
-		COverlay* m_zoActive;
-		COverlay* m_zoHover;
+	std::string getValue();
 
-		//CFloatRect m_zfrRect;
+private:
+	COverlay* m_zoNormal;
+	COverlay* m_zoActive;
+	COverlay* m_zoHover;
 
-		CWritingFont* m_writingfont;
+	CWritingFont* m_writingfont;
 
-		CWriting* m_writing;
+	CWriting* m_writing;
 
-		bool m_bIsActive = false;
-		std::string m_sInputtext;
-		bool pressedBefore = false;
-		unsigned int m_iMaxChars;
-		bool hasPlaceholder;
-		std::string m_sPlaceholder;
-	private:
-		void setActive(const bool wert);
-	};
+	bool m_bIsActive = false;
+	std::string m_sInputtext;
+	bool pressedBefore = false;
+	unsigned int m_iMaxChars;
+	bool hasPlaceholder;
+	std::string m_sPlaceholder;
+private:
+	void setActive(const bool wert);
+};
 
-	NAMESPACE_VIEW_E
+NAMESPACE_VIEW_E

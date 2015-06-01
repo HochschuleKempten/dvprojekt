@@ -7,184 +7,145 @@
 NAMESPACE_VIEW_B
 
 
-
 VListView::VListView()
 {
 }
 
-VListView::VListView(CFloatRect floatRect, CViewport* viewport)
-	{
-		m_viewport = viewport;
-		m_zfRect = floatRect;
-	}
-
-	VListView::VListView(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground)
-	{
-		m_viewport = viewport;
-		m_zfRect = floatRect;
-		m_background = new COverlay();
-		m_background->SetLayer(0.2F);
-		m_background->Init(materialBackground, m_zfRect);
-		m_viewport->AddOverlay(m_background);
-		m_hasBackground = true;
-	}
-
-	void VListView::onNotify(const Event& evente)
-	{
-		switch (evente)
-		{
-		default:
-			notify(evente);
-			break;
-		}
-	}
-
-	void VListView::addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::string& sName)
-	{
-		switch (containerType)
-		{
-		case Group:
-			m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
-			m_Guicontainer[sName]->addObserver(this);
-			break;
-		case Dialog:
-			m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
-			m_Guicontainer[sName]->addObserver(this);
-			break;
-		case Register:
-			m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport);
-			m_Guicontainer[sName]->addObserver(this);
-			break;
-		case GUIArea:
-			m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
-			m_Guicontainer[sName]->addObserver(this);
-			break;
-		default: break;
-		}
-		
-	}
-
-	void VListView::addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::string& sName)
-	{
-		switch (containerType)
-		{
-		case Group:
-			m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
-			m_Guicontainer[sName]->addObserver(this);
-			break;
-		case Dialog:
-			m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
-			m_Guicontainer[sName]->addObserver(this);
-			break;
-		case Register:
-			m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, MaterialNormal);
-			m_Guicontainer[sName]->addObserver(this);
-			break;
-		case GUIArea:
-			m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
-			m_Guicontainer[sName]->addObserver(this);
-			break;
-		default: break;
-		}
-	}
-
-
-VButton* VListView::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, const Event& clickAction, const std::string& sName)
+VListView::VListView(CFloatRect floatRect, CViewport* viewport, const float layer)
 {
-	m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, clickAction);
-
-	m_guiObjects[sName]->addObserver(this);
-	return CASTD<VButton*>(m_guiObjects[sName]);
+	m_viewport = viewport;
+	m_zfRect = floatRect;
+	m_fLayer = layer;
 }
 
-VTextfield* VListView::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const std::string& sName)
+VListView::VListView(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground, const float layer)
 {
-	m_guiObjects[sName] = new VListEntry(m_viewport, &VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, sName);
-
-	m_guiObjects[sName]->addObserver(this);
-	return CASTD<VTextfield*>(m_guiObjects[sName]);
+	m_fLayer = layer;
+	m_viewport = viewport;
+	m_zfRect = floatRect;
+	m_background = new COverlay();
+	m_background->SetLayer(m_fLayer);
+	m_background->Init(materialBackground, m_zfRect);
+	m_viewport->AddOverlay(m_background);
+	m_hasBackground = true;
 }
 
-VText* VListView::addText(CFloatRect rect, CWritingFont* writingFont, const std::string& text, const std::string& sName)
+void VListView::onNotify(const Event& evente)
+{
+	switch (evente)
+	{
+	default:
+		notify(evente);
+		break;
+	}
+}
+
+void VListView::addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::basic_string<char>& sName, const float layer)
+{
+	switch (containerType)
+	{
+	case Group:
+		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case Dialog:
+		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), layer);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case Register:
+		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, layer);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case GUIArea:
+		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), layer);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	default: break;
+	}
+}
+
+void VListView::addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::basic_string<char>& sName, const float layer)
+{
+	switch (containerType)
+	{
+	case Group:
+		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case Dialog:
+		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal, layer);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case Register:
+		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, MaterialNormal, layer);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	case GUIArea:
+		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal, layer);
+		m_Guicontainer[sName]->addObserver(this);
+		break;
+	default: break;
+	}
+}
+
+
+void VListView::setLayer(float layer)
+{
+}
+
+void VListView::addEntry(const std::string& sName, const float layer)
+{
+	m_entries.push_back(sName);
+	m_guiObjects[sName] = new VListEntry(m_viewport, &VMaterialLoader::materialListEntryBackground, &VMaterialLoader::materialListEntryHoverBackground, sName, layer);
+	m_guiObjects[sName]->addObserverExt(this);
+	calcEntrySize();
+}
+
+void VListView::updateList(const std::vector<Network::CGameObject>& hostList)
 {
 	for (const std::string& key : m_entries)
 	{
 		delete m_guiObjects[key];
 		m_guiObjects.erase(key);
-
-		m_guiObjects[sName]->addObserver(this);
-		return CASTD<VText*>(m_guiObjects[sName]);
 	}
 	m_entries.clear();
+
+	for (const Network::CGameObject& go : hostList)
+	{
+		m_entries.push_back(go.getServerIP());
+		addEntry(go.getServerIP(), getLayer() - 0.01F);
+	}
 }
-COverlay* VListView::addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::string& sName)
+
+void VListView::onNotifyExt(const Event& evente, const std::basic_string<char>& sName)
 {
-	m_Overlays[sName] = new COverlay();
-	m_Overlays[sName]->Init(MaterialNormal, createRelativeRectangle(&m_zfRect, &rect));
-	m_viewport->AddOverlay(m_Overlays[sName]);
-	return m_Overlays[sName];
+	switch (evente)
+	{
+	case LIST_ITEM_SELECTED:
+		m_selectedItem = m_guiObjects[sName];
+		break;
+	}
 }
 
-	void VListView::setLayer(float layer)
+IViewGUIObject* VListView::getSelectedItem()
+{
+	return m_selectedItem;
+}
+
+void VListView::calcEntrySize()
+{
+	int i = 0;
+	for (const std::string& sName : m_entries)
 	{
+		//GUI Object Size Mehode hinzufügen
+		m_guiObjects[sName]->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.001F, 0.08F * static_cast<float>(i) + 0.15F, 0.99F, 0.08F)));
+		m_guiObjects[sName]->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.08F, 0.05F * static_cast<float>(i) + 0.15F, 0.82F, 0.08F)));
+		i++;
 	}
-
-	void VListView::addEntry(const std::string& sName)
-	{
-	m_entries.push_back(sName);
-	m_guiObjects[sName] = new VListEntry(m_viewport, &VMaterialLoader::materialGreen, &VMaterialLoader::materialRed, sName);
-		m_guiObjects[sName]->addObserverExt(this);
-		calcEntrySize(); 
-	}
-
-	void VListView::updateList(const std::vector<Network::CGameObject>& hostList)
-	{
-		for (const std::string& key : m_entries)
-		{
-			delete m_guiObjects[key];
-			m_guiObjects.erase(key);
-			
-		}
-		m_entries.clear();
-		
-		for (const Network::CGameObject& go : hostList)
-		{
-			m_entries.push_back(go.getServerIP());
-			addEntry(go.getServerIP());
-			
-		}
-	}
-
-	void VListView::onNotifyExt(const Event& evente, const std::basic_string<char>& sName)
-	{
-		switch (evente)
-		{
-		case LIST_ITEM_SELECTED:
-			m_selectedItem = m_guiObjects[sName];
-			break;
-		}
-	}
-
-	IViewGUIObject* VListView::getSelectedItem()
-	{
-		return m_selectedItem;
-	}
-
-	void VListView::calcEntrySize()
-	{
-		int i = 0;
-		for (const std::string& sName : m_entries)
-		{
-			//GUI Object Size Mehode hinzufügen
-			m_guiObjects[sName]->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.1F, 0.1F* static_cast<float>(i)+0.1F, 0.8F, 0.08F)));
-			m_guiObjects[sName]->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.1F, 0.1F * static_cast<float>(i)+0.1F, 0.8F, 0.08F)));
-			m_guiObjects[sName]->setLayer(0.1F);
-			i++;
-		}
-	}
+}
 
 
-	VListView::~VListView()
+VListView::~VListView()
 {
 	//TODO refactor
 	//for (m_lIterGUIObjects = m_guiObjects.begin(); m_lIterGUIObjects != m_guiObjects.end(); ++m_lIterGUIObjects)

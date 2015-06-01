@@ -18,6 +18,7 @@ LTransformerStation::LTransformerStation(LField* lField, const int x, const int 
 
 LTransformerStation::~LTransformerStation()
 {
+	lField->getLPlayingField()->getLMaster()->getVMaster()->unregisterObserver(this);
 }
 
 void LTransformerStation::tick(const float fTimeDelta)
@@ -41,7 +42,7 @@ void LTransformerStation::tick(const float fTimeDelta)
 
 void LTransformerStation::performDisposal()
 {
-	int surplus = lField->getLPlayingField()->getLocalCity()->getEnergySurplus();
+	int surplus = lField->getLPlayingField()->getLMaster()->getPlayer(LPlayer::Local)->getCity()->getEnergySurplus();
 	if (surplus > 0)
 	{
 		lField->getLPlayingField()->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(surplus * LBalanceLoader::getMoneyPerWatt()));

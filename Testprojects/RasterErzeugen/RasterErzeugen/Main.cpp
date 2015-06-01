@@ -27,20 +27,23 @@ int main()
 	int height = img.rows / rasterSize;
 	int width = img.cols / rasterSize;
 
-	if (height != width) {
+	if (height != width)
+	{
 		cout << "The image needs to have an aspect ratio of 1:1, abort" << endl;
 		return -1;
 	}
 
-	for (int rowIdx = 0; rowIdx < rasterSize; rowIdx++) {
-		for (int colIdx = 0; colIdx < rasterSize; colIdx++) {
+	for (int rowIdx = 0; rowIdx < rasterSize; rowIdx++)
+	{
+		for (int colIdx = 0; colIdx < rasterSize; colIdx++)
+		{
 			/*
-			 * #--------> x
-			 * |
-			 * |
-			 * |
-			 * y
-			 */
+			* #--------> x
+			* |
+			* |
+			* |
+			* y
+			*/
 			Mat field = img(Rect(colIdx * height, rowIdx * width, width, height)).clone();
 
 			//CGeoCube needs to be rotated by 180°
@@ -52,4 +55,5 @@ int main()
 	}
 
 	cout << "Everything done" << endl;
+	return 0;
 }

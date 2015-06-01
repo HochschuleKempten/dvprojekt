@@ -4,6 +4,7 @@
 #include "VFactory.h"
 #include "VUI.h"
 #include "../logic/IVMaster.h"
+#include "../logic/LPlayer.h"
 
 NAMESPACE_VIEW_B
 
@@ -28,6 +29,7 @@ public:
 	virtual ~VMaster();
 
 	void setLMaster(LMaster* lMaster);
+	LMaster* getLMaster() const;
 
 	void initScene(HWND hwnd, CSplash* psplash);
 	void tick(float fTime, float fTimeDelta);
@@ -41,11 +43,17 @@ public:
 	void joinGame(const std::string& ipAddress);
 
 	virtual void updateMoney(const int money) override;
+	virtual void updateRemainingSabotageActs(const int remainingSabotageActs) override;
+	virtual void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) override;
+	virtual void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) override;
+	virtual void updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId) override;
 	virtual void pauseGame() override;
 	virtual void continueGame() override;
 	virtual void gameWon() override;
 	virtual void gameOver() override;
 	virtual void updateGameList(const std::vector<Network::CGameObject>& gameList) override;
+	virtual void messageSabotageFailed(const std::string& message) override;
+	virtual void messageBuildingFailed(const std::string& message) override;
 	virtual IVFactory* getFactory() override;
 
 	inline VPlayingField* getVPlayingField()

@@ -12,7 +12,7 @@ public:
 	LHydroelectricPowerPlant(LField* lField, const int x, const int y, const int playerId);
 	~LHydroelectricPowerPlant();
 
-	LIdentifier::LIdentifier getIdentifier() override
+	LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LHydroelectricPowerPlant;
 	};

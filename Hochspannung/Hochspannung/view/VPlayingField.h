@@ -36,6 +36,9 @@ private:
 	CPlacement m_zp;
 
 public:
+	static CGeos geosField;
+
+public:
 	VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField);
 	virtual ~VPlayingField();
 
@@ -53,7 +56,6 @@ public:
 		else
 		{
 			VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, &vFields[x][y].m_zp);
-			DEBUG_OUTPUT("Could not place building at " << x << ", " << y);
 		}
 	}
 
@@ -89,7 +91,7 @@ public:
 	virtual void initPlayingField(const std::shared_ptr<IVPlayingField>& objPtr) override;
 	virtual void buildPlayingField() override;
 	virtual void objectRemoved(const int x, const int y) override;
-	virtual void messageBuildingFailed(const std::string& message) override;
+	
 	float getFieldSize() const
 	{
 		return fieldSize;

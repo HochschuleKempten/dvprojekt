@@ -14,7 +14,7 @@ std::unordered_map<VSoundLoader::SoundEffect, CPlacement*> VSoundLoader::soundef
 
 void VSoundLoader::setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename)
 {
-	soundeffects[soundEffect].Init(const_cast<char*>((std::string("sounds/") + filename + std::string(".wav")).c_str()));
+	soundeffects[soundEffect].Init(&(std::string("sounds/") + filename + std::string(".wav"))[0]);
 	soundeffects[soundEffect].SetVolume(1.0f);
 	scene->AddAudio(&soundeffects[soundEffect]);
 	soundeffectsLastPlacements[soundEffect] = nullptr;

@@ -4,6 +4,8 @@
 NAMESPACE_VIEW_B
 
 
+CGeos VPlayingField::geosField;
+
 VPlayingField::VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
 	: IViewObject(vMaster, &m_zp),
 	  IVPlayingField(lPlayingField),
@@ -71,6 +73,7 @@ void VPlayingField::buildPlayingField()
 				vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
 				m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);
 				m_zpPlacementHolders[holder].SetFrustumCullingOn();
+				geosField.Add(&vFields[rowIdx][colIdx].m_zg);
 			}
 		}
 	}
@@ -85,8 +88,10 @@ void VPlayingField::buildPlayingField()
 	//	}
 	//}
 
-	float rows = CASTS<float>(vFields.getRows());
-	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getLocalCity()->getLField()->getX()), CASTS<float>(fieldSize * lPlayingField->getLocalCity()->getLField()->getY()), CASTS<float>(fieldSize * rows * 0.5));
+	const float rows = CASTS<float>(vFields.getRows());
+	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getLMaster()->getPlayer(LPlayer::Remote)->getCity()->getLField()->getX()),
+						CASTS<float>(fieldSize * lPlayingField->getLMaster()->getPlayer(LPlayer::Remote)->getCity()->getLField()->getY()),
+						CASTS<float>(fieldSize * rows * 0.5));
 	 
 	DEBUG_EXPRESSION(m_zp.SetName("#Placement VPlayingField"));
 
@@ -102,11 +107,6 @@ void VPlayingField::buildPlayingField()
 void VPlayingField::objectRemoved(const int x, const int y)
 {
 	vFields[x][y].removeBuilding();
-}
-
-void VPlayingField::messageBuildingFailed(const std::string& message)
-{
-	DEBUG_OUTPUT("BuildMessage: " << message);
 }
 
 IViewBuilding * VPlayingField::getBuilding(const int x, const int y)

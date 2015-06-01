@@ -21,7 +21,7 @@ namespace Vektoria
 		virtual ~CSplash();
 
 		void Init(HWND hwnd, HINSTANCE hinstance);
-		void ShowProgressBar(float & frProgress);
+		void ShowProgressBar(float frProgress);
 		void HideProgressBar();
 
 		void Hide();

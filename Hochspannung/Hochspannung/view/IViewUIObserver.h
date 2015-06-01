@@ -2,13 +2,13 @@
 #include "VGeneral.h"
 
 NAMESPACE_VIEW_B
+
 //---------------------------------------------------
 // IViewUIObserver Interface
 // Beschreibung:
 //
 // Autor: Patrick Benkowitsch
 //---------------------------------------------------
-
 
 
 class IViewUIObserver
@@ -38,14 +38,25 @@ public:
 		LOBBY_HOST_GAME,
 		LOBBY_JOIN_GAME,
 		LIST_ITEM_SELECTED,
+		SELECT_SABOTAGE_POWERLINECUT,
+		SELECT_SABOTAGE_STRIKE,
+		SELECT_SABOTAGE_HALF,
+		SELECT_SABOTAGE_POWERON,
+		SELECT_SABOTAGE_POWEROFF,
+		SELECT_SABOTAGE_SELL,
+		REFRESH_GAME_LIST,
 		NOTHING
 	};
 
-	virtual ~IViewUIObserver() {}
+	virtual ~IViewUIObserver()
+	{
+	}
 
 	virtual void onNotify(const Event& evente) = 0;
-	virtual void onNotifyExt(const Event& evente, const std::string& sName) 
-	{};
 
+	virtual void onNotifyExt(const Event& evente, const std::string& sName)
+	{
+	};
 };
+
 NAMESPACE_VIEW_E

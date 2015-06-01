@@ -30,6 +30,9 @@ public:
 	COverlay * Make(CImage * pimage, CFloatRect & floatrect);
 	bool Kill(COverlay * poverlay);
 
+	COverlay * GetOverlay(float frxViewport, float fryViewport, float &fLayerDistance);
+	void GetOverlays(float frxViewport, float fryViewport, COverlays * pzos);
+
 	void SetViewport(CViewport * pviewport);
 	void SetInnerOn();
 	void SetInnerOff();

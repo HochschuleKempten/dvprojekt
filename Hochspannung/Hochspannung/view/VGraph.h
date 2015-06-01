@@ -3,6 +3,7 @@
 #include "Bar.h"
 
 NAMESPACE_VIEW_B
+
 class VGraph :
 	public IViewGUIObject
 {
@@ -22,12 +23,15 @@ public:
 	void setLayer(float layer) override;
 	void updateRectangle(CFloatRect rect) override;
 
-	void addBar(std::string sName,CMaterial* normalMaterial);
+	void addBar(std::string sName, CMaterial* normalMaterial);
 	void updateBar(std::string sName, float wert);
+	void updateBar2(std::string sName, float wert);
+
 private:
 	CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect);
 	void calcWidth();
 	void calcHeight();
+	void recalcRectangles();
 	float getMaxHeight();
 	CViewport* m_viewport;
 	std::map<std::string, Bar*> m_bars;

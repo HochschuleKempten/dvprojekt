@@ -25,6 +25,11 @@ void VMaster::setLMaster(LMaster* lMaster)
 	this->lMaster = lMaster;
 }
 
+LMaster* VMaster::getLMaster() const
+{
+	return lMaster;
+}
+
 void VMaster::initScene(HWND hwnd, CSplash* psplash)
 {	
 	vUi.initUI(hwnd, psplash);
@@ -63,13 +68,22 @@ void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
 {
 	vUi.updateGameList(gameList);
 
-	//TODO (V) inform UI
-	//DEBUG_OUTPUT("Updated List");
+	DEBUG_OUTPUT("Updated List");
 	for (auto go : gameList)
 	{
 		DEBUG_OUTPUT("ip = " << go.getServerIP());
 		DEBUG_OUTPUT("name = " << go.getName());
 	}
+}
+
+void VMaster::messageSabotageFailed(const std::string& message)
+{
+	vUi.showMessage(message);
+}
+
+void VMaster::messageBuildingFailed(const std::string& message)
+{
+	vUi.showMessage(message);
 }
 
 VUI* VMaster::getVUi()
@@ -85,6 +99,12 @@ void VMaster::setVPlayingField(const std::shared_ptr<VPlayingField>& vPlayingFie
 
 void VMaster::resize(int width, int height)
 {
+	//On some systems the width is very small (0, 2, ...) and a resize with that values result in assertion failures
+	if (width <= 20 || height <= 20)
+	{
+		return;
+	}
+
 	vUi.resize(width, height);
 }
 
@@ -106,6 +126,35 @@ void VMaster::joinGame(const std::string& ipAddress)
 void VMaster::updateMoney(const int money)
 {
 	vUi.updateMoney(money);
+}
+
+void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
+{
+	vUi.showMessage(std::string("Es verbleiben ") + std::to_string(remainingSabotageActs) + std::string(" Sabotageakte."));
+}
+
+void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
+{
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateAddedPowerPlant(id);
+	}
+}
+
+void VMaster::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
+{
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateRemovedPowerPlant(id);
+	}
+}
+
+void VMaster::updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId)
+{
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateNumberPowerLines(newNumberPowerLines);
+	}
 }
 
 void VMaster::pauseGame()

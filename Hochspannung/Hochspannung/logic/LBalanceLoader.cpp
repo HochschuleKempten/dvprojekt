@@ -86,6 +86,12 @@ double LBalanceLoader::getSellRevenue()
 	return propertyTree.get<double>("DifficultyScale.SellRevenue", 0.0);
 }
 
+int LBalanceLoader::getDefaultMoney()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<double>("DifficultyScale.DefaultMoney", 0);
+}
+
 std::unordered_map<LField::FieldType, double> LBalanceLoader::getFieldTypeRatio()
 {
 	ASSERT(initDone, msgAssert);
@@ -151,6 +157,66 @@ int LBalanceLoader::getMapOffset()
 {
 	ASSERT(initDone, msgAssert);
 	return propertyTree.get<int>("CityProperties.MapOffset", 0);
+}
+
+int LBalanceLoader::getMaxSurplus()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("CityProperties.MaxSurplus", 0);
+}
+
+int LBalanceLoader::getCostSabotagePowerLine()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("SabotageValues.DestroyPowerLineCost", 0);
+}
+
+int LBalanceLoader::getCostSabotagePowerPlant()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("SabotageValues.ShutdownPowerPlantCost", 0);
+}
+
+int LBalanceLoader::getCostSabotageResource()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("SabotageValues.SabotageResourceCost", 0);
+}
+
+int LBalanceLoader::getCooldownTimeSabotagePowerLine()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("SabotageValues.CooldownTimeToNextPowerLineSabotage", 0);
+}
+
+int LBalanceLoader::getCooldownTimeSabotagePowerPlant()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("SabotageValues.CooldownTimeToNextPowerPlantSabotage", 0);
+}
+
+int LBalanceLoader::getCooldownTimeSabotageResource()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("SabotageValues.CooldownTimeToNextResourceSabotage", 0);
+}
+
+int LBalanceLoader::getCooldownTimeReactivationPowerPlant()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("SabotageValues.ReactivationCooldownPowerPlant", 0);
+}
+
+float LBalanceLoader::getFactorSabotageResource()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<float>("SabotageValues.FactorSabotageResource", 0);
+}
+
+int LBalanceLoader::getSabotageActs()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<int>("SabotageValues.SabotageActs", 0);
 }
 
 NAMESPACE_LOGIC_E

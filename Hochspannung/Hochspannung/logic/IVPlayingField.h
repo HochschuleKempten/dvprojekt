@@ -21,8 +21,6 @@ public:
 	virtual void buildPlayingField() = 0;
 
 	virtual void objectRemoved(const int x, const int y) = 0;
-	
-	virtual void messageBuildingFailed(const std::string& message) = 0;
 };
 
 NAMESPACE_LOGIC_E

@@ -81,11 +81,11 @@ public:
 	{
 		//TODO (L) introduce building names 
 		if (buildingPlaced) {
-			lPlayingField->getVPlayingField()->messageBuildingFailed(std::string("Ein ") + getClassName(T) +  std::string(" kann hier nicht platziert werden, da auf dem Feld ") + std::to_string(fieldType) +  std::string(" bereits ein Gebäude steht."));
+			lPlayingField->getLMaster()->getVMaster()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann hier nicht platziert werden, da auf dem Feld ") + std::to_string(fieldType) + std::string(" bereits ein Gebäude steht."));
 			return false;
 		}
 		if (!checkBuildingType<T>()) {
-			lPlayingField->getVPlayingField()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann nicht auf einem Feld vom Typ ") + std::to_string(fieldType) + std::string(" platziert werden"));
+			lPlayingField->getLMaster()->getVMaster()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann nicht auf einem Feld vom Typ ") + std::to_string(fieldType) + std::string(" platziert werden"));
 			return false;
 		}
 
@@ -99,14 +99,14 @@ public:
 	FieldType getFieldType() const;
 	FieldLevel getFieldLevel() const;
 	int getBuildingId() const;
-	bool removeBuilding();
+	bool removeBuilding(const std::function<void(const ILBuilding* const)>& fnBeforeDelete = nullptr);
 	ILBuilding * getBuilding();
 	void setIsPlacingAllowed(const bool allowed);
 	bool isPlacingAllowed();
 	LPlayingField* getLPlayingField();
 	int getResources() const;
-	int deductResources(const int value);
-	bool reduceRecources(const int amount);
+	int deductResources();
+	int reduceResources(const int amount);
 
 	int getX() const
 	{

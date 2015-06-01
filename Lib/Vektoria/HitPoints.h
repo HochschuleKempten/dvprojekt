@@ -30,7 +30,7 @@ namespace Vektoria
 
 		// void AddOnce(CHitPoint * phitpoint);
 				
-
+		CHitPoint * GetNearest();
 
 
 		CHitPoint * Make();

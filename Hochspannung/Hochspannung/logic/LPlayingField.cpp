@@ -128,12 +128,13 @@ int LPlayingField::linkPowerlines(const int x, const int y, const int playerId)
 
 void LPlayingField::beginRemoteOperation()
 {
-	localOperation = false;
+	localOperation++;
 }
 
 void LPlayingField::endRemoteOperation()
 {
-	localOperation = true;
+	localOperation--;
+	ASSERT(localOperation >= 0, "Called to endRemoteOperation() too often (probably forgotten call to beginRemoteOperation()).");
 }
 
 void LPlayingField::initField(const int x, const int y, const LField::FieldType fieldType, const LField::FieldLevel fieldLevel)
@@ -147,8 +148,8 @@ void LPlayingField::recheckConnectedBuildings()
 	//http://stackoverflow.com/questions/800955/remove-if-equivalent-for-stdmap
 	for (auto it = connectedBuildings.begin(); it != connectedBuildings.end(); /* No incrementation here */)
 	{
-		std::vector<int> buildingsConnectedWithCity = strongConnectedSearch(powerLineGraph, it->first);
-		bool connected = std::find(buildingsConnectedWithCity.begin(), buildingsConnectedWithCity.end(), it->second) != buildingsConnectedWithCity.end();
+		std::vector<int> buildingsConnection = strongConnectedSearch(powerLineGraph, it->first);
+		bool connected = std::find(buildingsConnection.begin(), buildingsConnection.end(), it->second) != buildingsConnection.end();
 
 		if (!connected)
 		{
@@ -195,14 +196,31 @@ bool LPlayingField::checkConnectionBuildings(const ILBuilding* b1, const ILBuild
 
 bool LPlayingField::isTransformstationConnected()
 {
-	return checkConnectionBuildings(localCity, transformerStation);
+	return checkConnectionBuildings(lMaster->getPlayer(LPlayer::Local)->getCity(), transformerStation);
 }
 
 bool LPlayingField::removeBuilding(const int x, const int y)
 {
 	int playerId = getField(x, y)->getBuilding() != nullptr ? getField(x, y)->getBuilding()->getPlayerId() : -1;
 
-	if (getField(x, y)->removeBuilding())
+	const bool removeSuccessful = getField(x, y)->removeBuilding([this, playerId] (const ILBuilding* const building)
+	{
+		const ILPowerPlant* const powerPlant = dynamic_cast<const ILPowerPlant* const>(building);
+		if (powerPlant != nullptr)
+		{
+			lMaster->getPlayer(playerId)->removePowerPlant(powerPlant);
+			return;
+		}
+
+		const LPowerLine* const powerLine = dynamic_cast<const LPowerLine* const>(building);
+		if (powerLine != nullptr)
+		{
+			lMaster->getPlayer(playerId)->removePowerLine(powerLine);
+			return;
+		}
+	});
+
+	if (removeSuccessful)
 	{
 		vPlayingField->objectRemoved(x, y);
 
@@ -389,6 +407,11 @@ LField* LPlayingField::getField(const int x, const int y)
 	return &fieldArray[x][y];
 }
 
+LField* LPlayingField::getField(const std::pair<int, int>& coordinates)
+{
+	return &fieldArray[coordinates.first][coordinates.second];
+}
+
 int LPlayingField::getFieldLength()
 {
 	return fieldLength;
@@ -402,6 +425,20 @@ LMaster* LPlayingField::getLMaster()
 IVPlayingField* LPlayingField::getVPlayingField()
 {
 	return vPlayingField.get();
+}
+
+void LPlayingField::recalculateCityConnections()
+{
+	static bool isCheckInProgress = false;
+
+	//Avoid recursion
+	if (!isCheckInProgress && isInitDone())
+	{
+		isCheckInProgress = true;
+		cityConnectionsRecalculate = true;
+		lMaster->getPlayer(LPlayer::Local)->checkPowerPlants();	//Can again lead to a call to recalculateCityConnections()
+		isCheckInProgress = false;
+	}
 }
 
 bool LPlayingField::checkIndex(const int x, const int y)
@@ -442,18 +479,19 @@ void LPlayingField::calculateEnergyValueCity()
 		}
 	}
 
-	getLocalCity()->setEnergy(energyValue);
+	lMaster->getPlayer(LPlayer::Local)->getCity()->setEnergy(energyValue);
 }
 
 std::vector<int> LPlayingField::getCityConnections()
 {
 	static std::vector<int> cityConnections;
 
-	if (cityConnectionsRecalculate) {
-		cityConnections = strongConnectedSearch(powerLineGraph, convertIndex(localCity->getLField()->getCoordinates()));
+	if (cityConnectionsRecalculate)
+	{
+		cityConnections = strongConnectedSearch(powerLineGraph, convertIndex(lMaster->getPlayer(LPlayer::Local)->getCity()->getLField()->getCoordinates()));
 		cityConnectionsRecalculate = false;
 	}
-	
+
 	return cityConnections;
 }
 
@@ -489,19 +527,19 @@ void LPlayingField::addBuildingToGraph(const int x, const int y, const int orien
 void LPlayingField::adjustOrientationsAround(const int x, const int y, const int orientation)
 {
 	auto adjustOrientation = [this, x, y, orientation](const int xEnd, const int yEnd, ILBuilding::Orientation checkOrientation)
-	{
-		if (orientation & checkOrientation)
-		{
-			if (checkIndex(xEnd, yEnd))
 			{
-				LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
-				if (plOther != nullptr && getField(x,y)->getBuilding()->getPlayerId() == plOther->getPlayerId())
+				if (orientation & checkOrientation)
 				{
-					plOther->updatedOrientation(ILBuilding::getOpppositeOrientation(checkOrientation));
+					if (checkIndex(xEnd, yEnd))
+					{
+						LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
+						if (plOther != nullptr && getField(x, y)->getBuilding()->getPlayerId() == plOther->getPlayerId())
+						{
+							plOther->updatedOrientation(ILBuilding::getOpppositeOrientation(checkOrientation));
+						}
+					}
 				}
-			}
-		}
-	};
+			};
 
 	adjustOrientation(x - 1, y, ILBuilding::NORTH);
 	adjustOrientation(x, y + 1, ILBuilding::EAST);

@@ -15,7 +15,9 @@ LCity::LCity(LField* lField, const int x, const int y, const int playerId)
 }
 
 LCity::~LCity()
-{}
+{
+	lField->getLPlayingField()->getLMaster()->getVMaster()->unregisterObserver(this);
+}
 
 void LCity::tick(const float fTimeDelta)
 {
@@ -38,18 +40,7 @@ void LCity::tick(const float fTimeDelta)
 			lField->getLPlayingField()->calculateEnergyValueCity();
 
 			//Check energy storage
-			int surplus = CASTS<int>(energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen()));
-			DEBUG_OUTPUT("surplus = " << surplus);
-
-			if (surplus >= 0 && surplus < 50)
-			{
-				vCity->energyLow(surplus);
-			}
-			else if (surplus < 0)
-			{
-				//Player has lost
-				lField->getLPlayingField()->getLMaster()->gameOver();
-			}
+			setEnergySurplus(CASTS<int>(energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen())));
 
 			timeLastCheck = 0;
 		}
@@ -88,9 +79,38 @@ void LCity::setPopulationTotal(const int populationTotal)
 	}
 }
 
-int LCity::getEnergySurplus()
+int LCity::getEnergySurplus() const
 {
-	return energy - populationTotal;
+	return energySurplus;
+}
+
+double LCity::getEnergySurplusRatio() const
+{
+	return CASTS<double>(getEnergySurplus()) / CASTS<double>(maxSurplus);
+}
+
+void LCity::setEnergySurplus(const int surplus)
+{
+	if (surplus > maxSurplus)
+	{
+		this->energySurplus = maxSurplus;
+	}
+	else
+	{
+		this->energySurplus = surplus;
+	}
+
+	if (energySurplus >= 0 && energySurplus < 50)
+	{
+		vCity->energyLow(energySurplus);
+	}
+	else if (energySurplus < 0)
+	{
+		//Player has lost
+		lField->getLPlayingField()->getLMaster()->gameOver();
+	}
+
+	vCity->updateEnergySurplus(energySurplus);
 }
 
 NAMESPACE_LOGIC_E

@@ -4,12 +4,20 @@ NAMESPACE_VIEW_B
 
 
 VModelCoalPowerPlant::VModelCoalPowerPlant()
-{
+{}
 
+VModelCoalPowerPlant::~VModelCoalPowerPlant()
+{}
+
+void VModelCoalPowerPlant::init()
+{
 	m_zpLOD[0].AddPlacement(&m_zpKohlekraftwerk);
 	m_zpLOD[1].AddPlacement(&m_zpKohlekraftwerk);
 	m_zpLOD[2].AddPlacement(&m_zpKohlekraftwerk);
+
 	//Initialisierung der Koerper
+	m_zTrasse1.initViewModel(vBuilding);
+	m_zTrasse2.initViewModel(vBuilding);
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 
@@ -145,7 +153,7 @@ VModelCoalPowerPlant::VModelCoalPowerPlant()
 	//Sprossen-Array
 	for (int i = 0; i < 8; i++)
 	{
-		m_zpSprossen[i].Translate(CHVector(-2.08f, 0.3f, ((float)((float)i / 2.0)) + 0.2f));
+		m_zpSprossen[i].Translate(CHVector(-2.08f, 0.3f, ((float) ((float) i / 2.0)) + 0.2f));
 		m_zpSprossen[i].AddGeo(&m_zgSprosse);
 	}
 
@@ -208,12 +216,6 @@ VModelCoalPowerPlant::VModelCoalPowerPlant()
 
 
 	//m_zpGebaeude.Translate(CHVector(0.3f, 0.3f, 1.0f));
-
 }
-
-
-VModelCoalPowerPlant::~VModelCoalPowerPlant()
-{}
-
 
 NAMESPACE_VIEW_E

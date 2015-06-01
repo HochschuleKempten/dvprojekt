@@ -4,7 +4,11 @@
 #include "LUtility.h"
 #include "LPlayingField.h"
 
+
 NAMESPACE_LOGIC_B
+
+class ILPowerPlant;
+class LPowerLine;
 
 /*
  * @brief The LRemoteOperation class is supposed to be used from the view side for all operations which trigger a remote operation (e. g. placing a object on the field).
@@ -17,6 +21,9 @@ class LRemoteOperation
 
 private:
 	LPlayingField* lPlayingField = nullptr;
+	ILPowerPlant* lPowerPlant = nullptr;
+	LPowerLine* lPowerLine = nullptr;
+	DEBUG_EXPRESSION(const char* const msglPowerPlantNotInitialized = "lPowerPlant is not initialized. Make sure you pass a valid pointer to ILPowerPlant in the constructor");
 
 private:
 	//Objects of this class should never be allocated on the heap
@@ -24,29 +31,30 @@ private:
 	static void* operator new[](const size_t) = delete;
 	
 public:
-	inline explicit LRemoteOperation(LPlayingField* lPlayingField)
-		: lPlayingField(lPlayingField)
-	{
-		lPlayingField->beginRemoteOperation();
-	}
-	inline ~LRemoteOperation()
-	{
-		lPlayingField->endRemoteOperation();
-	}
+	explicit LRemoteOperation(LPlayingField* lPlayingField);
+	LRemoteOperation(LPlayingField* lPlayingField, ILPowerPlant* lPowerPlant);
+	LRemoteOperation(LPlayingField* lPlayingField, LPowerLine* lPowerLine);
+	~LRemoteOperation();
 
+	//LPlayingField methods
 	template <typename T, typename... Args>
-	inline bool placeBuilding(const int x, const int y, const int playerId, const Args... arguments)
+	bool placeBuilding(const int x, const int y, const int playerId, const Args... arguments)
 	{
 		return lPlayingField->placeBuilding<T, Args...>(x, y, playerId, arguments...);
 	}
-	inline bool removeBuilding(const int x, const int y)
-	{
-		return lPlayingField->removeBuilding(x, y);
-	}
-	inline void upgradeBuilding(const int x, const int y)
-	{
-		lPlayingField->upgradeBuilding(x, y);
-	}
+	bool removeBuilding(const int x, const int y);
+	void upgradeBuilding(const int x, const int y);
+
+	//ILPowerPlant methods
+	void switchOn();
+	void switchOff();
+	bool sabotagePowerPlant();
+	bool sabotageResource();
+
+	//TODO (V) Make rest bools also
+
+	//LPowerLine methods
+	bool sabotagePowerLine();
 };
 
 NAMESPACE_LOGIC_E
