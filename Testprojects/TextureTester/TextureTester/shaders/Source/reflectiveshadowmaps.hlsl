@@ -21,6 +21,8 @@ struct VS_OUTPUT
 	float2 f2TexCoord :TEXCOORD0;
 	float3 f3PosWS : TEXCOORD1;
 	float4 f4Pos : SV_POSITION;
+	float3 f3Tangent : TANGENT;
+	float3 f3Bitangent : BITANGENT;
 };
 
 struct PS_INPUT
@@ -50,36 +52,25 @@ VS_OUTPUT RSMVS(VS_INPUT input)
 
 	output.f2TexCoord = input.f2TexCoord;
 
+	output.f3Tangent = mul(input.f3Tangent, (float3x3)g_mWorld);
+	output.f3Bitangent = mul(input.f3Bitangent, (float3x3)g_mWorld);
+
 	return output;
 }
 //////////////////////////////////////////////////////////////////////
 // RSM pixel shader
-PS_OUTPUT RSMPS(PS_INPUT input)
+PS_OUTPUT RSMPS(VS_OUTPUT input)
 {
 	PS_OUTPUT output = (PS_OUTPUT)0;
 	
 	float3 f3N = normalize(input.f3Normal);
-	
-	float3 f3C1 = cross(f3N, float3(0.f, 0.f, 1.f));
-	float3 f3C2 = cross(f3N, float3(0.f, 1.f, 0.f));
-	float3 f3T;
-	[branch]
-	if (length(f3C1) > length(f3C2))
-	{
-		f3T = f3C1;
-	}
-	else
-	{
-		f3T = f3C2;
-	}
-	float3 f3B = normalize(-cross(f3N, f3T));
 
 	[branch]
 	if (uBump)
 	{
 		float3 f3BumpNormal = ((2 * (tex2D[3].Sample(g_Sampler, input.f2TexCoord))) - 1.f).xyz;
 		f3BumpNormal *= fBumpStrength;
-		input.f3Normal += f3BumpNormal.x* f3T + f3BumpNormal.y * f3B;
+		input.f3Normal += f3BumpNormal.x * input.f3Tangent + -f3BumpNormal.y * input.f3Bitangent;
 		output.f4Normal.xyz = normalize(input.f3Normal);
 	}
 	else
@@ -89,6 +80,6 @@ PS_OUTPUT RSMPS(PS_INPUT input)
 
 	output.f4Diffuse.rgb = tex2D[0].Sample(g_Sampler, input.f2TexCoord).rgb;
 	output.f4Diffuse.a = 1.f;
-
+	
 	return output;
 }
