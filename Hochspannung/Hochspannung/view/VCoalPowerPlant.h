@@ -25,7 +25,7 @@ public:
 	{
 		if (isOn)
 		{
-			//viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VWindmillPowerPlant, fTimeDelta));
+			viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VWindmillPowerPlant, fTimeDelta));
 		}
 	}
 };
