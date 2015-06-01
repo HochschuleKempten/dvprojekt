@@ -3,19 +3,57 @@
 #include <iostream>
 #include <iomanip>
 
-using namespace std;
-using namespace cv;
-
-int main()
+int printUsuage()
 {
-	const int numberOfImages = 30;
-	const int numberOfDigits = 5;
-	const std::string totalName = "AniTest/strike_";
+	static int errorNumber = -1;
+
+	std::cout << "CreateAnimatedTextures <path_before_numbers> <number_of_images>" << std::endl
+		      << "For example CreateAnimatedTextures strike\\strike_ 30" << std::endl
+			  << "Please note that only png images are supported" << std::endl;
+
+	return errorNumber--;
+}
+
+int main(const int argc, const char** argv)
+{
+	std::cout << "This is CreateAnimatedTextures v1.0" << std::endl;
+
+	//argc = 3;
+	//char argv[3][20] = { "ASD", "strike\\strike_", "30" };
+
+	if (argc != 3)
+	{
+		std::cerr << "Wrong number of arguments." << std::endl;
+		return printUsuage();
+	}
+
+	const std::string totalName(argv[1]);
+	const int numberOfImages = std::atoi(argv[2]);
+	const int numberOfDigits = static_cast<int>(std::ceil(std::log10(numberOfImages)));
+
+	if (numberOfImages % 2 != 0)
+	{
+		std::cerr << "The number of images is not divisible by 2, but this is required " << std::endl;
+		return printUsuage();
+	}
+
+	if (numberOfDigits <= 0)
+	{
+		std::cerr << numberOfImages << " is a invalid number of images " << std::endl;
+		return printUsuage();
+	}
 
 	std::stringstream stream;
-	stream << totalName << std::setfill('0') << setw(numberOfDigits) << 0 << ".png";
+	stream << totalName << std::setfill('0') << std::setw(numberOfDigits) << 0 << ".png";
 
-	cv::Mat imgFirst = cv::imread(stream.str(), -1);
+	//Read the first image to get the total size and the right type
+	const cv::Mat imgFirst = cv::imread(stream.str(), -1);
+	if (imgFirst.empty())
+	{
+		std::cerr << "Can't read the first image. Please check if the file " << stream.str() << " really exists" << std::endl;
+		return printUsuage();
+	}
+
 	cv::Mat imgTotal(imgFirst.rows * 2, imgFirst.cols * (numberOfImages / 2), imgFirst.type());
 
 	for (int i = 0; i < numberOfImages; i++)
@@ -23,10 +61,21 @@ int main()
 		stream.str("");
 		stream.clear();
 
-		stream << totalName << std::setfill('0') << setw(numberOfDigits) << i << ".png";
+		stream << totalName << std::setfill('0') << std::setw(numberOfDigits) << i << ".png";
 		std::string imgName = stream.str();
 
-		cv::Mat imgCurrent = cv::imread(imgName, -1);
+		const cv::Mat imgCurrent = cv::imread(imgName, -1);
+		if (imgCurrent.empty())
+		{
+			std::cerr << "Can't read the current image. Please check if the file " << stream.str() << " really exists" << std::endl;
+			return printUsuage();
+		}
+
+		if (imgCurrent.size != imgFirst.size || imgCurrent.type() != imgFirst.type())
+		{
+			std::cerr << "The current image " << imgName << " has a different size or type as previous images" << std::endl;
+			return printUsuage();
+		}
 
 		int rowOffset = 0;
 		int colNumber = i;
@@ -37,19 +86,12 @@ int main()
 		}
 
 		//Copy image
-		for (int rows = 0; rows < imgCurrent.rows; rows++)
-		{
-			for (int cols = 0; cols < imgCurrent.cols; cols++)
-			{
-				for (int channel = 0; channel < 4; channel++)
-				{
-					imgTotal.at<Vec4b>(rows + rowOffset, cols + colNumber*imgFirst.cols)[channel] = imgCurrent.at<Vec4b>(rows, cols)[channel];
-				}
-			}
-		}
+		cv::Rect roi(cv::Point(colNumber*imgFirst.cols, rowOffset), cv::Size(imgCurrent.cols, imgCurrent.rows));
+		cv::Mat imgTotalROI = imgTotal(roi);
+		imgCurrent.copyTo(imgTotalROI);
 	}
 
-	cv::imwrite(totalName + ".png", imgTotal);
-	std::cout << "Everything done" << std::endl;
+	std::cout << "Writing image... " << std::boolalpha << cv::imwrite(totalName + ".png", imgTotal) << std::endl
+		      << "Everything done" << std::endl;
  	return 0;
 }
