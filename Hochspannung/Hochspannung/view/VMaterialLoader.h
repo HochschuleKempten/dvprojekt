@@ -234,6 +234,8 @@ public:
 	static CMaterial materialAnimSabotagePowerPlant;
 	static int materialAnimSabotagePowerPlant_x;
 	static int materialAnimSabotagePowerPlant_y;
+
+	static CMaterial materialAnimTransformerStationLightning;
 };
 
 

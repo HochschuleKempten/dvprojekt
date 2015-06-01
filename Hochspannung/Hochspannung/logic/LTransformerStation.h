@@ -11,7 +11,6 @@ class IVTransformerStation;
 class LTransformerStation : public ILBuilding, public IVTickObserver
 {
 private:
-	
 	std::shared_ptr<IVTransformerStation> vTransformerSation;
 	bool hasConnection;
 

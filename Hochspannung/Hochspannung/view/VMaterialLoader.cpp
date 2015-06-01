@@ -213,6 +213,8 @@ CMaterial VMaterialLoader::materialAnimSabotagePowerPlant;
 int VMaterialLoader::materialAnimSabotagePowerPlant_x;
 int VMaterialLoader::materialAnimSabotagePowerPlant_y;
 
+CMaterial VMaterialLoader::materialAnimTransformerStationLightning;
+
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
@@ -431,6 +433,9 @@ void VMaterialLoader::init()
 	materialFoundationPlayer[LPlayer::Remote].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
 	materialFoundationPlayer[LPlayer::Remote].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 
+	materialFoundationPlayer[LPlayer::Local | LPlayer::Remote].MakeTextureDiffuse("textures/powerpants/Beton_light.png");
+	materialFoundationPlayer[LPlayer::Local | LPlayer::Remote].MakeTextureBump("textures/powerpants/Beton_light_bump.png");
+
 	//Cursor
 	m_zmDefaultCursor.MakeTextureSprite("textures\\gui\\default_zeiger.png");
 	m_zmHammerCursor.MakeTextureSprite("textures\\gui\\Hammer.png");
@@ -499,6 +504,9 @@ void VMaterialLoader::init()
 	materialAnimSabotagePowerPlant_x = 15;
 	materialAnimSabotagePowerPlant_y = 2;
 	
+	materialAnimTransformerStationLightning.MakeTextureSprite("textures/animations/Lightning.png");
+	materialAnimTransformerStationLightning.SetAni(15, 2, 30.0f / 5.0f);
+
 	//Background
 	materialLobbyRunningGamesBackground.MakeTextureSprite("textures/gui/background/gui_lobby_RunningGamesBackround.png");
 	materialLobbyGamelistBackground.MakeTextureSprite("textures/gui/background/ListView.png");

@@ -238,6 +238,13 @@ VModelTransformerStation::VModelTransformerStation()
 	m_zpKabelRechtsHinten.RotateZ(-HALFPI);
 	m_zpKabelRechtsHinten.TranslateDelta(CHVector(0.85f, 2.0f, -0.85f));
 	m_zpKabelRechtsHinten.AddGeo(&m_zgKabelSeite);
+
+	//Lightning Animation
+	quadForAnimation.Init(0.5f, 0.5f, &VMaterialLoader::materialAnimTransformerStationLightning);
+	placementForAnimation.AddGeo(&quadForAnimation);
+	m_zpSteckaVorne.AddPlacement(&placementForAnimation);
+	placementForAnimation.TranslateX(-0.5f);
+	placementForAnimation.TranslateYDelta(1.0f);
 }
 
 

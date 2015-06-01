@@ -20,6 +20,7 @@ VOilRefinery::~VOilRefinery()
 void VOilRefinery::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {
 	viewModel.initViewModel(this);
+	viewModel.init();
 
 	const float scale = 0.4f;
 	viewModel.getMainPlacement()->Scale(scale);

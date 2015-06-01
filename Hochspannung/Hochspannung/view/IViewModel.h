@@ -51,7 +51,7 @@ public:
 		m_zpLOD[i].SetLoD(previous, lastStep);
 		m_zpLODBorder[i + 1] = lastStep;
 
-		DEBUG_EXPRESSION(initViewModel(nullptr));
+		initViewModel(nullptr);
 	}
 
 	virtual inline ~IViewModel()
@@ -67,7 +67,7 @@ public:
 			m_zgFoundation.Init(CHVector(foundationWidth, foundationHeight, foundationWidth), &VMaterialLoader::materialFoundationPlayer[vBuilding->getLBuilding()->getPlayerId()]);
 		}
 		else {
-			m_zgFoundation.Init(CHVector(foundationWidth, foundationHeight, foundationWidth), &VMaterialLoader::materialFoundationPlayer[LPlayer::Local]);
+			m_zgFoundation.Init(CHVector(foundationWidth, foundationHeight, foundationWidth), &VMaterialLoader::materialFoundationPlayer[LPlayer::Local | LPlayer::Remote]);
 		}
 	}
 

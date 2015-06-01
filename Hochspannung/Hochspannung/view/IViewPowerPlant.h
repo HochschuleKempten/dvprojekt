@@ -5,7 +5,6 @@
 #include "../logic/IVPowerPlant.h"
 #include "VSoundLoader.h"
 #include "../logic/LRemoteOperation.h"
-#include "../logic/LSabotage.h"
 
 NAMESPACE_VIEW_B
 
