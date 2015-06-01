@@ -92,13 +92,15 @@ private:
 	CGeoWall m_zgMinenschacht;
 	CGeoTube m_zgKamin;
 
-
+	float totalMovement = 0.0f;
 
 public:
 	VModelCoalPowerPlant();
 	virtual ~VModelCoalPowerPlant() override;
 
 	void init();
+
+	void moveLore(float amount);
 
 	virtual float getHeight() override
 	{

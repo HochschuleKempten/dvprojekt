@@ -501,7 +501,7 @@ void VMaterialLoader::init()
 	//materialAnimSabotageBomb.SetAni(16, 16, 1);
 
 	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/strike.png");
-	materialAnimSabotagePowerPlant_x = 15;
+	materialAnimSabotagePowerPlant_x = 60;
 	materialAnimSabotagePowerPlant_y = 2;
 	
 	materialAnimTransformerStationLightning.MakeTextureSprite("textures/animations/Lightning.png");
@@ -523,7 +523,7 @@ float VMaterialLoader::getRotationPerTick(const VIdentifier::VIdentifier powerPl
 {
 	switch (powerPlant)
 	{
-		//case VIdentifier::VCoalPowerPlant: break;
+		case VIdentifier::VCoalPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
 		//case VIdentifier::VHydroelectricPowerPlant: break;
 		case VIdentifier::VWindmillPowerPlant: return CASTS<float>((2.0 * M_PI / 2.0) * fTimeDelta);	//Number of seconds per rotation
 		case VIdentifier::VSolarPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);

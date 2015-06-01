@@ -15,6 +15,7 @@ class VCoalPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:
 	VModelCoalPowerPlant viewModel;
+	float timeLastCheck = 0;
 
 public:
 	VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant);
@@ -23,10 +24,14 @@ public:
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y) override;
 	inline virtual void tick(const float fTimeDelta) override
 	{
-		if (isOn)
+		//Handle Disposal
+		if (timeLastCheck > 0.05f && isOn)
 		{
-			//viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VWindmillPowerPlant, fTimeDelta));
+			viewModel.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
+			timeLastCheck = 0.0f;
 		}
+
+		timeLastCheck += fTimeDelta;
 	}
 };
 

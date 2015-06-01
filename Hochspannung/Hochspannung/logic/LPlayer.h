@@ -32,6 +32,7 @@ private:
 	std::vector<ILPowerPlant*> prevConnectedPowerPlants;
 	std::vector<LPowerLine*> powerLines;
 	LCity* city = nullptr;
+	float timeLastCheck = 0;
 
 public:
 	LPlayer()

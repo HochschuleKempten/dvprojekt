@@ -204,7 +204,7 @@ void VModelCoalPowerPlant::init()
 	m_zpRadVorneLinks.AddGeo(&m_zgLoreRad);
 
 	m_zpMinenLore.Translate(CHVector(-1.98f, 0.025f, 2.1f));
-
+	m_zpMinenLore.TranslateZDelta(-2.5f);
 
 	//Gebaeude->ScaleZDelta(3.0f);
 	m_zpKamin1.Translate(CHVector(0.75f, 1.5f, 0.8f));
@@ -216,6 +216,24 @@ void VModelCoalPowerPlant::init()
 
 
 	//m_zpGebaeude.Translate(CHVector(0.3f, 0.3f, 1.0f));
+}
+
+void VModelCoalPowerPlant::moveLore(float amount)
+{
+	if (totalMovement <= 3.0f)
+	{
+		m_zpMinenLore.TranslateZDelta(amount);
+	}
+	else if (totalMovement > 3.0f && totalMovement <= 6.0f)
+	{
+		m_zpMinenLore.TranslateZDelta(-amount);
+	}
+	else
+	{
+		totalMovement = 0.0f;
+	}
+		
+	totalMovement += amount;
 }
 
 NAMESPACE_VIEW_E

@@ -21,6 +21,9 @@ class ILPowerPlant : public ILBuilding, public IVTickObserver
 	friend class LPlayer;
 
 private:
+	float timeLastCheck = 0;
+
+private:
 	void switchOn()
 	{
 		if (isActivated)
@@ -150,9 +153,7 @@ public:
 	virtual void tick(const float fTimeDelta) override
 	{
 		if (isSabotaged && this->getPlayerId() == LPlayer::Local)
-		{
-			static float timeLastCheck = 0;
-			
+		{	
 			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
 			{
 				isSabotaged = false;

@@ -16,6 +16,7 @@ private:
 	int energySurplus = 0;
 	const int maxSurplus = LBalanceLoader::getMaxSurplus();
 	std::shared_ptr<IVCity> vCity;
+	float timeLastCheck = 0;
 
 public:
 	LCity(LField* lField, const int x, const int y, const int playerId);

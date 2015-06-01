@@ -26,8 +26,6 @@ void LCity::tick(const float fTimeDelta)
 		lField->getLPlayingField()->isInitDone() &&
 		playerId & LPlayer::Local)
 	{
-		static float timeLastCheck = 0;
-
 		//Handle the population increase (every second)
 		if (timeLastCheck > 1)
 		{

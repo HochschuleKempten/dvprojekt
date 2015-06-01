@@ -24,8 +24,6 @@ LTransformerStation::~LTransformerStation()
 void LTransformerStation::tick(const float fTimeDelta)
 {	
 	if (lField->getLPlayingField()->isInitDone()) {
-		static float timeLastCheck = 0;
-	
 		//Handle Disposal
 		if (timeLastCheck > 1) {
 
