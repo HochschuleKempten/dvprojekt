@@ -491,6 +491,9 @@ void VMaterialLoader::init()
 	materialTwistedTower.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
 	materialTwistedTower.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
 	materialTwistedTower.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+
+	materialWindowsofBuilding.MakeTextureSpecular("textures/buildings/texture_skymap.png");
+	materialWindowsofBuilding.MakeTextureEnvironment("textures/buildings/texture_window_specular.png");
 	
 
 	//Animierte Texturen
