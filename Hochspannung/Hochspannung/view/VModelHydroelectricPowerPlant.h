@@ -2,8 +2,9 @@
 
 #include "VGeneral.h"
 #include "IViewModel.h"
-#include "LargeOfficeBuilding.h"
 #include "VModelPowerLine.h"
+#include "Building02.h"
+
 
 
 NAMESPACE_VIEW_B
@@ -27,23 +28,26 @@ private:
 	CPlacement m_zpFluss;
 	CPlacement m_zpPowerline;
 	CPlacement m_zpFundament;
-	//CPlacement m_zpGebaude;
+	CPlacement m_zpGebaude;
 	CPlacement m_zpRad;
+	CPlacement m_zpRad2;
+	CPlacement m_zpStange;
 
 
 	//Geo-Objects
 
 	
 	CGeoTube m_zgRad;
+	CGeoTube m_zgRad2;
 	CGeoCube m_zgSchaufel;
 	CGeoCube m_zgFluss;
+	CGeoTube m_zgStange;
 
 
 
-	//CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
+	Building02 *Gebaeude = new Building02(1.0f);
 	//VModelPowerLine m_zTrasse1;
 	//VModelPowerLine m_zTrasse2;
-	//CLargeOfficeBuilding Gebaeude;
 
 
 
@@ -52,11 +56,11 @@ public:
 	virtual ~VModelHydroelectricPowerPlant() override;
 
 	void rotate(float ftime){
-		m_zpWasserRad.TranslateYDelta(-3.5);
-		m_zpWasserRad.TranslateXDelta(2.5);
+		m_zpWasserRad.TranslateYDelta(-2.0);
+		m_zpWasserRad.TranslateXDelta(1.5);
 		m_zpWasserRad.RotateXDelta(ftime);
-		m_zpWasserRad.TranslateYDelta(3.5);
-		m_zpWasserRad.TranslateXDelta(-2.5);
+		m_zpWasserRad.TranslateYDelta(2.0);
+		m_zpWasserRad.TranslateXDelta(-1.5);
 	};
 
 	virtual float getHeight() override

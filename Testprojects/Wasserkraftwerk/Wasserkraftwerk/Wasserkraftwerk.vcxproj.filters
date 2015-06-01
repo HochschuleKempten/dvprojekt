@@ -27,9 +27,6 @@
     <ClInclude Include="resource.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -37,6 +34,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelHydroelectricPowerPlant.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Building02.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,13 +50,13 @@
     <ClCompile Include="VektoriaApp.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelHydroelectricPowerPlant.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Building02.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

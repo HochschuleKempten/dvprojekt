@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.h" />
+    <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\Building02.h" />
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.h" />
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelHydroelectricPowerPlant.h" />
     <ClInclude Include="..\..\..\Hochspannung\Hochspannung\view\VModelPowerLine.h" />
@@ -152,7 +152,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\LargeOfficeBuilding.cpp" />
+    <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\Building02.cpp" />
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VMaterialLoader.cpp" />
     <ClCompile Include="..\..\..\Hochspannung\Hochspannung\view\VModelHydroelectricPowerPlant.cpp" />
     <ClCompile Include="Game.cpp" />
