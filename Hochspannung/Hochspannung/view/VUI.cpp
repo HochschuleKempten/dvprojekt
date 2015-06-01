@@ -47,7 +47,8 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	addScreen("Options", IViewScreen::Options);
 	addScreen("Ingame", IViewScreen::Ingame);
 
-	for (const std::pair<std::string, IViewScreen*>& screenPair : m_screens) {
+	for (const std::pair<std::string, IViewScreen*>& screenPair : m_screens)
+	{
 		screenPair.second->switchOff();
 	}
 
@@ -57,7 +58,8 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 
 void VUI::onNotify(const Event& evente)
 {
-	switch (evente) {
+	switch (evente)
+	{
 		case QUIT_GAME:
 			isQuit = true;
 			PostQuitMessage(0);
@@ -87,14 +89,16 @@ void VUI::resize(int width, int height)
 	m_zf.ReSize(width, height);
 	activeScreen->resize(width, height);
 
-	for (std::pair<std::string,IViewScreen*> ScreenPair : m_screens) {
+	for (std::pair<std::string, IViewScreen*> ScreenPair : m_screens)
+	{
 		ScreenPair.second->resize(width, height);
 	}
 }
 
 void VUI::addScreen(const std::string& sName, const IViewScreen::ScreenType screenType)
 {
-	switch (screenType) {
+	switch (screenType)
+	{
 		case IViewScreen::ScreenType::MainMenue:
 			m_screens[sName] = new VScreenMainMenue(this);
 			m_screens[sName]->addObserver(this);
@@ -117,7 +121,6 @@ void VUI::addScreen(const std::string& sName, const IViewScreen::ScreenType scre
 			m_screens[sName]->addObserver(this);
 			break;
 		default: break;
-
 	}
 }
 
@@ -180,17 +183,15 @@ void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
 	CASTD<VScreenLobby*>(m_screens["Lobby"])->updateHostList(gameList);
 }
 
-	void VUI::switchCursor(const CursorType& cursorType)
+void VUI::switchCursor(const CursorType& cursorType)
+{
+	LPRECT rectangle = nullptr;
+	switch (cursorType)
 	{
-		LPRECT rectangle = nullptr;
-		switch (cursorType)
-		{
-			
-
 		default:
 			break;
 		case Default:
-			
+
 			SetCursor(m_Default_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Default_Cursor));
 			//GetWindowRect(m_hwnd, rectangle);
@@ -229,15 +230,20 @@ void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
 			//GetWindowRect(m_hwnd, rectangle);
 			//ClipCursor(rectangle);
 			break;
-		}
 	}
+}
 
-	void VUI::tick(const float fTimeDelta)
+void VUI::showMessage(const std::string& message)
 {
-	float fTimeDeltaCopy = fTimeDelta;	//Copy needed because Vektoria means to change the time variable for some reasons (prevent undefined behaviour: http://en.cppreference.com/w/cpp/language/const_cast)
+	const double secondsPerCharacter = 0.125;
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(message.c_str(), message.length() * secondsPerCharacter);
+}
+
+void VUI::tick(const float fTimeDelta)
+{
+	float fTimeDeltaCopy = fTimeDelta; //Copy needed because Vektoria means to change the time variable for some reasons (prevent undefined behaviour: http://en.cppreference.com/w/cpp/language/const_cast)
 	m_zr.Tick(fTimeDeltaCopy);
 	activeScreen->tick(fTimeDelta);
-
 }
 
 

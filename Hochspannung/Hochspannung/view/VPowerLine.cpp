@@ -63,17 +63,12 @@ bool VPowerLine::clicked(action action)
 {    
 	switch (action)
 	{			
-	     case action::sabotagePowerLine: 
-			 
-			 if (lPowerLine->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerLine))
+	     case action::sabotagePowerLine: 						
 			 {   
 				 LRemoteOperation remoteOperation(lPowerLine->getLField()->getLPlayingField(), lPowerLine);
-				 remoteOperation.sabotagePowerLine();
-				 return true;
+				 return remoteOperation.sabotagePowerLine();
 			 }
 
-			 return false;
-			  
 	   default:ASSERT("Invalid action"); return false;
 	}
 }

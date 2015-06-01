@@ -3,6 +3,7 @@
 #include "VIdentifier.h"
 #include "VMaster.h"
 #include "../logic/LTransformerStation.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -22,6 +23,8 @@ void VTransformerStation::initTransformerStation(const std::shared_ptr<IVTransfo
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
 	//viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
 	
+	VSoundLoader::playElectricitySoundLoop(viewModel.getMainPlacement());
+
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VTransformerStation);

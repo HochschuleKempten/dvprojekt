@@ -9,6 +9,7 @@ CGame::CGame(void)
 	// Hier eventuelle Vorinitialisierungen Deiner Vektoria-Objekte einfügen:
 	std::tr2::sys::current_path(std::tr2::sys::path("../../../Hochspannung/Hochspannung"));
 	VMaterialLoader::init();
+	m_zpnuclearpowerplant.init();
 }
 
 CGame::~CGame(void)

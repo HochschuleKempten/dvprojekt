@@ -4,8 +4,14 @@ NAMESPACE_VIEW_B
 
 
 VModelNuclearPowerPlant::VModelNuclearPowerPlant()
-{
+{}
 
+
+VModelNuclearPowerPlant::~VModelNuclearPowerPlant()
+{}
+
+void VModelNuclearPowerPlant::init()
+{
 	m_zpLOD[0].AddPlacement(&m_zpAtomkraftwerk);
 	m_zpLOD[1].AddPlacement(&m_zpAtomkraftwerk);
 	m_zpLOD[2].AddPlacement(&m_zpAtomkraftwerk);
@@ -34,6 +40,8 @@ VModelNuclearPowerPlant::VModelNuclearPowerPlant()
 	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, &VMaterialLoader::m_zmAtomZaun);
 
 	//Initialisierung Trassen
+	m_zTrasse1.initViewModel(vBuilding);
+	m_zTrasse2.initViewModel(vBuilding);
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 
@@ -221,12 +229,6 @@ VModelNuclearPowerPlant::VModelNuclearPowerPlant()
 	m_zpSchranke.Translate(CHVector(-0.7f, 1.36f, 4.875f));
 	m_zpSchranke.RotateZDelta(0.2*PI);
 	m_zpSchranke.AddGeo(&m_zgSchranke);
-
 }
-
-
-VModelNuclearPowerPlant::~VModelNuclearPowerPlant()
-{}
-
 
 NAMESPACE_VIEW_E

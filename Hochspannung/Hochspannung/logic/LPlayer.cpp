@@ -22,8 +22,6 @@ LPlayer::~LPlayer()
 
 void LPlayer::tick(const float fTimeDelta)
 {
-	static float timeLastCheck = 0;
-
 	if (timeLastCheck > 1)
 	{
 		if (coolDownCounterPowerLine > 0) { coolDownCounterPowerLine--; }
@@ -144,14 +142,14 @@ void LPlayer::addPowerPlant(ILPowerPlant* powerPlant)
 	LRemoteOperation remoteOperation(lMaster->getLPlayingField(), powerPlant);
 	remoteOperation.switchOn();
 
-	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier());
+	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier(), CASTS<PlayerId>(powerPlant->getPlayerId()));
 }
 
 void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
 {
 	powerPlants.erase(std::remove(powerPlants.begin(), powerPlants.end(), powerPlant), powerPlants.end());
 
-	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier());
+	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier(), CASTS<PlayerId>(powerPlant->getPlayerId()));
 }
 
 void LPlayer::addPowerLine(LPowerLine* powerLine)

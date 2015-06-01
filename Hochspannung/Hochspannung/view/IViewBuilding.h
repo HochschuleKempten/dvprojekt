@@ -14,7 +14,9 @@ public:
 	enum action
 	{
 		Undefined,
-		switchOnOff,
+		switchOn,
+		switchOff,
+		sell,
 		upgrade,
 		sabotagePowerPlant,
 		sabotagePowerLine,
@@ -31,6 +33,11 @@ public:
 	virtual ILBuilding* getLBuilding() = 0;
 
 	virtual bool clicked(action action) = 0;
+
+	static bool isSabotageAction(const action a)
+	{
+		return a == sabotagePowerPlant || a == sabotagePowerLine || a == sabotageResourceField;
+	}
 	
 };
 

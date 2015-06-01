@@ -17,7 +17,7 @@ private:
 	std::shared_ptr<IVPowerLine> vPowerLine;
 
 private:
-	void sabotagePowerLine();
+	bool sabotagePowerLine();
 
 public:
 	// set orientation of the powerline with the bitwise operator (|) (example: PowerLineOrientation::NORTH|PowerLineOrientation::EAST)

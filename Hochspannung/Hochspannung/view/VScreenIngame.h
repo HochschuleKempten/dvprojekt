@@ -86,14 +86,13 @@ private:
 
 	bool tryBuilding(const int x, const int y);
 	bool trySabotage(const int x, const int y);
+	bool tryBuildingInteraction(const int x, const int y);
 
 	void updateModelView();
 
 	VButton* activeButton = nullptr;
 
 	CScene m_scene;
-	//CViewport m_viewport;
-	CBackground m_zb;
 	CParallelLight m_zl;
 	CCamera m_zc;
 	CPlacement m_zpCamera;
@@ -122,7 +121,7 @@ private:
 	float mouseWheelPosition = 0.0F;
 	float cameraAngle = 0.0F;
 
-	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
+	VIdentifier::VIdentifier selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
 
 	std::map<BUILDINGTYPE, int> statPlacedBuildings;
@@ -132,7 +131,6 @@ private:
 
 	//Detailled model view
 	CScene m_sceneModels;
-	CParallelLight m_zlModels;
 	CCamera m_CamModels;
 	CViewport m_viewportModels;
 	CBackground m_zmbackgroundModels;

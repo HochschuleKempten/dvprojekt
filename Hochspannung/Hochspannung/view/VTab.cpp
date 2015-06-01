@@ -1,7 +1,6 @@
 #include "VTab.h"
 #include "VGroup.h"
 #include "VDialog.h"
-#include "VMaterialLoader.h"
 #include "VRegister.h"
 #include "VGUIArea.h"
 

@@ -78,14 +78,12 @@ void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
 
 void VMaster::messageSabotageFailed(const std::string& message)
 {
-	//TODO (V) show message
-	DEBUG_OUTPUT("SabotageMessage: " << message);
+	vUi.showMessage(message);
 }
 
 void VMaster::messageBuildingFailed(const std::string& message)
 {
-	//TODO (V) show message
-	DEBUG_OUTPUT("BuildMessage: " << message);
+	vUi.showMessage(message);
 }
 
 VUI* VMaster::getVUi()
@@ -132,23 +130,31 @@ void VMaster::updateMoney(const int money)
 
 void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
 {
-	//TODO (V) inform UI
-	DEBUG_OUTPUT("Remaining sabotage acts: " << remainingSabotageActs);
+	vUi.showMessage(std::string("Es verbleiben ") + std::to_string(remainingSabotageActs) + std::string(" Sabotageakte."));
 }
 
-void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id)
+void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
-	vUi.updateAddedPowerPlant(id);
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateAddedPowerPlant(id);
+	}
 }
 
-void VMaster::updateRemovedPowerPlant(const LIdentifier::LIdentifier id)
+void VMaster::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
-	vUi.updateRemovedPowerPlant(id);
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateRemovedPowerPlant(id);
+	}
 }
 
-void VMaster::updateNumberPowerLines(const int newNumberPowerLines)
+void VMaster::updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId)
 {
-	vUi.updateNumberPowerLines(newNumberPowerLines);
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateNumberPowerLines(newNumberPowerLines);
+	}
 }
 
 void VMaster::pauseGame()

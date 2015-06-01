@@ -17,7 +17,7 @@ void rotateCenter(cv::Mat& src, double angle, cv::Mat& dst)
 	cv::warpAffine(src, dst, r, cv::Size(len, len));
 }
 
-int raster()
+int main()
 {
 	//Settings
 	string name = "LuftaufnahmeDiffuse";
@@ -55,41 +55,5 @@ int raster()
 	}
 
 	cout << "Everything done" << endl;
-}
-
-int main()
-{
-	const int numberOfImages = 8;
-	std::string totalName = "Sabotagebutton/Streik";
-	cv::Mat imgFirst = cv::imread(totalName + "0.png", -1);
-	cv::Mat imgTotal(imgFirst.rows * 2, imgFirst.cols * (numberOfImages / 2), imgFirst.type());
-
-	for (int i = 0; i < numberOfImages; i++)
-	{
-		std::string imgName = std::string(totalName + std::to_string(i) + ".png");
-		cv::Mat imgCurrent = cv::imread(imgName, -1);
-
-		int rowOffset = 0;
-		int colNumber = i;
-		if (i >= numberOfImages / 2)
-		{
-			rowOffset = imgFirst.rows;
-			colNumber = i - numberOfImages / 2;
-		}
-
-		//Copy image
-		for (int rows = 0; rows < imgCurrent.rows; rows++)
-		{
-			for (int cols = 0; cols < imgCurrent.cols; cols++)
-			{
-				for (int channel = 0; channel < 4; channel++)
-				{
-					imgTotal.at<Vec4b>(rows + rowOffset, cols + colNumber*imgFirst.cols)[channel] = imgCurrent.at<Vec4b>(rows, cols)[channel];
-				}
-			}
-		}
-	}
-
-	cv::imwrite(totalName + ".png", imgTotal);
 	return 0;
 }

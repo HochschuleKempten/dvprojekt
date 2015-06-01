@@ -1,6 +1,7 @@
 #pragma once
 #include "IVTickObserver.h"
 #include "LGeneral.h"
+#include "LPlayer.h"
 #include "../network/GameObject.h"
 
 NAMESPACE_LOGIC_B
@@ -40,9 +41,9 @@ public:
 	virtual void gameOver() = 0;
 	virtual void updateMoney(const int money) = 0;
 	virtual void updateRemainingSabotageActs(const int remainingSabotageActs) = 0;
-	virtual void updateAddedPowerPlant(const LIdentifier::LIdentifier id) = 0;
-	virtual void updateRemovedPowerPlant(const LIdentifier::LIdentifier id) = 0;
-	virtual void updateNumberPowerLines(const int newNumberPowerLines) = 0;
+	virtual void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) = 0;
+	virtual void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) = 0;
+	virtual void updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId) = 0;
 	//todo (V) implement
 	virtual void pauseGame() = 0;
 	virtual void continueGame() = 0;

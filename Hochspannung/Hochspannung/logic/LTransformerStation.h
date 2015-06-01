@@ -11,9 +11,8 @@ class IVTransformerStation;
 class LTransformerStation : public ILBuilding, public IVTickObserver
 {
 private:
-	
 	std::shared_ptr<IVTransformerStation> vTransformerSation;
-	bool hasConnection;
+	float timeLastCheck = 0;
 
 public:
 	LTransformerStation(LField* lField, const int x, const int y, const int playerId);

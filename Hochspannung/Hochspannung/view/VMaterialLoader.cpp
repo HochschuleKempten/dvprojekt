@@ -200,12 +200,20 @@ CMaterial VMaterialLoader::materialListEntryBackground;
 CMaterial VMaterialLoader::materialListEntryHoverBackground;
 CMaterial VMaterialLoader::materialTextfieldBackground;
 CMaterial VMaterialLoader::materialTextfieldHoverBackground;
+CBackground VMaterialLoader::materialIngameBackground;
 
 //Test
 CMaterial VMaterialLoader::materialAnimationsVersuch;
 
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotageBomb;
+
+//Animierte Texturen
+CMaterial VMaterialLoader::materialAnimSabotagePowerPlant;
+int VMaterialLoader::materialAnimSabotagePowerPlant_x;
+int VMaterialLoader::materialAnimSabotagePowerPlant_y;
+
+CMaterial VMaterialLoader::materialAnimTransformerStationLightning;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
@@ -221,9 +229,9 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureSpecular(&textureSpecular[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureSpecular(&textureSpecular[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureSpecular(&textureSpecular[0]);
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].SetDiffuseSharpness(2.0f);
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].SetDiffuseSharpness(2.0f);
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].SetDiffuseSharpness(2.0f);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].SetDiffuseSharpness(2.5f);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].SetDiffuseSharpness(2.5f);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].SetDiffuseSharpness(2.5f);
 }
 
 void VMaterialLoader::init()
@@ -425,6 +433,9 @@ void VMaterialLoader::init()
 	materialFoundationPlayer[LPlayer::Remote].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
 	materialFoundationPlayer[LPlayer::Remote].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 
+	materialFoundationPlayer[LPlayer::Local | LPlayer::Remote].MakeTextureDiffuse("textures/powerpants/Beton_light.png");
+	materialFoundationPlayer[LPlayer::Local | LPlayer::Remote].MakeTextureBump("textures/powerpants/Beton_light_bump.png");
+
 	//Cursor
 	m_zmDefaultCursor.MakeTextureSprite("textures\\gui\\default_zeiger.png");
 	m_zmHammerCursor.MakeTextureSprite("textures\\gui\\Hammer.png");
@@ -489,6 +500,13 @@ void VMaterialLoader::init()
 	//materialAnimSabotageBomb.MakeTextureSprite("textures/fonts/FontArialShadow.png");
 	//materialAnimSabotageBomb.SetAni(16, 16, 1);
 
+	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/strike.png");
+	materialAnimSabotagePowerPlant_x = 60;
+	materialAnimSabotagePowerPlant_y = 2;
+	
+	materialAnimTransformerStationLightning.MakeTextureSprite("textures/animations/Lightning.png");
+	materialAnimTransformerStationLightning.SetAni(15, 2, 30.0f / 5.0f);
+
 	//Background
 	materialLobbyRunningGamesBackground.MakeTextureSprite("textures/gui/background/gui_lobby_RunningGamesBackround.png");
 	materialLobbyGamelistBackground.MakeTextureSprite("textures/gui/background/ListView.png");
@@ -497,6 +515,7 @@ void VMaterialLoader::init()
 	materialTextfieldBackground.MakeTextureSprite("textures/gui/background/gui_textfield_background.png");
 	materialTextfieldHoverBackground.MakeTextureSprite("textures/gui/background/gui_textfield_backgroundHover.png");
 	materialErrorBackground.MakeTextureSprite("textures/gui/background/gui_error_background.png");
+	materialIngameBackground.InitFull("textures/background.jpg");
 }
 
 //Rotation adjustments
@@ -504,7 +523,7 @@ float VMaterialLoader::getRotationPerTick(const VIdentifier::VIdentifier powerPl
 {
 	switch (powerPlant)
 	{
-		//case VIdentifier::VCoalPowerPlant: break;
+		case VIdentifier::VCoalPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
 		//case VIdentifier::VHydroelectricPowerPlant: break;
 		case VIdentifier::VWindmillPowerPlant: return CASTS<float>((2.0 * M_PI / 2.0) * fTimeDelta);	//Number of seconds per rotation
 		case VIdentifier::VSolarPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
