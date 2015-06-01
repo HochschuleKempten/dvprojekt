@@ -25,8 +25,9 @@ void VModelCoalPowerPlant::init()
 	m_zgBerg.Init(2.0f, 3.0f, &VMaterialLoader::m_zmKohleBerg, 16);
 
 	//Schiene
-	m_zgSchiene.Init(0.04f, 0.045f, 4.0f, &VMaterialLoader::m_zmAtomgrundGrey);
-	m_zgSprosse.Init(0.7f, 0.03f, 0.15f, &VMaterialLoader::m_zmHolz);
+	m_zgSchieneAussen.InitStraight(0.8f, 0.85f, 0.15f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true);
+	m_zgSchieneInnen.InitStraight(0.25f, 0.3f, 0.15f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true);
+	m_zgSprosse.Init(0.52f, 0.03f, 0.15f, &VMaterialLoader::m_zmHolz);
 
 	//Initialisierung Fundament
 	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAtomgrundGreen);
@@ -41,7 +42,7 @@ void VModelCoalPowerPlant::init()
 	m_zgLoreRad.Init(0.08f, 0.08f, 0.04f, &VMaterialLoader::m_zmAtomgrundGrey);
 	m_zgLoreVorne.Init(0.5f, 0.5f, 0.05f, &VMaterialLoader::m_zmKohleLore);
 	m_zgLoreSeite.Init(0.05f, 0.5f, 0.5f, &VMaterialLoader::m_zmKohleLore);
-	m_zgLoreBoden.Init(0.48f, 0.05f, 0.48f, &VMaterialLoader::m_zmKohle);
+	m_zgLoreBoden.Init(0.45f, 0.05f, 0.48f, &VMaterialLoader::m_zmKohle);
 
 	//Kamin
 	m_zgKamin.InitStraight(0.2f, 0.3f, 3.0f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true);
@@ -54,9 +55,10 @@ void VModelCoalPowerPlant::init()
 	m_zpKohlekraftwerk.AddPlacement(m_zTrasse2.getMainPlacement());
 	m_zpKohlekraftwerk.AddPlacement(&m_zpFundament);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpGebirge);
-	m_zpKohlekraftwerk.AddPlacement(&m_zpGleis);
+	m_zpKohlekraftwerk.AddPlacement(&m_zpGleiswerk);
+	m_zpGleiswerk.AddPlacement(&m_zpGleis);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpMineneingang);
-	m_zpKohlekraftwerk.AddPlacement(&m_zpMinenLore);
+	m_zpGleiswerk.AddPlacement(&m_zpMinenLore);
 	//m_zpKohlekraftwerk.AddPlacement(&m_zpGebaeude);
 
 	//m_zpGebaeude.AddPlacement(Gebaeude);
@@ -74,8 +76,8 @@ void VModelCoalPowerPlant::init()
 	m_zpGebirge.AddPlacement(&m_zpBerg8);
 
 	//Gleis
-	m_zpGleis.AddPlacement(&m_zpSchieneLinks);
-	m_zpGleis.AddPlacement(&m_zpSchieneRechts);
+	m_zpGleis.AddPlacement(&m_zpSchieneAussen);
+	m_zpGleis.AddPlacement(&m_zpSchieneInnen);
 	for (int i = 0; i < 8; i++)
 	{
 		m_zpGleis.AddPlacement(&m_zpSprossen[i]);
@@ -140,11 +142,11 @@ void VModelCoalPowerPlant::init()
 	m_zpGebirge.TranslateDelta(CHVector(-0.2f, 0.2f, -2.3f));
 
 	//Gleis
-	m_zpSchieneLinks.Translate(CHVector(-2.0f, 0.3f, 0.0f));
-	m_zpSchieneLinks.AddGeo(&m_zgSchiene);
+	m_zpSchieneAussen.Translate(CHVector(0.0f, 0.3f, 0.0f));
+	m_zpSchieneAussen.AddGeo(&m_zgSchieneAussen);
 
-	m_zpSchieneRechts.Translate(CHVector(-1.5f, 0.3f, 0.0f));
-	m_zpSchieneRechts.AddGeo(&m_zgSchiene);
+	m_zpSchieneInnen.Translate(CHVector(0.0f, 0.3f, 0.0f));
+	m_zpSchieneInnen.AddGeo(&m_zgSchieneInnen);
 
 	//Trassen
 	m_zTrasse1.getMainPlacement()->Translate(CHVector(-3.0f, 0.35f, 4.0f));
@@ -153,7 +155,8 @@ void VModelCoalPowerPlant::init()
 	//Sprossen-Array
 	for (int i = 0; i < 8; i++)
 	{
-		m_zpSprossen[i].Translate(CHVector(-2.08f, 0.3f, ((float) ((float) i / 2.0)) + 0.2f));
+		m_zpSprossen[i].Translate(CHVector(0.27f, 0.3f, 0.0f));
+		m_zpSprossen[i].RotateYDelta(((2 * PI) / 8) * i);
 		m_zpSprossen[i].AddGeo(&m_zgSprosse);
 	}
 
@@ -183,7 +186,7 @@ void VModelCoalPowerPlant::init()
 	m_zpWandRechts.Translate(CHVector(0.45f, 0.4f, 0.0f));
 	m_zpWandRechts.AddGeo(&m_zgLoreSeite);
 
-	m_zpBoden.Translate(CHVector(0.0f, 0.75f, 0.02f));
+	m_zpBoden.Translate(CHVector(0.0001f, 0.75f, 0.02f));
 	m_zpBoden.AddGeo(&m_zgLoreBoden);
 
 
@@ -203,8 +206,10 @@ void VModelCoalPowerPlant::init()
 	m_zpRadVorneLinks.TranslateDelta(CHVector(0.525f, 0.4f, 0.45f));
 	m_zpRadVorneLinks.AddGeo(&m_zgLoreRad);
 
-	m_zpMinenLore.Translate(CHVector(-1.98f, 0.025f, 2.1f));
-	m_zpMinenLore.TranslateZDelta(-2.5f);
+	//m_zpMinenLore.Translate(CHVector(-1.98f, 0.025f, 2.1f));
+	//m_zpMinenLore.TranslateZDelta(-2.5f);
+	m_zpMinenLore.Translate(CHVector(0.25f, 0.0f, -0.3f));
+	m_zpGleiswerk.Translate(CHVector(-1.7f, 0.0f, 2.5f));
 
 	//Gebaeude->ScaleZDelta(3.0f);
 	m_zpKamin1.Translate(CHVector(0.75f, 1.5f, 0.8f));
