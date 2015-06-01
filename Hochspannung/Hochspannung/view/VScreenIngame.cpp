@@ -175,14 +175,18 @@ m_vtTabStatistics->addText(CFloatRect(0.29f, 0.55f, 0.1f, 0.1f), &VMaterialLoade
 m_vtTabStatistics->addOverlay(CFloatRect(0.22f, 0.75f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOil", 0.1F);
 m_vtTabStatistics->addText(CFloatRect(0.29f, 0.8f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT], 0.1F);
 
-	// Renewable / fossil energy Statistics
-	
-	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.825F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainerEnemy",0.2);
-	m_vgGraphEnergyRatio = m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatioEnemy", &VMaterialLoader::materialGreen);
-	m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->setLayer(0.2F);
+// Renewable / fossil energy Statistics
+m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.575F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainer",0.2F);
+m_vgGraphEnergyRatio = m_vtTabStatistics->getContainer("RenFosEnergyContainer")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialGreen);
 
-	//m_vgGraphEnergyRatio->toggleType();
-	//updateGraphRatio(0.9f);
+
+m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.825F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainerEnemy",0.2F);
+m_vgGraphEnergyRatioEnemy = m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatioEnemy", &VMaterialLoader::materialGreen);
+
+
+//m_vgGraphEnergyRatio->toggleType();
+updateGraphRatio(0.9f);
+updateGraphRatioEnemy(0.5f);
 
 	//m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.9F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy");
 	//m_vgGraphEnergy = m_vtTabStatistics->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph");
@@ -590,6 +594,11 @@ void VScreenIngame::updateGraph(float fProduced, float fNeeded)
 void VScreenIngame::updateGraphRatio(float fRatio)
 {
 	m_vgGraphEnergyRatio->updateValue(fRatio);
+}
+
+void VScreenIngame::updateGraphRatioEnemy(float fRatio) {
+	
+	m_vgGraphEnergyRatioEnemy->updateValue(fRatio);
 }
 
 CFloatRect VScreenIngame::getTopSpace()

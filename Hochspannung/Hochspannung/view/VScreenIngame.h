@@ -51,6 +51,8 @@ public:
 	void updateGraph(float fProduced, float fNeeded);
 	void updateGraphRatio(float fRatio);
 
+	void updateGraphRatioEnemy(float fRatio);
+
 	CFloatRect getTopSpace();
 
 	CFloatRect getBottomSpace();
@@ -100,8 +102,11 @@ private:
 	VTab* m_vtTabSabotage;
 	VTab* m_vtTabBuilding;
 
-	VGraph* m_vgGraphEnergy;
-	VGraphRatio* m_vgGraphEnergyRatio;
+
+	VGraph *m_vgGraphEnergy;
+	VGraphRatio *m_vgGraphEnergyRatio;
+	VGraphRatio *m_vgGraphEnergyRatioEnemy;
+
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;
