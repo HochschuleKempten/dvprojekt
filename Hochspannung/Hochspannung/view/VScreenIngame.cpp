@@ -152,7 +152,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vtTabSabotage->addButton(CFloatRect(0.275F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonPowerOff, &VMaterialLoader::materialSabotageButtonPowerOffHover, SELECT_SABOTAGE_POWEROFF, "sabotagePowerOff", 0.1F);
 	m_vtTabSabotage->addButton(CFloatRect(0.525F, 0.525F, 0.2F, 0.4F), &VMaterialLoader::materialSabotageButtonSell, &VMaterialLoader::materialSabotageButtonSellHover, SELECT_SABOTAGE_SELL, "sabotageSell", 0.1F);
 	
-
+	m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageBomb, "CooldownSabotageHalf", 0.1F);
 	// Tab for statistics
 
 m_vtTabStatistics->addText(CFloatRect(0.125f, 0.03f, 0.11f, 0.2f), &VMaterialLoader::standardFont, "Gebaeude", "buildingText",0.1F);
@@ -413,10 +413,17 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 {
 	static bool bK = false;
 	static bool enabled = true;
+	static bool iwas = true;
+
+	if (keyboard->KeyPressed(DIK_O) && iwas)
+	{
+		iwas = false;
+		startCooldown(SABOTAGE_HALF);
+	}
 
 	if (keyboard->KeyPressed(DIK_V))
 	{
-		showMessage("Test test test...", 4);
+		showMessage("Test test test...", 3);
 	}
 
 	if (keyboard->KeyPressed(DIK_M) && enabled)
@@ -433,7 +440,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
 
 		m_vtTabSabotage->getOverlay("AnimBomb")->SwitchOff();
-		VMaterialLoader::materialAnimSabotageBomb.SetBot(1, 1);
+		//VMaterialLoader::materialAnimSabotageBomb.SetBot(1, 1);
 	}
 	if (keyboard->KeyPressed(DIK_B))
 	{
@@ -928,6 +935,7 @@ void VScreenIngame::showMessage(const char* message, const int timeSeconds)
 void VScreenIngame::startCooldown(const INTERACTIONS& interaction)
 {
 	
+	
 	switch (interaction)
 	{
 	case SABOTAGE_CUTPOWERLINE:
@@ -945,9 +953,12 @@ void VScreenIngame::startCooldown(const INTERACTIONS& interaction)
 		}).detach();
 		break;
 	case SABOTAGE_HALF:
+		
 		std::thread([this] {
 		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
+		m_vtTabSabotage->getOverlay("CooldownSabotageHalf")->SwitchOn();
 		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotageResource())); 
+		m_vtTabSabotage->getOverlay("CooldownSabotageHalf")->SwitchOff();
 		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
 		}).detach();
 		break;
