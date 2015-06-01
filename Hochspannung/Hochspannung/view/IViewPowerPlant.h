@@ -39,18 +39,26 @@ public:
 	{
 		switch (action)
 		{
-			case action::switchOnOff:
+			case action::switchOn:
 			{
-				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
 				if (isOn)
 				{
-					remoteOperation.switchOff();
-				}
-				else
-				{
-					remoteOperation.switchOn();
+					return false;
 				}
 
+				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
+				remoteOperation.switchOn();
+				return true;
+			}
+			case action::switchOff:
+			{
+				if (!isOn)
+				{
+					return false;
+				}
+
+				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), lPlant);
+				remoteOperation.switchOff();
 				return true;
 			}
 			case action::sabotagePowerPlant:

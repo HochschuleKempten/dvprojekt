@@ -84,6 +84,7 @@ private:
 
 	bool tryBuilding(const int x, const int y);
 	bool trySabotage(const int x, const int y);
+	bool tryBuildingInteraction(const int x, const int y);
 
 	void updateModelView();
 
@@ -115,7 +116,7 @@ private:
 	float mouseWheelPosition = 0.0F;
 	float cameraAngle = 0.0F;
 
-	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
+	VIdentifier::VIdentifier selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
 
 	std::map<BUILDINGTYPE, int> statPlacedBuildings;

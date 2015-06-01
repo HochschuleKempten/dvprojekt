@@ -32,7 +32,10 @@ public:
 
 		//timeLastCheck += fTimeDelta;
 
-		viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
+		if (isOn)
+		{
+			viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
+		}
 	}
 };
 

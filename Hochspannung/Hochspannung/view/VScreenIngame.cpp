@@ -10,11 +10,11 @@
 #include "../logic/LSolarPowerPlant.h"
 #include "../logic/LNuclearPowerPlant.h"
 #include "../logic/LPlayer.h"
+#include "../logic/LBalanceLoader.h"
 #include "VSoundLoader.h"
 #include "VPowerLine.h"
-#include "../logic/LBalanceLoader.h"
-#include <thread>
 #include "IViewPowerPlant.h"
+#include <thread>
 
 NAMESPACE_VIEW_B
 
@@ -235,9 +235,11 @@ VScreenIngame::~VScreenIngame()
 
 void VScreenIngame::onNotify(const Event& events)
 {
+	selectedBuilding = VIdentifier::Undefined;
+	selectedAction = IViewBuilding::Undefined;
+
 	switch (events)
 	{
-
 	case SWITCH_TO_REGISTER_BUILDING:
 		m_vtTabBuilding->switchOn();
 		m_vtTabSabotage->switchOff();
@@ -258,7 +260,7 @@ void VScreenIngame::onNotify(const Event& events)
 
 	case SELECT_BUILDING_WINDMILL:
 		updateInfofield("Windmill");
-		m_selectedBuilding = VIdentifier::VWindmillPowerPlant;
+		selectedBuilding = VIdentifier::VWindmillPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 		setActiveButton("windmill");
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LWindmillPowerPlant)));
@@ -273,7 +275,7 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_COALPOWERPLANT:
 		updateInfofield("CoalPowerplant");
-		m_selectedBuilding = VIdentifier::VCoalPowerPlant;
+		selectedBuilding = VIdentifier::VCoalPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
 		setActiveButton("coalPowerPlant");
@@ -288,7 +290,7 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_OILPOWERPLANT:
 		updateInfofield("OilPowerplant");
-		m_selectedBuilding = VIdentifier::VOilRefinery;
+		selectedBuilding = VIdentifier::VOilRefinery;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
 		setActiveButton("oilPowerPlant");
@@ -302,7 +304,7 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_NUCLEARPOWERPLANT:
 		updateInfofield("NuclearPowerplant");
-		m_selectedBuilding = VIdentifier::VNuclearPowerPlant;
+		selectedBuilding = VIdentifier::VNuclearPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
 		setActiveButton("nuclearPowerPlant");
@@ -314,7 +316,7 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_HYDROPOWERPLANT:
 		updateInfofield("HydroPowerplant");
-		m_selectedBuilding = VIdentifier::VHydroelectricPowerPlant;
+		selectedBuilding = VIdentifier::VHydroelectricPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
 		setActiveButton("hydroPowerPlant");
@@ -326,7 +328,7 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_SOLARPOWERPLANT:
 		updateInfofield("SolarPowerplant");
-		m_selectedBuilding = VIdentifier::VSolarPowerPlant;
+		selectedBuilding = VIdentifier::VSolarPowerPlant;
 
 
 		vUi->switchCursor(vUi->CursorType::Hammer);
@@ -339,7 +341,7 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_POWERLINE:
 		updateInfofield("Powerline");
-		m_selectedBuilding = VIdentifier::VPowerLine;
+		selectedBuilding = VIdentifier::VPowerLine;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
 
@@ -371,19 +373,20 @@ void VScreenIngame::onNotify(const Event& events)
 	case SELECT_SABOTAGE_POWERON:
 		vUi->switchCursor(vUi->CursorType::PowerOn);
 		setActiveButton("sabotagePowerOn");
+		selectedAction = IViewBuilding::switchOn;
 		break;
 	case SELECT_SABOTAGE_POWEROFF:
 		vUi->switchCursor(vUi->CursorType::PowerOff);
 		setActiveButton("sabotagePowerOff");
+		selectedAction = IViewBuilding::switchOff;
 		break;
 	case SELECT_SABOTAGE_SELL:
 		vUi->switchCursor(vUi->CursorType::Sell);
 		setActiveButton("sabotageSell");
+		selectedAction = IViewBuilding::sell;
 		break;
 
 	default:
-		m_selectedBuilding = VIdentifier::Undefined;
-		selectedAction = IViewBuilding::Undefined;
 		notify(events);
 		break;
 
@@ -489,10 +492,10 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOff();
 			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOff();
 
-			if (m_selectedBuilding != VIdentifier::Undefined)
+			if (selectedBuilding != VIdentifier::Undefined)
 
 			{
-				m_selectedBuilding = VIdentifier::Undefined;
+				selectedBuilding = VIdentifier::Undefined;
 				updateModelView();
 			}
 
@@ -792,7 +795,7 @@ void VScreenIngame::handleInput()
 	{
 		if (!clickActive)
 		{
-			m_selectedBuilding = VIdentifier::Undefined;
+			selectedBuilding = VIdentifier::Undefined;
 			updateModelView();
 
 			clickActive = true;
@@ -990,25 +993,32 @@ void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& picke
 		{
 			int x = pickedElements.at(VIdentifier::VPlayingField)[0];
 			int y = pickedElements.at(VIdentifier::VPlayingField)[1];
+			bool operationSuccessful = false;
 
-			if (m_selectedBuilding != VIdentifier::Undefined)
+			if (selectedBuilding != VIdentifier::Undefined)
 			{
-				if (!tryBuilding(x, y))
-				{
-					VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, nullptr);
-				}
+				operationSuccessful = tryBuilding(x, y);
 			}
-
+			
 			if (selectedAction != IViewBuilding::Undefined)
 			{
-				if (trySabotage(x, y))
+				if (IViewBuilding::isSabotageAction(selectedAction))
 				{
-					VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_EMITTED, nullptr);
+					operationSuccessful = trySabotage(x, y);
+					if (operationSuccessful)
+					{
+						VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_EMITTED, nullptr);
+					}
 				}
 				else
 				{
-					VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, nullptr);
+					operationSuccessful = tryBuildingInteraction(x, y);
 				}
+			}
+
+			if (!operationSuccessful)
+			{
+				VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, nullptr);
 			}
 		}
 
@@ -1079,7 +1089,7 @@ void VScreenIngame::handleTestClick(const std::map<int, std::vector<int>>& picke
 				{
 					if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
 					{
-						vbuilding->clicked(IViewBuilding::switchOnOff);
+						vbuilding->clicked(IViewBuilding::switchOff);
 					}
 
 					if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
@@ -1103,7 +1113,7 @@ void VScreenIngame::handleTestClick(const std::map<int, std::vector<int>>& picke
 
 bool VScreenIngame::tryBuilding(const int x, const int y)
 {
-	switch (m_selectedBuilding)
+	switch (selectedBuilding)
 	{
 	case VIdentifier::VPowerLine:
 		vUi->vMaster->getVPlayingField()->tryBuildOnField<LPowerLine>(x, y);
@@ -1158,7 +1168,7 @@ bool VScreenIngame::trySabotage(const int x, const int y)
 			return false;
 		}
 
-		return vbuilding->clicked(IViewBuilding::sabotagePowerPlant);
+		return vbuilding->clicked(selectedAction);
 
 	case IViewBuilding::sabotagePowerLine:
 		{
@@ -1168,7 +1178,7 @@ bool VScreenIngame::trySabotage(const int x, const int y)
 				return false;
 			}
 
-			bool operationSuccessful = vbuilding->clicked(IViewBuilding::sabotagePowerLine);
+			bool operationSuccessful = vbuilding->clicked(selectedAction);
 			if (operationSuccessful)
 			{
 				//only remove it if action was successfull
@@ -1183,10 +1193,48 @@ bool VScreenIngame::trySabotage(const int x, const int y)
 			return false;
 		}
 
-		return vbuilding->clicked(IViewBuilding::sabotageResourceField);
+		return vbuilding->clicked(selectedAction);
 
 	default:
 		return false;
+	}
+}
+
+bool VScreenIngame::tryBuildingInteraction(const int x, const int y)
+{
+	IViewBuilding* vbuilding = vUi->vMaster->getVPlayingField()->getBuilding(x, y);
+
+	//No building selected
+	if (vbuilding == nullptr)
+	{
+		return false;
+	}
+
+	//Remote building selected
+	if (vbuilding->getLBuilding()->getPlayerId() != LPlayer::PlayerId::Local)
+	{
+		return false;
+	}
+
+	switch (selectedAction)
+	{
+		case IViewBuilding::switchOff:
+		case IViewBuilding::switchOn:
+			//No power plant selected
+			if (dynamic_cast<IViewPowerPlant*>(vbuilding) == nullptr)
+			{
+				return false;
+			}
+
+			return vbuilding->clicked(selectedAction);
+		
+		case IViewBuilding::sell:
+			//Currently the sell action does not perform any checks, so remove immediatly
+			vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
+			return true;
+
+		default:
+			return false;
 	}
 }
 
@@ -1199,9 +1247,9 @@ void VScreenIngame::updateModelView()
 		m_sceneModels.SubPlacement(previousModel->getMainPlacement());
 	}
 
-	if (models.count(m_selectedBuilding) > 0)
+	if (models.count(selectedBuilding) > 0)
 	{
-		previousModel = models.at(m_selectedBuilding);
+		previousModel = models.at(selectedBuilding);
 		m_sceneModels.AddPlacement(previousModel->getMainPlacement());
 	}
 	else
