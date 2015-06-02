@@ -379,6 +379,9 @@
     <ClInclude Include="view\VGraphRatio.h">
       <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="network\Message.h">
+      <Filter>network\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -605,6 +608,9 @@
     </ClCompile>
     <ClCompile Include="logic\LRemoteOperation.cpp">
       <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="network\Message.cpp">
+      <Filter>network\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

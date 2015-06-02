@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Message.h"
 #include <string>
 #include <vector>
 
@@ -12,8 +12,15 @@ struct FieldTransfer {
 	int iFieldType = -99;
 };
 
+/**
+ * @class CTransferObject
+ * @brief Container class representing one logical command.
+ */
 class CTransferObject {
 public:
+	/**
+	 * Specifies the different types of messages.
+	 */
 	enum Type {
 		NORMAL,
 		REQUEST,
@@ -21,6 +28,9 @@ public:
 		REFUSAL
 	};
 
+	/**
+	 * Specifies the different types of actions.
+	 */
 	enum Action {
 		UNDEFINED,
 
@@ -45,7 +55,20 @@ public:
 		SEND_STATISTIC
 	};
 
+	/**
+	 * @brief Constructor.
+	 * @param type
+	 * @param action
+	 * @param iTransObjectID
+	 * @param iCoordX
+	 * @param iCoordY
+	 * @param stValue
+	 */
 	explicit CTransferObject(Type type = NORMAL, Action action = UNDEFINED, int iTransObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string stValue = "");
+	
+	/**
+	 * @brief Default deconstructor.
+	 */
 	~CTransferObject();
 
 	Type getType();
@@ -71,12 +94,31 @@ public:
 	 * @return std::vector<FieldTransfer>
 	 */
 	std::vector<FieldTransfer> getValueAsVector();
+	
+	/**
+	 * @brief Encode the transfer object creating a new CMessage.
+	 * @return the created message.
+	 */
+	CMessage toMessage();
 
-	void encode();
-	void decode();
+	/**
+	 * @brief Create a message with the given parameter as content.
+	 * @param type
+	 * @param action
+	 * @param iTransObjectID
+	 * @param iCoordX
+	 * @param iCoordY
+	 * @param stValue
+	 * @return the created message.
+	 */
+	static CMessage createMessage(Type type = NORMAL, Action action = Action::UNDEFINED, int iTransObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string stValue = "");
 
-	char* getData();
-	int getDataLength();
+	/**
+	 * @brief Decode a message, creating a new CTransferObject.
+	 * @param message the message to decode.
+	 * @return the created transfer object.
+	 */
+	static CTransferObject fromMessage(CMessage& message);
 
 private:
 	Type m_type;
@@ -86,9 +128,6 @@ private:
 	int m_iCoordY;
 	std::string m_stValue;
 	// to be continued...
-
-	char m_acData[256];
-	int m_iLength;
 };
 
 }

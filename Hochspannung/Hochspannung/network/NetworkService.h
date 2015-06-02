@@ -4,6 +4,10 @@
 
 namespace Network {
 
+/**
+ * @class CNetworkService
+ * @brief Main interface between network logic and game logic
+ */
 class CNetworkService {
 private:
 	/**
@@ -47,7 +51,7 @@ public:
 	/**
 	 * @brief Searches asynchronously for game server in the local network.
 	 * Closes any active connection or server.
-	 * @return
+	 * @return true, if the search request was sent successfully.
 	 */
 	bool searchGames();
 
@@ -119,17 +123,6 @@ public:
 	 * @return true if message could be sent, false otherwise.
 	 */
 	bool sendSetObject(int iObjectID, int iCoordX, int iCoordY, std::string stPlayer, bool bApprovalNeeded = false);
-
-	/**
-	 * @brief Send the command to move an object.
-	 * @param iObjectId the objects ID.
-	 * @param iCoordXSource the source x coordinate.
-	 * @param iCoordYSouce the source y coordinate.
-	 * @param iCoordXDest the destination x coordinate.
-	 * @param iCoordYDest the destination y coordinate.
-	 * @return true if message could be sent, false otherwise.
-	 */
-	//bool sendMoveObject(int iObjectID, int iCoordXSource, int iCoordYSouce, int iCoordXDest, int iCoordYDest);
 
 	/**
 	 * @brief Send the command to delete an object.

@@ -5,9 +5,23 @@ using namespace boost::asio;
 
 namespace Network {
 
+/**
+ * @class CGameObject
+ * @brief Class representing a game session.
+ */
 class CGameObject {
 public:
+	/**
+	 * @brief Constructor.
+	 * @param serverAddress the server ip address.
+	 * @param usServerPort the server port.
+	 * @param stName the name of the game session.
+	 */
 	CGameObject(const ip::address& serverAddress, const unsigned short usServerPort, const std::string& stName);
+
+	/**
+	 * @brief Default deconstructor.
+	 */
 	~CGameObject();
 
 	std::string getServerIP() const;

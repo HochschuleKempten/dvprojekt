@@ -228,7 +228,7 @@ bool CNetworkService::sendAnswer(CTransferObject::Type type, CTransferObject& tr
 		(type == CTransferObject::Type::REFUSAL || type == CTransferObject::Type::APPROVAL)) {
 
 		transferObject.setType(type);
-		m_pNode->write(transferObject);
+		m_pNode->write(transferObject.toMessage());
 
 		return true;
 	} else {
@@ -264,8 +264,7 @@ void CNetworkService::sendAsMessage(bool bApprovalNeeded, CTransferObject::Actio
 		type = CTransferObject::Type::NORMAL;
 	}
 
-	CTransferObject transferObject(type, action, iObjectID, iCoordX, iCoordY, sValue);
-	m_pNode->write(transferObject);
+	m_pNode->write(CTransferObject::createMessage(type, action, iObjectID, iCoordX, iCoordY, sValue));
 }
 
 }
