@@ -254,7 +254,7 @@ void LMaster::tick(const float fTimeDelta)
 
 				switch (objectToSabotage)
 				{
-				case(LSabotage::LSabotage::PowerLine) :
+				case(LSabotage::PowerLine) :
 				{
 					LPowerLine* powerLine = dynamic_cast<LPowerLine*>(lPlayingField->getField(x, y)->getBuilding());
 					if (powerLine != nullptr)
@@ -264,7 +264,7 @@ void LMaster::tick(const float fTimeDelta)
 					break;
 				}
 
-				case(LSabotage::LSabotage::PowerPlant) :
+				case(LSabotage::PowerPlant) :
 				{
 					ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 					if (powerPlant != nullptr)
@@ -275,7 +275,7 @@ void LMaster::tick(const float fTimeDelta)
 					break;
 				}
 
-				case(LSabotage::LSabotage::Resource) :
+				case(LSabotage::Resource) :
 				{
 					ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 					if (powerPlant != nullptr)

@@ -56,6 +56,7 @@ public:
 	virtual void messageBuildingFailed(const std::string& message) override;
 	virtual void showMessage(const std::string& message) override;
 	virtual IVFactory* getFactory() override;
+	virtual void updateRegenerativeRatio(const float ratio) override;
 
 	inline VPlayingField* getVPlayingField()
 	{

@@ -53,6 +53,12 @@ IVFactory* VMaster::getFactory()
 	return &factory;
 }
 
+void VMaster::updateRegenerativeRatio(const float ratio)
+{
+	//todo (V) show new ratio
+	DEBUG_OUTPUT("New regenerative ratio: " << ratio);
+}
+
 void VMaster::gameOver()
 {
 	static bool informed = false;

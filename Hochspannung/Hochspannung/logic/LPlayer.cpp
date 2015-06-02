@@ -87,7 +87,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case(LSabotage::PowerPlant) :
 			if (coolDownCounterPowerPlant > 0)
 			{
-				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerline sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
+				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerplant sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
 				return false;
 			}
 
@@ -97,7 +97,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case(LSabotage::Resource) :
 			if (coolDownCounterResource > 0)
 			{
-				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerline sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
+				lMaster->getVMaster()->messageSabotageFailed(std::string("Resource sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
 				return false;
 			}
 
@@ -214,6 +214,11 @@ void LPlayer::checkPowerPlants()
 	}
 
 	prevConnectedPowerPlants = currentConnectedPowerPlants;
+
+	//calculate ratio regenerative
+	int countRegenerativePowerPlants = std::count_if(powerPlants.begin(), powerPlants.end(), [](ILPowerPlant* pP) { return pP->isRegenerative() && pP->isActivated; });
+	float ratioRegenerative = countRegenerativePowerPlants / prevConnectedPowerPlants.size();
+	lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative);
 }
 
 NAMESPACE_LOGIC_E
