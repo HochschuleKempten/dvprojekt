@@ -324,7 +324,7 @@ void LMaster::tick(const float fTimeDelta)
 	{
 		if (firstConnectDone)
 		{
-			DEBUG_OUTPUT("-------------------Connection lost!");
+			vMaster.showMessage("Connection lost!");
 		}
 	}
 
