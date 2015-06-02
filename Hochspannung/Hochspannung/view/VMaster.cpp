@@ -58,7 +58,7 @@ void VMaster::gameOver()
 	static bool informed = false;
 	if (!informed) {
 		VSoundLoader::playSoundeffect(VSoundLoader::GAME_OVER, nullptr);
-		DEBUG_OUTPUT("Game is over");
+		vUi.showMessage("You lost the game!");
 		informed = true;
 	}
 	//TODO (V) do something useful here when UI is ready
@@ -82,6 +82,11 @@ void VMaster::messageSabotageFailed(const std::string& message)
 }
 
 void VMaster::messageBuildingFailed(const std::string& message)
+{
+	vUi.showMessage(message);
+}
+
+void VMaster::showMessage(const std::string& message)
 {
 	vUi.showMessage(message);
 }
@@ -170,7 +175,8 @@ void VMaster::continueGame()
 void VMaster::gameWon()
 {
 	VSoundLoader::playSoundeffect(VSoundLoader::GAME_WON, nullptr);
-	//TODO (V) implement
+	vUi.showMessage("You won the game!");
+	//todo (V) exit the game
 }
 
 NAMESPACE_VIEW_E

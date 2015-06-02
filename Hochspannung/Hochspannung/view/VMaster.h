@@ -54,6 +54,7 @@ public:
 	virtual void updateGameList(const std::vector<Network::CGameObject>& gameList) override;
 	virtual void messageSabotageFailed(const std::string& message) override;
 	virtual void messageBuildingFailed(const std::string& message) override;
+	virtual void showMessage(const std::string& message) override;
 	virtual IVFactory* getFactory() override;
 
 	inline VPlayingField* getVPlayingField()

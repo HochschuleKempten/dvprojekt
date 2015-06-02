@@ -46,7 +46,8 @@ void LMaster::startNewGame(const std::string& ipAddress)
 	if (ipAddress.empty())
 	{
 		host();
-		while (networkService.getConnectionState() != Network::CONNECTED); //todo (IP) own thread?
+		vMaster.showMessage("Waiting for the client to connect...");
+		while (networkService.getConnectionState() != Network::CONNECTED);
 	}
 	else if (ipAddress == "SINGLE_PLAYER")
 	{
@@ -64,7 +65,6 @@ void LMaster::startNewGame(const std::string& ipAddress)
 	if (networkService.getType() != Network::Type::CLIENT)
 	{
 		lPlayingField->createFields();
-		//playingField gets shown when client is ready
 	}
 }
 
