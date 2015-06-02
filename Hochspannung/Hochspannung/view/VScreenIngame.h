@@ -25,6 +25,13 @@ public:
 		BUILDING_POWERLINE
 	};
 
+	enum INTERACTIONS
+	{
+		SABOTAGE_CUTPOWERLINE,
+		SABOTAGE_STRIKE,
+		SABOTAGE_HALF
+	};
+
 	explicit VScreenIngame(VUI* vUi);
 	virtual ~VScreenIngame();
 	void onNotify(const Event& events) override;
@@ -43,6 +50,8 @@ public:
 	void updatePowerPlants();
 	void updateGraph(float fProduced, float fNeeded);
 	void updateGraphRatio(float fRatio);
+
+	void updateGraphRatioEnemy(float fRatio);
 
 	CFloatRect getTopSpace();
 
@@ -64,6 +73,9 @@ public:
 	std::unordered_map<std::string, IViewGUIObject*> getScreenObjects();
 	std::unordered_map<std::string, IViewGUIObject*> getObjects(IViewGUIContainer* container);
 
+	void showMessage(const char* message,const int timeSeconds);
+	void startCooldown(const INTERACTIONS& interaction);
+
 private:
 	void handleInput();
 	std::map<int, std::vector<int>> pickElements();
@@ -74,14 +86,13 @@ private:
 
 	bool tryBuilding(const int x, const int y);
 	bool trySabotage(const int x, const int y);
+	bool tryBuildingInteraction(const int x, const int y);
 
 	void updateModelView();
 
 	VButton* activeButton = nullptr;
 
 	CScene m_scene;
-	//CViewport m_viewport;
-	CBackground m_zb;
 	CParallelLight m_zl;
 	CCamera m_zc;
 	CPlacement m_zpCamera;
@@ -90,8 +101,11 @@ private:
 	VTab* m_vtTabSabotage;
 	VTab* m_vtTabBuilding;
 
-	VGraph* m_vgGraphEnergy;
-	VGraphRatio* m_vgGraphEnergyRatio;
+
+	VGraph *m_vgGraphEnergy;
+	VGraphRatio *m_vgGraphEnergyRatio;
+	VGraphRatio *m_vgGraphEnergyRatioEnemy;
+
 
 	COverlay m_bottomBar;
 	COverlay m_topBar;
@@ -107,7 +121,7 @@ private:
 	float mouseWheelPosition = 0.0F;
 	float cameraAngle = 0.0F;
 
-	VIdentifier::VIdentifier m_selectedBuilding = VIdentifier::Undefined;
+	VIdentifier::VIdentifier selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
 
 	std::map<BUILDINGTYPE, int> statPlacedBuildings;
@@ -117,7 +131,6 @@ private:
 
 	//Detailled model view
 	CScene m_sceneModels;
-	CParallelLight m_zlModels;
 	CCamera m_CamModels;
 	CViewport m_viewportModels;
 	CBackground m_zmbackgroundModels;

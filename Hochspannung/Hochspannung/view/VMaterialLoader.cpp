@@ -35,7 +35,8 @@ CMaterial VMaterialLoader::materialButtonLobbyJoinGame;
 CMaterial VMaterialLoader::materialButtonLobbyJoinGameHover;
 CMaterial VMaterialLoader::materialButtonLobbyHostGame;
 CMaterial VMaterialLoader::materialButtonLobbyHostGameHover;
-
+CMaterial VMaterialLoader::materialButtonRefresh;
+CMaterial VMaterialLoader::materialButtonRefreshHover;
 
 
 //Buttons
@@ -64,6 +65,7 @@ CMaterial VMaterialLoader::materialButtonAbortHover;
 
 //Ingame
 CMaterial VMaterialLoader::materialIngameMenueDialogBackground;
+CMaterial VMaterialLoader::materialErrorBackground;
 //Ingame Buttons
 CMaterial VMaterialLoader::materialIngameButtonCraftmenu;
 CMaterial VMaterialLoader::materialIngameButtonSabotage;
@@ -92,11 +94,17 @@ CMaterial VMaterialLoader::materialCraftmenuButtonPowerlineHover;
 //Sabotage
 CMaterial VMaterialLoader::materialSabotageButtonScissors;
 CMaterial VMaterialLoader::materialSabotageButtonStrike;
-CMaterial VMaterialLoader::materialSabotageButtonBomb;
+CMaterial VMaterialLoader::materialSabotageButtonHalf;
+CMaterial VMaterialLoader::materialSabotageButtonPowerOn;
+CMaterial VMaterialLoader::materialSabotageButtonPowerOff;
+CMaterial VMaterialLoader::materialSabotageButtonSell;
 
 CMaterial VMaterialLoader::materialSabotageButtonScissorsHover;
 CMaterial VMaterialLoader::materialSabotageButtonStrikeHover;
-CMaterial VMaterialLoader::materialSabotageButtonBombHover;
+CMaterial VMaterialLoader::materialSabotageButtonHalfHover;
+CMaterial VMaterialLoader::materialSabotageButtonPowerOnHover;
+CMaterial VMaterialLoader::materialSabotageButtonPowerOffHover;
+CMaterial VMaterialLoader::materialSabotageButtonSellHover;
 
 //Icons
 CMaterial VMaterialLoader::materialIngameIconPopulation;
@@ -106,6 +114,7 @@ CMaterial VMaterialLoader::materialIngameIconEnergy;
 //WritingFont
 CWritingFont VMaterialLoader::standardFont;
 CWritingFont VMaterialLoader::GoldFont;
+CWritingFont VMaterialLoader::errorFont;
 
 //Trassentexturen
 CMaterial VMaterialLoader::m_zmConcrete;
@@ -191,12 +200,20 @@ CMaterial VMaterialLoader::materialListEntryBackground;
 CMaterial VMaterialLoader::materialListEntryHoverBackground;
 CMaterial VMaterialLoader::materialTextfieldBackground;
 CMaterial VMaterialLoader::materialTextfieldHoverBackground;
+CBackground VMaterialLoader::materialIngameBackground;
 
 //Test
 CMaterial VMaterialLoader::materialAnimationsVersuch;
 
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotageBomb;
+
+//Animierte Texturen
+CMaterial VMaterialLoader::materialAnimSabotagePowerPlant;
+int VMaterialLoader::materialAnimSabotagePowerPlant_x;
+int VMaterialLoader::materialAnimSabotagePowerPlant_y;
+
+CMaterial VMaterialLoader::materialAnimTransformerStationLightning;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
@@ -212,9 +229,9 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureSpecular(&textureSpecular[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureSpecular(&textureSpecular[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureSpecular(&textureSpecular[0]);
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].SetDiffuseSharpness(2.0f);
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].SetDiffuseSharpness(2.0f);
-	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].SetDiffuseSharpness(2.0f);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].SetDiffuseSharpness(2.5f);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].SetDiffuseSharpness(2.5f);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].SetDiffuseSharpness(2.5f);
 }
 
 void VMaterialLoader::init()
@@ -259,6 +276,8 @@ void VMaterialLoader::init()
 	materialButtonLobbyJoinGameHover.MakeTextureSprite("textures/gui/Buttons/ButtonJoinGameHover.png");
 	materialButtonLobbyHostGame.MakeTextureSprite("textures/gui/Buttons/ButtonHostGame.png");
 	materialButtonLobbyHostGameHover.MakeTextureSprite("textures/gui/Buttons/ButtonHostGameHover.png");
+	materialButtonRefresh.MakeTextureSprite("textures/gui/Buttons/gui_lobby_refresh.png");
+	materialButtonRefreshHover.MakeTextureSprite("textures/gui/Buttons/gui_lobby_refreshHover.png");
 		
 
 	//Interface - Background
@@ -299,11 +318,18 @@ void VMaterialLoader::init()
 	//Sabotage
 	materialSabotageButtonScissors.MakeTextureSprite("textures/gui/Buttons/gui_ingame_scissors.png");
 	materialSabotageButtonStrike.MakeTextureSprite("textures/gui/Buttons/gui_ingame_strike.png");
-	materialSabotageButtonBomb.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_bomb.png");
+	materialSabotageButtonHalf.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_half.png");
+	materialSabotageButtonPowerOn.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_poweron.png");
+	materialSabotageButtonPowerOff.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_poweroff.png");
+	materialSabotageButtonSell.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_sell.png");
+	
 	
 	materialSabotageButtonScissorsHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_scissorsHover.png");
 	materialSabotageButtonStrikeHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_strikeHover.png");
-	materialSabotageButtonBombHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_bombHover.png");
+	materialSabotageButtonHalfHover.MakeTextureSprite("textures/gui/Buttons/gui_ingame_halfHover.png");
+	materialSabotageButtonPowerOnHover.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_poweronhover.png");
+	materialSabotageButtonPowerOffHover.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_poweroffhover.png");
+	materialSabotageButtonSellHover.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_sellhover.png");
 
 	//Test
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
@@ -319,8 +345,17 @@ void VMaterialLoader::init()
 	//standardFont.SetTableSize(16, 16);
 	standardFont.Init("textures/fonts/SystematicJ.png", false);
 	standardFont.SetTableSize(16,16);
-	GoldFont.Init("textures/fonts/FontArialShadowGold.png", false);
+	/*GoldFont.Init("textures/fonts/FontArialShadowGold.png", false);
+	GoldFont.SetTableSize(16, 16);*/
+
+	GoldFont.Init("textures/fonts/SystematicJGold.png", false);
 	GoldFont.SetTableSize(16, 16);
+
+	errorFont.Init("textures/fonts/SystematicJError.png", false);
+	errorFont.SetTableSize(16, 16);
+
+	
+
 	standardFont.SetTransparencyOn();
 	GoldFont.SetTransparencyOn();
 	//Building - Trasse
@@ -398,6 +433,9 @@ void VMaterialLoader::init()
 	materialFoundationPlayer[LPlayer::Remote].MakeTextureBump("textures/buildings/texture_concrete_normal.png");
 	materialFoundationPlayer[LPlayer::Remote].MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
 
+	materialFoundationPlayer[LPlayer::Local | LPlayer::Remote].MakeTextureDiffuse("textures/powerpants/Beton_light.png");
+	materialFoundationPlayer[LPlayer::Local | LPlayer::Remote].MakeTextureBump("textures/powerpants/Beton_light_bump.png");
+
 	//Cursor
 	m_zmDefaultCursor.MakeTextureSprite("textures\\gui\\default_zeiger.png");
 	m_zmHammerCursor.MakeTextureSprite("textures\\gui\\Hammer.png");
@@ -419,7 +457,7 @@ void VMaterialLoader::init()
 	materialIngameIconEnergy.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Energy.png");
 
 	//Default Background
-	materialDefaultBackground.MakeTextureSprite("textures/gui/interface/texture_gui_background_lightgrey.png");
+	materialDefaultBackground.MakeTextureSprite("textures/gui/background/texture_gui_background_grey.png");
 
 	//CityBuildings
 
@@ -462,6 +500,13 @@ void VMaterialLoader::init()
 	//materialAnimSabotageBomb.MakeTextureSprite("textures/fonts/FontArialShadow.png");
 	//materialAnimSabotageBomb.SetAni(16, 16, 1);
 
+	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/strike.png");
+	materialAnimSabotagePowerPlant_x = 60;
+	materialAnimSabotagePowerPlant_y = 2;
+	
+	materialAnimTransformerStationLightning.MakeTextureSprite("textures/animations/Lightning.png");
+	materialAnimTransformerStationLightning.SetAni(15, 2, 30.0f / 5.0f);
+
 	//Background
 	materialLobbyRunningGamesBackground.MakeTextureSprite("textures/gui/background/gui_lobby_RunningGamesBackround.png");
 	materialLobbyGamelistBackground.MakeTextureSprite("textures/gui/background/ListView.png");
@@ -469,6 +514,8 @@ void VMaterialLoader::init()
 	materialListEntryHoverBackground.MakeTextureSprite("textures/gui/background/gui_ListEntryHover.png");
 	materialTextfieldBackground.MakeTextureSprite("textures/gui/background/gui_textfield_background.png");
 	materialTextfieldHoverBackground.MakeTextureSprite("textures/gui/background/gui_textfield_backgroundHover.png");
+	materialErrorBackground.MakeTextureSprite("textures/gui/background/gui_error_background.png");
+	materialIngameBackground.InitFull("textures/background.jpg");
 }
 
 //Rotation adjustments
@@ -476,7 +523,7 @@ float VMaterialLoader::getRotationPerTick(const VIdentifier::VIdentifier powerPl
 {
 	switch (powerPlant)
 	{
-		//case VIdentifier::VCoalPowerPlant: break;
+		case VIdentifier::VCoalPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
 		//case VIdentifier::VHydroelectricPowerPlant: break;
 		case VIdentifier::VWindmillPowerPlant: return CASTS<float>((2.0 * M_PI / 2.0) * fTimeDelta);	//Number of seconds per rotation
 		case VIdentifier::VSolarPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);

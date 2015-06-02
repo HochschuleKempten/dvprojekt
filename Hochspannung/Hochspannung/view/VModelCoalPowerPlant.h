@@ -17,6 +17,7 @@ private:
 
 	CPlacement m_zpKohlekraftwerk;
 	CPlacement m_zpFundament;
+	CPlacement m_zpGleiswerk;
 
 	// Gebirge
 	CPlacement m_zpGebirge;
@@ -31,8 +32,8 @@ private:
 
 	//Gleis
 	CPlacement m_zpGleis;
-	CPlacement m_zpSchieneLinks;
-	CPlacement m_zpSchieneRechts;
+	CPlacement m_zpSchieneAussen;
+	CPlacement m_zpSchieneInnen;
 
 	//Sprossen
 	CPlacement m_zpSprossen[8];
@@ -81,7 +82,8 @@ private:
 	CDeviceKeyboard m_zdk;
 
 	CGeoCone m_zgBerg;
-	CGeoWall m_zgSchiene;
+	CGeoTube m_zgSchieneAussen;
+	CGeoTube m_zgSchieneInnen;
 	CGeoWall m_zgSprosse;
 	CGeoWall m_zgEingangOben;
 	CGeoWall m_zgEingangSeite;
@@ -92,12 +94,15 @@ private:
 	CGeoWall m_zgMinenschacht;
 	CGeoTube m_zgKamin;
 
-
+	float totalMovement = 0.0f;
 
 public:
 	VModelCoalPowerPlant();
 	virtual ~VModelCoalPowerPlant() override;
 
+	void init();
+
+	void moveLore(float amount);
 
 	virtual float getHeight() override
 	{
@@ -106,6 +111,11 @@ public:
 	virtual float getWidth() override
 	{
 		return 0.0f;
+	}
+
+	inline void rotate(const float angle)
+	{
+		m_zpMinenLore.RotateYDelta(angle);
 	}
 
 };

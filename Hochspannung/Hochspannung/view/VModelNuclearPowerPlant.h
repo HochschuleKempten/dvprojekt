@@ -93,6 +93,8 @@ public:
 	VModelNuclearPowerPlant();
 	virtual ~VModelNuclearPowerPlant() override;
 
+	void init();
+
 	virtual float getHeight() override
 	{
 		return 4.3f;

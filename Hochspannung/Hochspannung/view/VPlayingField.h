@@ -56,7 +56,6 @@ public:
 		else
 		{
 			VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, &vFields[x][y].m_zp);
-			DEBUG_OUTPUT("Could not place building at " << x << ", " << y);
 		}
 	}
 

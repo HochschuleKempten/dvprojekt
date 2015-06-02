@@ -87,7 +87,9 @@ private:
 	CGeoCylinder m_zgKabelMitte;
 	CGeoCylinder m_zgKabelSeite;
 
-
+	//Lightning Animation
+	CGeoQuad quadForAnimation;
+	CPlacement placementForAnimation;
 
 public:
 	VModelTransformerStation();

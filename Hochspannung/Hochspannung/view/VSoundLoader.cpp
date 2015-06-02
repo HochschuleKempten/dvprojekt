@@ -8,6 +8,7 @@ DEBUG_EXPRESSION(bool VSoundLoader::initDone = false);
 DEBUG_EXPRESSION(static const char* const assertMsg = "SoundLoader is not initialized");
 
 CAudio VSoundLoader::backgroundMusicIngameStart;
+CAudio VSoundLoader::electricitySound;
 std::unordered_map<VSoundLoader::SoundEffect, CAudio> VSoundLoader::soundeffects;
 std::unordered_map<VSoundLoader::SoundEffect, CPlacement*> VSoundLoader::soundeffectsLastPlacements;
 
@@ -25,8 +26,11 @@ void VSoundLoader::init(CScene* scene)
 	VSoundLoader::scene = scene;
 
 	backgroundMusicIngameStart.Init("sounds/ambient-02-vip.wav");
-	backgroundMusicIngameStart.SetVolume(1.0f);
+	backgroundMusicIngameStart.SetVolume(0.8f);
 	scene->AddAudio(&backgroundMusicIngameStart);
+	
+	electricitySound.Init3D("sounds/bruitelectrique.wav", 0.5f);
+	electricitySound.SetVolume(1.0f);
 
 	setSoundEffectHelper(BUILDING_PLACED, "createObject");
 	setSoundEffectHelper(TRASSE_PLACED, "createTrasse");
@@ -48,6 +52,12 @@ void VSoundLoader::playBackgroundMusicIngame()
 	ASSERT(initDone, assertMsg);
 
 	backgroundMusicIngameStart.Loop();
+}
+
+void VSoundLoader::playElectricitySoundLoop(CPlacement* placement)
+{
+	placement->AddAudio(&electricitySound);
+	electricitySound.Loop();
 }
 
 void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* placement)

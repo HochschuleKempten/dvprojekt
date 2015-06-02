@@ -22,8 +22,6 @@ LPlayer::~LPlayer()
 
 void LPlayer::tick(const float fTimeDelta)
 {
-	static float timeLastCheck = 0;
-
 	if (timeLastCheck > 1)
 	{
 		if (coolDownCounterPowerLine > 0) { coolDownCounterPowerLine--; }

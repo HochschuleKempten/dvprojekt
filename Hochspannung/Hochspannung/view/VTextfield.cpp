@@ -80,6 +80,7 @@ void VTextfield::checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)
 		{
 			setActive(false);
 			m_zoActive->SwitchOff();
+			m_zoNormal->SwitchOn();
 			if (m_sInputtext.empty())
 			{
 				m_writing->PrintF("%s", &m_sPlaceholder[0]);

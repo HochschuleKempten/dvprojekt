@@ -78,14 +78,12 @@ void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
 
 void VMaster::messageSabotageFailed(const std::string& message)
 {
-	//TODO (V) show message
-	DEBUG_OUTPUT("SabotageMessage: " << message);
+	vUi.showMessage(message);
 }
 
 void VMaster::messageBuildingFailed(const std::string& message)
 {
-	//TODO (V) show message
-	DEBUG_OUTPUT("BuildMessage: " << message);
+	vUi.showMessage(message);
 }
 
 VUI* VMaster::getVUi()
@@ -132,8 +130,7 @@ void VMaster::updateMoney(const int money)
 
 void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
 {
-	//TODO (V) inform UI
-	DEBUG_OUTPUT("Remaining sabotage acts: " << remainingSabotageActs);
+	vUi.showMessage(std::string("Es verbleiben ") + std::to_string(remainingSabotageActs) + std::string(" Sabotageakte."));
 }
 
 void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)

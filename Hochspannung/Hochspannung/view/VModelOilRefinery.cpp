@@ -5,7 +5,13 @@ NAMESPACE_VIEW_B
 
 VModelOilRefinery::VModelOilRefinery()
 {
+}
 
+VModelOilRefinery::~VModelOilRefinery()
+{}
+
+void VModelOilRefinery::init()
+{
 	m_zpLOD[0].AddPlacement(&m_zpOelkraftwerk);
 	m_zpLOD[1].AddPlacement(&m_zpOelkraftwerk);
 	m_zpLOD[2].AddPlacement(&m_zpOelkraftwerk);
@@ -26,6 +32,8 @@ VModelOilRefinery::VModelOilRefinery()
 	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, &VMaterialLoader::m_zmOelZaun);
 
 	//Initialisierung Trassen
+	m_zTrasse1.initViewModel(vBuilding);
+	m_zTrasse2.initViewModel(vBuilding);
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 
@@ -147,7 +155,7 @@ VModelOilRefinery::VModelOilRefinery()
 
 	/*
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte11);
-//	m_zpGebaeudeHaelfte11.AddPlacement(Gebaeude);
+	//	m_zpGebaeudeHaelfte11.AddPlacement(Gebaeude);
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte12);
 	//m_zpGebaeudeHaelfte12.AddPlacement(Gebaeude);
 	m_zpGebaeude2.AddPlacement(&m_zpGebaeudeHaelfte21);
@@ -310,9 +318,5 @@ VModelOilRefinery::VModelOilRefinery()
 	m_zpSchranke.RotateZDelta(0.2*PI);
 	m_zpSchranke.AddGeo(&m_zgSchranke);
 }
-
-VModelOilRefinery::~VModelOilRefinery()
-{}
-
 
 NAMESPACE_VIEW_E

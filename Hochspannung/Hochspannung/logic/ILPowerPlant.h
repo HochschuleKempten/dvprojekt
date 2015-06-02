@@ -21,6 +21,9 @@ class ILPowerPlant : public ILBuilding, public IVTickObserver
 	friend class LPlayer;
 
 private:
+	float timeLastCheck = 0;
+
+private:
 	void switchOn()
 	{
 		if (isActivated)
@@ -73,36 +76,56 @@ private:
 		}
 	}
 
-	void sabotagePowerPlant()
-	{
-		switchOff();
-		isSabotaged = true;
-		DEBUG_OUTPUT("Powerplant sabotated, it's deactivated for 5 mins");
+	//TODO (V) make rest bools also
 
-		if (!lField->getLPlayingField()->isLocalOperation())
+	bool sabotagePowerPlant()
+	{
+		if (this->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
 		{
-			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::PowerPlant, coordinates.first, coordinates.second);
+			switchOff();
+			isSabotaged = true;
+
+			//if (playerId == LPlayer::Local)	//TODO (L) just for testing
+			//{
+				vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
+			//}
+			//TODO (L) inform UI
+
+			if (!lField->getLPlayingField()->isLocalOperation())
+			{
+				std::pair<int, int> coordinates = lField->getCoordinates();
+				lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::PowerPlant, coordinates.first, coordinates.second);
+			}
+
+			return true;
 		}
+
+		return false;
 	}
 
-	void sabotageResource()
+	bool sabotageResource()
 	{
-		DEBUG_OUTPUT("Try to sabotage ressource field. Old ressource value: " << getLField()->getResources());
-		int newValue = this->getLField()->deductResources();
-		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
-
-		if (!lField->getLPlayingField()->isLocalOperation())
+		if (this->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
 		{
-			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Resource, coordinates.first, coordinates.second);
+			DEBUG_OUTPUT("Try to sabotage ressource field. Old ressource value: " << getLField()->getResources());
+			int newValue = this->getLField()->deductResources();
+			DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
+
+			if (!lField->getLPlayingField()->isLocalOperation())
+			{
+				std::pair<int, int> coordinates = lField->getCoordinates();
+				lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Resource, coordinates.first, coordinates.second);
+			}
+			return true;
 		}
+		return false;
 	}
 
 protected:
 	std::shared_ptr<IVPowerPlant> vPowerPlant;
 	bool isActivated = false;
 	bool isSabotaged = false;
+	DEBUG_EXPRESSION(bool lastRessourcesUsed = false);
 
 public:
 	inline ILPowerPlant(LField* lField, const int playerId, std::shared_ptr<IVPowerPlant> vPowerPlant)
@@ -130,15 +153,17 @@ public:
 	virtual void tick(const float fTimeDelta) override
 	{
 		if (isSabotaged && this->getPlayerId() == LPlayer::Local)
-		{
-			static float timeLastCheck = 0;
-			
+		{	
 			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
 			{
-				isSabotaged = false;	//TODO (L) Send end of sabotage over network?
+				isSabotaged = false;
+				vPowerPlant->sabotagePowerPlantSwitchedOn(); 
+
 				LRemoteOperation remoteOperation(lField->getLPlayingField(), this);
 				remoteOperation.switchOn();
 				timeLastCheck = 0;
+
+				//TODO (L) inform UI
 				DEBUG_OUTPUT("Your powerplant is reactivated after the sabotage act");
 			}
 
@@ -148,8 +173,6 @@ public:
 
 	int fossilRessourceCheck()
 	{
-		DEBUG_EXPRESSION(static bool lastRessourcesUsed = false);
-
 		const int consumedRessources = LBalanceLoader::getConsumedResources(LField::NUCLEAR);
 		const int amountReduced = lField->reduceResources(consumedRessources);
 
