@@ -108,7 +108,7 @@ void CNode::checkConnectionHandler(const error_code& error) {
 			if (m_iRetryCounter < 5) {
 				std::cout << "Connection lost. Try to reconnect. (" << m_iRetryCounter << ")" << std::endl;
 
-				write(CTransferObject::createMessage(CTransferObject::Type::NORMAL, CTransferObject::Action::CHECK_CONNECTION, -1, -1, -1,
+				write(CTransferObject::createMessage(CTransferObject::Type::NORMAL, CTransferObject::Action::CHECK_CONNECTION, -1, -1, -1, 
 					boost::posix_time::to_iso_string(boost::posix_time::microsec_clock::universal_time())));
 
 				m_connectionTimer.expires_from_now(boost::posix_time::seconds(2));
@@ -183,12 +183,14 @@ void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*bytesTra
 		case CTransferObject::Action::CHECK_CONNECTION:
 			write(CTransferObject::createMessage(CTransferObject::Type::NORMAL, CTransferObject::Action::CHECK_RESPONSE, -1, -1, -1, transferObject.getValue()));
 			break;
+
 		case CTransferObject::Action::CHECK_RESPONSE:
 			timeSent = boost::posix_time::from_iso_string(transferObject.getValue());
 			m_iLatestLatency = static_cast<int>((boost::posix_time::microsec_clock::universal_time() - timeSent).total_milliseconds()) / 2;
 			std::cout << m_iLatestLatency << std::endl;
 			m_bCheckResponseReceived = true;
 			break;
+
 		default:
 			m_dequeActionsToExecute.push_back(transferObject);
 			break;

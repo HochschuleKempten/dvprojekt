@@ -64,11 +64,11 @@ std::vector<FieldTransfer> CTransferObject::getValueAsVector() {
 	FieldTransfer fieldTransfer;
 
 	std::vector<std::string> fieldTransferStrings;
-	std::stringstream ss(m_stValue); // Turn the string into a stream.
-	std::string tok;
+	std::stringstream stringStream(m_stValue);
+	std::string stToken;
 
-	while (getline(ss, tok, '$')) {
-		fieldTransferStrings.push_back(tok);
+	while (getline(stringStream, stToken, '$')) {
+		fieldTransferStrings.push_back(stToken);
 	}
 
 	for (std::vector<std::string>::iterator it = fieldTransferStrings.begin(); it != fieldTransferStrings.end(); ++it) {
@@ -76,6 +76,7 @@ std::vector<FieldTransfer> CTransferObject::getValueAsVector() {
 		fieldTransfer.iPlayerID = boost::lexical_cast<int>(*(++it));
 		fieldTransfer.iFieldLevel = boost::lexical_cast<int>(*(++it));
 		fieldTransfer.iFieldType = boost::lexical_cast<int>(*(++it));
+
 		fieldTransferObjects.push_back(fieldTransfer);
 	}
 
@@ -89,11 +90,11 @@ CMessage CTransferObject::toMessage() {
 
 CTransferObject CTransferObject::fromMessage(CMessage& message) {
 	std::vector<std::string> transferObjectMember;
-	std::stringstream ss(message.getBody()); // Turn the string into a stream.
-	std::string token;
+	std::stringstream stringStream(message.getBody());
+	std::string stToken;
 
-	while (getline(ss, token, ';')) {
-		transferObjectMember.push_back(token);
+	while (getline(stringStream, stToken, ';')) {
+		transferObjectMember.push_back(stToken);
 	}
 
 	return CTransferObject(

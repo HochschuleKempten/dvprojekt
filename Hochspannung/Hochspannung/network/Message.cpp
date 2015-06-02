@@ -6,8 +6,12 @@ CMessage::CMessage() {
 }
 
 CMessage::CMessage(const std::string& messageContent) {
-	m_acData[0] = static_cast<char>(messageContent.length());
-	memcpy(getBody(), messageContent.c_str(), messageContent.length());
+	if (messageContent.length() <= iMaxBodyLength) {
+		m_acData[0] = static_cast<char>(messageContent.length());
+		memcpy(getBody(), messageContent.c_str(), messageContent.length());
+	} else {
+		m_acData[0] = static_cast<char>(0);
+	}
 }
 
 char* CMessage::getData() {

@@ -13,12 +13,12 @@ public:
 	/**
 	 * the fixed length of the header.
 	 */
-	const static int iHeaderLength = 1;
+	const static int iHeaderLength = 2;
 
 	/**
 	 * the fixed max length of the body.
 	 */
-	const static int iMaxBodyLength = 255;
+	const static int iMaxBodyLength = 1024;
 
 	/**
 	 * @brief Constructor.
