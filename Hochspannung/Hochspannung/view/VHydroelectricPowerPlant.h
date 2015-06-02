@@ -3,6 +3,7 @@
 #include "../logic/IVPowerPlant.h"
 #include "../logic/LHydroelectricPowerPlant.h"
 #include "IViewPowerPlant.h"
+#include "VModelHydroelectricPowerPlant.h"
 
 
 NAMESPACE_VIEW_B
@@ -11,9 +12,7 @@ NAMESPACE_VIEW_B
 class VHydroelectricPowerPlant : public IViewPowerPlant
 {
 private:
-	CPlacement m_zp;
-	CMaterial m_zm;
-	CGeoEllipsoid m_zg;
+	VModelHydroelectricPowerPlant viewModel;
 
 public:
 	VHydroelectricPowerPlant(VMaster* vMaster, LHydroelectricPowerPlant* lPlant);
