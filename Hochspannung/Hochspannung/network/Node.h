@@ -5,7 +5,6 @@
 #include <boost\asio\ip\udp.hpp>
 #include <boost\asio\deadline_timer.hpp>
 #include <deque>
-#include "Message.h"
 #include "TransferObject.h"
 
 namespace Network {
@@ -13,18 +12,24 @@ namespace Network {
 using namespace boost::asio;
 using boost::system::error_code;
 
-enum State {
-	CONNECTED,
-	CLOSED,
-	PENDING
-};
-
 /**
  * @class CNode
  * @brief Base class for the communication between two game sessions.
  */
 class CNode {
 public:
+
+	enum State {
+		CONNECTED,
+		CLOSED,
+		PENDING
+	};
+
+	enum Type {
+		NONE,
+		SERVER,
+		CLIENT
+	};
 
 	/**
 	 * Fixed tcp port.
@@ -46,6 +51,8 @@ public:
 	 * @brief Default deconstructor.
 	 */
 	virtual ~CNode();
+
+	virtual Type getType();
 	
 	/**
 	 * @brief Start the node.
@@ -76,7 +83,7 @@ public:
 	 * @brief Sends the given message
 	 * @param message the CMessage to send
 	 */ 
-	void write(CMessage& message);
+	void write(CTransferObject& transferObject);
 
 	/**
 	 * @brief Returns the next action from deque, if available.
@@ -179,8 +186,8 @@ protected:
 	bool m_bCheckResponseReceived;
 	int m_iRetryCounter;
 
-	CMessage m_messageRead;
-	std::deque<CMessage> m_dequeMessagesToWrite;	
+	CTransferObject m_messageRead;
+	std::deque<CTransferObject> m_dequeActionsToWrite;	
 	std::deque<CTransferObject> m_dequeActionsToExecute;
 	streambuf m_udpMessage;
 
