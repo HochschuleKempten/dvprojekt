@@ -12,6 +12,10 @@ CNode(stLocalAddress), m_stName(stName), m_acceptor(m_ioService) {
 CServer::~CServer() {
 }
 
+CNode::Type CServer::getType() {
+	return SERVER;
+}
+
 void CServer::stop() {
 	m_ioService.post([this]() {
 		m_acceptor.close();

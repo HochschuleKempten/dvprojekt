@@ -187,7 +187,6 @@
     <ClInclude Include="network\GameObject.h" />
     <ClInclude Include="network\NetworkService.h" />
     <ClInclude Include="network\Node.h" />
-    <ClInclude Include="network\Message.h" />
     <ClInclude Include="network\Server.h" />
     <ClInclude Include="network\TransferObject.h" />
     <ClInclude Include="resource.h" />
@@ -279,7 +278,6 @@
     <ClCompile Include="network\GameObject.cpp" />
     <ClCompile Include="network\NetworkService.cpp" />
     <ClCompile Include="network\Node.cpp" />
-    <ClCompile Include="network\Message.cpp" />
     <ClCompile Include="network\Server.cpp" />
     <ClCompile Include="network\TransferObject.cpp" />
     <ClCompile Include="stdafx.cpp">

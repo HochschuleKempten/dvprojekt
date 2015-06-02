@@ -249,7 +249,7 @@ void LPlayingField::upgradeBuilding(const int x, const int y)
 	{
 		getField(x, y)->getBuilding()->upgrade();
 	}
-	// ToDo (FL) Discuss case player doesn't have enough money
+	//todo (L, V) method still needed?
 }
 
 bool LPlayingField::hasFriendlyNeighbor(int x, const int y)

@@ -192,6 +192,21 @@ public:
 		//Normal energy value was reduced
 		return LBalanceLoader::getProducedEnergy(this->getIdentifier());
 	}
+
+	bool isRegenerative()
+	{
+		LIdentifier::LIdentifier identifier = this->getIdentifier();
+
+		switch (identifier)
+		{
+			case(LIdentifier::LCoalPowerPlant) :
+			case(LIdentifier::LNuclearPowerPlant) :
+			case(LIdentifier::LOilRefinery) :
+				return false;
+			default:
+				return true;
+		}
+	}
 };
 
 

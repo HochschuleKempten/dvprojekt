@@ -47,7 +47,8 @@ void LMaster::startNewGame(const std::string& ipAddress)
 	if (ipAddress.empty())
 	{
 		host();
-		while (networkService.getConnectionState() != Network::CONNECTED); //todo (IP) own thread?
+		vMaster.showMessage("Waiting for the client to connect...");
+		while (networkService.getConnectionState() != Network::CNode::State::CONNECTED);
 	}
 	else if (ipAddress == "SINGLE_PLAYER")
 	{
@@ -62,10 +63,9 @@ void LMaster::startNewGame(const std::string& ipAddress)
 	}
 
 
-	if (networkService.getType() != Network::Type::CLIENT)
+	if (networkService.getType() != Network::CNode::Type::CLIENT)
 	{
 		lPlayingField->createFields();
-		//playingField gets shown when client is ready
 	}
 }
 
@@ -137,7 +137,7 @@ void LMaster::tick(const float fTimeDelta)
 
 	static bool firstConnectDone = false;
 
-	if (networkService.getConnectionState() == CONNECTED)
+	if (networkService.getConnectionState() == CNode::State::CONNECTED)
 	{
 
 		if (timeLastCheck > 0.25F && networkService.isActionAvailable())
@@ -155,7 +155,7 @@ void LMaster::tick(const float fTimeDelta)
 			//regarding host
 			switch (transferObject.getAction())
 			{
-			case(SET_OBJECT) :
+			case(CTransferObject::Action::SET_OBJECT) :
 			{
 				int playerId = std::stoi(transferObject.getValue());
 				if (playerId == LPlayer::Local)
@@ -180,32 +180,32 @@ void LMaster::tick(const float fTimeDelta)
 
 				break;
 			}
-			case(DELETE_OBJECT) :
+			case(CTransferObject::Action::DELETE_OBJECT) :
 
 				lPlayingField->removeBuilding(x, y);
 
 				break;
 
-			case(UPGRADE_OBJECT) :
+			case(CTransferObject::Action::UPGRADE_OBJECT) :
 
 				lPlayingField->upgradeBuilding(x, y);
 
 				break;
 
-			case(START_GAME) :
+			case(CTransferObject::Action::START_GAME) :
 
 				lPlayingField->showPlayingField();
 
 				break;
 
-			case(END_GAME) :
+			case(CTransferObject::Action::END_GAME) :
 
 				//enemy player has lost the game
 				vMaster.gameWon();
 
 				break;
 
-			case(PAUSE_GAME) ://todo (IP) send 
+			case(CTransferObject::Action::PAUSE_GAME) ://todo (IP) send 
 
 				vMaster.pauseGame();
 
@@ -213,7 +213,7 @@ void LMaster::tick(const float fTimeDelta)
 
 				break;
 
-			case(CONTINUE_GAME) ://todo (IP) send 
+			case(CTransferObject::Action::CONTINUE_GAME) ://todo (IP) send 
 
 				vMaster.continueGame();
 
@@ -221,7 +221,7 @@ void LMaster::tick(const float fTimeDelta)
 
 				break;
 
-			case(SET_MAPROW) :
+			case(CTransferObject::Action::SET_MAPROW) :
 			{
 				std::vector<FieldTransfer> row = transferObject.getValueAsVector();
 				int rowNumber = x;
@@ -249,13 +249,13 @@ void LMaster::tick(const float fTimeDelta)
 				break;
 			}
 
-			case(SEND_SABOTAGE) :
+			case(CTransferObject::Action::SEND_SABOTAGE) :
 			{
 				LSabotage::LSabotage objectToSabotage = static_cast<LSabotage::LSabotage>(objectId);
 
 				switch (objectToSabotage)
 				{
-				case(LSabotage::LSabotage::PowerLine) :
+				case(LSabotage::PowerLine) :
 				{
 					LPowerLine* powerLine = dynamic_cast<LPowerLine*>(lPlayingField->getField(x, y)->getBuilding());
 					if (powerLine != nullptr)
@@ -265,7 +265,7 @@ void LMaster::tick(const float fTimeDelta)
 					break;
 				}
 
-				case(LSabotage::LSabotage::PowerPlant) :
+				case(LSabotage::PowerPlant) :
 				{
 					ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 					if (powerPlant != nullptr)
@@ -276,7 +276,7 @@ void LMaster::tick(const float fTimeDelta)
 					break;
 				}
 
-				case(LSabotage::LSabotage::Resource) :
+				case(LSabotage::Resource) :
 				{
 					ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 					if (powerPlant != nullptr)
@@ -294,7 +294,7 @@ void LMaster::tick(const float fTimeDelta)
 				break;
 			}
 
-			case(SEND_SWITCH_STATE) :
+			case(CTransferObject::Action::SEND_SWITCH_STATE) :
 			{
 				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 				if (powerPlant != nullptr)
@@ -325,7 +325,7 @@ void LMaster::tick(const float fTimeDelta)
 	{
 		if (firstConnectDone)
 		{
-			DEBUG_OUTPUT("-------------------Connection lost!");
+			vMaster.showMessage("Connection lost!");
 		}
 	}
 
@@ -374,7 +374,7 @@ void LMaster::connect(const std::string& ip)
 
 void LMaster::sendSetObject(const int objectId, const int x, const int y, const std::string& value)
 {
-	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
 	{
 		bool b = networkService.sendSetObject(objectId, x, y, value);
 		ASSERT(b == true, "Error: sendSetObject.");
@@ -384,7 +384,7 @@ void LMaster::sendSetObject(const int objectId, const int x, const int y, const 
 
 void LMaster::sendSetMapRow(const int row, std::vector<Network::FieldTransfer> rowData)
 {
-	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
 	{
 		bool b = networkService.sendSetMapRow(row, rowData);
 		ASSERT(b == true, "Error: sendSetMapRow.");
@@ -399,7 +399,7 @@ void LMaster::sendSetMapRow(const int row, std::vector<Network::FieldTransfer> r
 
 void LMaster::sendDeleteObject(const int x, const int y)
 {
-	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
 	{
 		bool b = networkService.sendDeleteObject(x, y);
 		ASSERT(b == true, "Error: sendDeleteObject.");
@@ -410,7 +410,7 @@ void LMaster::sendDeleteObject(const int x, const int y)
 
 void LMaster::sendSabotage(const LSabotage::LSabotage sabotageId, const int x, const int y)
 {
-	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
 	{
 		networkService.sendSabotage(sabotageId, x, y);
 	}
@@ -418,7 +418,7 @@ void LMaster::sendSabotage(const LSabotage::LSabotage sabotageId, const int x, c
 
 void LMaster::sendPowerPlantSwitchState(const int x, const int y, const bool state)
 {
-	if (networkService.getConnectionState() == Network::State::CONNECTED)
+	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
 	{
 		networkService.sendSwitchState(x, y, state);
 	}
