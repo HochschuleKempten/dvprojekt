@@ -199,9 +199,6 @@
     <ClInclude Include="network\Client.h">
       <Filter>network\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="network\Message.h">
-      <Filter>network\Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="network\Server.h">
       <Filter>network\Headerdateien</Filter>
     </ClInclude>
@@ -472,9 +469,6 @@
       <Filter>logic\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="network\Client.cpp">
-      <Filter>network\Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="network\Message.cpp">
       <Filter>network\Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="network\Server.cpp">
