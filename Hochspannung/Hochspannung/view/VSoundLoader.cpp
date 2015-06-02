@@ -56,11 +56,11 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(OPERATION_CANCELED, "click");
 	setSoundEffectHelper(POWERPLANT_SWITCH_ON, "gui_switch");
 	setSoundEffectHelper(POWERPLANT_SWITCH_OFF, "gui_switch");
-	setSoundEffectHelper(SABOTAGE_RECEIVED, "sabotage_received");
-	setSoundEffectHelper(SABOTAGE_EMITTED, "click");
+	setSoundEffectHelper(SABOTAGE_RECEIVED, "sabotage_receive");
+	setSoundEffectHelper(SABOTAGE_EMITTED, "sabotage_execute");
 	setSoundEffectHelper(ENERGY_LOW, "lowEnergy");
-	setSoundEffectHelper(GAME_OVER, "click");
-	setSoundEffectHelper(GAME_WON, "game_won");
+	setSoundEffectHelper(GAME_OVER, "game_lose");
+	setSoundEffectHelper(GAME_WON, "game_win");
 
 	DEBUG_EXPRESSION(initDone = true);
 }
