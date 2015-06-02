@@ -42,7 +42,7 @@ public:
 	void hostGame();
 	void joinGame(const std::string& ipAddress);
 
-	virtual void updateMoney(const int money) override;
+	virtual void updateMoney(const int money, const LPlayer::PlayerId playerId) override;
 	virtual void updateRemainingSabotageActs(const int remainingSabotageActs) override;
 	virtual void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) override;
 	virtual void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) override;

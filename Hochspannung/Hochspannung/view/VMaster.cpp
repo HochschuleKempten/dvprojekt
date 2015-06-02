@@ -123,9 +123,12 @@ void VMaster::joinGame(const std::string& ipAddress)
 	lMaster->startNewGame(ipAddress);
 }
 
-void VMaster::updateMoney(const int money)
+void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
 {
-	vUi.updateMoney(money);
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateMoney(money);
+	}
 }
 
 void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)

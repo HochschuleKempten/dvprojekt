@@ -12,9 +12,9 @@
 #include "Vektoria\Splash.h"
 #include "Mmsystem.h"
 #include "wtypes.h"
+#include "view\VSoundLoader.h"
 
 #pragma comment(lib, "winmm.lib")
-
 
 //--------------------------------------------------------------------------------------
 // Global variables
@@ -113,6 +113,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		MessageBox(NULL, _T("Call to CreateWindow failed!"), _T("VektoriaV9App"), NULL);
 		return 1;
 	}
+	
+	VSoundLoader::initMixer();
 
 	//g_bFullscreen = true;
 	//ChangeDisplay(hWnd);

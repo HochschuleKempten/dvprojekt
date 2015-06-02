@@ -382,6 +382,9 @@
     <ClInclude Include="view\VGraphRatio.h">
       <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\Mixer.h">
+      <Filter>view</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">

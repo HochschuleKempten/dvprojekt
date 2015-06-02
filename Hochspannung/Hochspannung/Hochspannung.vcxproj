@@ -209,6 +209,7 @@
     <ClInclude Include="view\IViewSubject.h" />
     <ClInclude Include="view\IViewUIObserver.h" />
     <ClInclude Include="view\LargeOfficeBuilding.h" />
+    <ClInclude Include="view\Mixer.h" />
     <ClInclude Include="view\OfficeTowerViewingDeck.h" />
     <ClInclude Include="view\SmallOfficeBuilding.h" />
     <ClInclude Include="view\TwistedTower.h" />

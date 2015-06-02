@@ -3,6 +3,7 @@
 #include "IVTickObserver.h"
 #include "LGeneral.h"
 #include "LSabotage.h"
+#include "LBalanceLoader.h"
 
 
 NAMESPACE_LOGIC_B
@@ -27,17 +28,18 @@ private:
 	int coolDownCounterPowerLine = 0;
 	int coolDownCounterResource = 0;
 	int coolDownCounterPowerPlant = 0;
-	int sabotageActs = -1;
+	int sabotageActs = LBalanceLoader::getSabotageActs();;
 	std::vector<ILPowerPlant*> powerPlants;
 	std::vector<ILPowerPlant*> prevConnectedPowerPlants;
 	std::vector<LPowerLine*> powerLines;
 	LCity* city = nullptr;
 	float timeLastCheck = 0;
+	PlayerId playerId = Local;
 
 public:
 	LPlayer()
 	{}
-	explicit LPlayer(LMaster* lMaster);
+	explicit LPlayer(LMaster* lMaster, const PlayerId playerId);
 	virtual ~LPlayer();
 	virtual void tick(const float fTimeDelta) override;
 	int getMoney() const;

@@ -17,15 +17,16 @@
 NAMESPACE_LOGIC_B
 
 LMaster::LMaster(IVMaster& vMaster)
-: vMaster(vMaster), networkService(Network::CNetworkService::instance())
+	: vMaster(vMaster), networkService(Network::CNetworkService::instance())
 {
+	LBalanceLoader::init();
+
 	vMaster.registerObserver(this);
 
-	lPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(this));
-	lPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(this));
+	lPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(this, LPlayer::Local));
+	lPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(this, LPlayer::Remote));
 
-	LBalanceLoader::init();
-	getPlayer(LPlayer::Local)->addMoney(LBalanceLoader::getDefaultMoney());
+	//Only add default money to the local player
 	getPlayer(LPlayer::Local)->addMoney(LBalanceLoader::getDefaultMoney());
 }
 
