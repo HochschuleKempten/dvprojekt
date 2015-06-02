@@ -381,6 +381,9 @@
     </ClInclude>
     <ClInclude Include="view\Mixer.h">
       <Filter>view</Filter>
+	</ClInclude>
+    <ClInclude Include="view\VModelHydroelectricPowerPlant.h">
+      <Filter>view\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -608,6 +611,9 @@
     </ClCompile>
     <ClCompile Include="logic\LRemoteOperation.cpp">
       <Filter>logic\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VModelHydroelectricPowerPlant.cpp">
+      <Filter>view\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

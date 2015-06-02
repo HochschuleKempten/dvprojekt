@@ -125,7 +125,10 @@ CMaterial VMaterialLoader::m_zmCable;
 
 //Windkraftwerktexturen
 CMaterial VMaterialLoader::m_zmWindGrund;
-CMaterial VMaterialLoader::m_zmWindrad;
+CMaterial VMaterialLoader::m_zmWindRad;
+CMaterial VMaterialLoader::m_zmWindFluegel1;
+CMaterial VMaterialLoader::m_zmWindFluegel2;
+CMaterial VMaterialLoader::m_zmWindFluegel3;
 
 //Solarkraftwerktexturen
 CMaterial VMaterialLoader::m_zmSolarzelle;
@@ -164,6 +167,10 @@ CMaterial VMaterialLoader::m_zmKohle;
 CMaterial VMaterialLoader::m_zmKohleHolz;
 CMaterial VMaterialLoader::m_zmKohleLore;
 CMaterial VMaterialLoader::m_zmKohleBlack;
+
+//Wasserkraftwerktexturen
+CMaterial VMaterialLoader::m_zmWasser;
+
 
 //PlayerColor
 std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
@@ -370,7 +377,10 @@ void VMaterialLoader::init()
 
 	//Windkraftwerktexturen
 	m_zmWindGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
-	m_zmWindrad.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindRad.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindFluegel1.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindFluegel2.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindFluegel3.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
 	m_zmWindGrund.SetTextureSpecularAsDiffuse();
 
 	//Solarkraftwerktexturen
@@ -421,6 +431,10 @@ void VMaterialLoader::init()
 	m_zmKohleBlack.MakeTextureDiffuse("Textures\\black_image.jpg");
 	m_zmKohleBerg.SetTextureSpecularAsDiffuse();
 	
+	//Wasserkraftwerktexturen
+	m_zmWasser.MakeTextureDiffuse("Textures\\Wasser_textur.jpg");
+
+
 	//Building - Foundation
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(222.0f / 255.0f, 186.0f / 255.0f, 69.0f / 255.0f));
