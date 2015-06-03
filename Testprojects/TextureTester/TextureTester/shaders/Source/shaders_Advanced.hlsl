@@ -295,25 +295,47 @@ float2 SphericalMapping(float3 f3)
 	float  phi = 0;
 
 
-	phi = atan(f3.x / f3.z);
-	if (f3.x >= 0)
+	if ((f3.z >= 0) && (f3.x >= 0))
 	{
-		if ((f3.z < 0))
-		{
-			phi += pi;
-		}
+		phi = atan(f3.x / f3.z);
 	}
-	else
+	if ((f3.z<0) && (f3.x >= 0))
 	{
-		if (f3.z<0)
-		{
-			phi += pi;
-		}
-		else
-			phi += 2 * pi;
-
+		phi = atan(f3.x / f3.z);
+		phi += pi;
 	}
-
+	if ((f3.z<0) && (f3.x<0))
+	{
+		phi = atan(f3.x / f3.z);
+		phi += pi;
+	}
+	if ((f3.z >= 0) && (f3.x<0))
+	{
+		phi = atan(f3.x / f3.z);
+		phi += 2 * pi;
+	}
+	
+	/*
+	if ((f3.x >= 0) && (f3.z >= 0))
+	{
+		phi = atan(f3.z / f3.x);
+	}
+	if ((f3.x<0) && (f3.z >= 0))
+	{
+		phi = atan(f3.z / f3.x);
+		phi += pi;
+	}
+	if ((f3.x<0) && (f3.z<0))
+	{
+		phi = atan(f3.z / f3.x);
+		phi += pi;
+	}
+	if ((f3.x >= 0) && (f3.z<0))
+	{
+		phi = atan(f3.z / f3.x);
+		phi += 2 * pi;
+	}
+	*/
 	phi /= 2.f * pi;
 
 	float  theta = acos(f3.y);
@@ -339,9 +361,8 @@ float4 PS(PS_INPUT input) : SV_Target
 		input.f2TexCoord.x = fxPic / fxPics + input.f2TexCoord.x*(1 / fxPics);
 		input.f2TexCoord.y = fyPic / fyPics + input.f2TexCoord.y*(1 / fyPics);
 	}
+
 	float2 f2ParallaxTex = input.f2TexCoord;
-
-
 	const float3 f3aNormal = input.f3Normal;
 	if (uPOM == 1) //POM
 	{
@@ -558,6 +579,9 @@ float4 PS(PS_INPUT input) : SV_Target
 							}
 						}
 					}
+					//float4 f4BilVals = shadowMap.Gather(shadowSampler, alLight.f4LightPos.xy);
+					//float fMid = (f4BilVals.x + f4BilVals.y + f4BilVals.z + f4BilVals.w);
+					//fsum /= fMid;*/
 					shadowFactor = fsum / 16.f;
 				}
 				else
@@ -597,6 +621,14 @@ float4 PS(PS_INPUT input) : SV_Target
 			f4ReflectionTexture = tex2D[2].Sample(linearSampler, f2ParallaxTex);
 		f4SpecCol.rgb = 2 * f4ReflectionTexture.bbb  * (fSpecular * f4Diffuse); // TODO: Besser als f4ReflectionTexture.bbbb wäre die Lichtfarbe
 		f4SpecCol.a = 1;
+		/*
+		if (uSpecularWhite) // TEXFLAG_SPECULARWHITE
+			f4SpecCol = 2 * (fSpecular * f4Diffuse);
+		else if (uSpecularAsImage)// TEXFLAG_SPECULARASIMAGE 
+			f4SpecCol = 2 * tex2D[0].Sample(linearSampler, f2ParallaxTex) * (fSpecular * f4Diffuse);
+		else
+			f4SpecCol = 2 * tex2D[2].Sample(linearSampler, f2ParallaxTex) * (fSpecular * f4Diffuse);
+		*/
 	}
 	else
 	{
@@ -675,6 +707,7 @@ float4 PS(PS_INPUT input) : SV_Target
 			fAlpha);
 
 	}
+
 	// Berechnung des Glowmappings:
 	float4 f4Glow;
 	if (uGlow) // TEXFLAG_GLOW
@@ -696,7 +729,7 @@ float4 PS(PS_INPUT input) : SV_Target
 		f4TexCol.rgb *= f4Diffuse.rgb;
 
 	// Alpha Mapping und Integration:
-	float4 f4ColorOut = f4ColorAmbient + f4TexCol + f4Glow; 
+	float4 f4ColorOut = f4ColorAmbient + f4TexCol + f4Glow; //  +f4SpecCol;
 
 	//Berechnung des Environmentmappings
 	if (uEnvironment)
@@ -706,12 +739,9 @@ float4 PS(PS_INPUT input) : SV_Target
 		float3 f3Refraction = refract(f3EyeVector, input.f3Normal, .95f);
 		float4 f4RefrColor = tex2D[4].Sample(linearSampler, SphericalMapping(f3Refraction));
 		float4 f4ReflColor = tex2D[4].Sample(linearSampler, SphericalMapping(f3Reflection));
-		float fColorStrength = 1.0f - f4ReflectionTexture.r - f4ReflectionTexture.g - f4ReflectionTexture.b;
-//		fColorStrength = 1;
+		float fColorStrength = 1 - f4ReflectionTexture.r - f4ReflColor*f4ReflectionTexture.g - f4ReflColor*f4ReflectionTexture.b;
 		saturate(fColorStrength);
-		//		f4ColorOut = f4RefrColor*f4ReflectionTexture.r + f4ReflColor*f4ReflectionTexture.g + f4SpecCol*f4ReflectionTexture.b+fColorStrength*f4ColorOut;
-		f4ColorOut = f4RefrColor*f4ReflectionTexture.r + f4ReflColor*f4ReflectionTexture.g + f4SpecCol*f4ReflectionTexture.b + f4ColorOut*fColorStrength;
-		
+		f4ColorOut = f4RefrColor*f4ReflectionTexture.r + f4ReflColor*f4ReflectionTexture.g + f4SpecCol*f4ReflectionTexture.b+fColorStrength*f4ColorOut;
 	}
 	else
 		f4ColorOut = f4ColorOut +f4SpecCol;
@@ -836,11 +866,6 @@ float4 PS(PS_INPUT input) : SV_Target
 	{
 		// Hier ist Platz für Deinen eigenen Shader:
 	}
-
-//	float4 f4ColorOut;
-//	float2 f2ParallaxTex = input.f2TexCoord;
-//	f4ColorOut = tex2D[0].Sample(linearSampler, f2ParallaxTex);
-
-
+	
 	return f4ColorOut;
 }

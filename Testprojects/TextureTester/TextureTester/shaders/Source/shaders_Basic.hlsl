@@ -183,8 +183,10 @@ PS_INPUT VS(VS_INPUT input)
 	float d;
 
 	[unroll]
-	for (uint i = 0; i < iLightCount; i++)
-	{
+	uint i = 0;
+//	uint i = saturate(iLightCount);
+//	for (uint i = 0; i < iLightCount; i++)
+//	{
 		// get the lights that we need to render for current vertex
 		int lightCurrentId = iLightsAffecting[i];
 		lightCurrent = Lights[lightCurrentId];
@@ -222,7 +224,7 @@ PS_INPUT VS(VS_INPUT input)
 		}
 
 		output.aAffectingLights[i].iType = lightCurrent.iType;
-	}
+//	}
 
 	matrix viewproj = mul(View, Projection);
 	output.f4Pos = mul(output.f4Pos, viewproj);
@@ -295,25 +297,26 @@ float2 SphericalMapping(float3 f3)
 	float  phi = 0;
 
 
-	phi = atan(f3.x / f3.z);
-	if (f3.x >= 0)
+	if ((f3.z >= 0) && (f3.x >= 0))
 	{
-		if ((f3.z < 0))
-		{
-			phi += pi;
-		}
+		phi = atan(f3.x / f3.z);
 	}
-	else
+	if ((f3.z<0) && (f3.x >= 0))
 	{
-		if (f3.z<0)
-		{
-			phi += pi;
-		}
-		else
-			phi += 2 * pi;
-
+		phi = atan(f3.x / f3.z);
+		phi += pi;
 	}
-
+	if ((f3.z<0) && (f3.x<0))
+	{
+		phi = atan(f3.x / f3.z);
+		phi += pi;
+	}
+	if ((f3.z >= 0) && (f3.x<0))
+	{
+		phi = atan(f3.x / f3.z);
+		phi += 2 * pi;
+	}
+	
 	phi /= 2.f * pi;
 
 	float  theta = acos(f3.y);
@@ -340,6 +343,7 @@ float4 PS(PS_INPUT input) : SV_Target
 		input.f2TexCoord.y = fyPic / fyPics + input.f2TexCoord.y*(1 / fyPics);
 	}
 	float2 f2ParallaxTex = input.f2TexCoord;
+		/*
 
 
 	const float3 f3aNormal = input.f3Normal;
@@ -462,6 +466,7 @@ float4 PS(PS_INPUT input) : SV_Target
 		input.f3Normal += ((fHeightX)* f3T + (fHeightY)* f3B);
 		input.f3Normal = normalize(input.f3Normal);
 	}
+	*/
 	// Berechnung des Bump Mappings:
 	if (uBump)
 	{
@@ -481,8 +486,10 @@ float4 PS(PS_INPUT input) : SV_Target
 	shadowMap.GetDimensions(fWidth, fHeight);
 
 	[unroll]
-	for (uint i = 0; i < input.iLightCount; i++)
-	{
+//	for (uint i = 0; i < input.iLightCount; i++)
+	// uint i = saturate(input.iLightCount);
+	uint i = 0;
+//	{
 		AffectingLight alLight = input.aAffectingLights[i];
 
 		// SPOT LIGHT
@@ -500,7 +507,7 @@ float4 PS(PS_INPUT input) : SV_Target
 			}
 			else
 			{
-				continue;
+//				continue;
 			}
 			}
 			// SHADOW MAPPING
@@ -511,11 +518,12 @@ float4 PS(PS_INPUT input) : SV_Target
 
 				//if position is not visible to the light - dont illuminate it
 				//results in hard light frustum
+				/*
 				[branch]
 				if (alLight.f4LightPos.x < -1.0f || alLight.f4LightPos.x > 1.0f ||
 					alLight.f4LightPos.y < -1.0f || alLight.f4LightPos.y > 1.0f ||
 					alLight.f4LightPos.z < 0.0f || alLight.f4LightPos.z > 3.0f) continue;
-
+					*/
 				//alLight.f4LightPos.z -= 0.00001f;
 				const float2 Offset = f2ParallaxTex - input.f2TexCoord;
 				alLight.f4LightPos.x -= Offset.x * .2f;
@@ -524,6 +532,7 @@ float4 PS(PS_INPUT input) : SV_Target
 				//transform clip space coords to texture space coords (-1:1 to 0:1)	
 				alLight.f4LightPos.x = alLight.f4LightPos.x * 0.5f + 0.5f;
 				alLight.f4LightPos.y = alLight.f4LightPos.y * -0.5f + 0.5f;
+				/*
 				[branch]
 				if (alLight.bSoftShadow)
 				{
@@ -558,12 +567,16 @@ float4 PS(PS_INPUT input) : SV_Target
 							}
 						}
 					}
+					//float4 f4BilVals = shadowMap.Gather(shadowSampler, alLight.f4LightPos.xy);
+					//float fMid = (f4BilVals.x + f4BilVals.y + f4BilVals.z + f4BilVals.w);
+					//fsum /= fMid;
 					shadowFactor = fsum / 16.f;
 				}
 				else
 				{
 					shadowFactor = shadowMap.SampleCmpLevelZero(shadowSampler, alLight.f4LightPos.xy, alLight.f4LightPos.z) / 4.f;
 				}
+				*/
 			}
 			else
 			{
@@ -572,7 +585,7 @@ float4 PS(PS_INPUT input) : SV_Target
 		}
 		// EVERY LIGHT
 		f4Diffuse += saturate(dot(alLight.f3Direction, normalize(input.f3Normal))) * alLight.fLuminosity * alLight.f4Color * fFallOff * shadowFactor;
-	}
+//	}
 	f4Diffuse = saturate(fH * f4Diffuse);  // saturate clamps the specified value within the range of 0 to 1.
 
 
@@ -584,7 +597,8 @@ float4 PS(PS_INPUT input) : SV_Target
 	if (uSpecular) // TEXTFLAG_SPECULAR
 	{
 		[unroll]
-		for (uint i = 0; i < input.iLightCount; i++)
+		uint i = 0;
+//		for (uint i = 0; i < input.iLightCount; i++)
 		{
 			f3Half = normalize(normalize(input.aAffectingLights[i].f3Direction) + normalize(input.f3CamPos - (float3)input.f4VertexPos));
 			fSpecular += pow(saturate(dot(normalize(input.f3Normal), f3Half)), fA);
@@ -653,10 +667,10 @@ float4 PS(PS_INPUT input) : SV_Target
 		// Bilineare Interpolation:
 		float fAlpha = (f4Col2.a - f4Col1.a) * f2TexPos1.x + f4Col1.a;
 		fAlpha = (((f4Col4.a - f4Col3.a) * f2TexPos1.x + f4Col3.a) - fAlpha) * f2TexPos1.y + fAlpha;
-		//	if (fAlpha < 0.75) 
-		//		f4TexCol.a = 0;			// discard;
-		if (fAlpha <0.73)
-			f4TexCol.a = fAlpha - 0.40; // etwas weiche Raender
+		if (fAlpha < 0.75) 
+				f4TexCol.a = 0;			// discard;
+		// if (fAlpha <0.73)
+		// 	f4TexCol.a = fAlpha - 0.40; // etwas weiche Raender
 
 		f4Col1 = float4(
 			(f4Col2.r - f4Col1.r) * f2TexPos1.x + f4Col1.r,
@@ -702,19 +716,19 @@ float4 PS(PS_INPUT input) : SV_Target
 	if (uEnvironment)
 	{
 		float3 f3EyeVector = -normalize(input.f3CamPos - input.f4VertexPos.xyz);
-		float3 f3Reflection = reflect(f3EyeVector, input.f3Normal);
-		float3 f3Refraction = refract(f3EyeVector, input.f3Normal, .95f);
-		float4 f4RefrColor = tex2D[4].Sample(linearSampler, SphericalMapping(f3Refraction));
-		float4 f4ReflColor = tex2D[4].Sample(linearSampler, SphericalMapping(f3Reflection));
-		float fColorStrength = 1.0f - f4ReflectionTexture.r - f4ReflectionTexture.g - f4ReflectionTexture.b;
-//		fColorStrength = 1;
+			float3 f3Reflection = reflect(f3EyeVector, input.f3Normal);
+			float3 f3Refraction = refract(f3EyeVector, input.f3Normal, .95f);
+			float4 f4RefrColor = tex2D[4].Sample(linearSampler, SphericalMapping(f3Refraction));
+			float4 f4ReflColor = tex2D[4].Sample(linearSampler, SphericalMapping(f3Reflection));
+			float fColorStrength = 1.0f - f4ReflectionTexture.r - f4ReflectionTexture.g - f4ReflectionTexture.b;
+		//		fColorStrength = 1;
 		saturate(fColorStrength);
 		//		f4ColorOut = f4RefrColor*f4ReflectionTexture.r + f4ReflColor*f4ReflectionTexture.g + f4SpecCol*f4ReflectionTexture.b+fColorStrength*f4ColorOut;
 		f4ColorOut = f4RefrColor*f4ReflectionTexture.r + f4ReflColor*f4ReflectionTexture.g + f4SpecCol*f4ReflectionTexture.b + f4ColorOut*fColorStrength;
-		
+
 	}
 	else
-		f4ColorOut = f4ColorOut +f4SpecCol;
+		f4ColorOut = f4ColorOut + f4SpecCol;
 
 
 	// Florian Schnell: dieser Fix erlaubt transparente Ambiente Texturen
@@ -723,6 +737,7 @@ float4 PS(PS_INPUT input) : SV_Target
 	else
 		f4ColorOut.a = f4ColorAmbient.a;
 
+	/*
 	//TexBRDF nur mit normal- und heigtmap
 	if (uTexBRDF && uBump && uPOM)
 	{
@@ -827,20 +842,21 @@ float4 PS(PS_INPUT input) : SV_Target
 		f4ColorOut.rgb += length(input.f3CamPos - (float3)input.f4VertexPos) / f4FogParams.a; // Nebel
 	}
 
-	if (uStyleColor) // Style Colorize
-	{
-		f4ColorOut = mul(f4ColorOut, mColorModification);
-	}
 
 	if (uStyleOwn) // Own-Shading
 	{
 		// Hier ist Platz für Deinen eigenen Shader:
 	}
+	*/
 
 //	float4 f4ColorOut;
 //	float2 f2ParallaxTex = input.f2TexCoord;
 //	f4ColorOut = tex2D[0].Sample(linearSampler, f2ParallaxTex);
 
+//	if (uStyleColor) // Style Colorize
+//	{
+		f4ColorOut = mul(f4ColorOut, mColorModification);
+//	}
 
 	return f4ColorOut;
 }

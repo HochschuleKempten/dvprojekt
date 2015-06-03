@@ -227,6 +227,7 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
 	std::string textureSpecular = std::string("textures/terrain/texture_terrain_base_specular.png");// +textureName + std::string("_specular.png");
 	std::string textureBump = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_bump.png");
+	std::string textureEnvironmental = std::string("textures/buildings/texture_skymap.png");
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureDiffuse(&textureDiffuse[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureDiffuse(&textureDiffuse[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureDiffuse(&textureDiffuse[0]);
@@ -239,6 +240,9 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].SetDiffuseSharpness(2.5f);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].SetDiffuseSharpness(2.5f);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].SetDiffuseSharpness(2.5f);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureEnvironment(&textureEnvironmental[0]);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureEnvironment(&textureEnvironmental[0]);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureEnvironment(&textureEnvironmental[0]);
 }
 
 void VMaterialLoader::init()
@@ -506,6 +510,9 @@ void VMaterialLoader::init()
 	materialTwistedTower.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
 	materialTwistedTower.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
 	materialTwistedTower.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+
+	materialWindowsofBuilding.MakeTextureEnvironment("textures/buildings/texture_skymap.png");
+	materialWindowsofBuilding.MakeTextureSpecular("textures/buildings/texture_window_specular.png");
 	
 
 	//Animierte Texturen
