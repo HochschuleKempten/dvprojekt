@@ -103,6 +103,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_powerPlantsNameMapping[BUILDING_COALPOWERPLANT] = "countCoal";
 	m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT] = "countOil";
 	m_powerPlantsNameMapping[BUILDING_WINDMILL] = "countWind";
+	m_powerPlantsNameMapping[BUILDING_POWERLINE] = "countPowerline";
 
 	
 	/********************************************************TOP AREA***************************************************************/
@@ -198,14 +199,14 @@ m_vtTabStatistics->addOverlay(CFloatRect(0.22f, 0.75f, 0.05f, 0.15f), &VMaterial
 m_vtTabStatistics->addText(CFloatRect(0.29f, 0.8f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT], 0.1F);
 
 // Renewable / fossil energy Statistics
-m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.575F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainer",0.2F);
+m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.575F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainer",0.199F);
 m_vgGraphEnergyRatio = m_vtTabStatistics->getContainer("RenFosEnergyContainer")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialGreen);
 
 
-m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.825F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainerEnemy",0.2F);
+m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.825F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialRed, "RenFosEnergyContainerEnemy",0.199F);
 m_vgGraphEnergyRatioEnemy = m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatioEnemy", &VMaterialLoader::materialGreen);
 
-
+m_vgGraphEnergyRatio->switchHorizontal();
 //m_vgGraphEnergyRatio->toggleType();
 updateGraphRatio(0.9f);
 updateGraphRatioEnemy(0.5f);
@@ -231,9 +232,9 @@ vrRegister->SwitchToTab("TabBuilding");
 	/***********************************************************Dialog******************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.35F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialIngameMenueDialogBackground, "DialogBox", 0.3F);
 
-	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING, "MenueButtonContinue", 0.2F);
+	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.15F), &VMaterialLoader::materialButtonGameContinue, &VMaterialLoader::materialButtonGameContinueHover, NOTHING, "MenueButtonContinue", 0.2F);
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.27F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "MenueButtonQuit", 0.2F);
-	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.44F, 0.80F, 0.15F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "MenueButtonBack", 0.2F);
+	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.44F, 0.80F, 0.15F), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover, NOTHING, "MenueButtonBack", 0.2F);
 
 	/********************************************************Energy AREA*************************************************************/
 
@@ -267,22 +268,16 @@ void VScreenIngame::onNotify(const Event& events)
 	switch (events)
 	{
 	case SWITCH_TO_REGISTER_BUILDING:
-		/*m_vtTabBuilding->switchOn();
-		m_vtTabSabotage->switchOff();
-		m_vtTabStatistics->switchOff();*/
+		
 		vrRegister->SwitchToTab("TabBuilding");
 		break;
 
 	case SWITCH_TO_REGISTER_SABOTAGE:
-		/*m_vtTabBuilding->switchOff();
-		m_vtTabSabotage->switchOn();
-		m_vtTabStatistics->switchOff();*/
+		
 		vrRegister->SwitchToTab("TabSabotage");
 		break;
 	case SWITCH_TO_REGISTER_STATISTICS:
-		/*m_vtTabBuilding->switchOff();
-		m_vtTabSabotage->switchOff();
-		m_vtTabStatistics->switchOn();*/
+		
 		vrRegister->SwitchToTab("TabStatistics");
 		updatePowerPlants();
 		break;
@@ -612,6 +607,7 @@ void VScreenIngame::updateRemovedPowerPlant(const LIdentifier::LIdentifier id)
 	}
 }
 
+
 void VScreenIngame::updateNumberPowerLines(const int newNumberPowerLines)
 {
 	statPlacedBuildings[BUILDING_POWERLINE] = newNumberPowerLines;
@@ -622,6 +618,7 @@ void VScreenIngame::updatePowerPlants()
 	//VTab * tabStatistics = CASTD<VRegister *>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics");
 	for (const std::pair<BUILDINGTYPE, int>& plant : statPlacedBuildings)
 	{
+		if(plant.first!=BUILDING_POWERLINE)
 		CASTD<VText*>(m_vtTabStatistics->getGuiObject(m_powerPlantsNameMapping[plant.first]))->updateText(std::to_string(plant.second));
 	}
 }

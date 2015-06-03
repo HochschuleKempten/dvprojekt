@@ -50,6 +50,9 @@ CMaterial VMaterialLoader::materialButtonMainMenueCreditsHover;
 CMaterial VMaterialLoader::materialButtonMainMenueSpielBeenden; 
 CMaterial VMaterialLoader::materialButtonMainMenueSpielBeendenHover;
 
+CMaterial VMaterialLoader::materialButtonGameContinue;
+CMaterial VMaterialLoader::materialButtonGameContinueHover;
+
 
 CMaterial VMaterialLoader::materialButtonBack;
 CMaterial VMaterialLoader::materialButtonBackHover;
@@ -284,6 +287,9 @@ void VMaterialLoader::init()
 	materialButtonAbort.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort.png");
 	materialButtonAbortHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort_hover.png");
 
+	materialButtonGameContinue.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue.png");
+	materialButtonGameContinueHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue_hover.png");
+
 	//MainMenue Background
 	materialMainMenueBackground.MakeTextureSprite("textures/gui/background/wasserkraftwerk.png");
 
@@ -376,7 +382,7 @@ void VMaterialLoader::init()
 
 	
 //	standardFont.SetTransparencyOn();
-	GoldFont.SetTransparencyOn();
+	//GoldFont.SetTransparencyOn();
 	//Building - Trasse
 	m_zmConcrete.MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse.png");
 	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
