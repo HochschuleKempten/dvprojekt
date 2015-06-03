@@ -76,7 +76,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case (LSabotage::PowerLine) :
 			if (coolDownCounterPowerLine > 0)
 			{
-				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerline sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
+				lMaster->getVMaster()->showMessage(std::string("Powerline sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
 				return false;
 			}
 
@@ -86,7 +86,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case(LSabotage::PowerPlant) :
 			if (coolDownCounterPowerPlant > 0)
 			{
-				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerplant sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
+				lMaster->getVMaster()->showMessage(std::string("Powerplant sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
 				return false;
 			}
 
@@ -96,7 +96,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case(LSabotage::Resource) :
 			if (coolDownCounterResource > 0)
 			{
-				lMaster->getVMaster()->messageSabotageFailed(std::string("Resource sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
+				lMaster->getVMaster()->showMessage(std::string("Resource sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
 				return false;
 			}
 
@@ -114,13 +114,13 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 
 		if (getMoney() < sabotageCost)
 		{
-			lMaster->getVMaster()->messageSabotageFailed("You do not have enough money for the sabotage act!");
+			lMaster->getVMaster()->showMessage("You do not have enough money for the sabotage act!");
 			return false;
 		}
 
 		if (!checkCooldown())
 		{
-			lMaster->getVMaster()->messageSabotageFailed("You have to wait befor you emit your next sabotage act!");
+			lMaster->getVMaster()->showMessage("You have to wait befor you emit your next sabotage act!");
 			return false;
 		}
 
@@ -132,7 +132,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		return true;
 	}
 
-	lMaster->getVMaster()->messageSabotageFailed("No sabotage acts left!");
+	lMaster->getVMaster()->showMessage("No sabotage acts left!");
 	return false;
 }
 

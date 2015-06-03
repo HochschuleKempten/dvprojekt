@@ -21,7 +21,7 @@ void VSolarPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPt
 {
 	viewModel.initViewModel(this);
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
-	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
+	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f - 0.1f);
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 

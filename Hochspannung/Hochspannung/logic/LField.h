@@ -80,11 +80,11 @@ public:
 	bool setBuilding(const Args... arguments)
 	{
 		if (buildingPlaced) {
-			lPlayingField->getLMaster()->getVMaster()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann hier nicht platziert werden, da auf dem Feld ") + std::to_string(fieldType) + std::string(" bereits ein Gebäude steht."));
+			lPlayingField->getLMaster()->getVMaster()->showMessage(std::string("Ein ") + getClassName(T) + std::string(" kann hier nicht platziert werden, da auf dem Feld ") + std::to_string(fieldType) + std::string(" bereits ein Gebäude steht."));
 			return false;
 		}
 		if (!checkBuildingType<T>()) {
-			lPlayingField->getLMaster()->getVMaster()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann nicht auf einem Feld vom Typ ") + std::to_string(fieldType) + std::string(" platziert werden"));
+			lPlayingField->getLMaster()->getVMaster()->showMessage(std::string("Ein ") + getClassName(T) + std::string(" kann nicht auf einem Feld vom Typ ") + std::to_string(fieldType) + std::string(" platziert werden"));
 			return false;
 		}
 

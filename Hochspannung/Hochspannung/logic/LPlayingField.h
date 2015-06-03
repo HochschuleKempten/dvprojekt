@@ -133,7 +133,7 @@ private:
 
 		//Check costs
 		if (playerId & LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < LBalanceLoader::getCost<T>()) {
-			lMaster->getVMaster()->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") +
+			lMaster->getVMaster()->showMessage(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") +
 												 std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") +
 												 std::to_string(LBalanceLoader::getCost<T>()) + std::string(" benötigt."));
 			return false;

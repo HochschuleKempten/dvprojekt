@@ -1,7 +1,6 @@
 #pragma once
 
 #include "VGeneral.h"
-#include "Mixer.h"
 
 NAMESPACE_VIEW_B
 
@@ -35,7 +34,6 @@ private:
 	static void setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename);
 
 private:
-	static Mixer mixer;
 	static CScene* scene;		//Background music needs to be added to scene
 	DEBUG_EXPRESSION(static bool initDone);
 	static CAudio backgroundMusicIngameStart;
@@ -44,9 +42,7 @@ private:
 	static std::unordered_map<SoundEffect, CPlacement*> soundeffectsLastPlacements;
 
 public:
-	static void initMixer();
 	static void init(CScene* scene);
-	static void setSoundOn();
 	static void playBackgroundMusicIngame();
 	static void playElectricitySoundLoop(CPlacement* placement);
 	static void playSoundeffect(const SoundEffect soundEffect, CPlacement* placement);

@@ -82,16 +82,6 @@ void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
 	}
 }
 
-void VMaster::messageSabotageFailed(const std::string& message)
-{
-	vUi.showMessage(message);
-}
-
-void VMaster::messageBuildingFailed(const std::string& message)
-{
-	vUi.showMessage(message);
-}
-
 void VMaster::showMessage(const std::string& message)
 {
 	vUi.showMessage(message);

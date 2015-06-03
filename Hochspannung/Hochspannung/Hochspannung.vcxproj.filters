@@ -379,9 +379,6 @@
     <ClInclude Include="view\VGraphRatio.h">
       <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\Mixer.h">
-      <Filter>view</Filter>
-	</ClInclude>
     <ClInclude Include="view\VModelHydroelectricPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>

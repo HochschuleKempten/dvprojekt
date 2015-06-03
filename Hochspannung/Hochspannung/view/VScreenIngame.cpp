@@ -82,12 +82,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zpCamera.AddCamera(&m_zc);
 	m_zpCamera.TranslateZ(60.0F);
 
-	//m_zpCamera.TranslateYDelta(6.5f);
 	//m_zpCamera.RotateXDelta(0.40F * PI);
 	//m_zpCamera.TranslateZDelta(5.0f);
 
 	m_zpCamera.RotateXDelta(0.20F * PI);
-	//m_zpCamera.RotateZDelta(0.15F);
 
 	VSoundLoader::init(&m_scene);
 	VSoundLoader::playBackgroundMusicIngame();

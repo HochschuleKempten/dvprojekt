@@ -1,4 +1,5 @@
 #pragma once
+
 #include "IVTickObserver.h"
 #include "LGeneral.h"
 #include "LPlayer.h"
@@ -44,13 +45,10 @@ public:
 	virtual void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) = 0;
 	virtual void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) = 0;
 	virtual void updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId) = 0;
-	virtual void pauseGame() = 0;
-	virtual void continueGame() = 0;
 	virtual void updateGameList(const std::vector<Network::CGameObject>& gameList) = 0;
 	virtual void updateRegenerativeRatio(const float ratio) = 0;
-
-	virtual void messageBuildingFailed(const std::string& message) = 0;
-	virtual void messageSabotageFailed(const std::string& message) = 0;
+	virtual void pauseGame() = 0;
+	virtual void continueGame() = 0;
 	virtual void showMessage(const std::string& message) = 0;
 };
 

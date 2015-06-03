@@ -1,11 +1,8 @@
 #include "VSoundLoader.h"
-#include <Windows.h>
-#include <VersionHelpers.h>
 
 NAMESPACE_VIEW_B
 
 
-Mixer VSoundLoader::mixer;
 CScene* VSoundLoader::scene = nullptr;
 DEBUG_EXPRESSION(bool VSoundLoader::initDone = false);
 DEBUG_EXPRESSION(static const char* const assertMsg = "SoundLoader is not initialized");
@@ -22,21 +19,6 @@ void VSoundLoader::setSoundEffectHelper(const SoundEffect soundEffect, const std
 	soundeffects[soundEffect].SetVolume(1.0f);
 	scene->AddAudio(&soundeffects[soundEffect]);
 	soundeffectsLastPlacements[soundEffect] = nullptr;
-}
-
-void VSoundLoader::initMixer()
-{
-	if (!IsWindows8OrGreater())
-	{
-		const bool mixerInitSuccessful = mixer.init() && mixer.GetMuteControl();
-		const bool muteSuccessful = mixer.SetMute(true);
-#ifdef _DEBUG
-		if (!mixerInitSuccessful || !muteSuccessful)
-		{
-			DEBUG_OUTPUT("Sound mixer could not be initialized");
-		}
-#endif
-	}
 }
 
 void VSoundLoader::init(CScene* scene)
@@ -63,20 +45,6 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(GAME_WON, "game_win");
 
 	DEBUG_EXPRESSION(initDone = true);
-}
-
-void VSoundLoader::setSoundOn()
-{
-	if (!IsWindows8OrGreater())
-	{
-		const bool muteSuccessful = mixer.SetMute(false);
-#ifdef _DEBUG
-		if (!muteSuccessful)
-		{
-			DEBUG_OUTPUT("Sound mixer could not be initialized");
-		}
-#endif
-	}
 }
 
 void VSoundLoader::playBackgroundMusicIngame()
