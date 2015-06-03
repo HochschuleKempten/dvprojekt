@@ -74,6 +74,11 @@ CMaterial VMaterialLoader::materialIngameButtonStatistics;
 CMaterial VMaterialLoader::materialIngameButtonCraftmenuHover;
 CMaterial VMaterialLoader::materialIngameButtonSabotageHover;
 CMaterial VMaterialLoader::materialIngameButtonStatisticsHover;
+
+CMaterial VMaterialLoader::materialIngameButtonCraftmenuActive;
+CMaterial VMaterialLoader::materialIngameButtonSabotageActive;
+CMaterial VMaterialLoader::materialIngameButtonStatisticsActive;
+
 //Craftmenu
 CMaterial VMaterialLoader::materialCraftmenuButtonWindmill;
 CMaterial VMaterialLoader::materialCraftmenuButtonHydroPowerplant;
@@ -304,10 +309,13 @@ void VMaterialLoader::init()
 	//Interface - Selection Buttons
 	materialIngameButtonCraftmenu.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_craftmenu.png");
 	materialIngameButtonCraftmenuHover.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_craftmenu_hover.png");
+	materialIngameButtonCraftmenuActive.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_craftmenu_active.png");
 	materialIngameButtonSabotage.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_sabotage.png");
 	materialIngameButtonSabotageHover.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_sabotage_hover.png");
+	materialIngameButtonSabotageActive.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_sabotage_active.png");
 	materialIngameButtonStatistics.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_statistics.png");
 	materialIngameButtonStatisticsHover.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_statistics_hover.png");
+	materialIngameButtonStatisticsActive.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_statistics_active.png");
 
 	//Interface - Panel_Building
 	materialCraftmenuButtonWindmill.MakeTextureSprite("textures/gui/Buttons/gui_ingame_airPowerPlant.png");
@@ -354,20 +362,20 @@ void VMaterialLoader::init()
 	//Fonts
 	//standardFont.Init("textures/fonts/FontArialShadow.png",false);
 	//standardFont.SetTableSize(16, 16);
-	standardFont.Init("textures/fonts/SystematicJ.png", false);
+	standardFont.Init("textures/fonts/OCRStandardBevel.png", true);
+	
 	standardFont.SetTableSize(16,16);
 	/*GoldFont.Init("textures/fonts/FontArialShadowGold.png", false);
 	GoldFont.SetTableSize(16, 16);*/
 
-	GoldFont.Init("textures/fonts/SystematicJGold.png", false);
+	GoldFont.Init("textures/fonts/OCRGold.png", true);
 	GoldFont.SetTableSize(16, 16);
 
-	errorFont.Init("textures/fonts/SystematicJError.png", false);
+	errorFont.Init("textures/fonts/OCRError.png", true);
 	errorFont.SetTableSize(16, 16);
 
 	
-
-	standardFont.SetTransparencyOn();
+//	standardFont.SetTransparencyOn();
 	GoldFont.SetTransparencyOn();
 	//Building - Trasse
 	m_zmConcrete.MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse.png");

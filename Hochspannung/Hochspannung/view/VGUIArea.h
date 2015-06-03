@@ -9,8 +9,8 @@ class VGUIArea :
 public:
 	VGUIArea();
 
-	VGUIArea(CViewport* viewport, CFloatRect floatRect, const float layer);
-	VGUIArea(CViewport* viewport, CFloatRect floatRect, CMaterial* materialbackground, const float layer);
+	VGUIArea(CViewport* viewport, CFloatRect floatRect, const std::string& sName, const float layer);
+	VGUIArea(CViewport* viewport, CFloatRect floatRect, CMaterial* materialbackground, const std::string& sName, const float layer);
 
 	~VGUIArea();
 

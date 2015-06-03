@@ -6,8 +6,8 @@ class VTab :
 	public IViewGUIContainer
 {
 public:
-	VTab(CViewport* viewport, CFloatRect rect, const float layer);
-	VTab(CViewport* viewport, CFloatRect rect, CMaterial* materialBackground, const float layer);
+	VTab(CViewport* viewport, CFloatRect rect, const std::string & sName, const float layer);
+	VTab(CViewport* viewport, CFloatRect rect, CMaterial* materialBackground, const std::string & sName, const float layer);
 	~VTab();
 
 	void onNotify(const Event& events) override;

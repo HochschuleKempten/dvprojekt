@@ -131,6 +131,17 @@ public:
 		return CASTD<VButton*>(m_guiObjects[sName]);
 	}
 
+	virtual VButton* addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const Event& clickAction, const std::string& sName, const float layer)
+	{
+		m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, clickAction, layer);
+
+		m_guiObjects[sName]->setName(sName);
+		m_guiObjects[sName]->addObserver(this);
+
+
+		return CASTD<VButton*>(m_guiObjects[sName]);
+	}
+
 	virtual VTextfield* addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::string& Placeholder, const std::string& sName, const float layer)
 	{
 		m_guiObjects[sName] = new VTextfield(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder, layer);
@@ -278,6 +289,47 @@ public:
 		return m_zfRect;
 	}
 
+	void slideDown(float amount)
+	{
+		for (std::pair<std::string, IViewGUIContainer*> ContainerPair : m_Guicontainer)
+		{
+			ContainerPair.second->m_zfRect.SetYPos(ContainerPair.second->m_zfRect.GetYPos()-amount);
+			ContainerPair.second->slideDown(amount);
+		}
+
+		for (std::pair<std::string, IViewGUIObject*> ObjectPair : m_guiObjects)
+		{
+			CFloatRect tempRect = ObjectPair.second->getRectangle();
+			tempRect.SetYPos(tempRect.GetYPos() - amount);
+			ObjectPair.second->updateRectangle(tempRect);
+			ObjectPair.second->setRectangle(tempRect);
+		}
+
+		for (std::pair<std::string, COverlay*> OverlayPair : m_Overlays)
+		{
+			CFloatRect tempRect = OverlayPair.second->GetRect();
+			tempRect.SetYPos(tempRect.GetYPos() - amount);
+			OverlayPair.second->SetRect(tempRect);
+		}
+		for (std::pair<std::string, CViewport*> ViewportPair : m_viewports)
+		{
+			//ViewportPair.second->
+			
+		}
+
+		m_zfRect.SetYPos(m_zfRect.GetYPos() - amount);
+
+	}
+
+	std::string getName()
+	{
+		return m_sName;
+	}
+
+	void setName(const std::string& value)
+	{
+		m_sName=value;
+	}
 protected:
 
 	bool m_bOn = true;
@@ -286,6 +338,7 @@ protected:
 	CViewport* m_viewport;
 	COverlay* m_background;
 	CFloatRect m_zfRect;
+	std::string m_sName="";
 	std::unordered_map<std::string, IViewGUIObject*> m_guiObjects;
 
 	std::unordered_map<std::string, IViewGUIContainer*> m_Guicontainer;

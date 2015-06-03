@@ -50,8 +50,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 		p.second->initViewModel(nullptr);
 	}
 
+
 	//m_zl.Init(CHVector(0.1F, -0.3F, 0.7F),
 	//          CColor(0.7F, 0.7F, 0.7F));
+
 
 	m_zl.Init(CHVector(0.0F, 0.35F, 0.7F),
 			  CColor(0.1F, 0.1F, 0.1F));
@@ -82,10 +84,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zpCamera.AddCamera(&m_zc);
 	m_zpCamera.TranslateZ(60.0F);
 
+	m_zpCamera.RotateXDelta(0.20F * PI);
+
 	//m_zpCamera.RotateXDelta(0.40F * PI);
 	//m_zpCamera.TranslateZDelta(5.0f);
-
-	m_zpCamera.RotateXDelta(0.20F * PI);
 
 	VSoundLoader::init(&m_scene);
 	VSoundLoader::playBackgroundMusicIngame();
@@ -98,19 +100,19 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT] = "countOil";
 	m_powerPlantsNameMapping[BUILDING_WINDMILL] = "countWind";
 
-	//Bottom Bar
+	
 	/********************************************************TOP AREA***************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.0F, 0.8F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar", 0.3F);
 
 	getContainer("Topbar")->addOverlay(CFloatRect(0.1F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconPopulation, "TopPopulationIcon", 0.1F);
-	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.2F, 0.2F, 0.85F), &VMaterialLoader::standardFont, "0000", "popValue", 0.1F);
+	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::standardFont, "0000", "popValue", 0.1F);
 
 	getContainer("Topbar")->addOverlay(CFloatRect(0.50F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon", 0.1F);
-	getContainer("Topbar")->addText(CFloatRect(0.601F, 0.2F, 0.2F, 0.85F), &VMaterialLoader::GoldFont, "0000", "moneyValue", 0.1F);
+	getContainer("Topbar")->addText(CFloatRect(0.601F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::GoldFont, "0000", "moneyValue", 0.1F);
 
 	/********************************************************TOP MESSAGE AREA***************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.1F, 0.8F, 0.06F), &VMaterialLoader::materialErrorBackground, "MessageArea", 0.3F);
-	getContainer("MessageArea")->addText(CFloatRect(0.2F,0.2F,0.6F,0.8F), &VMaterialLoader::errorFont, "Aktion hier nicht moeglich", "Messagebox", 0.1F);
+	getContainer("MessageArea")->addText(CFloatRect(0.2F,0.2F,0.6F,0.6F), &VMaterialLoader::errorFont, "Aktion hier nicht moeglich", "Messagebox", 0.1F);
 	
 	getContainer("MessageArea")->switchOff();
 	/********************************************************BOTTOM AREA*************************************************************/
@@ -123,10 +125,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	getContainer("BottomBar")->getContainer("Infofield")->addViewport(&m_viewportModels, &m_CamModels, CFloatRect(0.1F, 0.05F, 0.75F, 0.55F), &m_zmbackgroundModels, "DetailedModels");
-	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.20F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "100", "PowerInfo", 0.1F);
-	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.20F, 0.80F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "1000", "MoneyInfo", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.10F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "100", "PowerInfo", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.10F, 0.85F, 0.5F, 0.08F), &VMaterialLoader::GoldFont, "1000", "MoneyInfo", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.70F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconEnergy, "EngergyInfoIcon", 0.1F);
-	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.80F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconMoney, "MoneyInfoIcon", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.85F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconMoney, "MoneyInfoIcon", 0.1F);
 
 
 	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOff();
@@ -139,10 +141,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.22F, 0.00F, 0.51F, 1.0F), "Craftmenu", 0.5F);
 	getContainer("BottomBar")->getContainer("Craftmenu")->addContainer(IViewGUIContainer::ContainerType::Register, CFloatRect(0.00F, 0.0F, 1.0F, 1.0F), "Register", 0.3F);
 
-	VRegister* vrRegister = CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"));
-	vrRegister->addTab(&VMaterialLoader::materialIngameButtonCraftmenu, &VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_BUILDING, "TabBuilding", 0.2F);
-	vrRegister->addTab(&VMaterialLoader::materialIngameButtonSabotage, &VMaterialLoader::materialIngameButtonSabotageHover, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_SABOTAGE, "TabSabotage", 0.2F);
-	vrRegister->addTab(&VMaterialLoader::materialIngameButtonStatistics, &VMaterialLoader::materialIngameButtonStatisticsHover, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_STATISTICS, "TabStatistics", 0.2F);
+	vrRegister = CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"));
+	vrRegister->addTab(&VMaterialLoader::materialIngameButtonCraftmenu, &VMaterialLoader::materialIngameButtonCraftmenuHover, &VMaterialLoader::materialIngameButtonCraftmenuActive, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_BUILDING, "TabBuilding", 0.2F);
+	vrRegister->addTab(&VMaterialLoader::materialIngameButtonSabotage, &VMaterialLoader::materialIngameButtonSabotageHover, &VMaterialLoader::materialIngameButtonSabotageActive, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_SABOTAGE, "TabSabotage", 0.2F);
+	vrRegister->addTab(&VMaterialLoader::materialIngameButtonStatistics, &VMaterialLoader::materialIngameButtonStatisticsHover, &VMaterialLoader::materialIngameButtonStatisticsActive, &VMaterialLoader::materialDefaultBackground, SWITCH_TO_REGISTER_STATISTICS, "TabStatistics", 0.2F);
 
 
 	// Tabs
@@ -213,9 +215,9 @@ updateGraphRatioEnemy(0.5f);
 	//m_vgGraphEnergy->updateBar2("neededEnergy", 10);
 	//m_vgGraphEnergy->updateBar2("producedEnergy", 50);
 
-	m_vtTabSabotage->switchOff();
-	m_vtTabStatistics->switchOff();
-
+	/*m_vtTabSabotage->switchOff();
+	m_vtTabStatistics->switchOff();*/
+vrRegister->SwitchToTab("TabBuilding");
 
 	/********************************************************Minimap AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.73F, 0.00F, 0.27F, 1.0F), &VMaterialLoader::materialMinimapBackground, "Minimap", 0.3F);
@@ -223,7 +225,7 @@ updateGraphRatioEnemy(0.5f);
 
 
 	/***********************************************************Dialog******************************************************************/
-	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.33F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialIngameMenueDialogBackground, "DialogBox", 0.3F);
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.35F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialIngameMenueDialogBackground, "DialogBox", 0.3F);
 
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, NOTHING, "MenueButtonContinue", 0.2F);
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.27F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "MenueButtonQuit", 0.2F);
@@ -261,25 +263,28 @@ void VScreenIngame::onNotify(const Event& events)
 	switch (events)
 	{
 	case SWITCH_TO_REGISTER_BUILDING:
-		m_vtTabBuilding->switchOn();
+		/*m_vtTabBuilding->switchOn();
 		m_vtTabSabotage->switchOff();
-		CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
+		m_vtTabStatistics->switchOff();*/
+		vrRegister->SwitchToTab("TabBuilding");
 		break;
 
 	case SWITCH_TO_REGISTER_SABOTAGE:
-		m_vtTabBuilding->switchOff();
+		/*m_vtTabBuilding->switchOff();
 		m_vtTabSabotage->switchOn();
-		CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOff();
+		m_vtTabStatistics->switchOff();*/
+		vrRegister->SwitchToTab("TabSabotage");
 		break;
 	case SWITCH_TO_REGISTER_STATISTICS:
-		m_vtTabBuilding->switchOff();
+		/*m_vtTabBuilding->switchOff();
 		m_vtTabSabotage->switchOff();
-		CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Craftmenu")->getContainer("Register"))->getTab("TabStatistics")->switchOn();
+		m_vtTabStatistics->switchOn();*/
+		vrRegister->SwitchToTab("TabStatistics");
 		updatePowerPlants();
 		break;
 
 	case SELECT_BUILDING_WINDMILL:
-		updateInfofield("Windmill");
+		clearInfofield();
 		selectedBuilding = VIdentifier::VWindmillPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 		setActiveButton("windmill");
@@ -294,7 +299,7 @@ void VScreenIngame::onNotify(const Event& events)
 		
 		break;
 	case SELECT_BUILDING_COALPOWERPLANT:
-		updateInfofield("CoalPowerplant");
+		clearInfofield();
 		selectedBuilding = VIdentifier::VCoalPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
@@ -309,7 +314,7 @@ void VScreenIngame::onNotify(const Event& events)
 
 		break;
 	case SELECT_BUILDING_OILPOWERPLANT:
-		updateInfofield("OilPowerplant");
+		clearInfofield();
 		selectedBuilding = VIdentifier::VOilRefinery;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
@@ -323,7 +328,7 @@ void VScreenIngame::onNotify(const Event& events)
 
 		break;
 	case SELECT_BUILDING_NUCLEARPOWERPLANT:
-		updateInfofield("NuclearPowerplant");
+		clearInfofield();
 		selectedBuilding = VIdentifier::VNuclearPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
@@ -335,7 +340,7 @@ void VScreenIngame::onNotify(const Event& events)
 		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 		break;
 	case SELECT_BUILDING_HYDROPOWERPLANT:
-		updateInfofield("HydroPowerplant");
+		clearInfofield();
 		selectedBuilding = VIdentifier::VHydroelectricPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
@@ -347,7 +352,7 @@ void VScreenIngame::onNotify(const Event& events)
 		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 		break;
 	case SELECT_BUILDING_SOLARPOWERPLANT:
-		updateInfofield("SolarPowerplant");
+		clearInfofield();
 		selectedBuilding = VIdentifier::VSolarPowerPlant;
 
 
@@ -360,7 +365,7 @@ void VScreenIngame::onNotify(const Event& events)
 		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 		break;
 	case SELECT_BUILDING_POWERLINE:
-		updateInfofield("Powerline");
+		clearInfofield();
 		selectedBuilding = VIdentifier::VPowerLine;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
@@ -375,32 +380,38 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 
 	case SELECT_SABOTAGE_POWERLINECUT:
+		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotagePowerlineCut");
 		selectedAction = IViewBuilding::sabotagePowerLine;
 		break;
 	case SELECT_SABOTAGE_STRIKE:
+		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotageStrike");
 		selectedAction = IViewBuilding::sabotagePowerPlant;
 		break;
 	case SELECT_SABOTAGE_HALF:
+		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotageHalf");
 		selectedAction = IViewBuilding::sabotageResourceField;
 		break;
 
 	case SELECT_SABOTAGE_POWERON:
+		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::PowerOn);
 		setActiveButton("sabotagePowerOn");
 		selectedAction = IViewBuilding::switchOn;
 		break;
 	case SELECT_SABOTAGE_POWEROFF:
+		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::PowerOff);
 		setActiveButton("sabotagePowerOff");
 		selectedAction = IViewBuilding::switchOff;
 		break;
 	case SELECT_SABOTAGE_SELL:
+		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::Sell);
 		setActiveButton("sabotageSell");
 		selectedAction = IViewBuilding::sell;
@@ -437,11 +448,18 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	static bool bK = false;
 	static bool enabled = true;
 	static bool iwas = true;
+	static bool iwas2 = true;
 
 	if (keyboard->KeyPressed(DIK_O) && iwas)
 	{
 		iwas = false;
 		startCooldown(SABOTAGE_HALF);
+	}
+
+	if (keyboard->KeyPressed(DIK_SPACE) && iwas2)
+	{
+		iwas2 = false;
+		hideBottomBar();
 	}
 
 	if (keyboard->KeyPressed(DIK_V))
@@ -991,6 +1009,29 @@ void VScreenIngame::startCooldown(const INTERACTIONS& interaction)
 		break;
 	}
 
+}
+
+void VScreenIngame::clearInfofield()
+{
+	for(std::pair<std::string,IViewGUIObject*> obj : getContainer("BottomBar")->getContainer("Infofield")->getGuiObjectList())
+	{
+		obj.second->switchOff();
+	}
+	for (std::pair<std::string, COverlay*> overlay : getContainer("BottomBar")->getContainer("Infofield")->getOverlayMap())
+	{
+		overlay.second->SwitchOff();
+	}
+}
+
+void VScreenIngame::hideBottomBar()
+{
+	std::thread([this] {
+		while (getContainer("BottomBar")->getRectangle().GetYPos() > 0.0F)
+		{
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			getContainer("BottomBar")->slideDown(-0.01F);
+		}
+	}).detach();
 }
 
 void VScreenIngame::setActiveButton(const std::string& sName)

@@ -17,11 +17,6 @@ VScreenMainMenue::VScreenMainMenue(VUI* vUi) : IViewScreen(vUi)
 	m_background = new CBackground();
 	m_headline = new COverlay();
 
-	COverlay* testAnim = new COverlay();
-
-	testAnim->Init(&VMaterialLoader::materialAnimationsVersuch, CFloatRect(0.1F, 0.1F, 0.1F, 0.1F));
-	m_viewport->AddOverlay(testAnim);
-
 	m_background->InitFull(&VMaterialLoader::materialMainMenueBackground);
 
 

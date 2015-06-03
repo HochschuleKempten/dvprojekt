@@ -78,6 +78,11 @@ public:
 	void startCooldown(const INTERACTIONS& interaction);
 
 private:
+
+	void clearInfofield();
+
+	void hideBottomBar();
+
 	void handleInput();
 	std::map<int, std::vector<int>> pickElements();
 
@@ -97,11 +102,15 @@ private:
 	CCamera m_zc;
 	CPlacement m_zpCamera;
 
+
+	VRegister* vrRegister;
+
 	//Lightning
 	CParallelLight m_zl;
 	CSpotLight m_zlSpot;
 	CPlacement m_zpSpot;
 	CHVector m_PointingSpot;
+
 
 	VTab* m_vtTabStatistics;
 	VTab* m_vtTabSabotage;
