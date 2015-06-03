@@ -25,6 +25,8 @@ public:
 	 */
 	~CServer();
 
+	Type getType() override;
+
 	/**
 	 * @brief Stop the server.
 	 * Closes any active connection and stops sending/reciving messages.

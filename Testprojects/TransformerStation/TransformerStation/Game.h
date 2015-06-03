@@ -90,6 +90,8 @@ private:
 
 	VModelTransformerStation m_zpTransformerStation;
 
+	COverlay overlayDynTest;
+
 	CDeviceKeyboard m_zdk;
 };
 

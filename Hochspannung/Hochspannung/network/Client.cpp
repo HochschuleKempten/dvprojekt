@@ -5,7 +5,7 @@
 
 namespace Network {
 
-CClient::CClient(const std::string& stRemoteAddress, unsigned short usRemotePortTcp) :
+CClient::CClient(std::string stRemoteAddress, unsigned short usRemotePortTcp) :
 CNode(), m_bEndpointValid(false) {
 	if (stRemoteAddress != "") {
 		setServerData(stRemoteAddress, usRemotePortTcp);
@@ -15,7 +15,11 @@ CNode(), m_bEndpointValid(false) {
 CClient::~CClient() {
 }
 
-bool CClient::setServerData(const std::string& stRemoteAddress, unsigned short usRemotePortTcp) {
+CNode::Type CClient::getType() {
+	return CLIENT;
+}
+
+bool CClient::setServerData(std::string stRemoteAddress, unsigned short usRemotePortTcp) {
 	try {
 		m_remoteEndpointTcp = ip::tcp::endpoint(ip::address_v4::from_string(stRemoteAddress), usRemotePortTcp);
 	} catch (...) {
@@ -54,7 +58,7 @@ std::vector<CGameObject>& CClient::getGameList() {
 }
 
 bool CClient::connect() {
-	if (m_bEndpointValid) {
+	if (m_bEndpointValid && startTcpClient()) {
 
 		std::cout << "Trying to connect to server..." << std::endl;
 		m_socketTcp.async_connect(m_remoteEndpointTcp,
@@ -69,6 +73,26 @@ bool CClient::connect() {
 	} else {
 		return false;
 	}
+}
+
+bool CClient::startTcpClient() {
+	if (!m_socketTcp.is_open()) {
+		error_code error;
+
+		m_socketTcp.open(m_localEndpointTcp.protocol(), error);
+		if (error) {
+			handleConnectionError(error);
+			return false;
+		}
+
+		m_socketTcp.bind(m_localEndpointTcp, error);
+		if (error) {
+			handleConnectionError(error);
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool CClient::startUdpClient() {

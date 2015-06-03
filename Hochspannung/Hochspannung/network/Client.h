@@ -20,12 +20,14 @@ public:
 	 * @param stRemoteAddress the IP address of the target server.
 	 * @param usRemotePortTcp the tcp port of the target server.
 	 */
-	explicit CClient(const std::string& stRemoteAddress = "", unsigned short usRemotePortTcp = m_usPortTcp);
+	explicit CClient(std::string stRemoteAddress = "", unsigned short usRemotePortTcp = m_usPortTcp);
 
 	/**
 	 * @brief Default constructor.
 	 */
 	~CClient();
+
+	Type getType() override;
 
 	/**
 	 * @brief Sets the servers connection data.
@@ -33,7 +35,7 @@ public:
 	 * @param usRemotePortTcp the port to connect to.
 	 * @return true if the given data is valid, false otherwise.
 	 */
-	bool setServerData(const std::string& stRemoteAddress, unsigned short usRemotePortTcp = m_usPortTcp);
+	bool setServerData(std::string stRemoteAddress, unsigned short usRemotePortTcp = m_usPortTcp);
 
 	/**
 	 * @brief Searches for game server in the local network.
@@ -49,6 +51,7 @@ public:
 
 private:
 	bool connect() override;
+	bool startTcpClient();
 	bool startUdpClient();
 
 	void connectCompleteHandler(const error_code& error);

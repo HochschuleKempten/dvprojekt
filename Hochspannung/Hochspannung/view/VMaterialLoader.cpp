@@ -130,7 +130,10 @@ CMaterial VMaterialLoader::m_zmCable;
 
 //Windkraftwerktexturen
 CMaterial VMaterialLoader::m_zmWindGrund;
-CMaterial VMaterialLoader::m_zmWindrad;
+CMaterial VMaterialLoader::m_zmWindRad;
+CMaterial VMaterialLoader::m_zmWindFluegel1;
+CMaterial VMaterialLoader::m_zmWindFluegel2;
+CMaterial VMaterialLoader::m_zmWindFluegel3;
 
 //Solarkraftwerktexturen
 CMaterial VMaterialLoader::m_zmSolarzelle;
@@ -169,6 +172,10 @@ CMaterial VMaterialLoader::m_zmKohle;
 CMaterial VMaterialLoader::m_zmKohleHolz;
 CMaterial VMaterialLoader::m_zmKohleLore;
 CMaterial VMaterialLoader::m_zmKohleBlack;
+
+//Wasserkraftwerktexturen
+CMaterial VMaterialLoader::m_zmWasser;
+
 
 //PlayerColor
 std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
@@ -225,6 +232,7 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
 	std::string textureSpecular = std::string("textures/terrain/texture_terrain_base_specular.png");// +textureName + std::string("_specular.png");
 	std::string textureBump = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_bump.png");
+	std::string textureEnvironmental = std::string("textures/buildings/texture_skymap.png");
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureDiffuse(&textureDiffuse[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureDiffuse(&textureDiffuse[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureDiffuse(&textureDiffuse[0]);
@@ -237,6 +245,9 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].SetDiffuseSharpness(2.5f);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].SetDiffuseSharpness(2.5f);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].SetDiffuseSharpness(2.5f);
+	//fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureEnvironment(&textureEnvironmental[0]);
+	//fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureEnvironment(&textureEnvironmental[0]);
+	//fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureEnvironment(&textureEnvironmental[0]);
 }
 
 void VMaterialLoader::init()
@@ -378,7 +389,10 @@ void VMaterialLoader::init()
 
 	//Windkraftwerktexturen
 	m_zmWindGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
-	m_zmWindrad.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindRad.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindFluegel1.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindFluegel2.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
+	m_zmWindFluegel3.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
 	m_zmWindGrund.SetTextureSpecularAsDiffuse();
 
 	//Solarkraftwerktexturen
@@ -429,6 +443,10 @@ void VMaterialLoader::init()
 	m_zmKohleBlack.MakeTextureDiffuse("Textures\\black_image.jpg");
 	m_zmKohleBerg.SetTextureSpecularAsDiffuse();
 	
+	//Wasserkraftwerktexturen
+	m_zmWasser.MakeTextureDiffuse("Textures\\Wasser_textur.jpg");
+
+
 	//Building - Foundation
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(222.0f / 255.0f, 186.0f / 255.0f, 69.0f / 255.0f));
@@ -500,6 +518,9 @@ void VMaterialLoader::init()
 	materialTwistedTower.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
 	materialTwistedTower.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
 	materialTwistedTower.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+
+	materialWindowsofBuilding.MakeTextureEnvironment("textures/buildings/texture_skymap.png");
+	materialWindowsofBuilding.MakeTextureSpecular("textures/buildings/texture_window_specular.png");
 	
 
 	//Animierte Texturen
@@ -531,9 +552,9 @@ float VMaterialLoader::getRotationPerTick(const VIdentifier::VIdentifier powerPl
 {
 	switch (powerPlant)
 	{
-		case VIdentifier::VCoalPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
-		//case VIdentifier::VHydroelectricPowerPlant: break;
-		case VIdentifier::VWindmillPowerPlant: return CASTS<float>((2.0 * M_PI / 2.0) * fTimeDelta);	//Number of seconds per rotation
+		case VIdentifier::VCoalPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);	//Number of seconds per rotation
+		case VIdentifier::VHydroelectricPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
+		case VIdentifier::VWindmillPowerPlant: return CASTS<float>((2.0 * M_PI / 2.0) * fTimeDelta);
 		case VIdentifier::VSolarPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
 		case VIdentifier::VOilRefinery: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
 		//case VIdentifier::VNuclearPowerPlant: break;

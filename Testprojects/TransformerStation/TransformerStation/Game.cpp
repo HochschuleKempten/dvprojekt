@@ -51,6 +51,11 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zpCameraFront.Translate(CHVector(0.0f, -2.0f, 5.0f));
 	m_zpCameraFront.AddCamera(&m_zcFront);
 
+	std::string text = "Testqüöä123";
+	std::string call = "textures\\DynamischerTest\\convert -size 320x85 canvas:none -pointsize 72 -draw \"text 25, 60 '" + text + "'\" -channel RGBA -fill darkred test.png";
+	system(call.c_str());
+	overlayDynTest.Init("test.png", CFloatRect(0.1, 0.1, 0.7, 0.26));
+	m_zvFront.AddOverlay(&overlayDynTest);
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)

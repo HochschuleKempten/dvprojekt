@@ -43,20 +43,40 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	models.emplace(VIdentifier::VNuclearPowerPlant, &modelNuclear);
 	models.emplace(VIdentifier::VOilRefinery, &modelOil);
 	models.emplace(VIdentifier::VPowerLine, &modelPowerline);
+	models.emplace(VIdentifier::VHydroelectricPowerPlant, &modelHydroelectric);
 
 	for (const std::pair<VIdentifier::VIdentifier, IViewModel*>& p : models)
 	{
 		p.second->initViewModel(nullptr);
 	}
 
-	m_zl.Init(CHVector(0.1F, 0.5F, 0.9F),
-	          CColor(0.7F, 0.7F, 0.7F));
 
+	//m_zl.Init(CHVector(0.1F, -0.3F, 0.7F),
+	//          CColor(0.7F, 0.7F, 0.7F));
+
+
+	m_zl.Init(CHVector(0.0F, 0.35F, 0.7F),
+			  CColor(0.1F, 0.1F, 0.1F));
+
+	m_zlSpot.Init(CColor(0.6f, 0.6f, 0.6f), 0.01f, 0.07f, 0.75f);	//last param = light intensity
+	m_zlSpot.SetMaxDistance(2500);
+	m_zlSpot.SetMinDistance(40);
+	m_zlSpot.SetSoftShadowOn();
+	m_zlSpot.SetShadowMapResolution(8192, 8192);
+	m_zlSpot.SetRadius(16000);
+
+	m_zpSpot.TranslateZ(900.0f);
+	m_zpSpot.TranslateXDelta(700.0f);
+	m_zpSpot.TranslateYDelta(-200.0f);
+	m_PointingSpot.Init(-3.5f, -5.5f, 0.0f, 1.0f);	//Adjust center of the spot light
+	m_zpSpot.SetPointing(&m_PointingSpot);
+	m_zpSpot.AddSpotLight(&m_zlSpot);
+
+	m_scene.AddPlacement(&m_zpSpot);
 	m_scene.AddParallelLight(&m_zl);
 	m_scene.AddPlacement(&m_zpCamera);
 
 	vUi->m_zf.AddViewport(m_viewport);
-
 	vUi->m_zr.AddScene(&m_scene);
 	vUi->m_zr.AddScene(&m_sceneModels);
 
@@ -65,7 +85,9 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zpCamera.TranslateZ(60.0F);
 
 	//m_zpCamera.TranslateYDelta(6.5f);
-	//m_zpCamera.RotateXDelta(0.36F * PI);
+
+	//m_zpCamera.RotateXDelta(0.40F * PI);
+
 	//m_zpCamera.TranslateZDelta(5.0f);
 
 	m_zpCamera.RotateXDelta(0.20F * PI);
@@ -718,23 +740,24 @@ void VScreenIngame::handleInput()
 	}
 
 	//Zoom In + Out
-	const float mouseWheelPositionMin = -18.0f;
+	const float mouseWheelPositionMin = -25.0f;
 	const float mouseWheelPositionMax = 50.0f;
+	const float zoomFactor = 2.0f;
 
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_UP))
 	{
 		if (mouseWheelPosition > mouseWheelPositionMin)
 		{
-			m_zpCamera.TranslateZDelta(-cameraStength * 4.0f);
-			mouseWheelPosition += -cameraStength * 4.0f;
+			m_zpCamera.TranslateZDelta(-cameraStength * zoomFactor);
+			mouseWheelPosition += -cameraStength * zoomFactor;
 		}
 	}
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_DOWN))
 	{
 		if (mouseWheelPosition < mouseWheelPositionMax)
 		{
-			m_zpCamera.TranslateZDelta(cameraStength * 4.0f);
-			mouseWheelPosition += cameraStength * 4.0f;
+			m_zpCamera.TranslateZDelta(cameraStength * zoomFactor);
+			mouseWheelPosition += cameraStength * zoomFactor;
 		}
 	}
 
@@ -744,16 +767,16 @@ void VScreenIngame::handleInput()
 		{
 			if (mouseWheelPosition > mouseWheelPositionMin)
 			{
-				m_zpCamera.TranslateZDelta(-cameraStength * 4.0f);
-				mouseWheelPosition += -cameraStength * 4.0f;
+				m_zpCamera.TranslateZDelta(-cameraStength * zoomFactor);
+				mouseWheelPosition += -cameraStength * zoomFactor;
 			}
 		}
 		else
 		{
 			if (mouseWheelPosition < mouseWheelPositionMax)
 			{
-				m_zpCamera.TranslateZDelta(cameraStength * 4.0f);
-				mouseWheelPosition += cameraStength * 4.0f;
+				m_zpCamera.TranslateZDelta(cameraStength * zoomFactor);
+				mouseWheelPosition += cameraStength * zoomFactor;
 			}
 		}
 	}
@@ -872,6 +895,7 @@ void VScreenIngame::tick(const float fTimeDelta)
 	modelWindmill.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VWindmillPowerPlant, fTimeDelta));
 	modelOil.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VOilRefinery, fTimeDelta));
 	modelSolar.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VSolarPowerPlant, fTimeDelta));
+	modelHydroelectric.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VHydroelectricPowerPlant, fTimeDelta));
 }
 
 std::map<int, std::vector<int>> VScreenIngame::pickElements()

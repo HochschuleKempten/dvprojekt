@@ -33,6 +33,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_quadMaterial.MakeTextureGlow("textures/emissive.png");				//Emissive
 	m_quadMaterial.MakeTextureSpecular("textures/specular.png");			//Specular Map
 	//m_quadMaterial.MakeTextureHeight("textures/height.png");				//Height Map
+	m_quadMaterial.MakeTextureEnvironment("textures/environment.png");		//Height Map
 
 	// Frame an Root anhängen
 	m_root.AddFrameHere(&m_frame);

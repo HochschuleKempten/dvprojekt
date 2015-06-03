@@ -53,12 +53,18 @@ IVFactory* VMaster::getFactory()
 	return &factory;
 }
 
+void VMaster::updateRegenerativeRatio(const float ratio)
+{
+	//todo (V) show new ratio
+	DEBUG_OUTPUT("New regenerative ratio: " << ratio);
+}
+
 void VMaster::gameOver()
 {
 	static bool informed = false;
 	if (!informed) {
 		VSoundLoader::playSoundeffect(VSoundLoader::GAME_OVER, nullptr);
-		DEBUG_OUTPUT("Game is over");
+		vUi.showMessage("You lost the game!");
 		informed = true;
 	}
 	//TODO (V) do something useful here when UI is ready
@@ -82,6 +88,11 @@ void VMaster::messageSabotageFailed(const std::string& message)
 }
 
 void VMaster::messageBuildingFailed(const std::string& message)
+{
+	vUi.showMessage(message);
+}
+
+void VMaster::showMessage(const std::string& message)
 {
 	vUi.showMessage(message);
 }
@@ -123,9 +134,12 @@ void VMaster::joinGame(const std::string& ipAddress)
 	lMaster->startNewGame(ipAddress);
 }
 
-void VMaster::updateMoney(const int money)
+void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
 {
-	vUi.updateMoney(money);
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateMoney(money);
+	}
 }
 
 void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
@@ -170,7 +184,8 @@ void VMaster::continueGame()
 void VMaster::gameWon()
 {
 	VSoundLoader::playSoundeffect(VSoundLoader::GAME_WON, nullptr);
-	//TODO (V) implement
+	vUi.showMessage("You won the game!");
+	//todo (V) exit the game
 }
 
 NAMESPACE_VIEW_E

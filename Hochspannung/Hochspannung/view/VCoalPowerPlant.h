@@ -26,16 +26,17 @@ public:
 	{
 		//if (timeLastCheck > 0.05f && isOn)
 		//{
-		//	viewModel.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
+		//iewModel.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
 		//	timeLastCheck = 0.0f;
 		//}
 
-		//timeLastCheck += fTimeDelta;
+		timeLastCheck += fTimeDelta;
+		viewModel.moveLore(0, timeLastCheck);
 
-		if (isOn)
-		{
-			viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
-		}
+		//if (isOn)
+		//{
+		//	viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
+		//}
 	}
 };
 

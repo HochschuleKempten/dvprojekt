@@ -1,6 +1,6 @@
 SamplerState linearSampler : register(s0);
 
-Texture2D tex2D[8] : register ( t15 ); 
+Texture2D tex2D[8] : register ( t15 );
 
 cbuffer cbPerObject : register (b0)
 {
@@ -82,7 +82,7 @@ struct PS_INPUT
 PS_INPUT RenderSpritesVS(VS_INPUT input)
 {
 	PS_INPUT output = (PS_INPUT)0;
-	
+
 	output.f4Pos = mul(input.f4Pos, g_mWorld);
 	output.f4VertexPos = output.f4Pos;
 
@@ -137,7 +137,7 @@ float4 RenderSpritesPS(PS_INPUT input) : SV_Target
 		// Bilineare Interpolation:
 		float fAlpha = (f4Col2.a - f4Col1.a) * f2TexPos1.x + f4Col1.a;
 		fAlpha = (((f4Col4.a - f4Col3.a) * f2TexPos1.x + f4Col3.a) - fAlpha) * f2TexPos1.y + fAlpha;
-		//	if (fAlpha < 0.75) 
+		//	if (fAlpha < 0.75)
 		//		f4TexCol.a = 0;			// discard;
 		if (fAlpha <0.73)
 			f4TexCol.a = fAlpha - 0.40; // etwas weiche Raender

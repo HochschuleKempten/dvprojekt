@@ -4,7 +4,6 @@
 #include <boost\asio\placeholders.hpp>
 #include <boost\lexical_cast.hpp>
 #include <boost\date_time\posix_time\posix_time.hpp>
-#include <vector>
 
 namespace Network {
 
@@ -27,6 +26,10 @@ m_connectionTimer(m_ioService), m_iLatestLatency(-1) {
 CNode::~CNode() {
 	m_ioService.stop();
 	m_thread.join();
+}
+
+CNode::Type CNode::getType() {
+	return NONE;
 }
 
 bool CNode::start() {
@@ -53,14 +56,14 @@ void CNode::restart() {
 	start();
 }
 
-State CNode::getConnectionState() {
+CNode::State CNode::getConnectionState() {
 	return m_connectionState;
 }
 
-void CNode::write(CMessage& message) {
-	m_ioService.post([this, message]() {
-		bool write_in_progress = !m_dequeMessagesToWrite.empty();
-		m_dequeMessagesToWrite.push_back(message);
+void CNode::write(CTransferObject& transferObject) {
+	m_ioService.post([this, transferObject]() {
+		bool write_in_progress = !m_dequeActionsToWrite.empty();
+		m_dequeActionsToWrite.push_back(transferObject);
 
 		if (!write_in_progress) {
 			do_write();
@@ -94,9 +97,9 @@ void CNode::checkConnectionHandler(const error_code& error) {
 			m_connectionState = CONNECTED;
 			m_iRetryCounter = 0;
 
-			std::string stMessage = boost::lexical_cast<std::string>(Action::CHECK_CONNECTION) + ";-1;-1;-1;" + to_iso_string(boost::posix_time::microsec_clock::universal_time()) + ";";
-			CMessage message(stMessage.c_str());
-			write(message);
+			CTransferObject transferObject(CTransferObject::Type::NORMAL, CTransferObject::Action::CHECK_CONNECTION, -1, -1, -1, 
+				boost::posix_time::to_iso_string(boost::posix_time::microsec_clock::universal_time()));
+			write(transferObject);
 
 			m_connectionTimer.expires_from_now(boost::posix_time::seconds(2));
 			m_connectionTimer.async_wait(boost::bind(&CNode::checkConnectionHandler, this, placeholders::error));
@@ -107,9 +110,9 @@ void CNode::checkConnectionHandler(const error_code& error) {
 			if (m_iRetryCounter < 5) {
 				std::cout << "Connection lost. Try to reconnect. (" << m_iRetryCounter << ")" << std::endl;
 
-				std::string stMessage = boost::lexical_cast<std::string>(Action::CHECK_CONNECTION) + ";-1;-1;-1;" + to_iso_string(boost::posix_time::microsec_clock::universal_time()) + ";";
-				CMessage message(stMessage.c_str());
-				write(message);
+				CTransferObject transferObject(CTransferObject::Type::NORMAL, CTransferObject::Action::CHECK_CONNECTION, -1, -1, -1,
+					boost::posix_time::to_iso_string(boost::posix_time::microsec_clock::universal_time()));
+				write(transferObject);
 
 				m_connectionTimer.expires_from_now(boost::posix_time::seconds(2));
 				m_connectionTimer.async_wait(boost::bind(&CNode::checkConnectionHandler, this, placeholders::error));
@@ -132,8 +135,10 @@ void CNode::setLocalAddress(std::string stLocalAddress) {
 }
 
 void CNode::do_write() {
+	m_dequeActionsToWrite.front().encode();
+
 	async_write(m_socketTcp,
-		buffer(m_dequeMessagesToWrite.front().getData(), m_dequeMessagesToWrite.front().getLength()),
+		buffer(m_dequeActionsToWrite.front().getData(), m_dequeActionsToWrite.front().getDataLength()),
 		boost::bind(&CNode::writeCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 
@@ -141,23 +146,23 @@ void CNode::do_write() {
 
 void CNode::readHeader() {
 	async_read(m_socketTcp,
-		buffer(m_messageRead.getData(), CMessage::iHeaderLength),
+		buffer(m_messageRead.getData(), 1),
 		boost::bind(&CNode::readHeaderCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 }
 
 void CNode::readBody() {
 	async_read(m_socketTcp,
-		buffer(m_messageRead.getBody(), m_messageRead.getBodyLength()),
+		buffer(&(m_messageRead.getData()[1]), static_cast<int>(m_messageRead.getData()[0])),
 		boost::bind(&CNode::readBodyCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 }
 
 void CNode::writeCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
-		m_dequeMessagesToWrite.pop_front();
+		m_dequeActionsToWrite.pop_front();
 
-		if (!m_dequeMessagesToWrite.empty()) {
+		if (!m_dequeActionsToWrite.empty()) {
 			do_write();
 		}
 	} else {
@@ -167,9 +172,7 @@ void CNode::writeCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 
 void CNode::readHeaderCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
-		if (m_messageRead.decodeHeader()) { // message is to long
-			readBody();
-		}
+		readBody();
 	} else {
 		handleConnectionError(ec);
 	}
@@ -177,39 +180,22 @@ void CNode::readHeaderCompleteHandler(const error_code& ec, std::size_t /*length
 
 void CNode::readBodyCompleteHandler(const error_code& ec, std::size_t /*length*/) {
 	if (!ec) {
-
-		const char* pcMessage = m_messageRead.getBody();
-
-		std::vector<std::string> transferObjectMember;
-		std::stringstream ss(pcMessage); // Turn the string into a stream.
-		std::string tok;
-
-		while (getline(ss, tok, ';')) {
-			transferObjectMember.push_back(tok);
-		}
-
-		CTransferObject transferObject(
-			static_cast<Action>(boost::lexical_cast<int>(transferObjectMember.at(0))), 
-			boost::lexical_cast<int>(transferObjectMember.at(1)), 
-			boost::lexical_cast<int>(transferObjectMember.at(2)), 
-			boost::lexical_cast<int>(transferObjectMember.at(3)), 
-			transferObjectMember.at(4)
-		);
+		m_messageRead.decode();
 
 		boost::posix_time::ptime timeSent;
 
-		switch (transferObject.getAction()) {
-		case Action::CHECK_CONNECTION:
-			write(CMessage((boost::lexical_cast<std::string>(Action::CHECK_RESPONSE) + ";-1;-1;-1;" + transferObject.getValue() + ";").c_str()));
+		switch (m_messageRead.getAction()) {
+		case CTransferObject::Action::CHECK_CONNECTION:
+			write(CTransferObject(CTransferObject::Type::NORMAL, CTransferObject::Action::CHECK_RESPONSE, -1, -1, -1, m_messageRead.getValue()));
 			break;
-		case Action::CHECK_RESPONSE:
-			timeSent = boost::posix_time::from_iso_string(transferObject.getValue());
+		case CTransferObject::Action::CHECK_RESPONSE:
+			timeSent = boost::posix_time::from_iso_string(m_messageRead.getValue());
 			m_iLatestLatency = static_cast<int>((boost::posix_time::microsec_clock::universal_time() - timeSent).total_milliseconds()) / 2;
 			std::cout << m_iLatestLatency << std::endl;
 			m_bCheckResponseReceived = true;
 			break;
 		default:
-			m_dequeActionsToExecute.push_back(transferObject);
+			m_dequeActionsToExecute.push_back(m_messageRead);
 			break;
 		}
 

@@ -1,8 +1,11 @@
 #include "VSoundLoader.h"
+#include <Windows.h>
+#include <VersionHelpers.h>
 
 NAMESPACE_VIEW_B
 
 
+Mixer VSoundLoader::mixer;
 CScene* VSoundLoader::scene = nullptr;
 DEBUG_EXPRESSION(bool VSoundLoader::initDone = false);
 DEBUG_EXPRESSION(static const char* const assertMsg = "SoundLoader is not initialized");
@@ -19,6 +22,21 @@ void VSoundLoader::setSoundEffectHelper(const SoundEffect soundEffect, const std
 	soundeffects[soundEffect].SetVolume(1.0f);
 	scene->AddAudio(&soundeffects[soundEffect]);
 	soundeffectsLastPlacements[soundEffect] = nullptr;
+}
+
+void VSoundLoader::initMixer()
+{
+	if (!IsWindows8OrGreater())
+	{
+		const bool mixerInitSuccessful = mixer.init() && mixer.GetMuteControl();
+		const bool muteSuccessful = mixer.SetMute(true);
+#ifdef _DEBUG
+		if (!mixerInitSuccessful || !muteSuccessful)
+		{
+			DEBUG_OUTPUT("Sound mixer could not be initialized");
+		}
+#endif
+	}
 }
 
 void VSoundLoader::init(CScene* scene)
@@ -38,13 +56,27 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(OPERATION_CANCELED, "click");
 	setSoundEffectHelper(POWERPLANT_SWITCH_ON, "gui_switch");
 	setSoundEffectHelper(POWERPLANT_SWITCH_OFF, "gui_switch");
-	setSoundEffectHelper(SABOTAGE_RECEIVED, "sabotage_received");
-	setSoundEffectHelper(SABOTAGE_EMITTED, "click");
+	setSoundEffectHelper(SABOTAGE_RECEIVED, "sabotage_receive");
+	setSoundEffectHelper(SABOTAGE_EMITTED, "sabotage_execute");
 	setSoundEffectHelper(ENERGY_LOW, "lowEnergy");
-	setSoundEffectHelper(GAME_OVER, "click");
-	setSoundEffectHelper(GAME_WON, "game_won");
+	setSoundEffectHelper(GAME_OVER, "game_lose");
+	setSoundEffectHelper(GAME_WON, "game_win");
 
 	DEBUG_EXPRESSION(initDone = true);
+}
+
+void VSoundLoader::setSoundOn()
+{
+	if (!IsWindows8OrGreater())
+	{
+		const bool muteSuccessful = mixer.SetMute(false);
+#ifdef _DEBUG
+		if (!muteSuccessful)
+		{
+			DEBUG_OUTPUT("Sound mixer could not be initialized");
+		}
+#endif
+	}
 }
 
 void VSoundLoader::playBackgroundMusicIngame()
@@ -56,6 +88,8 @@ void VSoundLoader::playBackgroundMusicIngame()
 
 void VSoundLoader::playElectricitySoundLoop(CPlacement* placement)
 {
+	ASSERT(initDone, assertMsg);
+
 	placement->AddAudio(&electricitySound);
 	electricitySound.Loop();
 }

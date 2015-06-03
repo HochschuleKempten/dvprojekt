@@ -7,6 +7,7 @@
 #include "VModelNuclearPowerPlant.h"
 #include "VModelOilRefinery.h"
 #include "VModelPowerLine.h"
+#include "VModelHydroelectricPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
@@ -98,11 +99,19 @@ private:
 	VButton* activeButton = nullptr;
 
 	CScene m_scene;
-	CParallelLight m_zl;
 	CCamera m_zc;
 	CPlacement m_zpCamera;
 
+
 	VRegister* vrRegister;
+
+	//Lightning
+	CParallelLight m_zl;
+	CSpotLight m_zlSpot;
+	CPlacement m_zpSpot;
+	CHVector m_PointingSpot;
+
+
 	VTab* m_vtTabStatistics;
 	VTab* m_vtTabSabotage;
 	VTab* m_vtTabBuilding;
@@ -147,6 +156,7 @@ private:
 	VModelNuclearPowerPlant modelNuclear;
 	VModelOilRefinery modelOil;
 	VModelPowerLine modelPowerline;
+	VModelHydroelectricPowerPlant modelHydroelectric;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
 };
 

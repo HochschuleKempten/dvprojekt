@@ -46,8 +46,8 @@ void GenerateVPLsCS(uint3 globalIdx : SV_DispatchThreadID)
 	uint2 uv = uv00;
 
 	f3Color = g_RSMDiffuseAtlas[uv].rgb;
-	f3Normal = ((2 * g_RSMNormalAtlas[uv].rgb) - 1);
-
+	f3Normal = (2 * g_RSMNormalAtlas[uv].rgb)-1.f;
+	
 	float2 f2ViewportUV = uv.xy;
 	f2ViewportUV.xy %= RSM_SIZE;
 
@@ -85,10 +85,9 @@ void GenerateVPLsCS(uint3 globalIdx : SV_DispatchThreadID)
 	float fLightDistance = length(f3SourceLightDir);
 
 	{
-		float fFallOff = 1.f - fLightDistance / (f4SourceLightCenterAndRadius.w);
+		float fFallOff = saturate(1.f - fLightDistance / (f4SourceLightCenterAndRadius.w));
 		f3Color *= fFallOff;
 		
-	
 		float3 f3NormalizeColor = normalize(f3Color);
 		float fDotR = dot(f3NormalizeColor, float3(1.f, 0.f, 0.f));
 		float fDotG = dot(f3NormalizeColor, float3(0.f, 1.f, 0.f));
@@ -125,7 +124,7 @@ void GenerateVPLsCS(uint3 globalIdx : SV_DispatchThreadID)
 #if(SPOT_LIGHTS == 1)
 				data.f4SourceLightDirection = float4(-f3SpotLightDir, 0.f);
 #else
-				data.f4SourceLightDirection.xyz = normalize(f3SourceLightDir);
+				data.f4SourceLightDirection.xyz = normalize(-f3SourceLightDir);
 				data.f4SourceLightDirection.w = 0.f;
 #endif
 				uint uiIndex = g_vplPositionBuffer.IncrementCounter();

@@ -79,7 +79,6 @@ public:
 	template <typename T, typename... Args>
 	bool setBuilding(const Args... arguments)
 	{
-		//TODO (L) introduce building names 
 		if (buildingPlaced) {
 			lPlayingField->getLMaster()->getVMaster()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann hier nicht platziert werden, da auf dem Feld ") + std::to_string(fieldType) + std::string(" bereits ein Gebäude steht."));
 			return false;
