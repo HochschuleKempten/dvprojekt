@@ -16,14 +16,11 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 	//Cursor
 
 
-	m_background = new CBackground();
-
-	m_background->InitFull(&VMaterialLoader::materialDefaultBackground);
 
 
 	m_bigDialog = new COverlay();
 
-	m_viewport->AddBackground(m_background);
+	m_viewport->AddBackground(&VMaterialLoader::materialIngameBackground);
 
 
 	CWriting* iwas = new CWriting();
@@ -36,7 +33,7 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 	iwas->SwitchOff();
 
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.01F, 0.05F, 0.6F, 0.76F), &VMaterialLoader::materialLobbyRunningGamesBackground, "LobbyRunningGames", 0.5F);
-	getContainer("LobbyRunningGames")->addTextfield(CFloatRect(0.1F, 0.10F, 0.80F, 0.1F), &VMaterialLoader::materialTextfieldBackground, &VMaterialLoader::materialTextfieldHoverBackground, &VMaterialLoader::materialTextfieldHoverBackground, 19, "Suche IP-Adresse...", "textfieldIP", 0.4F);
+	getContainer("LobbyRunningGames")->addTextfield(CFloatRect(0.1F, 0.10F, 0.80F, 0.1F), &VMaterialLoader::materialTextfieldBackground, &VMaterialLoader::materialTextfieldHoverBackground, &VMaterialLoader::materialTextfieldHoverBackground, 20, "IP-Adresse...", "textfieldIP", 0.4F);
 
 
 	//ListView

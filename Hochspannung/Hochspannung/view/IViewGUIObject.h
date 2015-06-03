@@ -30,6 +30,7 @@ public:
 
 	virtual bool checkHover(const float fPosX, const float fPosY)
 	{
+		
 		//Prüfe ob X-Koordinate innerhalb des Buttons
 		if ((fPosX > m_zfrRect.GetXPos()) && (fPosX < (m_zfrRect.GetXPos() + m_zfrRect.GetXSize())))
 		{
@@ -37,21 +38,34 @@ public:
 			if ((fPosY > m_zfrRect.GetYPos()) && (fPosY < (m_zfrRect.GetYPos() + m_zfrRect.GetYSize())))
 			{
 				//Koordinaten sind auf Button
-				onMouseOver();
+				if (!m_wasHover)
+				{
+					onMouseOver();
+				}
+				m_wasHover = true;
 				return true;
 			}
 			else
 			{
 				//X-Koordinate passt aber Y-Koordinate nicht
 				//Koordinaten sind auf Button
-				onMouseOut();
+				if (m_wasHover)
+				{
+					onMouseOut();
+					
+				}
+				m_wasHover = false;
 				return false;
 			}
 		}
 		else
 		{
 			//X-Koordinate passt nicht
-			onMouseOut();
+			if (m_wasHover)
+			{
+				onMouseOut();
+			}
+			m_wasHover = false;
 			return false;
 		}
 	}
@@ -132,7 +146,7 @@ protected:
 	float m_fLayer = 1.0;
 	std::string m_sName = "";
 	ObjectType m_ObjectType;
-	
+	bool m_wasHover = false;
 };
 
 NAMESPACE_VIEW_E

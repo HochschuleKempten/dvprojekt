@@ -9,8 +9,8 @@ class VDialog : public IViewGUIContainer
 {
 public:
 	VDialog();
-	VDialog(CViewport* viewport, CFloatRect floatRect, CMaterial* MaterialNormal, const float layer);
-	VDialog(CViewport* viewport, CFloatRect floatRect, const float layer);
+	VDialog(CViewport* viewport, CFloatRect floatRect, CMaterial* MaterialNormal,const std::string& sName, const float layer);
+	VDialog(CViewport* viewport, CFloatRect floatRect, const std::string& sName, const float layer);
 
 	void onNotify(const Event& events) override;
 

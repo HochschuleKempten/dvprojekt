@@ -50,6 +50,8 @@ public:
 	static CMaterial materialButtonAbortHover;
 	static CMaterial materialButtonRefresh;
 	static CMaterial materialButtonRefreshHover;
+	static CMaterial materialButtonGameContinue;
+	static CMaterial materialButtonGameContinueHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
@@ -90,6 +92,10 @@ public:
 	static CMaterial materialIngameButtonCraftmenuHover;
 	static CMaterial materialIngameButtonSabotageHover;
 	static CMaterial materialIngameButtonStatisticsHover;
+	static CMaterial materialIngameButtonCraftmenuActive;
+	static CMaterial materialIngameButtonSabotageActive;
+	static CMaterial materialIngameButtonStatisticsActive;
+
 	//Craftmenu
 	static CMaterial materialCraftmenuButtonWindmill;
 	static CMaterial materialCraftmenuButtonHydroPowerplant;

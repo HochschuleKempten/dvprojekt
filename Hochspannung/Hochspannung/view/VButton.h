@@ -15,6 +15,7 @@ public:
 
 	VButton();
 	VButton(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, IViewUIObserver::Event clickAction, const float layer);
+	VButton(CViewport* viewport, CFloatRect& rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, IViewUIObserver::Event clickAction, const float layer);
 	~VButton();
 
 
@@ -32,7 +33,7 @@ public:
 
 
 	//Getter
-
+	COverlay* getActiveOverlay();
 	COverlay* getHoverOverlay();
 	COverlay* getNormalOverlay();
 
@@ -47,6 +48,7 @@ private:
 
 	COverlay* m_zoNormal;
 	COverlay* m_zoHover;
+	COverlay* m_zoActive;
 
 	bool m_bHasHover;
 	bool m_isActive = false;
