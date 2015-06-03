@@ -537,9 +537,9 @@ float VMaterialLoader::getRotationPerTick(const VIdentifier::VIdentifier powerPl
 {
 	switch (powerPlant)
 	{
-		case VIdentifier::VCoalPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
-		//case VIdentifier::VHydroelectricPowerPlant: break;
-		case VIdentifier::VWindmillPowerPlant: return CASTS<float>((2.0 * M_PI / 2.0) * fTimeDelta);	//Number of seconds per rotation
+		case VIdentifier::VCoalPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);	//Number of seconds per rotation
+		case VIdentifier::VHydroelectricPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
+		case VIdentifier::VWindmillPowerPlant: return CASTS<float>((2.0 * M_PI / 2.0) * fTimeDelta);
 		case VIdentifier::VSolarPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
 		case VIdentifier::VOilRefinery: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);
 		//case VIdentifier::VNuclearPowerPlant: break;

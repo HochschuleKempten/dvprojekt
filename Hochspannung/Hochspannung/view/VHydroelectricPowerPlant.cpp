@@ -9,10 +9,14 @@ NAMESPACE_VIEW_B
 
 VHydroelectricPowerPlant::VHydroelectricPowerPlant(VMaster* vMaster, LHydroelectricPowerPlant* lPlant)
 	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
-{}
+{
+	vMaster->registerObserver(this);
+}
 
 VHydroelectricPowerPlant::~VHydroelectricPowerPlant()
-{}
+{
+	vMaster->unregisterObserver(this);
+}
 
 void VHydroelectricPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {

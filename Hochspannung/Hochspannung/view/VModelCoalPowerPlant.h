@@ -102,7 +102,7 @@ public:
 
 	void init();
 
-	void moveLore(float amount);
+	void moveLore(float amount, float fTime);
 
 	virtual float getHeight() override
 	{

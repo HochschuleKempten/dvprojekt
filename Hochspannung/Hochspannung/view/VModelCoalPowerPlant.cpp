@@ -223,8 +223,11 @@ void VModelCoalPowerPlant::init()
 	//m_zpGebaeude.Translate(CHVector(0.3f, 0.3f, 1.0f));
 }
 
-void VModelCoalPowerPlant::moveLore(float amount)
+void VModelCoalPowerPlant::moveLore(float amount, float fTime)
 {
+	m_zpMinenLore.TranslateZDelta(0.1*sin(fTime));
+
+	/*
 	if (totalMovement <= 3.0f)
 	{
 		m_zpMinenLore.TranslateZDelta(amount);
@@ -237,7 +240,7 @@ void VModelCoalPowerPlant::moveLore(float amount)
 	{
 		totalMovement = 0.0f;
 	}
-		
+		*/
 	totalMovement += amount;
 }
 
