@@ -222,11 +222,14 @@ CMaterial VMaterialLoader::materialAnimationsVersuch;
 
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotageBomb;
+CMaterial VMaterialLoader::materialAnimLoadingCircle;
 
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotagePowerPlant;
 int VMaterialLoader::materialAnimSabotagePowerPlant_x;
 int VMaterialLoader::materialAnimSabotagePowerPlant_y;
+
+
 
 CMaterial VMaterialLoader::materialAnimTransformerStationLightning;
 
@@ -534,6 +537,11 @@ void VMaterialLoader::init()
 	materialAnimSabotageBomb.SetAni(9, 2, 1);
 	//materialAnimSabotageBomb.MakeTextureSprite("textures/fonts/FontArialShadow.png");
 	//materialAnimSabotageBomb.SetAni(16, 16, 1);
+
+	materialAnimLoadingCircle.MakeTextureSprite("textures/gui/animiert/LoadingCircle.png");
+	materialAnimLoadingCircle.SetAni(25, 2, 10);
+
+	materialAnimLoadingCircle.SetTransparencyOn();
 
 	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/strike.png");
 	materialAnimSabotagePowerPlant_x = 60;

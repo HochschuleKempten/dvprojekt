@@ -42,19 +42,21 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue", 0.6F);
 	getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "buttonBackToPlaymode", 0.2F);
-	getContainer("Menue")->addButton(CFloatRect(0.65F, 0.05F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyHostGame, &VMaterialLoader::materialButtonLobbyHostGameHover, LOBBY_HOST_GAME, "buttonHostGame", 0.2F);
+	getContainer("Menue")->addButton(CFloatRect(0.65F, 0.05F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyHostGame, &VMaterialLoader::materialButtonLobbyHostGameHover, OPEN_HOST_DIALOG, "buttonCreateGame", 0.2F);
 	getContainer("Menue")->addButton(CFloatRect(0.65F, 0.19F, 0.30F, 0.12F), &VMaterialLoader::materialButtonLobbyJoinGame, &VMaterialLoader::materialButtonLobbyJoinGameHover, LOBBY_JOIN_GAME, "buttonJoinGame", 0.2F);
 	DEBUG_EXPRESSION(getContainer("Menue")->addButton(CFloatRect(0.65F, 0.33F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueNeuesSpiel, &VMaterialLoader::materialButtonMainMenueNeuesSpielHover, START_GAME, "buttonStartGame", 0.2F));
 
-
-	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.3F, 0.45F, 0.3F, 0.2F), &VMaterialLoader::materialGreen, "WaitingDialog", 0.19F);
+	
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.3F, 0.45F, 0.3F, 0.2F), &VMaterialLoader::materialLobbyRunningGamesBackground, "WaitingDialog", 0.19F);
 	getContainer("WaitingDialog")->addText(CFloatRect(0.1F, 0.1F, 0.8F, 0.2F), &VMaterialLoader::standardFont, "Warte auf Mitspieler", "TextWaitingDialog", 0.15F);
-	getContainer("WaitingDialog")->addButton(CFloatRect(0.2F, 0.65F, 0.6F, 0.2F), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover, NOTHING, "HostCancel", 0.14F);
-
-	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.05F, 0.27F, 0.5F, 0.47F), &VMaterialLoader::materialGreen, "HostDialog", 0.1F);
+	getContainer("WaitingDialog")->addOverlay(CFloatRect(0.4F, 0.35, 0.2F, 0.354F), &VMaterialLoader::materialAnimLoadingCircle, "LoadingCircle", 0.07F);
+	getContainer("WaitingDialog")->addButton(CFloatRect(0.2F, 0.71F, 0.6F, 0.2F), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover, ABORT_WAITING_DIALOG, "HostCancel", 0.14F);
+	
+	
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.05F, 0.27F, 0.5F, 0.47F), &VMaterialLoader::materialLobbyRunningGamesBackground, "HostDialog", 0.1F);
 	getContainer("HostDialog")->addTextfield(CFloatRect(0.1F, 0.1F, 0.8F, 0.2F), &VMaterialLoader::materialTextfieldBackground, &VMaterialLoader::materialTextfieldHoverBackground, &VMaterialLoader::materialTextfieldHoverBackground, 19, "Name des Spiels...", "textfieldGameName", 0.09F);
-	getContainer("HostDialog")->addButton(CFloatRect(0.1, 0.5F, 0.3F, 0.2F), &VMaterialLoader::materialButtonLobbyHostGame, &VMaterialLoader::materialButtonLobbyHostGameHover, NOTHING, "buttonHostGame", 0.09F);
-	getContainer("HostDialog")->addButton(CFloatRect(0.6, 0.5F, 0.3F, 0.2F), &VMaterialLoader::materialButtonLobbyJoinGame, &VMaterialLoader::materialButtonLobbyJoinGameHover, NOTHING, "buttonJoinGame", 0.09F);
+	getContainer("HostDialog")->addButton(CFloatRect(0.1, 0.5F, 0.3F, 0.2F), &VMaterialLoader::materialButtonLobbyHostGame, &VMaterialLoader::materialButtonLobbyHostGameHover, LOBBY_HOST_GAME, "buttonHostGame", 0.09F);
+	getContainer("HostDialog")->addButton(CFloatRect(0.6, 0.5F, 0.3F, 0.2F), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover, ABORT_HOST_DIALOG, "HostDialogAbort", 0.09F);
 
 
 	getContainer("HostDialog")->switchOff();
@@ -77,14 +79,11 @@ void VScreenLobby::onNotify(const Event& events)
 		break;
 	case LOBBY_HOST_GAME:
 
-		getContainer("LobbyRunningGames")->getGuiObject("textfieldIP")->disable();
-		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->disable();
-		getContainer("Menue")->getGuiObject("buttonHostGame")->disable();
-		getContainer("Menue")->getGuiObject("buttonJoinGame")->disable();
-		getContainer("Menue")->getGuiObject("buttonStartGame")->disable();
+		getContainer("HostDialog")->switchOff();
+		getContainer("WaitingDialog")->switchOn();
+		getContainer("LobbyRunningGames")->getContainer("HostList")->switchOn();
 		//std::thread([this] { this->getContainer("WaitingDialog")->switchOn(); }).join();
-		getContainer("HostDialog")->switchOn();
-		getContainer("LobbyRunningGames")->getContainer("HostList")->switchOff();
+		
 
 		//std::thread([this] { this->vUi->vMaster->hostGame(); this->vUi->switchScreen("Ingame"); }).detach();
 
@@ -107,6 +106,35 @@ void VScreenLobby::onNotify(const Event& events)
 	case REFRESH_GAME_LIST:
 		vUi->vMaster->getLMaster()->searchGames();
 		break;
+
+	case ABORT_HOST_DIALOG:
+		getContainer("LobbyRunningGames")->getGuiObject("textfieldIP")->enable();
+		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->enable();
+		getContainer("Menue")->getGuiObject("buttonCreateGame")->enable();
+		getContainer("Menue")->getGuiObject("buttonJoinGame")->enable();
+		getContainer("Menue")->getGuiObject("buttonStartGame")->enable();
+		getContainer("HostDialog")->switchOff();
+		getContainer("LobbyRunningGames")->getContainer("HostList")->switchOn();
+		break;
+	case OPEN_HOST_DIALOG:
+		getContainer("LobbyRunningGames")->getGuiObject("textfieldIP")->disable();
+		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->disable();
+		getContainer("Menue")->getGuiObject("buttonCreateGame")->disable();
+		getContainer("Menue")->getGuiObject("buttonJoinGame")->disable();
+		getContainer("Menue")->getGuiObject("buttonStartGame")->disable();
+		getContainer("HostDialog")->switchOn();
+		getContainer("LobbyRunningGames")->getContainer("HostList")->switchOff();
+		break;
+	
+	case ABORT_WAITING_DIALOG:
+		getContainer("LobbyRunningGames")->getGuiObject("textfieldIP")->enable();
+		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->enable();
+		getContainer("Menue")->getGuiObject("buttonCreateGame")->enable();
+		getContainer("Menue")->getGuiObject("buttonJoinGame")->enable();
+		getContainer("Menue")->getGuiObject("buttonStartGame")->enable();
+		getContainer("WaitingDialog")->switchOff();
+		getContainer("LobbyRunningGames")->getContainer("HostList")->switchOn();
+
 	default:
 		notify(events);
 		break;

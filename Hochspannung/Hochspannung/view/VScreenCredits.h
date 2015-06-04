@@ -19,8 +19,13 @@ public:
 	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
 	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(const int width, const int height) override;
+
+	void MoveText();
+
 private:
 	CBackground* m_background;
+	COverlay* overlay;
+	COverlay* topBorder;
 };
 
 NAMESPACE_VIEW_E

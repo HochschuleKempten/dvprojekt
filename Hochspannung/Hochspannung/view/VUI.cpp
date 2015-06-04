@@ -239,6 +239,7 @@ void VUI::showMessage(const std::string& message)
 	CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(message.c_str(), message.length() * secondsPerCharacter);
 }
 
+
 void VUI::tick(const float fTimeDelta)
 {
 	float fTimeDeltaCopy = fTimeDelta; //Copy needed because Vektoria means to change the time variable for some reasons (prevent undefined behaviour: http://en.cppreference.com/w/cpp/language/const_cast)

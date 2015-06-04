@@ -71,6 +71,8 @@ void VText::setLayer(float layer)
 
 void VText::updateRectangle(CFloatRect rect)
 {
+	m_writing->SetRect(rect);
+	m_zfrRect = rect;
 }
 
 NAMESPACE_VIEW_E

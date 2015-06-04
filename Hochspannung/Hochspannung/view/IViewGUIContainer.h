@@ -330,6 +330,36 @@ public:
 	{
 		m_sName=value;
 	}
+
+	void slideUp(float value)
+	{
+		m_zfRect.SetYPos(m_zfRect.GetYPos() - value);
+		if (m_hasBackground)m_background->GetRect().SetYPos(m_background->GetRect().GetYPos() - value);
+
+		for (std::pair<std::string, IViewGUIContainer*> ContainerPair : m_Guicontainer)
+		{
+			ContainerPair.second->slideUp(value);
+		}
+
+		for (std::pair<std::string, IViewGUIObject*> ObjectPair : m_guiObjects)
+		{
+			CFloatRect tempRect = ObjectPair.second->getRectangle();
+			tempRect.SetYPos(tempRect.GetYPos() - value);
+			ObjectPair.second->updateRectangle(tempRect);
+			ObjectPair.second->setRectangle(tempRect);
+		}
+
+		for (std::pair<std::string, COverlay*> OverlayPair : m_Overlays)
+		{
+			OverlayPair.second->GetRect().SetYPos(OverlayPair.second->GetRect().GetYPos() - value);
+		}
+		for (std::pair<std::string, CViewport*> ViewportPair : m_viewports)
+		{
+			ViewportPair.second->m_fry -=value;
+		}
+
+	}
+
 protected:
 
 	bool m_bOn = true;

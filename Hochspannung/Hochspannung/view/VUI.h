@@ -87,6 +87,7 @@ public:
 	void updateGameList(const std::vector<Network::CGameObject>& gameList);
 	void switchCursor(const CursorType& cursorType);
 	void showMessage(const std::string& message);
+
 };
 
 

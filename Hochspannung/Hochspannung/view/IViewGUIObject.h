@@ -139,6 +139,11 @@ public:
 		m_bisOn = false;
 	}
 
+	void enable()
+	{
+		m_bisOn = true;
+	}
+
 	//virtual void resize(int width, int height);
 protected:
 	CFloatRect m_zfrRect = CFloatRect(0, 0, 0, 0);
