@@ -185,7 +185,6 @@ void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
 
 void VUI::switchCursor(const CursorType& cursorType)
 {
-	LPRECT rectangle = nullptr;
 	switch (cursorType)
 	{
 		default:
@@ -194,41 +193,29 @@ void VUI::switchCursor(const CursorType& cursorType)
 
 			SetCursor(m_Default_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Default_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 		case Hammer:
 			SetCursor(m_Hammer_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Hammer_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 		case Sabotage:
 			SetCursor(m_Sabotage_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Sabotage_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 
 		case PowerOn:
 			SetCursor(m_PowerOn_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_PowerOn_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 
 		case PowerOff:
 			SetCursor(m_PowerOff_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_PowerOff_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 
 		case Sell:
 			SetCursor(m_Sell_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Sell_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 	}
 }

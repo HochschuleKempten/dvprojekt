@@ -1,8 +1,8 @@
 #include "VHydroelectricPowerPlant.h"
 #include "VPlayingField.h"
-#include "VMaterialLoader.h"
 #include "VIdentifier.h"
 #include "VMaster.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -28,6 +28,8 @@ void VHydroelectricPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() * 0.5f * scale - 0.6f);
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
+	
+	VSoundLoader::play3DSoundLoop(VIdentifier::VHydroelectricPowerPlant, viewModel.getMainPlacement());
 
 	SET_NAME_AND_COORDINATES(VIdentifier::VHydroelectricPowerPlant);
 }

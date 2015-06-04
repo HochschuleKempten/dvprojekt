@@ -80,7 +80,6 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	vUi->m_zr.AddScene(&m_scene);
 	vUi->m_zr.AddScene(&m_sceneModels);
 
-	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
 	m_zpCamera.AddCamera(&m_zc);
 	m_zpCamera.TranslateZ(60.0F);
 

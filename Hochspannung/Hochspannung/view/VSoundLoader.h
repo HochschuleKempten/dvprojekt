@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VGeneral.h"
+#include "VIdentifier.h"
 
 NAMESPACE_VIEW_B
 
@@ -37,14 +38,15 @@ private:
 	static CScene* scene;		//Background music needs to be added to scene
 	DEBUG_EXPRESSION(static bool initDone);
 	static CAudio backgroundMusicIngameStart;
-	static CAudio electricitySound;
+	static std::list<CAudio> sound3DLoop;
+	static std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> sound3DLoopData;	//pair = (path, radius)
 	static std::unordered_map<SoundEffect, CAudio> soundeffects;
 	static std::unordered_map<SoundEffect, CPlacement*> soundeffectsLastPlacements;
 
 public:
 	static void init(CScene* scene);
 	static void playBackgroundMusicIngame();
-	static void playElectricitySoundLoop(CPlacement* placement);
+	static void play3DSoundLoop(const VIdentifier::VIdentifier building, CPlacement* placement);
 	static void playSoundeffect(const SoundEffect soundEffect, CPlacement* placement);
 };
 
