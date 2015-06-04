@@ -776,38 +776,45 @@ void VScreenIngame::handleInput()
 		}
 	}
 
-
+	//Flip View
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_E))
 	{
-		if (cameraAngle < 0.5f)
+		if (cameraAngle < 5)
 		{
 			m_zpCamera.RotateZDelta(cameraStength / 10.0f);
-			cameraAngle += cameraStength / 10.0f;
+			cameraAngle += (int)cameraStength;
 		}
 	}
 
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_Q))
 	{
-		if (cameraAngle > -0.5f)
+		if (cameraAngle > -5)
 		{
 			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
-			cameraAngle -= cameraStength / 10.0f;
+			cameraAngle -= (int)cameraStength;
 		}
 	}
 
+	//Return to Default View 
 	if (!vUi->m_zkKeyboard.KeyPressed(DIK_Q) && !vUi->m_zkKeyboard.KeyPressed(DIK_E))
-	{
-		if (cameraAngle < 0.0f)
+	{	
+		if (cameraAngle != 0)
 		{
-			m_zpCamera.RotateZDelta(cameraStength / 10.0f);
-			cameraAngle += cameraStength / 10.f;
-		}
 
-		if (cameraAngle > 0.0f)
-		{
-			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
-			cameraAngle -= cameraStength / 10.0f;
+			if (cameraAngle < 0)
+			{
+				m_zpCamera.RotateZDelta(cameraStength / 10.0f);
+				cameraAngle += (int)cameraStength;
+			}
+
+
+			 if (cameraAngle > 0)
+		   	{
+				m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
+				cameraAngle -= (int)cameraStength;
+			}
 		}
+	
 	}
 
 	CFloatRect topSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getTopSpace();
