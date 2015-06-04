@@ -1,6 +1,7 @@
 #include "VScreenCredits.h"
 #include "VUI.h"
 #include <thread>
+#include "VUIHelper.h"
 
 NAMESPACE_VIEW_B
 
@@ -10,10 +11,59 @@ void VScreenCredits::startAnimation()
 
 void VScreenCredits::StartEvent()
 {
+
+	std::thread([this] {
+
+		std::thread([this] {MoveText(materialCreditsOrganization); }).detach();
+
+		std::this_thread::sleep_for(std::chrono::seconds(5));
+
+		std::thread([this] {MoveText(materialCreditsIntegration); }).detach();
+
+		std::this_thread::sleep_for(std::chrono::seconds(5));
+
+
+		std::thread([this] {MoveText(materialCreditsNetwork); }).detach();
+
+		std::this_thread::sleep_for(std::chrono::seconds(5));
+
+
+		std::thread([this] {MoveText(materialCreditsTextures); }).detach();
+
+		std::this_thread::sleep_for(std::chrono::seconds(5));
+
+
+		std::thread([this] {MoveText(materialCreditsLogic); }).detach();
+
+		std::this_thread::sleep_for(std::chrono::seconds(5));
+
+
+		std::thread([this] {MoveText(materialCreditsUI); }).detach();
+
+		std::this_thread::sleep_for(std::chrono::seconds(5));
+
+
+		std::thread([this] {MoveText(materialCreditsModelling); }).detach();
+
+		std::this_thread::sleep_for(std::chrono::seconds(3));
+
+
+		std::thread([this] {MoveText(materialCreditsModelling2); animationReady = true; }).detach();
+		
+	}).detach();
+
 }
 
 void VScreenCredits::EndEvent()
 {
+	materialCreditsOrganization->SetRect(rect);
+	materialCreditsIntegration->SetRect(rect);
+	materialCreditsTextures->SetRect(rect);
+	materialCreditsNetwork->SetRect(rect);
+	materialCreditsLogic->SetRect(rect);
+	materialCreditsUI->SetRect(rect);
+	materialCreditsModelling->SetRect(rect);
+	materialCreditsModelling2->SetRect(rect);
 }
 
 VScreenCredits::VScreenCredits(VUI* vUi) : IViewScreen(vUi)
@@ -30,18 +80,53 @@ VScreenCredits::VScreenCredits(VUI* vUi) : IViewScreen(vUi)
 
 	m_background->InitFull(&VMaterialLoader::materialDefaultBackground);
 
-	overlay = new COverlay();
-	overlay->Init(&VMaterialLoader::materialButtonGameContinue, CFloatRect(0.3F, 0.7F, 0.3F, 0.2F));
+	
 
 	topBorder = new COverlay();
 	topBorder->Init(&VMaterialLoader::materialErrorBackground, CFloatRect(0.0F, 0.0F, 1.0F, 0.05F));
 
-	/*overlay = new CWriting();
-	overlay->Init(CFloatRect(0.3F, 0.7F, 0.3F, 0.2F), 19, &VMaterialLoader::standardFont);
-	overlay->PrintF("Patrick Benkowitsch");
-*/
-	overlay->SetLayer(0.1F);
-	m_viewport->AddOverlay(overlay);
+	rect = getRectForPixel((vUi->m_zf.m_iWidthWindow/2) - (1280/ 2), vUi->m_zf.m_iHeightWindow, 1280, 720);
+	
+	
+	materialCreditsOrganization=new COverlay();
+	materialCreditsIntegration = new COverlay();
+	materialCreditsTextures = new COverlay();
+	materialCreditsNetwork = new COverlay();
+	materialCreditsLogic = new COverlay();
+	materialCreditsUI = new COverlay();
+	materialCreditsModelling = new COverlay();
+	materialCreditsModelling2 = new COverlay();
+
+	materialCreditsOrganization->Init(&VMaterialLoader::materialCreditsOrganization,rect);
+	materialCreditsIntegration->Init(&VMaterialLoader::materialCreditsIntegration, rect);
+	materialCreditsTextures->Init(&VMaterialLoader::materialCreditsTextures, rect);
+	materialCreditsNetwork->Init(&VMaterialLoader::materialCreditsNetwork, rect);
+	materialCreditsLogic->Init(&VMaterialLoader::materialCreditsLogic, rect);
+	materialCreditsUI->Init(&VMaterialLoader::materialCreditsUI, rect);
+	materialCreditsModelling->Init(&VMaterialLoader::materialCreditsModelling, rect);
+	materialCreditsModelling2->Init(&VMaterialLoader::materialCreditsModelling2, rect);
+
+
+	m_viewport->AddOverlay(materialCreditsOrganization);
+	m_viewport->AddOverlay(materialCreditsIntegration);
+	m_viewport->AddOverlay(materialCreditsTextures);
+	m_viewport->AddOverlay(materialCreditsNetwork);
+	m_viewport->AddOverlay(materialCreditsLogic);
+	m_viewport->AddOverlay(materialCreditsUI);
+	m_viewport->AddOverlay(materialCreditsModelling);
+	m_viewport->AddOverlay(materialCreditsModelling2);
+
+
+	materialCreditsOrganization->SetLayer(0.3F);
+	materialCreditsIntegration->SetLayer(0.3F);
+	materialCreditsTextures->SetLayer(0.3F);
+	materialCreditsNetwork->SetLayer(0.3F);
+	materialCreditsLogic->SetLayer(0.3F);
+	materialCreditsUI->SetLayer(0.3F);
+	materialCreditsModelling->SetLayer(0.3F);
+	materialCreditsModelling2->SetLayer(0.3F);
+
+	
 	m_viewport->AddOverlay(topBorder);
 
 	m_viewport->AddBackground(m_background);
@@ -73,6 +158,14 @@ VScreenCredits::VScreenCredits(VUI* vUi) : IViewScreen(vUi)
 
 VScreenCredits::~VScreenCredits()
 {
+	delete materialCreditsOrganization;
+	delete materialCreditsIntegration;
+	delete materialCreditsTextures;
+	delete materialCreditsNetwork;
+	delete materialCreditsLogic;
+	delete materialCreditsUI;
+	delete materialCreditsModelling;
+	delete materialCreditsModelling2;
 }
 
 void VScreenCredits::onNotify(const Event& events)
@@ -96,7 +189,8 @@ void VScreenCredits::checkShortcut(CDeviceKeyboard* keyboard)
 	if (keyboard->KeyPressed(DIK_M)&&!running)
 	{
 		running = true;
-		MoveText();
+		
+		
 	}
 }
 
@@ -111,6 +205,11 @@ void VScreenCredits::tick(const float fTimeDelta)
 		vUi->m_BlockCursorLeftPressed = false;
 	}
 
+	if (animationReady)
+	{
+		vUi->switchScreen("MainMenue");
+		animationReady = false;
+	}
 	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
 
 	checkShortcut(&vUi->m_zkKeyboard);
@@ -177,7 +276,7 @@ void VScreenCredits::resize(const int width, const int height)
 {
 }
 
-void VScreenCredits::MoveText()
+void VScreenCredits::MoveText(COverlay* overlay)
 {
 	//std::thread([this] {
 		/*while (getContainer("Text")->getContainer("1")->getRectangle().GetYPos() > -1.25F)
@@ -189,8 +288,8 @@ void VScreenCredits::MoveText()
 
 	
 
-	std::thread([this] {
-		for (float i = overlay->GetRect().GetYPos(); i > -0.2F; i = i - 0.001F)
+	
+		for (float i = overlay->GetRect().GetYPos(); i > -overlay->GetRect().GetYSize(); i = i - 0.002F)
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 			CFloatRect tempRect = overlay->GetRect();
@@ -198,7 +297,7 @@ void VScreenCredits::MoveText()
 			overlay->SetRect(tempRect);
 
 		}
-	}).detach();
+	
 	/*CFloatRect tempRect;
 	while (getContainer("Text")->getContainer("1")->getRectangle().GetYPos() > -1.25F)
 	{
@@ -208,6 +307,24 @@ void VScreenCredits::MoveText()
 		
 	}*/
 	
+}
+
+CFloatRect VScreenCredits::getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY)
+{
+	CFloatRect tempRectangle;
+	const int iFensterBreite = vUi->m_zf.m_iWidthWindow;
+	const int iFensterHöhe = vUi->m_zf.m_iHeightWindow;
+
+	//ASSERT((((iPosX + iSizeX) <= iFensterBreite) && ((iPosY + iSizeY) <= iFensterHöhe)), "Angegebener Bereich liegt außerhalb des Fensters");
+
+	/* iFensterBreite/100% = iPosX/X% => iFensterbreite=(iPosX*100%)/x =>x=(iPosX*100%)/iFensterBreite */
+
+	tempRectangle.SetXPos(iPosX / CASTS<float>(iFensterBreite));
+	tempRectangle.SetYPos(iPosY / CASTS<float>(iFensterHöhe));
+	tempRectangle.SetXSize(iSizeX / CASTS<float>(iFensterBreite));
+	tempRectangle.SetYSize(iSizeY / CASTS<float>(iFensterHöhe));
+
+	return tempRectangle;
 }
 
 NAMESPACE_VIEW_E

@@ -13,6 +13,8 @@ inline CFloatRect createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect
 	                  RelativeToRect->GetXSize() * RelativeRect->GetXSize(), RelativeToRect->GetYSize() * RelativeRect->GetYSize());
 }
 
+
+
 NAMESPACE_VIEW_E
 
 #endif _VIUHELPER_H_

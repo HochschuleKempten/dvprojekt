@@ -63,6 +63,17 @@ public:
 	static CMaterial materialBuildingButton;
 	static CMaterial materialBuildingButtonHover;
 
+	
+	//Credits
+
+	static CMaterial materialCreditsOrganization;
+	static CMaterial materialCreditsIntegration;
+	static CMaterial materialCreditsTextures;
+	static CMaterial materialCreditsNetwork;
+	static CMaterial materialCreditsLogic;
+	static CMaterial materialCreditsUI;
+	static CMaterial materialCreditsModelling;
+	static CMaterial materialCreditsModelling2;
 
 
 	//Backgrounds

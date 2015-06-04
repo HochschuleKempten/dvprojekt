@@ -23,6 +23,20 @@ CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
 CMaterial VMaterialLoader::materialLightGrey;
 
+
+
+//Credits
+
+CMaterial VMaterialLoader::materialCreditsOrganization;
+CMaterial VMaterialLoader::materialCreditsIntegration;
+CMaterial VMaterialLoader::materialCreditsTextures;
+CMaterial VMaterialLoader::materialCreditsNetwork;
+CMaterial VMaterialLoader::materialCreditsLogic;
+CMaterial VMaterialLoader::materialCreditsUI;
+CMaterial VMaterialLoader::materialCreditsModelling;
+CMaterial VMaterialLoader::materialCreditsModelling2;
+
+
 //Infofield
 CMaterial VMaterialLoader::materialInfofieldBackground;
 
@@ -559,6 +573,28 @@ void VMaterialLoader::init()
 	materialTextfieldHoverBackground.MakeTextureSprite("textures/gui/background/gui_textfield_backgroundHover.png");
 	materialErrorBackground.MakeTextureSprite("textures/gui/background/gui_error_background.png");
 	materialIngameBackground.InitFull("textures/background.jpg");
+
+
+
+	//Credits
+
+	materialCreditsOrganization.MakeTextureSprite("textures/gui/Credits/Organisation.png");
+	materialCreditsIntegration.MakeTextureSprite("textures/gui/Credits/Integration.png");
+	materialCreditsTextures.MakeTextureSprite("textures/gui/Credits/TexturenSound.png");
+	materialCreditsNetwork.MakeTextureSprite("textures/gui/Credits/Netzwerk.png");
+	materialCreditsLogic.MakeTextureSprite("textures/gui/Credits/Spiellogik.png");
+	materialCreditsUI.MakeTextureSprite("textures/gui/Credits/UI.png");
+	materialCreditsModelling.MakeTextureSprite("textures/gui/Credits/Modellierung.png");
+	materialCreditsModelling2.MakeTextureSprite("textures/gui/Credits/Modellierung2.png");
+
+	materialCreditsOrganization.SetTransparencyOn();
+	materialCreditsIntegration.SetTransparencyOn();
+	materialCreditsTextures.SetTransparencyOn();
+	materialCreditsNetwork.SetTransparencyOn();
+	materialCreditsLogic.SetTransparencyOn();
+	materialCreditsUI.SetTransparencyOn();
+	materialCreditsModelling.SetTransparencyOn();
+	materialCreditsModelling2.SetTransparencyOn();
 }
 
 //Rotation adjustments
