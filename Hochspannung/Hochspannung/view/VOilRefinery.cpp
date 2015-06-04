@@ -29,8 +29,6 @@ void VOilRefinery::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, c
 	//viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight());
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
-
-	SET_NAME_AND_COORDINATES(VIdentifier::VOilRefinery);
 }
 
 

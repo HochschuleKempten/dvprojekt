@@ -124,6 +124,11 @@ void VMaster::joinGame(const std::string& ipAddress)
 	lMaster->startNewGame(ipAddress);
 }
 
+void VMaster::startBuildingPlayingField()
+{
+	//TODO (V) inform UI
+}
+
 void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
 {
 	if (playerId == LPlayer::Local)
@@ -134,7 +139,7 @@ void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
 
 void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
 {
-	vUi.showMessage(std::string("Es verbleiben ") + std::to_string(remainingSabotageActs) + std::string(" Sabotageakte."));
+	//TODO (V) Show remaining sabotage acts
 }
 
 void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)

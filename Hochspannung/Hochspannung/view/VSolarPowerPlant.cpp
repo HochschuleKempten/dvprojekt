@@ -24,8 +24,6 @@ void VSolarPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPt
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f - 0.1f);
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
-
-	SET_NAME_AND_COORDINATES(VIdentifier::VSolarPowerPlant);
 }
 
 

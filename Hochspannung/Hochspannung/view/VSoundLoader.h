@@ -42,6 +42,7 @@ private:
 	static std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> sound3DLoopData;	//pair = (path, radius)
 	static std::unordered_map<SoundEffect, CAudio> soundeffects;
 	static std::unordered_map<SoundEffect, CPlacement*> soundeffectsLastPlacements;
+	static std::unordered_map<std::string, CAudio> radioMessages;
 
 public:
 	static void init(CScene* scene);

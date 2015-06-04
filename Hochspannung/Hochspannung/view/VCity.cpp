@@ -24,8 +24,6 @@ void VCity::initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const i
 {
 	viewModel.initViewModel(this);
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
-
-	SET_NAME_AND_COORDINATES(VIdentifier::VCity);
 }
 
 void VCity::updatePopulation(const int population)

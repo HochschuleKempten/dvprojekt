@@ -40,6 +40,7 @@ public:
 	virtual IVFactory* getFactory() = 0;
 	virtual void gameWon() = 0;
 	virtual void gameOver() = 0;
+	virtual void startBuildingPlayingField() = 0;
 	virtual void updateMoney(const int money, const LPlayer::PlayerId playerId) = 0;
 	virtual void updateRemainingSabotageActs(const int remainingSabotageActs) = 0;
 	virtual void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) = 0;

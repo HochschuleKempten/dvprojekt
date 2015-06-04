@@ -12,7 +12,7 @@ std::list<CAudio> VSoundLoader::sound3DLoop;
 std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> VSoundLoader::sound3DLoopData;
 std::unordered_map<VSoundLoader::SoundEffect, CAudio> VSoundLoader::soundeffects;
 std::unordered_map<VSoundLoader::SoundEffect, CPlacement*> VSoundLoader::soundeffectsLastPlacements;
-
+std::unordered_map<std::string, CAudio> VSoundLoader::radioMessages;
 
 void VSoundLoader::setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename)
 {
@@ -45,6 +45,10 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(ENERGY_LOW, "lowEnergy");
 	setSoundEffectHelper(GAME_OVER, "game_lose");
 	setSoundEffectHelper(GAME_WON, "game_win");
+
+	radioMessages["STest"].Init("");
+	radioMessages["STest"].SetVolume(1.0f);
+	scene->AddAudio(&radioMessages["STest"]);
 
 	DEBUG_EXPRESSION(initDone = true);
 }
@@ -102,5 +106,9 @@ void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* pl
 	}
 }
 
+void VSoundLoader::playRadioMessage(const std::string& message)
+{
+	radioMessages["STest"].Start();
+}
 
 NAMESPACE_VIEW_E

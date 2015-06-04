@@ -128,6 +128,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		sabotageActs--;
 		subtractMoney(sabotageCost);
 		lMaster->getVMaster()->updateRemainingSabotageActs(sabotageActs);
+		lMaster->getVMaster()->showMessage(std::string("Sabotage durchgeführt. Es verbleiben ") + std::to_string(sabotageActs) + std::string(" Sabotageakte."));
 		
 		return true;
 	}

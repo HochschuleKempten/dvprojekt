@@ -29,7 +29,6 @@ void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& ob
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	VSoundLoader::play3DSoundLoop(VIdentifier::VWindmillPowerPlant, viewModel.getMainPlacement());
-	SET_NAME_AND_COORDINATES(VIdentifier::VWindmillPowerPlant);	//TODO (JS) remove
 }
 
 
