@@ -80,18 +80,13 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	vUi->m_zr.AddScene(&m_scene);
 	vUi->m_zr.AddScene(&m_sceneModels);
 
-	DEBUG_EXPRESSION(m_zpCamera.SetName("#Placement Camera"));
 	m_zpCamera.AddCamera(&m_zc);
 	m_zpCamera.TranslateZ(60.0F);
 
-	//m_zpCamera.TranslateYDelta(6.5f);
+	m_zpCamera.RotateXDelta(0.20F * PI);
 
 	//m_zpCamera.RotateXDelta(0.40F * PI);
 
-	//m_zpCamera.TranslateZDelta(5.0f);
-
-	m_zpCamera.RotateXDelta(0.20F * PI);
-	//m_zpCamera.RotateZDelta(0.15F);
 
 	VSoundLoader::init(&m_scene);
 	VSoundLoader::playBackgroundMusicIngame();
@@ -703,6 +698,29 @@ void VScreenIngame::handleInput()
 	static bool keyPressed = false;
 	float direction = 1.0f;
 
+	//TODO (MBR) remove when we get the final models (This is used to place them in the right hight)
+	//float step = 0.05f;
+	//static float total = 0.0f;
+	//extern IViewModel *viemodelPointer;
+	////Model UP
+	//if (vUi->m_zkKeyboard.KeyPressed(DIK_T))
+	//{
+
+	//	viemodelPointer->getMainPlacement()->TranslateZDelta(step);
+	//	total += step;
+	//}
+
+	////Model Down
+	//if (vUi->m_zkKeyboard.KeyPressed(DIK_G))
+	//{
+
+	//	viemodelPointer->getMainPlacement()->TranslateZDelta(-step);
+	//	total -= step;		
+	//}
+
+	//DEBUG_OUTPUT("Total" << total);
+
+
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
 	{
 		direction = -1.0f;
@@ -779,38 +797,45 @@ void VScreenIngame::handleInput()
 		}
 	}
 
-
+	//Flip View
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_E))
 	{
-		if (cameraAngle < 0.5f)
+		if (cameraAngle < 5)
 		{
 			m_zpCamera.RotateZDelta(cameraStength / 10.0f);
-			cameraAngle += cameraStength / 10.0f;
+			cameraAngle += (int)cameraStength;
 		}
 	}
 
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_Q))
 	{
-		if (cameraAngle > -0.5f)
+		if (cameraAngle > -5)
 		{
 			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
-			cameraAngle -= cameraStength / 10.0f;
+			cameraAngle -= (int)cameraStength;
 		}
 	}
 
+	//Return to Default View 
 	if (!vUi->m_zkKeyboard.KeyPressed(DIK_Q) && !vUi->m_zkKeyboard.KeyPressed(DIK_E))
-	{
-		if (cameraAngle < 0.0f)
+	{	
+		if (cameraAngle != 0)
 		{
-			m_zpCamera.RotateZDelta(cameraStength / 10.0f);
-			cameraAngle += cameraStength / 10.f;
-		}
 
-		if (cameraAngle > 0.0f)
-		{
-			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
-			cameraAngle -= cameraStength / 10.0f;
+			if (cameraAngle < 0)
+			{
+				m_zpCamera.RotateZDelta(cameraStength / 10.0f);
+				cameraAngle += (int)cameraStength;
+			}
+
+
+			 if (cameraAngle > 0)
+		   	{
+				m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
+				cameraAngle -= (int)cameraStength;
+			}
 		}
+	
 	}
 
 	CFloatRect topSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getTopSpace();
@@ -964,25 +989,26 @@ std::unordered_map<std::string, IViewGUIObject*> VScreenIngame::getObjects(IView
 	return std::unordered_map<std::string, IViewGUIObject*>();
 }
 
-void VScreenIngame::showMessage(const std::string& message, const std::string& message2, const int timeSeconds)
+void VScreenIngame::showMessage(const std::string& messageRow1, const std::string& messageRow2, const int timeSeconds)
 {
 	static bool brunning = false;
 	if (!brunning)
 	{
-		std::thread([this, message, message2, timeSeconds] { 
-			CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox"))->updateText(message);
-			CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox2"))->updateText(message2);
-			
-		brunning = true;
-		getContainer("MessageArea")->switchOn();
+		std::thread([this, messageRow1, messageRow2, timeSeconds]
+			{
+				CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox"))->updateText(messageRow1);
+				CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox2"))->updateText(messageRow2);
 
-		if (message2=="")
-			getContainer("MessageArea")->getGuiObject("Messagebox2")->switchOff();
+				brunning = true;
+				getContainer("MessageArea")->switchOn();
 
-		std::this_thread::sleep_for(std::chrono::seconds(timeSeconds));
-		getContainer("MessageArea")->switchOff();
-		brunning = false;
-		}).detach();
+				if (messageRow2 == "")
+					getContainer("MessageArea")->getGuiObject("Messagebox2")->switchOff();
+
+				std::this_thread::sleep_for(std::chrono::seconds(timeSeconds));
+				getContainer("MessageArea")->switchOff();
+				brunning = false;
+			}).detach();
 	}
 }
 

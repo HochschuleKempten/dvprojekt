@@ -12,7 +12,6 @@
 #include "Vektoria\Splash.h"
 #include "Mmsystem.h"
 #include "wtypes.h"
-#include "view\VSoundLoader.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -114,8 +113,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		return 1;
 	}
 	
-	VSoundLoader::initMixer();
-
 	//g_bFullscreen = true;
 	//ChangeDisplay(hWnd);
 

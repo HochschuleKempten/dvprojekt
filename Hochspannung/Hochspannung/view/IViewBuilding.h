@@ -41,9 +41,5 @@ public:
 	
 };
 
-#define SET_NAME_AND_COORDINATES(id) { std::stringstream stream; \
-								       stream << id << ";" << x << ";" << y;	\
-								       viewModel.getMainPlacement()->SetName(stream.str().c_str()); }
-
 
 NAMESPACE_VIEW_E

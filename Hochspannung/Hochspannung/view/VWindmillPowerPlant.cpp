@@ -2,9 +2,9 @@
 #include "VPlayingField.h"
 #include "VIdentifier.h"
 #include "VMaster.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
-
 
 VWindmillPowerPlant::VWindmillPowerPlant(VMaster* vMaster, LWindmillPowerPlant* lPlant)
 	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
@@ -24,11 +24,11 @@ void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& ob
 	const float scale = 0.3f;
 	viewModel.getMainPlacement()->Scale(scale);
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0));
-	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() * scale + 0.4);
+	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() * scale -0.1);
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	SET_NAME_AND_COORDINATES(VIdentifier::VWindmillPowerPlant);
+	VSoundLoader::play3DSoundLoop(VIdentifier::VWindmillPowerPlant, viewModel.getMainPlacement());
 }
 
 

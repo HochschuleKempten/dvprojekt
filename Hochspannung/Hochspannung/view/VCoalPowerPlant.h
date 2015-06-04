@@ -14,10 +14,12 @@ NAMESPACE_VIEW_B
 class VCoalPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:
+	
 	VModelCoalPowerPlant viewModel;
 	float timeLastCheck = 0;
-
+	
 public:
+	
 	VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant);
 	virtual ~VCoalPowerPlant();
 
@@ -26,17 +28,18 @@ public:
 	{
 		//if (timeLastCheck > 0.05f && isOn)
 		//{
-		//iewModel.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
+		//	viewModel.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta), 0.0f);
 		//	timeLastCheck = 0.0f;
 		//}
 
-		timeLastCheck += fTimeDelta;
-		viewModel.moveLore(0, timeLastCheck);
+		//timeLastCheck += fTimeDelta;
+		
+		//viewModel.moveLore(0, timeLastCheck);
 
-		//if (isOn)
-		//{
-		//	viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
-		//}
+		if (isOn)
+		{
+			viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
+		}
 	}
 };
 

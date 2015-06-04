@@ -7,7 +7,6 @@
 
 NAMESPACE_VIEW_B
 
-
 class VWindmillPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:

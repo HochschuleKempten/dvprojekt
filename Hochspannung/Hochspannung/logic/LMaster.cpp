@@ -11,6 +11,7 @@
 #include "LCity.h"
 #include "LTransformerStation.h"
 #include "LBalanceLoader.h"
+#include "LMessageLoader.h"
 #include "LPowerLine.h"
 #include <boost\lexical_cast.hpp>
 
@@ -20,6 +21,7 @@ LMaster::LMaster(IVMaster& vMaster)
 	: vMaster(vMaster), networkService(Network::CNetworkService::instance())
 {
 	LBalanceLoader::init();
+	LMessageLoader::init(&vMaster);
 
 	vMaster.registerObserver(this);
 
@@ -47,7 +49,6 @@ void LMaster::startNewGame(const std::string& ipAddress)
 	if (ipAddress.empty())
 	{
 		host();
-		vMaster.showMessage("Waiting for the client to connect...","");
 		while (networkService.getConnectionState() != Network::CNode::State::CONNECTED);
 	}
 	else if (ipAddress == "SINGLE_PLAYER")
@@ -62,6 +63,7 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		connect(ipAddress);
 	}
 
+	vMaster.startBuildingPlayingField();
 
 	if (networkService.getType() != Network::CNode::Type::CLIENT)
 	{
@@ -325,7 +327,7 @@ void LMaster::tick(const float fTimeDelta)
 	{
 		if (firstConnectDone)
 		{
-			vMaster.showMessage("Connection lost!","");
+			LMessageLoader::emitMessage(LMessageLoader::NETWORK_CONNECTION_LOST);
 		}
 	}
 

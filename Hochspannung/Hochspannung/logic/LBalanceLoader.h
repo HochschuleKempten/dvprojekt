@@ -45,7 +45,13 @@ public:
 	template<> static int getCost<LNuclearPowerPlant>() { return propertyTree.get<int>("Cost.NuclearPowerPlant", 0); }
 
 	static int getFieldStorage(const LField::FieldType fieldType);
+	/**
+	 * @brief Consumed ressources for a fossil field type per second.
+	 */
 	static int getConsumedResources(const LField::FieldType fieldType);
+	/**
+	 * @brief Produced energy for a power plant per second.
+	 */
 	static int getProducedEnergy(const LIdentifier::LIdentifier identifier);
 
 	static double getMoneyPerWatt();

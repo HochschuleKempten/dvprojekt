@@ -173,8 +173,14 @@ public:
 
 	int fossilRessourceCheck()
 	{
-		const int consumedRessources = LBalanceLoader::getConsumedResources(LField::NUCLEAR);
+		const int consumedRessources = LBalanceLoader::getConsumedResources(getLField()->getFieldType());
 		const int amountReduced = lField->reduceResources(consumedRessources);
+
+		if (amountReduced <= 0)
+		{
+			//No ressources left
+			return 0;
+		}
 
 		if (amountReduced < consumedRessources)
 		{

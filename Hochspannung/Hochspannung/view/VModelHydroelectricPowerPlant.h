@@ -58,7 +58,7 @@ public:
 	void rotate(float ftime){
 		m_zpWasserRad.TranslateYDelta(-2.0);
 		m_zpWasserRad.TranslateXDelta(1.5);
-		m_zpWasserRad.RotateXDelta(ftime);
+		m_zpWasserRad.RotateXDelta(-ftime);
 		m_zpWasserRad.TranslateYDelta(2.0);
 		m_zpWasserRad.TranslateXDelta(-1.5);
 	};

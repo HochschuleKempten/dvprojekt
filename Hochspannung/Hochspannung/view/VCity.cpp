@@ -14,7 +14,7 @@ VCity::VCity(VMaster *vMaster, LCity* lCity)
 {
 	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0F));
 	viewModel.getMainPlacement()->ScaleDelta(0.1f);
-	viewModel.getMainPlacement()->TranslateZDelta(0.5f);
+	//viewModel.getMainPlacement()->TranslateZDelta(0.5f);
 }
 
 VCity::~VCity()
@@ -24,8 +24,6 @@ void VCity::initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const i
 {
 	viewModel.initViewModel(this);
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
-
-	SET_NAME_AND_COORDINATES(VIdentifier::VCity);
 }
 
 void VCity::updatePopulation(const int population)

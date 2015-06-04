@@ -80,13 +80,19 @@ public:
 	virtual void switchedOn() override
 	{
 		isOn = true;
-		VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_ON, getPlacement());
+		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
+		{
+			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_ON, getPlacement());
+		}
 	}
 
 	virtual void switchedOff() override
 	{
 		isOn = false;
-		VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_OFF, getPlacement());
+		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
+		{
+			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_OFF, getPlacement());
+		}
 	}
 
 	virtual void sabotageRessourcesReduced() override

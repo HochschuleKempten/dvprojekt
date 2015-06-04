@@ -467,8 +467,8 @@ void VMaterialLoader::init()
 	m_zmKohleBerg.SetTextureSpecularAsDiffuse();
 	
 	//Wasserkraftwerktexturen
-	m_zmWasser.MakeTextureDiffuse("Textures\\Wasser_textur.jpg");
-
+	m_zmWasser.MakeTextureSprite("Textures\\animations\\Water.png");
+	m_zmWasser.SetAni(80, 2, 160.0 / 16.0);
 
 	//Building - Foundation
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));

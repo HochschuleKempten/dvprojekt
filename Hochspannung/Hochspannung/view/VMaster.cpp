@@ -64,7 +64,6 @@ void VMaster::gameOver()
 	static bool informed = false;
 	if (!informed) {
 		VSoundLoader::playSoundeffect(VSoundLoader::GAME_OVER, nullptr);
-		vUi.showMessage("You lost the game!","");
 		informed = true;
 	}
 	//TODO (V) do something useful here when UI is ready
@@ -82,19 +81,10 @@ void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
 	}
 }
 
-void VMaster::messageSabotageFailed(const std::string& message)
+void VMaster::showMessage(const std::string& message, const LMessageLoader::MessageID id)
 {
-	vUi.showMessage(message,"");
-}
-
-void VMaster::messageBuildingFailed(const std::string& message)
-{
-	vUi.showMessage(message,"");
-}
-
-void VMaster::showMessage(const std::string& message, const std::string& message2)
-{
-	vUi.showMessage(message,"");
+	vUi.showMessage(message);
+	VSoundLoader::playRadioMessage(id);
 }
 
 VUI* VMaster::getVUi()
@@ -134,6 +124,11 @@ void VMaster::joinGame(const std::string& ipAddress)
 	lMaster->startNewGame(ipAddress);
 }
 
+void VMaster::startBuildingPlayingField()
+{
+	//TODO (V) inform UI
+}
+
 void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
 {
 	if (playerId == LPlayer::Local)
@@ -144,7 +139,7 @@ void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
 
 void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
 {
-	vUi.showMessage(std::string("Es verbleiben ") + std::to_string(remainingSabotageActs) + std::string(" Sabotageakte."),"");
+	//TODO (V) Show remaining sabotage acts
 }
 
 void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
@@ -184,7 +179,6 @@ void VMaster::continueGame()
 void VMaster::gameWon()
 {
 	VSoundLoader::playSoundeffect(VSoundLoader::GAME_WON, nullptr);
-	vUi.showMessage("You won the game!","");
 	//todo (V) exit the game
 }
 

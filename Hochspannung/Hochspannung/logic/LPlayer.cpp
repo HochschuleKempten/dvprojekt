@@ -4,6 +4,7 @@
 #include "ILPowerPlant.h"
 #include "IVMaster.h"
 #include "LRemoteOperation.h"
+#include "LMessageLoader.h"
 
 NAMESPACE_LOGIC_B
 
@@ -76,7 +77,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case (LSabotage::PowerLine) :
 			if (coolDownCounterPowerLine > 0)
 			{
-				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerline sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
+				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT, { std::to_string(coolDownCounterPowerLine) });
 				return false;
 			}
 
@@ -86,7 +87,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case(LSabotage::PowerPlant) :
 			if (coolDownCounterPowerPlant > 0)
 			{
-				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerplant sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
+				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT, { std::to_string(coolDownCounterPowerPlant) });
 				return false;
 			}
 
@@ -96,7 +97,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case(LSabotage::Resource) :
 			if (coolDownCounterResource > 0)
 			{
-				lMaster->getVMaster()->messageSabotageFailed(std::string("Resource sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
+				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT, { std::to_string(coolDownCounterResource) });
 				return false;
 			}
 
@@ -114,13 +115,13 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 
 		if (getMoney() < sabotageCost)
 		{
-			lMaster->getVMaster()->messageSabotageFailed("You do not have enough money for the sabotage act!");
+			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_NO_MONEY);
 			return false;
 		}
 
 		if (!checkCooldown())
 		{
-			lMaster->getVMaster()->messageSabotageFailed("You have to wait befor you emit your next sabotage act!");
+			//LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT);
 			return false;
 		}
 
@@ -128,11 +129,12 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		sabotageActs--;
 		subtractMoney(sabotageCost);
 		lMaster->getVMaster()->updateRemainingSabotageActs(sabotageActs);
+		LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_EMITTED, { std::to_string(sabotageActs) });
 		
 		return true;
 	}
 
-	lMaster->getVMaster()->messageSabotageFailed("No sabotage acts left!");
+	LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_NO_ACTS_LEFT);
 	return false;
 }
 
@@ -228,8 +230,15 @@ void LPlayer::checkPowerPlants()
 
 	//calculate ratio regenerative
 	int countRegenerativePowerPlants = std::count_if(powerPlants.begin(), powerPlants.end(), [](ILPowerPlant* pP) { return pP->isRegenerative() && pP->isActivated; });
-	float ratioRegenerative = countRegenerativePowerPlants / prevConnectedPowerPlants.size();
-	lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative);
+	if (prevConnectedPowerPlants.size() != 0)
+	{ 
+		float ratioRegenerative = countRegenerativePowerPlants / prevConnectedPowerPlants.size();
+		lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative);
+	}
+	else
+	{
+		//TODO (L) GAME OVER as there are no connected powerplants ???
+	}
 }
 
 NAMESPACE_LOGIC_E
