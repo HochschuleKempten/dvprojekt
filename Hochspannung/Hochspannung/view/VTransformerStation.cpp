@@ -27,8 +27,6 @@ void VTransformerStation::initTransformerStation(const std::shared_ptr<IVTransfo
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
 	VSoundLoader::play3DSoundLoop(VIdentifier::VTransformerStation, viewModel.getMainPlacement());
-	
-	SET_NAME_AND_COORDINATES(VIdentifier::VTransformerStation);
 }
 
 ILBuilding* VTransformerStation::getLBuilding()

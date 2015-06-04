@@ -206,9 +206,9 @@ void VModelCoalPowerPlant::init()
 	m_zpRadVorneLinks.TranslateDelta(CHVector(0.525f, 0.4f, 0.45f));
 	m_zpRadVorneLinks.AddGeo(&m_zgLoreRad);
 
-	m_zpMinenLore.Translate(CHVector(-1.98f, 0.025f, -1.0f));
+	//m_zpMinenLore.Translate(CHVector(-1.98f, 0.025f, -1.0f));
 	
-	//m_zpMinenLore.Translate(CHVector(0.25f, 0.0f, -0.3f));
+	m_zpMinenLore.Translate(CHVector(0.25f, 0.0f, -0.3f));
 	m_zpGleiswerk.Translate(CHVector(-1.7f, 0.0f, 2.5f));
 
 	//Gebaeude->ScaleZDelta(3.0f);

@@ -27,8 +27,6 @@ void VCoalPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr
 	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() * 0.5f * scale);
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
-
-	SET_NAME_AND_COORDINATES(VIdentifier::VCoalPowerPlant);
 }
 
 

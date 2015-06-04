@@ -62,6 +62,7 @@ void LMaster::startNewGame(const std::string& ipAddress)
 		connect(ipAddress);
 	}
 
+	vMaster.startBuildingPlayingField();
 
 	if (networkService.getType() != Network::CNode::Type::CLIENT)
 	{
