@@ -14,7 +14,7 @@ VCity::VCity(VMaster *vMaster, LCity* lCity)
 {
 	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0F));
 	viewModel.getMainPlacement()->ScaleDelta(0.1f);
-	viewModel.getMainPlacement()->TranslateZDelta(0.5f);
+	//viewModel.getMainPlacement()->TranslateZDelta(0.5f);
 }
 
 VCity::~VCity()

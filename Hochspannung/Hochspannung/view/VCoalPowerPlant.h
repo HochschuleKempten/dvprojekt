@@ -14,10 +14,12 @@ NAMESPACE_VIEW_B
 class VCoalPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:
+	
 	VModelCoalPowerPlant viewModel;
 	float timeLastCheck = 0;
-
+	
 public:
+	
 	VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant);
 	virtual ~VCoalPowerPlant();
 

@@ -21,7 +21,7 @@ void VTransformerStation::initTransformerStation(const std::shared_ptr<IVTransfo
 	
 	viewModel.getMainPlacement()->Scale(0.4f);
 	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
-	//viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f);
+	viewModel.getMainPlacement()->TranslateZDelta(-0.1);
 	
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);

@@ -9,13 +9,14 @@
 
 NAMESPACE_VIEW_B
 
-
 class VHydroelectricPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:
+	
 	VModelHydroelectricPowerPlant viewModel;
 
 public:
+	
 	VHydroelectricPowerPlant(VMaster* vMaster, LHydroelectricPowerPlant* lPlant);
 	virtual ~VHydroelectricPowerPlant();
 

@@ -83,10 +83,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zpCamera.AddCamera(&m_zc);
 	m_zpCamera.TranslateZ(60.0F);
 
-	m_zpCamera.RotateXDelta(0.20F * PI);
+	//m_zpCamera.RotateXDelta(0.20F * PI);
 
-	//m_zpCamera.RotateXDelta(0.40F * PI);
-	//m_zpCamera.TranslateZDelta(5.0f);
+	m_zpCamera.RotateXDelta(0.40F * PI);
+
 
 	VSoundLoader::init(&m_scene);
 	VSoundLoader::playBackgroundMusicIngame();
@@ -699,6 +699,29 @@ void VScreenIngame::handleInput()
 {
 	static bool keyPressed = false;
 	float direction = 1.0f;
+
+	//TODO (MBR) remove when we get the final models (This is used to place them in the right hight)
+	//float step = 0.05f;
+	//static float total = 0.0f;
+	//extern IViewModel *viemodelPointer;
+	////Model UP
+	//if (vUi->m_zkKeyboard.KeyPressed(DIK_T))
+	//{
+
+	//	viemodelPointer->getMainPlacement()->TranslateZDelta(step);
+	//	total += step;
+	//}
+
+	////Model Down
+	//if (vUi->m_zkKeyboard.KeyPressed(DIK_G))
+	//{
+
+	//	viemodelPointer->getMainPlacement()->TranslateZDelta(-step);
+	//	total -= step;		
+	//}
+
+	//DEBUG_OUTPUT("Total" << total);
+
 
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
 	{
