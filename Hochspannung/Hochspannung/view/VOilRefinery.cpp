@@ -6,6 +6,7 @@
 NAMESPACE_VIEW_B
 
 
+
 VOilRefinery::VOilRefinery(VMaster* vMaster, LOilRefinery* lPlant)
 	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
 {
