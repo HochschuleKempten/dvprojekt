@@ -4,6 +4,7 @@
 #include "LGeneral.h"
 #include "LPlayer.h"
 #include "../network/GameObject.h"
+#include "LMessageLoader.h"
 
 NAMESPACE_LOGIC_B
 
@@ -50,7 +51,7 @@ public:
 	virtual void updateRegenerativeRatio(const float ratio) = 0;
 	virtual void pauseGame() = 0;
 	virtual void continueGame() = 0;
-	virtual void showMessage(const std::string& message) = 0;
+	virtual void showMessage(const std::string& message, const LMessageLoader::MessageID id) = 0;
 };
 
 NAMESPACE_LOGIC_E

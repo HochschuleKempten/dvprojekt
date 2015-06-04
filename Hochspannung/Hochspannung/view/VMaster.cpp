@@ -82,9 +82,10 @@ void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
 	}
 }
 
-void VMaster::showMessage(const std::string& message)
+void VMaster::showMessage(const std::string& message, const LMessageLoader::MessageID id)
 {
 	vUi.showMessage(message);
+	VSoundLoader::playRadioMessage(id);
 }
 
 VUI* VMaster::getVUi()

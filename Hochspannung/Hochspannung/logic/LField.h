@@ -3,6 +3,7 @@
 #include "LGeneral.h"
 #include "LUtility.h"
 #include "LIdentifier.h"
+#include "LMessageLoader.h"
 
 NAMESPACE_LOGIC_B
 
@@ -80,11 +81,11 @@ public:
 	bool setBuilding(const Args... arguments)
 	{
 		if (buildingPlaced) {
-			lPlayingField->getLMaster()->getVMaster()->showMessage(std::string("Ein ") + getClassName(T) + std::string(" kann hier nicht platziert werden, da auf dem Feld ") + std::to_string(fieldType) + std::string(" bereits ein Gebäude steht."));
+			LMessageLoader::emitMessage(LMessageLoader::BUILD_FIELD_OCCUPIED, { LMessageLoader::getNameForType<T>(), std::to_string(fieldType) });
 			return false;
 		}
 		if (!checkBuildingType<T>()) {
-			lPlayingField->getLMaster()->getVMaster()->showMessage(std::string("Ein ") + getClassName(T) + std::string(" kann nicht auf einem Feld vom Typ ") + std::to_string(fieldType) + std::string(" platziert werden"));
+			LMessageLoader::emitMessage(LMessageLoader::BUILD_FIELD_WRONG_TYPE, { LMessageLoader::getNameForType<T>(), std::to_string(fieldType) });
 			return false;
 		}
 

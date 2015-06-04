@@ -382,6 +382,9 @@
     <ClInclude Include="view\VModelHydroelectricPowerPlant.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="logic\LMessageLoader.h">
+      <Filter>logic\Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -611,6 +614,9 @@
     </ClCompile>
     <ClCompile Include="view\VModelHydroelectricPowerPlant.cpp">
       <Filter>view\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\LMessageLoader.cpp">
+      <Filter>logic\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

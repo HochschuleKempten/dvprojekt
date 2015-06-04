@@ -2,6 +2,7 @@
 
 #include "VGeneral.h"
 #include "VIdentifier.h"
+#include "../logic/LMessageLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -33,22 +34,24 @@ private:
 	~VSoundLoader() = delete;
 
 	static void setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename);
+	static void setRadioMessageHelper(const LMessageLoader::MessageID soundEffect, const std::string& filename);
 
 private:
-	static CScene* scene;		//Background music needs to be added to scene
 	DEBUG_EXPRESSION(static bool initDone);
+	static CScene* scene;		//Background music needs to be added to scene
 	static CAudio backgroundMusicIngameStart;
 	static std::list<CAudio> sound3DLoop;
 	static std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> sound3DLoopData;	//pair = (path, radius)
 	static std::unordered_map<SoundEffect, CAudio> soundeffects;
 	static std::unordered_map<SoundEffect, CPlacement*> soundeffectsLastPlacements;
-	static std::unordered_map<std::string, CAudio> radioMessages;
+	static std::unordered_map<LMessageLoader::MessageID, CAudio> radioMessages;
 
 public:
 	static void init(CScene* scene);
 	static void playBackgroundMusicIngame();
 	static void play3DSoundLoop(const VIdentifier::VIdentifier building, CPlacement* placement);
 	static void playSoundeffect(const SoundEffect soundEffect, CPlacement* placement);
+	static void playRadioMessage(const LMessageLoader::MessageID messageId);
 };
 
 

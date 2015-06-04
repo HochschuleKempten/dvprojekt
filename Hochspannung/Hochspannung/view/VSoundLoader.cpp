@@ -12,7 +12,7 @@ std::list<CAudio> VSoundLoader::sound3DLoop;
 std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> VSoundLoader::sound3DLoopData;
 std::unordered_map<VSoundLoader::SoundEffect, CAudio> VSoundLoader::soundeffects;
 std::unordered_map<VSoundLoader::SoundEffect, CPlacement*> VSoundLoader::soundeffectsLastPlacements;
-std::unordered_map<std::string, CAudio> VSoundLoader::radioMessages;
+std::unordered_map<LMessageLoader::MessageID, CAudio> VSoundLoader::radioMessages;
 
 void VSoundLoader::setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename)
 {
@@ -20,6 +20,13 @@ void VSoundLoader::setSoundEffectHelper(const SoundEffect soundEffect, const std
 	soundeffects[soundEffect].SetVolume(1.0f);
 	scene->AddAudio(&soundeffects[soundEffect]);
 	soundeffectsLastPlacements[soundEffect] = nullptr;
+}
+
+void VSoundLoader::setRadioMessageHelper(const LMessageLoader::MessageID soundEffect, const std::string& filename)
+{
+	radioMessages[soundEffect].Init(&(std::string("sounds/radio/") + filename + std::string(".wav"))[0]);
+	radioMessages[soundEffect].SetVolume(1.0f);
+	scene->AddAudio(&radioMessages[soundEffect]);
 }
 
 void VSoundLoader::init(CScene* scene)
@@ -46,9 +53,7 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(GAME_OVER, "game_lose");
 	setSoundEffectHelper(GAME_WON, "game_win");
 
-	radioMessages["STest"].Init("");
-	radioMessages["STest"].SetVolume(1.0f);
-	scene->AddAudio(&radioMessages["STest"]);
+	setRadioMessageHelper(LMessageLoader::SABOTAGE_EMITTED, "remainingSabotageActs");
 
 	DEBUG_EXPRESSION(initDone = true);
 }
@@ -106,9 +111,14 @@ void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* pl
 	}
 }
 
-void VSoundLoader::playRadioMessage(const std::string& message)
+void VSoundLoader::playRadioMessage(const LMessageLoader::MessageID messageId)
 {
-	radioMessages["STest"].Start();
+	ASSERT(initDone, assertMsg);
+
+	if (radioMessages.count(messageId) > 0)
+	{
+		radioMessages[messageId].Start();
+	}
 }
 
 NAMESPACE_VIEW_E
