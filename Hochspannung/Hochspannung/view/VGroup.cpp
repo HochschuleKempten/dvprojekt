@@ -77,9 +77,9 @@ VTextfield* VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMa
 	return CASTD<VTextfield*>(m_guiObjects[sName]);
 }
 
-VText* VGroup::addText(CFloatRect rect, CWritingFont* writingFont, const std::basic_string<char>& text, const std::basic_string<char>& sName, const float layer)
+VText* VGroup::addText(CFloatRect rect, CWritingFont* writingFont, const std::basic_string<char>& text, const std::basic_string<char>& sName, const float layer, const VText::TextMode& textmode)
 {
-	m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text, layer);
+	m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text, layer,textmode);
 
 	m_guiObjects[sName]->addObserver(this);
 

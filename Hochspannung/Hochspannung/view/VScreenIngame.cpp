@@ -116,8 +116,9 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("Topbar")->addText(CFloatRect(0.601F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::GoldFont, "0000", "moneyValue", 0.1F);
 
 	/********************************************************TOP MESSAGE AREA***************************************************************/
-	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.1F, 0.8F, 0.06F), &VMaterialLoader::materialErrorBackground, "MessageArea", 0.3F);
-	getContainer("MessageArea")->addText(CFloatRect(0.2F,0.2F,0.6F,0.6F), &VMaterialLoader::errorFont, "Aktion hier nicht moeglich", "Messagebox", 0.1F);
+	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.1F, 0.8F, 0.13F), &VMaterialLoader::materialErrorBackground, "MessageArea", 0.3F);
+	getContainer("MessageArea")->addText(CFloatRect(0.1F,0.1F,0.8F,0.3F), &VMaterialLoader::errorFont, "Aktion hier nicht moeglich KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK", "Messagebox", 0.1F,VText::TextMode::CENTERED);
+	getContainer("MessageArea")->addText(CFloatRect(0.1F, 0.5F, 0.8F, 0.3F), &VMaterialLoader::errorFont, "Weil das und das passiert ist KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK", "Messagebox2", 0.1F, VText::TextMode::CENTERED);
 	
 	getContainer("MessageArea")->switchOff();
 	/********************************************************BOTTOM AREA*************************************************************/
@@ -463,7 +464,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 
 	if (keyboard->KeyPressed(DIK_V))
 	{
-		showMessage("Test test test...", 3);
+		showMessage("Test test test...","Weil dass und dass Passiert ist", 3);
 	}
 
 	if (keyboard->KeyPressed(DIK_M) && enabled)
@@ -963,14 +964,21 @@ std::unordered_map<std::string, IViewGUIObject*> VScreenIngame::getObjects(IView
 	return std::unordered_map<std::string, IViewGUIObject*>();
 }
 
-void VScreenIngame::showMessage(const char* message, const int timeSeconds)
+void VScreenIngame::showMessage(const std::string& message, const std::string& message2, const int timeSeconds)
 {
 	static bool brunning = false;
 	if (!brunning)
 	{
-		std::thread([this, message, timeSeconds] { CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox"))->updateText(message);
+		std::thread([this, message, message2, timeSeconds] { 
+			CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox"))->updateText(message);
+			CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox2"))->updateText(message2);
+			
 		brunning = true;
 		getContainer("MessageArea")->switchOn();
+
+		if (message2=="")
+			getContainer("MessageArea")->getGuiObject("Messagebox2")->switchOff();
+
 		std::this_thread::sleep_for(std::chrono::seconds(timeSeconds));
 		getContainer("MessageArea")->switchOff();
 		brunning = false;

@@ -47,7 +47,7 @@ void LMaster::startNewGame(const std::string& ipAddress)
 	if (ipAddress.empty())
 	{
 		host();
-		vMaster.showMessage("Waiting for the client to connect...");
+		vMaster.showMessage("Waiting for the client to connect...","");
 		while (networkService.getConnectionState() != Network::CNode::State::CONNECTED);
 	}
 	else if (ipAddress == "SINGLE_PLAYER")
@@ -325,7 +325,7 @@ void LMaster::tick(const float fTimeDelta)
 	{
 		if (firstConnectDone)
 		{
-			vMaster.showMessage("Connection lost!");
+			vMaster.showMessage("Connection lost!","");
 		}
 	}
 

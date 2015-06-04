@@ -153,9 +153,9 @@ public:
 		return CASTD<VTextfield*>(m_guiObjects[sName]);
 	}
 
-	virtual VText* addText(CFloatRect rect, CWritingFont* writingFont, const std::string& text, const std::string& sName, const float layer)
+	virtual VText* addText(CFloatRect rect, CWritingFont* writingFont, const std::string& text, const std::string& sName, const float layer, const VText::TextMode& textmode = VText::TextMode::NONE)
 	{
-		m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text, layer);
+		m_guiObjects[sName] = new VText(m_viewport, createRelativeRectangle(&m_zfRect, &rect), writingFont, text, layer, textmode);
 
 		m_guiObjects[sName]->setName(sName);
 		m_guiObjects[sName]->addObserver(this);
@@ -359,6 +359,7 @@ public:
 		}
 
 	}
+
 
 protected:
 

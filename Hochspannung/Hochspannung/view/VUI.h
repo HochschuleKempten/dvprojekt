@@ -86,7 +86,7 @@ public:
 	void updateEnergySurplus(const float surplusRatio);
 	void updateGameList(const std::vector<Network::CGameObject>& gameList);
 	void switchCursor(const CursorType& cursorType);
-	void showMessage(const std::string& message);
+	void showMessage(const std::string& message, const std::string& message2);
 
 };
 

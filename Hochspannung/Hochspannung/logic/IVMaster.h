@@ -51,7 +51,7 @@ public:
 
 	virtual void messageBuildingFailed(const std::string& message) = 0;
 	virtual void messageSabotageFailed(const std::string& message) = 0;
-	virtual void showMessage(const std::string& message) = 0;
+	virtual void showMessage(const std::string& message, const std::string& message2) = 0;
 };
 
 NAMESPACE_LOGIC_E

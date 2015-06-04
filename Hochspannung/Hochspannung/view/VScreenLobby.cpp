@@ -74,14 +74,27 @@ void VScreenLobby::onNotify(const Event& events)
 	switch (events)
 	{
 	case START_GAME:
-		vUi->vMaster->startSinglePlayerGame();
-		vUi->switchScreen("Ingame");
+		
+			vUi->vMaster->startSinglePlayerGame();
+			
+			vUi->switchScreen("Ingame");
+		
 		break;
 	case LOBBY_HOST_GAME:
 
 		getContainer("HostDialog")->switchOff();
 		getContainer("WaitingDialog")->switchOn();
 		getContainer("LobbyRunningGames")->getContainer("HostList")->switchOn();
+		
+
+		std::thread([this] { 
+			std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+			CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Erstelle Spiel..."); 
+			std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+			vUi->vMaster->startSinglePlayerGame();
+			vUi->switchScreen("Ingame");
+
+		}).detach();
 		//std::thread([this] { this->getContainer("WaitingDialog")->switchOn(); }).join();
 		
 

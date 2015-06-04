@@ -233,10 +233,10 @@ void VUI::switchCursor(const CursorType& cursorType)
 	}
 }
 
-void VUI::showMessage(const std::string& message)
+void VUI::showMessage(const std::string& message, const std::string& message2)
 {
 	const double secondsPerCharacter = 0.125;
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(message.c_str(), message.length() * secondsPerCharacter);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(message,message2, message.length() * secondsPerCharacter);
 }
 
 
