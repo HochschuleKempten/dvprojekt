@@ -35,6 +35,7 @@ CMaterial VMaterialLoader::materialCreditsLogic;
 CMaterial VMaterialLoader::materialCreditsUI;
 CMaterial VMaterialLoader::materialCreditsModelling;
 CMaterial VMaterialLoader::materialCreditsModelling2;
+CMaterial VMaterialLoader::materialCreditsVektoriaSplash;
 
 
 //Infofield
@@ -586,6 +587,7 @@ void VMaterialLoader::init()
 	materialCreditsUI.MakeTextureSprite("textures/gui/Credits/UI.png");
 	materialCreditsModelling.MakeTextureSprite("textures/gui/Credits/Modellierung.png");
 	materialCreditsModelling2.MakeTextureSprite("textures/gui/Credits/Modellierung2.png");
+	materialCreditsVektoriaSplash.MakeTextureSprite("textures/gui/Credits/VektoriaSplash.png");
 
 	materialCreditsOrganization.SetTransparencyOn();
 	materialCreditsIntegration.SetTransparencyOn();
@@ -595,6 +597,7 @@ void VMaterialLoader::init()
 	materialCreditsUI.SetTransparencyOn();
 	materialCreditsModelling.SetTransparencyOn();
 	materialCreditsModelling2.SetTransparencyOn();
+	materialCreditsVektoriaSplash.SetTransparencyOn();
 }
 
 //Rotation adjustments

@@ -74,6 +74,7 @@ public:
 	static CMaterial materialCreditsUI;
 	static CMaterial materialCreditsModelling;
 	static CMaterial materialCreditsModelling2;
+	static CMaterial materialCreditsVektoriaSplash;
 
 
 	//Backgrounds

@@ -43,6 +43,7 @@ private:
 	COverlay* materialCreditsUI;
 	COverlay* materialCreditsModelling;
 	COverlay* materialCreditsModelling2;
+	COverlay* materialCreditsVektoriaSplash;
 
 
 	CFloatRect getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY);

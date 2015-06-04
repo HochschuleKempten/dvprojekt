@@ -5,6 +5,93 @@
 
 NAMESPACE_VIEW_B
 
+
+VScreenCredits::VScreenCredits(VUI* vUi) : IViewScreen(vUi)
+{
+	m_viewport = new CViewport();
+	m_camera.Init();
+	m_viewport->InitFull(&m_camera);
+	vUi->m_zf.AddViewport(m_viewport);
+
+	//Cursor
+
+
+	m_background = new CBackground();
+
+	m_background->InitFull(&VMaterialLoader::materialDefaultBackground);
+
+	
+
+	topBorder = new COverlay();
+	topBorder->Init(&VMaterialLoader::materialErrorBackground, CFloatRect(0.0F, 0.0F, 1.0F, 0.05F));
+
+	rect = getRectForPixel((vUi->m_zf.m_iWidthWindow/2) - (1280/ 2), vUi->m_zf.m_iHeightWindow, 1280, 720);
+
+	
+	
+	
+	materialCreditsOrganization=new COverlay();
+	materialCreditsIntegration = new COverlay();
+	materialCreditsTextures = new COverlay();
+	materialCreditsNetwork = new COverlay();
+	materialCreditsLogic = new COverlay();
+	materialCreditsUI = new COverlay();
+	materialCreditsModelling = new COverlay();
+	materialCreditsModelling2 = new COverlay();
+	materialCreditsVektoriaSplash = new COverlay();
+
+	materialCreditsOrganization->Init(&VMaterialLoader::materialCreditsOrganization,rect);
+	materialCreditsIntegration->Init(&VMaterialLoader::materialCreditsIntegration, rect);
+	materialCreditsTextures->Init(&VMaterialLoader::materialCreditsTextures, rect);
+	materialCreditsNetwork->Init(&VMaterialLoader::materialCreditsNetwork, rect);
+	materialCreditsLogic->Init(&VMaterialLoader::materialCreditsLogic, rect);
+	materialCreditsUI->Init(&VMaterialLoader::materialCreditsUI, rect);
+	materialCreditsModelling->Init(&VMaterialLoader::materialCreditsModelling, rect);
+	materialCreditsModelling2->Init(&VMaterialLoader::materialCreditsModelling2, rect);
+
+	materialCreditsVektoriaSplash->Init(&VMaterialLoader::materialCreditsVektoriaSplash, getRectForPixel((vUi->m_zf.m_iWidthWindow / 2) - (1000 / 2), vUi->m_zf.m_iHeightWindow, 1000, 600));
+
+
+	m_viewport->AddOverlay(materialCreditsOrganization);
+	m_viewport->AddOverlay(materialCreditsIntegration);
+	m_viewport->AddOverlay(materialCreditsTextures);
+	m_viewport->AddOverlay(materialCreditsNetwork);
+	m_viewport->AddOverlay(materialCreditsLogic);
+	m_viewport->AddOverlay(materialCreditsUI);
+	m_viewport->AddOverlay(materialCreditsModelling);
+	m_viewport->AddOverlay(materialCreditsModelling2);
+	m_viewport->AddOverlay(materialCreditsVektoriaSplash);
+
+
+	materialCreditsOrganization->SetLayer(0.3F);
+	materialCreditsIntegration->SetLayer(0.3F);
+	materialCreditsTextures->SetLayer(0.3F);
+	materialCreditsNetwork->SetLayer(0.3F);
+	materialCreditsLogic->SetLayer(0.3F);
+	materialCreditsUI->SetLayer(0.3F);
+	materialCreditsModelling->SetLayer(0.3F);
+	materialCreditsModelling2->SetLayer(0.3F);
+
+	
+	m_viewport->AddOverlay(topBorder);
+
+	m_viewport->AddBackground(m_background);
+
+}
+
+VScreenCredits::~VScreenCredits()
+{
+	delete materialCreditsOrganization;
+	delete materialCreditsIntegration;
+	delete materialCreditsTextures;
+	delete materialCreditsNetwork;
+	delete materialCreditsLogic;
+	delete materialCreditsUI;
+	delete materialCreditsModelling;
+	delete materialCreditsModelling2;
+	delete materialCreditsVektoriaSplash;
+}
+
 void VScreenCredits::startAnimation()
 {
 }
@@ -48,8 +135,15 @@ void VScreenCredits::StartEvent()
 		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 
-		std::thread([this] {MoveText(materialCreditsModelling2); animationReady = true; }).detach();
-		
+		std::thread([this] {MoveText(materialCreditsModelling2); }).detach();
+
+		std::this_thread::sleep_for(std::chrono::seconds(6));
+
+
+		std::thread([this] {MoveText(materialCreditsVektoriaSplash); animationReady = true; }).detach();
+
+
+
 	}).detach();
 
 }
@@ -64,108 +158,7 @@ void VScreenCredits::EndEvent()
 	materialCreditsUI->SetRect(rect);
 	materialCreditsModelling->SetRect(rect);
 	materialCreditsModelling2->SetRect(rect);
-}
-
-VScreenCredits::VScreenCredits(VUI* vUi) : IViewScreen(vUi)
-{
-	m_viewport = new CViewport();
-	m_camera.Init();
-	m_viewport->InitFull(&m_camera);
-	vUi->m_zf.AddViewport(m_viewport);
-
-	//Cursor
-
-
-	m_background = new CBackground();
-
-	m_background->InitFull(&VMaterialLoader::materialDefaultBackground);
-
-	
-
-	topBorder = new COverlay();
-	topBorder->Init(&VMaterialLoader::materialErrorBackground, CFloatRect(0.0F, 0.0F, 1.0F, 0.05F));
-
-	rect = getRectForPixel((vUi->m_zf.m_iWidthWindow/2) - (1280/ 2), vUi->m_zf.m_iHeightWindow, 1280, 720);
-	
-	
-	materialCreditsOrganization=new COverlay();
-	materialCreditsIntegration = new COverlay();
-	materialCreditsTextures = new COverlay();
-	materialCreditsNetwork = new COverlay();
-	materialCreditsLogic = new COverlay();
-	materialCreditsUI = new COverlay();
-	materialCreditsModelling = new COverlay();
-	materialCreditsModelling2 = new COverlay();
-
-	materialCreditsOrganization->Init(&VMaterialLoader::materialCreditsOrganization,rect);
-	materialCreditsIntegration->Init(&VMaterialLoader::materialCreditsIntegration, rect);
-	materialCreditsTextures->Init(&VMaterialLoader::materialCreditsTextures, rect);
-	materialCreditsNetwork->Init(&VMaterialLoader::materialCreditsNetwork, rect);
-	materialCreditsLogic->Init(&VMaterialLoader::materialCreditsLogic, rect);
-	materialCreditsUI->Init(&VMaterialLoader::materialCreditsUI, rect);
-	materialCreditsModelling->Init(&VMaterialLoader::materialCreditsModelling, rect);
-	materialCreditsModelling2->Init(&VMaterialLoader::materialCreditsModelling2, rect);
-
-
-	m_viewport->AddOverlay(materialCreditsOrganization);
-	m_viewport->AddOverlay(materialCreditsIntegration);
-	m_viewport->AddOverlay(materialCreditsTextures);
-	m_viewport->AddOverlay(materialCreditsNetwork);
-	m_viewport->AddOverlay(materialCreditsLogic);
-	m_viewport->AddOverlay(materialCreditsUI);
-	m_viewport->AddOverlay(materialCreditsModelling);
-	m_viewport->AddOverlay(materialCreditsModelling2);
-
-
-	materialCreditsOrganization->SetLayer(0.3F);
-	materialCreditsIntegration->SetLayer(0.3F);
-	materialCreditsTextures->SetLayer(0.3F);
-	materialCreditsNetwork->SetLayer(0.3F);
-	materialCreditsLogic->SetLayer(0.3F);
-	materialCreditsUI->SetLayer(0.3F);
-	materialCreditsModelling->SetLayer(0.3F);
-	materialCreditsModelling2->SetLayer(0.3F);
-
-	
-	m_viewport->AddOverlay(topBorder);
-
-	m_viewport->AddBackground(m_background);
-
-	/*addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue", 0.5F);
-	getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "BackMainMenue", 0.1F);
-	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.33F, 0.0F, 0.33F, 1.0F), "Text", 0.4F);
-	
-	getContainer("Text")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 1.0F, 1.0F, 0.35F), "1", 0.1F);
-	getContainer("Text")->getContainer("1")->addText(CFloatRect(0.0F, 1.0F, 1.0F, 0.15F), &VMaterialLoader::GoldFont, "2D-GUI und Interaktion", "GUI", 0.1F);
-	getContainer("Text")->getContainer("1")->addText(CFloatRect(0.0F, 1.15F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Patrick Benkowitsch", "Benkowitsch", 0.1F);
-	getContainer("Text")->getContainer("1")->addText(CFloatRect(0.0F, 1.25F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Manfred Wippel", "Wippel", 0.1F);
-
-	getContainer("Text")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 1.0F, 1.0F, 0.35F), "2", 0.1F);
-	getContainer("Text")->getContainer("2")->addText(CFloatRect(0.0F, 1.0F, 1.0F, 0.15F), &VMaterialLoader::GoldFont, "2D-GUI und Interaktion", "GUI", 0.1F);
-	getContainer("Text")->getContainer("2")->addText(CFloatRect(0.0F, 1.15F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Patrick Benkowitsch", "Benkowitsch", 0.1F);
-	getContainer("Text")->getContainer("2")->addText(CFloatRect(0.0F, 1.25F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Manfred Wippel", "Wippel", 0.1F);
-
-	getContainer("Text")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 1.0F, 1.0F, 0.35F), "3", 0.1F);
-	getContainer("Text")->getContainer("3")->addText(CFloatRect(0.0F, 1.0F, 1.0F, 0.15F), &VMaterialLoader::GoldFont, "2D-GUI und Interaktion", "GUI", 0.1F);
-	getContainer("Text")->getContainer("3")->addText(CFloatRect(0.0F, 1.15F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Patrick Benkowitsch", "Benkowitsch", 0.1F);
-	getContainer("Text")->getContainer("3")->addText(CFloatRect(0.0F, 1.25F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Manfred Wippel", "Wippel", 0.1F);
-
-	getContainer("Text")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.0F, 1.0F, 1.0F, 0.35F), "4", 0.1F);
-	getContainer("Text")->getContainer("4")->addText(CFloatRect(0.0F, 1.0F, 1.0F, 0.15F), &VMaterialLoader::GoldFont, "2D-GUI und Interaktion", "GUI", 0.1F);
-	getContainer("Text")->getContainer("4")->addText(CFloatRect(0.0F, 1.15F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Patrick Benkowitsch", "Benkowitsch", 0.1F);
-	getContainer("Text")->getContainer("4")->addText(CFloatRect(0.0F, 1.25F, 1.0F, 0.1F), &VMaterialLoader::standardFont, "Manfred Wippel", "Wippel", 0.1F);*/
-}
-
-VScreenCredits::~VScreenCredits()
-{
-	delete materialCreditsOrganization;
-	delete materialCreditsIntegration;
-	delete materialCreditsTextures;
-	delete materialCreditsNetwork;
-	delete materialCreditsLogic;
-	delete materialCreditsUI;
-	delete materialCreditsModelling;
-	delete materialCreditsModelling2;
+	materialCreditsVektoriaSplash->SetRect(getRectForPixel((vUi->m_zf.m_iWidthWindow / 2) - (1000 / 2), vUi->m_zf.m_iHeightWindow, 1000, 600));
 }
 
 void VScreenCredits::onNotify(const Event& events)
@@ -182,10 +175,6 @@ void VScreenCredits::checkShortcut(CDeviceKeyboard* keyboard)
 {
 	static bool running = false;
 
-	if (keyboard->KeyPressed(DIK_ESCAPE))
-	{
-		notify(SWITCH_TO_MAINMENUE);
-	}
 	if (keyboard->KeyPressed(DIK_M)&&!running)
 	{
 		running = true;
