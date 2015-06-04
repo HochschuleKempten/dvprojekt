@@ -8,8 +8,13 @@ class VText :
 	public IViewGUIObject
 {
 public:
+	enum TextMode
+	{
+		CENTERED,
+		NONE
+	};
 	VText();
-	VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text, const float layer);
+	VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text, const float layer, const TextMode& textmode = NONE);
 
 	~VText();
 
@@ -25,12 +30,15 @@ public:
 	virtual void setLayer(const float layer) override final;
 	void updateRectangle(CFloatRect rect) override final;
 
+	void centerText();
 
 private:
 
 	CWritingFont* m_writingFont;
 	CWriting* m_writing;
 	std::string m_text;
+	int m_maxLength;
+	TextMode m_textmode=NONE;
 };
 
 NAMESPACE_VIEW_E

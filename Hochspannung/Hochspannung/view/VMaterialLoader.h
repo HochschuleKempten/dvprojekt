@@ -243,6 +243,7 @@ public:
 	//Animierte Texturen
 
 	static CMaterial materialAnimSabotageBomb;
+	static CMaterial materialAnimLoadingCircle;
 
 	// Animiert Textur für Sabotage Cooldown Infoanzeige
 	static CMaterial materialAnimSabotagePowerPlant;

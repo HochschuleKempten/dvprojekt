@@ -2,6 +2,7 @@
 #include <thread>
 #include "VUI.h"
 #include <future>
+#include "VMaster.h"
 
 NAMESPACE_VIEW_B
 
@@ -17,11 +18,15 @@ VScreenMainMenue::VScreenMainMenue(VUI* vUi) : IViewScreen(vUi)
 	m_background = new CBackground();
 	m_headline = new COverlay();
 
+	//m_flash->Init(&VMaterialLoader::materialAnimLoadingCircle, CFloatRect(0.2F, 0.2, 0.2F, 0.2 * 1.77F));
+
 	m_background->InitFull(&VMaterialLoader::materialMainMenueBackground);
 
 
 	m_viewport->AddBackground(m_background);
-	m_viewport->AddOverlay(m_flash);
+	
+	//m_viewport->AddOverlay(m_flash);
+	
 
 
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue", 0.5F);

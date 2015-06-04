@@ -223,8 +223,9 @@ void VUI::switchCursor(const CursorType& cursorType)
 void VUI::showMessage(const std::string& message)
 {
 	const double secondsPerCharacter = 0.125;
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(message.c_str(), message.length() * secondsPerCharacter);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(message.substr(0), "", message.length() * secondsPerCharacter);
 }
+
 
 void VUI::tick(const float fTimeDelta)
 {

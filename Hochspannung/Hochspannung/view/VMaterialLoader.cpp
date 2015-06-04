@@ -50,6 +50,9 @@ CMaterial VMaterialLoader::materialButtonMainMenueCreditsHover;
 CMaterial VMaterialLoader::materialButtonMainMenueSpielBeenden; 
 CMaterial VMaterialLoader::materialButtonMainMenueSpielBeendenHover;
 
+CMaterial VMaterialLoader::materialButtonGameContinue;
+CMaterial VMaterialLoader::materialButtonGameContinueHover;
+
 
 CMaterial VMaterialLoader::materialButtonBack;
 CMaterial VMaterialLoader::materialButtonBackHover;
@@ -219,11 +222,14 @@ CMaterial VMaterialLoader::materialAnimationsVersuch;
 
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotageBomb;
+CMaterial VMaterialLoader::materialAnimLoadingCircle;
 
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotagePowerPlant;
 int VMaterialLoader::materialAnimSabotagePowerPlant_x;
 int VMaterialLoader::materialAnimSabotagePowerPlant_y;
+
+
 
 CMaterial VMaterialLoader::materialAnimTransformerStationLightning;
 
@@ -283,6 +289,9 @@ void VMaterialLoader::init()
 	materialButtonBackHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back_hover.png");
 	materialButtonAbort.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort.png");
 	materialButtonAbortHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort_hover.png");
+
+	materialButtonGameContinue.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue.png");
+	materialButtonGameContinueHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue_hover.png");
 
 	//MainMenue Background
 	materialMainMenueBackground.MakeTextureSprite("textures/gui/background/wasserkraftwerk.png");
@@ -376,7 +385,7 @@ void VMaterialLoader::init()
 
 	
 //	standardFont.SetTransparencyOn();
-	GoldFont.SetTransparencyOn();
+	//GoldFont.SetTransparencyOn();
 	//Building - Trasse
 	m_zmConcrete.MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse.png");
 	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
@@ -528,6 +537,11 @@ void VMaterialLoader::init()
 	materialAnimSabotageBomb.SetAni(9, 2, 1);
 	//materialAnimSabotageBomb.MakeTextureSprite("textures/fonts/FontArialShadow.png");
 	//materialAnimSabotageBomb.SetAni(16, 16, 1);
+
+	materialAnimLoadingCircle.MakeTextureSprite("textures/gui/animiert/LoadingCircle.png");
+	materialAnimLoadingCircle.SetAni(25, 2, 10);
+
+	materialAnimLoadingCircle.SetTransparencyOn();
 
 	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/strike.png");
 	materialAnimSabotagePowerPlant_x = 60;

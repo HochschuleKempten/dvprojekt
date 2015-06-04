@@ -26,7 +26,7 @@ public:
 	VButton* addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, const Event& clickAction, const std::basic_string<char>& sName, const float layer) override;
 	VButton* addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const Event& clickAction, const std::string& sName, const float layer) override;
 	VTextfield* addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::basic_string<char>& Placeholder, const std::basic_string<char>& sName, const float layer) override;
-	VText* addText(CFloatRect rect, CWritingFont* writingFont, const std::basic_string<char>& text, const std::basic_string<char>& sName, const float layer) override;
+	VText* addText(CFloatRect rect, CWritingFont* writingFont, const std::basic_string<char>& text, const std::basic_string<char>& sName, const float layer, const VText::TextMode& textmode = VText::TextMode::NONE) override;
 	COverlay* addOverlay(CFloatRect rect, CMaterial* MaterialNormal, const std::basic_string<char>& sName, const float layer) override;
 
 	void onNotify(const Event&) override;

@@ -64,7 +64,6 @@ void VMaster::gameOver()
 	static bool informed = false;
 	if (!informed) {
 		VSoundLoader::playSoundeffect(VSoundLoader::GAME_OVER, nullptr);
-		vUi.showMessage("You lost the game!");
 		informed = true;
 	}
 	//TODO (V) do something useful here when UI is ready
@@ -180,7 +179,6 @@ void VMaster::continueGame()
 void VMaster::gameWon()
 {
 	VSoundLoader::playSoundeffect(VSoundLoader::GAME_WON, nullptr);
-	vUi.showMessage("You won the game!");
 	//todo (V) exit the game
 }
 
