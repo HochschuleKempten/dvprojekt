@@ -135,7 +135,7 @@ private:
 		//Check costs
 		if (playerId & LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < LBalanceLoader::getCost<T>())
 		{
-			LMessageLoader::emitMessage(LMessageLoader::BUILD_NO_MONEY, { LMessageLoader::getNameForType<T>(), std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()), std::to_string(LBalanceLoader::getCost<T>()) });
+			LMessageLoader::emitMessage(LMessageLoader::BUILD_NO_MONEY, { LMessageLoader::getNameForBuildingType<T>(), std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()), std::to_string(LBalanceLoader::getCost<T>()) });
 			return false;
 		}
 

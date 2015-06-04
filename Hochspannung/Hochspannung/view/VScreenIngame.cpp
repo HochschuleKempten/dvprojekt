@@ -989,25 +989,26 @@ std::unordered_map<std::string, IViewGUIObject*> VScreenIngame::getObjects(IView
 	return std::unordered_map<std::string, IViewGUIObject*>();
 }
 
-void VScreenIngame::showMessage(const std::string& message, const std::string& message2, const int timeSeconds)
+void VScreenIngame::showMessage(const std::string& messageRow1, const std::string& messageRow2, const int timeSeconds)
 {
 	static bool brunning = false;
 	if (!brunning)
 	{
-		std::thread([this, message, message2, timeSeconds] { 
-			CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox"))->updateText(message);
-			CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox2"))->updateText(message2);
-			
-		brunning = true;
-		getContainer("MessageArea")->switchOn();
+		std::thread([this, messageRow1, messageRow2, timeSeconds]
+			{
+				CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox"))->updateText(messageRow1);
+				CASTD<VText*>(getContainer("MessageArea")->getGuiObject("Messagebox2"))->updateText(messageRow2);
 
-		if (message2=="")
-			getContainer("MessageArea")->getGuiObject("Messagebox2")->switchOff();
+				brunning = true;
+				getContainer("MessageArea")->switchOn();
 
-		std::this_thread::sleep_for(std::chrono::seconds(timeSeconds));
-		getContainer("MessageArea")->switchOff();
-		brunning = false;
-		}).detach();
+				if (messageRow2 == "")
+					getContainer("MessageArea")->getGuiObject("Messagebox2")->switchOff();
+
+				std::this_thread::sleep_for(std::chrono::seconds(timeSeconds));
+				getContainer("MessageArea")->switchOff();
+				brunning = false;
+			}).detach();
 	}
 }
 

@@ -12,6 +12,7 @@ class LHydroelectricPowerPlant;
 class LCoalPowerPlant;
 class LOilRefinery;
 class LNuclearPowerPlant;
+class LPowerLine;
 
 class LMessageLoader
 {
@@ -45,13 +46,16 @@ public:
 	
 	static void emitMessage(const MessageID messageId, const std::vector<std::string>& param = {});
 
-	template<typename T> static std::string getNameForType() { return ""; }
-	template<> static std::string getNameForType<LWindmillPowerPlant>() { return "Windkraftwerk"; }
-	template<> static std::string getNameForType<LSolarPowerPlant>() { return "Solarkraftwerk"; }
-	template<> static std::string getNameForType<LHydroelectricPowerPlant>() { return "Wasserkraftwerk"; }
-	template<> static std::string getNameForType<LCoalPowerPlant>() { return "Kohlekraftwerk"; }
-	template<> static std::string getNameForType<LOilRefinery>() { return "Ölkraftwerk"; }
-	template<> static std::string getNameForType<LNuclearPowerPlant>() { return "Atomkraftwerk"; }
+	template<typename T> static std::string getNameForBuildingType() { return ""; }
+	template<> static std::string getNameForBuildingType<LWindmillPowerPlant>() { return "Windkraftwerk"; }
+	template<> static std::string getNameForBuildingType<LSolarPowerPlant>() { return "Solarkraftwerk"; }
+	template<> static std::string getNameForBuildingType<LHydroelectricPowerPlant>() { return "Wasserkraftwerk"; }
+	template<> static std::string getNameForBuildingType<LCoalPowerPlant>() { return "Kohlekraftwerk"; }
+	template<> static std::string getNameForBuildingType<LOilRefinery>() { return "Ölkraftwerk"; }
+	template<> static std::string getNameForBuildingType<LNuclearPowerPlant>() { return "Atomkraftwerk"; }
+	template<> static std::string getNameForBuildingType<LPowerLine>() { return "Strommasten"; }
+
+	static std::string getNameForFieldType(const int fieldType);
 };
 
 NAMESPACE_LOGIC_E

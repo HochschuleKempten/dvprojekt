@@ -24,7 +24,7 @@ class LField
 	NON_COPYABLE(LField);
 
 public:
-	enum FieldType 
+	enum FieldType
 	{
 		CITY     = 0,
 		WATER    = 1,
@@ -81,11 +81,11 @@ public:
 	bool setBuilding(const Args... arguments)
 	{
 		if (buildingPlaced) {
-			LMessageLoader::emitMessage(LMessageLoader::BUILD_FIELD_OCCUPIED, { LMessageLoader::getNameForType<T>(), std::to_string(fieldType) });
+			LMessageLoader::emitMessage(LMessageLoader::BUILD_FIELD_OCCUPIED, { LMessageLoader::getNameForBuildingType<T>(), LMessageLoader::getNameForFieldType(fieldType) });
 			return false;
 		}
 		if (!checkBuildingType<T>()) {
-			LMessageLoader::emitMessage(LMessageLoader::BUILD_FIELD_WRONG_TYPE, { LMessageLoader::getNameForType<T>(), std::to_string(fieldType) });
+			LMessageLoader::emitMessage(LMessageLoader::BUILD_FIELD_WRONG_TYPE, { LMessageLoader::getNameForBuildingType<T>(), LMessageLoader::getNameForFieldType(fieldType) });
 			return false;
 		}
 

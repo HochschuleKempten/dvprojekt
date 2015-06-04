@@ -222,8 +222,45 @@ void VUI::switchCursor(const CursorType& cursorType)
 
 void VUI::showMessage(const std::string& message)
 {
+	auto splitMessage = [] (const std::string& text)
+	{
+		const int numberOfCharactersPerLine = 80;
+		
+		if (numberOfCharactersPerLine - 1 > text.size())
+		{
+			//Single line
+			return std::vector<std::string>();
+		}
+
+		std::string splitName = text.substr(numberOfCharactersPerLine - 1);
+
+		//Split on word boundaries
+		std::regex txt_regex("^\\w+\\b");
+		std::smatch base_match;
+
+		if (!std::regex_search(splitName, base_match, txt_regex))
+		{
+			//Something went wrong --> single line
+			return std::vector<std::string>();
+		}
+
+		std::string row1 = text.substr(0, numberOfCharactersPerLine + base_match.length());
+		std::string row2 = text.substr(numberOfCharactersPerLine + base_match.length());
+
+		return std::vector<std::string>{ row1, row2 };
+	};
+
 	const double secondsPerCharacter = 0.125;
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(message.substr(0), "", message.length() * secondsPerCharacter);
+	const std::vector<std::string> rows = splitMessage(message);
+
+	if (rows.size() == 2)
+	{
+		CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(rows[0], rows[1], message.length() * secondsPerCharacter);
+	}
+	else
+	{
+		CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(message, "", message.length() * secondsPerCharacter);
+	}
 }
 
 
