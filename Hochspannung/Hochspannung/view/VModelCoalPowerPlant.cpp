@@ -223,24 +223,22 @@ void VModelCoalPowerPlant::init()
 	//m_zpGebaeude.Translate(CHVector(0.3f, 0.3f, 1.0f));
 }
 
-void VModelCoalPowerPlant::moveLore(float amount, float fTime)
+void VModelCoalPowerPlant::moveLore(float amount)
 {
-	//m_zpMinenLore.TranslateZDelta(0.1*sin(fTime));
+	const float border = 3.0f;
 
-	if (totalMovement <= 3.0f)
+	if (absoluteMovement + amount > border)
 	{
-		m_zpMinenLore.TranslateZDelta(amount);
-	}
-	else if (totalMovement > 3.0f && totalMovement <= 6.0f)
-	{
-		m_zpMinenLore.TranslateZDelta(-amount);
+		amount = border - absoluteMovement;
+		m_zpMinenLore.TranslateZDelta(amount * direction);
+		direction *= -1.0f;
+		absoluteMovement = 0.0f;
 	}
 	else
 	{
-		totalMovement = 0.0f;
+		m_zpMinenLore.TranslateZDelta(amount * direction);
+		absoluteMovement += amount;
 	}
-
-	totalMovement += amount;
 }
 
 NAMESPACE_VIEW_E

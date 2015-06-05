@@ -94,7 +94,8 @@ private:
 	CGeoWall m_zgMinenschacht;
 	CGeoTube m_zgKamin;
 
-	float totalMovement = 0.0f;
+	float absoluteMovement = 0.0f;
+	float direction = 1.0f;
 
 public:
 	VModelCoalPowerPlant();
@@ -102,7 +103,7 @@ public:
 
 	void init();
 
-	void moveLore(float amount, float fTime);
+	void moveLore(float amount);
 
 	virtual float getHeight() override
 	{

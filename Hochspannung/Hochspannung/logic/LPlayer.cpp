@@ -121,7 +121,6 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 
 		if (!checkCooldown())
 		{
-			//LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT);
 			return false;
 		}
 

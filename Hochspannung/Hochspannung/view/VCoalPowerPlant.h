@@ -26,19 +26,9 @@ public:
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y) override;
 	inline virtual void tick(const float fTimeDelta) override
 	{
-		//if (timeLastCheck > 0.05f && isOn)
-		//{
-		//	viewModel.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta), 0.0f);
-		//	timeLastCheck = 0.0f;
-		//}
-
-		//timeLastCheck += fTimeDelta;
-		
-		//viewModel.moveLore(0, timeLastCheck);
-
 		if (isOn)
 		{
-			viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
+			viewModel.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
 		}
 	}
 };
