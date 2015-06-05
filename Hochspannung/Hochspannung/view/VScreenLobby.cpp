@@ -19,10 +19,10 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 
 
 	m_bigDialog = new COverlay();
-
-	m_viewport->AddBackground(&VMaterialLoader::materialIngameBackground);
-
-
+	m_bigDialog->InitFull("textures/background.jpg");
+	//m_viewport->AddBackground(&VMaterialLoader::materialIngameBackground);
+	m_bigDialog->SetLayer(0.999F);
+	m_viewport->AddOverlay(m_bigDialog);
 	CWriting* iwas = new CWriting();
 	iwas->Init(CFloatRect(0.1F, 0.8f, 0.2F, 0.1F), 10, &VMaterialLoader::standardFont);
 	m_viewport->AddWriting(iwas);
@@ -65,7 +65,7 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 
 VScreenLobby::~VScreenLobby()
 {
-	delete m_background;
+	//delete m_background;
 	delete m_bigDialog;
 }
 
@@ -77,14 +77,14 @@ void VScreenLobby::onNotify(const Event& events)
 	{
 	case START_GAME:
 		
-		std::thread([this]{
-			while (!m_startReady)
-			{
-				vUi->tick(0.01F);
-				std::this_thread::sleep_for(std::chrono::milliseconds(5));
-			}
-			m_startReady = false;
-		}).detach();
+		///*std::thread([this]{
+		//	while (!m_startReady)
+		//	{*/
+		//		vUi->tick(0.01F);
+		//		std::this_thread::sleep_for(std::chrono::milliseconds(5));
+		//	}
+		//	m_startReady = false;
+		//}).detach();
 
 			vUi->vMaster->startSinglePlayerGame();
 			

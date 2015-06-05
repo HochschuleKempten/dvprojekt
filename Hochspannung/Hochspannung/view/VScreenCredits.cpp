@@ -175,6 +175,7 @@ void VScreenCredits::checkShortcut(CDeviceKeyboard* keyboard)
 {
 	static bool running = false;
 
+
 	if (keyboard->KeyPressed(DIK_M)&&!running)
 	{
 		running = true;
