@@ -15,6 +15,9 @@ VScreenMainMenue::VScreenMainMenue(VUI* vUi) : IViewScreen(vUi)
 
 
 	m_flash = new COverlay();
+	m_flash->InitFull(&VMaterialLoader::materialMainMenueBackground);
+	m_flash->SetLayer(0.999F);
+
 	m_background = new CBackground();
 	m_headline = new COverlay();
 
@@ -23,9 +26,9 @@ VScreenMainMenue::VScreenMainMenue(VUI* vUi) : IViewScreen(vUi)
 	m_background->InitFull(&VMaterialLoader::materialMainMenueBackground);
 
 
-	m_viewport->AddBackground(m_background);
+	//m_viewport->AddBackground(m_background);
 	
-	//m_viewport->AddOverlay(m_flash);
+	m_viewport->AddOverlay(m_flash);
 	
 
 

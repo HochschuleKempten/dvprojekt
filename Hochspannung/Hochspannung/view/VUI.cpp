@@ -129,6 +129,7 @@ void VUI::switchScreen(const std::string& switchTo)
 	ASSERT(activeScreen != nullptr, "No screen is initalized");
 	ASSERT(m_screens.count(switchTo) > 0, "Screen" << switchTo << "not available");
 
+	
 	activeScreen->switchOff();
 	activeScreen->EndEvent();
 	activeScreen = m_screens[switchTo];
