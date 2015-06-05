@@ -145,9 +145,7 @@ public:
 	static CMaterial materialMinimapBackground;
 
 	//Allgemein
-	static CMaterial m_zmAtomgrundGreen;
-	static CMaterial m_zmHolz;
-
+	static CMaterial m_zmAllgemeinGreen;
 
 	//Buttons
 	static CMaterial materialButtonBack;
@@ -187,10 +185,6 @@ public:
 	static CMaterial m_zmAtomZaun;
 	static CMaterial m_zmAtomReaktor;
 
-	//Atomkraftwerktexturen
-	//TODO (V) clean up
-
-
 	//Oelkraftwerktexturen
 	static CMaterial m_zmOelGrund;
 	static CMaterial m_zmOelSchranke;
@@ -214,7 +208,7 @@ public:
 
 	//Wasserkraftwerktexturen
 	static CMaterial m_zmWasser;
-
+	static CMaterial m_zmWasserHolz;
 
 	//PlayerColor
 	static std::unordered_map<int, CColor> colorPlayers;

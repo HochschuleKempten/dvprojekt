@@ -4,12 +4,11 @@ NAMESPACE_VIEW_B
 
 
 VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
-:m_zmWasser(VMaterialLoader::m_zmWasser),
- m_zmHolz(VMaterialLoader::m_zmHolz),
- m_zmAtomgrundGreen(VMaterialLoader::m_zmAtomgrundGreen)
+	: m_zmHolz(VMaterialLoader::m_zmWasserHolz),
+	  m_zmAtomgrundGreen(VMaterialLoader::m_zmAllgemeinGreen),
+	  Gebaeude(1.0f)
 {
-
-	m_zgFluss.Init(CHVector(2.0f, 0.3f, 5.0f), &m_zmWasser);
+	m_zgFluss.Init(CHVector(2.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmWasser);
 	m_zgRad.InitStraight(3.0f, 4.0f, 0.2f, &m_zmHolz);
 	m_zgRad2.InitStraight(3.0f, 4.0f, 0.2f, &m_zmHolz);
 	m_zgStange.InitStraight(0.05f, 0.2f, 5.0f, &m_zmHolz);
@@ -42,13 +41,13 @@ VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
 	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse1.getMainPlacement());
 	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse2.getMainPlacement());
 	m_zpWasserKraftwerk.AddPlacement(&m_zpGebaude);
-	m_zpGebaude.AddPlacement(Gebaeude);
+	m_zpGebaude.AddPlacement(&Gebaeude);
 
 	
 
 	//Adding
 
-	Gebaeude->TranslateZDelta(2.0f);
+	Gebaeude.TranslateZDelta(2.0f);
 
 	m_zpStange.AddGeo(&m_zgStange);
 	m_zpStange.RotateZ(PI / 2);
@@ -91,33 +90,24 @@ VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
 
 	m_zpWasserSchaufel6.AddGeo(&m_zgSchaufel);
 	m_zpWasserSchaufel6.RotateX(PI);
-
-
-
-
 }
+
+VModelHydroelectricPowerPlant::~VModelHydroelectricPowerPlant()
+{}
 
 void VModelHydroelectricPowerPlant::switchOn() 
 {
-	m_zmWasser.SetColorAmbient(colorAmbientOn);
 	m_zmHolz.SetColorAmbient(colorAmbientOn);
 	m_zmAtomgrundGreen.SetColorAmbient(colorAmbientOn);
-	Gebaeude->switchOn();
-
+	Gebaeude.switchOn();
 }
 
 void VModelHydroelectricPowerPlant::switchOff()
 {
-	m_zmWasser.SetColorAmbient(colorAmbientOff);
 	m_zmHolz.SetColorAmbient(colorAmbientOff);
 	m_zmAtomgrundGreen.SetColorAmbient(colorAmbientOff);
-	Gebaeude->switchOff();
-	
+	Gebaeude.switchOff();
 }
-
-
-VModelHydroelectricPowerPlant::~VModelHydroelectricPowerPlant()
-{}
 
 
 NAMESPACE_VIEW_E

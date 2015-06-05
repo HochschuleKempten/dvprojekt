@@ -163,10 +163,6 @@ CMaterial VMaterialLoader::m_zmAtomSchranke;
 CMaterial VMaterialLoader::m_zmAtomZaun;
 CMaterial VMaterialLoader::m_zmAtomReaktor;
 
-//Atomkraftwerktexturen
-
-
-
 //Oelkraftwerktexturen
 CMaterial VMaterialLoader::m_zmOelGrund;
 CMaterial VMaterialLoader::m_zmOelSchranke;
@@ -190,7 +186,7 @@ CMaterial VMaterialLoader::m_zmKohlegrundGrey;
 
 //Wasserkraftwerktexturen
 CMaterial VMaterialLoader::m_zmWasser;
-
+CMaterial VMaterialLoader::m_zmWasserHolz;
 
 //PlayerColor
 std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
@@ -230,8 +226,7 @@ CMaterial VMaterialLoader::materialTextfieldHoverBackground;
 CBackground VMaterialLoader::materialIngameBackground;
 
 //Allgemein
-CMaterial VMaterialLoader::m_zmHolz;
-CMaterial VMaterialLoader::m_zmAtomgrundGreen;
+CMaterial VMaterialLoader::m_zmAllgemeinGreen;
 
 //Test
 CMaterial VMaterialLoader::materialAnimationsVersuch;
@@ -242,12 +237,9 @@ CMaterial VMaterialLoader::materialAnimLoadingCircle;
 
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotagePowerPlant;
+CMaterial VMaterialLoader::materialAnimTransformerStationLightning;
 int VMaterialLoader::materialAnimSabotagePowerPlant_x;
 int VMaterialLoader::materialAnimSabotagePowerPlant_y;
-
-
-
-CMaterial VMaterialLoader::materialAnimTransformerStationLightning;
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
@@ -433,8 +425,7 @@ void VMaterialLoader::init()
 	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
 
 	//Atomkraftwerktexturen
-	m_zmAtomgrundGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
-	m_zmHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
+	m_zmAllgemeinGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
 
 	//Oelkraftwerktexturen
 	m_zmOelGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
@@ -466,6 +457,7 @@ void VMaterialLoader::init()
 	//Wasserkraftwerktexturen
 	m_zmWasser.MakeTextureSprite("Textures\\animations\\Water.png");
 	m_zmWasser.SetAni(80, 2, 160.0 / 16.0);
+	m_zmWasserHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
 
 	//Building - Foundation
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));

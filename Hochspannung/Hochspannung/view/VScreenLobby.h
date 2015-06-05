@@ -26,7 +26,7 @@ private:
 	CBackground* m_background;
 	COverlay* m_bigDialog;
 
-	 bool m_JoinReady = false;
+	bool m_JoinReady = false;
 	bool m_startReady = false;
 };
 

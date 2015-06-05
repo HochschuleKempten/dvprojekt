@@ -94,22 +94,22 @@ void VScreenLobby::onNotify(const Event& events)
 		break;
 	case LOBBY_HOST_GAME:
 
-		getContainer("LobbyRunningGames")->getGuiObject("textfieldIP")->disable();
-		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->disable();
-		getContainer("Menue")->getGuiObject("buttonCreateGame")->disable();
-		getContainer("Menue")->getGuiObject("buttonJoinGame")->disable();
-		getContainer("Menue")->getGuiObject("buttonStartGame")->disable();
+		//getContainer("LobbyRunningGames")->getGuiObject("textfieldIP")->disable();
+		//getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->disable();
+		//getContainer("Menue")->getGuiObject("buttonCreateGame")->disable();
+		//getContainer("Menue")->getGuiObject("buttonJoinGame")->disable();
+		//getContainer("Menue")->getGuiObject("buttonStartGame")->disable();
 
-		getContainer("HostDialog")->switchOff();
-		getContainer("WaitingDialog")->switchOn();
-		getContainer("LobbyRunningGames")->getContainer("HostList")->switchOn();
+		//getContainer("HostDialog")->switchOff();
+		//getContainer("WaitingDialog")->switchOn();
+		//getContainer("LobbyRunningGames")->getContainer("HostList")->switchOn();
 
 		//std::thread([this] { this->getContainer("WaitingDialog")->switchOn(); }).join();
 		
 
 		//std::thread([this] { this->vUi->vMaster->hostGame(); this->vUi->switchScreen("Ingame"); }).detach();
 
-		//this->vUi->vMaster->hostGame(); this->vUi->switchScreen("Ingame");
+		this->vUi->vMaster->hostGame(); this->vUi->switchScreen("Ingame");
 
 		//notify(LOBBY_HOST_GAME);
 		break;

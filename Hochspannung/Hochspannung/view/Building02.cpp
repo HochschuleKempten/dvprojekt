@@ -116,9 +116,14 @@ void Building02::switchOn()
 
 void Building02::switchOff()
 {
-	m_zmDach.SetColorAmbient(colorAmbientOff);
-	m_zmWallFrame.SetColorAmbient(colorAmbientOff);
-	m_zmWallNorth.SetColorAmbient(colorAmbientOff);
+	CColor colorAmbientOffCopy(colorAmbientOff);
+	colorAmbientOffCopy.m_frR += -0.1;
+	colorAmbientOffCopy.m_frG += -0.1;
+	colorAmbientOffCopy.m_frB += -0.1;
+
+	m_zmDach.SetColorAmbient(colorAmbientOffCopy);
+	m_zmWallFrame.SetColorAmbient(colorAmbientOffCopy);
+	m_zmWallNorth.SetColorAmbient(colorAmbientOffCopy);
 }
 
 NAMESPACE_VIEW_E

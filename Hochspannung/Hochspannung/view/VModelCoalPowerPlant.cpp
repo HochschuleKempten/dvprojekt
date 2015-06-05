@@ -35,8 +35,8 @@ void VModelCoalPowerPlant::init()
 	m_zgSprosse.Init(0.7f, 0.03f, 0.15f, &m_zmKohleHolz);
 
 	//Initialisierung Fundament
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAtomgrundGreen);
-	//m_zgFundament.Init(10.0f, 0.3f, 10.0f, &VMaterialLoader::m_zmAtomgrundGreen);
+	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAllgemeinGreen);
+	//m_zgFundament.Init(10.0f, 0.3f, 10.0f, &VMaterialLoader::m_zmAllgemeinGreen);
 
 	//Mineneingang
 	m_zgEingangOben.Init(1.2f, 0.15f, 2.0f, &m_zmKohleHolz);
