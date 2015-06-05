@@ -23,6 +23,21 @@ CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
 CMaterial VMaterialLoader::materialLightGrey;
 
+
+
+//Credits
+
+CMaterial VMaterialLoader::materialCreditsOrganization;
+CMaterial VMaterialLoader::materialCreditsIntegration;
+CMaterial VMaterialLoader::materialCreditsTextures;
+CMaterial VMaterialLoader::materialCreditsNetwork;
+CMaterial VMaterialLoader::materialCreditsLogic;
+CMaterial VMaterialLoader::materialCreditsUI;
+CMaterial VMaterialLoader::materialCreditsModelling;
+CMaterial VMaterialLoader::materialCreditsModelling2;
+CMaterial VMaterialLoader::materialCreditsVektoriaSplash;
+
+
 //Infofield
 CMaterial VMaterialLoader::materialInfofieldBackground;
 
@@ -125,7 +140,6 @@ CWritingFont VMaterialLoader::GoldFont;
 CWritingFont VMaterialLoader::errorFont;
 
 //Trassentexturen
-CMaterial VMaterialLoader::m_zmConcrete;
 CMaterial VMaterialLoader::m_zmStrut;
 CMaterial VMaterialLoader::m_zmIsolator;
 CMaterial VMaterialLoader::m_zmRing;
@@ -150,9 +164,8 @@ CMaterial VMaterialLoader::m_zmAtomZaun;
 CMaterial VMaterialLoader::m_zmAtomReaktor;
 
 //Atomkraftwerktexturen
-CMaterial VMaterialLoader::m_zmAtomgrundWhite;
-CMaterial VMaterialLoader::m_zmAtomgrundGrey;
-CMaterial VMaterialLoader::m_zmSchranke;
+
+
 
 //Oelkraftwerktexturen
 CMaterial VMaterialLoader::m_zmOelGrund;
@@ -173,6 +186,7 @@ CMaterial VMaterialLoader::m_zmKohle;
 CMaterial VMaterialLoader::m_zmKohleHolz;
 CMaterial VMaterialLoader::m_zmKohleLore;
 CMaterial VMaterialLoader::m_zmKohleBlack;
+CMaterial VMaterialLoader::m_zmKohlegrundGrey;
 
 //Wasserkraftwerktexturen
 CMaterial VMaterialLoader::m_zmWasser;
@@ -295,6 +309,9 @@ void VMaterialLoader::init()
 	materialButtonGameContinue.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue.png");
 	materialButtonGameContinueHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue_hover.png");
 
+	materialButtonMainMenueNeuesSpiel.SetTransparencyOn();
+	materialButtonMainMenueNeuesSpielHover.SetTransparencyOn();
+
 	//MainMenue Background
 	materialMainMenueBackground.MakeTextureSprite("textures/gui/background/wasserkraftwerk.png");
 
@@ -316,6 +333,8 @@ void VMaterialLoader::init()
 	materialBuildingButtonHover.MakeTextureSprite("textures\\BuildingButtonHover.png");
 	materialIngameMenueDialogBackground.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_MenueDialog_Background.png");
 	materialWhiteGreyBackground.MakeTextureSprite("textures/gui/background/gui_background_whitegrey.png");
+
+	materialTopbar.SetTransparencyOn();
 
 	//Interface - Selection Buttons
 	materialIngameButtonCraftmenu.MakeTextureSprite("textures/gui/interface/texture_gui_ingamebutton_craftmenu.png");
@@ -385,14 +404,6 @@ void VMaterialLoader::init()
 	errorFont.Init("textures/fonts/OCRError.png", true);
 	errorFont.SetTableSize(16, 16);
 
-	
-//	standardFont.SetTransparencyOn();
-	//GoldFont.SetTransparencyOn();
-	//Building - Trasse
-	m_zmConcrete.MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse.png");
-	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
-	m_zmConcrete.MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
-
 	m_zmStrut.MakeTextureDiffuse("textures/buildings/strommast_diffuse.png");
 	m_zmIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmRing.MakeTextureDiffuse("textures\\black_image.jpg");
@@ -422,9 +433,6 @@ void VMaterialLoader::init()
 	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
 
 	//Atomkraftwerktexturen
-	m_zmAtomgrundWhite.MakeTextureDiffuse("textures\\white_image.jpg");
-	m_zmAtomgrundGrey.MakeTextureDiffuse("Textures\\grey_image.jpg");
-	m_zmSchranke.MakeTextureDiffuse("Textures\\schranke.jpg");
 	m_zmAtomgrundGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
 	m_zmHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
 
@@ -453,6 +461,7 @@ void VMaterialLoader::init()
 	m_zmKohleLore.MakeTextureDiffuse("Textures\\lore_image.jpg");
 	m_zmKohleBlack.MakeTextureDiffuse("Textures\\black_image.jpg");
 	m_zmKohleBerg.SetTextureSpecularAsDiffuse();
+	m_zmKohlegrundGrey.MakeTextureDiffuse("Textures\\grey_image.jpg");
 	
 	//Wasserkraftwerktexturen
 	m_zmWasser.MakeTextureSprite("Textures\\animations\\Water.png");
@@ -484,18 +493,22 @@ void VMaterialLoader::init()
 
 	//Infofield
 	materialInfofieldBackground.MakeTextureSprite("textures/gui/background/gui_ingame_infofield.png");
-
+	materialInfofieldBackground.SetTransparencyOn();
 	//Minimap
 	materialMinimapBackground.MakeTextureSprite("textures/gui/background/gui_ingame_minimap.png");
 
+	materialMinimapBackground.SetTransparencyOn();
 	//Icons
 	materialIngameIconPopulation.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Population.png");
 	materialIngameIconMoney.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Money.png");
 	materialIngameIconEnergy.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Energy.png");
 
+	materialIngameIconPopulation.SetTransparencyOn();
+	materialIngameIconMoney.SetTransparencyOn();
+	materialIngameIconEnergy.SetTransparencyOn();
 	//Default Background
 	materialDefaultBackground.MakeTextureSprite("textures/gui/background/texture_gui_background_grey.png");
-
+	materialDefaultBackground.SetTransparencyOn();
 	//CityBuildings
 
 	materialBuilding01.MakeTextureDiffuse("textures\\buildings\\Hauswand_3.png");
@@ -561,6 +574,30 @@ void VMaterialLoader::init()
 	materialTextfieldHoverBackground.MakeTextureSprite("textures/gui/background/gui_textfield_backgroundHover.png");
 	materialErrorBackground.MakeTextureSprite("textures/gui/background/gui_error_background.png");
 	materialIngameBackground.InitFull("textures/background.jpg");
+
+	materialLobbyRunningGamesBackground.SetTransparencyOn();
+
+	//Credits
+
+	materialCreditsOrganization.MakeTextureSprite("textures/gui/Credits/Organisation.png");
+	materialCreditsIntegration.MakeTextureSprite("textures/gui/Credits/Integration.png");
+	materialCreditsTextures.MakeTextureSprite("textures/gui/Credits/TexturenSound.png");
+	materialCreditsNetwork.MakeTextureSprite("textures/gui/Credits/Netzwerk.png");
+	materialCreditsLogic.MakeTextureSprite("textures/gui/Credits/Spiellogik.png");
+	materialCreditsUI.MakeTextureSprite("textures/gui/Credits/UI.png");
+	materialCreditsModelling.MakeTextureSprite("textures/gui/Credits/Modellierung.png");
+	materialCreditsModelling2.MakeTextureSprite("textures/gui/Credits/Modellierung2.png");
+	materialCreditsVektoriaSplash.MakeTextureSprite("textures/gui/Credits/VektoriaSplash.png");
+
+	materialCreditsOrganization.SetTransparencyOn();
+	materialCreditsIntegration.SetTransparencyOn();
+	materialCreditsTextures.SetTransparencyOn();
+	materialCreditsNetwork.SetTransparencyOn();
+	materialCreditsLogic.SetTransparencyOn();
+	materialCreditsUI.SetTransparencyOn();
+	materialCreditsModelling.SetTransparencyOn();
+	materialCreditsModelling2.SetTransparencyOn();
+	materialCreditsVektoriaSplash.SetTransparencyOn();
 }
 
 //Rotation adjustments
