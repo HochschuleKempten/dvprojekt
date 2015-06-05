@@ -20,9 +20,14 @@ public:
 	void EndEvent() override;
 
 	void updateHostList(const std::vector<Network::CGameObject>& hostList);
+
+	void foundPlayer();
 private:
 	CBackground* m_background;
 	COverlay* m_bigDialog;
+
+	 bool m_JoinReady = false;
+	bool m_startReady = false;
 };
 
 NAMESPACE_VIEW_E

@@ -53,10 +53,16 @@ IVFactory* VMaster::getFactory()
 	return &factory;
 }
 
-void VMaster::updateRegenerativeRatio(const float ratio)
+void VMaster::updateRegenerativeRatio(const float ratio, const LPlayer::PlayerId playerId)
 {
-	//todo (V) show new ratio
-	DEBUG_OUTPUT("New regenerative ratio: " << ratio);
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateRegenerativeRatioLocal(ratio);
+	}
+	else if (playerId == LPlayer::Remote)
+	{
+		vUi.updateRegenerativeRatioRemote(ratio);
+	}
 }
 
 void VMaster::gameOver()

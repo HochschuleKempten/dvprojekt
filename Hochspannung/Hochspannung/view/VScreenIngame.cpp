@@ -29,7 +29,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_viewport->InitFull(&m_zc);
 
 	//Detailled model view
-	m_zmbackgroundModels.InitFull(&VMaterialLoader::materialDefaultBackground);
+	m_zmbackgroundModels.InitFull(&VMaterialLoader::materialLobbyRunningGamesBackground);
 	m_CamModels.Init();
 	m_zpModels.AddCamera(&m_CamModels);
 	m_sceneModels.AddPlacement(&m_zpModels);
@@ -226,7 +226,7 @@ vrRegister->SwitchToTab("TabBuilding");
 
 
 	/***********************************************************Dialog******************************************************************/
-	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.35F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialIngameMenueDialogBackground, "DialogBox", 0.3F);
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.35F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialLobbyRunningGamesBackground, "DialogBox", 0.3F);
 
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.15F), &VMaterialLoader::materialButtonGameContinue, &VMaterialLoader::materialButtonGameContinueHover, NOTHING, "MenueButtonContinue", 0.2F);
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.27F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "MenueButtonQuit", 0.2F);
@@ -280,6 +280,7 @@ void VScreenIngame::onNotify(const Event& events)
 
 	case SELECT_BUILDING_WINDMILL:
 		clearInfofield();
+		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VWindmillPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 		setActiveButton("windmill");
@@ -295,6 +296,7 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_COALPOWERPLANT:
 		clearInfofield();
+		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VCoalPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
@@ -310,10 +312,13 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_OILPOWERPLANT:
 		clearInfofield();
+		
+		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VOilRefinery;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
 		setActiveButton("oilPowerPlant");
+		
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LOilRefinery)));
 		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
 		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
@@ -324,6 +329,8 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_NUCLEARPOWERPLANT:
 		clearInfofield();
+		
+		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VNuclearPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
@@ -336,6 +343,8 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_HYDROPOWERPLANT:
 		clearInfofield();
+		
+		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VHydroelectricPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
@@ -349,7 +358,7 @@ void VScreenIngame::onNotify(const Event& events)
 	case SELECT_BUILDING_SOLARPOWERPLANT:
 		clearInfofield();
 		selectedBuilding = VIdentifier::VSolarPowerPlant;
-
+		m_viewportModels.SwitchOn();
 
 		vUi->switchCursor(vUi->CursorType::Hammer);
 		setActiveButton("solarPowerPlant");
@@ -361,6 +370,8 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_POWERLINE:
 		clearInfofield();
+		
+		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VPowerLine;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 

@@ -19,10 +19,10 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 
 
 	m_bigDialog = new COverlay();
-
-	m_viewport->AddBackground(&VMaterialLoader::materialIngameBackground);
-
-
+	m_bigDialog->InitFull("textures/background.jpg");
+	//m_viewport->AddBackground(&VMaterialLoader::materialIngameBackground);
+	m_bigDialog->SetLayer(0.999F);
+	m_viewport->AddOverlay(m_bigDialog);
 	CWriting* iwas = new CWriting();
 	iwas->Init(CFloatRect(0.1F, 0.8f, 0.2F, 0.1F), 10, &VMaterialLoader::standardFont);
 	m_viewport->AddWriting(iwas);
@@ -65,36 +65,45 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 
 VScreenLobby::~VScreenLobby()
 {
-	delete m_background;
+	//delete m_background;
 	delete m_bigDialog;
 }
 
 void VScreenLobby::onNotify(const Event& events)
 {
+	
+
 	switch (events)
 	{
 	case START_GAME:
 		
+		///*std::thread([this]{
+		//	while (!m_startReady)
+		//	{*/
+		//		vUi->tick(0.01F);
+		//		std::this_thread::sleep_for(std::chrono::milliseconds(5));
+		//	}
+		//	m_startReady = false;
+		//}).detach();
+
 			vUi->vMaster->startSinglePlayerGame();
 			
 			vUi->switchScreen("Ingame");
+			m_startReady = true;
 		
 		break;
 	case LOBBY_HOST_GAME:
 
+		getContainer("LobbyRunningGames")->getGuiObject("textfieldIP")->disable();
+		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->disable();
+		getContainer("Menue")->getGuiObject("buttonCreateGame")->disable();
+		getContainer("Menue")->getGuiObject("buttonJoinGame")->disable();
+		getContainer("Menue")->getGuiObject("buttonStartGame")->disable();
+
 		getContainer("HostDialog")->switchOff();
 		getContainer("WaitingDialog")->switchOn();
 		getContainer("LobbyRunningGames")->getContainer("HostList")->switchOn();
-		
 
-		std::thread([this] { 
-			std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-			CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Erstelle Spiel..."); 
-			std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-			vUi->vMaster->startSinglePlayerGame();
-			vUi->switchScreen("Ingame");
-
-		}).detach();
 		//std::thread([this] { this->getContainer("WaitingDialog")->switchOn(); }).join();
 		
 
@@ -105,14 +114,37 @@ void VScreenLobby::onNotify(const Event& events)
 		//notify(LOBBY_HOST_GAME);
 		break;
 	case LOBBY_JOIN_GAME:
+		
+		getContainer("LobbyRunningGames")->getGuiObject("textfieldIP")->disable();
+		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->disable();
+		getContainer("Menue")->getGuiObject("buttonCreateGame")->disable();
+		getContainer("Menue")->getGuiObject("buttonJoinGame")->disable();
+		getContainer("Menue")->getGuiObject("buttonStartGame")->disable();
+		
+			CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Trete Spiel bei...");
+			getContainer("WaitingDialog")->switchOn();
+			
+			std::thread([this]{
+				while (!m_JoinReady)
+				{
+					vUi->tick(0.01F);
+					std::this_thread::sleep_for(std::chrono::milliseconds(5));
+				}
+				m_JoinReady = false;
+			}).detach();
+			
+		
+
 
 		if (CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem() == nullptr)
 		{
 			vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
+			m_JoinReady = true;
 		}
 		else
 		{
 			vUi->vMaster->joinGame(CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName());
+			m_JoinReady = true;
 		}
 		vUi->switchScreen("Ingame");
 		break;
@@ -147,6 +179,11 @@ void VScreenLobby::onNotify(const Event& events)
 		getContainer("Menue")->getGuiObject("buttonStartGame")->enable();
 		getContainer("WaitingDialog")->switchOff();
 		getContainer("LobbyRunningGames")->getContainer("HostList")->switchOn();
+
+		if (!m_startReady)
+		m_startReady = true;
+		if (!m_JoinReady)
+		m_JoinReady = true;
 
 	default:
 		notify(events);
@@ -254,6 +291,28 @@ void VScreenLobby::EndEvent()
 void VScreenLobby::updateHostList(const std::vector<Network::CGameObject>& hostList)
 {
 	CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->updateList(hostList);
+}
+
+void VScreenLobby::foundPlayer()
+{
+	static bool JoinReady = false;
+
+	CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Erstelle Spiel...");
+	
+	std::thread([this]{
+		while (!JoinReady)
+		{
+			vUi->tick(0.01F);
+			std::this_thread::sleep_for(std::chrono::milliseconds(5));
+		}
+		JoinReady = false;
+	}).detach();
+
+	vUi->vMaster->startSinglePlayerGame();
+	vUi->switchScreen("Ingame");
+	JoinReady = true;
+
+	
 }
 
 void VScreenLobby::resize(const int width, const int height)

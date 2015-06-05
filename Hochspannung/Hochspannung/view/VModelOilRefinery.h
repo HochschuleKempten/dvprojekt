@@ -105,7 +105,11 @@ private:
 	CGeoCylinder m_zgKanal;
 	CGeoCylinder m_zgKanalrahmen;
 
-
+	CMaterial m_zmOelGrund;
+	CMaterial m_zmOelSchranke;
+	CMaterial m_zmOelZaun;
+	CMaterial m_zmOelGelbstahl;
+	CMaterial m_zmOelGruenstahl;
 
 	//CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
 	VModelPowerLine m_zTrasse1;
@@ -128,35 +132,11 @@ public:
 	{
 		return 0.0f;
 	}
-	inline void rotate(float amount)
-	{
-		const float border = 1.0f;
-		//CHVector moveHammer(1.15f, 2.0f, 0.0f);
-		CHVector moveHammer(1.25f, 2.0f, 0.0f);
 
+	void rotate(float amount);
 
-		//m_zpPumpe.TranslateYDelta(-0.35);
-		//m_zpPumpe.TranslateXDelta(-2.5);
-		//m_zpPumpe.TranslateZDelta(2.0);
-
-		m_zpHammer.TranslateDelta(moveHammer * -1.0f);
-
-		if (absoluteMovement + amount > border)
-		{
-			amount = border - absoluteMovement;
-			m_zpHammer.RotateZDelta(amount * direction);
-			direction *= -1.0f;
-			absoluteMovement = 0.0f;
-		}
-		else
-		{
-			m_zpHammer.RotateZDelta(amount * direction);
-			absoluteMovement += amount;
-		}
-
-		m_zpHammer.TranslateDelta(moveHammer);
-	}
-
+	virtual void switchOn() override;
+	virtual void switchOff() override;
 };
 
 

@@ -77,7 +77,7 @@ public:
 	virtual float getHeight() = 0;
 	virtual float getWidth() = 0;
 
-	virtual void switchOn()
+	virtual void switchOn()//TODO (JS) pure virtual
 	{
 		
 	}
