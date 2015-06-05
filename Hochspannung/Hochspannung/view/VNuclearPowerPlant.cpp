@@ -1,12 +1,11 @@
 #include "VNuclearPowerPlant.h"
 #include "VPlayingField.h"
-#include "VIdentifier.h"
 #include "VMaster.h"
 
 NAMESPACE_VIEW_B
 
 VNuclearPowerPlant::VNuclearPowerPlant(VMaster* vMaster, LNuclearPowerPlant* lPlant)
-	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
+	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement(), &viewModel)
 {}
 
 void VNuclearPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)

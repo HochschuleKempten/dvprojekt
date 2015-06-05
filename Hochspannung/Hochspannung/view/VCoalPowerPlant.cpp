@@ -1,11 +1,11 @@
 #include "VCoalPowerPlant.h"
 #include "VPlayingField.h"
-#include "VIdentifier.h"
 
 NAMESPACE_VIEW_B
 
+
 VCoalPowerPlant::VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant)
-	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
+	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement(), &viewModel)
 {
 	vMaster->registerObserver(this);
 }

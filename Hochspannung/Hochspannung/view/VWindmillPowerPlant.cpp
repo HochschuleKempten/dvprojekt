@@ -7,7 +7,7 @@
 NAMESPACE_VIEW_B
 
 VWindmillPowerPlant::VWindmillPowerPlant(VMaster* vMaster, LWindmillPowerPlant* lPlant)
-	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
+	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement(), &viewModel)
 {
 	vMaster->registerObserver(this);
 }

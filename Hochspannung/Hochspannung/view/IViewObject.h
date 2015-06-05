@@ -13,20 +13,20 @@ class IViewObject
 
 protected:
 	VMaster* vMaster;
-	CPlacement* placementPointer;
+	CPlacement* ptrPlacement;
 
 public:
 	inline IViewObject(VMaster* vMaster, CPlacement* placementPointer)
-		: vMaster(vMaster), placementPointer(placementPointer)
+		: vMaster(vMaster), ptrPlacement(placementPointer)
 	{}
 	inline virtual ~IViewObject()
 	{}
 
 	inline CPlacement* getPlacement()
 	{
-		ASSERT(placementPointer != nullptr, "The placement is not initialized");
+		ASSERT(ptrPlacement != nullptr, "The placement is not initialized");
 
-		return placementPointer;
+		return ptrPlacement;
 	}
 	VMaster* getVMaster() const
 	{

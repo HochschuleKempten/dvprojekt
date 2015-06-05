@@ -68,15 +68,11 @@ private:
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;
 
-	CMaterial m_zmGreen;
-	CMaterial m_zmGrey;
-	CMaterial m_zmHolz;
-	CMaterial m_zmBerg;
-	CMaterial m_zmLore;
+	CMaterial m_zmKohleBerg;
 	CMaterial m_zmKohle;
-	CMaterial m_zmBlack;
-
-	CDeviceKeyboard m_zdk;
+	CMaterial m_zmKohleHolz;
+	CMaterial m_zmKohleLore;
+	CMaterial m_zmKohleBlack;
 
 	CGeoCone m_zgBerg;
 	CGeoWall m_zgSchiene;
@@ -108,6 +104,27 @@ public:
 	virtual float getWidth() override
 	{
 		return 0.0f;
+	}
+
+	virtual void switchOn() override
+	{
+		m_zmKohleBerg.SetColorAmbient(colorAmbientOn);
+		m_zmKohle.SetColorAmbient(colorAmbientOn);
+		m_zmKohleHolz.SetColorAmbient(colorAmbientOn);
+		m_zmKohleLore.SetColorAmbient(colorAmbientOn);
+		m_zmKohleBlack.SetColorAmbient(colorAmbientOn);
+		m_zTrasse1.switchOn();
+		m_zTrasse2.switchOn();
+	}
+	virtual void switchOff() override
+	{
+		m_zmKohleBerg.SetColorAmbient(colorAmbientOff);
+		m_zmKohle.SetColorAmbient(colorAmbientOff);
+		m_zmKohleHolz.SetColorAmbient(colorAmbientOff);
+		m_zmKohleLore.SetColorAmbient(colorAmbientOff);
+		m_zmKohleBlack.SetColorAmbient(colorAmbientOff);
+		m_zTrasse1.switchOff();
+		m_zTrasse2.switchOff();
 	}
 
 };

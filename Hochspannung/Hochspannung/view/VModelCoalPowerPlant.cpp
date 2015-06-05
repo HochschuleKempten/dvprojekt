@@ -4,6 +4,11 @@ NAMESPACE_VIEW_B
 
 
 VModelCoalPowerPlant::VModelCoalPowerPlant()
+	: m_zmKohleBerg(VMaterialLoader::m_zmKohleBerg),
+	  m_zmKohle(VMaterialLoader::m_zmKohle),
+	  m_zmKohleHolz(VMaterialLoader::m_zmKohleHolz),
+	  m_zmKohleLore(VMaterialLoader::m_zmKohleLore),
+	  m_zmKohleBlack(VMaterialLoader::m_zmKohleBlack)
 {}
 
 VModelCoalPowerPlant::~VModelCoalPowerPlant()
@@ -22,26 +27,26 @@ void VModelCoalPowerPlant::init()
 	m_zTrasse2.Init();
 
 	//Gebirge
-	m_zgBerg.Init(2.0f, 3.0f, &VMaterialLoader::m_zmKohleBerg, 16);
+	m_zgBerg.Init(2.0f, 3.0f, &m_zmKohleBerg, 16);
 
 	//Schiene
 	m_zgSchiene.Init(0.04f, 0.045f, 4.0f, &VMaterialLoader::m_zmAtomgrundGrey);
-	m_zgSprosse.Init(0.7f, 0.03f, 0.15f, &VMaterialLoader::m_zmHolz);
+	m_zgSprosse.Init(0.7f, 0.03f, 0.15f, &m_zmKohleHolz);
 
 	//Initialisierung Fundament
 	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAtomgrundGreen);
 	//m_zgFundament.Init(10.0f, 0.3f, 10.0f, &VMaterialLoader::m_zmAtomgrundGreen);
 
 	//Mineneingang
-	m_zgEingangOben.Init(1.2f, 0.15f, 2.0f, &VMaterialLoader::m_zmHolz);
-	m_zgEingangSeite.Init(0.15f, 1.0f, 2.0f, &VMaterialLoader::m_zmHolz);
-	m_zgMinenschacht.Init(1.1f, 1.0f, 0.1f, &VMaterialLoader::m_zmKohleBlack);
+	m_zgEingangOben.Init(1.2f, 0.15f, 2.0f, &m_zmKohleHolz);
+	m_zgEingangSeite.Init(0.15f, 1.0f, 2.0f, &m_zmKohleHolz);
+	m_zgMinenschacht.Init(1.1f, 1.0f, 0.1f, &m_zmKohleBlack);
 
 	//Minenlore
 	m_zgLoreRad.Init(0.08f, 0.08f, 0.04f, &VMaterialLoader::m_zmAtomgrundGrey);
-	m_zgLoreVorne.Init(0.5f, 0.5f, 0.05f, &VMaterialLoader::m_zmKohleLore);
-	m_zgLoreSeite.Init(0.05f, 0.5f, 0.5f, &VMaterialLoader::m_zmKohleLore);
-	m_zgLoreBoden.Init(0.48f, 0.05f, 0.48f, &VMaterialLoader::m_zmKohle);
+	m_zgLoreVorne.Init(0.5f, 0.5f, 0.05f, &m_zmKohleLore);
+	m_zgLoreSeite.Init(0.05f, 0.5f, 0.5f, &m_zmKohleLore);
+	m_zgLoreBoden.Init(0.48f, 0.05f, 0.48f, &m_zmKohle);
 
 	//Kamin
 	m_zgKamin.InitStraight(0.2f, 0.3f, 3.0f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true);

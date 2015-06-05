@@ -40,6 +40,7 @@ void VSoundLoader::init(CScene* scene)
 	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VTransformerStation), std::make_tuple("sounds/bruitelectrique.wav", 0.15f));
 	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VHydroelectricPowerPlant), std::make_tuple("sounds/WaterWheelLoop.wav", 0.2f));
 	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VWindmillPowerPlant), std::make_tuple("sounds/AirPowerPlantLoop.wav", 0.8f));
+	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VOilRefinery), std::make_tuple("sounds/OilRefineryLoop.wav", 0.3f));
 
 	setSoundEffectHelper(BUILDING_PLACED, "createObject");
 	setSoundEffectHelper(TRASSE_PLACED, "createTrasse");
@@ -120,5 +121,6 @@ void VSoundLoader::playRadioMessage(const LMessageLoader::MessageID messageId)
 		radioMessages[messageId].Start();
 	}
 }
+
 
 NAMESPACE_VIEW_E
