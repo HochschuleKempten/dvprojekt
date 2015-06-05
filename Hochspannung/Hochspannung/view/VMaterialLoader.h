@@ -17,11 +17,10 @@ private:
 	VMaterialLoader& operator=(const VMaterialLoader&&) = delete;
 	~VMaterialLoader() = delete;
 
+private:
 	static void setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName);
 
 public:
-	static void init();
-
 	using FieldPair = std::pair<LField::FieldType, LField::FieldLevel>;
 	static std::map<FieldPair, CMaterial> fieldMaterials;
 
@@ -149,7 +148,6 @@ public:
 	static CWritingFont errorFont;
 	
 	//Trassentexturen
-	static CMaterial m_zmConcrete;
 	static CMaterial m_zmStrut;
 	static CMaterial m_zmIsolator;
 	static CMaterial m_zmRing;
@@ -162,13 +160,11 @@ public:
 	static CMaterial m_zmWindFluegel2;
 	static CMaterial m_zmWindFluegel3;
 
-
 	//Solarkraftwerktexturen
 	static CMaterial m_zmSolarzelle;
 	static CMaterial m_zmSolarGrund;
 	static CMaterial m_zmSolarLOD;
 
-	//TODO (ViewModels) Why are there two atom textures?
 	//Atomkraftwerktexturen
 	static CMaterial m_zmAtomGrund;
 	static CMaterial m_zmAtomSchranke;
@@ -176,9 +172,7 @@ public:
 	static CMaterial m_zmAtomReaktor;
 
 	//Atomkraftwerktexturen
-	static CMaterial m_zmAtomgrundWhite;
-	static CMaterial m_zmAtomgrundGrey;
-	static CMaterial m_zmSchranke;
+	//TODO (V) clean up
 	static CMaterial m_zmAtomgrundGreen;
 	static CMaterial m_zmHolz;
 
@@ -201,6 +195,7 @@ public:
 	static CMaterial m_zmKohleHolz;
 	static CMaterial m_zmKohleLore;
 	static CMaterial m_zmKohleBlack;
+	static CMaterial m_zmKohlegrundGrey;
 
 	//Wasserkraftwerktexturen
 	static CMaterial m_zmWasser;
@@ -232,16 +227,10 @@ public:
 	//CraftMenue
 	static CMaterial m_zmCraftMenueBackground;
 
-
 	//Test
 	static CMaterial materialAnimationsVersuch;
 
-	//Rotation adjustments
-	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
-
-
 	//Animierte Texturen
-
 	static CMaterial materialAnimSabotageBomb;
 	static CMaterial materialAnimLoadingCircle;
 
@@ -251,6 +240,11 @@ public:
 	static int materialAnimSabotagePowerPlant_y;
 
 	static CMaterial materialAnimTransformerStationLightning;
+
+public:
+	//Rotation adjustments
+	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
+	static void init();
 };
 
 

@@ -125,7 +125,6 @@ CWritingFont VMaterialLoader::GoldFont;
 CWritingFont VMaterialLoader::errorFont;
 
 //Trassentexturen
-CMaterial VMaterialLoader::m_zmConcrete;
 CMaterial VMaterialLoader::m_zmStrut;
 CMaterial VMaterialLoader::m_zmIsolator;
 CMaterial VMaterialLoader::m_zmRing;
@@ -150,9 +149,6 @@ CMaterial VMaterialLoader::m_zmAtomZaun;
 CMaterial VMaterialLoader::m_zmAtomReaktor;
 
 //Atomkraftwerktexturen
-CMaterial VMaterialLoader::m_zmAtomgrundWhite;
-CMaterial VMaterialLoader::m_zmAtomgrundGrey;
-CMaterial VMaterialLoader::m_zmSchranke;
 CMaterial VMaterialLoader::m_zmAtomgrundGreen;
 CMaterial VMaterialLoader::m_zmHolz;
 
@@ -175,6 +171,7 @@ CMaterial VMaterialLoader::m_zmKohle;
 CMaterial VMaterialLoader::m_zmKohleHolz;
 CMaterial VMaterialLoader::m_zmKohleLore;
 CMaterial VMaterialLoader::m_zmKohleBlack;
+CMaterial VMaterialLoader::m_zmKohlegrundGrey;
 
 //Wasserkraftwerktexturen
 CMaterial VMaterialLoader::m_zmWasser;
@@ -383,14 +380,6 @@ void VMaterialLoader::init()
 	errorFont.Init("textures/fonts/OCRError.png", true);
 	errorFont.SetTableSize(16, 16);
 
-	
-//	standardFont.SetTransparencyOn();
-	//GoldFont.SetTransparencyOn();
-	//Building - Trasse
-	m_zmConcrete.MakeTextureDiffuse("textures/buildings/texture_concrete_diffuse.png");
-	m_zmConcrete.MakeTextureBump("textures/buildings/texture_concrete_normal.png");
-	m_zmConcrete.MakeTextureSpecular("textures/buildings/texture_concrete_specular.png");
-
 	m_zmStrut.MakeTextureDiffuse("textures/buildings/strommast_diffuse.png");
 	m_zmIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
 	m_zmRing.MakeTextureDiffuse("textures\\black_image.jpg");
@@ -420,9 +409,6 @@ void VMaterialLoader::init()
 	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
 
 	//Atomkraftwerktexturen
-	m_zmAtomgrundWhite.MakeTextureDiffuse("textures\\white_image.jpg");
-	m_zmAtomgrundGrey.MakeTextureDiffuse("Textures\\grey_image.jpg");
-	m_zmSchranke.MakeTextureDiffuse("Textures\\schranke.jpg");
 	m_zmAtomgrundGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
 	m_zmHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
 
@@ -451,6 +437,7 @@ void VMaterialLoader::init()
 	m_zmKohleLore.MakeTextureDiffuse("Textures\\lore_image.jpg");
 	m_zmKohleBlack.MakeTextureDiffuse("Textures\\black_image.jpg");
 	m_zmKohleBerg.SetTextureSpecularAsDiffuse();
+	m_zmKohlegrundGrey.MakeTextureDiffuse("Textures\\grey_image.jpg");
 	
 	//Wasserkraftwerktexturen
 	m_zmWasser.MakeTextureSprite("Textures\\animations\\Water.png");

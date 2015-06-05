@@ -8,7 +8,8 @@ VModelCoalPowerPlant::VModelCoalPowerPlant()
 	  m_zmKohle(VMaterialLoader::m_zmKohle),
 	  m_zmKohleHolz(VMaterialLoader::m_zmKohleHolz),
 	  m_zmKohleLore(VMaterialLoader::m_zmKohleLore),
-	  m_zmKohleBlack(VMaterialLoader::m_zmKohleBlack)
+	  m_zmKohleBlack(VMaterialLoader::m_zmKohleBlack),
+	  m_zmKohlegrundGrey(VMaterialLoader::m_zmKohlegrundGrey)
 {}
 
 VModelCoalPowerPlant::~VModelCoalPowerPlant()
@@ -30,7 +31,7 @@ void VModelCoalPowerPlant::init()
 	m_zgBerg.Init(2.0f, 3.0f, &m_zmKohleBerg, 16);
 
 	//Schiene
-	m_zgSchiene.Init(0.04f, 0.045f, 4.0f, &VMaterialLoader::m_zmAtomgrundGrey);
+	m_zgSchiene.Init(0.04f, 0.045f, 4.0f, &m_zmKohlegrundGrey);
 	m_zgSprosse.Init(0.7f, 0.03f, 0.15f, &m_zmKohleHolz);
 
 	//Initialisierung Fundament
@@ -43,13 +44,13 @@ void VModelCoalPowerPlant::init()
 	m_zgMinenschacht.Init(1.1f, 1.0f, 0.1f, &m_zmKohleBlack);
 
 	//Minenlore
-	m_zgLoreRad.Init(0.08f, 0.08f, 0.04f, &VMaterialLoader::m_zmAtomgrundGrey);
+	m_zgLoreRad.Init(0.08f, 0.08f, 0.04f, &m_zmKohlegrundGrey);
 	m_zgLoreVorne.Init(0.5f, 0.5f, 0.05f, &m_zmKohleLore);
 	m_zgLoreSeite.Init(0.05f, 0.5f, 0.5f, &m_zmKohleLore);
 	m_zgLoreBoden.Init(0.48f, 0.05f, 0.48f, &m_zmKohle);
 
 	//Kamin
-	m_zgKamin.InitStraight(0.2f, 0.3f, 3.0f, &VMaterialLoader::m_zmAtomgrundGrey, 32, true);
+	m_zgKamin.InitStraight(0.2f, 0.3f, 3.0f, &m_zmKohlegrundGrey, 32, true);
 
 
 	//Placements
@@ -238,6 +239,28 @@ void VModelCoalPowerPlant::moveLore(float amount)
 		m_zpMinenLore.TranslateZDelta(amount * direction);
 		absoluteMovement += amount;
 	}
+}
+
+void VModelCoalPowerPlant::switchOn()
+{
+	m_zmKohleBerg.SetColorAmbient(colorAmbientOn);
+	m_zmKohle.SetColorAmbient(colorAmbientOn);
+	m_zmKohleHolz.SetColorAmbient(colorAmbientOn);
+	m_zmKohleLore.SetColorAmbient(colorAmbientOn);
+	m_zmKohleBlack.SetColorAmbient(colorAmbientOn);
+	m_zTrasse1.switchOn();
+	m_zTrasse2.switchOn();
+}
+
+void VModelCoalPowerPlant::switchOff()
+{
+	m_zmKohleBerg.SetColorAmbient(colorAmbientOff);
+	m_zmKohle.SetColorAmbient(colorAmbientOff);
+	m_zmKohleHolz.SetColorAmbient(colorAmbientOff);
+	m_zmKohleLore.SetColorAmbient(colorAmbientOff);
+	m_zmKohleBlack.SetColorAmbient(colorAmbientOff);
+	m_zTrasse1.switchOff();
+	m_zTrasse2.switchOff();
 }
 
 NAMESPACE_VIEW_E
