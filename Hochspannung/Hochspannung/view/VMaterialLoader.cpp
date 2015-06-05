@@ -153,8 +153,6 @@ CMaterial VMaterialLoader::m_zmAtomReaktor;
 CMaterial VMaterialLoader::m_zmAtomgrundWhite;
 CMaterial VMaterialLoader::m_zmAtomgrundGrey;
 CMaterial VMaterialLoader::m_zmSchranke;
-CMaterial VMaterialLoader::m_zmAtomgrundGreen;
-CMaterial VMaterialLoader::m_zmHolz;
 
 //Oelkraftwerktexturen
 CMaterial VMaterialLoader::m_zmOelGrund;
@@ -216,6 +214,10 @@ CMaterial VMaterialLoader::materialListEntryHoverBackground;
 CMaterial VMaterialLoader::materialTextfieldBackground;
 CMaterial VMaterialLoader::materialTextfieldHoverBackground;
 CBackground VMaterialLoader::materialIngameBackground;
+
+//Allgemein
+CMaterial VMaterialLoader::m_zmHolz;
+CMaterial VMaterialLoader::m_zmAtomgrundGreen;
 
 //Test
 CMaterial VMaterialLoader::materialAnimationsVersuch;
