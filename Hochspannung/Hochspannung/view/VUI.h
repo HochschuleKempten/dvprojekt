@@ -85,6 +85,8 @@ public:
 	void updateNumberPowerLines(const int newNumberPowerLines);
 	void updateEnergySurplus(const float surplusRatio);
 	void updateGameList(const std::vector<Network::CGameObject>& gameList);
+	void updateRegenerativeRatioLocal(float ratio);
+	void updateRegenerativeRatioRemote(float ratio);
 	void switchCursor(const CursorType& cursorType);
 	void showMessage(const std::string& message);
 

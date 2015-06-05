@@ -176,12 +176,22 @@ void VUI::updateNumberPowerLines(const int newNumberPowerLines)
 
 void VUI::updateEnergySurplus(const float surplusRatio)
 {
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateGraphRatio(surplusRatio);
+	//CASTD<VScreenIngame*>(m_screens["Ingame"])->updateGraphRatio(surplusRatio);
 }
 
 void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
 {
 	CASTD<VScreenLobby*>(m_screens["Lobby"])->updateHostList(gameList);
+}
+
+void VUI::updateRegenerativeRatioLocal(float ratio)
+{
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateGraphRatio(ratio);
+}
+
+void VUI::updateRegenerativeRatioRemote(float ratio)
+{
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateGraphRatioEnemy(ratio);
 }
 
 void VUI::switchCursor(const CursorType& cursorType)

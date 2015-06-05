@@ -4,6 +4,9 @@ NAMESPACE_VIEW_B
 
 
 VModelSolarPowerPlant::VModelSolarPowerPlant()
+	: m_zmSolarzelle(VMaterialLoader::m_zmSolarzelle),
+	  m_zmSolarGrund(VMaterialLoader::m_zmSolarGrund),
+	  m_zmSolarLOD(VMaterialLoader::m_zmSolarLOD)
 {
 	m_zpLOD[0].AddPlacement(&m_zpSolarPowerplant);
 	m_zpLOD[1].AddPlacement(&m_zpSolarPowerplant);
@@ -62,54 +65,54 @@ VModelSolarPowerPlant::VModelSolarPowerPlant()
 	
 
 
-	m_zgStabilisierung.Init(CHVector(1.8, 0.05, 0.1), &VMaterialLoader::m_zmSolarGrund);
+	m_zgStabilisierung.Init(CHVector(1.8, 0.05, 0.1), &m_zmSolarGrund);
 
-	m_zgSenkrechte.Init(0.2, 0.2, 1.08, &VMaterialLoader::m_zmSolarGrund);
-	m_zgGrundflaeche.Init(CHVector(2, 0.05, 1.5), &VMaterialLoader::m_zmSolarGrund);
-	m_zgSockel.Init(CHVector(1, 0.05, 1), &VMaterialLoader::m_zmSolarGrund);
-	m_zgFoundation.Init(CHVector(1, 0.05, 1), &VMaterialLoader::m_zmSolarGrund);
-	m_zgSolarzelle1.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle2.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle3.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle4.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle5.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle6.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle7.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle8.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle9.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle10.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle11.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle12.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle13.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle14.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle15.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle16.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle17.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle18.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle19.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle20.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle21.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle22.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle23.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle24.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle25.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle26.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle27.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle28.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle29.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle30.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle31.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle32.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle33.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle34.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle35.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle36.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle37.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle38.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle39.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle40.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle41.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
-	m_zgSolarzelle42.Init(CHVector(0.3, 0.05, 0.2), &VMaterialLoader::m_zmSolarzelle);
+	m_zgSenkrechte.Init(0.2, 0.2, 1.08, &m_zmSolarGrund);
+	m_zgGrundflaeche.Init(CHVector(2, 0.05, 1.5), &m_zmSolarGrund);
+	m_zgSockel.Init(CHVector(1, 0.05, 1), &m_zmSolarGrund);
+	m_zgFoundation.Init(CHVector(1, 0.05, 1), &m_zmSolarGrund);
+	m_zgSolarzelle1.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle2.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle3.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle4.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle5.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle6.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle7.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle8.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle9.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle10.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle11.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle12.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle13.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle14.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle15.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle16.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle17.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle18.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle19.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle20.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle21.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle22.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle23.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle24.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle25.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle26.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle27.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle28.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle29.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle30.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle31.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle32.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle33.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle34.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle35.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle36.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle37.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle38.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle39.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle40.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle41.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
+	m_zgSolarzelle42.Init(CHVector(0.3, 0.05, 0.2), &m_zmSolarzelle);
 
 
 	m_zpStabilisierung.AddGeo(&m_zgStabilisierung);
@@ -162,7 +165,7 @@ VModelSolarPowerPlant::VModelSolarPowerPlant()
 
 	//LOD 2 Placement
 	m_zpSolarPowerplant2.AddPlacement(&m_zpGrundflaeche2);
-	m_zgGrundflaeche2.Init(CHVector(2, 0.05, 1.5), &VMaterialLoader::m_zmSolarLOD);
+	m_zgGrundflaeche2.Init(CHVector(2, 0.05, 1.5), &m_zmSolarLOD);
 	m_zpGrundflaeche2.AddGeo(&m_zgGrundflaeche2);
 	m_zpSolarPowerplant2.AddPlacement(&m_zpSockel);
 	m_zpSolarPowerplant2.AddPlacement(&m_zpSenkrechte);
@@ -236,5 +239,18 @@ VModelSolarPowerPlant::VModelSolarPowerPlant()
 VModelSolarPowerPlant::~VModelSolarPowerPlant()
 {}
 
+void VModelSolarPowerPlant::switchOn()
+{
+	m_zmSolarzelle.SetColorAmbient(colorAmbientOn);
+	m_zmSolarGrund.SetColorAmbient(colorAmbientOn);
+	m_zmSolarLOD.SetColorAmbient(colorAmbientOn);
+}
+
+void VModelSolarPowerPlant::switchOff()
+{
+	m_zmSolarzelle.SetColorAmbient(colorAmbientOff);
+	m_zmSolarGrund.SetColorAmbient(colorAmbientOff);
+	m_zmSolarLOD.SetColorAmbient(colorAmbientOff);
+}
 
 NAMESPACE_VIEW_E
