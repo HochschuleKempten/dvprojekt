@@ -2,9 +2,7 @@
 
 #include "VGeneral.h"
 #include "IViewModel.h"
-#include "Appartments.h"
 #include "VModelPowerLine.h"
-
 
 NAMESPACE_VIEW_B
 

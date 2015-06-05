@@ -47,7 +47,7 @@ void VModelOilRefinery::init()
 	m_zgFundamentPumpe.Init(1.8f, 0.07f, 1.2f, &VMaterialLoader::m_zmOelGrund);
 
 	//Initialisierung Streben
-	m_zgStrebe.Init(0.07f, 0.05f, 2.0f, &VMaterialLoader::m_zmOelGrund, 32, true, true);
+	m_zgStrebe.Init(0.07f, 0.05f, 2.2f, &VMaterialLoader::m_zmOelGrund, 32, true, true);
 
 	//Initialisierung DrehpunktHammer
 	m_zgDrehpunktHammer.Init(0.2f, 0.2f, 0.65f, &VMaterialLoader::m_zmOelGrund, 32, true, true);
@@ -202,7 +202,7 @@ void VModelOilRefinery::init()
 	m_zpStrebe4.AddGeo(&m_zgStrebe);
 
 	m_zpDrehpunktHammer.RotateXDelta(HALFPI);
-	m_zpDrehpunktHammer.TranslateDelta(CHVector(1.25f, 2.0f, -2.575f));
+	m_zpDrehpunktHammer.TranslateDelta(CHVector(1.25f, 2.2f, -2.575f));
 	m_zpDrehpunktHammer.AddGeo(&m_zgDrehpunktHammer);
 
 	m_zpBalancier.RotateZDelta(-0.08f * PI);
