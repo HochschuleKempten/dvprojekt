@@ -103,11 +103,11 @@ void VScreenCredits::StartEvent()
 
 		std::thread([this] {MoveText(materialCreditsOrganization); }).detach();
 
-		std::this_thread::sleep_for(std::chrono::seconds(5));
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		std::thread([this] {MoveText(materialCreditsIntegration); }).detach();
 
-		std::this_thread::sleep_for(std::chrono::seconds(5));
+		std::this_thread::sleep_for(std::chrono::seconds(4));
 
 
 		std::thread([this] {MoveText(materialCreditsNetwork); }).detach();
@@ -132,7 +132,7 @@ void VScreenCredits::StartEvent()
 
 		std::thread([this] {MoveText(materialCreditsModelling); }).detach();
 
-		std::this_thread::sleep_for(std::chrono::seconds(3));
+		std::this_thread::sleep_for(std::chrono::seconds(4));
 
 
 		std::thread([this] {MoveText(materialCreditsModelling2); }).detach();

@@ -249,8 +249,8 @@ vrRegister->SwitchToTab("TabBuilding");
 	//getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy", 0.1F);
 
 
-	m_viewport->SwitchOff();
 	getContainer("DialogBox")->switchOff();
+
 }
 
 VScreenIngame::~VScreenIngame()
@@ -437,7 +437,6 @@ void VScreenIngame::onNotify(const Event& events)
 void VScreenIngame::switchOn()
 {
 	m_viewport->SwitchOn();
-	m_viewportModels.SwitchOn();
 	m_scene.SwitchOn();
 	m_isOn = true;
 }
@@ -539,10 +538,7 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 			activeButton->setActive(false);
 
 
-			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOff();
-			getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOff();
-			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOff();
-			getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOff();
+			clearInfofield();
 
 			if (selectedBuilding != VIdentifier::Undefined)
 
@@ -1076,6 +1072,8 @@ void VScreenIngame::clearInfofield()
 	{
 		overlay.second->SwitchOff();
 	}
+
+	m_viewportModels.SwitchOff();
 }
 
 void VScreenIngame::hideBottomBar()
