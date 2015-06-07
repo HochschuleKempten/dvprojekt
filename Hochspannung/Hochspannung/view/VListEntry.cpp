@@ -165,7 +165,7 @@ void VListEntry::updateRectangle(CFloatRect rect)
 	delete iwas;
 	iwas = new CWriting();
 	iwas->SetRect(rect);
-	iwas->Init(createRelativeRectangle(&rect, &CFloatRect(0.1F, 0.1F, 0.9F, 0.9F)), m_sName.length(), &VMaterialLoader::standardFont);
+	iwas->Init(createRelativeRectangle(&rect, &CFloatRect(0.1F, 0.1F, 0.8F, 0.8F)), m_sName.length(), &VMaterialLoader::standardFont);
 
 	iwas->PrintF(&m_sName[0]);
 	iwas->SetLayer(getLayer() - 0.01F);

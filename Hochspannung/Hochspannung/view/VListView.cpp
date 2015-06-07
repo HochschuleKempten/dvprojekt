@@ -142,8 +142,8 @@ void VListView::calcEntrySize()
 	for (const std::string& sName : m_entries)
 	{
 		//GUI Object Size Mehode hinzufügen
-		m_guiObjects[sName]->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.001F, 0.08F * static_cast<float>(i) + 0.15F, 0.99F, 0.08F)));
-		m_guiObjects[sName]->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.08F, 0.05F * static_cast<float>(i) + 0.15F, 0.82F, 0.08F)));
+		m_guiObjects[sName]->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.001F, 0.08F * static_cast<float>(i) + 0.25F, 0.99F, 0.08F)));
+		m_guiObjects[sName]->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.08F, 0.05F * static_cast<float>(i) + 0.25F, 0.82F, 0.08F)));
 		i++;
 	}
 }

@@ -39,6 +39,9 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 	//ListView
 	getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6), &VMaterialLoader::materialLobbyGamelistBackground, "HostList", 0.4F);
 	getContainer("LobbyRunningGames")->getContainer("HostList")->addButton(CFloatRect(0.85F, 0.05F, 0.1F, 0.1F), &VMaterialLoader::materialButtonRefresh, &VMaterialLoader::materialButtonRefreshHover, REFRESH_GAME_LIST, "buttonRefresh", 0.3F);
+	CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->addEntry("192.168.178.35", 0.1F);
+	CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->addEntry("203.172.188.35", 0.1F);
+
 
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue", 0.6F);
 	getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "buttonBackToPlaymode", 0.2F);
