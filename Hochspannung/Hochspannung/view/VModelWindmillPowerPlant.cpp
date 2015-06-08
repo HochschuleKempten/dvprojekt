@@ -28,6 +28,8 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 
 	//Initialisierung Fundament
 	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &VMaterialLoader::m_zmWindGrund);
+	m_zgFoundation.Init(CHVector(2.0f, 0.3f, 2.0f), &VMaterialLoader::m_zmWindGrund);
+
 
 	//Initialisierung Netzanschluss
 	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &VMaterialLoader::m_zmWindRad);
