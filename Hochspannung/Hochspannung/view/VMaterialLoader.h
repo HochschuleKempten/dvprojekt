@@ -169,6 +169,7 @@ public:
 	static CMaterial materialBlue;
 	static CMaterial materialGreen;
 	static CMaterial materialLightGrey;
+	static CMaterial materialBlack;
 
 	//WritingFonts
 	static CWritingFont standardFont;

@@ -2,6 +2,7 @@
 #include "VUI.h"
 #include <thread>
 #include "VUIHelper.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -18,7 +19,7 @@ VScreenCredits::VScreenCredits(VUI* vUi) : IViewScreen(vUi)
 
 	m_background = new CBackground();
 
-	m_background->InitFull(&VMaterialLoader::materialDefaultBackground);
+	m_background->InitFull(&VMaterialLoader::materialBlack);
 
 	
 
@@ -98,17 +99,16 @@ void VScreenCredits::startAnimation()
 
 void VScreenCredits::StartEvent()
 {
-
 	std::thread([this] {
 
 		std::thread([this] {MoveText(materialCreditsOrganization); }).detach();
 
-		std::this_thread::sleep_for(std::chrono::seconds(5));
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		std::thread([this] {MoveText(materialCreditsIntegration); }).detach();
 
-		std::this_thread::sleep_for(std::chrono::seconds(5));
-
+		std::this_thread::sleep_for(std::chrono::seconds(4));
+		
 
 		std::thread([this] {MoveText(materialCreditsNetwork); }).detach();
 
@@ -132,7 +132,7 @@ void VScreenCredits::StartEvent()
 
 		std::thread([this] {MoveText(materialCreditsModelling); }).detach();
 
-		std::this_thread::sleep_for(std::chrono::seconds(3));
+		std::this_thread::sleep_for(std::chrono::seconds(4));
 
 
 		std::thread([this] {MoveText(materialCreditsModelling2); }).detach();

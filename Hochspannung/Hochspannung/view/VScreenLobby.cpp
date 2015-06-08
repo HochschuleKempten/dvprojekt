@@ -3,7 +3,8 @@
 #include "VMaster.h"
 #include <thread>
 #include "../logic/LMaster.h"
-
+#include <regex>
+#include <future>
 NAMESPACE_VIEW_B
 
 VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
@@ -39,6 +40,9 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 	//ListView
 	getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6), &VMaterialLoader::materialLobbyGamelistBackground, "HostList", 0.4F);
 	getContainer("LobbyRunningGames")->getContainer("HostList")->addButton(CFloatRect(0.85F, 0.05F, 0.1F, 0.1F), &VMaterialLoader::materialButtonRefresh, &VMaterialLoader::materialButtonRefreshHover, REFRESH_GAME_LIST, "buttonRefresh", 0.3F);
+	CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->addEntry("192.168.178.35", 0.1F);
+	CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->addEntry("203.172.188.35", 0.1F);
+	
 
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue", 0.6F);
 	getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "buttonBackToPlaymode", 0.2F);
@@ -59,8 +63,14 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 	getContainer("HostDialog")->addButton(CFloatRect(0.6, 0.5F, 0.3F, 0.2F), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover, ABORT_HOST_DIALOG, "HostDialogAbort", 0.09F);
 
 
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.3F, 0.25F, 0.3F, 0.2F), &VMaterialLoader::materialLobbyRunningGamesBackground, "ErrorDialog", 0.006F);
+	getContainer("ErrorDialog")->addText(CFloatRect(0.1F, 0.1F, 0.8F, 0.3F), &VMaterialLoader::errorFont , "Keine gueltige IP-Adresse!", "TextErrorDialog", 0.005F);
+	
+
+
 	getContainer("HostDialog")->switchOff();
 	getContainer("WaitingDialog")->switchOff();
+	getContainer("ErrorDialog")->switchOff();
 }
 
 VScreenLobby::~VScreenLobby()
@@ -71,7 +81,7 @@ VScreenLobby::~VScreenLobby()
 
 void VScreenLobby::onNotify(const Event& events)
 {
-	
+	static bool m_JoinReady = false;
 
 	switch (events)
 	{
@@ -115,38 +125,84 @@ void VScreenLobby::onNotify(const Event& events)
 		break;
 	case LOBBY_JOIN_GAME:
 		
+
 		getContainer("LobbyRunningGames")->getGuiObject("textfieldIP")->disable();
 		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->disable();
 		getContainer("Menue")->getGuiObject("buttonCreateGame")->disable();
 		getContainer("Menue")->getGuiObject("buttonJoinGame")->disable();
 		getContainer("Menue")->getGuiObject("buttonStartGame")->disable();
 		
-			CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Trete Spiel bei...");
-			getContainer("WaitingDialog")->switchOn();
-			
-			std::thread([this]{
-				while (!m_JoinReady)
-				{
-					vUi->tick(0.01F);
-					std::this_thread::sleep_for(std::chrono::milliseconds(5));
-				}
-				m_JoinReady = false;
-			}).detach();
 			
 		
 
 
 		if (CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem() == nullptr)
 		{
-			vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
-			m_JoinReady = true;
+			std::string textfieldValue = CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue();
+			if (textfieldValue.size() > 0)
+			{
+				if (std::regex_match(textfieldValue, std::regex("((1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])\.){3}((25[0-5])|(2[0-4][0-9])|(1?[0-9][0-9]?))")))
+				{	
+					CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Trete Spiel bei...");
+					getContainer("WaitingDialog")->switchOn();
+
+					vUi->tick(0.01F);
+
+					/*std::thread([this]{
+					
+						while (!m_JoinReady)
+						{
+							float value = 0.01F;
+							vUi->m_zr.Tick(value);
+							std::this_thread::sleep_for(std::chrono::milliseconds(10));
+						}
+						
+						  m_JoinReady = false;
+					}).detach();
+					*/
+				
+
+					//vUi->vMaster->joinGame(textfieldValue);
+					
+					
+						//std::this_thread::sleep_for(std::chrono::seconds(10));
+						m_JoinReady = true;
+						vUi->switchScreen("Ingame");
+				
+				}
+				else
+				{
+					
+
+						CASTD<VText*>(getContainer("ErrorDialog")->getGuiObject("TextErrorDialog"))->updateText("Keine gueltige IP-Adresse!");
+
+						getContainer("ErrorDialog")->switchOn();
+
+						/*std::this_thread::sleep_for(std::chrono::seconds(3));
+						getContainer("ErrorDialog")->switchOff();*/
+					
+				}
+			}
 		}
 		else
 		{
-			vUi->vMaster->joinGame(CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName());
-			m_JoinReady = true;
-		}
-		vUi->switchScreen("Ingame");
+				CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Trete Spiel bei...");
+				getContainer("WaitingDialog")->switchOn();
+
+				std::thread([this]{
+					while (!m_JoinReady)
+					{
+						vUi->tick(0.01F);
+						std::this_thread::sleep_for(std::chrono::milliseconds(5));
+					}
+					m_JoinReady = false;
+				}).detach();
+
+				vUi->vMaster->joinGame(CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName());
+				m_JoinReady = true;
+				vUi->switchScreen("Ingame");
+			}
+		
 		break;
 	case REFRESH_GAME_LIST:
 		vUi->vMaster->getLMaster()->searchGames();
@@ -208,6 +264,7 @@ void VScreenLobby::checkSpecialEvent(CDeviceCursor* cursor)
 
 void VScreenLobby::tick(const float fTimeDelta)
 {
+	std::lock_guard<std::mutex> lock(mutex);
 	if (!vUi->m_zkCursor.ButtonPressedLeft())
 	{
 		vUi->m_BlockCursorLeftPressed = false;
@@ -312,6 +369,11 @@ void VScreenLobby::foundPlayer()
 	vUi->switchScreen("Ingame");
 	JoinReady = true;
 
+	
+}
+
+void VScreenLobby::showWaitingDialog()
+{
 	
 }
 

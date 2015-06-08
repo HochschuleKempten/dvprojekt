@@ -176,7 +176,7 @@ void VUI::updateNumberPowerLines(const int newNumberPowerLines)
 
 void VUI::updateEnergySurplus(const float surplusRatio)
 {
-	//CASTD<VScreenIngame*>(m_screens["Ingame"])->updateGraphRatio(surplusRatio);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateOwnGraphRatio(surplusRatio);
 }
 
 void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
@@ -186,12 +186,12 @@ void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
 
 void VUI::updateRegenerativeRatioLocal(float ratio)
 {
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateGraphRatio(ratio);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateOwnGraphRatio(ratio);
 }
 
 void VUI::updateRegenerativeRatioRemote(float ratio)
 {
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateGraphRatioEnemy(ratio);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateEnemyGraphRatio(ratio);
 }
 
 void VUI::switchCursor(const CursorType& cursorType)
@@ -281,9 +281,12 @@ void VUI::removeMaterialFromRoot(CMaterial* material)
 
 void VUI::tick(const float fTimeDelta)
 {
+	
 	float fTimeDeltaCopy = fTimeDelta; //Copy needed because Vektoria means to change the time variable for some reasons (prevent undefined behaviour: http://en.cppreference.com/w/cpp/language/const_cast)
 	m_zr.Tick(fTimeDeltaCopy);
 	activeScreen->tick(fTimeDelta);
+
+	
 }
 
 

@@ -50,9 +50,8 @@ public:
 	void updateNumberPowerLines(const int newNumberPowerLines);
 	void updatePowerPlants();
 	void updateGraph(float fProduced, float fNeeded);
-	void updateGraphRatio(float fRatio);
-
-	void updateGraphRatioEnemy(float fRatio);
+	void updateOwnGraphRatio(float fRatio);
+	void updateEnemyGraphRatio(float fRatio);
 
 	CFloatRect getTopSpace();
 
@@ -118,7 +117,7 @@ private:
 
 
 	VGraph *m_vgGraphEnergy;
-	VGraphRatio *m_vgGraphEnergyRatio;
+	VGraphRatio *m_vgGraphEnergyRatioOwn;
 	VGraphRatio *m_vgGraphEnergyRatioEnemy;
 
 

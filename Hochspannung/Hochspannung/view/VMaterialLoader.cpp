@@ -35,6 +35,7 @@ CMaterial VMaterialLoader::materialRed;
 CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
 CMaterial VMaterialLoader::materialLightGrey;
+CMaterial VMaterialLoader::materialBlack;
 
 
 
@@ -405,6 +406,7 @@ void VMaterialLoader::init()
 	materialBlue.MakeTextureSprite("textures\\blue_image.jpg");
 	materialGreen.MakeTextureSprite("textures\\green_image.jpg");
 	materialLightGrey.MakeTextureSprite("textures\\lightgrey_image.png");
+	materialBlack.MakeTextureSprite("textures\\black_image.jpg");
 
 	materialAnimationsVersuch.MakeTextureSprite("textures/fonts/FontArialShadow.png");
 	materialAnimationsVersuch.SetAni(16, 16, 0.5);

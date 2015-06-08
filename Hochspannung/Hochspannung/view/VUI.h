@@ -4,6 +4,7 @@
 #include "IViewUIObserver.h"
 #include "IViewScreen.h"
 #include "../logic/IVTickObserver.h"
+#include <mutex>
 
 NAMESPACE_VIEW_B
 
@@ -63,6 +64,7 @@ private:
 	HCURSOR m_PowerOff_Cursor;
 	HCURSOR m_Sell_Cursor;
 
+	std::mutex mutex;
 public:
 	explicit VUI(VMaster* vMaster);
 	virtual ~VUI() override;
