@@ -773,7 +773,7 @@ void VScreenIngame::handleInput()
 
 	//Zoom In + Out
 	const float mouseWheelPositionMin = -25.0f;
-	const float mouseWheelPositionMax = 50.0f;
+	const float mouseWheelPositionMax = 10.0f;
 	const float zoomFactor = 2.0f;
 
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_UP))

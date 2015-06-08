@@ -4,16 +4,17 @@ NAMESPACE_VIEW_B
 
 
 VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
+	: m_zmHolz(VMaterialLoader::m_zmWasserHolz),
+	  m_zmAtomgrundGreen(VMaterialLoader::m_zmAllgemeinGreen),
+	  Gebaeude(1.0f)
 {
-
 	m_zgFluss.Init(CHVector(2.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmWasser);
-	m_zgRad.InitStraight(3.0f, 4.0f, 0.2f, &VMaterialLoader::m_zmHolz);
-	m_zgRad2.InitStraight(3.0f, 4.0f, 0.2f, &VMaterialLoader::m_zmHolz);
-	m_zgStange.InitStraight(0.05f, 0.2f, 5.0f, &VMaterialLoader::m_zmHolz);
-	m_zgSchaufel.Init(CHVector(1.0f, 0.1f, 4.5f), &VMaterialLoader::m_zmHolz);
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAtomgrundGreen);
+	m_zgRad.InitStraight(3.0f, 4.0f, 0.2f, &m_zmHolz);
+	m_zgRad2.InitStraight(3.0f, 4.0f, 0.2f, &m_zmHolz);
+	m_zgStange.InitStraight(0.05f, 0.2f, 5.0f, &m_zmHolz);
+	m_zgSchaufel.Init(CHVector(1.0f, 0.1f, 4.5f), &m_zmHolz);
+	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &m_zmAtomgrundGreen);
 	
-
 	//Initialisierung Trassen
 	///m_zTrasse1.Init();
 	//m_zTrasse2.Init();
@@ -40,13 +41,13 @@ VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
 	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse1.getMainPlacement());
 	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse2.getMainPlacement());
 	m_zpWasserKraftwerk.AddPlacement(&m_zpGebaude);
-	m_zpGebaude.AddPlacement(Gebaeude);
+	m_zpGebaude.AddPlacement(&Gebaeude);
 
 	
 
 	//Adding
 
-	Gebaeude->TranslateZDelta(2.0f);
+	Gebaeude.TranslateZDelta(2.0f);
 
 	m_zpStange.AddGeo(&m_zgStange);
 	m_zpStange.RotateZ(PI / 2);
@@ -89,15 +90,24 @@ VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
 
 	m_zpWasserSchaufel6.AddGeo(&m_zgSchaufel);
 	m_zpWasserSchaufel6.RotateX(PI);
-
-
-
-
 }
-
 
 VModelHydroelectricPowerPlant::~VModelHydroelectricPowerPlant()
 {}
+
+void VModelHydroelectricPowerPlant::switchOn() 
+{
+	m_zmHolz.SetColorAmbient(colorAmbientOn);
+	m_zmAtomgrundGreen.SetColorAmbient(colorAmbientOn);
+	Gebaeude.switchOn();
+}
+
+void VModelHydroelectricPowerPlant::switchOff()
+{
+	m_zmHolz.SetColorAmbient(colorAmbientOff);
+	m_zmAtomgrundGreen.SetColorAmbient(colorAmbientOff);
+	Gebaeude.switchOff();
+}
 
 
 NAMESPACE_VIEW_E

@@ -10,10 +10,13 @@ Building02::Building02()
 	AddPlacements();
 	TranslateAll();
 	scaleforLoDs();
-
-
 }
 Building02::Building02(float fResize)
+:m_zmDach(VMaterialLoader::materialBuilding02),
+m_zmWallFrame(VMaterialLoader::materialBuilding02),
+m_zmWallNorth(VMaterialLoader::materialWindowsofBuilding)
+
+
 {
 	fresize = fResize;
 
@@ -35,37 +38,33 @@ Building02::~Building02()
 {
 }
 
-void Building02::InitWindows(){
+void Building02::InitWindows()
+{
 
-	m_zgWallFrame.Init(1.F, 1.F, 0.5F, &VMaterialLoader::materialWindowsofBuilding);
+	m_zgWallFrame.Init(1.F, 1.F, 0.5F, &m_zmWallNorth);
 	m_zgWindow.InitRect(CFloatRect(0.2F, 0.9F, 0.2F, 0.1F), false);
 	m_zgWindow.AddGeoWall(&m_zgWallFrame);
-	
-	//m_zgWindowInlay.InitRect(CFloatRect(0.1F, 0.1F, 0.8F, 0.8F), false);
-	//m_zgWindowInlay.InitRect(CFloatRect(0.1F, 0.1F, 0.8F, 0.8F), false);
-	//m_zgWindowInlay.AddGeoWall(&m_zgWallGlass);
-
-
 
 }
 
-void Building02::AddWindows(){
+void Building02::AddWindows()
+{
 
-		m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 4, 5);
-		//m_zgWallFrame.AddGeoWindow(&m_zgWindowInlay);
-	}
-
-	void Building02::InitWalls(){
-
+	m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 4, 5);
 		
-		//m_zgWallGlass.Init(1.F, 1.F, 0.5F, &VMaterialLoader::materialWindowsofBuilding);
-		m_zWallNorth.Init(fstandardwidthwall / fresize, fstandardheightwall / fresize, fstandarddepthwall / fresize, &VMaterialLoader::materialBuilding02);
-		m_zgDach.Init(CHVector(fstandardwidthroof / fresize, fstandardheightroof / fresize, fstandarddepthroof / fresize, 0.F), &VMaterialLoader::materialBuilding02);
+}
+
+void Building02::InitWalls()
+{		
+	m_zWallNorth.Init(fstandardwidthwall / fresize, fstandardheightwall / fresize, fstandarddepthwall / fresize, &m_zmWallFrame);
+	m_zgDach.Init(CHVector(fstandardwidthroof / fresize, fstandardheightroof / fresize, fstandarddepthroof / fresize, 0.F), &m_zmDach);
 		m_zm.MakeTextureDiffuse("textures\\red_image.jpg");
 		
 
-	}
-	void Building02::AddPlacements(){
+}
+
+void Building02::AddPlacements()
+{
 
 
 		m_zpbuilding02.AddPlacement(&m_zpWallNorth);
@@ -83,9 +82,10 @@ void Building02::AddWindows(){
 		m_zpWallSouth.AddGeo(&m_zWallNorth);
 		m_zpDach.AddGeo(&m_zgDach);
 
-	}
+}
 
-	void Building02::TranslateAll(){
+void Building02::TranslateAll()
+{
 
 		m_zpWallNorth.Translate(0.F, 0.F, 0.F);
 
@@ -98,12 +98,32 @@ void Building02::AddWindows(){
 		m_zpWallSouth.TranslateDelta(0.F, 0.F, fstandardwidthwall / -fresize);
 
 		m_zpDach.Translate((fstandardwidthwall / fresize) / 2, fstandardheightwall / fresize, (fstandardwidthwall / -fresize)/2);
-	}
+}
 
-	void Building02::scaleforLoDs(){
+void Building02::scaleforLoDs()
+{
 
-		m_zpbuilding02.Scale(fresize);
+	m_zpbuilding02.Scale(fresize);
 
-	}
+}
+
+void Building02::switchOn()
+{
+	m_zmDach.SetColorAmbient(colorAmbientOn);
+	m_zmWallFrame.SetColorAmbient(colorAmbientOn);
+	m_zmWallNorth.SetColorAmbient(colorAmbientOn);
+}
+
+void Building02::switchOff()
+{
+	CColor colorAmbientOffCopy(colorAmbientOff);
+	colorAmbientOffCopy.m_frR += -0.1;
+	colorAmbientOffCopy.m_frG += -0.1;
+	colorAmbientOffCopy.m_frB += -0.1;
+
+	m_zmDach.SetColorAmbient(colorAmbientOffCopy);
+	m_zmWallFrame.SetColorAmbient(colorAmbientOffCopy);
+	m_zmWallNorth.SetColorAmbient(colorAmbientOffCopy);
+}
 
 NAMESPACE_VIEW_E

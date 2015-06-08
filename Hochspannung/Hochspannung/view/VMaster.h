@@ -55,7 +55,7 @@ public:
 	virtual void updateGameList(const std::vector<Network::CGameObject>& gameList) override;
 	virtual void showMessage(const std::string& message, const LMessageLoader::MessageID id) override;
 	virtual IVFactory* getFactory() override;
-	virtual void updateRegenerativeRatio(const float ratio) override;
+	virtual void updateRegenerativeRatio(const float ratio, const LPlayer::PlayerId playerId) override;
 
 	inline VPlayingField* getVPlayingField()
 	{

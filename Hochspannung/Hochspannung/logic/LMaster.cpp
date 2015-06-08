@@ -172,6 +172,7 @@ void LMaster::tick(const float fTimeDelta)
 				//buildings
 				if (objectId >= 100 && objectId < 109)
 				{
+					//TODO (L) handle race condition? --> remove building?
 					placeBuilding(objectId, x, y, playerId);
 				}
 				else if (objectId == -666) //= end of fieldcreation

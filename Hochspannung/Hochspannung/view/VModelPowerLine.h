@@ -35,6 +35,8 @@ public:
 	SHORT * GetPosition();
 	virtual float getHeight() override; // including foundation
 	virtual float getWidth() override;  // width of the foundation
+	virtual void switchOn() override;
+	virtual void switchOff() override;
 
 private:
 	CPlacement m_zpIsolator[16];
@@ -121,6 +123,11 @@ private:
 	CGeoSweep geosweepCableLOD1;
 	CGeoSweep geosweepCableLOD2;
 	CGeoSweep geosweepCableLOD3;
+
+	CMaterial m_zmStrut;
+	CMaterial m_zmIsolator;
+	CMaterial m_zmRing;
+	CMaterial m_zmCable;
 
 	bool m_fCablesDone = false;
 	void InitCables(float fSegmentLength1 = 0.2, float fSegmentLength2 = 2.0, int iPrecision = 10, float fCableThickness = 0.1f);

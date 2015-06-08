@@ -43,13 +43,13 @@ private:
 	CGeoCube m_zgFluss;
 	CGeoTube m_zgStange;
 
+	//MAterial
+	CMaterial m_zmHolz;
+	CMaterial m_zmAtomgrundGreen;
 
-
-	Building02 *Gebaeude = new Building02(1.0f);
+	Building02 Gebaeude;
 	//VModelPowerLine m_zTrasse1;
 	//VModelPowerLine m_zTrasse2;
-
-
 
 public:
 	VModelHydroelectricPowerPlant();
@@ -72,6 +72,8 @@ public:
 		return 0.0f;
 	}
 
+	virtual void switchOn() override;
+	virtual void switchOff() override;
 };
 
 

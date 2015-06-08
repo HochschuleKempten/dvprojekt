@@ -160,9 +160,6 @@ bool CNetworkService::sendSetObject(int iObjectID, int iCoordX, int iCoordY, std
 	}
 }
 
-//bool sendMoveObject(int iObjectID, int iCoordXSource, int iCoordYSouce, int iCoordXDest, int iCoordYDest) {
-//}
-
 bool CNetworkService::sendDeleteObject(int iCoordX, int iCoordY, bool bApprovalNeeded) {
 	if (getConnectionState() == CNode::State::CONNECTED) {
 		sendAsMessage(bApprovalNeeded, CTransferObject::Action::DELETE_OBJECT, -1, iCoordX, iCoordY);
@@ -184,6 +181,7 @@ bool CNetworkService::sendSetMapsize(int iSizeX, int iSizeY, bool bApprovalNeede
 bool CNetworkService::sendSetMapRow(int iRow, std::vector<FieldTransfer> vRowData, bool bApprovalNeeded) {
 	if (getConnectionState() == CNode::State::CONNECTED) {
 		std::string stRowData = "";
+
 		for (std::vector<FieldTransfer>::iterator it = vRowData.begin(); it != vRowData.end(); ++it) {
 			stRowData += boost::lexical_cast<std::string>(it->iObjectID) + "$"
 				+ boost::lexical_cast<std::string>(it->iPlayerID) + "$"
@@ -228,7 +226,7 @@ bool CNetworkService::sendAnswer(CTransferObject::Type type, CTransferObject& tr
 		(type == CTransferObject::Type::REFUSAL || type == CTransferObject::Type::APPROVAL)) {
 
 		transferObject.setType(type);
-		m_pNode->write(transferObject);
+		m_pNode->write(transferObject.toMessage());
 
 		return true;
 	} else {
@@ -264,8 +262,7 @@ void CNetworkService::sendAsMessage(bool bApprovalNeeded, CTransferObject::Actio
 		type = CTransferObject::Type::NORMAL;
 	}
 
-	CTransferObject transferObject(type, action, iObjectID, iCoordX, iCoordY, sValue);
-	m_pNode->write(transferObject);
+	m_pNode->write(CTransferObject::createMessage(type, action, iObjectID, iCoordX, iCoordY, sValue));
 }
 
 }

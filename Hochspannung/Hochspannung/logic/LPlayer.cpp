@@ -121,7 +121,6 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 
 		if (!checkCooldown())
 		{
-			//LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT);
 			return false;
 		}
 
@@ -229,11 +228,14 @@ void LPlayer::checkPowerPlants()
 	prevConnectedPowerPlants = currentConnectedPowerPlants;
 
 	//calculate ratio regenerative
-	int countRegenerativePowerPlants = std::count_if(powerPlants.begin(), powerPlants.end(), [](ILPowerPlant* pP) { return pP->isRegenerative() && pP->isActivated; });
+	int countRegenerativePowerPlants = std::count_if(powerPlants.begin(), powerPlants.end(), [](ILPowerPlant* pP)
+	                                                 {
+		                                                 return pP->isRegenerative() && pP->isActivated;
+	                                                 });
 	if (prevConnectedPowerPlants.size() != 0)
-	{ 
+	{
 		float ratioRegenerative = countRegenerativePowerPlants / prevConnectedPowerPlants.size();
-		lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative);
+		lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative, playerId);
 	}
 	else
 	{

@@ -19,12 +19,18 @@ using boost::system::error_code;
 class CNode {
 public:
 
+	/**
+	 * Specifies the different states the node can be in.
+	 */
 	enum State {
 		CONNECTED,
 		CLOSED,
 		PENDING
 	};
 
+	/**
+	 * Specifies the different types the node can be of.
+	 */
 	enum Type {
 		NONE,
 		SERVER,
@@ -52,6 +58,10 @@ public:
 	 */
 	virtual ~CNode();
 
+	/**
+	 * @brief Returns the type of the node.
+	 * @return the type of the node.
+	 */
 	virtual Type getType();
 	
 	/**
@@ -74,16 +84,16 @@ public:
 	void restart();
 
 	/**
-	 * @brief Returns the current connection state (Not solid atm!).
+	 * @brief Returns the current connection state.
 	 * @return the current connection state.
 	 */
 	State getConnectionState();
 
 	/**
-	 * @brief Sends the given message
-	 * @param message the CMessage to send
+	 * @brief Sends the given message.
+	 * @param message the CMessage to send.
 	 */ 
-	void write(CTransferObject& transferObject);
+	void write(CMessage& message);
 
 	/**
 	 * @brief Returns the next action from deque, if available.
@@ -106,8 +116,8 @@ public:
 	/**
 	 * @brief The handler for the connection checking operation. 
 	 * This handler is the start of the computation of the latency.
-	 * Don´t this call directly!
-	 * @param the error code.
+	 * Don´t call this directly!
+	 * @param error the error code.
 	 */
 	void checkConnectionHandler(const error_code& error);
 
@@ -147,30 +157,36 @@ protected:
 	 * @brief Write handler.
 	 * This handler is called when async_write completes.
 	 * Don`t call it directly!
+	 * @param error the error code to handle.
+	 * @param bytesTransferred the amount of written bytes.
 	 */
-	void writeCompleteHandler(const error_code& ec, std::size_t /*length*/);
+	void writeCompleteHandler(const error_code& error, std::size_t /*bytesTransferred*/);
 
 	/**
 	 * @brief Read handler.
   	 * This handler is called when async_read completes. 
 	 * Don`t call it directly!
+	 * @param error the error code to handle.
+	 * @param bytesTransferred the amount of written bytes.
 	 */
-	void readHeaderCompleteHandler(const error_code& ec, std::size_t length);
+	void readHeaderCompleteHandler(const error_code& error, std::size_t /*bytesTransferred*/);
 	
 	/**
 	 * @brief Read handler.
 	 * This handler is called when async_read completes. 
 	 * This handler is responsible for the computation of the latency.
 	 * Don`t call it directly!
+	 * @param error the error code to handle.
+	 * @param bytesTransferred the amount of written bytes.
 	 */
-	void readBodyCompleteHandler(const error_code& ec, std::size_t length);
+	void readBodyCompleteHandler(const error_code& error, std::size_t /*bytesTransferred*/);
 
 	/**
 	 * @brief Handles any connection errors.
 	 * A convenience method that should be called in case of connection errors for centralized error handling (e.g. by handlers).
-	 * @param ec the error code to handle.
+	 * @param error the error code to handle.
 	 */
-	void handleConnectionError(const error_code& ec);
+	void handleConnectionError(const error_code& error);
 
 	io_service m_ioService;
 	io_service::work m_work;
@@ -186,8 +202,8 @@ protected:
 	bool m_bCheckResponseReceived;
 	int m_iRetryCounter;
 
-	CTransferObject m_messageRead;
-	std::deque<CTransferObject> m_dequeActionsToWrite;	
+	CMessage m_messageRead;
+	std::deque<CMessage> m_dequeMessagesToWrite;	
 	std::deque<CTransferObject> m_dequeActionsToExecute;
 	streambuf m_udpMessage;
 

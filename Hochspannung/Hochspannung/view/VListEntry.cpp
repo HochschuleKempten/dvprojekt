@@ -127,6 +127,19 @@ bool VListEntry::isActive()
 void VListEntry::setActive(bool wert)
 {
 	m_bIsActive = wert;
+	if (m_bIsActive)
+	{
+		m_zoNormal->SwitchOff();
+		m_zoHover->SwitchOff();
+		m_zoActive->SwitchOn();
+	}
+	else
+	{
+		m_zoNormal->SwitchOn();
+		m_zoHover->SwitchOff();
+		m_zoActive->SwitchOff();
+
+	}
 }
 
 CFloatRect VListEntry::createRelativeRectangle(CFloatRect* RelativeToRect, CFloatRect* RelativeRect)

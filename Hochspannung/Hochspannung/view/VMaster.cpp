@@ -53,10 +53,16 @@ IVFactory* VMaster::getFactory()
 	return &factory;
 }
 
-void VMaster::updateRegenerativeRatio(const float ratio)
+void VMaster::updateRegenerativeRatio(const float ratio, const LPlayer::PlayerId playerId)
 {
-	//todo (V) show new ratio
-	DEBUG_OUTPUT("New regenerative ratio: " << ratio);
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateRegenerativeRatioLocal(ratio);
+	}
+	else if (playerId == LPlayer::Remote)
+	{
+		vUi.updateRegenerativeRatioRemote(ratio);
+	}
 }
 
 void VMaster::gameOver()
@@ -72,13 +78,6 @@ void VMaster::gameOver()
 void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
 {
 	vUi.updateGameList(gameList);
-
-	DEBUG_OUTPUT("Updated List");
-	for (auto go : gameList)
-	{
-		DEBUG_OUTPUT("ip = " << go.getServerIP());
-		DEBUG_OUTPUT("name = " << go.getName());
-	}
 }
 
 void VMaster::showMessage(const std::string& message, const LMessageLoader::MessageID id)
@@ -181,5 +180,6 @@ void VMaster::gameWon()
 	VSoundLoader::playSoundeffect(VSoundLoader::GAME_WON, nullptr);
 	//todo (V) exit the game
 }
+
 
 NAMESPACE_VIEW_E

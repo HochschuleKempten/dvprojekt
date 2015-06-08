@@ -51,7 +51,7 @@ public:
 	template<> static std::string getNameForBuildingType<LSolarPowerPlant>() { return "Solarkraftwerk"; }
 	template<> static std::string getNameForBuildingType<LHydroelectricPowerPlant>() { return "Wasserkraftwerk"; }
 	template<> static std::string getNameForBuildingType<LCoalPowerPlant>() { return "Kohlekraftwerk"; }
-	template<> static std::string getNameForBuildingType<LOilRefinery>() { return "Ölkraftwerk"; }
+	template<> static std::string getNameForBuildingType<LOilRefinery>() { return "Oelkraftwerk"; }
 	template<> static std::string getNameForBuildingType<LNuclearPowerPlant>() { return "Atomkraftwerk"; }
 	template<> static std::string getNameForBuildingType<LPowerLine>() { return "Strommasten"; }
 

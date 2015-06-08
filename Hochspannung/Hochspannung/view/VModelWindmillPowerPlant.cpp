@@ -4,6 +4,12 @@ NAMESPACE_VIEW_B
 
 
 VModelWindmillPowerPlant::VModelWindmillPowerPlant()
+:
+m_zmWindRad(VMaterialLoader::m_zmWindRad),
+m_zmWindGrund(VMaterialLoader::m_zmWindGrund),
+m_zmWindFluegel1(VMaterialLoader::m_zmWindFluegel1),
+m_zmWindFluegel2(VMaterialLoader::m_zmWindFluegel2),
+m_zmWindFluegel3(VMaterialLoader::m_zmWindFluegel3)
 {
 	m_zpLOD[0].AddPlacement(&m_zpWindkraftwerk);
 	m_zpLOD[1].AddPlacement(&m_zpWindkraftwerk);
@@ -24,21 +30,21 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 	//Initialisierung der Koerper
 
 	//Initialisierung Turm
-	m_zgTurm.Init(0.6f, 0.2f, 8.0f, &VMaterialLoader::m_zmWindRad);
+	m_zgTurm.Init(0.6f, 0.2f, 8.0f, &m_zmWindRad);
 
 	//Initialisierung Fundament
-	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &VMaterialLoader::m_zmWindGrund);
+	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &m_zmWindGrund);
 
 	//Initialisierung Netzanschluss
-	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &VMaterialLoader::m_zmWindRad);
+	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &m_zmWindRad);
 
 	//Initialisierung Gondel
-	m_zgGondel.Init(CHVector(0.4f, 1.0f, 0.4f), &VMaterialLoader::m_zmWindRad);
+	m_zgGondel.Init(CHVector(0.4f, 1.0f, 0.4f), &m_zmWindRad);
 
 	//Initialisierung Rotorblatt
-	m_zgRotorblatt1.Init(CHVector(0.2f, 2.0f, 0.1f), &VMaterialLoader::m_zmWindFluegel1);
-	m_zgRotorblatt2.Init(CHVector(0.2f, 2.0f, 0.1f), &VMaterialLoader::m_zmWindFluegel2);
-	m_zgRotorblatt3.Init(CHVector(0.2f, 2.0f, 0.1f), &VMaterialLoader::m_zmWindFluegel3);
+	m_zgRotorblatt1.Init(CHVector(0.2f, 2.0f, 0.1f), &m_zmWindFluegel1);
+	m_zgRotorblatt2.Init(CHVector(0.2f, 2.0f, 0.1f), &m_zmWindFluegel2);
+	m_zgRotorblatt3.Init(CHVector(0.2f, 2.0f, 0.1f), &m_zmWindFluegel3);
 
 	
 
@@ -67,8 +73,29 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 	m_zpKopf.TranslateDelta(CHVector(0.0f, -7.2f, 0.0f));
 }
 
+
+void VModelWindmillPowerPlant::switchOn()
+{
+	m_zmWindRad.SetColorAmbient(colorAmbientOn);
+	m_zmWindGrund.SetColorAmbient(colorAmbientOn);
+	m_zmWindFluegel1.SetColorAmbient(colorAmbientOn);
+	m_zmWindFluegel2.SetColorAmbient(colorAmbientOn);
+	m_zmWindFluegel3.SetColorAmbient(colorAmbientOn);
+}
+
+void VModelWindmillPowerPlant::switchOff()
+{
+	m_zmWindRad.SetColorAmbient(colorAmbientOff);
+	m_zmWindGrund.SetColorAmbient(colorAmbientOff);
+	m_zmWindFluegel1.SetColorAmbient(colorAmbientOff);
+	m_zmWindFluegel2.SetColorAmbient(colorAmbientOff);
+	m_zmWindFluegel3.SetColorAmbient(colorAmbientOff);
+}
+
 VModelWindmillPowerPlant::~VModelWindmillPowerPlant()
 {}
+
+
 
 
 NAMESPACE_VIEW_E

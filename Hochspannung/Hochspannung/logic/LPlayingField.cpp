@@ -75,6 +75,7 @@ void LPlayingField::showPlayingField()
 
 	vPlayingField->buildPlayingField(); //Now build the playing field
 	initDone = true;
+	recalculateCityConnections();
 }
 
 bool LPlayingField::isInitDone()

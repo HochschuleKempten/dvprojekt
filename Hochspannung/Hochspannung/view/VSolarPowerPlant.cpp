@@ -1,13 +1,12 @@
 #include "VSolarPowerPlant.h"
 #include "VPlayingField.h"
-#include "VIdentifier.h"
 #include "VMaster.h"
 
 NAMESPACE_VIEW_B
 
 
 VSolarPowerPlant::VSolarPowerPlant(VMaster* vMaster, LSolarPowerPlant* lPlant)
-	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement())
+	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement(), &viewModel)
 {
 	vMaster->registerObserver(this);
 }

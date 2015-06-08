@@ -23,7 +23,6 @@ void LMessageLoader::emitMessage(const MessageID messageId, const std::vector<st
 
 	switch (messageId)
 	{
-		default: break;
 		case SABOTAGE_EMITTED:
 			text = std::string("Sabotage durchgefuehrt. Es verbleiben ") + param[0] + std::string(" Sabotageakte.");
 			break;
@@ -50,6 +49,7 @@ void LMessageLoader::emitMessage(const MessageID messageId, const std::vector<st
 		case NETWORK_CONNECTION_LOST:
 			text = "Verbindung verloren.";
 			break;
+		default: break;
 	}
 
 	vMaster->showMessage(text, messageId);
@@ -66,7 +66,7 @@ std::string LMessageLoader::getNameForFieldType(const int fieldType)
 		case LField::GRASS: return "Gras";
 		case LField::MOUNTAIN: return "Berg";
 		case LField::COAL: return "Kohle";
-		case LField::OIL: return "Öl";
+		case LField::OIL: return "Oel";
 		case LField::NUCLEAR: return "Atom";
 		default:
 			ASSERT("Wrong Field type");
