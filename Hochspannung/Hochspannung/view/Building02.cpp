@@ -34,9 +34,10 @@ Building02::Building02(float fResize)
 
 Building02::~Building02()
 {
-	removeMaterial(&m_zmWallNorth);
-	removeMaterial(&m_zmDach);
-	removeMaterial(&m_zmWallFrame);
+	//TODO (JS) remove or fix
+	//removeMaterial(&m_zmWallNorth);
+	//removeMaterial(&m_zmDach);
+	//removeMaterial(&m_zmWallFrame);
 }
 
 void Building02::InitWindows()
