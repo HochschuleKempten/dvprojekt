@@ -31,6 +31,14 @@ protected:
 	CColor colorAmbientOn;
 	CColor colorAmbientOff;
 
+protected:
+	void removeMaterial(CMaterial* material)
+	{
+		ASSERT(vBuilding != nullptr, "vBuilding is not initialized");
+
+		vBuilding->getVMaster()->getVUi()->removeMaterialFromRoot(material);
+	}
+
 public:
 	inline IViewModel()
 		: colorAmbientOn(0.0f, 0.0f, 0.0f), colorAmbientOff(-0.2f, -0.2f, -0.2f)

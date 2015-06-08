@@ -3,6 +3,19 @@
 
 NAMESPACE_VIEW_B
 
+CTexture VMaterialLoader::m_zmKohleBergT;
+CTexture VMaterialLoader::m_zmKohleT;
+CTexture VMaterialLoader::m_zmKohleHolzT;
+CTexture VMaterialLoader::m_zmKohleLoreT;
+CTexture VMaterialLoader::m_zmKohleBlackT;
+CTexture VMaterialLoader::m_zmKohlegrundGreyT;
+CImage VMaterialLoader::m_zmKohleBergI;
+CImage VMaterialLoader::m_zmKohleI;
+CImage VMaterialLoader::m_zmKohleHolzI;
+CImage VMaterialLoader::m_zmKohleLoreI;
+CImage VMaterialLoader::m_zmKohleBlackI;
+CImage VMaterialLoader::m_zmKohlegrundGreyI;
+
 
 std::map<VMaterialLoader::FieldPair, CMaterial> VMaterialLoader::fieldMaterials;
 
@@ -266,6 +279,21 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 
 void VMaterialLoader::init()
 {
+	m_zmKohleBergI.Init("Textures\\berg_image.jpg");
+	m_zmKohleI.Init("Textures\\kohle_image.jpg");
+	m_zmKohleHolzI.Init("Textures\\holz_image.jpg");
+	m_zmKohleLoreI.Init("Textures\\lore_image.jpg");
+	m_zmKohleBlackI.Init("Textures\\black_image.jpg");
+	m_zmKohlegrundGreyI.Init("Textures\\grey_image.jpg");
+
+	m_zmKohleBergT.Init(&m_zmKohleBergI);
+	m_zmKohleT.Init(&m_zmKohleI);
+	m_zmKohleHolzT.Init(&m_zmKohleHolzI);
+	m_zmKohleLoreT.Init(&m_zmKohleLoreI);
+	m_zmKohleBlackT.Init(&m_zmKohleBlackI);
+	m_zmKohlegrundGreyT.Init(&m_zmKohlegrundGreyI);
+
+
 	setFieldMaterialHelper(LField::WATER, "water");
 	setFieldMaterialHelper(LField::AIR, "air");
 	setFieldMaterialHelper(LField::SOLAR, "solar");

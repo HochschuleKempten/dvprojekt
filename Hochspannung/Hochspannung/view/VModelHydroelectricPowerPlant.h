@@ -55,6 +55,8 @@ public:
 	VModelHydroelectricPowerPlant();
 	virtual ~VModelHydroelectricPowerPlant() override;
 
+	void init();
+
 	void rotate(float ftime){
 		m_zpWasserRad.TranslateYDelta(-2.0);
 		m_zpWasserRad.TranslateXDelta(1.5);

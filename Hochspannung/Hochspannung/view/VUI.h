@@ -89,7 +89,7 @@ public:
 	void updateRegenerativeRatioRemote(float ratio);
 	void switchCursor(const CursorType& cursorType);
 	void showMessage(const std::string& message);
-
+	void removeMaterialFromRoot(CMaterial* material);
 };
 
 

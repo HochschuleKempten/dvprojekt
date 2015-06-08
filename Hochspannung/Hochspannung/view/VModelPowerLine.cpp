@@ -11,10 +11,10 @@ inline VModelPowerLine::DIRECTION operator|(VModelPowerLine::DIRECTION a, VModel
 }
 
 VModelPowerLine::VModelPowerLine(void)
-	: m_zmStrut(VMaterialLoader::m_zmStrut),
-	  m_zmIsolator(VMaterialLoader::m_zmIsolator),
-	  m_zmRing(VMaterialLoader::m_zmRing),
-	  m_zmCable(VMaterialLoader::m_zmCable)
+	//: m_zmStrut(VMaterialLoader::m_zmStrut),
+	//  m_zmIsolator(VMaterialLoader::m_zmIsolator),
+	//  //m_zmRing(VMaterialLoader::m_zmRing),
+	//  m_zmCable(VMaterialLoader::m_zmCable)
 {}
 
 VModelPowerLine::VModelPowerLine(float fFieldSize)
@@ -23,8 +23,18 @@ VModelPowerLine::VModelPowerLine(float fFieldSize)
 	m_fFieldSize = fFieldSize;
 }
 
-VModelPowerLine::~VModelPowerLine(void) {
+VModelPowerLine::~VModelPowerLine(void)
+{
 	// TODO: add clean up for lines
+
+	//m_zmStrut.Fini();
+	//m_zmIsolator.Fini();
+	//m_zmRing.Fini();
+	//m_zmCable.Fini();
+	//removeMaterial(&VMaterialLoader::m_zmStrut);
+	//removeMaterial(&VMaterialLoader::m_zmIsolator);
+	////removeMaterial(&m_zmRing);	//TODO (V) this crashes...
+	//removeMaterial(&m_zmCable);
 }
 
 void VModelPowerLine::SetPosition(int x, int y) {
@@ -65,23 +75,23 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_fLineThickness		= m_fRingRadius * 0.8f;
 
 	// init geometries (foundation, pole, strut)
-	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), &m_zmStrut);
-	m_zgPoleLOD3.Init(CHVector(m_fPoleDistance, fPylonHeight, m_fPoleDistance), &m_zmStrut);
-	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), &m_zmStrut);
-	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), &m_zmStrut);
-	m_zgRoofLOD2.Init(CHVector(m_fPoleDistance, m_fPoleThickness, m_fPoleThickness), &m_zmStrut);
-	m_zgArm.Init(CHVector(m_fArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmStrut);
-	m_zgUpperArm.Init(CHVector(m_fUpperArmLength, m_fStrutThickness, m_fStrutThickness), &m_zmStrut);
-	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), &m_zmStrut);
-	m_zgIsolatorLoD1.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmIsolator);
-	m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmIsolator, 4, false, false);
-	m_zgIsolatorLoD3.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmIsolator, 4, false, false);
-	//m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmIsolator, 6, false, false);
-	//m_zgIsolatorLoD3.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &m_zmIsolator, 4, false, false);
-	m_zgRingLoD1.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmRing);
-	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &m_zmRing, 5, 5, false);
-	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), &m_zmRing);
-	m_zgLine.Init(m_fLineThickness, m_fLineThickness, m_fLineLength, &m_zmCable, 16, false, false);
+	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), &VMaterialLoader::m_zmStrut);
+	m_zgPoleLOD3.Init(CHVector(m_fPoleDistance, fPylonHeight, m_fPoleDistance), &VMaterialLoader::m_zmStrut);
+	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), &VMaterialLoader::m_zmStrut);
+	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), &VMaterialLoader::m_zmStrut);
+	m_zgRoofLOD2.Init(CHVector(m_fPoleDistance, m_fPoleThickness, m_fPoleThickness), &VMaterialLoader::m_zmStrut);
+	m_zgArm.Init(CHVector(m_fArmLength, m_fStrutThickness, m_fStrutThickness), &VMaterialLoader::m_zmStrut);
+	m_zgUpperArm.Init(CHVector(m_fUpperArmLength, m_fStrutThickness, m_fStrutThickness), &VMaterialLoader::m_zmStrut);
+	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), &VMaterialLoader::m_zmStrut);
+	m_zgIsolatorLoD1.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &VMaterialLoader::m_zmIsolator);
+	m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &VMaterialLoader::m_zmIsolator, 4, false, false);
+	m_zgIsolatorLoD3.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &VMaterialLoader::m_zmIsolator, 4, false, false);
+	//m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &VMaterialLoader::m_zmIsolator, 6, false, false);
+	//m_zgIsolatorLoD3.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, &VMaterialLoader::m_zmIsolator, 4, false, false);
+	m_zgRingLoD1.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &VMaterialLoader::m_zmRing);
+	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, &VMaterialLoader::m_zmRing, 5, 5, false);
+	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), &VMaterialLoader::m_zmRing);
+	m_zgLine.Init(m_fLineThickness, m_fLineThickness, m_fLineLength, &VMaterialLoader::m_zmCable, 16, false, false);
 	
 	// preparing struts (rotate)
 	//m_zpStruts = new CPlacement[m_iStrutsCount * 8];
@@ -301,18 +311,18 @@ float VModelPowerLine::getWidth() {
 
 void VModelPowerLine::switchOn()
 {
-	m_zmStrut.SetColorAmbient(colorAmbientOn);
-	m_zmIsolator.SetColorAmbient(colorAmbientOn);
-	m_zmRing.SetColorAmbient(colorAmbientOn);
-	m_zmCable.SetColorAmbient(colorAmbientOn);
+	//m_zmStrut.SetColorAmbient(colorAmbientOn);
+	//m_zmIsolator.SetColorAmbient(colorAmbientOn);
+	//m_zmRing.SetColorAmbient(colorAmbientOn);
+	//m_zmCable.SetColorAmbient(colorAmbientOn);
 }
 
 void VModelPowerLine::switchOff()
 {
-	m_zmStrut.SetColorAmbient(colorAmbientOff);
-	m_zmIsolator.SetColorAmbient(colorAmbientOff);
-	m_zmRing.SetColorAmbient(colorAmbientOff);
-	m_zmCable.SetColorAmbient(colorAmbientOff);
+	//m_zmStrut.SetColorAmbient(colorAmbientOff);
+	//m_zmIsolator.SetColorAmbient(colorAmbientOff);
+	//m_zmRing.SetColorAmbient(colorAmbientOff);
+	//m_zmCable.SetColorAmbient(colorAmbientOff);
 }
 
 float VModelPowerLine::getHeight()
@@ -334,7 +344,7 @@ void VModelPowerLine::InitCables(float fSegmentLength1, float fSegmentLength2, i
 		else if (i > 1 /*&& i < (iPrecision / 2)*/) {
 			cablePathPoints[i].TranslateXDelta(-(fSegmentLength1 + (i - 1) * fSubSegmentLength));
 			if (i == iPrecision-3)
-				cablePathPoints[i].TranslateYDelta(cablePathPoints[i-1].GetTranslation ().GetY ());
+				cablePathPoints[i].TranslateYDelta(cablePathPoints[i-1].GetTranslation ().GetY());
 			else
 				cablePathPoints[i].TranslateYDelta(-sqrtf(i - 2) * 0.01f - i * 0.001f);
 		}/* else if (i >= (iPrecision / 2)) {
@@ -344,9 +354,9 @@ void VModelPowerLine::InitCables(float fSegmentLength1, float fSegmentLength2, i
 		cablePath.Add(&cablePathPoints[i]);
 	}
 
-	geosweepCableLOD1.InitCircle(&m_zmCable, 20, cablePath);
-	geosweepCableLOD2.InitCircle(&m_zmCable, 10, cablePath);
-	geosweepCableLOD3.InitCircle(&m_zmCable, 4, cablePath);
+	geosweepCableLOD1.InitCircle(&VMaterialLoader::m_zmCable, 20, cablePath);
+	geosweepCableLOD2.InitCircle(&VMaterialLoader::m_zmCable, 10, cablePath);
+	geosweepCableLOD3.InitCircle(&VMaterialLoader::m_zmCable, 4, cablePath);
 	m_fCablesDone = true;
 }
 

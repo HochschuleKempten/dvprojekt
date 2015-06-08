@@ -11,7 +11,12 @@ VModelNuclearPowerPlant::VModelNuclearPowerPlant()
 {}
 
 VModelNuclearPowerPlant::~VModelNuclearPowerPlant()
-{}
+{
+	removeMaterial(&m_zmAtomGrund);
+	removeMaterial(&m_zmAtomSchranke);
+	removeMaterial(&m_zmAtomZaun);
+	removeMaterial(&m_zmAtomReaktor);
+}
 
 void VModelNuclearPowerPlant::init()
 {

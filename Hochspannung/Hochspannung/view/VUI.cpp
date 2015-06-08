@@ -274,6 +274,10 @@ void VUI::showMessage(const std::string& message)
 	}
 }
 
+void VUI::removeMaterialFromRoot(CMaterial* material)
+{
+	bool erg = m_zr.SubMaterial(material);
+}
 
 void VUI::tick(const float fTimeDelta)
 {

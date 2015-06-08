@@ -12,7 +12,13 @@ VModelOilRefinery::VModelOilRefinery()
 {}
 
 VModelOilRefinery::~VModelOilRefinery()
-{}
+{
+	removeMaterial(&m_zmOelGrund);
+	removeMaterial(&m_zmOelSchranke);
+	removeMaterial(&m_zmOelZaun);
+	removeMaterial(&m_zmOelGelbstahl);
+	removeMaterial(&m_zmOelGruenstahl);
+}
 
 void VModelOilRefinery::init()
 {

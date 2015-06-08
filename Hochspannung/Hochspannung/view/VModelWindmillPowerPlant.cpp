@@ -93,9 +93,13 @@ void VModelWindmillPowerPlant::switchOff()
 }
 
 VModelWindmillPowerPlant::~VModelWindmillPowerPlant()
-{}
-
-
+{
+	removeMaterial(&m_zmWindRad);
+	removeMaterial(&m_zmWindGrund);
+	removeMaterial(&m_zmWindFluegel1);
+	removeMaterial(&m_zmWindFluegel2);
+	removeMaterial(&m_zmWindFluegel3);
+}
 
 
 NAMESPACE_VIEW_E

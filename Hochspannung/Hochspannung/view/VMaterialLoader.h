@@ -27,6 +27,20 @@ public:
 	static CMaterial materialCoalPowerPlant;
 	static CMaterial materialHydroelectricPowerPlant;
 	
+	//Test
+	static CTexture m_zmKohleBergT;
+	static CTexture m_zmKohleT;
+	static CTexture m_zmKohleHolzT;
+	static CTexture m_zmKohleLoreT;
+	static CTexture m_zmKohleBlackT;
+	static CTexture m_zmKohlegrundGreyT;
+	static CImage m_zmKohleBergI;
+	static CImage m_zmKohleI;
+	static CImage m_zmKohleHolzI;
+	static CImage m_zmKohleLoreI;
+	static CImage m_zmKohleBlackI;
+	static CImage m_zmKohlegrundGreyI;
+
 	//MainMenue
 	static CMaterial materialMainMenue;
 	static CMaterial materialMainMenueHover;

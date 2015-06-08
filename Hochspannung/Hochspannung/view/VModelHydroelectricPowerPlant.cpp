@@ -7,14 +7,25 @@ VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
 	: m_zmHolz(VMaterialLoader::m_zmWasserHolz),
 	  m_zmAtomgrundGreen(VMaterialLoader::m_zmAllgemeinGreen),
 	  Gebaeude(1.0f)
+{}
+
+VModelHydroelectricPowerPlant::~VModelHydroelectricPowerPlant()
 {
+	removeMaterial(&m_zmHolz);
+	removeMaterial(&m_zmAtomgrundGreen);
+}
+
+void VModelHydroelectricPowerPlant::init()
+{
+	Gebaeude.initViewModel(vBuilding);
+
 	m_zgFluss.Init(CHVector(2.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmWasser);
 	m_zgRad.InitStraight(3.0f, 4.0f, 0.2f, &m_zmHolz);
 	m_zgRad2.InitStraight(3.0f, 4.0f, 0.2f, &m_zmHolz);
 	m_zgStange.InitStraight(0.05f, 0.2f, 5.0f, &m_zmHolz);
 	m_zgSchaufel.Init(CHVector(1.0f, 0.1f, 4.5f), &m_zmHolz);
 	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &m_zmAtomgrundGreen);
-	
+
 	//Initialisierung Trassen
 	///m_zTrasse1.Init();
 	//m_zTrasse2.Init();
@@ -24,7 +35,7 @@ VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
 	m_zpLOD[0].AddPlacement(&m_zpWasserKraftwerk);
 	m_zpLOD[1].AddPlacement(&m_zpWasserKraftwerk);
 	m_zpLOD[2].AddPlacement(&m_zpWasserKraftwerk);
-	
+
 	m_zpMain.AddPlacement(&m_zpWasserKraftwerk);
 	m_zpWasserKraftwerk.AddPlacement(&m_zpWasserRad);
 	m_zpWasserKraftwerk.AddPlacement(&m_zpFluss);
@@ -43,7 +54,7 @@ VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
 	m_zpWasserKraftwerk.AddPlacement(&m_zpGebaude);
 	m_zpGebaude.AddPlacement(&Gebaeude);
 
-	
+
 
 	//Adding
 
@@ -80,7 +91,7 @@ VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
 	m_zpWasserSchaufel2.RotateX(1.0471975511965976f);
 
 	m_zpWasserSchaufel3.AddGeo(&m_zgSchaufel);
-	m_zpWasserSchaufel3.RotateX(PI/2);
+	m_zpWasserSchaufel3.RotateX(PI / 2);
 
 	m_zpWasserSchaufel4.AddGeo(&m_zgSchaufel);
 	m_zpWasserSchaufel4.RotateX(2.0943951023931953f);
@@ -91,9 +102,6 @@ VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
 	m_zpWasserSchaufel6.AddGeo(&m_zgSchaufel);
 	m_zpWasserSchaufel6.RotateX(PI);
 }
-
-VModelHydroelectricPowerPlant::~VModelHydroelectricPowerPlant()
-{}
 
 void VModelHydroelectricPowerPlant::switchOn() 
 {
