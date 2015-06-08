@@ -130,7 +130,7 @@ public:
 	}
 	inline void rotate(float amount)
 	{
-		const float border = 1.0f;
+		const float border = 0.4f;
 		//CHVector moveHammer(1.15f, 2.0f, 0.0f);
 		CHVector moveHammer(1.25f, 2.0f, 0.0f);
 
@@ -145,6 +145,7 @@ public:
 		{
 			amount = border - absoluteMovement;
 			m_zpHammer.RotateZDelta(amount * direction);
+			m_zpPleuel.TranslateYDelta(amount * direction);
 			direction *= -1.0f;
 			absoluteMovement = 0.0f;
 		}
@@ -152,6 +153,8 @@ public:
 		{
 			m_zpHammer.RotateZDelta(amount * direction);
 			absoluteMovement += amount;
+
+			m_zpPleuel.TranslateYDelta(amount * direction);
 		}
 
 		m_zpHammer.TranslateDelta(moveHammer);

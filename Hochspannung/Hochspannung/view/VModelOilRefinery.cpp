@@ -71,7 +71,7 @@ void VModelOilRefinery::init()
 	m_zgKanalrahmen.Init(0.09f, 0.09f, 0.02f, &VMaterialLoader::m_zmOelGruenstahl, 32, true, true);
 
 	//Initialisierung Pleuel;
-	m_zgPleuel.Init(0.03f, 0.03f, 1.2f, &VMaterialLoader::m_zmOelGrund, 32, true, true);
+	m_zgPleuel.Init(0.03f, 0.03f, 1.4f, &VMaterialLoader::m_zmOelGrund, 32, true, true);
 
 	//Initialisierung Motor
 	m_zgGetriebe.Init(0.6f, 0.6f, 0.6f, &VMaterialLoader::m_zmOelGrund);
@@ -317,6 +317,7 @@ void VModelOilRefinery::init()
 	m_zpSchranke.Translate(CHVector(-0.7f, 1.36f, 4.875f));
 	m_zpSchranke.RotateZDelta(0.2*PI);
 	m_zpSchranke.AddGeo(&m_zgSchranke);
+	m_zpPleuel.TranslateYDelta(-0.1f);
 }
 
 NAMESPACE_VIEW_E
