@@ -239,6 +239,7 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	std::string textureSpecular = std::string("textures/terrain/texture_terrain_base_specular.png");// +textureName + std::string("_specular.png");
 	std::string textureBump = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_bump.png");
 	std::string textureEnvironmental = std::string("textures/buildings/texture_skymap.png");
+	std::string textureGlow = std::string("textures/terrain/texture_terrain_base_glow.png");
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureDiffuse(&textureDiffuse[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureDiffuse(&textureDiffuse[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureDiffuse(&textureDiffuse[0]);
@@ -254,6 +255,9 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureEnvironment(&textureEnvironmental[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureEnvironment(&textureEnvironmental[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureEnvironment(&textureEnvironmental[0]);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureGlow(&textureGlow[0]);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureGlow(&textureGlow[0]);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureGlow(&textureGlow[0]);
 }
 
 void VMaterialLoader::init()
