@@ -81,7 +81,7 @@ void VModelOilRefinery::init()
 	m_zgKanalrahmen.Init(0.09f, 0.09f, 0.02f, &m_zmOelGruenstahl, 32, true, true);
 
 	//Initialisierung Pleuel;
-	m_zgPleuel.Init(0.03f, 0.03f, 1.2f, &m_zmOelGrund, 32, true, true);
+	m_zgPleuel.Init(0.03f, 0.03f, 1.4f, &m_zmOelGrund, 32, true, true);
 
 	//Initialisierung Motor
 	m_zgGetriebe.Init(0.6f, 0.6f, 0.6f, &m_zmOelGrund);
@@ -327,12 +327,19 @@ void VModelOilRefinery::init()
 	m_zpSchranke.Translate(CHVector(-0.7f, 1.36f, 4.875f));
 	m_zpSchranke.RotateZDelta(0.2*PI);
 	m_zpSchranke.AddGeo(&m_zgSchranke);
+	m_zpPleuel.TranslateYDelta(-0.1f);
 }
 
 void VModelOilRefinery::rotate(float amount)
 {
-	const float border = 1.0f;
+	const float border = 0.4f;
+	//CHVector moveHammer(1.15f, 2.0f, 0.0f);
 	CHVector moveHammer(1.25f, 2.0f, 0.0f);
+
+
+	//m_zpPumpe.TranslateYDelta(-0.35);
+	//m_zpPumpe.TranslateXDelta(-2.5);
+	//m_zpPumpe.TranslateZDelta(2.0);
 
 	m_zpHammer.TranslateDelta(moveHammer * -1.0f);
 
@@ -340,6 +347,7 @@ void VModelOilRefinery::rotate(float amount)
 	{
 		amount = border - absoluteMovement;
 		m_zpHammer.RotateZDelta(amount * direction);
+		m_zpPleuel.TranslateYDelta(amount * direction);
 		direction *= -1.0f;
 		absoluteMovement = 0.0f;
 	}
@@ -347,6 +355,8 @@ void VModelOilRefinery::rotate(float amount)
 	{
 		m_zpHammer.RotateZDelta(amount * direction);
 		absoluteMovement += amount;
+
+		m_zpPleuel.TranslateYDelta(amount * direction);
 	}
 
 	m_zpHammer.TranslateDelta(moveHammer);
