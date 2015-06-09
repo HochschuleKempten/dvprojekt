@@ -1,5 +1,6 @@
 #include "LBalanceLoader.h"
 #include <boost\property_tree\ini_parser.hpp>
+#include "LUtility.h"
 
 NAMESPACE_LOGIC_B
 
@@ -110,8 +111,8 @@ std::unordered_map<LField::FieldType, double> LBalanceLoader::getFieldTypeRatio(
 	for (const auto& pair : fieldTypes) {
 		sum += pair.second;
 	}
-
-	ASSERT(std::round(sum) == 1.0, "Relations between field types are incorrect");
+	
+	ASSERT(almost_equal(sum, 1.0, 2) == true, "Relations between field types are incorrect");
 #endif //_DEBUG
 
 	return fieldTypes;
