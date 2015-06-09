@@ -125,6 +125,8 @@ void CClient::connectCompleteHandler(const error_code& error) {
 	if (!error) {
 		m_connectionTimer.cancel();
 
+		m_socketTcp.set_option(ip::tcp::no_delay(true));
+
 		std::cout << "Connected to server " << m_socketTcp.remote_endpoint() << std::endl;
 
 		m_connectionState = CONNECTED;

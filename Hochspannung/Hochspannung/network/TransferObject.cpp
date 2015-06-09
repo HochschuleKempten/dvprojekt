@@ -90,7 +90,7 @@ CMessage CTransferObject::toMessage() {
 
 CTransferObject CTransferObject::fromMessage(CMessage& message) {
 	std::vector<std::string> transferObjectMember;
-	std::stringstream stringStream(message.getBody());
+	std::stringstream stringStream(reinterpret_cast<char*>(message.getBody()));
 	std::string stToken;
 
 	while (getline(stringStream, stToken, ';')) {

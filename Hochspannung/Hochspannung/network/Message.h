@@ -31,15 +31,15 @@ public:
 	 */
 	explicit CMessage(const std::string& messageContent);
 
-	char* getData();
-	char* getHeader();
-	char* getBody();
+	unsigned char* getData();
+	unsigned char* getHeader();
+	unsigned char* getBody();
 
 	int getBodyLength();
 	int getLength();
 
 private:
-	char m_acData[iHeaderLength + iMaxBodyLength];
+	unsigned char m_acData[iHeaderLength + iMaxBodyLength];
 };
 
 }
