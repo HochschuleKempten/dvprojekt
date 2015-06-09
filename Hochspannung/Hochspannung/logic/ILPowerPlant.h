@@ -85,11 +85,7 @@ private:
 			switchOff();
 			isSabotaged = true;
 
-			//if (playerId == LPlayer::Local)	//TODO (L) just for testing
-			//{
-				vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
-			//}
-			//TODO (L) inform UI
+			vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
 
 			if (!lField->getLPlayingField()->isLocalOperation())
 			{
@@ -101,6 +97,15 @@ private:
 		}
 
 		return false;
+	}
+
+	void sabotagePowerPlantEnd()
+	{
+		if (isSabotaged)
+		{
+			isSabotaged = false;
+			vPowerPlant->sabotagePowerPlantSwitchedOn();
+		}
 	}
 
 	bool sabotageResource()
@@ -147,7 +152,7 @@ public:
 			return LBalanceLoader::getProducedEnergy(this->getIdentifier());
 		}
 
-		return 0;	
+		return 0;
 	}
 
 	virtual void tick(const float fTimeDelta) override
@@ -156,15 +161,9 @@ public:
 		{	
 			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
 			{
-				isSabotaged = false;
-				vPowerPlant->sabotagePowerPlantSwitchedOn(); 
-
 				LRemoteOperation remoteOperation(lField->getLPlayingField(), this);
-				remoteOperation.switchOn();
+				remoteOperation.sabotagePowerPlantEnd();
 				timeLastCheck = 0;
-
-				//TODO (L) inform UI
-				DEBUG_OUTPUT("Your powerplant is reactivated after the sabotage act");
 			}
 
 			timeLastCheck += fTimeDelta;

@@ -70,6 +70,12 @@ bool LRemoteOperation::sabotagePowerPlant()
 	return lPowerPlant->sabotagePowerPlant();
 }
 
+void LRemoteOperation::sabotagePowerPlantEnd()
+{
+	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
+	lPowerPlant->sabotagePowerPlantEnd();
+}
+
 bool LRemoteOperation::sabotageResource()
 {
 	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
