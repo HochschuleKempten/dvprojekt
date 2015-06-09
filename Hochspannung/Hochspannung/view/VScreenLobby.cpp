@@ -268,16 +268,15 @@ void VScreenLobby::tick(const float fTimeDelta)
 		vUi->m_BlockCursorLeftPressed = false;
 	}
 
-	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
-
 
 	checkShortcut(&vUi->m_zkKeyboard);
 	checkSpecialEvent(&vUi->m_zkCursor);
-	tempGuiContainer = getGuiContainerMap();
+	const std::unordered_map<std::string, IViewGUIContainer*>& tempGuiContainer = getGuiContainerMap();
 
 	//For all containers in the screen
 	for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainer)
 	{
+		//DEBUG_OUTPUT("DialogName = " << ContainerPair.first);
 		checkGUIContainer(ContainerPair.second);
 	}
 

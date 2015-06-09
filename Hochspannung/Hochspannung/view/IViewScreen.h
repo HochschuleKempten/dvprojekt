@@ -126,7 +126,7 @@ public:
 		return m_Guicontainer[sName];
 	}
 
-	std::unordered_map<std::string, IViewGUIContainer*> getGuiContainerMap()
+	const std::unordered_map<std::string, IViewGUIContainer*> &getGuiContainerMap()
 	{
 		return m_Guicontainer;
 	}

@@ -125,7 +125,7 @@ void LMaster::tick(const float fTimeDelta)
 
 	static float timeLastCheck = 0;
 
-	if (timeLastCheck > 3.0F && (lPlayingField != nullptr ? !lPlayingField->isInitDone() : true))
+	if (timeLastCheck > 3.0F && lPlayingField == nullptr)
 	{
 		bool updated = false;
 		std::vector<CGameObject> gameList = getGameList(&updated);
