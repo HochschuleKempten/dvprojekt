@@ -208,8 +208,8 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vtTabStatistics->addText(CFloatRect(0.745F, 0.805F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "00%", "enemyGraphTextBottom", 0.1F);
 	updateEnemyGraphRatio(0.7f);
 
-	m_vgGraphEnergyRatioOwn->switchHorizontal();
-	m_vgGraphEnergyRatioEnemy->switchHorizontal();
+	//m_vgGraphEnergyRatioOwn->switchHorizontal();
+	//m_vgGraphEnergyRatioEnemy->switchHorizontal();
 
 	//m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.9F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy");
 	//m_vgGraphEnergy = m_vtTabStatistics->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph");
@@ -226,7 +226,6 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	/********************************************************Minimap AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.73F, 0.00F, 0.27F, 1.0F), &VMaterialLoader::materialMinimapBackground, "Minimap", 0.3F);
-	getContainer("BottomBar")->getContainer("Minimap")->addText(CFloatRect(0.01F, 0.3F, 0.80F, 0.1F), &VMaterialLoader::standardFont, "Minimap", "MinimapText", 0.1F);
 
 
 	/***********************************************************Dialog******************************************************************/
