@@ -50,6 +50,7 @@ public:
 	void updateNumberPowerLines(const int newNumberPowerLines);
 	void updatePowerPlants();
 	void updateGraphProdNeeded(float fProduced, float fNeeded);
+	void updateEnergyOverload(int overload);
 	void updateOwnGraphRatio(float fRatio);
 	void updateEnemyGraphRatio(float fRatio);
 
@@ -110,7 +111,7 @@ private:
 	CPlacement m_zpSpot;
 	CHVector m_PointingSpot;
 
-
+	IViewGUIContainer* m_vtTopbar;
 	VTab* m_vtTabStatistics;
 	VTab* m_vtTabSabotage;
 	VTab* m_vtTabBuilding;

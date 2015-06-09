@@ -23,11 +23,10 @@ CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
 CMaterial VMaterialLoader::materialLightGrey;
 CMaterial VMaterialLoader::materialBlack;
-
-
+CMaterial VMaterialLoader::materialFossil;
+CMaterial VMaterialLoader::materialRegenerative;
 
 //Credits
-
 CMaterial VMaterialLoader::materialCreditsOrganization;
 CMaterial VMaterialLoader::materialCreditsIntegration;
 CMaterial VMaterialLoader::materialCreditsTextures;
@@ -385,6 +384,8 @@ void VMaterialLoader::init()
 	materialGreen.MakeTextureSprite("textures\\green_image.jpg");
 	materialLightGrey.MakeTextureSprite("textures\\lightgrey_image.png");
 	materialBlack.MakeTextureSprite("textures\\black_image.jpg");
+	materialFossil.MakeTextureSprite("textures\\fossil_stats.png");
+	materialRegenerative.MakeTextureSprite("textures\\regenerative_stats.png");
 
 	materialAnimationsVersuch.MakeTextureSprite("textures/fonts/FontArialShadow.png");
 	materialAnimationsVersuch.SetAni(16, 16, 0.5);

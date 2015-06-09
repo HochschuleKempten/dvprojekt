@@ -117,12 +117,14 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	/********************************************************TOP AREA***************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.0F, 0.8F, 0.05F), &VMaterialLoader::materialTopbar, "Topbar", 0.3F);
 
-	getContainer("Topbar")->addOverlay(CFloatRect(0.1F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconPopulation, "TopPopulationIcon", 0.1F);
-	getContainer("Topbar")->addText(CFloatRect(0.201F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::standardFont, "0000", "popValue", 0.1F);
+	m_vtTopbar = getContainer("Topbar");
+	getContainer("Topbar")->addOverlay(CFloatRect(0.05F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconPopulation, "TopPopulationIcon", 0.1F);
+	getContainer("Topbar")->addText(CFloatRect(0.151F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::standardFont, "0000", "popValue", 0.1F);
 
-	getContainer("Topbar")->addOverlay(CFloatRect(0.50F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon", 0.1F);
-	getContainer("Topbar")->addText(CFloatRect(0.601F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::GoldFont, "0000", "moneyValue", 0.1F);
+	getContainer("Topbar")->addOverlay(CFloatRect(0.35F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon", 0.1F);
+	getContainer("Topbar")->addText(CFloatRect(0.451F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::GoldFont, "0000", "moneyValue", 0.1F);
 
+	getContainer("Topbar")->addText(CFloatRect(0.751F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::standardFont, "0000", "energyOverload", 0.1F);
 	/********************************************************TOP MESSAGE AREA***************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.1F, 0.8F, 0.13F), &VMaterialLoader::materialErrorBackground, "MessageArea", 0.3F);
 	getContainer("MessageArea")->addText(CFloatRect(0.1F,0.1F,0.8F,0.3F), &VMaterialLoader::errorFont, "Aktion hier nicht moeglich KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK", "Messagebox", 0.1F,VText::TextMode::CENTERED);
@@ -187,7 +189,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageBomb, "CooldownSabotageHalf", 0.1F);
 	// Tab for statistics
 
-	m_vtTabStatistics->addText(CFloatRect(0.05f, 0, 0.2f, 0.2f), &VMaterialLoader::standardFont, "Gebäude", "buildingText", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.05f, 0, 0.2f, 0.2f), &VMaterialLoader::standardFont, "Gebaeude", "buildingText", 0.1F);
 
 	m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.25f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonWindmill, "statisticWind",0.1F);
 	m_vtTabStatistics->addText(CFloatRect(0.1f, 0.28f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_WINDMILL],0.1F);
@@ -208,33 +210,18 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vtTabStatistics->addText(CFloatRect(0.27f, 0.78f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT], 0.1F);
 
 	// Renewable / fossil energy Statistics
-	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.575F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialBlue, "RenFosEnergyContainerOwn", 0.199F);
-	m_vgGraphEnergyRatioOwn = m_vtTabStatistics->getContainer("RenFosEnergyContainerOwn")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialBlack);
-	m_vtTabStatistics->addText(CFloatRect(0.475F, 0, 0.2F, 0.2F), &VMaterialLoader::standardFont, "Spieler: Regenerativ / Fossil", "ownHeadlineFossile", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.495F, 0.285F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "00%", "ownGraphTextLeft", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.495F, 0.805F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "00%", "ownGraphTextRight", 0.1F);
+	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.575F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialFossil, "RenFosEnergyContainerOwn", 0.199F);
+	m_vgGraphEnergyRatioOwn = m_vtTabStatistics->getContainer("RenFosEnergyContainerOwn")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialRegenerative);
+	m_vtTabStatistics->addText(CFloatRect(0.475F, 0, 0.2F, 0.2F), &VMaterialLoader::standardFont, "Placeholder", "ownHeadlineFossile", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.485F, 0.285F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "ownGraphTextLeft", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.485F, 0.805F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "ownGraphTextRight", 0.1F);
 
-	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.825F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialBlue, "RenFosEnergyContainerEnemy", 0.199F);
-	m_vgGraphEnergyRatioEnemy = m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatioEnemy", &VMaterialLoader::materialBlack);
-	m_vtTabStatistics->addText(CFloatRect(0.725F, 0, 0.2F, 0.2F), &VMaterialLoader::standardFont, "Gegner: Regenerativ / Fossil", "enemyHeadlineFossile", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.745F, 0.285F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "00%", "enemyGraphTextTop", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.745F, 0.805F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "00%", "enemyGraphTextBottom", 0.1F);
-	updateEnemyGraphRatio(0.7f);
+	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.825F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialFossil, "RenFosEnergyContainerEnemy", 0.199F);
+	m_vgGraphEnergyRatioEnemy = m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatioEnemy", &VMaterialLoader::materialRegenerative);
+	m_vtTabStatistics->addText(CFloatRect(0.725F, 0, 0.2F, 0.2F), &VMaterialLoader::standardFont, "Placeholder", "enemyHeadlineFossile", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.735F, 0.285F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "enemyGraphTextTop", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.735F, 0.805F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "enemyGraphTextBottom", 0.1F);
 
-	//m_vgGraphEnergyRatioOwn->switchHorizontal();
-	//m_vgGraphEnergyRatioEnemy->switchHorizontal();
-
-	//m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.9F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy");
-	//m_vgGraphEnergy = m_vtTabStatistics->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph");
-	//m_vtTabStatistics->getContainer("Energy")->setLayer(0.1f);
-
-	//m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
-	//m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
-	//m_vgGraphEnergy->updateBar2("neededEnergy", 10);
-	//m_vgGraphEnergy->updateBar2("producedEnergy", 50);
-
-	/*m_vtTabSabotage->switchOff();
-	m_vtTabStatistics->switchOff();*/
 	vrRegister->SwitchToTab("TabBuilding");
 
 	/********************************************************Minimap AREA*************************************************************/
@@ -250,13 +237,13 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	/********************************************************Energy AREA*************************************************************/
 
-	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.76F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialBlack, "Energy", 0.1F);
-	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1F);
-	m_vgGraphEnergy = getContainer("BottomBar")->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph"); // ->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
-	m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
-	m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
-	m_vgGraphEnergy->updateBar2("neededEnergy", 10);
-	m_vgGraphEnergy->updateBar2("producedEnergy", 50);
+	//getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.76F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialBlack, "Energy", 0.1F);
+	//getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1F);
+	//m_vgGraphEnergy = getContainer("BottomBar")->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph"); // ->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
+	//m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
+	//m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
+	//m_vgGraphEnergy->updateBar2("neededEnergy", 10);
+	//m_vgGraphEnergy->updateBar2("producedEnergy", 50);
 
 
 	///********************************************************Energy AREA*************************************************************/
@@ -658,11 +645,16 @@ void VScreenIngame::updateGraphProdNeeded(float fProduced, float fNeeded)
 	m_vgGraphEnergy->updateBar2("neededEnergy", fNeeded);
 }
 
+void VScreenIngame::updateEnergyOverload(int overload)
+{
+	CASTD<VText*>(m_vtTopbar->getGuiObject("energyOverload"))->updateText(std::to_string(overload));
+}
+
 void VScreenIngame::updateOwnGraphRatio(float fRatio)
 {
 	m_vgGraphEnergyRatioOwn->updateValue(fRatio);
-	CASTD<VText*>(m_vtTabStatistics->getGuiObject("ownGraphTextLeft"))->updateText(std::to_string(fRatio * 100));
-	CASTD<VText*>(m_vtTabStatistics->getGuiObject("ownGraphTextRight"))->updateText(std::to_string(100 - (fRatio * 100)));
+	CASTD<VText*>(m_vtTabStatistics->getGuiObject("ownGraphTextLeft"))->updateText(std::to_string(CASTS<int>(fRatio) * 100) + "%");
+	CASTD<VText*>(m_vtTabStatistics->getGuiObject("ownGraphTextRight"))->updateText(std::to_string(100 - (CASTS<int>(fRatio) * 100)) + "%");
 
 	float x = fRatio * 100, y = 100 - fRatio;
 }
@@ -670,8 +662,8 @@ void VScreenIngame::updateOwnGraphRatio(float fRatio)
 void VScreenIngame::updateEnemyGraphRatio(float fRatio) {
 	
 	m_vgGraphEnergyRatioEnemy->updateValue(fRatio);
-	CASTD<VText*>(m_vtTabStatistics->getGuiObject("enemyGraphTextTop"))->updateText(std::to_string(fRatio * 100) + "%");
-	CASTD<VText*>(m_vtTabStatistics->getGuiObject("enemyGraphTextBottom"))->updateText(std::to_string(100 - (fRatio * 100)) + "%");
+	CASTD<VText*>(m_vtTabStatistics->getGuiObject("enemyGraphTextTop"))->updateText(std::to_string(CASTS<int>(fRatio) * 100) + "%");
+	CASTD<VText*>(m_vtTabStatistics->getGuiObject("enemyGraphTextBottom"))->updateText(std::to_string(100 - (CASTS<int>(fRatio) * 100)) + "%");
 }
 
 CFloatRect VScreenIngame::getTopSpace()
