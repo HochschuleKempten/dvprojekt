@@ -44,6 +44,9 @@ public:
 	template<> static int getCost<LOilRefinery>() { return propertyTree.get<int>("Cost.OilRefinery", 0); }
 	template<> static int getCost<LNuclearPowerPlant>() { return propertyTree.get<int>("Cost.NuclearPowerPlant", 0); }
 
+	/**
+	 * @brief Storage amount of the fossil energy ressources.
+	 */
 	static int getFieldStorage(const LField::FieldType fieldType);
 	/**
 	 * @brief Consumed ressources for a fossil field type per second.
@@ -54,12 +57,23 @@ public:
 	 */
 	static int getProducedEnergy(const LIdentifier::LIdentifier identifier);
 
+	//-----DifficultyScale----
+	/**
+	 * @brief Money per watt energy the player gets per second for his surplus.
+	 */
 	static double getMoneyPerWatt();
 	/**
 	 * @brief Specifies the factor of money returned when selling buildings.
 	 */
 	static double getSellRevenue();
+	/**
+	 * @brief Money every player has at beginning.
+	 */
 	static int getDefaultMoney();
+	/**
+	 * @brief Number of fields in one row. The number of power plants will be derived from this value (fieldLength*fieldLength / 8).
+	 */
+	static int getFieldLength();
 
 	static std::unordered_map<LField::FieldType, double> getFieldTypeRatio();
 	static std::unordered_map<LField::FieldLevel, double> getFieldLevelFactor();

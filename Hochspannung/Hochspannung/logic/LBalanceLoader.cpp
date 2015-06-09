@@ -92,6 +92,12 @@ int LBalanceLoader::getDefaultMoney()
 	return propertyTree.get<double>("DifficultyScale.DefaultMoney", 0);
 }
 
+int LBalanceLoader::getFieldLength()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<double>("DifficultyScale.FieldLength", 0);
+}
+
 std::unordered_map<LField::FieldType, double> LBalanceLoader::getFieldTypeRatio()
 {
 	ASSERT(initDone, msgAssert);

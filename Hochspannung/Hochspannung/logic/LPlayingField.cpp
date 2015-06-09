@@ -43,6 +43,7 @@ static std::vector<int> strongConnectedSearch(const Graph& g, const int startIdx
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster),
+	  fieldArray(fieldLength, fieldLength),
 	  powerLineGraph(fieldLength * fieldLength),
 	  unusedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
 	  usedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
