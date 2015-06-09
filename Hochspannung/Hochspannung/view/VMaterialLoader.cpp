@@ -81,6 +81,9 @@ CMaterial VMaterialLoader::materialBuildingButtonHover;
 CMaterial VMaterialLoader::materialButtonAbort;
 CMaterial VMaterialLoader::materialButtonAbortHover;
 
+CMaterial VMaterialLoader::materialButtonOk;
+CMaterial VMaterialLoader::materialButtonOkHover;
+
 
 //Ingame
 CMaterial VMaterialLoader::materialIngameMenueDialogBackground;
@@ -298,6 +301,9 @@ void VMaterialLoader::init()
 	materialButtonBackHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_back_hover.png");
 	materialButtonAbort.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort.png");
 	materialButtonAbortHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort_hover.png");
+
+	materialButtonOk.MakeTextureSprite("textures/gui/Buttons/ButtonOK.png");
+	materialButtonOkHover.MakeTextureSprite("textures/gui/Buttons/ButtonOKHover.png");
 
 	materialButtonGameContinue.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue.png");
 	materialButtonGameContinueHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue_hover.png");
@@ -567,7 +573,7 @@ void VMaterialLoader::init()
 	materialTextfieldBackground.MakeTextureSprite("textures/gui/background/gui_textfield_background.png");
 	materialTextfieldHoverBackground.MakeTextureSprite("textures/gui/background/gui_textfield_backgroundHover.png");
 	materialErrorBackground.MakeTextureSprite("textures/gui/background/gui_error_background.png");
-	materialIngameBackground.InitFull("textures/background.jpg");
+	materialIngameBackground.InitFull("textures/background.png");
 
 	materialLobbyRunningGamesBackground.SetTransparencyOn();
 

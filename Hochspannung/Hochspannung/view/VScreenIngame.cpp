@@ -45,6 +45,19 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	models.emplace(VIdentifier::VPowerLine, &modelPowerline);
 	models.emplace(VIdentifier::VHydroelectricPowerPlant, &modelHydroelectric);
 
+	models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->TranslateZ(10);
+	models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->TranslateYDelta(5);
+
+	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateZ(12.0F);
+	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateY(2.5F);
+
+	CHVector vector=models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->GetTranslation();
+
+	CHVector vector2 = m_zpModels.GetTranslation();
+
+	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateZ(5.0F);
+	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateYDelta(2.5F);
+
 	for (const std::pair<VIdentifier::VIdentifier, IViewModel*>& p : models)
 	{
 		p.second->initViewModel(nullptr);

@@ -156,19 +156,29 @@ CFloatRect VButton::getRectangle()
 
 void VButton::setActive(bool value)
 {
+	
 	m_isActive = value;
-	if (m_isActive)
+
+	if (m_bisOn)
 	{
-		m_zoNormal->SwitchOff();
-		m_zoHover->SwitchOff();
-		m_zoActive->SwitchOn();
+		if (m_isActive)
+		{
+			m_zoNormal->SwitchOff();
+			m_zoHover->SwitchOff();
+			m_zoActive->SwitchOn();
+		}
+		else
+		{
+
+			m_zoHover->SwitchOff();
+			m_zoActive->SwitchOff();
+			m_zoNormal->SwitchOn();
+
+		}
 	}
 	else
 	{
-		m_zoNormal->SwitchOn();
-		m_zoHover->SwitchOff();
-		m_zoActive->SwitchOff();
-
+		switchOff();
 	}
 }
 
