@@ -400,6 +400,9 @@ void LPlayingField::createFields()
 	}
 
 	lMaster->sendSetObject(-666, -1, -1, std::to_string(-1)); //host finished creating the field
+	
+	LRemoteOperation::sendStoredNetworkCalls();
+	
 	//-----network-----
 }
 
