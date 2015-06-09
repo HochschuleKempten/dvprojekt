@@ -162,6 +162,15 @@ public:
 	bool sendSabotage(int iSabotageID, int iCoordX, int iCoordY, bool bApprovalNeeded = false);
 
 	/**
+	 * @brief Send the command for the ending of a sabotage.
+	 * @param iCoordX the x-coordinate for the ended sabotage.
+	 * @param iCoordY the y-coordinate for the ended sabotage.
+	 * @param bApprovalNeeded set true, if the command shall be send as a request.
+	 * @return true if message could be sent, false otherwise.
+	 */
+	bool sendEndSabotage(int iCoordX, int iCoordY, bool bApprovalNeeded = false);
+
+	/**
 	 * @brief Send the command for turning a powerplant on or off.
 	 * @param iCoordX the x-coordinate for the powerplant to be turned on/off.
 	 * @param iCoordY the y-coordinate for the powerplant to be turned on/off.

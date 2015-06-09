@@ -50,9 +50,8 @@ public:
 	void switchOn();
 	void switchOff();
 	bool sabotagePowerPlant();
+	void sabotagePowerPlantEnd();
 	bool sabotageResource();
-
-	//TODO (V) Make rest bools also
 
 	//LPowerLine methods
 	bool sabotagePowerLine();
