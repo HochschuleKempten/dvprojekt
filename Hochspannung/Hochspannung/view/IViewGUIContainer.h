@@ -7,6 +7,7 @@
 #include "VText.h"
 #include "VGraph.h"
 #include "VGraphRatio.h"
+#include "VStatistics.h"
 
 NAMESPACE_VIEW_B
 
@@ -219,6 +220,16 @@ public:
 		m_viewports[sName]->AddBackground(background);
 
 		return m_viewports[sName];
+	}
+
+	virtual VStatistics* addStatisticsScreen(CFloatRect rect, CMaterial* materialBackground, const std::string& sName, const float layer)
+	{
+		m_guiObjects[sName] = new VStatistics(m_viewport, createRelativeRectangle(&m_zfRect, &rect), materialBackground, layer);
+		m_guiObjects[sName]->setLayer(layer);
+		m_guiObjects[sName]->setName(sName);
+		m_guiObjects[sName]->addObserver(this);
+
+		return CASTD<VStatistics *>(m_guiObjects[sName]);
 	}
 
 	virtual CViewport* getViewport(const std::string& sName)
