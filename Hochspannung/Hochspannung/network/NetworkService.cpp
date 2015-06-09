@@ -205,8 +205,16 @@ bool CNetworkService::sendSabotage(int iSabotageID, int iCoordX, int iCoordY, bo
 	if (getConnectionState() == CNode::State::CONNECTED) {
 		sendAsMessage(bApprovalNeeded, CTransferObject::Action::SEND_SABOTAGE, iSabotageID, iCoordX, iCoordY, "");
 		return true;
+	} else {
+		return false;
 	}
-	else {
+}
+
+bool CNetworkService::sendEndSabotage(int iCoordX, int iCoordY, bool bApprovalNeeded) {
+	if (getConnectionState() == CNode::State::CONNECTED) {
+		sendAsMessage(bApprovalNeeded, CTransferObject::Action::SEND_END_SABOTAGE, -1, iCoordX, iCoordY, "");
+		return true;
+	} else {
 		return false;
 	}
 }
@@ -215,8 +223,7 @@ bool CNetworkService::sendSwitchState(int iCoordX, int iCoordY, bool bStateOn, b
 	if (getConnectionState() == CNode::State::CONNECTED) {
 		sendAsMessage(bApprovalNeeded, CTransferObject::Action::SEND_SWITCH_STATE, -1, iCoordX, iCoordY, boost::lexical_cast<std::string>(bStateOn));
 		return true;
-	}
-	else {
+	} else {
 		return false;
 	}
 }
