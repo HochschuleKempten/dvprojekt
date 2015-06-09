@@ -112,7 +112,6 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("Topbar")->addText(CFloatRect(0.451F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::GoldFont, "0000", "moneyValue", 0.1F);
 
 	getContainer("Topbar")->addText(CFloatRect(0.751F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::standardFont, "0000", "energyOverload", 0.1F);
-	updateEnergyOverload(5000);
 	/********************************************************TOP MESSAGE AREA***************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.1F, 0.8F, 0.13F), &VMaterialLoader::materialErrorBackground, "MessageArea", 0.3F);
 	getContainer("MessageArea")->addText(CFloatRect(0.1F,0.1F,0.8F,0.3F), &VMaterialLoader::errorFont, "Aktion hier nicht moeglich KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK", "Messagebox", 0.1F,VText::TextMode::CENTERED);
