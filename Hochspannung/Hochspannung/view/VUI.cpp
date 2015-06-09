@@ -174,9 +174,9 @@ void VUI::updateNumberPowerLines(const int newNumberPowerLines)
 	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateNumberPowerLines(newNumberPowerLines);
 }
 
-void VUI::updateEnergySurplus(const float surplusRatio)
+void VUI::updateEnergySurplus(const int surplus)
 {
-	//CASTD<VScreenIngame*>(m_screens["Ingame"])->updateGraph(surplusRatio, 0.0f);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateEnergyOverload(surplus);
 }
 
 void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)

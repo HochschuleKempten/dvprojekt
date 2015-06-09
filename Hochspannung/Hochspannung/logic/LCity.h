@@ -18,6 +18,9 @@ private:
 	std::shared_ptr<IVCity> vCity;
 	float timeLastCheck = 0;
 
+private:
+	void setEnergySurplus(const int surplus);
+
 public:
 	LCity(LField* lField, const int x, const int y, const int playerId);
 	~LCity();
@@ -28,7 +31,6 @@ public:
 	int getEnergy() const;
 	void setPopulationTotal(const int populationTotal);
 	int getEnergySurplus() const;
-	void setEnergySurplus(const int surplus);
 
 	virtual LIdentifier::LIdentifier getIdentifier() const override
 	{
