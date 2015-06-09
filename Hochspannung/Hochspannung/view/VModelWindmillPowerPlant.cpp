@@ -27,7 +27,7 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 	m_zgTurm.Init(0.6f, 0.2f, 8.0f, &VMaterialLoader::m_zmWindRad);
 
 	//Initialisierung Fundament
-	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &VMaterialLoader::m_zmWindGrund);
+	//m_zgFundament.Init(2.0f, 0.3f, 2.0f, &VMaterialLoader::m_zmWindGrund);
 
 	//Initialisierung Netzanschluss
 	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &VMaterialLoader::m_zmWindRad);
@@ -44,8 +44,11 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 
 	m_zpTurm.Translate(CHVector(0.0f, -1.0f, 0.0f));
 	m_zpTurm.AddGeo(&m_zgTurm);
-	m_zpFundament.Translate(CHVector(-1.0f, -1.3f, -1.0f));
-	m_zpFundament.AddGeo(&m_zgFundament);
+	m_zpFundament.Translate(CHVector(0.0f, -0.5f, 0.0f));
+	m_zpFundament.AddGeo(&m_zgFoundation);
+	m_zpFundament.ScaleXDelta(4.0f);
+	m_zpFundament.ScaleZDelta(4.0f);
+	m_zpFundament.ScaleYDelta(2.0f);
 	m_zpNetzanschluss.Translate(CHVector(-0.25f, -1.0f, -0.8f));
 	m_zpNetzanschluss.AddGeo(&m_zgNetzanschluss);
 	m_zpGondel.RotateX(PI / 2);
