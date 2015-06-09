@@ -111,7 +111,7 @@ std::unordered_map<LField::FieldType, double> LBalanceLoader::getFieldTypeRatio(
 		sum += pair.second;
 	}
 
-	ASSERT(sum == 1.0, "Relations between field types are incorrect");
+	ASSERT(std::round(sum) == 1.0, "Relations between field types are incorrect");
 #endif //_DEBUG
 
 	return fieldTypes;
@@ -217,6 +217,12 @@ int LBalanceLoader::getSabotageActs()
 {
 	ASSERT(initDone, msgAssert);
 	return propertyTree.get<int>("SabotageValues.SabotageActs", 0);
+}
+
+std::string LBalanceLoader::getLocalIpAddress()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<std::string>("LocalIpAddress.Address", "0.0.0.0");
 }
 
 NAMESPACE_LOGIC_E

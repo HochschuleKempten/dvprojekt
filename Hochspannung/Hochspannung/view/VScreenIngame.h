@@ -49,7 +49,7 @@ public:
 	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id);
 	void updateNumberPowerLines(const int newNumberPowerLines);
 	void updatePowerPlants();
-	void updateGraph(float fProduced, float fNeeded);
+	void updateGraphProdNeeded(float fProduced, float fNeeded);
 	void updateOwnGraphRatio(float fRatio);
 	void updateEnemyGraphRatio(float fRatio);
 

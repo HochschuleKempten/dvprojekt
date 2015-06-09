@@ -200,6 +200,7 @@ void VScreenLobby::onNotify(const Event& events)
 		//}
 		
 		vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
+		vUi->switchScreen("Ingame");
 
 		break;
 	case REFRESH_GAME_LIST:

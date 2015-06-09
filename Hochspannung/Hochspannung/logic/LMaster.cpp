@@ -30,6 +30,8 @@ LMaster::LMaster(IVMaster& vMaster)
 
 	//Only add default money to the local player
 	getPlayer(LPlayer::Local)->addMoney(LBalanceLoader::getDefaultMoney());
+
+	networkService.setLocalAddress(LBalanceLoader::getLocalIpAddress());
 }
 
 LMaster::~LMaster()
@@ -301,6 +303,17 @@ void LMaster::tick(const float fTimeDelta)
 				break;
 			}
 
+			case(CTransferObject::Action::SEND_END_SABOTAGE) :
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotagePowerPlantEnd();
+				}
+				DEBUG_OUTPUT("Action SEND_END_SABOTAGE");
+				break;
+			}
+
 			case(CTransferObject::Action::SEND_SWITCH_STATE) :
 			{
 				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
@@ -420,6 +433,14 @@ void LMaster::sendSabotage(const LSabotage::LSabotage sabotageId, const int x, c
 	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
 	{
 		networkService.sendSabotage(sabotageId, x, y);
+	}
+}
+
+void LMaster::sendPowerPlantSabotageEnd(const int x, const int y)
+{
+	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
+	{
+		networkService.sendEndSabotage(x, y);
 	}
 }
 

@@ -124,6 +124,10 @@ public:
 	* @brief Sabotage acts.
 	*/
 	static int getSabotageActs();
+	/**
+	*@brief Address of the adapter to use.
+	*/
+	static std::string getLocalIpAddress();
 };
 
 NAMESPACE_LOGIC_E
