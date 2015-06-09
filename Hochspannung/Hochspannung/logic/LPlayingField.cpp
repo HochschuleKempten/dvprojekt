@@ -17,7 +17,6 @@
 #include <chrono>
 
 NAMESPACE_LOGIC_B
-DEBUG_EXPRESSION(bool isCheatModeOn = false);
 
 using namespace boost;
 

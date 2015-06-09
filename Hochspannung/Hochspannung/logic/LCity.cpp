@@ -82,21 +82,9 @@ int LCity::getEnergySurplus() const
 	return energySurplus;
 }
 
-double LCity::getEnergySurplusRatio() const
-{
-	return CASTS<double>(getEnergySurplus()) / CASTS<double>(maxSurplus);
-}
-
 void LCity::setEnergySurplus(const int surplus)
 {
-	if (surplus > maxSurplus)
-	{
-		this->energySurplus = maxSurplus;
-	}
-	else
-	{
-		this->energySurplus = surplus;
-	}
+	this->energySurplus = surplus;
 
 	if (energySurplus >= 0 && energySurplus < 50)
 	{
@@ -106,6 +94,7 @@ void LCity::setEnergySurplus(const int surplus)
 	{
 		//Player has lost
 		lField->getLPlayingField()->getLMaster()->gameOver();
+		return;
 	}
 
 	vCity->updateEnergySurplus(energySurplus);

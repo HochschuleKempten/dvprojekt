@@ -905,10 +905,6 @@ void VScreenIngame::handleInput()
 			clickActive = true;
 		}
 	}
-	else if (vUi->m_zkKeyboard.KeyPressed(DIK_T))
-	{
-		handleTestClick(pickedElements);
-	}
 	else
 	{
 		clickActive = false;
@@ -1162,91 +1158,6 @@ void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& picke
 			{
 				VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, nullptr);
 			}
-		}
-
-		clickActive = true;
-	}
-}
-
-void VScreenIngame::handleTestClick(const std::map<int, std::vector<int>>& pickedElements)
-{
-	if (!clickActive)
-	{
-		if (pickedElements.count(VIdentifier::VPlayingField) > 0)
-		{
-			int x = pickedElements.at(VIdentifier::VPlayingField)[0];
-			int y = pickedElements.at(VIdentifier::VPlayingField)[1];
-
-			//Interaction with buildings				
-			IViewBuilding* vbuilding = vUi->vMaster->getVPlayingField()->getBuilding(x, y);
-
-			//check if ist your building or if its enemys buidling
-			if (vbuilding != nullptr)
-			{
-				//Check if player is allowed to sabotage (check cooldown or count or wahtever)
-
-				if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Remote)
-				{
-					/*if (vbuilding->getLBuilding()->getPlayerId() == LPlayer::PlayerId::Local)
-				{*/
-					auto sabotageSoundHelper = [] (const bool operationSuccessful)
-						{
-							if (operationSuccessful)
-							{
-								VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_EMITTED, nullptr);
-							}
-							else
-							{
-								VSoundLoader::playSoundeffect(VSoundLoader::OPERATION_CANCELED, nullptr);
-							}
-						};
-
-					//Switch enemys Powerplant Off
-					if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
-					{
-						// Deduct enemys resources
-						if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
-						{
-							sabotageSoundHelper(vbuilding->clicked(IViewBuilding::sabotageResourceField));
-						}
-						else
-						{
-							sabotageSoundHelper(vbuilding->clicked(IViewBuilding::sabotagePowerPlant));
-						}
-					}
-					//Destroy enemy Powerline
-					else if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
-					{
-						bool operationSuccessful = vbuilding->clicked(IViewBuilding::sabotagePowerLine);
-						sabotageSoundHelper(operationSuccessful);
-
-						if (operationSuccessful)
-						{
-							//only remove it if action was successfull
-							vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
-						}
-					}
-				}
-				else
-				{
-					if (dynamic_cast<IVPowerPlant*>(vbuilding) != nullptr)
-					{
-						vbuilding->clicked(IViewBuilding::switchOff);
-					}
-
-					if (dynamic_cast<VPowerLine*>(vbuilding) != nullptr)
-					{
-						vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
-					}
-				}
-			}
-			//Place objects everywhere
-			//#ifdef _DEBUG
-			//				extern bool isCheatModeOn;
-			//				isCheatModeOn = true;
-			//				vUi->vMaster->getVPlayingField()->tryBuildOnField<LSolarPowerPlant>(x, y);
-			//				isCheatModeOn = false;
-			//#endif
 		}
 
 		clickActive = true;
