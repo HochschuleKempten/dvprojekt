@@ -156,6 +156,8 @@ public:
 	static CMaterial materialGreen;
 	static CMaterial materialLightGrey;
 	static CMaterial materialBlack;
+	static CMaterial materialFossil;
+	static CMaterial materialRegenerative;
 
 	//WritingFonts
 	static CWritingFont standardFont;
