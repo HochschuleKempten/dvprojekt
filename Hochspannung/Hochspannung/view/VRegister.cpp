@@ -175,4 +175,21 @@ VTab* VRegister::getTab(const std::string& sName)
 	return m_tabs[sName];
 }
 
+VTab* VRegister::getActiveTab()
+{
+	return activeTab;
+}
+
+void VRegister::setActiveTab(const std::string& sName)
+{
+	std::unordered_map<std::string, VTab*>::iterator it = m_tabs.find(sName);
+	ASSERT(it != m_tabs.end(), "Tab not available");
+
+	if (activeTab)
+		CASTD<VButton*>(getGuiObject(activeTab->getName()))->setActive(false);
+
+	activeTab = m_tabs[sName];
+	CASTD<VButton*>(getGuiObject(sName))->setActive();
+}
+
 NAMESPACE_VIEW_E

@@ -250,6 +250,9 @@ CMaterial VMaterialLoader::materialAnimationsVersuch;
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotageBomb;
 CMaterial VMaterialLoader::materialAnimLoadingCircle;
+CMaterial VMaterialLoader::materialAnimSabotageHalfRessource;
+CMaterial VMaterialLoader::materialAnimSabotageStrike;
+CMaterial VMaterialLoader::materialAnimSabotageCutPowerline;
 
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotagePowerPlant;
@@ -591,7 +594,16 @@ void VMaterialLoader::init()
 
 	materialAnimLoadingCircle.SetTransparencyOn();
 
-	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/strike.png");
+	materialAnimSabotageHalfRessource.MakeTextureSprite("textures/gui/animiert/RessourceHalf.png");
+	materialAnimSabotageHalfRessource.SetAni(60, 2, 1);
+
+	materialAnimSabotageStrike.MakeTextureSprite("textures/gui/animiert/Strike.png");
+	materialAnimSabotageStrike.SetAni(45, 2, 1);
+
+	materialAnimSabotageCutPowerline.MakeTextureSprite("textures/gui/animiert/CutPowerLine.png");
+	materialAnimSabotageCutPowerline.SetAni(30, 2, 1);
+
+	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/Strike.png");
 	materialAnimSabotagePowerPlant_x = 60;
 	materialAnimSabotagePowerPlant_y = 2;
 	

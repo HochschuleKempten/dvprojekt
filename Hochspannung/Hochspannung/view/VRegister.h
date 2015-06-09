@@ -23,6 +23,9 @@ public:
 	void SwitchToTab(const std::string& sName);
 	VTab* getTab(const std::string& sName);
 
+	VTab* getActiveTab();
+	void setActiveTab(const std::string& sName);
+
 private:
 	std::unordered_map<std::string, VTab*> m_tabs;
 	void calcButtonSize();

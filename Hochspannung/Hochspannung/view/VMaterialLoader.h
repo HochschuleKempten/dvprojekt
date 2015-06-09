@@ -262,6 +262,10 @@ public:
 	//Animierte Texturen
 	static CMaterial materialAnimSabotageBomb;
 	static CMaterial materialAnimLoadingCircle;
+	static CMaterial materialAnimSabotageHalfRessource;
+	static CMaterial materialAnimSabotageStrike;
+	static CMaterial materialAnimSabotageCutPowerline;
+
 
 	// Animiert Textur für Sabotage Cooldown Infoanzeige
 	static CMaterial materialAnimSabotagePowerPlant;
@@ -269,6 +273,8 @@ public:
 	static int materialAnimSabotagePowerPlant_y;
 
 	static CMaterial materialAnimTransformerStationLightning;
+
+	
 
 public:
 	//Rotation adjustments

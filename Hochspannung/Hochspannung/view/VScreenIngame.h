@@ -96,6 +96,11 @@ private:
 
 	void updateModelView();
 
+	void SabotageTabSwitchOn();
+
+	void SabotageTabSwitchOff();
+
+
 	VButton* activeButton = nullptr;
 
 	CScene m_scene;
@@ -158,6 +163,10 @@ private:
 	VModelPowerLine modelPowerline;
 	VModelHydroelectricPowerPlant modelHydroelectric;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
+
+	bool m_CooldownStrike=false;
+	bool m_CooldownPowerLineCut = false;
+	bool m_CooldownHalfRessource = false;
 };
 
 
