@@ -111,7 +111,7 @@ std::unordered_map<LField::FieldType, double> LBalanceLoader::getFieldTypeRatio(
 		sum += pair.second;
 	}
 
-	ASSERT(sum == 1.0, "Relations between field types are incorrect");
+	ASSERT(std::round(sum) == 1.0, "Relations between field types are incorrect");
 #endif //_DEBUG
 
 	return fieldTypes;
