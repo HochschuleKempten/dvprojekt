@@ -43,6 +43,7 @@ public:
 	void sendSetMapRow(const int row, std::vector<Network::FieldTransfer> rowData);
 	void sendDeleteObject(const int x, const int y);
 	void sendSabotage(const LSabotage::LSabotage sabotageId, const int x, const int y);
+	void sendPowerPlantSabotageEnd(const int x, const int y);
 	void sendPowerPlantSwitchState(const int x, const int y, const bool state);
 	std::vector<Network::CGameObject> getGameList(bool* updated = nullptr);
 	void searchGames();

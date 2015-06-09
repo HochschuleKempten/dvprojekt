@@ -105,6 +105,12 @@ private:
 		{
 			isSabotaged = false;
 			vPowerPlant->sabotagePowerPlantSwitchedOn();
+
+			if (!lField->getLPlayingField()->isLocalOperation())
+			{
+				std::pair<int, int> coordinates = lField->getCoordinates();
+				lField->getLPlayingField()->getLMaster()->sendPowerPlantSabotageEnd(coordinates.first, coordinates.second);
+			}
 		}
 	}
 
@@ -163,6 +169,7 @@ public:
 			{
 				LRemoteOperation remoteOperation(lField->getLPlayingField(), this);
 				remoteOperation.sabotagePowerPlantEnd();
+				remoteOperation.switchOn();
 				timeLastCheck = 0;
 			}
 
