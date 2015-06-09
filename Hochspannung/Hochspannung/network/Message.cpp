@@ -6,28 +6,41 @@ CMessage::CMessage() {
 }
 
 CMessage::CMessage(const std::string& messageContent) {
-	if (messageContent.length() <= iMaxBodyLength) {
-		m_acData[0] = static_cast<char>(messageContent.length());
-		memcpy(getBody(), messageContent.c_str(), messageContent.length());
+	int iLength = messageContent.length();
+
+	if (iLength <= iMaxBodyLength) {
+
+		for (int i = 0; i < iHeaderLength; i++) {
+			m_acData[i] = static_cast<unsigned char>((iLength >> ((iHeaderLength - i - 1) * 8)) & 0xFF);
+		}
+
+		memcpy(getBody(), messageContent.c_str(), iLength);
 	} else {
-		m_acData[0] = static_cast<char>(0);
+		for (int i = 0; i < iHeaderLength; i++) {
+			m_acData[i] = static_cast<unsigned char>(0);
+		}
 	}
 }
 
-char* CMessage::getData() {
+unsigned char* CMessage::getData() {
 	return m_acData;
 }
 
-char* CMessage::getHeader() {
+unsigned char* CMessage::getHeader() {
 	return m_acData;
 }
 
-char* CMessage::getBody() {
+unsigned char* CMessage::getBody() {
 	return m_acData + iHeaderLength;
 }
 
 int CMessage::getBodyLength() {
-	return static_cast<int>(m_acData[0]);
+	int iLength = 0;
+	for (int i = 0; i < iHeaderLength; i++) {
+		iLength += static_cast<int>(m_acData[i]) << ((iHeaderLength - i - 1) * 8);
+	}
+
+	return iLength;
 }
 
 int CMessage::getLength() {

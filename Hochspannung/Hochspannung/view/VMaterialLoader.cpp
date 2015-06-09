@@ -3,6 +3,19 @@
 
 NAMESPACE_VIEW_B
 
+CTexture VMaterialLoader::m_zmKohleBergT;
+CTexture VMaterialLoader::m_zmKohleT;
+CTexture VMaterialLoader::m_zmKohleHolzT;
+CTexture VMaterialLoader::m_zmKohleLoreT;
+CTexture VMaterialLoader::m_zmKohleBlackT;
+CTexture VMaterialLoader::m_zmKohlegrundGreyT;
+CImage VMaterialLoader::m_zmKohleBergI;
+CImage VMaterialLoader::m_zmKohleI;
+CImage VMaterialLoader::m_zmKohleHolzI;
+CImage VMaterialLoader::m_zmKohleLoreI;
+CImage VMaterialLoader::m_zmKohleBlackI;
+CImage VMaterialLoader::m_zmKohlegrundGreyI;
+
 
 std::map<VMaterialLoader::FieldPair, CMaterial> VMaterialLoader::fieldMaterials;
 
@@ -250,6 +263,7 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	std::string textureSpecular = std::string("textures/terrain/texture_terrain_base_specular.png");// +textureName + std::string("_specular.png");
 	std::string textureBump = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_bump.png");
 	std::string textureEnvironmental = std::string("textures/buildings/texture_skymap.png");
+	std::string textureGlow = std::string("textures/terrain/texture_terrain_base_glow.png");
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureDiffuse(&textureDiffuse[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureDiffuse(&textureDiffuse[0]);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureDiffuse(&textureDiffuse[0]);
@@ -262,13 +276,31 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].SetDiffuseSharpness(2.5f);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].SetDiffuseSharpness(2.5f);
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].SetDiffuseSharpness(2.5f);
-	//fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureEnvironment(&textureEnvironmental[0]);
-	//fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureEnvironment(&textureEnvironmental[0]);
-	//fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureEnvironment(&textureEnvironmental[0]);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureEnvironment(&textureEnvironmental[0]);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureEnvironment(&textureEnvironmental[0]);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureEnvironment(&textureEnvironmental[0]);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL1)].MakeTextureGlow(&textureGlow[0]);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL2)].MakeTextureGlow(&textureGlow[0]);
+	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureGlow(&textureGlow[0]);
 }
 
 void VMaterialLoader::init()
 {
+	m_zmKohleBergI.Init("Textures\\berg_image.jpg");
+	m_zmKohleI.Init("Textures\\kohle_image.jpg");
+	m_zmKohleHolzI.Init("Textures\\holz_image.jpg");
+	m_zmKohleLoreI.Init("Textures\\lore_image.jpg");
+	m_zmKohleBlackI.Init("Textures\\black_image.jpg");
+	m_zmKohlegrundGreyI.Init("Textures\\grey_image.jpg");
+
+	m_zmKohleBergT.Init(&m_zmKohleBergI);
+	m_zmKohleT.Init(&m_zmKohleI);
+	m_zmKohleHolzT.Init(&m_zmKohleHolzI);
+	m_zmKohleLoreT.Init(&m_zmKohleLoreI);
+	m_zmKohleBlackT.Init(&m_zmKohleBlackI);
+	m_zmKohlegrundGreyT.Init(&m_zmKohlegrundGreyI);
+
+
 	setFieldMaterialHelper(LField::WATER, "water");
 	setFieldMaterialHelper(LField::AIR, "air");
 	setFieldMaterialHelper(LField::SOLAR, "solar");

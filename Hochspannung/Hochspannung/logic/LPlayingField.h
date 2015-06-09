@@ -45,10 +45,10 @@ class LPlayingField
 	friend class LRemoteOperation;
 
 private:
-	static const int fieldLength = 20; // MUSS durch 5 Teilbar sein!!!!! (@MB: Satzzeichen sind keine Rudeltiere :P) (@IP STFU!!!!! :p ) todo (IP) temporäre Lösung, überlegen, wer Größe vorgibt
+	const int fieldLength = LBalanceLoader::getFieldLength();
 	LMaster* lMaster = nullptr;
 	std::shared_ptr<IVPlayingField> vPlayingField = nullptr;
-	StatArray2D<LField, fieldLength, fieldLength> fieldArray;
+	DynArray2D<LField> fieldArray;
 
 	using Graph = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS>;
 	Graph powerLineGraph;

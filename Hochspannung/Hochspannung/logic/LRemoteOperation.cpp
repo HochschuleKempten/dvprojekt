@@ -4,6 +4,8 @@
 
 NAMESPACE_LOGIC_B
 
+std::deque<std::function<void()>> LRemoteOperation::storedNetworkCalls;
+
 LRemoteOperation::LRemoteOperation(LPlayingField* lPlayingField): lPlayingField(lPlayingField)
 {
 	lPlayingField->beginRemoteOperation();
@@ -37,19 +39,41 @@ void LRemoteOperation::upgradeBuilding(const int x, const int y)
 void LRemoteOperation::switchOn()
 {
 	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
-	lPowerPlant->switchOn();
+
+	if (!lPlayingField->isInitDone())
+	{
+		storedNetworkCalls.push_back(std::bind(&ILPowerPlant::switchOn, lPowerPlant));
+	}
+	else
+	{
+		lPowerPlant->switchOn();
+	}
 }
 
 void LRemoteOperation::switchOff()
 {
 	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
-	lPowerPlant->switchOff();
+
+	if (!lPlayingField->isInitDone())
+	{
+		storedNetworkCalls.push_back(std::bind(&ILPowerPlant::switchOff, lPowerPlant));
+	}
+	else
+	{
+		lPowerPlant->switchOff();
+	}
 }
 
 bool LRemoteOperation::sabotagePowerPlant()
 {
 	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
 	return lPowerPlant->sabotagePowerPlant();
+}
+
+void LRemoteOperation::sabotagePowerPlantEnd()
+{
+	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
+	lPowerPlant->sabotagePowerPlantEnd();
 }
 
 bool LRemoteOperation::sabotageResource()
@@ -62,6 +86,16 @@ bool LRemoteOperation::sabotagePowerLine()
 {
 	ASSERT(lPowerLine != nullptr, "lPowerLine is not initialized. Make sure you pass a valid pointer to LPowerLine in the constructor");
     return lPowerLine->sabotagePowerLine();
+}
+
+void LRemoteOperation::sendStoredNetworkCalls()
+{
+	for (auto call : storedNetworkCalls)
+	{
+		call();
+	}
+
+	storedNetworkCalls.clear();
 }
 
 NAMESPACE_LOGIC_E

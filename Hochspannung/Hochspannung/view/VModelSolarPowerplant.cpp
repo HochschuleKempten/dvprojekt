@@ -237,7 +237,11 @@ VModelSolarPowerPlant::VModelSolarPowerPlant()
 }
 
 VModelSolarPowerPlant::~VModelSolarPowerPlant()
-{}
+{
+	removeMaterial(&m_zmSolarzelle);
+	removeMaterial(&m_zmSolarGrund);
+	removeMaterial(&m_zmSolarLOD);
+}
 
 void VModelSolarPowerPlant::switchOn()
 {

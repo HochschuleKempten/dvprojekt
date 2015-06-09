@@ -65,8 +65,8 @@ private:
 	CGeoWall m_zgFundament;
 
 	//CAppartments *Gebaeude = new CAppartments(0.2f);
-	VModelPowerLine m_zTrasse1;
-	VModelPowerLine m_zTrasse2;
+	//VModelPowerLine m_zTrasse1;
+	//VModelPowerLine m_zTrasse2;
 
 	CMaterial m_zmKohleBerg;
 	CMaterial m_zmKohle;

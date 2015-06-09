@@ -34,6 +34,7 @@ m_zmWindFluegel3(VMaterialLoader::m_zmWindFluegel3)
 
 	//Initialisierung Fundament
 	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &m_zmWindGrund);
+	m_zgFoundation.Init(CHVector(2.0f, 0.3f, 2.0f), &m_zmWindGrund);
 
 	//Initialisierung Netzanschluss
 	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &m_zmWindRad);
@@ -93,9 +94,13 @@ void VModelWindmillPowerPlant::switchOff()
 }
 
 VModelWindmillPowerPlant::~VModelWindmillPowerPlant()
-{}
-
-
+{
+	removeMaterial(&m_zmWindRad);
+	removeMaterial(&m_zmWindGrund);
+	removeMaterial(&m_zmWindFluegel1);
+	removeMaterial(&m_zmWindFluegel2);
+	removeMaterial(&m_zmWindFluegel3);
+}
 
 
 NAMESPACE_VIEW_E

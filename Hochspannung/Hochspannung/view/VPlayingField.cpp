@@ -89,6 +89,7 @@ void VPlayingField::buildPlayingField()
 	//}
 
 	const float rows = CASTS<float>(vFields.getRows());
+	//TODO (V) set default pos
 	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getLMaster()->getPlayer(LPlayer::Remote)->getCity()->getLField()->getX()),
 						CASTS<float>(fieldSize * lPlayingField->getLMaster()->getPlayer(LPlayer::Remote)->getCity()->getLField()->getY()),
 						CASTS<float>(fieldSize * rows * 0.5));

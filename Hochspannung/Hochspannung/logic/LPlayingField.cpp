@@ -43,6 +43,7 @@ static std::vector<int> strongConnectedSearch(const Graph& g, const int startIdx
 
 LPlayingField::LPlayingField(LMaster* lMaster)
 	: lMaster(lMaster),
+	  fieldArray(fieldLength, fieldLength),
 	  powerLineGraph(fieldLength * fieldLength),
 	  unusedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
 	  usedCoordinates(fieldLength * fieldLength, LPlayingFieldHasher(fieldLength)),
@@ -253,7 +254,7 @@ void LPlayingField::upgradeBuilding(const int x, const int y)
 	//todo (L, V) method still needed?
 }
 
-bool LPlayingField::hasFriendlyNeighbor(int x, const int y)
+bool LPlayingField::hasFriendlyNeighbor(const int x, const int y)
 {
 	std::unordered_map<ILBuilding::Orientation, LField*> neighbors = this->getFieldNeighbors(x, y);
 	for (std::unordered_map<ILBuilding::Orientation, LField*>::iterator it = neighbors.begin(); it != neighbors.end(); ++it)
@@ -400,6 +401,9 @@ void LPlayingField::createFields()
 	}
 
 	lMaster->sendSetObject(-666, -1, -1, std::to_string(-1)); //host finished creating the field
+	
+	LRemoteOperation::sendStoredNetworkCalls();
+	
 	//-----network-----
 }
 

@@ -29,7 +29,8 @@ private:
 	//Objects of this class should never be allocated on the heap
 	static void* operator new(const size_t) = delete;
 	static void* operator new[](const size_t) = delete;
-	
+	static std::deque<std::function<void()>> storedNetworkCalls;
+
 public:
 	explicit LRemoteOperation(LPlayingField* lPlayingField);
 	LRemoteOperation(LPlayingField* lPlayingField, ILPowerPlant* lPowerPlant);
@@ -49,12 +50,14 @@ public:
 	void switchOn();
 	void switchOff();
 	bool sabotagePowerPlant();
+	void sabotagePowerPlantEnd();
 	bool sabotageResource();
-
-	//TODO (V) Make rest bools also
 
 	//LPowerLine methods
 	bool sabotagePowerLine();
+
+public:
+	static void sendStoredNetworkCalls();
 };
 
 NAMESPACE_LOGIC_E

@@ -141,7 +141,7 @@ void CNode::do_write() {
 
 void CNode::readHeader() {
 	async_read(m_socketTcp,
-		buffer(m_messageRead.getData(), 1),
+		buffer(m_messageRead.getData(), CMessage::iHeaderLength),
 		boost::bind(&CNode::readHeaderCompleteHandler, this, placeholders::error, placeholders::bytes_transferred)
 	);
 }

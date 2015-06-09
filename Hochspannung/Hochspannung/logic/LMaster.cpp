@@ -30,6 +30,8 @@ LMaster::LMaster(IVMaster& vMaster)
 
 	//Only add default money to the local player
 	getPlayer(LPlayer::Local)->addMoney(LBalanceLoader::getDefaultMoney());
+
+	networkService.setLocalAddress(LBalanceLoader::getLocalIpAddress());
 }
 
 LMaster::~LMaster()
@@ -125,7 +127,7 @@ void LMaster::tick(const float fTimeDelta)
 
 	static float timeLastCheck = 0;
 
-	if (timeLastCheck > 3.0F && (lPlayingField != nullptr ? !lPlayingField->isInitDone() : true))
+	if (timeLastCheck > 3.0F && lPlayingField == nullptr)
 	{
 		bool updated = false;
 		std::vector<CGameObject> gameList = getGameList(&updated);
@@ -181,31 +183,33 @@ void LMaster::tick(const float fTimeDelta)
 					lPlayingField->showPlayingField();
 				}
 
+				DEBUG_OUTPUT("Action SET_OBJECT");
+
 				break;
 			}
 			case(CTransferObject::Action::DELETE_OBJECT) :
 
 				lPlayingField->removeBuilding(x, y);
-
+				DEBUG_OUTPUT("Action DELETE_OBJECT");
 				break;
 
 			case(CTransferObject::Action::UPGRADE_OBJECT) :
 
 				lPlayingField->upgradeBuilding(x, y);
-
+				DEBUG_OUTPUT("Action UPGRADE_OBJECT");
 				break;
 
 			case(CTransferObject::Action::START_GAME) :
 
 				lPlayingField->showPlayingField();
-
+				DEBUG_OUTPUT("Action START_GAME");
 				break;
 
 			case(CTransferObject::Action::END_GAME) :
 
 				//enemy player has lost the game
 				vMaster.gameWon();
-
+				DEBUG_OUTPUT("Action END_GAME");
 				break;
 
 			case(CTransferObject::Action::PAUSE_GAME) ://todo (IP) send 
@@ -213,7 +217,7 @@ void LMaster::tick(const float fTimeDelta)
 				vMaster.pauseGame();
 
 				gamePaused = true;
-
+				DEBUG_OUTPUT("Action PAUSE_GAME");
 				break;
 
 			case(CTransferObject::Action::CONTINUE_GAME) ://todo (IP) send 
@@ -221,7 +225,7 @@ void LMaster::tick(const float fTimeDelta)
 				vMaster.continueGame();
 
 				gamePaused = false;
-
+				DEBUG_OUTPUT("Action CONTINUE_GAME");
 				break;
 
 			case(CTransferObject::Action::SET_MAPROW) :
@@ -249,13 +253,15 @@ void LMaster::tick(const float fTimeDelta)
 					}
 				}
 
+				DEBUG_OUTPUT("Action SET_MAPROW");
+
 				break;
 			}
 
 			case(CTransferObject::Action::SEND_SABOTAGE) :
 			{
 				LSabotage::LSabotage objectToSabotage = static_cast<LSabotage::LSabotage>(objectId);
-
+				DEBUG_OUTPUT("Action SEND_SABOTAGE");
 				switch (objectToSabotage)
 				{
 				case(LSabotage::PowerLine) :
@@ -297,6 +303,17 @@ void LMaster::tick(const float fTimeDelta)
 				break;
 			}
 
+			case(CTransferObject::Action::SEND_END_SABOTAGE) :
+			{
+				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
+				if (powerPlant != nullptr)
+				{
+					powerPlant->sabotagePowerPlantEnd();
+				}
+				DEBUG_OUTPUT("Action SEND_END_SABOTAGE");
+				break;
+			}
+
 			case(CTransferObject::Action::SEND_SWITCH_STATE) :
 			{
 				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
@@ -312,7 +329,7 @@ void LMaster::tick(const float fTimeDelta)
 						powerPlant->switchOff();
 					}
 				}
-
+				DEBUG_OUTPUT("Action SEND_SWITCH_STATE");
 				break;
 			}
 
@@ -416,6 +433,14 @@ void LMaster::sendSabotage(const LSabotage::LSabotage sabotageId, const int x, c
 	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
 	{
 		networkService.sendSabotage(sabotageId, x, y);
+	}
+}
+
+void LMaster::sendPowerPlantSabotageEnd(const int x, const int y)
+{
+	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
+	{
+		networkService.sendEndSabotage(x, y);
 	}
 }
 

@@ -1,5 +1,6 @@
 #include "LBalanceLoader.h"
 #include <boost\property_tree\ini_parser.hpp>
+#include "LUtility.h"
 
 NAMESPACE_LOGIC_B
 
@@ -92,6 +93,12 @@ int LBalanceLoader::getDefaultMoney()
 	return propertyTree.get<double>("DifficultyScale.DefaultMoney", 0);
 }
 
+int LBalanceLoader::getFieldLength()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<double>("DifficultyScale.FieldLength", 0);
+}
+
 std::unordered_map<LField::FieldType, double> LBalanceLoader::getFieldTypeRatio()
 {
 	ASSERT(initDone, msgAssert);
@@ -110,8 +117,8 @@ std::unordered_map<LField::FieldType, double> LBalanceLoader::getFieldTypeRatio(
 	for (const auto& pair : fieldTypes) {
 		sum += pair.second;
 	}
-
-	ASSERT(sum == 1.0, "Relations between field types are incorrect");
+	
+	ASSERT(almost_equal(sum, 1.0, 2) == true, "Relations between field types are incorrect");
 #endif //_DEBUG
 
 	return fieldTypes;
@@ -217,6 +224,12 @@ int LBalanceLoader::getSabotageActs()
 {
 	ASSERT(initDone, msgAssert);
 	return propertyTree.get<int>("SabotageValues.SabotageActs", 0);
+}
+
+std::string LBalanceLoader::getLocalIpAddress()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<std::string>("LocalIpAddress.Address", "0.0.0.0");
 }
 
 NAMESPACE_LOGIC_E

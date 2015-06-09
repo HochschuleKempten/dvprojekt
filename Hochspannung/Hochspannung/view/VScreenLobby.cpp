@@ -133,10 +133,9 @@ void VScreenLobby::onNotify(const Event& events)
 		getContainer("Menue")->getGuiObject("buttonJoinGame")->disable();
 		getContainer("Menue")->getGuiObject("buttonStartGame")->disable();
 		
-			
 		
-
-
+		
+	
 		if (CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem() == nullptr)
 		{
 			std::string textfieldValue = CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue();
@@ -169,6 +168,9 @@ void VScreenLobby::onNotify(const Event& events)
 						//std::this_thread::sleep_for(std::chrono::seconds(10));
 						//m_JoinReady = true;
 						//vUi->switchScreen("Ingame");
+
+					vUi->vMaster->joinGame(textfieldValue);
+					vUi->switchScreen("Ingame");
 				
 				}
 				else
@@ -281,16 +283,15 @@ void VScreenLobby::tick(const float fTimeDelta)
 		vUi->m_BlockCursorLeftPressed = false;
 	}
 
-	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
-
 
 	checkShortcut(&vUi->m_zkKeyboard);
 	checkSpecialEvent(&vUi->m_zkCursor);
-	tempGuiContainer = getGuiContainerMap();
+	const std::unordered_map<std::string, IViewGUIContainer*>& tempGuiContainer = getGuiContainerMap();
 
 	//For all containers in the screen
 	for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainer)
 	{
+		//DEBUG_OUTPUT("DialogName = " << ContainerPair.first);
 		checkGUIContainer(ContainerPair.second);
 	}
 
