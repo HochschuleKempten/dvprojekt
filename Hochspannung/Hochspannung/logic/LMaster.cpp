@@ -30,6 +30,8 @@ LMaster::LMaster(IVMaster& vMaster)
 
 	//Only add default money to the local player
 	getPlayer(LPlayer::Local)->addMoney(LBalanceLoader::getDefaultMoney());
+
+	networkService.setLocalAddress(LBalanceLoader::getLocalIpAddress());
 }
 
 LMaster::~LMaster()
@@ -308,7 +310,7 @@ void LMaster::tick(const float fTimeDelta)
 				{
 					powerPlant->sabotagePowerPlantEnd();
 				}
-
+				DEBUG_OUTPUT("Action SEND_END_SABOTAGE");
 				break;
 			}
 

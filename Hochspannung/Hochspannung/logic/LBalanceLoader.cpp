@@ -219,4 +219,10 @@ int LBalanceLoader::getSabotageActs()
 	return propertyTree.get<int>("SabotageValues.SabotageActs", 0);
 }
 
+std::string LBalanceLoader::getLocalIpAddress()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<std::string>("LocalIpAddress.Address", "0.0.0.0");
+}
+
 NAMESPACE_LOGIC_E
