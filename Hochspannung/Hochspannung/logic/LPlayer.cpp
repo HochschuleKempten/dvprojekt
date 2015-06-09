@@ -3,14 +3,14 @@
 #include "LPlayingField.h"
 #include "ILPowerPlant.h"
 #include "IVMaster.h"
-#include "LBalanceLoader.h"
 #include "LRemoteOperation.h"
+#include "LMessageLoader.h"
 
 NAMESPACE_LOGIC_B
 
 
-LPlayer::LPlayer(LMaster* lMaster)
-	: lMaster(lMaster)
+LPlayer::LPlayer(LMaster* lMaster, const PlayerId playerId)
+	: lMaster(lMaster), playerId(playerId)
 {
 	lMaster->getVMaster()->registerObserver(this);
 }
@@ -42,13 +42,13 @@ int LPlayer::getMoney() const
 void LPlayer::addMoney(const int amount)
 {
 	money += amount;
-	lMaster->getVMaster()->updateMoney(money);
+	lMaster->getVMaster()->updateMoney(money, playerId);
 }
 
 void LPlayer::subtractMoney(const int amount)
 {
 	money -= amount;
-	lMaster->getVMaster()->updateMoney(money);
+	lMaster->getVMaster()->updateMoney(money, playerId);
 	ASSERT(money >= 0, "The player has not enough money");
 }
 
@@ -77,7 +77,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case (LSabotage::PowerLine) :
 			if (coolDownCounterPowerLine > 0)
 			{
-				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerline sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
+				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT, { std::to_string(coolDownCounterPowerLine) });
 				return false;
 			}
 
@@ -87,7 +87,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case(LSabotage::PowerPlant) :
 			if (coolDownCounterPowerPlant > 0)
 			{
-				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerline sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
+				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT, { std::to_string(coolDownCounterPowerPlant) });
 				return false;
 			}
 
@@ -97,7 +97,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		case(LSabotage::Resource) :
 			if (coolDownCounterResource > 0)
 			{
-				lMaster->getVMaster()->messageSabotageFailed(std::string("Powerline sabotage not possible, you have to wait ") + std::to_string(coolDownCounterPowerLine) + std::string(" seconds."));
+				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT, { std::to_string(coolDownCounterResource) });
 				return false;
 			}
 
@@ -109,57 +109,69 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		}
 	};
 
-	if (sabotageActs == -1)
-	{
-		sabotageActs = LBalanceLoader::getSabotageActs();
-	}
-
 	if (sabotageActs > 0)
 	{
 		int sabotageCost = getSabotageCost();
 
-		if (getMoney() >= sabotageCost && checkCooldown())
+		if (getMoney() < sabotageCost)
 		{
-			sabotageActs--;
-			subtractMoney(sabotageCost);
-			lMaster->getVMaster()->updateRemainingSabotageActs(sabotageActs);
-
-			return true;
+			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_NO_MONEY);
+			return false;
 		}
 
-		lMaster->getVMaster()->messageSabotageFailed("You do not have enough money or have to wait!");
-		return false;
+		if (!checkCooldown())
+		{
+			return false;
+		}
+
+		//Everything fine at this point
+		sabotageActs--;
+		subtractMoney(sabotageCost);
+		lMaster->getVMaster()->updateRemainingSabotageActs(sabotageActs);
+		LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_EMITTED, { std::to_string(sabotageActs) });
+		
+		return true;
 	}
 
-	lMaster->getVMaster()->messageSabotageFailed("No sabotage acts left!");
+	LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_NO_ACTS_LEFT);
 	return false;
 }
 
 void LPlayer::addPowerPlant(ILPowerPlant* powerPlant)
 {
+	ASSERT(playerId == powerPlant->getPlayerId(), "Tried to add a power plant from player " << powerPlant->getPlayerId() << " to player " << playerId);
+
 	powerPlants.emplace_back(powerPlant);
 
 	LRemoteOperation remoteOperation(lMaster->getLPlayingField(), powerPlant);
 	remoteOperation.switchOn();
 
-	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier(), CASTS<PlayerId>(powerPlant->getPlayerId()));
+	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier(), playerId);
 }
 
 void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
 {
+	ASSERT(playerId == powerPlant->getPlayerId(), "Tried to remove a power plant from player " << powerPlant->getPlayerId() << " to player " << playerId);
+
 	powerPlants.erase(std::remove(powerPlants.begin(), powerPlants.end(), powerPlant), powerPlants.end());
 
-	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier(), CASTS<PlayerId>(powerPlant->getPlayerId()));
+	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier(), playerId);
 }
 
 void LPlayer::addPowerLine(LPowerLine* powerLine)
 {
+	ASSERT(playerId == powerLine->getPlayerId(), "Tried to add a powerline from player " << powerLine->getPlayerId() << " to player " << playerId);
+
 	powerLines.emplace_back(powerLine);
+	lMaster->getVMaster()->updateNumberPowerLines(CASTS<int>(powerLines.size()), playerId);
 }
 
 void LPlayer::removePowerLine(const LPowerLine* const powerLine)
 {
+	ASSERT(playerId == powerLine->getPlayerId(), "Tried to remove a powerline from player " << powerLine->getPlayerId() << " to player " << playerId);
+
 	powerLines.erase(std::remove(powerLines.begin(), powerLines.end(), powerLine), powerLines.end());
+	lMaster->getVMaster()->updateNumberPowerLines(CASTS<int>(powerLines.size()), playerId);
 }
 
 void LPlayer::checkPowerPlants()
@@ -214,6 +226,34 @@ void LPlayer::checkPowerPlants()
 	}
 
 	prevConnectedPowerPlants = currentConnectedPowerPlants;
+
+	checkRegenerativeRatio();
+}
+
+void LPlayer::checkRegenerativeRatio()
+{
+	int countTotalPowerPlant = std::count_if(prevConnectedPowerPlants.begin(), prevConnectedPowerPlants.end(), [] (ILPowerPlant* pP)
+	{
+		return pP->isActivated;
+	});
+
+	//calculate ratio regenerative
+	int countRegenerativePowerPlants = std::count_if(prevConnectedPowerPlants.begin(), prevConnectedPowerPlants.end(), [] (ILPowerPlant* pP)
+	{
+		return pP->isRegenerative() && pP->isActivated;
+	});
+
+
+	if (countTotalPowerPlant != 0)
+	{
+		float ratioRegenerative = CASTS<float>(countRegenerativePowerPlants) / CASTS<float>(countTotalPowerPlant);
+		lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative, playerId);
+	}
+	else
+	{
+		int a = 2;
+		//TODO (L) GAME OVER as there are no connected powerplants ???
+	}
 }
 
 NAMESPACE_LOGIC_E

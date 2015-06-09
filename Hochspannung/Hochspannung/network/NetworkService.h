@@ -4,15 +4,11 @@
 
 namespace Network {
 
-enum Type {
-	NONE,
-	SERVER,
-	CLIENT
-};
-
-
+/**
+ * @class CNetworkService
+ * @brief Main interface between network logic and game logic
+ */
 class CNetworkService {
-
 private:
 	/**
 	 * @brief Default constructor.
@@ -22,6 +18,7 @@ private:
 	CNetworkService(const CNetworkService&) = delete;
 
 public:
+
 	/**
 	 * @brief Default deconstructor.
 	 */
@@ -54,7 +51,7 @@ public:
 	/**
 	 * @brief Searches asynchronously for game server in the local network.
 	 * Closes any active connection or server.
-	 * @return
+	 * @return true, if the search request was sent successfully.
 	 */
 	bool searchGames();
 
@@ -78,13 +75,13 @@ public:
 	 * @brief Returns the current connection state (Not solid atm!).
 	 * @return the current connection state.
 	 */
-	State getConnectionState();
+	CNode::State getConnectionState();
 
 	/**
 	* @brief Returns the current type.
 	* @return the current type.
 	*/
-	Type getType();
+	CNode::Type getType();
 
 	/**
 	 * @brief Returns the current latency to the remote computer if connected.
@@ -122,62 +119,65 @@ public:
 	 * @param iCoordX the x coordinate where the new object should be set.
 	 * @param iCoordY the y coordinate where the new object should be set.
 	 * @param sValue any other value to send.
+	 * @param bApprovalNeeded set true, if the command shall be send as a request.
 	 * @return true if message could be sent, false otherwise.
 	 */
-	bool sendSetObject(int iObjectID, int iCoordX, int iCoordY, std::string stPlayer);
-
-	/**
-	 * @brief Send the command to move an object.
-	 * @param iObjectId the objects ID.
-	 * @param iCoordXSource the source x coordinate.
-	 * @param iCoordYSouce the source y coordinate.
-	 * @param iCoordXDest the destination x coordinate.
-	 * @param iCoordYDest the destination y coordinate.
-	 * @return true if message could be sent, false otherwise.
-	 */
-	//bool sendMoveObject(int iObjectID, int iCoordXSource, int iCoordYSouce, int iCoordXDest, int iCoordYDest);
+	bool sendSetObject(int iObjectID, int iCoordX, int iCoordY, std::string stPlayer, bool bApprovalNeeded = false);
 
 	/**
 	 * @brief Send the command to delete an object.
 	 * @param iCoordX the x coordinate of the object that should be deleted.
 	 * @param iCoordY the y coordinate of the object that should be deleted.
+	 * @param bApprovalNeeded set true, if the command shall be send as a request.
 	 * @return true if message could be sent, false otherwise.
 	 */
-	bool sendDeleteObject(int iCoordX, int iCoordY);
+	bool sendDeleteObject(int iCoordX, int iCoordY, bool bApprovalNeeded = false);
 
 	/**
 	 * @brief Send the command to set the mapsize.
 	 * @param iSizeX the maps size in x direction.
 	 * @param iSizeY the maps size in y direction.
+	 * @param bApprovalNeeded set true, if the command shall be send as a request.
 	 * @return true if message could be sent, false otherwise.
 	 */
-	bool sendSetMapsize(int iSizeX, int iSizeY);
+	bool sendSetMapsize(int iSizeX, int iSizeY, bool bApprovalNeeded = false);
 
 	/**
 	 * @brief Send the command to set an entire row of the map.
 	 * @param iRow the number of the row to set.
 	 * @param vRowData the data of the fields of the row.
+	 * @param bApprovalNeeded set true, if the command shall be send as a request.
 	 * @return true if message could be sent, false otherwise.
 	 */
-	bool sendSetMapRow(int iRow, std::vector<FieldTransfer> vRowData);
+	bool sendSetMapRow(int iRow, std::vector<FieldTransfer> vRowData, bool bApprovalNeeded = false);
 
 	/**
-	* @brief Send the command for a sabotage.
-	* @param iSabotageID the ID of the sabotage.
-	* @param iCoordX the x-coordinate for the sabotage.
-	* @param iCoordY the y-coordinate for the sabotage.
-	* @return true if message could be sent, false otherwise.
-	*/
-	bool sendSabotage(int iSabotageID, int iCoordX, int iCoordY);
+	 * @brief Send the command for a sabotage.
+	 * @param iSabotageID the ID of the sabotage.
+	 * @param iCoordX the x-coordinate for the sabotage.
+	 * @param iCoordY the y-coordinate for the sabotage.
+	 * @param bApprovalNeeded set true, if the command shall be send as a request.
+	 * @return true if message could be sent, false otherwise.
+	 */
+	bool sendSabotage(int iSabotageID, int iCoordX, int iCoordY, bool bApprovalNeeded = false);
 
 	/**
-	* @brief Send the command for turning a powerplant on or off.
-	* @param iCoordX the x-coordinate for the powerplant to be turned on/off.
-	* @param iCoordY the y-coordinate for the powerplant to be turned on/off.
-	* @param bStateOn the state to be sent.
-	* @return true if message could be sent, false otherwise.
-	*/
-	bool sendSwitchState(int iCoordX, int iCoordY, bool bStateOn);
+	 * @brief Send the command for turning a powerplant on or off.
+	 * @param iCoordX the x-coordinate for the powerplant to be turned on/off.
+	 * @param iCoordY the y-coordinate for the powerplant to be turned on/off.
+	 * @param bStateOn the state to be sent.
+	 * @param bApprovalNeeded set true, if the command shall be send as a request.
+	 * @return true if message could be sent, false otherwise.
+	 */
+	bool sendSwitchState(int iCoordX, int iCoordY, bool bStateOn, bool bApprovalNeeded = false);
+
+	/**
+	 * @brief Send the command back as an answer.
+	 * @param type The type of the answer: only REFUSAL or APPROVAL.
+	 * @param transferObject the command, which shall be approved.
+	 * @return true if message could be sent and the type was valid, false otherwise.
+	 */
+	bool sendAnswer(CTransferObject::Type type, CTransferObject& transferObject);
 
 	/**
 	 * @brief Returns the next action from deque, if available.
@@ -200,16 +200,16 @@ public:
 private:
 	/**
 	 * @brief Transorm the command to a CMessage and send it.
+	 * @param bApprovalNeeded set true, if the command shall be send as a request.
 	 * @param action the Action.
 	 * @param iObjectID the objects ID.
 	 * @param iCoordX the x coordinate.
 	 * @param iCoordY the y coordinate.
 	 * @param sValue any other value to send.
 	 */
-	void sendAsMessage(Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = "");
+	void sendAsMessage(bool bApprovalNeeded, CTransferObject::Action action, int iObjectID = -1, int iCoordX = -1, int iCoordY = -1, std::string sValue = "");
 
 	CNode* m_pNode = nullptr;
-	Type m_type;
 	std::string m_stLocalAddress;
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "IViewScreen.h"
+#include <mutex>
 NAMESPACE_VIEW_B
 
 class VScreenLobby :
@@ -20,9 +21,15 @@ public:
 	void EndEvent() override;
 
 	void updateHostList(const std::vector<Network::CGameObject>& hostList);
+
+	void foundPlayer();
+
+	void showWaitingDialog();
 private:
 	CBackground* m_background;
 	COverlay* m_bigDialog;
+	std::mutex mutex;
+	bool m_startReady = false;
 };
 
 NAMESPACE_VIEW_E

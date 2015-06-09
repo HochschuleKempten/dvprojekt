@@ -53,12 +53,23 @@ IVFactory* VMaster::getFactory()
 	return &factory;
 }
 
+void VMaster::updateRegenerativeRatio(const float ratio, const LPlayer::PlayerId playerId)
+{
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateRegenerativeRatioLocal(ratio);
+	}
+	else if (playerId == LPlayer::Remote)
+	{
+		vUi.updateRegenerativeRatioRemote(ratio);
+	}
+}
+
 void VMaster::gameOver()
 {
 	static bool informed = false;
 	if (!informed) {
 		VSoundLoader::playSoundeffect(VSoundLoader::GAME_OVER, nullptr);
-		DEBUG_OUTPUT("Game is over");
 		informed = true;
 	}
 	//TODO (V) do something useful here when UI is ready
@@ -67,23 +78,12 @@ void VMaster::gameOver()
 void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
 {
 	vUi.updateGameList(gameList);
-
-	DEBUG_OUTPUT("Updated List");
-	for (auto go : gameList)
-	{
-		DEBUG_OUTPUT("ip = " << go.getServerIP());
-		DEBUG_OUTPUT("name = " << go.getName());
-	}
 }
 
-void VMaster::messageSabotageFailed(const std::string& message)
+void VMaster::showMessage(const std::string& message, const LMessageLoader::MessageID id)
 {
 	vUi.showMessage(message);
-}
-
-void VMaster::messageBuildingFailed(const std::string& message)
-{
-	vUi.showMessage(message);
+	VSoundLoader::playRadioMessage(id);
 }
 
 VUI* VMaster::getVUi()
@@ -123,14 +123,22 @@ void VMaster::joinGame(const std::string& ipAddress)
 	lMaster->startNewGame(ipAddress);
 }
 
-void VMaster::updateMoney(const int money)
+void VMaster::startBuildingPlayingField()
 {
-	vUi.updateMoney(money);
+	//TODO (V) inform UI
+}
+
+void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
+{
+	if (playerId == LPlayer::Local)
+	{
+		vUi.updateMoney(money);
+	}
 }
 
 void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
 {
-	vUi.showMessage(std::string("Es verbleiben ") + std::to_string(remainingSabotageActs) + std::string(" Sabotageakte."));
+	//TODO (V) Show remaining sabotage acts
 }
 
 void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
@@ -170,7 +178,8 @@ void VMaster::continueGame()
 void VMaster::gameWon()
 {
 	VSoundLoader::playSoundeffect(VSoundLoader::GAME_WON, nullptr);
-	//TODO (V) implement
+	//todo (V) exit the game
 }
+
 
 NAMESPACE_VIEW_E

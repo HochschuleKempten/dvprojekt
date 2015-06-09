@@ -24,7 +24,7 @@ VTextfield::VTextfield(CViewport* viewport, CFloatRect& rect, CMaterial* Materia
 	m_writing = new CWriting();
 
 	
-	m_writing->Init(CREATE_RELATIVE_RECT(&rect, &CFloatRect(0.02F, 0.02F, 0.98F, 1.59F)), m_iMaxChars, m_writingfont);
+	m_writing->Init(CREATE_RELATIVE_RECT(&rect, &CFloatRect(0.02F, 0.15F, 0.98F, 0.8F)), m_iMaxChars, m_writingfont);
 
 	m_zoNormal = new COverlay();
 	m_zoNormal->Init(MaterialNormal, m_zfrRect);

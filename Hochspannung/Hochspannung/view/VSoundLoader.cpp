@@ -8,10 +8,11 @@ DEBUG_EXPRESSION(bool VSoundLoader::initDone = false);
 DEBUG_EXPRESSION(static const char* const assertMsg = "SoundLoader is not initialized");
 
 CAudio VSoundLoader::backgroundMusicIngameStart;
-CAudio VSoundLoader::electricitySound;
+std::list<CAudio> VSoundLoader::sound3DLoop;
+std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> VSoundLoader::sound3DLoopData;
 std::unordered_map<VSoundLoader::SoundEffect, CAudio> VSoundLoader::soundeffects;
 std::unordered_map<VSoundLoader::SoundEffect, CPlacement*> VSoundLoader::soundeffectsLastPlacements;
-
+std::unordered_map<LMessageLoader::MessageID, CAudio> VSoundLoader::radioMessages;
 
 void VSoundLoader::setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename)
 {
@@ -19,6 +20,13 @@ void VSoundLoader::setSoundEffectHelper(const SoundEffect soundEffect, const std
 	soundeffects[soundEffect].SetVolume(1.0f);
 	scene->AddAudio(&soundeffects[soundEffect]);
 	soundeffectsLastPlacements[soundEffect] = nullptr;
+}
+
+void VSoundLoader::setRadioMessageHelper(const LMessageLoader::MessageID soundEffect, const std::string& filename)
+{
+	radioMessages[soundEffect].Init(&(std::string("sounds/radio/") + filename + std::string(".wav"))[0]);
+	radioMessages[soundEffect].SetVolume(1.0f);
+	scene->AddAudio(&radioMessages[soundEffect]);
 }
 
 void VSoundLoader::init(CScene* scene)
@@ -29,8 +37,10 @@ void VSoundLoader::init(CScene* scene)
 	backgroundMusicIngameStart.SetVolume(0.8f);
 	scene->AddAudio(&backgroundMusicIngameStart);
 	
-	electricitySound.Init3D("sounds/bruitelectrique.wav", 0.5f);
-	electricitySound.SetVolume(1.0f);
+	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VTransformerStation), std::make_tuple("sounds/bruitelectrique.wav", 0.15f));
+	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VHydroelectricPowerPlant), std::make_tuple("sounds/WaterWheelLoop.wav", 0.2f));
+	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VWindmillPowerPlant), std::make_tuple("sounds/AirPowerPlantLoop.wav", 0.8f));
+	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VOilRefinery), std::make_tuple("sounds/OilRefineryLoop.wav", 0.3f));
 
 	setSoundEffectHelper(BUILDING_PLACED, "createObject");
 	setSoundEffectHelper(TRASSE_PLACED, "createTrasse");
@@ -38,11 +48,13 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(OPERATION_CANCELED, "click");
 	setSoundEffectHelper(POWERPLANT_SWITCH_ON, "gui_switch");
 	setSoundEffectHelper(POWERPLANT_SWITCH_OFF, "gui_switch");
-	setSoundEffectHelper(SABOTAGE_RECEIVED, "sabotage_received");
-	setSoundEffectHelper(SABOTAGE_EMITTED, "click");
+	setSoundEffectHelper(SABOTAGE_RECEIVED, "sabotage_receive");
+	setSoundEffectHelper(SABOTAGE_EMITTED, "sabotage_execute");
 	setSoundEffectHelper(ENERGY_LOW, "lowEnergy");
-	setSoundEffectHelper(GAME_OVER, "click");
-	setSoundEffectHelper(GAME_WON, "game_won");
+	setSoundEffectHelper(GAME_OVER, "game_lose");
+	setSoundEffectHelper(GAME_WON, "game_win");
+
+	setRadioMessageHelper(LMessageLoader::SABOTAGE_EMITTED, "remainingSabotageActs");
 
 	DEBUG_EXPRESSION(initDone = true);
 }
@@ -54,10 +66,17 @@ void VSoundLoader::playBackgroundMusicIngame()
 	backgroundMusicIngameStart.Loop();
 }
 
-void VSoundLoader::playElectricitySoundLoop(CPlacement* placement)
+void VSoundLoader::play3DSoundLoop(const VIdentifier::VIdentifier building, CPlacement* placement)
 {
-	placement->AddAudio(&electricitySound);
-	electricitySound.Loop();
+	ASSERT(initDone, assertMsg);
+	ASSERT(sound3DLoopData.count(building) > 0, "The requested 3D-Sound is not availavle");
+	
+	sound3DLoop.emplace_back();
+	sound3DLoop.back().Init3D(&sound3DLoopData[building].first[0], sound3DLoopData[building].second);
+	sound3DLoop.back().SetVolume(1.0f);
+	sound3DLoop.back().Loop();
+	
+	placement->AddAudio(&sound3DLoop.back());
 }
 
 void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* placement)
@@ -92,5 +111,16 @@ void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* pl
 		soundeffectsLastPlacements[soundEffect] = placement;
 	}
 }
+
+void VSoundLoader::playRadioMessage(const LMessageLoader::MessageID messageId)
+{
+	ASSERT(initDone, assertMsg);
+
+	if (radioMessages.count(messageId) > 0)
+	{
+		radioMessages[messageId].Start();
+	}
+}
+
 
 NAMESPACE_VIEW_E

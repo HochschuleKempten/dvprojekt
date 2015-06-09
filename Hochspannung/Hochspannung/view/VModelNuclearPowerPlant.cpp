@@ -4,11 +4,19 @@ NAMESPACE_VIEW_B
 
 
 VModelNuclearPowerPlant::VModelNuclearPowerPlant()
+	: m_zmAtomGrund(VMaterialLoader::m_zmAtomGrund),
+      m_zmAtomSchranke(VMaterialLoader::m_zmAtomSchranke),
+      m_zmAtomZaun(VMaterialLoader::m_zmAtomZaun),
+      m_zmAtomReaktor(VMaterialLoader::m_zmAtomReaktor)
 {}
-
 
 VModelNuclearPowerPlant::~VModelNuclearPowerPlant()
-{}
+{
+	removeMaterial(&m_zmAtomGrund);
+	removeMaterial(&m_zmAtomSchranke);
+	removeMaterial(&m_zmAtomZaun);
+	removeMaterial(&m_zmAtomReaktor);
+}
 
 void VModelNuclearPowerPlant::init()
 {
@@ -18,26 +26,26 @@ void VModelNuclearPowerPlant::init()
 	//Initialisierung Fundament
 	//m_zgFundament.Init(10.0f, 0.3f, 10.0f, &m_zmGreen);
 
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAtomGrund);
+	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &m_zmAtomGrund);
 
 	//Initialisierung Kuehlturm
-	m_zgKuehlturm.InitTubeWave(1.2f, 4.0f, 0.2f, 0.1f, 3.5f, &VMaterialLoader::m_zmAtomGrund, 0.2f, true, true);
+	m_zgKuehlturm.InitTubeWave(1.2f, 4.0f, 0.2f, 0.1f, 3.5f, &m_zmAtomGrund, 0.2f, true, true);
 
 	//Initialisierung Reaktorturm
-	m_zgReaktorTurm.InitStraight(0.6f, 0.6f, 1.2f, &VMaterialLoader::m_zmAtomReaktor, 32);
+	m_zgReaktorTurm.InitStraight(0.6f, 0.6f, 1.2f, &m_zmAtomReaktor, 32);
 
 	//Initialisierung Reaktorkopf
-	m_zgReaktorKopf.Init(0.6f, &VMaterialLoader::m_zmAtomReaktor, 32, 32);
+	m_zgReaktorKopf.Init(0.6f, &m_zmAtomReaktor, 32, 32);
 
 	//Initialisierung Kamin
-	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, &VMaterialLoader::m_zmAtomGrund, 32, true);
+	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, &m_zmAtomGrund, 32, true);
 
 	//Initialisierung Pfosten
-	m_zgPfosten.Init(0.2f, 1.1f, 0.2f, &VMaterialLoader::m_zmAtomZaun);
+	m_zgPfosten.Init(0.2f, 1.1f, 0.2f, &m_zmAtomZaun);
 
 	//Initialisierung Balken
-	m_zgBalkenLang.Init(4.7f, 0.1f, 0.1f, &VMaterialLoader::m_zmAtomZaun);
-	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, &VMaterialLoader::m_zmAtomZaun);
+	m_zgBalkenLang.Init(4.7f, 0.1f, 0.1f, &m_zmAtomZaun);
+	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, &m_zmAtomZaun);
 
 	//Initialisierung Trassen
 	m_zTrasse1.initViewModel(vBuilding);
@@ -46,10 +54,10 @@ void VModelNuclearPowerPlant::init()
 	m_zTrasse2.Init();
 
 	//Initialisierung Drehelement
-	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, &VMaterialLoader::m_zmAtomGrund, 32, true, true);
+	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, &m_zmAtomGrund, 32, true, true);
 
 	//Initialisierung Schranke
-	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, &VMaterialLoader::m_zmAtomSchranke);
+	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, &m_zmAtomSchranke);
 
 
 
@@ -229,6 +237,26 @@ void VModelNuclearPowerPlant::init()
 	m_zpSchranke.Translate(CHVector(-0.7f, 1.36f, 4.875f));
 	m_zpSchranke.RotateZDelta(0.2*PI);
 	m_zpSchranke.AddGeo(&m_zgSchranke);
+}
+
+void VModelNuclearPowerPlant::switchOn()
+{
+	m_zmAtomGrund.SetColorAmbient(colorAmbientOn);
+	m_zmAtomSchranke.SetColorAmbient(colorAmbientOn);
+	m_zmAtomZaun.SetColorAmbient(colorAmbientOn);
+	m_zmAtomReaktor.SetColorAmbient(colorAmbientOn);
+	m_zTrasse1.switchOn();
+	m_zTrasse2.switchOn();
+}
+
+void VModelNuclearPowerPlant::switchOff()
+{
+	m_zmAtomGrund.SetColorAmbient(colorAmbientOff);
+	m_zmAtomSchranke.SetColorAmbient(colorAmbientOff);
+	m_zmAtomZaun.SetColorAmbient(colorAmbientOff);
+	m_zmAtomReaktor.SetColorAmbient(colorAmbientOff);
+	m_zTrasse1.switchOff();
+	m_zTrasse2.switchOff();
 }
 
 NAMESPACE_VIEW_E

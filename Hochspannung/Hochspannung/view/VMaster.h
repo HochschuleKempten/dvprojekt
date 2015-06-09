@@ -42,7 +42,8 @@ public:
 	void hostGame();
 	void joinGame(const std::string& ipAddress);
 
-	virtual void updateMoney(const int money) override;
+	virtual void startBuildingPlayingField() override;
+	virtual void updateMoney(const int money, const LPlayer::PlayerId playerId) override;
 	virtual void updateRemainingSabotageActs(const int remainingSabotageActs) override;
 	virtual void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) override;
 	virtual void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) override;
@@ -52,9 +53,9 @@ public:
 	virtual void gameWon() override;
 	virtual void gameOver() override;
 	virtual void updateGameList(const std::vector<Network::CGameObject>& gameList) override;
-	virtual void messageSabotageFailed(const std::string& message) override;
-	virtual void messageBuildingFailed(const std::string& message) override;
+	virtual void showMessage(const std::string& message, const LMessageLoader::MessageID id) override;
 	virtual IVFactory* getFactory() override;
+	virtual void updateRegenerativeRatio(const float ratio, const LPlayer::PlayerId playerId) override;
 
 	inline VPlayingField* getVPlayingField()
 	{

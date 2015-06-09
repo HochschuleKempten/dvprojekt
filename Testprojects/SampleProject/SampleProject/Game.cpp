@@ -22,7 +22,7 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 
 	m_zr.AddFrameHere(&m_zf);
 	m_zf.AddViewport(&m_zv);
-	m_zv.AddOverlay(&m_zo);
+	//m_zv.AddOverlay(&m_zo);
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)

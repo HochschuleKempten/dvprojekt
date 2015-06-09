@@ -129,6 +129,7 @@ void VUI::switchScreen(const std::string& switchTo)
 	ASSERT(activeScreen != nullptr, "No screen is initalized");
 	ASSERT(m_screens.count(switchTo) > 0, "Screen" << switchTo << "not available");
 
+	
 	activeScreen->switchOff();
 	activeScreen->EndEvent();
 	activeScreen = m_screens[switchTo];
@@ -175,7 +176,7 @@ void VUI::updateNumberPowerLines(const int newNumberPowerLines)
 
 void VUI::updateEnergySurplus(const float surplusRatio)
 {
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateGraphRatio(surplusRatio);
+	//CASTD<VScreenIngame*>(m_screens["Ingame"])->updateGraph(surplusRatio, 0.0f);
 }
 
 void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
@@ -183,9 +184,18 @@ void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
 	CASTD<VScreenLobby*>(m_screens["Lobby"])->updateHostList(gameList);
 }
 
+void VUI::updateRegenerativeRatioLocal(float ratio)
+{
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateOwnGraphRatio(ratio);
+}
+
+void VUI::updateRegenerativeRatioRemote(float ratio)
+{
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateEnemyGraphRatio(ratio);
+}
+
 void VUI::switchCursor(const CursorType& cursorType)
 {
-	LPRECT rectangle = nullptr;
 	switch (cursorType)
 	{
 		default:
@@ -194,56 +204,89 @@ void VUI::switchCursor(const CursorType& cursorType)
 
 			SetCursor(m_Default_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Default_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 		case Hammer:
 			SetCursor(m_Hammer_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Hammer_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 		case Sabotage:
 			SetCursor(m_Sabotage_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Sabotage_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 
 		case PowerOn:
 			SetCursor(m_PowerOn_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_PowerOn_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 
 		case PowerOff:
 			SetCursor(m_PowerOff_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_PowerOff_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 
 		case Sell:
 			SetCursor(m_Sell_Cursor);
 			SetClassLong(m_hwnd, GCLP_HCURSOR, DWORD(m_Sell_Cursor));
-			//GetWindowRect(m_hwnd, rectangle);
-			//ClipCursor(rectangle);
 			break;
 	}
 }
 
 void VUI::showMessage(const std::string& message)
 {
+	auto splitMessage = [] (const std::string& text)
+	{
+		const int numberOfCharactersPerLine = 80;
+		
+		if (numberOfCharactersPerLine - 1 > text.size())
+		{
+			//Single line
+			return std::vector<std::string>();
+		}
+
+		std::string splitName = text.substr(numberOfCharactersPerLine - 1);
+
+		//Split on word boundaries
+		std::regex txt_regex("^\\w+\\b");
+		std::smatch base_match;
+
+		if (!std::regex_search(splitName, base_match, txt_regex))
+		{
+			//Something went wrong --> single line
+			return std::vector<std::string>();
+		}
+
+		std::string row1 = text.substr(0, numberOfCharactersPerLine + base_match.length());
+		std::string row2 = text.substr(numberOfCharactersPerLine + base_match.length());
+
+		return std::vector<std::string>{ row1, row2 };
+	};
+
 	const double secondsPerCharacter = 0.125;
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(message.c_str(), message.length() * secondsPerCharacter);
+	const std::vector<std::string> rows = splitMessage(message);
+
+	if (rows.size() == 2)
+	{
+		CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(rows[0], rows[1], message.length() * secondsPerCharacter);
+	}
+	else
+	{
+		CASTD<VScreenIngame*>(m_screens["Ingame"])->showMessage(message, "", message.length() * secondsPerCharacter);
+	}
+}
+
+void VUI::removeMaterialFromRoot(CMaterial* material)
+{
+	bool erg = m_zr.SubMaterial(material);
 }
 
 void VUI::tick(const float fTimeDelta)
 {
+	
 	float fTimeDeltaCopy = fTimeDelta; //Copy needed because Vektoria means to change the time variable for some reasons (prevent undefined behaviour: http://en.cppreference.com/w/cpp/language/const_cast)
 	m_zr.Tick(fTimeDeltaCopy);
 	activeScreen->tick(fTimeDelta);
+
+	
 }
 
 

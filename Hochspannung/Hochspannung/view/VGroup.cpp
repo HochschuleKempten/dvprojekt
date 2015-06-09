@@ -11,13 +11,15 @@ VGroup::VGroup()
 {
 }
 
-VGroup::VGroup(CViewport* viewport, CFloatRect floatRect)
+VGroup::VGroup(CViewport* viewport, CFloatRect floatRect, const std::string& sName)
 {
 	m_viewport = viewport;
 	m_zfRect = floatRect;
+
+	m_sName = sName;
 }
 
-VGroup::VGroup(CViewport* viewport, CFloatRect floatRect, CMaterial* materialbackground)
+VGroup::VGroup(CViewport* viewport, CFloatRect floatRect, CMaterial* materialbackground, const std::string& sName)
 {
 	m_viewport = viewport;
 	m_zfRect = floatRect;
@@ -26,6 +28,8 @@ VGroup::VGroup(CViewport* viewport, CFloatRect floatRect, CMaterial* materialbac
 	m_background->Init(materialbackground, m_zfRect);
 	m_viewport->AddOverlay(m_background);
 	m_hasBackground = true;
+
+	m_sName = sName;
 }
 
 VGroup::~VGroup()
@@ -52,6 +56,17 @@ VButton* VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial
 	return CASTD<VButton*>(m_guiObjects[sName]);
 }
 
+VButton* VGroup::addButton(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const Event& clickAction, const std::string& sName, const float layer)
+{
+	m_guiObjects[sName] = new VButton(m_viewport, createRelativeRectangle(&m_zfRect, &rect), MaterialNormal, MaterialHover, MaterialActive, clickAction, layer);
+
+	m_guiObjects[sName]->setName(sName);
+	m_guiObjects[sName]->addObserver(this);
+
+
+	return CASTD<VButton*>(m_guiObjects[sName]);
+}
+
 VTextfield* VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMaterial* MaterialHover, CMaterial* MaterialActive, const int MaxChars, const std::basic_string<char>& Placeholder, const std::basic_string<char>& sName, const float layer)
 {
 	m_guiObjects[sName] = new VTextfield(m_viewport, rect, MaterialNormal, MaterialHover, MaterialActive, MaxChars, Placeholder, layer);
@@ -62,9 +77,9 @@ VTextfield* VGroup::addTextfield(CFloatRect rect, CMaterial* MaterialNormal, CMa
 	return CASTD<VTextfield*>(m_guiObjects[sName]);
 }
 
-VText* VGroup::addText(CFloatRect rect, CWritingFont* writingFont, const std::basic_string<char>& text, const std::basic_string<char>& sName, const float layer)
+VText* VGroup::addText(CFloatRect rect, CWritingFont* writingFont, const std::basic_string<char>& text, const std::basic_string<char>& sName, const float layer, const VText::TextMode& textmode)
 {
-	m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text, layer);
+	m_guiObjects[sName] = new VText(m_viewport, rect, writingFont, text, layer,textmode);
 
 	m_guiObjects[sName]->addObserver(this);
 
@@ -87,19 +102,19 @@ void VGroup::addContainer(const ContainerType& containerType, CFloatRect& floatR
 	switch (containerType)
 	{
 	case Group:
-		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal,sName);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case Dialog:
-		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal, layer);
+		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal, sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case Register:
-		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, MaterialNormal, layer);
+		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, MaterialNormal, sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case GUIArea:
-		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal, layer);
+		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal,sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	default: break;
@@ -111,19 +126,19 @@ void VGroup::addContainer(const ContainerType& containerType, CFloatRect& floatR
 	switch (containerType)
 	{
 	case Group:
-		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
+		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect),sName);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case Dialog:
-		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), layer);
+		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case Register:
-		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, layer);
+		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case GUIArea:
-		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), layer);
+		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	default: break;

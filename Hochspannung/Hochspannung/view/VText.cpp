@@ -6,13 +6,18 @@ VText::VText()
 {
 }
 
-VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text, const float layer)
+VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text, const float layer, const TextMode& textmode)
 {
+	m_textmode = textmode;
 	m_ObjectType = TEXT;
 	m_zfrRect = rect;
 	m_text = text;
 	m_writing = new CWriting();
 	m_writing->Init(m_zfrRect, m_text.length(), writingFont);
+
+	m_maxLength = m_text.length();
+
+	m_writingFont = writingFont;
 
 	m_fLayer = layer;
 
@@ -20,6 +25,11 @@ VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, co
 
 	viewport->AddWriting(m_writing);
 
+	if (m_textmode == CENTERED)
+	centerText();
+		
+	
+	
 	m_writing->PrintF("%s", &m_text[0]);
 }
 
@@ -61,7 +71,10 @@ void VText::onMouseClickRight()
 
 void VText::updateText(const std::string& text)
 {
-	m_writing->PrintF("%s", &text[0]);
+	m_text = text;
+	if (m_textmode == CENTERED)
+		centerText();
+	m_writing->PrintF("%s", &m_text[0]);
 }
 
 void VText::setLayer(float layer)
@@ -71,6 +84,20 @@ void VText::setLayer(float layer)
 
 void VText::updateRectangle(CFloatRect rect)
 {
+	m_writing->SetRect(rect);
+	m_zfrRect = rect;
+}
+
+void VText::centerText()
+{
+	if (m_maxLength > m_text.length())
+	{
+		int numCharToFill = (m_maxLength - m_text.length()) / 2;
+		for (int i = 0; i < numCharToFill; i++)
+		{
+			m_text = " " + m_text;
+		}
+	}
 }
 
 NAMESPACE_VIEW_E

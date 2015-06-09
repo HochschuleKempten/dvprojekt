@@ -8,6 +8,7 @@
 NAMESPACE_VIEW_B
 
 
+
 class VSolarPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:

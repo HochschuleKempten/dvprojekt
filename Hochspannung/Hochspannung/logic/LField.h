@@ -3,6 +3,7 @@
 #include "LGeneral.h"
 #include "LUtility.h"
 #include "LIdentifier.h"
+#include "LMessageLoader.h"
 
 NAMESPACE_LOGIC_B
 
@@ -23,7 +24,7 @@ class LField
 	NON_COPYABLE(LField);
 
 public:
-	enum FieldType 
+	enum FieldType
 	{
 		CITY     = 0,
 		WATER    = 1,
@@ -79,13 +80,12 @@ public:
 	template <typename T, typename... Args>
 	bool setBuilding(const Args... arguments)
 	{
-		//TODO (L) introduce building names 
 		if (buildingPlaced) {
-			lPlayingField->getLMaster()->getVMaster()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann hier nicht platziert werden, da auf dem Feld ") + std::to_string(fieldType) + std::string(" bereits ein Gebäude steht."));
+			LMessageLoader::emitMessage(LMessageLoader::BUILD_FIELD_OCCUPIED, { LMessageLoader::getNameForBuildingType<T>(), LMessageLoader::getNameForFieldType(fieldType) });
 			return false;
 		}
 		if (!checkBuildingType<T>()) {
-			lPlayingField->getLMaster()->getVMaster()->messageBuildingFailed(std::string("Ein ") + getClassName(T) + std::string(" kann nicht auf einem Feld vom Typ ") + std::to_string(fieldType) + std::string(" platziert werden"));
+			LMessageLoader::emitMessage(LMessageLoader::BUILD_FIELD_WRONG_TYPE, { LMessageLoader::getNameForBuildingType<T>(), LMessageLoader::getNameForFieldType(fieldType) });
 			return false;
 		}
 

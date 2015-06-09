@@ -23,7 +23,6 @@ public:
 	void InitBuildings();
 	void AddPlacements();
 	
-	//TODO (City) implement these methods
 	virtual float getHeight() override;
 	virtual float getWidth() override;
 	virtual float getBroad();

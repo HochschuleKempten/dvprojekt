@@ -11,14 +11,16 @@ VListView::VListView()
 {
 }
 
-VListView::VListView(CFloatRect floatRect, CViewport* viewport, const float layer)
+VListView::VListView(CFloatRect floatRect, CViewport* viewport, const std::string& sName, const float layer)
 {
 	m_viewport = viewport;
 	m_zfRect = floatRect;
 	m_fLayer = layer;
+
+	m_sName = sName;
 }
 
-VListView::VListView(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground, const float layer)
+VListView::VListView(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground, const std::string& sName, const float layer)
 {
 	m_fLayer = layer;
 	m_viewport = viewport;
@@ -28,6 +30,8 @@ VListView::VListView(CFloatRect floatRect, CViewport* viewport, CMaterial* mater
 	m_background->Init(materialBackground, m_zfRect);
 	m_viewport->AddOverlay(m_background);
 	m_hasBackground = true;
+
+	m_sName = sName;
 }
 
 void VListView::onNotify(const Event& evente)
@@ -45,19 +49,19 @@ void VListView::addContainer(const ContainerType& containerType, CFloatRect& flo
 	switch (containerType)
 	{
 	case Group:
-		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect));
+		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect),sName);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case Dialog:
-		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), layer);
+		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case Register:
-		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, layer);
+		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case GUIArea:
-		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), layer);
+		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	default: break;
@@ -69,19 +73,19 @@ void VListView::addContainer(const ContainerType& containerType, CFloatRect& flo
 	switch (containerType)
 	{
 	case Group:
-		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal);
+		m_Guicontainer[sName] = new VGroup(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal,sName );
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case Dialog:
-		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal, layer);
+		m_Guicontainer[sName] = new VDialog(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal, sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case Register:
-		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, MaterialNormal, layer);
+		m_Guicontainer[sName] = new VRegister(createRelativeRectangle(&m_zfRect, &floatRect), m_viewport, MaterialNormal, sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	case GUIArea:
-		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal, layer);
+		m_Guicontainer[sName] = new VGUIArea(m_viewport, createRelativeRectangle(&m_zfRect, &floatRect), MaterialNormal, sName, layer);
 		m_Guicontainer[sName]->addObserver(this);
 		break;
 	default: break;
@@ -138,8 +142,8 @@ void VListView::calcEntrySize()
 	for (const std::string& sName : m_entries)
 	{
 		//GUI Object Size Mehode hinzufügen
-		m_guiObjects[sName]->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.001F, 0.08F * static_cast<float>(i) + 0.15F, 0.99F, 0.08F)));
-		m_guiObjects[sName]->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.08F, 0.05F * static_cast<float>(i) + 0.15F, 0.82F, 0.08F)));
+		m_guiObjects[sName]->setRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.05F, 0.08F * static_cast<float>(i)+0.25F + static_cast<float>(i)*0.05F, 0.90F, 0.08F)));
+		m_guiObjects[sName]->updateRectangle(createRelativeRectangle(&m_zfRect, &CFloatRect(0.05F, 0.08F * static_cast<float>(i)+0.25F + static_cast<float>(i)*0.05F, 0.90F, 0.08F)));
 		i++;
 	}
 }

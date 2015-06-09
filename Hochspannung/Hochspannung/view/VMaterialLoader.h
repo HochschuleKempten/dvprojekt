@@ -17,17 +17,30 @@ private:
 	VMaterialLoader& operator=(const VMaterialLoader&&) = delete;
 	~VMaterialLoader() = delete;
 
+private:
 	static void setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName);
 
 public:
-	static void init();
-
 	using FieldPair = std::pair<LField::FieldType, LField::FieldLevel>;
 	static std::map<FieldPair, CMaterial> fieldMaterials;
 
 	static CMaterial materialCoalPowerPlant;
 	static CMaterial materialHydroelectricPowerPlant;
 	
+	//Test
+	static CTexture m_zmKohleBergT;
+	static CTexture m_zmKohleT;
+	static CTexture m_zmKohleHolzT;
+	static CTexture m_zmKohleLoreT;
+	static CTexture m_zmKohleBlackT;
+	static CTexture m_zmKohlegrundGreyT;
+	static CImage m_zmKohleBergI;
+	static CImage m_zmKohleI;
+	static CImage m_zmKohleHolzI;
+	static CImage m_zmKohleLoreI;
+	static CImage m_zmKohleBlackI;
+	static CImage m_zmKohlegrundGreyI;
+
 	//MainMenue
 	static CMaterial materialMainMenue;
 	static CMaterial materialMainMenueHover;
@@ -50,6 +63,8 @@ public:
 	static CMaterial materialButtonAbortHover;
 	static CMaterial materialButtonRefresh;
 	static CMaterial materialButtonRefreshHover;
+	static CMaterial materialButtonGameContinue;
+	static CMaterial materialButtonGameContinueHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
@@ -61,6 +76,18 @@ public:
 	static CMaterial materialBuildingButton;
 	static CMaterial materialBuildingButtonHover;
 
+	
+	//Credits
+
+	static CMaterial materialCreditsOrganization;
+	static CMaterial materialCreditsIntegration;
+	static CMaterial materialCreditsTextures;
+	static CMaterial materialCreditsNetwork;
+	static CMaterial materialCreditsLogic;
+	static CMaterial materialCreditsUI;
+	static CMaterial materialCreditsModelling;
+	static CMaterial materialCreditsModelling2;
+	static CMaterial materialCreditsVektoriaSplash;
 
 
 	//Backgrounds
@@ -90,6 +117,10 @@ public:
 	static CMaterial materialIngameButtonCraftmenuHover;
 	static CMaterial materialIngameButtonSabotageHover;
 	static CMaterial materialIngameButtonStatisticsHover;
+	static CMaterial materialIngameButtonCraftmenuActive;
+	static CMaterial materialIngameButtonSabotageActive;
+	static CMaterial materialIngameButtonStatisticsActive;
+
 	//Craftmenu
 	static CMaterial materialCraftmenuButtonWindmill;
 	static CMaterial materialCraftmenuButtonHydroPowerplant;
@@ -128,6 +159,8 @@ public:
 	static CMaterial materialMinimapBackground;
 
 	//Allgemein
+	static CMaterial m_zmAllgemeinGreen;
+
 	//Buttons
 	static CMaterial materialButtonBack;
 	static CMaterial materialButtonBackHover;
@@ -136,6 +169,7 @@ public:
 	static CMaterial materialBlue;
 	static CMaterial materialGreen;
 	static CMaterial materialLightGrey;
+	static CMaterial materialBlack;
 
 	//WritingFonts
 	static CWritingFont standardFont;
@@ -143,34 +177,28 @@ public:
 	static CWritingFont errorFont;
 	
 	//Trassentexturen
-	static CMaterial m_zmConcrete;
 	static CMaterial m_zmStrut;
 	static CMaterial m_zmIsolator;
 	static CMaterial m_zmRing;
 	static CMaterial m_zmCable;
 
-	//Solarkraftwerktexturen
+	//Windkraftwerktexturen
 	static CMaterial m_zmWindGrund;
-	static CMaterial m_zmWindrad;
+	static CMaterial m_zmWindRad;
+	static CMaterial m_zmWindFluegel1;
+	static CMaterial m_zmWindFluegel2;
+	static CMaterial m_zmWindFluegel3;
 
 	//Solarkraftwerktexturen
 	static CMaterial m_zmSolarzelle;
 	static CMaterial m_zmSolarGrund;
 	static CMaterial m_zmSolarLOD;
 
-	//TODO (ViewModels) Why are there two atom textures?
 	//Atomkraftwerktexturen
 	static CMaterial m_zmAtomGrund;
 	static CMaterial m_zmAtomSchranke;
 	static CMaterial m_zmAtomZaun;
 	static CMaterial m_zmAtomReaktor;
-
-	//Atomkraftwerktexturen
-	static CMaterial m_zmAtomgrundWhite;
-	static CMaterial m_zmAtomgrundGrey;
-	static CMaterial m_zmSchranke;
-	static CMaterial m_zmAtomgrundGreen;
-	static CMaterial m_zmHolz;
 
 	//Oelkraftwerktexturen
 	static CMaterial m_zmOelGrund;
@@ -191,6 +219,11 @@ public:
 	static CMaterial m_zmKohleHolz;
 	static CMaterial m_zmKohleLore;
 	static CMaterial m_zmKohleBlack;
+	static CMaterial m_zmKohlegrundGrey;
+
+	//Wasserkraftwerktexturen
+	static CMaterial m_zmWasser;
+	static CMaterial m_zmWasserHolz;
 
 	//PlayerColor
 	static std::unordered_map<int, CColor> colorPlayers;
@@ -218,17 +251,12 @@ public:
 	//CraftMenue
 	static CMaterial m_zmCraftMenueBackground;
 
-
 	//Test
 	static CMaterial materialAnimationsVersuch;
 
-	//Rotation adjustments
-	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
-
-
 	//Animierte Texturen
-
 	static CMaterial materialAnimSabotageBomb;
+	static CMaterial materialAnimLoadingCircle;
 
 	// Animiert Textur für Sabotage Cooldown Infoanzeige
 	static CMaterial materialAnimSabotagePowerPlant;
@@ -236,6 +264,11 @@ public:
 	static int materialAnimSabotagePowerPlant_y;
 
 	static CMaterial materialAnimTransformerStationLightning;
+
+public:
+	//Rotation adjustments
+	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
+	static void init();
 };
 
 

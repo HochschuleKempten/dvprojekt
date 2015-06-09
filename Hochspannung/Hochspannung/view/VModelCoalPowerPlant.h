@@ -2,9 +2,7 @@
 
 #include "VGeneral.h"
 #include "IViewModel.h"
-#include "Appartments.h"
 #include "VModelPowerLine.h"
-
 
 NAMESPACE_VIEW_B
 
@@ -17,7 +15,6 @@ private:
 
 	CPlacement m_zpKohlekraftwerk;
 	CPlacement m_zpFundament;
-	CPlacement m_zpGleiswerk;
 
 	// Gebirge
 	CPlacement m_zpGebirge;
@@ -32,8 +29,8 @@ private:
 
 	//Gleis
 	CPlacement m_zpGleis;
-	CPlacement m_zpSchieneAussen;
-	CPlacement m_zpSchieneInnen;
+	CPlacement m_zpSchieneLinks;
+	CPlacement m_zpSchieneRechts;
 
 	//Sprossen
 	CPlacement m_zpSprossen[8];
@@ -68,22 +65,18 @@ private:
 	CGeoWall m_zgFundament;
 
 	//CAppartments *Gebaeude = new CAppartments(0.2f);
-	VModelPowerLine m_zTrasse1;
-	VModelPowerLine m_zTrasse2;
+	//VModelPowerLine m_zTrasse1;
+	//VModelPowerLine m_zTrasse2;
 
-	CMaterial m_zmGreen;
-	CMaterial m_zmGrey;
-	CMaterial m_zmHolz;
-	CMaterial m_zmBerg;
-	CMaterial m_zmLore;
+	CMaterial m_zmKohleBerg;
 	CMaterial m_zmKohle;
-	CMaterial m_zmBlack;
-
-	CDeviceKeyboard m_zdk;
+	CMaterial m_zmKohleHolz;
+	CMaterial m_zmKohleLore;
+	CMaterial m_zmKohleBlack;
+	CMaterial m_zmKohlegrundGrey;
 
 	CGeoCone m_zgBerg;
-	CGeoTube m_zgSchieneAussen;
-	CGeoTube m_zgSchieneInnen;
+	CGeoWall m_zgSchiene;
 	CGeoWall m_zgSprosse;
 	CGeoWall m_zgEingangOben;
 	CGeoWall m_zgEingangSeite;
@@ -94,7 +87,8 @@ private:
 	CGeoWall m_zgMinenschacht;
 	CGeoTube m_zgKamin;
 
-	float totalMovement = 0.0f;
+	float absoluteMovement = 0.0f;
+	float direction = 1.0f;
 
 public:
 	VModelCoalPowerPlant();
@@ -113,11 +107,8 @@ public:
 		return 0.0f;
 	}
 
-	inline void rotate(const float angle)
-	{
-		m_zpMinenLore.RotateYDelta(angle);
-	}
-
+	virtual void switchOn() override;
+	virtual void switchOff() override;
 };
 
 

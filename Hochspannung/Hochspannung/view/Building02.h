@@ -2,12 +2,13 @@
 
 
 #include "VGeneral.h"
+#include "IViewModel.h"
 
 NAMESPACE_VIEW_B
 
 
 
-class Building02: public CPlacement
+class Building02: public CPlacement,public IViewModel
 {
 private:
 
@@ -24,7 +25,7 @@ private:
 	CGeoCube m_zgDach;
 	CPlacement m_zpDach;
 	CMaterial m_zmDach;
-
+		
 	CGeoWindow m_zgWindow;
 	CGeoWindow m_zgWindowInlay;
 
@@ -56,6 +57,22 @@ public:
 	void AddPlacements();
 	void TranslateAll();
 	void scaleforLoDs();
+
+
+	virtual void switchOn() override;
+
+	virtual void switchOff() override;
+
+	virtual float getWidth() override
+	{
+		return 0.0f;
+	}
+
+	virtual float getHeight() override
+	{
+		return 0.0f;
+	}
+
 };
 
 

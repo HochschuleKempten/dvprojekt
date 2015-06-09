@@ -172,6 +172,7 @@
     <ClInclude Include="logic\LHydroelectricPowerPlant.h" />
     <ClInclude Include="logic\LIdentifier.h" />
     <ClInclude Include="logic\LMaster.h" />
+    <ClInclude Include="logic\LMessageLoader.h" />
     <ClInclude Include="logic\LNuclearPowerPlant.h" />
     <ClInclude Include="logic\LOilRefinery.h" />
     <ClInclude Include="logic\LPlayer.h" />
@@ -185,9 +186,9 @@
     <ClInclude Include="logic\LWindmillPowerPlant.h" />
     <ClInclude Include="network\Client.h" />
     <ClInclude Include="network\GameObject.h" />
+    <ClInclude Include="network\Message.h" />
     <ClInclude Include="network\NetworkService.h" />
     <ClInclude Include="network\Node.h" />
-    <ClInclude Include="network\Message.h" />
     <ClInclude Include="network\Server.h" />
     <ClInclude Include="network\TransferObject.h" />
     <ClInclude Include="resource.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="view\VListView.h" />
     <ClInclude Include="view\VModelCity.h" />
     <ClInclude Include="view\VModelCoalPowerPlant.h" />
+    <ClInclude Include="view\VModelHydroelectricPowerPlant.h" />
     <ClInclude Include="view\VModelNuclearPowerPlant.h" />
     <ClInclude Include="view\VModelOilRefinery.h" />
     <ClInclude Include="view\VModelPowerLine.h" />
@@ -265,6 +267,7 @@
     <ClCompile Include="logic\LCoalPowerPlant.cpp" />
     <ClCompile Include="logic\LHydroelectricPowerPlant.cpp" />
     <ClCompile Include="logic\LMaster.cpp" />
+    <ClCompile Include="logic\LMessageLoader.cpp" />
     <ClCompile Include="logic\LNuclearPowerPlant.cpp" />
     <ClCompile Include="logic\LOilRefinery.cpp" />
     <ClCompile Include="logic\LPlayer.cpp" />
@@ -276,9 +279,9 @@
     <ClCompile Include="logic\LWindmillPowerPlant.cpp" />
     <ClCompile Include="network\Client.cpp" />
     <ClCompile Include="network\GameObject.cpp" />
+    <ClCompile Include="network\Message.cpp" />
     <ClCompile Include="network\NetworkService.cpp" />
     <ClCompile Include="network\Node.cpp" />
-    <ClCompile Include="network\Message.cpp" />
     <ClCompile Include="network\Server.cpp" />
     <ClCompile Include="network\TransferObject.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -308,6 +311,7 @@
     <ClCompile Include="view\VListView.cpp" />
     <ClCompile Include="view\VModelCity.cpp" />
     <ClCompile Include="view\VModelCoalPowerPlant.cpp" />
+    <ClCompile Include="view\VModelHydroelectricPowerPlant.cpp" />
     <ClCompile Include="view\VModelNuclearPowerPlant.cpp" />
     <ClCompile Include="view\VModelOilRefinery.cpp" />
     <ClCompile Include="view\VModelPowerLine.cpp" />

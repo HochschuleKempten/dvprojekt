@@ -7,6 +7,7 @@
 #include "VModelNuclearPowerPlant.h"
 #include "VModelOilRefinery.h"
 #include "VModelPowerLine.h"
+#include "VModelHydroelectricPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
@@ -49,9 +50,8 @@ public:
 	void updateNumberPowerLines(const int newNumberPowerLines);
 	void updatePowerPlants();
 	void updateGraph(float fProduced, float fNeeded);
-	void updateGraphRatio(float fRatio);
-
-	void updateGraphRatioEnemy(float fRatio);
+	void updateOwnGraphRatio(float fRatio);
+	void updateEnemyGraphRatio(float fRatio);
 
 	CFloatRect getTopSpace();
 
@@ -73,10 +73,15 @@ public:
 	std::unordered_map<std::string, IViewGUIObject*> getScreenObjects();
 	std::unordered_map<std::string, IViewGUIObject*> getObjects(IViewGUIContainer* container);
 
-	void showMessage(const char* message,const int timeSeconds);
+	void showMessage(const std::string& messageRow1, const std::string& messageRow2, const int timeSeconds);
 	void startCooldown(const INTERACTIONS& interaction);
 
 private:
+
+	void clearInfofield();
+
+	void hideBottomBar();
+
 	void handleInput();
 	std::map<int, std::vector<int>> pickElements();
 
@@ -93,9 +98,18 @@ private:
 	VButton* activeButton = nullptr;
 
 	CScene m_scene;
-	CParallelLight m_zl;
 	CCamera m_zc;
 	CPlacement m_zpCamera;
+
+
+	VRegister* vrRegister;
+
+	//Lightning
+	CParallelLight m_zl;
+	CSpotLight m_zlSpot;
+	CPlacement m_zpSpot;
+	CHVector m_PointingSpot;
+
 
 	VTab* m_vtTabStatistics;
 	VTab* m_vtTabSabotage;
@@ -103,7 +117,7 @@ private:
 
 
 	VGraph *m_vgGraphEnergy;
-	VGraphRatio *m_vgGraphEnergyRatio;
+	VGraphRatio *m_vgGraphEnergyRatioOwn;
 	VGraphRatio *m_vgGraphEnergyRatioEnemy;
 
 
@@ -119,7 +133,7 @@ private:
 
 	//bool bK = false;
 	float mouseWheelPosition = 0.0F;
-	float cameraAngle = 0.0F;
+	int cameraAngle = 0;
 
 	VIdentifier::VIdentifier selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
@@ -141,6 +155,7 @@ private:
 	VModelNuclearPowerPlant modelNuclear;
 	VModelOilRefinery modelOil;
 	VModelPowerLine modelPowerline;
+	VModelHydroelectricPowerPlant modelHydroelectric;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
 };
 

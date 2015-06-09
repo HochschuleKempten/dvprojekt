@@ -21,8 +21,7 @@ std::string CGameObject::getName() const {
 	return m_stName;
 }
 
-bool operator==(const CGameObject& lhs, const CGameObject& rhs)
-{
+bool operator==(const CGameObject& lhs, const CGameObject& rhs) {
 	return lhs.m_serverAddress == rhs.m_serverAddress && lhs.m_stName == rhs.m_stName && lhs.m_usServerPort == rhs.m_usServerPort;
 }
 

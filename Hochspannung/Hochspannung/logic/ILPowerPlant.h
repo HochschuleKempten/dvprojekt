@@ -173,8 +173,14 @@ public:
 
 	int fossilRessourceCheck()
 	{
-		const int consumedRessources = LBalanceLoader::getConsumedResources(LField::NUCLEAR);
+		const int consumedRessources = LBalanceLoader::getConsumedResources(getLField()->getFieldType());
 		const int amountReduced = lField->reduceResources(consumedRessources);
+
+		if (amountReduced <= 0)
+		{
+			//No ressources left
+			return 0;
+		}
 
 		if (amountReduced < consumedRessources)
 		{
@@ -191,6 +197,21 @@ public:
 
 		//Normal energy value was reduced
 		return LBalanceLoader::getProducedEnergy(this->getIdentifier());
+	}
+
+	bool isRegenerative()
+	{
+		LIdentifier::LIdentifier identifier = this->getIdentifier();
+
+		switch (identifier)
+		{
+			case(LIdentifier::LCoalPowerPlant) :
+			case(LIdentifier::LNuclearPowerPlant) :
+			case(LIdentifier::LOilRefinery) :
+				return false;
+			default:
+				return true;
+		}
 	}
 };
 

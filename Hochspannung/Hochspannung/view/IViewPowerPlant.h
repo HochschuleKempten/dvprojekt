@@ -2,6 +2,7 @@
 
 #include "VGeneral.h"
 #include "IViewBuilding.h"
+#include "IViewModel.h"
 #include "../logic/IVPowerPlant.h"
 #include "VSoundLoader.h"
 #include "../logic/LRemoteOperation.h"
@@ -16,12 +17,13 @@ protected:
 	CGeoQuad quadForAnimation;
 	CPlacement placementForAnimation;
 	CMaterial animationMaterial = VMaterialLoader::materialAnimSabotagePowerPlant;
+	IViewModel* ptrViewModel;
 
 public:
-	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp)
-		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp)
+	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* ptrViewModel)
+		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), ptrViewModel(ptrViewModel)
 	{
-		this->quadForAnimation.Init(2, 2, &animationMaterial);
+		quadForAnimation.Init(2, 2, &animationMaterial);
 		placementForAnimation.AddGeo(&quadForAnimation);
 		placementForAnimation.TranslateY(4.0);
 		animationMaterial.SwitchOff();
@@ -80,13 +82,23 @@ public:
 	virtual void switchedOn() override
 	{
 		isOn = true;
-		VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_ON, getPlacement());
+		ptrViewModel->switchOn();
+
+		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
+		{
+			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_ON, getPlacement());
+		}
 	}
 
 	virtual void switchedOff() override
 	{
 		isOn = false;
-		VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_OFF, getPlacement());
+		ptrViewModel->switchOff();
+
+		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
+		{
+			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_OFF, getPlacement());
+		}
 	}
 
 	virtual void sabotageRessourcesReduced() override

@@ -10,16 +10,31 @@ inline VModelPowerLine::DIRECTION operator|(VModelPowerLine::DIRECTION a, VModel
 	return static_cast<VModelPowerLine::DIRECTION>(static_cast<int>(a) | static_cast<int>(b));
 }
 
-VModelPowerLine::VModelPowerLine(void) {
+VModelPowerLine::VModelPowerLine(void)
+	//: m_zmStrut(VMaterialLoader::m_zmStrut),
+	//  m_zmIsolator(VMaterialLoader::m_zmIsolator),
+	//  //m_zmRing(VMaterialLoader::m_zmRing),
+	//  m_zmCable(VMaterialLoader::m_zmCable)
+{}
 
-}
-
-VModelPowerLine::VModelPowerLine(float fFieldSize) {
+VModelPowerLine::VModelPowerLine(float fFieldSize)
+	: VModelPowerLine()
+{
 	m_fFieldSize = fFieldSize;
 }
 
-VModelPowerLine::~VModelPowerLine(void) {
+VModelPowerLine::~VModelPowerLine(void)
+{
 	// TODO: add clean up for lines
+
+	//m_zmStrut.Fini();
+	//m_zmIsolator.Fini();
+	//m_zmRing.Fini();
+	//m_zmCable.Fini();
+	//removeMaterial(&VMaterialLoader::m_zmStrut);
+	//removeMaterial(&VMaterialLoader::m_zmIsolator);
+	////removeMaterial(&m_zmRing);	//TODO (V) this crashes...
+	//removeMaterial(&m_zmCable);
 }
 
 void VModelPowerLine::SetPosition(int x, int y) {
@@ -294,6 +309,21 @@ float VModelPowerLine::getWidth() {
 	return foundationWidth;
 }
 
+void VModelPowerLine::switchOn()
+{
+	//m_zmStrut.SetColorAmbient(colorAmbientOn);
+	//m_zmIsolator.SetColorAmbient(colorAmbientOn);
+	//m_zmRing.SetColorAmbient(colorAmbientOn);
+	//m_zmCable.SetColorAmbient(colorAmbientOn);
+}
+
+void VModelPowerLine::switchOff()
+{
+	//m_zmStrut.SetColorAmbient(colorAmbientOff);
+	//m_zmIsolator.SetColorAmbient(colorAmbientOff);
+	//m_zmRing.SetColorAmbient(colorAmbientOff);
+	//m_zmCable.SetColorAmbient(colorAmbientOff);
+}
 
 float VModelPowerLine::getHeight()
 {
@@ -314,7 +344,7 @@ void VModelPowerLine::InitCables(float fSegmentLength1, float fSegmentLength2, i
 		else if (i > 1 /*&& i < (iPrecision / 2)*/) {
 			cablePathPoints[i].TranslateXDelta(-(fSegmentLength1 + (i - 1) * fSubSegmentLength));
 			if (i == iPrecision-3)
-				cablePathPoints[i].TranslateYDelta(cablePathPoints[i-1].GetTranslation ().GetY ());
+				cablePathPoints[i].TranslateYDelta(cablePathPoints[i-1].GetTranslation ().GetY());
 			else
 				cablePathPoints[i].TranslateYDelta(-sqrtf(i - 2) * 0.01f - i * 0.001f);
 		}/* else if (i >= (iPrecision / 2)) {

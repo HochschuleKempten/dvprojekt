@@ -247,9 +247,11 @@ VModelTransformerStation::VModelTransformerStation()
 	placementForAnimation.TranslateYDelta(1.0f);
 }
 
-
 VModelTransformerStation::~VModelTransformerStation()
-{}
+{
+	removeMaterial(&m_zmGreen);
+	removeMaterial(&m_zmGrey);
+}
 
 
 NAMESPACE_VIEW_E

@@ -75,6 +75,7 @@ void LPlayingField::showPlayingField()
 
 	vPlayingField->buildPlayingField(); //Now build the playing field
 	initDone = true;
+	recalculateCityConnections();
 }
 
 bool LPlayingField::isInitDone()
@@ -249,7 +250,7 @@ void LPlayingField::upgradeBuilding(const int x, const int y)
 	{
 		getField(x, y)->getBuilding()->upgrade();
 	}
-	// ToDo (FL) Discuss case player doesn't have enough money
+	//todo (L, V) method still needed?
 }
 
 bool LPlayingField::hasFriendlyNeighbor(int x, const int y)
@@ -399,6 +400,9 @@ void LPlayingField::createFields()
 	}
 
 	lMaster->sendSetObject(-666, -1, -1, std::to_string(-1)); //host finished creating the field
+	
+	LRemoteOperation::sendStoredNetworkCalls();
+	
 	//-----network-----
 }
 

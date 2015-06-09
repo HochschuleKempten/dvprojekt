@@ -1,66 +1,50 @@
 #include "Message.h"
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 namespace Network {
 
-CMessage::CMessage() :
-	m_iBodyLength(0) {
+CMessage::CMessage() {
 }
 
-CMessage::CMessage(const char* pcContent) {
-	setContent(pcContent);
-}
+CMessage::CMessage(const std::string& messageContent) {
+	int iLength = messageContent.length();
 
-CMessage::~CMessage() {
-}
+	if (iLength <= iMaxBodyLength) {
 
-void CMessage::setContent(const char* pcContent) {
-	m_iBodyLength = strlen(pcContent);
-	memcpy(getBody(), pcContent, m_iBodyLength);
-	encodeHeader();
+		for (int i = 0; i < iHeaderLength; i++) {
+			m_acData[i] = static_cast<char>((iLength >> ((iHeaderLength - i - 1) * 8)) & 0xFF);
+		}
+
+		memcpy(getBody(), messageContent.c_str(), iLength);
+	} else {
+		for (int i = 0; i < iHeaderLength; i++) {
+			m_acData[i] = static_cast<char>(0);
+		}
+	}
 }
 
 char* CMessage::getData() {
 	return m_acData;
 }
 
-int CMessage::getLength() const {
-	return iHeaderLength + m_iBodyLength;
+char* CMessage::getHeader() {
+	return m_acData;
 }
 
 char* CMessage::getBody() {
 	return m_acData + iHeaderLength;
 }
 
-int CMessage::getBodyLength() const {
-	return m_iBodyLength;
-}
-
-void CMessage::setBodyLength(int iBodyLength) {
-	m_iBodyLength = iBodyLength;
-	if (m_iBodyLength > iMaxBodyLength) {
-		m_iBodyLength = iMaxBodyLength;
+int CMessage::getBodyLength() {
+	int iLength = 0;
+	for (int i = 0; i < iHeaderLength; i++) {
+		iLength += static_cast<int>(m_acData[i]) << ((iHeaderLength - i - 1) * 8);
 	}
+
+	return iLength;
 }
 
-bool CMessage::decodeHeader() {
-	char header[iHeaderLength + 1] = "";
-	strncat(header, m_acData, iHeaderLength);
-	m_iBodyLength = atoi(header);
-
-	if (m_iBodyLength > iMaxBodyLength) {
-		m_iBodyLength = 0;
-		return false;
-	}
-	return true;
-}
-
-void CMessage::encodeHeader() {
-	char header[iHeaderLength + 1] = "";
-	sprintf(header, "%4d", static_cast<int>(m_iBodyLength));
-	memcpy(m_acData, header, iHeaderLength);
+int CMessage::getLength() {
+	return getBodyLength() + iHeaderLength;
 }
 
 }

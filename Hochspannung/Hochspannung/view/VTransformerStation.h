@@ -6,7 +6,6 @@
 
 NAMESPACE_VIEW_B
 
-
 class LTransformerStation;
 
 class VTransformerStation : public IVTransformerStation, public IViewBuilding

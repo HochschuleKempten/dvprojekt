@@ -11,8 +11,8 @@ class VListView :
 public:
 	VListView();
 	~VListView();
-	VListView(CFloatRect floatRect, CViewport* viewport, const float layer);
-	VListView(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground, const float layer);
+	VListView(CFloatRect floatRect, CViewport* viewport, const std::string& sName, const float layer);
+	VListView(CFloatRect floatRect, CViewport* viewport, CMaterial* materialBackground, const std::string& sName, const float layer);
 
 	void onNotify(const Event& evente) override;
 	void addContainer(const ContainerType& containerType, CFloatRect& floatRect, const std::basic_string<char>& sName, const float layer) override;

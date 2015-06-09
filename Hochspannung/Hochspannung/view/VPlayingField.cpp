@@ -93,8 +93,6 @@ void VPlayingField::buildPlayingField()
 						CASTS<float>(fieldSize * lPlayingField->getLMaster()->getPlayer(LPlayer::Remote)->getCity()->getLField()->getY()),
 						CASTS<float>(fieldSize * rows * 0.5));
 	 
-	DEBUG_EXPRESSION(m_zp.SetName("#Placement VPlayingField"));
-
 #ifdef _DEBUG
 	for (int rowIdx = 0; rowIdx < lPlayingField->getFieldLength(); rowIdx++) {
 		for (int colIdx = 0; colIdx < lPlayingField->getFieldLength(); colIdx++) {

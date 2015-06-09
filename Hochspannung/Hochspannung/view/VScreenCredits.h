@@ -19,8 +19,35 @@ public:
 	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
 	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(const int width, const int height) override;
+
+	void MoveText(COverlay* overlay);
+
 private:
+
+	bool animationReady = false;
+
+	CFloatRect rect;
+
 	CBackground* m_background;
+	COverlay* overlay;
+	COverlay* topBorder;
+
+
+	//Credits
+
+	COverlay* materialCreditsOrganization;
+	COverlay* materialCreditsIntegration;
+	COverlay* materialCreditsTextures;
+	COverlay* materialCreditsNetwork;
+	COverlay* materialCreditsLogic;
+	COverlay* materialCreditsUI;
+	COverlay* materialCreditsModelling;
+	COverlay* materialCreditsModelling2;
+	COverlay* materialCreditsVektoriaSplash;
+
+
+	CFloatRect getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY);
+	
 };
 
 NAMESPACE_VIEW_E

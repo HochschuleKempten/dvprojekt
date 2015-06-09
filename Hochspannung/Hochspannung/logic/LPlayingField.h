@@ -12,6 +12,7 @@
 #include "LPowerLine.h"
 #include "LIdentifier.h"
 #include "LBalanceLoader.h"
+#include "LMessageLoader.h"
 #include "LMaster.h"
 
 NAMESPACE_LOGIC_B
@@ -132,10 +133,9 @@ private:
 		static_assert(std::is_base_of<ILBuilding, T>::value, "Wrong type. The type T needs to be a derived class from ILBuilding");
 
 		//Check costs
-		if (playerId & LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < LBalanceLoader::getCost<T>()) {
-			lMaster->getVMaster()->messageBuildingFailed(std::string("Kraftwerk ") + getClassName(T) + std::string(" kann nicht gebaut werden, da nur ") +
-												 std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()) + std::string(" EUR zur Verfügung stehen, es werden jedoch ") +
-												 std::to_string(LBalanceLoader::getCost<T>()) + std::string(" benötigt."));
+		if (playerId & LPlayer::Local && lMaster->getPlayer(LPlayer::Local)->getMoney() < LBalanceLoader::getCost<T>())
+		{
+			LMessageLoader::emitMessage(LMessageLoader::BUILD_NO_MONEY, { LMessageLoader::getNameForBuildingType<T>(), std::to_string(lMaster->getPlayer(LPlayer::Local)->getMoney()), std::to_string(LBalanceLoader::getCost<T>()) });
 			return false;
 		}
 

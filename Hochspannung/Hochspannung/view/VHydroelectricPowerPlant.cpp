@@ -1,29 +1,36 @@
 #include "VHydroelectricPowerPlant.h"
 #include "VPlayingField.h"
-#include "VMaterialLoader.h"
 #include "VIdentifier.h"
 #include "VMaster.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
 
 VHydroelectricPowerPlant::VHydroelectricPowerPlant(VMaster* vMaster, LHydroelectricPowerPlant* lPlant)
-	: IViewPowerPlant(lPlant, vMaster, &m_zp)
+	: IViewPowerPlant(lPlant, vMaster, viewModel.getMainPlacement(), &viewModel)
 {
-	m_zg.Init(CHVector(1.5f, 2.6f, 0.8f), &VMaterialLoader::materialHydroelectricPowerPlant);
-	m_zp.Init();
-	m_zp.AddGeo(&m_zg);
+	vMaster->registerObserver(this);
 }
 
 VHydroelectricPowerPlant::~VHydroelectricPowerPlant()
-{}
+{
+	vMaster->unregisterObserver(this);
+}
 
 void VHydroelectricPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
-{
-	//viewModel.initViewModel(this);
+{	
+	viewModel.initViewModel(this);
+	viewModel.init();
+
+	const float scale = 0.3f;
+	viewModel.getMainPlacement()->Scale(scale);
+	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0));
+	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() * 0.5f * scale - 0.55f);
+
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	//SET_NAME_AND_COORDINATES(VIdentifier::VHydroelectricPowerPlant);
+	VSoundLoader::play3DSoundLoop(VIdentifier::VHydroelectricPowerPlant, viewModel.getMainPlacement());
 }
 
 

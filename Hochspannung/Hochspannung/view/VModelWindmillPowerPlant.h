@@ -31,7 +31,15 @@ private:
 	CGeoWall m_zgFundament;
 	CGeoWall m_zgNetzanschluss;
 	CGeoEllipsoid m_zgGondel;
-	CGeoEllipsoid m_zgRotorblatt;
+	CGeoEllipsoid m_zgRotorblatt1;
+	CGeoEllipsoid m_zgRotorblatt2;
+	CGeoEllipsoid m_zgRotorblatt3;
+
+	CMaterial m_zmWindRad;
+	CMaterial m_zmWindGrund;
+	CMaterial m_zmWindFluegel1;
+	CMaterial m_zmWindFluegel2;
+    CMaterial m_zmWindFluegel3;
 
 
 
@@ -53,6 +61,11 @@ public:
 	{
 		m_zpKopf.RotateZDelta(angle);
 	}
+
+	virtual void switchOn() override;
+
+	virtual void switchOff() override;
+
 };
 
 
