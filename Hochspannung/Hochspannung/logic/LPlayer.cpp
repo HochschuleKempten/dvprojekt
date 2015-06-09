@@ -227,18 +227,31 @@ void LPlayer::checkPowerPlants()
 
 	prevConnectedPowerPlants = currentConnectedPowerPlants;
 
-	//calculate ratio regenerative
-	int countRegenerativePowerPlants = std::count_if(powerPlants.begin(), powerPlants.end(), [](ILPowerPlant* pP)
-	                                                 {
-		                                                 return pP->isRegenerative() && pP->isActivated;
-	                                                 });
-	if (prevConnectedPowerPlants.size() != 0)
+	checkRegenerativeRatio();
+}
+
+void LPlayer::checkRegenerativeRatio()
+{
+	int countTotalPowerPlant = std::count_if(prevConnectedPowerPlants.begin(), prevConnectedPowerPlants.end(), [] (ILPowerPlant* pP)
 	{
-		float ratioRegenerative = countRegenerativePowerPlants / prevConnectedPowerPlants.size();
+		return pP->isActivated;
+	});
+
+	//calculate ratio regenerative
+	int countRegenerativePowerPlants = std::count_if(prevConnectedPowerPlants.begin(), prevConnectedPowerPlants.end(), [] (ILPowerPlant* pP)
+	{
+		return pP->isRegenerative() && pP->isActivated;
+	});
+
+
+	if (countTotalPowerPlant != 0)
+	{
+		float ratioRegenerative = CASTS<float>(countRegenerativePowerPlants) / CASTS<float>(countTotalPowerPlant);
 		lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative, playerId);
 	}
 	else
 	{
+		int a = 2;
 		//TODO (L) GAME OVER as there are no connected powerplants ???
 	}
 }

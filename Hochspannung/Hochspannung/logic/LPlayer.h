@@ -36,6 +36,9 @@ private:
 	float timeLastCheck = 0;
 	PlayerId playerId = Local;
 
+private:
+	void checkRegenerativeRatio();
+
 public:
 	LPlayer()
 	{}
