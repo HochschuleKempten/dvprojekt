@@ -34,6 +34,7 @@ m_zmWindFluegel3(VMaterialLoader::m_zmWindFluegel3)
 
 	//Initialisierung Fundament
 	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &m_zmWindGrund);
+	m_zgFoundation.Init(CHVector(2.0f, 0.3f, 2.0f), &m_zmWindGrund);
 
 	//Initialisierung Netzanschluss
 	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &m_zmWindRad);
