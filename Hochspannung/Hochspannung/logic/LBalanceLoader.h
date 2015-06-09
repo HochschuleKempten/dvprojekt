@@ -63,9 +63,13 @@ public:
 	 */
 	static double getMoneyPerWatt();
 	/**
-	 * @brief Specifies the factor of money returned when selling buildings.
+	 * @brief Specifies the factor of money returned when selling buildings, if the player is connected with the transformer station.
 	 */
-	static double getSellRevenue();
+	static double getSellRevenueConnected();
+	/**
+	 * @brief Specifies the factor of money returned when selling buildings, if the player is not connected with the transformer station.
+	 */
+	static double getSellRevenueDisconnected();
 	/**
 	 * @brief Money every player has at beginning.
 	 */
@@ -100,9 +104,9 @@ public:
 	 */
 	static int getMapOffset();
 	/**
-	 * @brief Maximal surplus the player can have.
+	 * @brief At this threshold the user gets warned about low energy.
 	 */
-	static int getMaxSurplus();
+	static int getSurplusWarningThreshold();
 
 	/**
 	 * @brief Cost for sabotating a powerline.

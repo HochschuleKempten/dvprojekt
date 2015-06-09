@@ -86,7 +86,7 @@ void LCity::setEnergySurplus(const int surplus)
 {
 	this->energySurplus = surplus;
 
-	if (energySurplus >= 0 && energySurplus < 50)
+	if (energySurplus >= 0 && energySurplus < LBalanceLoader::getSurplusWarningThreshold())
 	{
 		vCity->energyLow(energySurplus);
 	}

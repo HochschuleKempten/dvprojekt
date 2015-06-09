@@ -154,8 +154,9 @@ void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
 	ASSERT(playerId == powerPlant->getPlayerId(), "Tried to remove a power plant from player " << powerPlant->getPlayerId() << " to player " << playerId);
 
 	powerPlants.erase(std::remove(powerPlants.begin(), powerPlants.end(), powerPlant), powerPlants.end());
-
 	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier(), playerId);
+	
+	checkDisposalValue(powerPlant);
 }
 
 void LPlayer::addPowerLine(LPowerLine* powerLine)
@@ -172,6 +173,8 @@ void LPlayer::removePowerLine(const LPowerLine* const powerLine)
 
 	powerLines.erase(std::remove(powerLines.begin(), powerLines.end(), powerLine), powerLines.end());
 	lMaster->getVMaster()->updateNumberPowerLines(CASTS<int>(powerLines.size()), playerId);
+
+	checkDisposalValue(powerLine);
 }
 
 void LPlayer::checkPowerPlants()
@@ -253,6 +256,19 @@ void LPlayer::checkRegenerativeRatio()
 	{
 		int a = 2;
 		//TODO (L) GAME OVER as there are no connected powerplants ???
+	}
+}
+
+void LPlayer::checkDisposalValue(const ILBuilding* const building)
+{
+	//Player gets money back
+	if (lMaster->getLPlayingField()->isTransformstationConnected())
+	{
+		addMoney(CASTS<int>(LBalanceLoader::getSellRevenueConnected() * building->getValue()));
+	}
+	else
+	{
+		addMoney(CASTS<int>(LBalanceLoader::getSellRevenueDisconnected() * building->getValue()));
 	}
 }
 
