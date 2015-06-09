@@ -28,6 +28,7 @@ class VUI : public IVTickObserver, public IViewUIObserver
 	friend class VScreenOptions;
 	friend class VScreenCredits;
 	friend class VScreenLobby;
+	friend class VScreenGameOver;
 
 	enum CursorType
 	{
@@ -92,6 +93,8 @@ public:
 	void switchCursor(const CursorType& cursorType);
 	void showMessage(const std::string& message);
 	void removeMaterialFromRoot(CMaterial* material);
+
+	void gameOver(bool win);
 };
 
 

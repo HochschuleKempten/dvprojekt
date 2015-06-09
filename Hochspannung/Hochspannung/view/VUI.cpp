@@ -6,6 +6,7 @@
 #include "VScreenLobby.h"
 #include "VScreenCredits.h"
 #include "VScreenOptions.h"
+#include "VScreenGameOver.h"
 
 NAMESPACE_VIEW_B
 
@@ -46,6 +47,7 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	addScreen("Credits", IViewScreen::Credits);
 	addScreen("Options", IViewScreen::Options);
 	addScreen("Ingame", IViewScreen::Ingame);
+	addScreen("GameOver", IViewScreen::GameOver);
 
 	for (const std::pair<std::string, IViewScreen*>& screenPair : m_screens)
 	{
@@ -118,6 +120,10 @@ void VUI::addScreen(const std::string& sName, const IViewScreen::ScreenType scre
 			break;
 		case IViewScreen::Credits:
 			m_screens[sName] = new VScreenCredits(this);
+			m_screens[sName]->addObserver(this);
+			break;
+		case IViewScreen::GameOver:
+			m_screens[sName] = new VScreenGameOver(this);
 			m_screens[sName]->addObserver(this);
 			break;
 		default: break;
@@ -277,6 +283,16 @@ void VUI::showMessage(const std::string& message)
 void VUI::removeMaterialFromRoot(CMaterial* material)
 {
 	bool erg = m_zr.SubMaterial(material);
+}
+
+void VUI::gameOver(bool win)
+{
+	if (win)
+		CASTD<VText*>(getScreen("GameOver")->getContainer("MainContainer")->getGuiObject("Header"))->updateText("Sie haben gewonnen");
+	else
+		CASTD<VText*>(getScreen("GameOver")->getContainer("MainContainer")->getGuiObject("Header"))->updateText("Sie haben verloren");
+
+	switchScreen("GameOver");
 }
 
 void VUI::tick(const float fTimeDelta)

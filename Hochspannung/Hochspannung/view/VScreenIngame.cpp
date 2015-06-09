@@ -518,7 +518,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 
 	if (keyboard->KeyPressed(DIK_V))
 	{
-		showMessage("Test test test...","Weil dass und dass Passiert ist", 3);
+		vUi->gameOver(false);
 	}
 
 	

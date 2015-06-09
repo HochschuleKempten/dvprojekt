@@ -48,7 +48,8 @@ public:
 		Options,
 		Credits,
 		Ingame,
-		Lobby
+		Lobby,
+		GameOver
 	};
 
 
