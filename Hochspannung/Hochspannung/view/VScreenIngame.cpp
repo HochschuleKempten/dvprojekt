@@ -208,8 +208,8 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vtTabStatistics->addText(CFloatRect(0.745F, 0.805F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "00%", "enemyGraphTextBottom", 0.1F);
 	updateEnemyGraphRatio(0.7f);
 
-	m_vgGraphEnergyRatioOwn->switchHorizontal();
-	m_vgGraphEnergyRatioEnemy->switchHorizontal();
+	//m_vgGraphEnergyRatioOwn->switchHorizontal();
+	//m_vgGraphEnergyRatioEnemy->switchHorizontal();
 
 	//m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.9F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy");
 	//m_vgGraphEnergy = m_vtTabStatistics->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph");
@@ -222,11 +222,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	/*m_vtTabSabotage->switchOff();
 	m_vtTabStatistics->switchOff();*/
-vrRegister->SwitchToTab("TabBuilding");
+	vrRegister->SwitchToTab("TabBuilding");
 
 	/********************************************************Minimap AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.73F, 0.00F, 0.27F, 1.0F), &VMaterialLoader::materialMinimapBackground, "Minimap", 0.3F);
-	getContainer("BottomBar")->getContainer("Minimap")->addText(CFloatRect(0.01F, 0.3F, 0.80F, 0.1F), &VMaterialLoader::standardFont, "Minimap", "MinimapText", 0.1F);
 
 
 	/***********************************************************Dialog******************************************************************/
@@ -238,19 +237,25 @@ vrRegister->SwitchToTab("TabBuilding");
 
 	/********************************************************Energy AREA*************************************************************/
 
-	//getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialLightGrey, "Energy");
-	//getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1F);
-	//m_vgGraphEnergy = getContainer("BottomBar")->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph"); // ->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
-	//m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
-	//m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
-	//m_vgGraphEnergy->updateBar2("neededEnergy", 10);
-	//m_vgGraphEnergy->updateBar2("producedEnergy", 50);
+	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.76F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialBlack, "Energy", 0.1F);
+	getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1F);
+	m_vgGraphEnergy = getContainer("BottomBar")->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph"); // ->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
+	m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
+	m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
+	m_vgGraphEnergy->updateBar2("neededEnergy", 10);
+	m_vgGraphEnergy->updateBar2("producedEnergy", 50);
 
 
 	///********************************************************Energy AREA*************************************************************/
 	//getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialGreen, "Energy", 0.2F);
 	//getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy", 0.1F);
 
+	//******** Statistics Menu *********//
+	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.25F,0.25F,0.5F,0.5F), "StatisticsMenu", 0.3F);
+
+	VStatistics* statisticsMenus = getContainer("StatisticsMenu")->addStatisticsScreen(CFloatRect(0, 0, 1, 1), &VMaterialLoader::materialLobbyRunningGamesBackground, "statisticsScreen", 0.3F);
+	statisticsMenus->addText("Du bist ein zukunftsorientierter Mensch und setzt auf Nachhaltigkeit\nAchte jedoch auf die Beduerfnisse deiner Stadtbowohner und versorge sie gut\n\nDenn nichts ist wichtiger als glueckliche Einwohner und gruener Fortschritt");
+	statisticsMenus->addText("Konfuzius sagt: Harmonie und Mitte, Gleichmut und Gleichgewicht - blubb blubb");
 
 	getContainer("DialogBox")->switchOff();
 
@@ -634,10 +639,10 @@ void VScreenIngame::updatePowerPlants()
 	}
 }
 
-void VScreenIngame::updateGraph(float fProduced, float fNeeded)
+void VScreenIngame::updateGraphProdNeeded(float fProduced, float fNeeded)
 {
 	m_vgGraphEnergy->updateBar2("producedEnergy", fProduced);
-	m_vgGraphEnergy->updateBar2("neededEnergy", fProduced);
+	m_vgGraphEnergy->updateBar2("neededEnergy", fNeeded);
 }
 
 void VScreenIngame::updateOwnGraphRatio(float fRatio)
@@ -645,6 +650,8 @@ void VScreenIngame::updateOwnGraphRatio(float fRatio)
 	m_vgGraphEnergyRatioOwn->updateValue(fRatio);
 	CASTD<VText*>(m_vtTabStatistics->getGuiObject("ownGraphTextLeft"))->updateText(std::to_string(fRatio * 100));
 	CASTD<VText*>(m_vtTabStatistics->getGuiObject("ownGraphTextRight"))->updateText(std::to_string(100 - (fRatio * 100)));
+
+	float x = fRatio * 100, y = 100 - fRatio;
 }
 
 void VScreenIngame::updateEnemyGraphRatio(float fRatio) {

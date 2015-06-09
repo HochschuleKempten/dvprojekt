@@ -15,6 +15,7 @@ VGraphRatio::VGraphRatio(CViewport* viewport, CFloatRect& rect, CMaterial* norma
 
 VGraphRatio::~VGraphRatio()
 {
+
 }
 
 void VGraphRatio::checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)

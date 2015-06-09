@@ -384,9 +384,12 @@
     </ClInclude>
     <ClInclude Include="logic\LMessageLoader.h">
       <Filter>logic\Headerdateien</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="network\Message.h">
       <Filter>network\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VStatistics.h">
+      <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -620,9 +623,12 @@
     </ClCompile>
     <ClCompile Include="logic\LMessageLoader.cpp">
       <Filter>logic\Quelldateien</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="network\Message.cpp">
       <Filter>network\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VStatistics.cpp">
+      <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
