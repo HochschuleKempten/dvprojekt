@@ -52,9 +52,6 @@ bool LField::removeBuilding(const std::function<void(const ILBuilding* const)>& 
 {
 	if (lBuilding != nullptr)
 	{
-		//Player gets money back
-		lPlayingField->getLMaster()->getPlayer(LPlayer::Local)->addMoney(CASTS<int>(LBalanceLoader::getSellRevenue() * lBuilding->getValue()));
-
 		//Last possibility to work with the object before delete
 		if (fnBeforeDelete != nullptr)
 		{

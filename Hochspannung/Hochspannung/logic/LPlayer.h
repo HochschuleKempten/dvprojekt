@@ -38,6 +38,7 @@ private:
 
 private:
 	void checkRegenerativeRatio();
+	void checkDisposalValue(const ILBuilding* const building);
 
 public:
 	LPlayer()

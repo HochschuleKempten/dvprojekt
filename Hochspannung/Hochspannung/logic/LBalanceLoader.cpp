@@ -81,10 +81,16 @@ double LBalanceLoader::getMoneyPerWatt()
 	return propertyTree.get<double>("DifficultyScale.MoneyPerWatt", 0.0);
 }
 
-double LBalanceLoader::getSellRevenue()
+double LBalanceLoader::getSellRevenueConnected()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<double>("DifficultyScale.SellRevenue", 0.0);
+	return propertyTree.get<double>("DifficultyScale.SellRevenueConnected", 0.0);
+}
+
+double LBalanceLoader::getSellRevenueDisconnected()
+{
+	ASSERT(initDone, msgAssert);
+	return propertyTree.get<double>("DifficultyScale.SellRevenueDisconnected", 0.0);
 }
 
 int LBalanceLoader::getDefaultMoney()
@@ -166,10 +172,10 @@ int LBalanceLoader::getMapOffset()
 	return propertyTree.get<int>("CityProperties.MapOffset", 0);
 }
 
-int LBalanceLoader::getMaxSurplus()
+int LBalanceLoader::getSurplusWarningThreshold()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<int>("CityProperties.MaxSurplus", 0);
+	return propertyTree.get<int>("CityProperties.SurplusWarningThreshold", 0);
 }
 
 int LBalanceLoader::getCostSabotagePowerLine()
