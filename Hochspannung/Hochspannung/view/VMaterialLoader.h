@@ -165,11 +165,16 @@ public:
 	static CMaterial materialButtonBack;
 	static CMaterial materialButtonBackHover;
 
+	static CMaterial materialButtonOk;
+	static CMaterial materialButtonOkHover;
+
 	static CMaterial materialRed;
 	static CMaterial materialBlue;
 	static CMaterial materialGreen;
 	static CMaterial materialLightGrey;
 	static CMaterial materialBlack;
+	static CMaterial materialFossil;
+	static CMaterial materialRegenerative;
 
 	//WritingFonts
 	static CWritingFont standardFont;

@@ -20,7 +20,7 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 
 
 	m_bigDialog = new COverlay();
-	m_bigDialog->InitFull("textures/background.jpg");
+	m_bigDialog->InitFull("textures/background.png");
 	//m_viewport->AddBackground(&VMaterialLoader::materialIngameBackground);
 	m_bigDialog->SetLayer(0.999F);
 	m_viewport->AddOverlay(m_bigDialog);
@@ -65,6 +65,7 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.3F, 0.25F, 0.3F, 0.2F), &VMaterialLoader::materialLobbyRunningGamesBackground, "ErrorDialog", 0.006F);
 	getContainer("ErrorDialog")->addText(CFloatRect(0.1F, 0.1F, 0.8F, 0.3F), &VMaterialLoader::errorFont , "Keine gueltige IP-Adresse!", "TextErrorDialog", 0.005F);
+	getContainer("ErrorDialog")->addButton(CFloatRect(0.4F, 0.5F, 0.2F, 0.2F), &VMaterialLoader::materialButtonOk, &VMaterialLoader::materialButtonOkHover, LOBBY_ERROR_IP_OK, "ErrorDialogOK", 0.004F);
 	
 
 
@@ -132,79 +133,92 @@ void VScreenLobby::onNotify(const Event& events)
 		getContainer("Menue")->getGuiObject("buttonJoinGame")->disable();
 		getContainer("Menue")->getGuiObject("buttonStartGame")->disable();
 		
-		//if (CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem() == nullptr)
-		//{
-		//	std::string textfieldValue = CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue();
-		//	if (textfieldValue.size() > 0)
-		//	{
-		//		if (std::regex_match(textfieldValue, std::regex("((1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])\.){3}((25[0-5])|(2[0-4][0-9])|(1?[0-9][0-9]?))")))
-		//		{	
-		//			CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Trete Spiel bei...");
-		//			getContainer("WaitingDialog")->switchOn();
-
-		//			vUi->tick(0.01F);
-
-		//			/*std::thread([this]{
-		//			
-		//				while (!m_JoinReady)
-		//				{
-		//					float value = 0.01F;
-		//					vUi->m_zr.Tick(value);
-		//					std::this_thread::sleep_for(std::chrono::milliseconds(10));
-		//				}
-		//				
-		//				  m_JoinReady = false;
-		//			}).detach();
-		//			*/
-		//		
-
-		//			//vUi->vMaster->joinGame(textfieldValue);
-		//			
-		//			
-		//				//std::this_thread::sleep_for(std::chrono::seconds(10));
-		//				m_JoinReady = true;
-		//				vUi->switchScreen("Ingame");
-		//		
-		//		}
-		//		else
-		//		{
-		//			
-
-		//				CASTD<VText*>(getContainer("ErrorDialog")->getGuiObject("TextErrorDialog"))->updateText("Keine gueltige IP-Adresse!");
-
-		//				getContainer("ErrorDialog")->switchOn();
-
-		//				/*std::this_thread::sleep_for(std::chrono::seconds(3));
-		//				getContainer("ErrorDialog")->switchOff();*/
-		//			
-		//		}
-		//	}
-		//}
-		//else
-		//{
-		//		CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Trete Spiel bei...");
-		//		getContainer("WaitingDialog")->switchOn();
-
-		//		std::thread([this]{
-		//			while (!m_JoinReady)
-		//			{
-		//				vUi->tick(0.01F);
-		//				std::this_thread::sleep_for(std::chrono::milliseconds(5));
-		//			}
-		//			m_JoinReady = false;
-		//		}).detach();
-
-		//		vUi->vMaster->joinGame(CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName());
-		//		m_JoinReady = true;
-		//		vUi->switchScreen("Ingame");
-		//}
 		
-		vUi->vMaster->joinGame(CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue());
-		vUi->switchScreen("Ingame");
+		
+	
+		if (CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem() == nullptr)
+		{
+			std::string textfieldValue = CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue();
+			if (textfieldValue.size() > 0)
+			{
+				if (std::regex_match(textfieldValue, std::regex("((1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])\.){3}((25[0-5])|(2[0-4][0-9])|(1?[0-9][0-9]?))")))
+				{	
+					CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Trete Spiel bei...");
+					getContainer("WaitingDialog")->switchOn();
 
+					//vUi->tick(0.01F);
+
+					/*std::thread([this]{
+					
+						while (!m_JoinReady)
+						{
+							float value = 0.01F;
+							vUi->m_zr.Tick(value);
+							std::this_thread::sleep_for(std::chrono::milliseconds(10));
+						}
+						
+						  m_JoinReady = false;
+					}).detach();
+					*/
+				
+
+					//vUi->vMaster->joinGame(textfieldValue);
+					
+					
+						//std::this_thread::sleep_for(std::chrono::seconds(10));
+						//m_JoinReady = true;
+						//vUi->switchScreen("Ingame");
+
+					vUi->vMaster->joinGame(textfieldValue);
+					vUi->switchScreen("Ingame");
+				
+				}
+				else
+				{
+					
+
+						CASTD<VText*>(getContainer("ErrorDialog")->getGuiObject("TextErrorDialog"))->updateText("Keine gueltige IP-Adresse!");
+
+						getContainer("ErrorDialog")->switchOn();
+
+						/*std::this_thread::sleep_for(std::chrono::seconds(3));
+						getContainer("ErrorDialog")->switchOff();*/
+					
+				}
+			}
+		}
+		else
+		{
+				CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Trete Spiel bei...");
+				getContainer("WaitingDialog")->switchOn();
+
+				/*std::thread([this]{
+					while (!m_JoinReady)
+					{*/
+						//vUi->tick(0.01F);
+						//std::this_thread::sleep_for(std::chrono::milliseconds(5));
+				/*	}
+					m_JoinReady = false;
+				}).detach();*/
+
+				//vUi->vMaster->joinGame(CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName());
+				//m_JoinReady = true;
+				//vUi->switchScreen("Ingame");
+			}
+		
 		break;
 	case REFRESH_GAME_LIST:
 		vUi->vMaster->getLMaster()->searchGames();
+		break;
+
+	case LOBBY_ERROR_IP_OK:
+
+		getContainer("LobbyRunningGames")->getGuiObject("textfieldIP")->enable();
+		getContainer("Menue")->getGuiObject("buttonBackToPlaymode")->enable();
+		getContainer("Menue")->getGuiObject("buttonCreateGame")->enable();
+		getContainer("Menue")->getGuiObject("buttonJoinGame")->enable();
+		getContainer("Menue")->getGuiObject("buttonStartGame")->enable();
+		getContainer("ErrorDialog")->switchOff();
 		break;
 
 	case ABORT_HOST_DIALOG:

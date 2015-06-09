@@ -36,11 +36,10 @@ CMaterial VMaterialLoader::materialBlue;
 CMaterial VMaterialLoader::materialGreen;
 CMaterial VMaterialLoader::materialLightGrey;
 CMaterial VMaterialLoader::materialBlack;
-
-
+CMaterial VMaterialLoader::materialFossil;
+CMaterial VMaterialLoader::materialRegenerative;
 
 //Credits
-
 CMaterial VMaterialLoader::materialCreditsOrganization;
 CMaterial VMaterialLoader::materialCreditsIntegration;
 CMaterial VMaterialLoader::materialCreditsTextures;
@@ -93,6 +92,9 @@ CMaterial VMaterialLoader::materialBuildingButtonHover;
 
 CMaterial VMaterialLoader::materialButtonAbort;
 CMaterial VMaterialLoader::materialButtonAbortHover;
+
+CMaterial VMaterialLoader::materialButtonOk;
+CMaterial VMaterialLoader::materialButtonOkHover;
 
 
 //Ingame
@@ -331,6 +333,9 @@ void VMaterialLoader::init()
 	materialButtonAbort.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort.png");
 	materialButtonAbortHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_abort_hover.png");
 
+	materialButtonOk.MakeTextureSprite("textures/gui/Buttons/ButtonOK.png");
+	materialButtonOkHover.MakeTextureSprite("textures/gui/Buttons/ButtonOKHover.png");
+
 	materialButtonGameContinue.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue.png");
 	materialButtonGameContinueHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue_hover.png");
 
@@ -411,6 +416,8 @@ void VMaterialLoader::init()
 	materialGreen.MakeTextureSprite("textures\\green_image.jpg");
 	materialLightGrey.MakeTextureSprite("textures\\lightgrey_image.png");
 	materialBlack.MakeTextureSprite("textures\\black_image.jpg");
+	materialFossil.MakeTextureSprite("textures\\fossil_stats.png");
+	materialRegenerative.MakeTextureSprite("textures\\regenerative_stats.png");
 
 	materialAnimationsVersuch.MakeTextureSprite("textures/fonts/FontArialShadow.png");
 	materialAnimationsVersuch.SetAni(16, 16, 0.5);
@@ -599,7 +606,7 @@ void VMaterialLoader::init()
 	materialTextfieldBackground.MakeTextureSprite("textures/gui/background/gui_textfield_background.png");
 	materialTextfieldHoverBackground.MakeTextureSprite("textures/gui/background/gui_textfield_backgroundHover.png");
 	materialErrorBackground.MakeTextureSprite("textures/gui/background/gui_error_background.png");
-	materialIngameBackground.InitFull("textures/background.jpg");
+	materialIngameBackground.InitFull("textures/background.png");
 
 	materialLobbyRunningGamesBackground.SetTransparencyOn();
 
