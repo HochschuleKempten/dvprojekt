@@ -11,26 +11,26 @@ CMessage::CMessage(const std::string& messageContent) {
 	if (iLength <= iMaxBodyLength) {
 
 		for (int i = 0; i < iHeaderLength; i++) {
-			m_acData[i] = static_cast<char>((iLength >> ((iHeaderLength - i - 1) * 8)) & 0xFF);
+			m_acData[i] = static_cast<unsigned char>((iLength >> ((iHeaderLength - i - 1) * 8)) & 0xFF);
 		}
 
 		memcpy(getBody(), messageContent.c_str(), iLength);
 	} else {
 		for (int i = 0; i < iHeaderLength; i++) {
-			m_acData[i] = static_cast<char>(0);
+			m_acData[i] = static_cast<unsigned char>(0);
 		}
 	}
 }
 
-char* CMessage::getData() {
+unsigned char* CMessage::getData() {
 	return m_acData;
 }
 
-char* CMessage::getHeader() {
+unsigned char* CMessage::getHeader() {
 	return m_acData;
 }
 
-char* CMessage::getBody() {
+unsigned char* CMessage::getBody() {
 	return m_acData + iHeaderLength;
 }
 
