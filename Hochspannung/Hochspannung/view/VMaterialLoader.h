@@ -9,6 +9,25 @@ NAMESPACE_VIEW_B
 
 class VMaterialLoader
 {
+public:
+	enum Model
+	{
+		COAL_MOUNTAIN,
+		COAL_STRUCTURE,
+		COAL_WOOD,
+		COAL_WAGON,
+		COAL_BLACK,
+		COAL_GREY,
+		POWERLINE_STRUT,
+		POWERLINE_ISOLATOR,
+		POWERLINE_RING,
+		POWERLINE_CABLE,
+		TRANSFORMERSTATION_BETON,
+		TRANSFORMERSTATION_BETON_LIGHT,
+		TRANSFORMERSTATION_ISOLATOR,
+		TRANSFORMERSTATION_WIRE,
+	};
+
 private:
 	VMaterialLoader() = delete;
 	VMaterialLoader(const VMaterialLoader&) = delete;
@@ -17,8 +36,20 @@ private:
 	VMaterialLoader& operator=(const VMaterialLoader&&) = delete;
 	~VMaterialLoader() = delete;
 
-private:
 	static void setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName);
+	static void setPowerPlantMaterialHelper(const Model materialPowerPlant, const std::string& textureName);
+
+private:
+	static std::unordered_map<Model, CMaterial> materialsModelsSwitchedOn;
+	static std::unordered_map<Model, CMaterial> materialsModelsSwitchedOff;
+	static CColor colorAmbientOn;
+	static CColor colorAmbientOff;
+
+public:
+	//Rotation adjustments
+	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
+	static void init();
+	static CMaterial* getMaterialModel(const Model materialPowerPlant, const bool switchedOn);
 
 public:
 	using FieldPair = std::pair<LField::FieldType, LField::FieldLevel>;
@@ -26,20 +57,6 @@ public:
 
 	static CMaterial materialCoalPowerPlant;
 	static CMaterial materialHydroelectricPowerPlant;
-	
-	//Test
-	static CTexture m_zmKohleBergT;
-	static CTexture m_zmKohleT;
-	static CTexture m_zmKohleHolzT;
-	static CTexture m_zmKohleLoreT;
-	static CTexture m_zmKohleBlackT;
-	static CTexture m_zmKohlegrundGreyT;
-	static CImage m_zmKohleBergI;
-	static CImage m_zmKohleI;
-	static CImage m_zmKohleHolzI;
-	static CImage m_zmKohleLoreI;
-	static CImage m_zmKohleBlackI;
-	static CImage m_zmKohlegrundGreyI;
 
 	//MainMenue
 	static CMaterial materialMainMenue;
@@ -180,12 +197,6 @@ public:
 	static CWritingFont standardFont;
 	static CWritingFont GoldFont;
 	static CWritingFont errorFont;
-	
-	//Trassentexturen
-	static CMaterial m_zmStrut;
-	static CMaterial m_zmIsolator;
-	static CMaterial m_zmRing;
-	static CMaterial m_zmCable;
 
 	//Windkraftwerktexturen
 	static CMaterial m_zmWindGrund;
@@ -211,20 +222,6 @@ public:
 	static CMaterial m_zmOelZaun;
 	static CMaterial m_zmOelGelbstahl;
 	static CMaterial m_zmOelGruenstahl;
-
-	//Umspannwerktexturen
-	static CMaterial m_zmUmspannBoden;
-	static CMaterial m_zmUmspannGrund;
-	static CMaterial m_zmUmspannIsolator;
-	static CMaterial m_zmUmspannLeitung;
-
-	//Kohlekraftwerktexturen
-	static CMaterial m_zmKohleBerg;
-	static CMaterial m_zmKohle;
-	static CMaterial m_zmKohleHolz;
-	static CMaterial m_zmKohleLore;
-	static CMaterial m_zmKohleBlack;
-	static CMaterial m_zmKohlegrundGrey;
 
 	//Wasserkraftwerktexturen
 	static CMaterial m_zmWasser;
@@ -273,13 +270,6 @@ public:
 	static int materialAnimSabotagePowerPlant_y;
 
 	static CMaterial materialAnimTransformerStationLightning;
-
-	
-
-public:
-	//Rotation adjustments
-	static float getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta);
-	static void init();
 };
 
 

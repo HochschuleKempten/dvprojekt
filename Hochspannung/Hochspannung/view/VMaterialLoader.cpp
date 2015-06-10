@@ -1,20 +1,8 @@
 #include "VMaterialLoader.h"
 #include "../logic/LPlayer.h"
+#include "../logic/LUtility.h"
 
 NAMESPACE_VIEW_B
-
-CTexture VMaterialLoader::m_zmKohleBergT;
-CTexture VMaterialLoader::m_zmKohleT;
-CTexture VMaterialLoader::m_zmKohleHolzT;
-CTexture VMaterialLoader::m_zmKohleLoreT;
-CTexture VMaterialLoader::m_zmKohleBlackT;
-CTexture VMaterialLoader::m_zmKohlegrundGreyT;
-CImage VMaterialLoader::m_zmKohleBergI;
-CImage VMaterialLoader::m_zmKohleI;
-CImage VMaterialLoader::m_zmKohleHolzI;
-CImage VMaterialLoader::m_zmKohleLoreI;
-CImage VMaterialLoader::m_zmKohleBlackI;
-CImage VMaterialLoader::m_zmKohlegrundGreyI;
 
 
 std::map<VMaterialLoader::FieldPair, CMaterial> VMaterialLoader::fieldMaterials;
@@ -155,12 +143,6 @@ CWritingFont VMaterialLoader::standardFont;
 CWritingFont VMaterialLoader::GoldFont;
 CWritingFont VMaterialLoader::errorFont;
 
-//Trassentexturen
-CMaterial VMaterialLoader::m_zmStrut;
-CMaterial VMaterialLoader::m_zmIsolator;
-CMaterial VMaterialLoader::m_zmRing;
-CMaterial VMaterialLoader::m_zmCable;
-
 //Windkraftwerktexturen
 CMaterial VMaterialLoader::m_zmWindGrund;
 CMaterial VMaterialLoader::m_zmWindRad;
@@ -185,20 +167,6 @@ CMaterial VMaterialLoader::m_zmOelSchranke;
 CMaterial VMaterialLoader::m_zmOelZaun;
 CMaterial VMaterialLoader::m_zmOelGelbstahl;
 CMaterial VMaterialLoader::m_zmOelGruenstahl;
-
-//Umspannwerktexturen
-CMaterial VMaterialLoader::m_zmUmspannBoden;
-CMaterial VMaterialLoader::m_zmUmspannGrund;
-CMaterial VMaterialLoader::m_zmUmspannIsolator;
-CMaterial VMaterialLoader::m_zmUmspannLeitung;
-
-//Kohlekraftwerktexturen
-CMaterial VMaterialLoader::m_zmKohleBerg;
-CMaterial VMaterialLoader::m_zmKohle;
-CMaterial VMaterialLoader::m_zmKohleHolz;
-CMaterial VMaterialLoader::m_zmKohleLore;
-CMaterial VMaterialLoader::m_zmKohleBlack;
-CMaterial VMaterialLoader::m_zmKohlegrundGrey;
 
 //Wasserkraftwerktexturen
 CMaterial VMaterialLoader::m_zmWasser;
@@ -260,6 +228,11 @@ CMaterial VMaterialLoader::materialAnimTransformerStationLightning;
 int VMaterialLoader::materialAnimSabotagePowerPlant_x;
 int VMaterialLoader::materialAnimSabotagePowerPlant_y;
 
+std::unordered_map<VMaterialLoader::Model, CMaterial> VMaterialLoader::materialsModelsSwitchedOn;
+std::unordered_map<VMaterialLoader::Model, CMaterial> VMaterialLoader::materialsModelsSwitchedOff;
+CColor VMaterialLoader::colorAmbientOn(0.0f, 0.0f, 0.0f);
+CColor VMaterialLoader::colorAmbientOff(-0.2f, -0.2f, -0.2f);
+
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
 	std::string textureDiffuse = std::string("textures/terrain/texture_terrain_") + textureName + std::string("_diffuse.png");
@@ -287,22 +260,107 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureGlow(&textureGlow[0]);
 }
 
+void VMaterialLoader::setPowerPlantMaterialHelper(const Model materialPowerPlant, const std::string& textureName)
+{
+	//Define every texture type and its corresponding vectoria calls
+	const std::unordered_map<std::string, std::function<void(std::string&)>> textureTypes =
+	{
+		{ "diffuse", [materialPowerPlant] (std::string& path)
+			{
+				materialsModelsSwitchedOn[materialPowerPlant].MakeTextureDiffuse(&path[0]);
+				materialsModelsSwitchedOn[materialPowerPlant].SetColorAmbient(colorAmbientOn);
+
+				materialsModelsSwitchedOff[materialPowerPlant].MakeTextureDiffuse(&path[0]);
+				materialsModelsSwitchedOff[materialPowerPlant].SetColorAmbient(colorAmbientOff);
+			}
+		},
+		{
+			"bump", [materialPowerPlant] (std::string& path)
+			{
+				materialsModelsSwitchedOn[materialPowerPlant].MakeTextureBump(&path[0]);
+				materialsModelsSwitchedOff[materialPowerPlant].MakeTextureBump(&path[0]);
+			}
+		},
+		{
+			"specular", [materialPowerPlant] (std::string& path)
+			{
+				materialsModelsSwitchedOn[materialPowerPlant].MakeTextureSpecular(&path[0]);
+				materialsModelsSwitchedOff[materialPowerPlant].MakeTextureSpecular(&path[0]);
+			}
+		},
+		{
+			"glow", [materialPowerPlant] (std::string& path)
+			{
+				materialsModelsSwitchedOn[materialPowerPlant].MakeTextureGlow(&path[0]);
+				materialsModelsSwitchedOff[materialPowerPlant].MakeTextureGlow(&path[0]);
+			}
+		}
+	};
+	
+	std::string fileExtension = getFileExtension(textureName);
+	std::string basePath = textureName.substr(0, textureName.size() - fileExtension.size() - 1);
+
+	std::fstream file;
+	std::string path;
+	
+	//Try every texture type
+	for (auto type : textureTypes)
+	{
+		//Check texture root folder
+		path = "textures/" + basePath + "." + fileExtension;
+		file.open(path, std::ios::in);
+		if (file.is_open())		//Check if file exists
+		{
+			type.second(path);
+		}
+		file.clear();
+
+		//Check models folder (it is assumed that root textures have no type suffix (e. g. no _diffuse)
+		path = "textures/models/" + basePath + "_" + type.first + "." + fileExtension;
+		file.open(path, std::ios::in);
+		if (file.is_open())		//Check if file exists
+		{
+			type.second(path);
+		}
+		file.clear();
+	}
+}
+
+CMaterial* VMaterialLoader::getMaterialModel(const Model materialPowerPlant, const bool switchedOn)
+{
+	ASSERT(materialsModelsSwitchedOn.count(materialPowerPlant) > 0, "Requested material is not available");
+
+	if (switchedOn)
+	{
+		return &materialsModelsSwitchedOn[materialPowerPlant];
+	}
+	else
+	{
+		return &materialsModelsSwitchedOff[materialPowerPlant];
+	}
+}
+
 void VMaterialLoader::init()
 {
-	m_zmKohleBergI.Init("Textures\\berg_image.jpg");
-	m_zmKohleI.Init("Textures\\kohle_image.jpg");
-	m_zmKohleHolzI.Init("Textures\\holz_image.jpg");
-	m_zmKohleLoreI.Init("Textures\\lore_image.jpg");
-	m_zmKohleBlackI.Init("Textures\\black_image.jpg");
-	m_zmKohlegrundGreyI.Init("Textures\\grey_image.jpg");
+	//&VMaterialLoader::[^,)]+
 
-	m_zmKohleBergT.Init(&m_zmKohleBergI);
-	m_zmKohleT.Init(&m_zmKohleI);
-	m_zmKohleHolzT.Init(&m_zmKohleHolzI);
-	m_zmKohleLoreT.Init(&m_zmKohleLoreI);
-	m_zmKohleBlackT.Init(&m_zmKohleBlackI);
-	m_zmKohlegrundGreyT.Init(&m_zmKohlegrundGreyI);
+	setPowerPlantMaterialHelper(COAL_MOUNTAIN, "berg_image.jpg");
+	setPowerPlantMaterialHelper(COAL_STRUCTURE, "kohle_image.jpg");
+	setPowerPlantMaterialHelper(COAL_WOOD, "holz_image.jpg");
+	setPowerPlantMaterialHelper(COAL_WAGON, "lore_image.jpg");
+	setPowerPlantMaterialHelper(COAL_BLACK, "black_image.jpg");
+	setPowerPlantMaterialHelper(COAL_GREY, "grey_image.jpg");
+	setPowerPlantMaterialHelper(POWERLINE_STRUT, "strommast.png");
+	setPowerPlantMaterialHelper(POWERLINE_ISOLATOR, "black_image.jpg");
+	setPowerPlantMaterialHelper(POWERLINE_RING, "black_image.jpg");
+	setPowerPlantMaterialHelper(POWERLINE_CABLE, "white_image.jpg");
+	setPowerPlantMaterialHelper(TRANSFORMERSTATION_BETON, "Beton.png");
+	setPowerPlantMaterialHelper(TRANSFORMERSTATION_BETON_LIGHT, "Beton_light.png");
+	setPowerPlantMaterialHelper(TRANSFORMERSTATION_ISOLATOR, "black_image.jpg");
+	setPowerPlantMaterialHelper(TRANSFORMERSTATION_WIRE, "grey_image.jpg");
 
+	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
 
 	setFieldMaterialHelper(LField::WATER, "water");
 	setFieldMaterialHelper(LField::AIR, "air");
@@ -440,10 +498,7 @@ void VMaterialLoader::init()
 	errorFont.Init("textures/fonts/OCRError.png", true);
 	errorFont.SetTableSize(16, 16);
 
-	m_zmStrut.MakeTextureDiffuse("textures/buildings/strommast_diffuse.png");
-	m_zmIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
-	m_zmRing.MakeTextureDiffuse("textures\\black_image.jpg");
-	m_zmCable.MakeTextureDiffuse("textures\\white_image.jpg");
+
 
 	//Windkraftwerktexturen
 	m_zmWindGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
@@ -480,23 +535,6 @@ void VMaterialLoader::init()
 	m_zmOelGrund.SetTextureSpecularAsDiffuse();
 	m_zmAtomSchranke.SetTextureSpecularAsDiffuse();
 	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
-
-	//Umspannwerktexturen
-	m_zmUmspannBoden.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
-	m_zmUmspannGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton_light.png");
-	m_zmUmspannGrund.MakeTextureBump("textures\\Powerplants\\Beton_light_bump.png");
-	m_zmUmspannIsolator.MakeTextureDiffuse("textures\\black_image.jpg");
-	m_zmUmspannLeitung.MakeTextureDiffuse("textures\\Powerplants\\Grau.jpg");
-	m_zmUmspannBoden.SetTextureSpecularAsDiffuse();
-
-	//Kohlekraftwerktexturen
-	m_zmKohle.MakeTextureDiffuse("Textures\\kohle_image.jpg");
-	m_zmKohleBerg.MakeTextureDiffuse("Textures\\berg_image.jpg");
-	m_zmKohleHolz.MakeTextureDiffuse("Textures\\holz_image.jpg");
-	m_zmKohleLore.MakeTextureDiffuse("Textures\\lore_image.jpg");
-	m_zmKohleBlack.MakeTextureDiffuse("Textures\\black_image.jpg");
-	m_zmKohleBerg.SetTextureSpecularAsDiffuse();
-	m_zmKohlegrundGrey.MakeTextureDiffuse("Textures\\grey_image.jpg");
 	
 	//Wasserkraftwerktexturen
 	m_zmWasser.MakeTextureSprite("Textures\\animations\\Water.png");
