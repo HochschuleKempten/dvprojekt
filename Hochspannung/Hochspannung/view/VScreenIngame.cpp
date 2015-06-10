@@ -247,21 +247,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.27F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "MenueButtonQuit", 0.2F);
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.44F, 0.80F, 0.15F), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover, NOTHING, "MenueButtonBack", 0.2F);
 
-	/********************************************************Energy AREA*************************************************************/
-
-	//getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.76F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialBlack, "Energy", 0.1F);
-	//getContainer("BottomBar")->getContainer("Energy")->setLayer(0.1F);
-	//m_vgGraphEnergy = getContainer("BottomBar")->getContainer("Energy")->addGraph(CFloatRect(0, 0, 1, 1), "energyGraph"); // ->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy");
-	//m_vgGraphEnergy->addBar("neededEnergy", &VMaterialLoader::materialRed);
-	//m_vgGraphEnergy->addBar("producedEnergy", &VMaterialLoader::materialGreen);
-	//m_vgGraphEnergy->updateBar2("neededEnergy", 10);
-	//m_vgGraphEnergy->updateBar2("producedEnergy", 50);
-
-
-	///********************************************************Energy AREA*************************************************************/
-	//getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.74F, 0.03F, 0.05F, 1.0F), &VMaterialLoader::materialGreen, "Energy", 0.2F);
-	//getContainer("BottomBar")->getContainer("Energy")->addOverlay(CFloatRect(0.5F, 0.4F, 0.5F, 0.6F), &VMaterialLoader::materialRed, "NeededEnergy", 0.1F);
-
+	
 	//******** Statistics Menu *********//
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.25F,0.25F,0.5F,0.5F), "StatisticsMenu", 0.3F);
 
