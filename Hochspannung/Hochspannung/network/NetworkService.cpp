@@ -124,9 +124,9 @@ bool CNetworkService::sendStartGame() {
 	}
 }
 
-bool CNetworkService::sendStopGame() {
+bool CNetworkService::sendStopGame(bool bWon) {
 	if (getConnectionState() == CNode::State::CONNECTED) {
-		sendAsMessage(false, CTransferObject::Action::END_GAME);
+		sendAsMessage(false, CTransferObject::Action::END_GAME, -1, -1, -1, boost::lexical_cast<std::string>(bWon));
 		return true;
 	} else {
 		return false;
@@ -222,6 +222,15 @@ bool CNetworkService::sendEndSabotage(int iCoordX, int iCoordY, bool bApprovalNe
 bool CNetworkService::sendSwitchState(int iCoordX, int iCoordY, bool bStateOn, bool bApprovalNeeded) {
 	if (getConnectionState() == CNode::State::CONNECTED) {
 		sendAsMessage(bApprovalNeeded, CTransferObject::Action::SEND_SWITCH_STATE, -1, iCoordX, iCoordY, boost::lexical_cast<std::string>(bStateOn));
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool CNetworkService::sendRatio(float fRatio, bool bApprovalNeeded) {
+	if (getConnectionState() == CNode::State::CONNECTED) {
+		sendAsMessage(bApprovalNeeded, CTransferObject::Action::SEND_RATIO, -1, -1, -1, boost::lexical_cast<std::string>(fRatio));
 		return true;
 	} else {
 		return false;
