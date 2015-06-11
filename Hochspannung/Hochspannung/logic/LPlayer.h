@@ -12,10 +12,13 @@ class ILPowerPlant;
 class LPowerLine;
 class LMaster;
 class LCity;
+class LRemoteOperation;
 
 class LPlayer : public IVTickObserver
 {
 public:
+	friend class LRemoteOperation;
+
 	enum PlayerId
 	{
 		Local = 0x1,
@@ -40,6 +43,9 @@ private:
 private:
 	void checkRegenerativeRatio();
 	void checkDisposalValue(const ILBuilding* const building);
+	bool sabotageRemove(ILBuilding* lBuilding);
+	bool sabotageDeactivate(ILPowerPlant* lPowerPlant);	//TODO (L) Rename ILPowerPlant
+	bool sabotageRessource(ILPowerPlant* lPowerPlant);
 
 public:
 	LPlayer()
@@ -56,6 +62,7 @@ public:
 	void addPowerLine(LPowerLine* powerLine);
 	void removePowerLine(const LPowerLine* const powerLine);
 	void checkPowerPlants();
+
 	LCity* getCity() const
 	{
 		return city;

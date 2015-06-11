@@ -242,6 +242,41 @@ void LPlayer::checkPowerPlants()
 	checkRegenerativeRatio();
 }
 
+bool LPlayer::sabotageRemove(ILBuilding* lBuilding)
+{
+	if (trySabotageAct(LSabotage::PowerPlant))
+	{
+		//lBuilding->sabotageRemove();
+		return true;
+	}
+
+	return false;
+}
+
+bool LPlayer::sabotageDeactivate(ILPowerPlant* lPowerPlant)
+{
+	if (trySabotageAct(LSabotage::PowerPlant))
+	{
+		lPowerPlant->sabotagePowerPlant();
+
+		return true;
+	}
+
+	return false;
+}
+
+bool LPlayer::sabotageRessource(ILPowerPlant* lPowerPlant)
+{
+	if (trySabotageAct(LSabotage::PowerPlant))
+	{
+		lPowerPlant->sabotageResource();
+
+		return true;
+	}
+
+	return false;
+}
+
 void LPlayer::checkRegenerativeRatio()
 {
 	auto countTotalPowerPlant = std::count_if(prevConnectedPowerPlants.begin(), prevConnectedPowerPlants.end(), [] (ILPowerPlant* pP)

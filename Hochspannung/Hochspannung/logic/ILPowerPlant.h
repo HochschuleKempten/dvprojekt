@@ -76,8 +76,6 @@ private:
 		}
 	}
 
-	//TODO (V) make rest bools also
-
 	bool sabotagePowerPlant()
 	{
 		if (this->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))

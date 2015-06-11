@@ -18,9 +18,9 @@ public:
 		switchOff,
 		sell,
 		upgrade,
-		sabotagePowerPlant,
-		sabotagePowerLine,
-		sabotageResourceField
+		sabotageDeactivate,
+		sabotageRemove,
+		sabotageResource
 	};
 
 public:
@@ -36,7 +36,7 @@ public:
 
 	static bool isSabotageAction(const action a)
 	{
-		return a == sabotagePowerPlant || a == sabotagePowerLine || a == sabotageResourceField;
+		return a == sabotageDeactivate || a == sabotageRemove || a == sabotageResource;
 	}
 	
 };

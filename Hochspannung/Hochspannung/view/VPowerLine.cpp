@@ -58,16 +58,17 @@ ILBuilding* VPowerLine::getLBuilding()
 }
 
 bool VPowerLine::clicked(action action)
-{    
+{
 	switch (action)
-	{			
-	     case action::sabotagePowerLine: 						
-			 {   
-				 LRemoteOperation remoteOperation(lPowerLine->getLField()->getLPlayingField(), lPowerLine);
-				 return remoteOperation.sabotagePowerLine();
-			 }
+	{
+		case sabotageRemove:
+			{
+				LRemoteOperation remoteOperation(lPowerLine->getLField()->getLPlayingField(), vMaster->getLMaster()->getPlayer(LPlayer::Local));
+				return remoteOperation.sabotageRemove(lPowerLine);
+			}
 
-	   default:ASSERT("Invalid action"); return false;
+		default: ASSERT("Invalid action");
+			return false;
 	}
 }
 

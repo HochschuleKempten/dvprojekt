@@ -404,19 +404,19 @@ void VScreenIngame::onNotify(const Event& events)
 		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotagePowerlineCut");
-		selectedAction = IViewBuilding::sabotagePowerLine;
+		selectedAction = IViewBuilding::sabotageRemove;
 		break;
 	case SELECT_SABOTAGE_STRIKE:
 		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotageStrike");
-		selectedAction = IViewBuilding::sabotagePowerPlant;
+		selectedAction = IViewBuilding::sabotageDeactivate;
 		break;
 	case SELECT_SABOTAGE_HALF:
 		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotageHalf");
-		selectedAction = IViewBuilding::sabotageResourceField;
+		selectedAction = IViewBuilding::sabotageResource;
 		break;
 
 	case SELECT_SABOTAGE_POWERON:
@@ -1243,7 +1243,7 @@ bool VScreenIngame::trySabotage(const int x, const int y)
 
 	switch (selectedAction)
 	{
-	case IViewBuilding::sabotagePowerPlant:
+	case IViewBuilding::sabotageDeactivate:
 		//No power plant selected
 		if (dynamic_cast<IVPowerPlant*>(vbuilding) == nullptr)
 		{
@@ -1252,14 +1252,8 @@ bool VScreenIngame::trySabotage(const int x, const int y)
 
 		return vbuilding->clicked(selectedAction);
 
-	case IViewBuilding::sabotagePowerLine:
+	case IViewBuilding::sabotageRemove:
 		{
-			//No powerline selected
-			if (dynamic_cast<VPowerLine*>(vbuilding) == nullptr)
-			{
-				return false;
-			}
-
 			bool operationSuccessful = vbuilding->clicked(selectedAction);
 			if (operationSuccessful)
 			{
@@ -1268,7 +1262,7 @@ bool VScreenIngame::trySabotage(const int x, const int y)
 			}
 			return operationSuccessful;
 		}
-	case IViewBuilding::sabotageResourceField:
+	case IViewBuilding::sabotageResource:
 		// Deduct enemys resources
 		if (dynamic_cast<IViewPowerPlant*>(vbuilding) == nullptr)
 		{

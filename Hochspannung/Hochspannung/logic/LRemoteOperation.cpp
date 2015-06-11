@@ -1,6 +1,5 @@
 #include "LRemoteOperation.h"
 #include "ILPowerPlant.h"
-#include "LPowerLine.h"
 
 NAMESPACE_LOGIC_B
 
@@ -11,12 +10,14 @@ LRemoteOperation::LRemoteOperation(LPlayingField* lPlayingField): lPlayingField(
 	lPlayingField->beginRemoteOperation();
 }
 
-LRemoteOperation::LRemoteOperation(LPlayingField* lPlayingField, ILPowerPlant* lPowerPlant): lPlayingField(lPlayingField), lPowerPlant(lPowerPlant)
+LRemoteOperation::LRemoteOperation(LPlayingField* lPlayingField, ILPowerPlant* lPowerPlant)
+	: lPlayingField(lPlayingField), lPowerPlant(lPowerPlant)
 {
 	lPlayingField->beginRemoteOperation();
 }
 
-LRemoteOperation::LRemoteOperation(LPlayingField* lPlayingField, LPowerLine* lPowerLine): lPlayingField(lPlayingField), lPowerLine(lPowerLine)
+LRemoteOperation::LRemoteOperation(LPlayingField* lPlayingField, LPlayer* lPlayer)
+	: lPlayingField(lPlayingField), lPlayer(lPlayer)
 {
 	lPlayingField->beginRemoteOperation();
 }
@@ -64,28 +65,28 @@ void LRemoteOperation::switchOff()
 	}
 }
 
-bool LRemoteOperation::sabotagePowerPlant()
-{
-	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
-	return lPowerPlant->sabotagePowerPlant();
-}
-
 void LRemoteOperation::sabotagePowerPlantEnd()
 {
 	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
 	lPowerPlant->sabotagePowerPlantEnd();
 }
 
-bool LRemoteOperation::sabotageResource()
+bool LRemoteOperation::sabotageRemove(ILBuilding* lBuilding)
 {
-	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
-	return lPowerPlant->sabotageResource();
+	ASSERT(lPlayer != nullptr, "lPlayer is not initialized");
+	return lPlayer->sabotageRemove(lBuilding);
 }
 
-bool LRemoteOperation::sabotagePowerLine()
+bool LRemoteOperation::sabotageDeactivate(ILPowerPlant* lPowerPlant)
 {
-	ASSERT(lPowerLine != nullptr, "lPowerLine is not initialized. Make sure you pass a valid pointer to LPowerLine in the constructor");
-    return lPowerLine->sabotagePowerLine();
+	ASSERT(lPlayer != nullptr, "lPlayer is not initialized");
+	return lPlayer->sabotageDeactivate(lPowerPlant);
+}
+
+bool LRemoteOperation::sabotageRessource(ILPowerPlant* lPowerPlant)
+{
+	ASSERT(lPlayer != nullptr, "lPlayer is not initialized");
+	return lPlayer->sabotageRessource(lPowerPlant);
 }
 
 void LRemoteOperation::sendStoredNetworkCalls()
