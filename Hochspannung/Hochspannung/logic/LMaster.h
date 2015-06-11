@@ -46,6 +46,7 @@ public:
 	void sendSabotage(const LSabotage::LSabotage sabotageId, const int x, const int y);
 	void sendPowerPlantSabotageEnd(const int x, const int y);
 	void sendPowerPlantSwitchState(const int x, const int y, const bool state);
+	void sendRegenerativeRatio(const float ratio);
 	std::vector<Network::CGameObject> getGameList(bool* updated = nullptr);
 	void searchGames();
 

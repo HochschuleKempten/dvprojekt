@@ -456,6 +456,15 @@ void LMaster::sendPowerPlantSwitchState(const int x, const int y, const bool sta
 	}
 }
 
+void LMaster::sendRegenerativeRatio(const float ratio)
+{
+	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
+	{
+		//todo (IP) implement
+		//networkService.sendRatio(ratio); 
+	}
+}
+
 std::vector<Network::CGameObject> LMaster::getGameList(bool* updated)
 {
 	static std::vector<Network::CGameObject> prevGameList;
