@@ -81,11 +81,6 @@ private:
 	CGeoCylinder m_zgDrehelement;
 	CGeoWall m_zgSchranke;
 
-	CMaterial m_zmAtomGrund;
-	CMaterial m_zmAtomSchranke;
-	CMaterial m_zmAtomZaun;
-	CMaterial m_zmAtomReaktor;
-
 	//CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;

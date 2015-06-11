@@ -4,21 +4,10 @@ NAMESPACE_VIEW_B
 
 
 VModelOilRefinery::VModelOilRefinery()
-	: m_zmOelGrund(VMaterialLoader::m_zmOelGrund),
-	  m_zmOelSchranke(VMaterialLoader::m_zmOelSchranke),
-	  m_zmOelZaun(VMaterialLoader::m_zmOelZaun),
-	  m_zmOelGelbstahl(VMaterialLoader::m_zmOelGelbstahl),
-	  m_zmOelGruenstahl(VMaterialLoader::m_zmOelGruenstahl)
 {}
 
 VModelOilRefinery::~VModelOilRefinery()
-{
-	removeMaterial(&m_zmOelGrund);
-	removeMaterial(&m_zmOelSchranke);
-	removeMaterial(&m_zmOelZaun);
-	removeMaterial(&m_zmOelGelbstahl);
-	removeMaterial(&m_zmOelGruenstahl);
-}
+{}
 
 void VModelOilRefinery::init()
 {
@@ -30,17 +19,17 @@ void VModelOilRefinery::init()
 
 	//Initialisierung Fundament
 	//m_zgFundament.Init(10.0f, 0.3f, 10.0f, &VMaterialLoader::m_zmOelGrund);
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &m_zmOelGrund);
+	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState));
 
 	//Initialisierung Kamin
-	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, &m_zmOelGrund, 32, true);
+	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState), 32, true);
 
 	//Initialisierung Pfosten
-	m_zgPfosten.Init(0.2f, 1.1f, 0.2f, &m_zmOelZaun);
+	m_zgPfosten.Init(0.2f, 1.1f, 0.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FENCE, switchedState));
 
 	//Initialisierung Balken
-	m_zgBalkenLang.Init(4.7f, 0.1f, 0.1f, &m_zmOelZaun);
-	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, &m_zmOelZaun);
+	m_zgBalkenLang.Init(4.7f, 0.1f, 0.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FENCE, switchedState));
+	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FENCE, switchedState));
 
 	//Initialisierung Trassen
 	m_zTrasse1.initViewModel(vBuilding);
@@ -49,46 +38,46 @@ void VModelOilRefinery::init()
 	m_zTrasse2.Init();
 
 	//Initialisierung Drehelement
-	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, &m_zmOelGrund, 32, true, true);
+	m_zgDrehelement.Init(0.12f, 0.12f, 0.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState), 32, true, true);
 
 	//Initialisierung Schranke
-	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, &m_zmOelSchranke);
+	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_GATE, switchedState));
 
 	//Initialisierung FundamentPumpe
-	m_zgFundamentPumpe.Init(1.8f, 0.07f, 1.2f, &m_zmOelGrund);
+	m_zgFundamentPumpe.Init(1.8f, 0.07f, 1.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState));
 
 	//Initialisierung Streben
-	m_zgStrebe.Init(0.07f, 0.05f, 2.2f, &m_zmOelGrund, 32, true, true);
+	m_zgStrebe.Init(0.07f, 0.05f, 2.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState), 32, true, true);
 
 	//Initialisierung DrehpunktHammer
-	m_zgDrehpunktHammer.Init(0.2f, 0.2f, 0.65f, &m_zmOelGrund, 32, true, true);
+	m_zgDrehpunktHammer.Init(0.2f, 0.2f, 0.65f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState), 32, true, true);
 
 	//Initialisierung Balancier
-	m_zgBalancier.Init(3.5f, 0.2f, 0.2f, &m_zmOelGruenstahl);
+	m_zgBalancier.Init(3.5f, 0.2f, 0.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_GREEN_RAY, switchedState));
 
 	//Initialisierung Kopf;
-	m_zgKopf.Init(0.8f, 0.35f, 0.35f, &m_zmOelGelbstahl);
+	m_zgKopf.Init(0.8f, 0.35f, 0.35f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_YELLOW_RAY, switchedState));
 
 	//Initialisierung Kopfspitze;
-	m_zgKopfspitze.Init(0.155f, &m_zmOelGelbstahl);
+	m_zgKopfspitze.Init(0.155f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_YELLOW_RAY , switchedState));
 
 	//Initialisierung Kolbenstange;
-	m_zgKolbenstange.Init(0.03f, 0.03f, 1.8f, &m_zmOelGrund, 32, true, true);
+	m_zgKolbenstange.Init(0.03f, 0.03f, 1.8f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState), 32, true, true);
 
 	//Initialisierung Kanal;
-	m_zgKanal.Init(0.07f, 0.07f, 0.5f, &m_zmOelGruenstahl, 32, true, true);
+	m_zgKanal.Init(0.07f, 0.07f, 0.5f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_GREEN_RAY, switchedState), 32, true, true);
 
 	//Initialisierung Kanalrahmen;
-	m_zgKanalrahmen.Init(0.09f, 0.09f, 0.02f, &m_zmOelGruenstahl, 32, true, true);
+	m_zgKanalrahmen.Init(0.09f, 0.09f, 0.02f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_GREEN_RAY, switchedState), 32, true, true);
 
 	//Initialisierung Pleuel;
-	m_zgPleuel.Init(0.03f, 0.03f, 1.4f, &m_zmOelGrund, 32, true, true);
+	m_zgPleuel.Init(0.03f, 0.03f, 1.4f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState), 32, true, true);
 
 	//Initialisierung Motor
-	m_zgGetriebe.Init(0.6f, 0.6f, 0.6f, &m_zmOelGrund);
+	m_zgGetriebe.Init(0.6f, 0.6f, 0.6f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState));
 
 	//Initialisierung DrehpunktPleuel
-	m_zgDrehpunktPleuel.Init(0.15f, 0.15f, 0.3f, &m_zmOelGrund, 32, true, true);
+	m_zgDrehpunktPleuel.Init(0.15f, 0.15f, 0.3f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState), 32, true, true);
 
 
 
@@ -365,24 +354,10 @@ void VModelOilRefinery::rotate(float amount)
 
 void VModelOilRefinery::switchOn()
 {
-	m_zmOelGrund.SetColorAmbient(colorAmbientOn);
-	m_zmOelSchranke.SetColorAmbient(colorAmbientOn);
-	m_zmOelZaun.SetColorAmbient(colorAmbientOn);
-	m_zmOelGelbstahl.SetColorAmbient(colorAmbientOn);
-	m_zmOelGruenstahl.SetColorAmbient(colorAmbientOn);
-	m_zTrasse1.switchOn();
-	m_zTrasse2.switchOn();
 }
 
 void VModelOilRefinery::switchOff()
 {
-	m_zmOelGrund.SetColorAmbient(colorAmbientOff);
-	m_zmOelSchranke.SetColorAmbient(colorAmbientOff);
-	m_zmOelZaun.SetColorAmbient(colorAmbientOff);
-	m_zmOelGelbstahl.SetColorAmbient(colorAmbientOff);
-	m_zmOelGruenstahl.SetColorAmbient(colorAmbientOff);
-	m_zTrasse1.switchOff();
-	m_zTrasse2.switchOff();
 }
 
 NAMESPACE_VIEW_E

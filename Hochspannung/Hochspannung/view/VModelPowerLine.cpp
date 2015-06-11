@@ -62,23 +62,23 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_fLineThickness		= m_fRingRadius * 0.8f;
 
 	// init geometries (foundation, pole, strut)
-	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgPoleLOD3.Init(CHVector(m_fPoleDistance, fPylonHeight, m_fPoleDistance), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgRoofLOD2.Init(CHVector(m_fPoleDistance, m_fPoleThickness, m_fPoleThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgArm.Init(CHVector(m_fArmLength, m_fStrutThickness, m_fStrutThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgUpperArm.Init(CHVector(m_fUpperArmLength, m_fStrutThickness, m_fStrutThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgIsolatorLoD1.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, true));
-	m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, true), 4, false, false);
-	m_zgIsolatorLoD3.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, true), 4, false, false);
+	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, switchedState));
+	m_zgPoleLOD3.Init(CHVector(m_fPoleDistance, fPylonHeight, m_fPoleDistance), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, switchedState));
+	m_zgStrut.Init(CHVector(m_fStrutLength, m_fStrutThickness, m_fStrutThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, switchedState));
+	m_zgRoof.Init(CHVector(m_fStrutThickness, m_fStrutLength, m_fStrutThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, switchedState));
+	m_zgRoofLOD2.Init(CHVector(m_fPoleDistance, m_fPoleThickness, m_fPoleThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, switchedState));
+	m_zgArm.Init(CHVector(m_fArmLength, m_fStrutThickness, m_fStrutThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, switchedState));
+	m_zgUpperArm.Init(CHVector(m_fUpperArmLength, m_fStrutThickness, m_fStrutThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, switchedState));
+	m_zgArmConnection.Init(CHVector(m_fStrutThickness, m_fStrutThickness, m_fPoleDistance), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, switchedState));
+	m_zgIsolatorLoD1.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, switchedState));
+	m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, switchedState), 4, false, false);
+	m_zgIsolatorLoD3.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, switchedState), 4, false, false);
 	//m_zgIsolatorLoD2.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, nullptr, 6, false, false);
 	//m_zgIsolatorLoD3.Init(m_fIsolatorThickness, m_fIsolatorThickness, m_fIsolatorLength, nullptr, 4, false, false);
-	m_zgRingLoD1.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, true));
-	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, true), 5, 5, false);
-	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, true));
-	m_zgLine.Init(m_fLineThickness, m_fLineThickness, m_fLineLength, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true), 16, false, false);
+	m_zgRingLoD1.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, switchedState));
+	m_zgRingLoD2.InitArc(m_fRingThickness, m_fRingThickness, m_fRingRadius, TWOPI, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, switchedState), 5, 5, false);
+	m_zgRingLoD3.Init(CHVector(m_fRingRadius, m_fRingRadius, m_fRingRadius), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, switchedState));
+	m_zgLine.Init(m_fLineThickness, m_fLineThickness, m_fLineLength, VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, switchedState), 16, false, false);
 	
 	// preparing struts (rotate)
 	//m_zpStruts = new CPlacement[m_iStrutsCount * 8];
@@ -298,46 +298,46 @@ float VModelPowerLine::getWidth() {
 
 void VModelPowerLine::switchOn()
 {
-	m_zgPole.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgPoleLOD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgStrut.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgRoof.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgRoofLOD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgArm.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgUpperArm.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgArmConnection.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
-	m_zgIsolatorLoD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, true));
-	m_zgIsolatorLoD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, true));
-	m_zgIsolatorLoD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, true));
-	m_zgRingLoD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, true));
-	m_zgRingLoD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, true));
-	m_zgRingLoD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, true));
-	m_zgLine.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true));
-	geosweepCableLOD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true));
-	geosweepCableLOD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true));
-	geosweepCableLOD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true));
+	//m_zgPole.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
+	//m_zgPoleLOD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
+	//m_zgStrut.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
+	//m_zgRoof.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
+	//m_zgRoofLOD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
+	//m_zgArm.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
+	//m_zgUpperArm.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
+	//m_zgArmConnection.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
+	//m_zgIsolatorLoD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, true));
+	//m_zgIsolatorLoD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, true));
+	//m_zgIsolatorLoD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, true));
+	//m_zgRingLoD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, true));
+	//m_zgRingLoD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, true));
+	//m_zgRingLoD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, true));
+	//m_zgLine.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true));
+	//geosweepCableLOD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true));
+	//geosweepCableLOD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true));
+	//geosweepCableLOD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true));
 }
 
 void VModelPowerLine::switchOff()
 {
-	m_zgPole.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
-	m_zgPoleLOD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
-	m_zgStrut.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
-	m_zgRoof.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
-	m_zgRoofLOD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
-	m_zgArm.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
-	m_zgUpperArm.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
-	m_zgArmConnection.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
-	m_zgIsolatorLoD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, false));
-	m_zgIsolatorLoD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, false));
-	m_zgIsolatorLoD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, false));
-	m_zgRingLoD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, false));
-	m_zgRingLoD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, false));
-	m_zgRingLoD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, false));
-	m_zgLine.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, false));
-	geosweepCableLOD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, false));
-	geosweepCableLOD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, false));
-	geosweepCableLOD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, false));
+	//m_zgPole.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
+	//m_zgPoleLOD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
+	//m_zgStrut.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
+	//m_zgRoof.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
+	//m_zgRoofLOD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
+	//m_zgArm.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
+	//m_zgUpperArm.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
+	//m_zgArmConnection.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, false));
+	//m_zgIsolatorLoD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, false));
+	//m_zgIsolatorLoD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, false));
+	//m_zgIsolatorLoD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_ISOLATOR, false));
+	//m_zgRingLoD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, false));
+	//m_zgRingLoD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, false));
+	//m_zgRingLoD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_RING, false));
+	//m_zgLine.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, false));
+	//geosweepCableLOD1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, false));
+	//geosweepCableLOD2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, false));
+	//geosweepCableLOD3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, false));
 }
 
 float VModelPowerLine::getHeight()
@@ -369,9 +369,9 @@ void VModelPowerLine::InitCables(float fSegmentLength1, float fSegmentLength2, i
 		cablePath.Add(&cablePathPoints[i]);
 	}
 
-	geosweepCableLOD1.InitCircle(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true), 20, cablePath);
-	geosweepCableLOD2.InitCircle(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true), 10, cablePath);
-	geosweepCableLOD3.InitCircle(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, true), 4, cablePath);
+	geosweepCableLOD1.InitCircle(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, switchedState), 20, cablePath);
+	geosweepCableLOD2.InitCircle(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, switchedState), 10, cablePath);
+	geosweepCableLOD3.InitCircle(VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_CABLE, switchedState), 4, cablePath);
 	m_fCablesDone = true;
 }
 

@@ -34,7 +34,17 @@ public:
 		WIND_FLUEGEL1,
 		WIND_FLUEGEL2,
 		WIND_FLUEGEL3,
-		WATER_HOLZ
+		WATER_HOLZ,
+		NUCLEAR_FLOOR,
+		NUCLEAR_GATE,
+		NUCLEAR_FENCE,
+		NUCLEAR_REACTOR,
+		OIL_FLOOR,
+		OIL_GATE,
+		OIL_FENCE,
+		OIL_GREEN_RAY,
+		OIL_YELLOW_RAY,
+		BUILDING_WALLFRAME
 	};
 
 private:
@@ -209,19 +219,6 @@ public:
 
 	//Wasserkraftwerk
 	static CMaterial m_zmWasser;
-
-	//Atomkraftwerktexturen
-	static CMaterial m_zmAtomGrund;
-	static CMaterial m_zmAtomSchranke;
-	static CMaterial m_zmAtomZaun;
-	static CMaterial m_zmAtomReaktor;
-
-	//Oelkraftwerktexturen
-	static CMaterial m_zmOelGrund;
-	static CMaterial m_zmOelSchranke;
-	static CMaterial m_zmOelZaun;
-	static CMaterial m_zmOelGelbstahl;
-	static CMaterial m_zmOelGruenstahl;
 
 	//PlayerColor
 	static std::unordered_map<int, CColor> colorPlayers;

@@ -143,19 +143,6 @@ CWritingFont VMaterialLoader::standardFont;
 CWritingFont VMaterialLoader::GoldFont;
 CWritingFont VMaterialLoader::errorFont;
 
-//Atomkraftwerktexturen
-CMaterial VMaterialLoader::m_zmAtomGrund;
-CMaterial VMaterialLoader::m_zmAtomSchranke;
-CMaterial VMaterialLoader::m_zmAtomZaun;
-CMaterial VMaterialLoader::m_zmAtomReaktor;
-
-//Oelkraftwerktexturen
-CMaterial VMaterialLoader::m_zmOelGrund;
-CMaterial VMaterialLoader::m_zmOelSchranke;
-CMaterial VMaterialLoader::m_zmOelZaun;
-CMaterial VMaterialLoader::m_zmOelGelbstahl;
-CMaterial VMaterialLoader::m_zmOelGruenstahl;
-
 //Wasserkraftwerktexturen
 CMaterial VMaterialLoader::m_zmWasser;
 
@@ -359,6 +346,7 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(WIND_FLUEGEL2,"Metall_Fassade.jpg");
 	setPowerPlantMaterialHelper(WIND_FLUEGEL3, "Metall_Fassade.jpg");
 	setPowerPlantMaterialHelper(WATER_HOLZ, "Holz.jpg");
+	setPowerPlantMaterialHelper(BUILDING_WALLFRAME, "../buildings/texture_concrete.png");
 
 
 	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
@@ -366,6 +354,15 @@ void VMaterialLoader::init()
 	materialsModelsSwitchedOn[WIND_GROUND].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[WIND_GROUND].SetTextureSpecularAsDiffuse();
 
+	setPowerPlantMaterialHelper(NUCLEAR_FLOOR, "Beton.png");
+	setPowerPlantMaterialHelper(NUCLEAR_GATE, "Schranke.jpg");
+	setPowerPlantMaterialHelper(NUCLEAR_FENCE, "Holz.jpg");
+	setPowerPlantMaterialHelper(NUCLEAR_REACTOR, "white_image.jpg");
+	setPowerPlantMaterialHelper(OIL_FLOOR, "Beton.png");
+	setPowerPlantMaterialHelper(OIL_GATE, "Schranke.jpg");
+	setPowerPlantMaterialHelper(OIL_FENCE, "Holz.jpg");
+	setPowerPlantMaterialHelper(OIL_GREEN_RAY, "Gelbstahl.png");
+	setPowerPlantMaterialHelper(OIL_YELLOW_RAY, "Gruenstahl.png");
 	setFieldMaterialHelper(LField::WATER, "water");
 	setFieldMaterialHelper(LField::AIR, "air");
 	setFieldMaterialHelper(LField::SOLAR, "solar");
@@ -503,26 +500,7 @@ void VMaterialLoader::init()
 	errorFont.SetTableSize(16, 16);
 
 	//Atomkraftwerktexturen
-	m_zmAtomGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
-	m_zmAtomSchranke.MakeTextureDiffuse("textures\\Powerplants\\Schranke.jpg");
-	m_zmAtomZaun.MakeTextureDiffuse("textures\\Powerplants\\Holz.jpg");
-	m_zmAtomReaktor.MakeTextureDiffuse("textures\\white_image.jpg");
-	m_zmAtomGrund.SetTextureSpecularAsDiffuse();
-	m_zmAtomSchranke.SetTextureSpecularAsDiffuse();
-	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
-
-	//Atomkraftwerktexturen
 	m_zmAllgemeinGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
-
-	//Oelkraftwerktexturen
-	m_zmOelGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
-	m_zmOelSchranke.MakeTextureDiffuse("textures\\Powerplants\\Schranke.jpg");
-	m_zmOelZaun.MakeTextureDiffuse("textures\\Powerplants\\Holz.jpg");
-	m_zmOelGelbstahl.MakeTextureDiffuse("textures\\Powerplants\\Gelbstahl.png");
-	m_zmOelGruenstahl.MakeTextureDiffuse("textures\\Powerplants\\Gruenstahl.png");
-	m_zmOelGrund.SetTextureSpecularAsDiffuse();
-	m_zmAtomSchranke.SetTextureSpecularAsDiffuse();
-	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
 	
 	//Wasserkraftwerktexturen
 	m_zmWasser.MakeTextureSprite("Textures\\animations\\Water.png");
@@ -571,37 +549,36 @@ void VMaterialLoader::init()
 	materialDefaultBackground.MakeTextureSprite("textures/gui/background/texture_gui_background_grey.png");
 	materialDefaultBackground.SetTransparencyOn();
 	//CityBuildings
-
 	materialBuilding01.MakeTextureDiffuse("textures\\buildings\\Hauswand_3.png");
-	materialBuilding01.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialBuilding01.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
 	materialBuilding01.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
 	materialBuilding02.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
-	materialBuilding02.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialBuilding02.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
 	materialBuilding02.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
 	materialBuilding03.MakeTextureDiffuse("textures\\buildings\\Hauswand_4.png");
-	materialBuilding03.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialBuilding03.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
 	materialBuilding03.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 	
 	materialAppartments.MakeTextureDiffuse("textures\\buildings\\Hauswand_2.png");
-	materialAppartments.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialAppartments.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
 	materialAppartments.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
 	materialLargeOfficeBuilding.MakeTextureDiffuse("textures\\buildings\\Hauswand_2.png");
-	materialLargeOfficeBuilding.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialLargeOfficeBuilding.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
 	materialBuilding03.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
 	materialOfficTowerViewingDeck.MakeTextureDiffuse("textures\\buildings\\Hauswand_1.png");
-	materialOfficTowerViewingDeck.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialOfficTowerViewingDeck.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
 	materialOfficTowerViewingDeck.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
 	materialSmallOfficeBuilding.MakeTextureDiffuse("textures\\buildings\\Hauswand_4.png");
-	materialSmallOfficeBuilding.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialSmallOfficeBuilding.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
 	materialSmallOfficeBuilding.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
 	materialTwistedTower.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
-	materialTwistedTower.MakeTextureBump("textures\\buildings\\texture_concrete_normal.png");
+	materialTwistedTower.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
 	materialTwistedTower.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
 	materialWindowsofBuilding.MakeTextureEnvironment("textures/buildings/texture_skymap.png");

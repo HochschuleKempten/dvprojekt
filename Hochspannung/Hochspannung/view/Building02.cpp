@@ -14,9 +14,6 @@ Building02::Building02()
 }
 
 Building02::Building02(float fResize)
-	: m_zmWallNorth(VMaterialLoader::materialWindowsofBuilding),
-	  m_zmDach(VMaterialLoader::materialBuilding02),
-	  m_zmWallFrame(VMaterialLoader::materialBuilding02)
 {
 	fresize = fResize;
 
@@ -54,9 +51,8 @@ void Building02::AddWindows()
 
 void Building02::InitWalls()
 {
-	m_zWallNorth.Init(fstandardwidthwall / fresize, fstandardheightwall / fresize, fstandarddepthwall / fresize, &m_zmWallFrame);
+	m_zWallNorth.Init(fstandardwidthwall / fresize, fstandardheightwall / fresize, fstandarddepthwall / fresize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_WALLFRAME, switchedState));
 	m_zgDach.Init(CHVector(fstandardwidthroof / fresize, fstandardheightroof / fresize, fstandarddepthroof / fresize, 0.F), &m_zmDach);
-	m_zm.MakeTextureDiffuse("textures\\red_image.jpg");
 }
 
 void Building02::AddPlacements()
@@ -99,21 +95,10 @@ void Building02::scaleforLoDs()
 
 void Building02::switchOn()
 {
-	m_zmDach.SetColorAmbient(colorAmbientOn);
-	m_zmWallFrame.SetColorAmbient(colorAmbientOn);
-	m_zmWallNorth.SetColorAmbient(colorAmbientOn);
 }
 
 void Building02::switchOff()
 {
-	CColor colorAmbientOffCopy(colorAmbientOff);
-	colorAmbientOffCopy.m_frR += -0.1;
-	colorAmbientOffCopy.m_frG += -0.1;
-	colorAmbientOffCopy.m_frB += -0.1;
-
-	m_zmDach.SetColorAmbient(colorAmbientOffCopy);
-	m_zmWallFrame.SetColorAmbient(colorAmbientOffCopy);
-	m_zmWallNorth.SetColorAmbient(colorAmbientOffCopy);
 }
 
 NAMESPACE_VIEW_E
