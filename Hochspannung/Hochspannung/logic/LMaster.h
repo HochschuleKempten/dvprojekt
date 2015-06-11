@@ -21,6 +21,7 @@ private:
 	IVMaster& vMaster;
 	LPlayingField* lPlayingField = nullptr;
 	bool gamePaused = false;
+	bool singlePlayer = false;
 	std::unordered_map<LPlayer::PlayerId, LPlayer> lPlayers;
 	Network::CNetworkService& networkService;
 
@@ -56,6 +57,11 @@ public:
 	bool isGamePaused() const
 	{
 		return gamePaused;
+	}
+
+	bool isSinglePlayer() const
+	{
+		return singlePlayer;
 	}
 };
 

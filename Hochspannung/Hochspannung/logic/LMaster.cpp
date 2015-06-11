@@ -57,6 +57,7 @@ void LMaster::startNewGame(const std::string& ipAddress)
 	{
 		lPlayingField->createFields();
 		lPlayingField->showPlayingField();
+		singlePlayer = true;
 
 		return;
 	}
@@ -422,48 +423,73 @@ void LMaster::connect(const std::string& ip)
 
 void LMaster::sendSetObject(const int objectId, const int x, const int y, const std::string& value)
 {
-	bool b = networkService.sendSetObject(objectId, x, y, value);
-	ASSERT(b == true, "Error: sendSetObject.");
-	DEBUG_OUTPUT("----SENDSETOBJECT: Objectid: " + std::to_string(objectId) + ", x: " +std::to_string(x) + ", y:" + std::to_string(y) + ", value: " + value);	
+	if (!isSinglePlayer())
+	{
+		bool b = networkService.sendSetObject(objectId, x, y, value);
+		ASSERT(b == true, "Error: sendSetObject.");
+		DEBUG_OUTPUT("----SENDSETOBJECT: Objectid: " + std::to_string(objectId) + ", x: " + std::to_string(x) + ", y:" + std::to_string(y) + ", value: " + value);
+	}
 }
 
 void LMaster::sendSetMapRow(const int row, std::vector<Network::FieldTransfer> rowData)
 {
-	bool b = networkService.sendSetMapRow(row, rowData);
-	ASSERT(b == true, "Error: sendSetMapRow.");
-	DEBUG_OUTPUT("----SENDSETMAPROW: row: " + std::to_string(row)+"-------");
-	for (Network::FieldTransfer ft : rowData)
+	if (!isSinglePlayer())
 	{
-		DEBUG_OUTPUT("ObjectId: " + std::to_string(ft.iObjectID) + ", PlayerId: " + std::to_string(ft.iPlayerID) + ", FieldLevel: " + std::to_string(ft.iFieldLevel) + ", FieldType: " + std::to_string(ft.iFieldType));
+		bool b = networkService.sendSetMapRow(row, rowData);
+		ASSERT(b == true, "Error: sendSetMapRow.");
+		DEBUG_OUTPUT("----SENDSETMAPROW: row: " + std::to_string(row) + "-------");
+		for (Network::FieldTransfer ft : rowData)
+		{
+			DEBUG_OUTPUT("ObjectId: " + std::to_string(ft.iObjectID) + ", PlayerId: " + std::to_string(ft.iPlayerID) + ", FieldLevel: " + std::to_string(ft.iFieldLevel) + ", FieldType: " + std::to_string(ft.iFieldType));
+		}
+		DEBUG_OUTPUT("----------");
 	}
-	DEBUG_OUTPUT("----------");
 }
 
 void LMaster::sendDeleteObject(const int x, const int y)
 {
-	bool b = networkService.sendDeleteObject(x, y);
-	ASSERT(b == true, "Error: sendDeleteObject.");
-	DEBUG_OUTPUT("----SENDDELETEOBJECT: x: " << x << ", y: " << y);
+	if (!isSinglePlayer())
+	{
+		bool b = networkService.sendDeleteObject(x, y);
+		ASSERT(b == true, "Error: sendDeleteObject.");
+		DEBUG_OUTPUT("----SENDDELETEOBJECT: x: " << x << ", y: " << y);
+	}
 }
 
 void LMaster::sendSabotage(const LSabotage::LSabotage sabotageId, const int x, const int y)
 {
-	networkService.sendSabotage(sabotageId, x, y);
+	if (!isSinglePlayer())
+	{
+		bool b = networkService.sendSabotage(sabotageId, x, y);
+		ASSERT(b == true, "Error: sendSabotage");
+	}
 }
 
 void LMaster::sendPowerPlantSabotageEnd(const int x, const int y)
 {
-	networkService.sendEndSabotage(x, y);
+	if (!isSinglePlayer())
+	{
+		bool b = networkService.sendEndSabotage(x, y);
+		ASSERT(b == true, "Error: sendPowerPlantSabotageEnd");
+	}
 }
 
 void LMaster::sendPowerPlantSwitchState(const int x, const int y, const bool state)
 {
-	networkService.sendSwitchState(x, y, state);
+	if (!isSinglePlayer())
+	{
+		bool b = networkService.sendSwitchState(x, y, state);
+		ASSERT(b == true, "Error: sendPowerPlantSwitchState");
+	}
 }
 
 void LMaster::sendRegenerativeRatio(const float ratio)
 {
-	networkService.sendRatio(ratio);
+	if (!isSinglePlayer())
+	{
+		bool b = networkService.sendRatio(ratio);
+		ASSERT(b == true, "Error: sendRegenerativeRatio");
+	}
 }
 
 std::vector<Network::CGameObject> LMaster::getGameList(bool* updated)
