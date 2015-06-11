@@ -68,6 +68,7 @@ void VListEntry::switchOn()
 	m_zoNormal->SwitchOn();
 	m_zoActive->SwitchOff();
 	m_zoHover->SwitchOff();
+	iwas->SwitchOn();
 	m_bIsActive = false;
 }
 
@@ -77,6 +78,7 @@ void VListEntry::switchOff()
 	m_zoNormal->SwitchOff();
 	m_zoActive->SwitchOff();
 	m_zoHover->SwitchOff();
+	iwas->SwitchOff();
 	m_bIsActive = false;
 }
 

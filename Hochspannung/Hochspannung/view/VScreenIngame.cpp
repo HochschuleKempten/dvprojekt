@@ -469,6 +469,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	static bool enabled = true;
 	static bool iwas = true;
 	static bool iwas2 = true;
+	static bool iwas3 = true;
 
 	if (keyboard->KeyPressed(DIK_O) && iwas)
 	{
@@ -477,7 +478,10 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 		startCooldown(SABOTAGE_STRIKE);
 		startCooldown(SABOTAGE_CUTPOWERLINE);
 	}
-
+	if (keyboard->KeyPressed(DIK_Y) && iwas3)
+	{
+		startCooldown(SABOTAGE_CUTPOWERLINE);
+	}
 	if (keyboard->KeyPressed(DIK_N))
 	{
 		static bool zeug = true;
@@ -1055,7 +1059,9 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 			m_CooldownPowerLineCut = true;
 		m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOff();
 		m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOn();
+		VMaterialLoader::materialAnimSabotageHalfRessource.SetAni(60, 2, 1);
 		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotagePowerLine())); 
+		VMaterialLoader::materialAnimSabotageHalfRessource.SetAni(60, 2, 0);
 		m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
 		
 		m_CooldownPowerLineCut = false;
