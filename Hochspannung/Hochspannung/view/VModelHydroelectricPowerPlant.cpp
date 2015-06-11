@@ -20,7 +20,6 @@ void VModelHydroelectricPowerPlant::init()
 	m_zgRad2.InitStraight(3.0f, 4.0f, 0.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));
 	m_zgStange.InitStraight(0.05f, 0.2f, 5.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));
 	m_zgSchaufel.Init(CHVector(1.0f, 0.1f, 4.5f), VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), nullptr);
 
 	//Initialisierung Trassen
 	///m_zTrasse1.Init();
