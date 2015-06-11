@@ -271,26 +271,33 @@ void VScreenIngame::onNotify(const Event& events)
 	switch (events)
 	{
 	case SWITCH_TO_REGISTER_BUILDING:
-		SabotageTabSwitchOff();
-		m_vtTabStatistics->switchOff();
-		vrRegister->getTab("TabBuilding")->switchOn();
-		vrRegister->setActiveTab("TabBuilding");
+		if (vrRegister->getActiveTab()->getName() != "TabBuilding")
+		{
+			SabotageTabSwitchOff();
+			m_vtTabStatistics->switchOff();
+			vrRegister->getTab("TabBuilding")->switchOn();
+			vrRegister->setActiveTab("TabBuilding");
+		}
 		break;
 
 	case SWITCH_TO_REGISTER_SABOTAGE:
-		
-		m_vtTabStatistics->switchOff();
-		vrRegister->getTab("TabBuilding")->switchOff();
-		SabotageTabSwitchOn();
-		vrRegister->setActiveTab("TabSabotage");
+		if (vrRegister->getActiveTab()->getName() != "TabSabotage")
+		{
+			m_vtTabStatistics->switchOff();
+			vrRegister->getTab("TabBuilding")->switchOff();
+			SabotageTabSwitchOn();
+			vrRegister->setActiveTab("TabSabotage");
+		}
 		break;
 	case SWITCH_TO_REGISTER_STATISTICS:
-		
-		SabotageTabSwitchOff();
-		m_vtTabStatistics->switchOn();
-		vrRegister->getTab("TabBuilding")->switchOff();
-		vrRegister->setActiveTab("TabStatistics");
-		updatePowerPlants();
+		if (vrRegister->getActiveTab()->getName() != "TabStatistics")
+		{
+			SabotageTabSwitchOff();
+			m_vtTabStatistics->switchOn();
+			vrRegister->getTab("TabBuilding")->switchOff();
+			vrRegister->setActiveTab("TabStatistics");
+			updatePowerPlants();
+		}
 		break;
 
 	case SELECT_BUILDING_WINDMILL:
@@ -1059,11 +1066,11 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 			m_CooldownPowerLineCut = true;
 		m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOff();
 		m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOn();
-		VMaterialLoader::materialAnimSabotageHalfRessource.SetAni(60, 2, 1);
+		VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 1);
+		m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
 		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotagePowerLine())); 
-		VMaterialLoader::materialAnimSabotageHalfRessource.SetAni(60, 2, 0);
 		m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
-		
+		VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 0);
 		m_CooldownPowerLineCut = false;
 		
 		if(vrRegister->getActiveTab()->getName() == "TabSabotage")
@@ -1077,9 +1084,13 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 			m_CooldownStrike = true;
 			m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
 			m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOn();
+			VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 1);
+			m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageStrike"));
 			std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotagePowerPlant()));
 			m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
+			VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 0);
 			m_CooldownStrike = false;
+			
 			if (vrRegister->getActiveTab()->getName() == "TabSabotage")
 				m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
 
@@ -1091,9 +1102,13 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 			m_CooldownHalfRessource = true;
 		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
 		m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource")->SwitchOn();
+		VMaterialLoader::materialAnimSabotageHalfRessource.SetAni(60, 2, 1);
+		m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource"));
 		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotageResource())); 
 		m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource")->SwitchOff();
+		VMaterialLoader::materialAnimSabotageHalfRessource.SetAni(60, 2, 0);
 		m_CooldownHalfRessource = false;
+
 		if (vrRegister->getActiveTab()->getName() == "TabSabotage")
 		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
 	
