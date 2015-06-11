@@ -114,10 +114,6 @@ private:
 	CPlacement m_zpGrundflaeche2;
 	CGeoCube m_zgGrundflaeche2;
 
-	CMaterial m_zmSolarzelle;
-	CMaterial m_zmSolarGrund;
-	CMaterial m_zmSolarLOD;
-
 public:
 	VModelSolarPowerPlant();
 	virtual ~VModelSolarPowerPlant() override;

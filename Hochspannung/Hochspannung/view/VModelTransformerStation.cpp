@@ -13,32 +13,28 @@ VModelTransformerStation::VModelTransformerStation()
 	m_zpMain.AddPlacement(&m_zpUmspannwerk);
 
 	//Initialisierung Fundament
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmUmspannBoden);
+	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON, true));
 	//Initalisierung Ständer
-	m_zgStaender.Init(0.05f, 0.05f, 1.5f, &VMaterialLoader::m_zmUmspannGrund);
+	m_zgStaender.Init(0.05f, 0.05f, 1.5f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, true));
 	//Initalisierung Querstange
-	m_zgQuerstange.Init(2.0f, 0.1f, 0.1f, &VMaterialLoader::m_zmUmspannGrund);
+	m_zgQuerstange.Init(2.0f, 0.1f, 0.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, true));
 	//Initalisierung Isolator
-	m_zgIsolator.Init(1.0f, 1.0f, 2.5f, &VMaterialLoader::m_zmUmspannIsolator, 24);
+	m_zgIsolator.Init(1.0f, 1.0f, 2.5f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_ISOLATOR, true), 24);
 	//Initalisierung Querstange2
-	m_zgQuerstange2.Init(0.1f, 0.1f, 2.0f, &VMaterialLoader::m_zmUmspannGrund);
+	m_zgQuerstange2.Init(0.1f, 0.1f, 2.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, true));
 	//Initialisierung Trasssen
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 	m_zTrasse3.Init();
 	//Initialisierung Generator
-	m_zgGeneratorKasten.Init(2.5f, 1.9f, 3.3f, &VMaterialLoader::m_zmUmspannGrund);
+	m_zgGeneratorKasten.Init(2.5f, 1.9f, 3.3f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, true));
 	//Initialisierung Stecka
-	m_zgStecka.Init(0.03f, 0.03f, 1.0f, &VMaterialLoader::m_zmUmspannGrund);
+	m_zgStecka.Init(0.03f, 0.03f, 1.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, true));
 	//Initialisierung Kugel
-	m_zgKugel.Init(0.05f, &VMaterialLoader::m_zmIsolator);
+	m_zgKugel.Init(0.05f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_ISOLATOR, true));
 	//Initialisierung Kabel
-	m_zgKabelMitte.Init(0.01f, 0.01f, 1.1f, &VMaterialLoader::m_zmUmspannLeitung);
-	m_zgKabelSeite.Init(0.01f, 0.01f, 1.6f, &VMaterialLoader::m_zmUmspannLeitung);
-
-
-
-
+	m_zgKabelMitte.Init(0.01f, 0.01f, 1.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_WIRE, true));
+	m_zgKabelSeite.Init(0.01f, 0.01f, 1.6f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_WIRE, true));
 
 
 	//Placements
@@ -248,10 +244,7 @@ VModelTransformerStation::VModelTransformerStation()
 }
 
 VModelTransformerStation::~VModelTransformerStation()
-{
-	removeMaterial(&m_zmGreen);
-	removeMaterial(&m_zmGrey);
-}
+{}
 
 
 NAMESPACE_VIEW_E

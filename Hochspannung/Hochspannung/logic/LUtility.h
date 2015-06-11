@@ -11,6 +11,22 @@
 #include <fcntl.h>
 #include <io.h>
 
+inline std::string getFileExtension(const std::string& fileName)
+{
+	std::regex txt_regex("\\.([^.]+)$");
+	std::smatch base_match;
+	std::regex_search(fileName, base_match, txt_regex);
+
+	if (base_match.size() == 2)
+	{
+		return base_match[1].str();
+	}
+	else
+	{
+		return "";
+	}
+}
+
 inline std::vector<std::string> split(const std::string& str, const char delimiter)
 {
 	std::vector<std::string> internal;
