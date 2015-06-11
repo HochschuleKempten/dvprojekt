@@ -97,9 +97,10 @@ public:
 
 	/**
 	 * @brief Send the command to stop the game.
+	 * @param bWon true = won, false = lost.
 	 * @return true if message could be sent, false otherwise.
 	 */
-	bool sendStopGame();
+	bool sendStopGame(bool bWon);
 
 	/**
 	 * @brief Send the command to pause the game.
@@ -179,6 +180,14 @@ public:
 	 * @return true if message could be sent, false otherwise.
 	 */
 	bool sendSwitchState(int iCoordX, int iCoordY, bool bStateOn, bool bApprovalNeeded = false);
+
+	/**
+	 * @brief Send a ratio.
+	 * @param fRatio the ratio.
+	 * @param bApprovalNeeded set true, if the command shall be send as a request.
+	 * @return true if message could be sent, false otherwise.
+	 */
+	bool sendRatio(float fRatio, bool bApprovalNeeded = false);
 
 	/**
 	 * @brief Send the command back as an answer.
