@@ -76,8 +76,6 @@ private:
 		}
 	}
 
-	//TODO (V) make rest bools also
-
 	void sabotagePowerPlant()
 	{
 		switchOff();

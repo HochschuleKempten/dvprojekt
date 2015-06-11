@@ -4,11 +4,10 @@
 #include "LUtility.h"
 #include "LPlayingField.h"
 
-
 NAMESPACE_LOGIC_B
 
 class ILPowerPlant;
-class LPowerLine;
+class LPlayer;
 
 /*
  * @brief The LRemoteOperation class is supposed to be used from the view side for all operations which trigger a remote operation (e. g. placing a object on the field).
@@ -22,7 +21,7 @@ class LRemoteOperation
 private:
 	LPlayingField* lPlayingField = nullptr;
 	ILPowerPlant* lPowerPlant = nullptr;
-	LPowerLine* lPowerLine = nullptr;
+	LPlayer* lPlayer = nullptr;
 	DEBUG_EXPRESSION(const char* const msglPowerPlantNotInitialized = "lPowerPlant is not initialized. Make sure you pass a valid pointer to ILPowerPlant in the constructor");
 
 private:
@@ -34,7 +33,7 @@ private:
 public:
 	explicit LRemoteOperation(LPlayingField* lPlayingField);
 	LRemoteOperation(LPlayingField* lPlayingField, ILPowerPlant* lPowerPlant);
-	LRemoteOperation(LPlayingField* lPlayingField, LPowerLine* lPowerLine);
+	LRemoteOperation(LPlayingField* lPlayingField, LPlayer* lPlayer);
 	~LRemoteOperation();
 
 	//LPlayingField methods
@@ -49,12 +48,12 @@ public:
 	//ILPowerPlant methods
 	void switchOn();
 	void switchOff();
-	bool sabotagePowerPlant();
 	void sabotagePowerPlantEnd();
-	bool sabotageResource();
 
-	//LPowerLine methods
-	bool sabotagePowerLine();
+	//LPlayer methods
+	bool sabotageRemove(ILBuilding* lBuilding);
+	bool sabotageDeactivate(ILPowerPlant* lPowerPlant);
+	bool sabotageRessource(ILPowerPlant* lPowerPlant);
 
 public:
 	static void sendStoredNetworkCalls();
