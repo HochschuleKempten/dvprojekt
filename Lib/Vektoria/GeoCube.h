@@ -23,8 +23,11 @@ public:
 	~CGeoCube(void);
 
 	void Init(float fSize, CMaterial * pmaterial, float fTextureRepeat = 1.0f, bool bFlip = false); // Initialisiert eine Würfel-Geometrie
+	void Init(float fxSize, float fySize, float fzSize, CMaterial * pmaterial, float fTextureRepeat = 1.0f, bool bFlip = false); // Initialisiert eine Würfel-Geometrie
 	void Init(CHVector vSize, CMaterial * pmaterial, float fTextureRepeat = 1.0f, bool bFlip = false); // Initialisiert eine Quader-Geometrie
-	void InitByAABB(CPlacement * pplacement, int iInstance);
+	void InitByAABB(CNode3D * pzn, int iInstance = 0, CMaterial * pmaterial = NULL);
+//  void InitByAABB(CPlacement * pplacement, int iInstance = 0, CMaterial * pmaterial = NULL);
+// 	void InitByAABB(CGeo * pgeo, int iInstance = 0, CMaterial * pmaterial = NULL);
 
 
 	CVertex m_avertex[24];

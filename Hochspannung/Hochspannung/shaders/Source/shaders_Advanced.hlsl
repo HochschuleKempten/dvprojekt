@@ -350,7 +350,7 @@ float2 SphericalMapping(float3 f3)
 //--------------------------------------------------------------------------------------
 float4 PS(PS_INPUT input) : SV_Target
 {
-	if (uiyPos>1 || uiyPics>1) // Animierte 
+	if (uixPics>1 || uiyPics > 1) // Animierte Texturen
 	{
 		//20 = ixPos       21 = iyPos           22 = ixPics         23 = iyPics
  

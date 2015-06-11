@@ -43,7 +43,7 @@ class CPlacement : public CNode3D
 	friend class CNode3D;
 	friend class CScene;
 private:
-	void Tick(CHMat & m, float & fTimeDelta, bool & bTick);
+	void Tick(CHMat & m, float & fTimeDelta, bool & bTick, int & iInst);
 	void SetScene(CScene * pscene);
 
 	void DontDraw(bool &bTickTack); 

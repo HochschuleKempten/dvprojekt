@@ -199,7 +199,7 @@ PS_INPUT VS(VS_INPUT input)
 		// TODO: create three buffers: one for parallel lights, one for spot lights and one for point lights, this will  increase performance!
 		if (lightCurrent.iType == 3)		// spot light
 		{
-			output.aAffectingLights[i].f3Direction = normalize(lightCurrent.f3Position - output.f4Pos.xyz);
+			output.aAffectingLights[i].f3Direction = normalize(output.f4VertexPos.xyz - lightCurrent.f3Position);
 			output.aAffectingLights[i].f3SpotDirection = lightCurrent.f3Direction;
 			output.aAffectingLights[i].fSpotInnerCosAngle = lightCurrent.fInnerCosAngle;
 			output.aAffectingLights[i].fSpotOuterCosAngle = lightCurrent.fOuterCosAngle;
@@ -328,7 +328,7 @@ float2 SphericalMapping(float3 f3)
 //--------------------------------------------------------------------------------------
 float4 PS(PS_INPUT input) : SV_Target
 {
-	if (uiyPos>1 || uiyPics>1) // Animierte 
+	if (uixPics>1 || uiyPics > 1) // Animierte Texturen
 	{
 		//20 = ixPos       21 = iyPos           22 = ixPics         23 = iyPics
  
@@ -571,7 +571,7 @@ float4 PS(PS_INPUT input) : SV_Target
 			}
 		}
 		// EVERY LIGHT
-		f4Diffuse += saturate(dot(alLight.f3Direction, normalize(input.f3Normal))) * alLight.fLuminosity * alLight.f4Color * fFallOff * shadowFactor;
+		f4Diffuse += saturate(dot(-alLight.f3Direction, normalize(input.f3Normal))) * alLight.fLuminosity * alLight.f4Color * fFallOff * shadowFactor;
 	}
 	f4Diffuse = saturate(fH * f4Diffuse);  // saturate clamps the specified value within the range of 0 to 1.
 
@@ -586,7 +586,7 @@ float4 PS(PS_INPUT input) : SV_Target
 		[unroll]
 		for (uint i = 0; i < input.iLightCount; i++)
 		{
-			f3Half = normalize(normalize(input.aAffectingLights[i].f3Direction) + normalize(input.f3CamPos - (float3)input.f4VertexPos));
+			f3Half = normalize(normalize(-input.aAffectingLights[i].f3Direction) + normalize(input.f3CamPos - (float3)input.f4VertexPos));
 			fSpecular += pow(saturate(dot(normalize(input.f3Normal), f3Half)), fA);
 		}
 		if (uSpecularWhite) // TEXFLAG_SPECULARWHITE

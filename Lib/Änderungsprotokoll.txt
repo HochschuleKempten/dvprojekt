@@ -19,10 +19,7 @@ MR = Änderungen von Michael Rücker
 - Erste Programierarbeiten
 - Versuche mit DirectX 9
 
-12.03.2009 TB: 
-- Versuche mit DirectX 11
-
-06.04.2009 TB: 
+06.04.2010 TB: 
 - Polygon sichtbar
 
 20.04.2009 TB: 
@@ -61,6 +58,9 @@ MR = Änderungen von Michael Rücker
 
 22.05.2009 TB
 - Ellipsoidenklasse CGeoEllipsoid
+
+12.03.2010 TB: 
+- Versuche mit DirectX 11
 
 27.06.2011 TB: 
 - Transparente Texturen mit Alpha Blending möglich (allerdings noch keine Objektsortierung nach Transparenz und z-Wert)
@@ -3059,11 +3059,29 @@ Neue Picking-Routinen in CDeviceCursor:
 	CHitPoint * PickHitPointPreselected(CGeos & zgs); // Untersucht nur diejenigen HitPoints, die durch die Liste zgs erzeugt werden können
 Neue Ray-Kollisionsroutinen in COverlays, CPlacements etc.
 
-2015-05-22 TB: P
+2015-05-22 TB: V13 Patch 4
 Bugfix: ProgressBar auf Splash Screen hatte rote Streifen
 Bugfix: ProgressBar-Methode SetProgress wurde mit Call-By-Reference angesprochen
 Bugfix: In Basic-Shader & wurden spekulare Materialen weiß dargestellt
 Reduced-Shader hinzugefügt (für Demos, die durch einen abgespeckten Shader die Performanz darstellen und für Projekte (wie das aktuelle Hochspannung-Projekt) welche eher Performanz als Darstellungsschönheit benötigen).
 Mehr Fehlermeldungen für das Log-File
 
+2015-05-31 TB: 
+- BVH-Baum-Erstellung stark beschleunigt (ca. Faktor 100 bei zusammenlaufenden Hierarchien)
+- Frustum-Berechnung leicht beschleunigt
+- AABBs liegen nun "enger" an den tatsächlichen Werten 
+- CGeoCube::InitByAABB funktioniert jetzt für beliebige Node3Ds
+- Alle VisualHelper-relevanten Teile wieder herausgenommen (war veraltet und gehackt)
+- Warnings herausgenommen
 
+2015-06-02 TB: 
+- Bugfix: Spotlights hatten in manchen Positionen eine falsche Lichtrichtung
+- Bugfix: POM funktionierte nicht in Kombination mit Spotlights (zumindest im BasicShader)
+
+2015-06-07 TB: V13 Patch 5 
+- shader_Basic um Schatten erweitert
+- Verbesserte SoftShadows
+- Beschleunigung des shader_Basic
+- shader.hlsl aufg korrekte Lichtrichtung gesetzt
+- Frame auf Dunkelcyan
+- Entrümpelung und Beschleunigung der Lichtberechnung

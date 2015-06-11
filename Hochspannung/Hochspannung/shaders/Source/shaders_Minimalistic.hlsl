@@ -1,6 +1,6 @@
 
 //--------------------------------------------------------------------------------------
-// Copyright (c) Tobias Breiner & Florian Schnell
+// Copyright (c) Tobias Breiner, Vektoria UG (haftungsbeschränkt) 
 //--------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------
@@ -184,7 +184,6 @@ PS_INPUT VS(VS_INPUT input)
 
 	// Augenpos mittels ViewInv-Matrix berechnen
 	output.f3CamPos = mul(f4Z, ViewInv).xyz;    	// Augenvektor mittels View-Matrix berechnen
-// 	output.iLightCount = 0;
 	return output;
 }
 
@@ -195,12 +194,4 @@ PS_INPUT VS(VS_INPUT input)
 float4 PS(PS_INPUT input) : SV_Target
 {
 	return tex2D[0].Sample(linearSampler, input.f2TexCoord);
-	/*
-	float4 f4ColorOut;
-	float2 f2ParallaxTex = input.f2TexCoord;
-	f4ColorOut = tex2D[0].Sample(linearSampler, f2ParallaxTex);
-
-
-	return f4ColorOut;
-	*/
 }

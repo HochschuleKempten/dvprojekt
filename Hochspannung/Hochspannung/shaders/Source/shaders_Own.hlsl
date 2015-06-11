@@ -1,6 +1,6 @@
 
 //--------------------------------------------------------------------------------------
-// Copyright (c) Tobias Breiner & Florian Schnell
+// Copyright (c) Tobias Breiner, Vektoria UG (haftungsbeschränkt)
 //--------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------
@@ -168,49 +168,27 @@ PS_INPUT VS(VS_INPUT input)
 {
 	PS_INPUT output = (PS_INPUT)0;
 	output.f4Pos = mul(input.f4Pos, World);
-	output.f4VertexPos = output.f4Pos;
-	output.f2TexCoord = input.f2TexCoord;
-	matrix mViewProj = mul(View, Projection);
-	output.f4Pos = mul(output.f4Pos,mViewProj);
+	output.f4VertexPos = output.f4Pos; // Speiechere die ursprüngliche Vertex-Position in einer anderen Variablen ab, man wird sie später für die Lichtberechnung im Pixelshader nochmal brauchen
+	output.f2TexCoord = input.f2TexCoord; // Reiche die UV-Koordinaten an den Pixelshader weiter!
+	matrix mViewProj = mul(View, Projection); // Berechne die ViewProjection-Matrix ...
+	output.f4Pos = mul(output.f4Pos,mViewProj); // ... und positioniere damit die Vertex-Position 
 
 	float4 f4Z; // Ursprung
 	f4Z.xyz = 0;
 	f4Z.w = 1;
-	output.f3CamPos = mul(f4Z, ViewInv).xyz;  // f3CamPos ( wo liegt die Kamera?)
-	output.f3Normal = normalize(mul(input.f3Normal, (float3x3)World));
-	output.f3Tangent = normalize(mul(input.f3Tangent, (float3x3)World));
-	output.f3Bitangent = normalize(mul(input.f3Bitangent, (float3x3)World));
+	output.f3CamPos = mul(f4Z, ViewInv).xyz;  // f3CamPos ( wo liegt die Kamera?) ist der Ursprung mit der inversen View Matrix-multipliziert
+	output.f3Normal = normalize(mul(input.f3Normal, (float3x3)World)); // Multipliziere die Normale des Vertex mit der World-Matrix
+	output.f3Tangent = normalize(mul(input.f3Tangent, (float3x3)World)); // Multipliziere die Tangente des Vertex mit der World-Matrix
+	output.f3Bitangent = normalize(mul(input.f3Bitangent, (float3x3)World)); // Multipliziere die Biteangente des Vertex mit der World-Matrix
 
 	Light lightCurrent;
-	int lightCurrentId = iLightsAffecting[0]; // Wir gehen vereinfachend davon aus: Es gibt nur 1 Licht
+	int lightCurrentId = iLightsAffecting[0]; // Wir gehen vereinfachend davon aus: Es gäbe nur ein Parallellicht
 	lightCurrent = Lights[lightCurrentId];
-	output.aAffectingLights[0].f3Direction = normalize(lightCurrent.f3Direction); 
+	output.aAffectingLights[0].f3Direction = normalize(lightCurrent.f3Direction);  // die Lichtrichtung f3Direction muss normalisiert werden 
 	output.aAffectingLights[0].fLuminosity = 1; // Vereinfachend: Stärke des Lichtes gleich 1 
 
 	return output;
 
-	/*
-	PS_INPUT output = (PS_INPUT)0;
-
-	float4 f4Z;
-	f4Z.xyz = 0;
-	f4Z.w = 1;
-
-	output.f4Pos = mul(input.f4Pos, World);
-	output.f4VertexPos = output.f4Pos;
-	matrix viewproj = mul(View, Projection);
-	output.f4Pos = mul(output.f4Pos, viewproj);
-
-//	output.f3Normal = normalize(mul(input.f3Normal, (float3x3)World));
-//	output.f3Tangent = normalize(mul(input.f3Tangent, (float3x3)World));
-//	output.f3Bitangent = normalize(mul(input.f3Bitangent, (float3x3)World));
-	output.f2TexCoord = input.f2TexCoord;
-
-	// Augenpos mittels ViewInv-Matrix berechnen
-	output.f3CamPos = mul(f4Z, ViewInv).xyz;    	// Augenvektor mittels View-Matrix berechnen
-// 	output.iLightCount = 0;
-	return output;
-	*/
 }
 
 
@@ -221,17 +199,17 @@ float4 PS(PS_INPUT input) : SV_Target
 {
 	float fSpecular = 0;
 	// Berechne Entfernung zwischen Kamera und Vertex:
-	float3 f3Distance = input.f3CamPos - input.f4VertexPos.xyz;
+	float3 f3Distance = input.f3CamPos - input.f4VertexPos.xyz; // Berechne die Entfernung zwischen der Kamera und der Vertex-Position
 	float fDistance = length(f3Distance); 
 
-  	float3 f3EyeVector = normalize(input.f3CamPos - input.f4VertexPos.xyz);
+  	float3 f3EyeVector = normalize(input.f3CamPos - input.f4VertexPos.xyz); // Berechne die Blickrichtung!
 	
 
 
-	float4 f4ColorOut;
-	f4ColorOut.xyzw = 0;
+	float4 f4ColorOut; // Ausgangsfarbe des Pixels
+	f4ColorOut.xyzw = 0; // setze Ausgangsfarbe auf schwarz
 	float2 f2ParallaxTex = input.f2TexCoord;
-	if (uBump)
+	if (uBump)  // Ist Bumpmapping dabei?
 	{
 		float3 f3BumpNormal = ((2 * (tex2D[3].Sample(linearSampler, f2ParallaxTex))) - 1.0).xyz;
 		f3BumpNormal *= fBumpStrength;
@@ -242,7 +220,7 @@ float4 PS(PS_INPUT input) : SV_Target
 	float fShading = saturate(dot(input.aAffectingLights[0].f3Direction, input.f3Normal));
 	float4 f4ColGlow;
 	f4ColGlow.rgba = 0;
-	if (uGlow)
+	if (uGlow)// Ist Glowmapping dabei?
 	{
 		f4ColGlow = tex2D[1].Sample(linearSampler, f2ParallaxTex)*(1-fShading);
 	}
@@ -289,11 +267,9 @@ float4 PS(PS_INPUT input) : SV_Target
 	*/
 
 	
-//	f4ColorOut.r = 1-2*dot(normalize(input.f3CamPos - (float3)input.f4VertexPos), input.f3Normal);
-
-
 	// Rauchshader:
 //	f4ColorOut.rgb -= fDistance*0.002f;
+
 
 	// Toon-Stufen:
 	int4 i4ColorOut = (int4)(f4ColorOut * 3);
