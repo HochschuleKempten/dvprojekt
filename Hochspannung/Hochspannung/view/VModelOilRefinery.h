@@ -105,12 +105,6 @@ private:
 	CGeoCylinder m_zgKanal;
 	CGeoCylinder m_zgKanalrahmen;
 
-	CMaterial m_zmOelGrund;
-	CMaterial m_zmOelSchranke;
-	CMaterial m_zmOelZaun;
-	CMaterial m_zmOelGelbstahl;
-	CMaterial m_zmOelGruenstahl;
-
 	//CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;

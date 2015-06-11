@@ -150,19 +150,6 @@ CMaterial VMaterialLoader::m_zmWindFluegel1;
 CMaterial VMaterialLoader::m_zmWindFluegel2;
 CMaterial VMaterialLoader::m_zmWindFluegel3;
 
-//Atomkraftwerktexturen
-CMaterial VMaterialLoader::m_zmAtomGrund;
-CMaterial VMaterialLoader::m_zmAtomSchranke;
-CMaterial VMaterialLoader::m_zmAtomZaun;
-CMaterial VMaterialLoader::m_zmAtomReaktor;
-
-//Oelkraftwerktexturen
-CMaterial VMaterialLoader::m_zmOelGrund;
-CMaterial VMaterialLoader::m_zmOelSchranke;
-CMaterial VMaterialLoader::m_zmOelZaun;
-CMaterial VMaterialLoader::m_zmOelGelbstahl;
-CMaterial VMaterialLoader::m_zmOelGruenstahl;
-
 //Wasserkraftwerktexturen
 CMaterial VMaterialLoader::m_zmWasser;
 CMaterial VMaterialLoader::m_zmWasserHolz;
@@ -361,9 +348,30 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(SOLAR_FLOOR, "white_image.jpg");
 	setPowerPlantMaterialHelper(SOLAR_CELL, "SolarPanel.jpg");
 	setPowerPlantMaterialHelper(SOLAR_CELLS_LOD, "SolarLOD.jpg");
+	setPowerPlantMaterialHelper(NUCLEAR_FLOOR, "Beton.png");
+	setPowerPlantMaterialHelper(NUCLEAR_GATE, "Schranke.jpg");
+	setPowerPlantMaterialHelper(NUCLEAR_FENCE, "Holz.jpg");
+	setPowerPlantMaterialHelper(NUCLEAR_REACTOR, "white_image.jpg");
+	setPowerPlantMaterialHelper(OIL_FLOOR, "Beton.png");
+	setPowerPlantMaterialHelper(OIL_GATE, "Schranke.jpg");
+	setPowerPlantMaterialHelper(OIL_FENCE, "Holz.jpg");
+	setPowerPlantMaterialHelper(OIL_GREEN_RAY, "Gelbstahl.png");
+	setPowerPlantMaterialHelper(OIL_YELLOW_RAY, "Gruenstahl.png");
 
 	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[NUCLEAR_FLOOR].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[NUCLEAR_FLOOR].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[NUCLEAR_GATE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[NUCLEAR_GATE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[NUCLEAR_FENCE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[NUCLEAR_FENCE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[OIL_FLOOR].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[OIL_FLOOR].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[OIL_GATE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[OIL_GATE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[OIL_FENCE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[OIL_FENCE].SetTextureSpecularAsDiffuse();
 
 	setFieldMaterialHelper(LField::WATER, "water");
 	setFieldMaterialHelper(LField::AIR, "air");
@@ -512,26 +520,7 @@ void VMaterialLoader::init()
 	m_zmWindGrund.SetTextureSpecularAsDiffuse();
 
 	//Atomkraftwerktexturen
-	m_zmAtomGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
-	m_zmAtomSchranke.MakeTextureDiffuse("textures\\Powerplants\\Schranke.jpg");
-	m_zmAtomZaun.MakeTextureDiffuse("textures\\Powerplants\\Holz.jpg");
-	m_zmAtomReaktor.MakeTextureDiffuse("textures\\white_image.jpg");
-	m_zmAtomGrund.SetTextureSpecularAsDiffuse();
-	m_zmAtomSchranke.SetTextureSpecularAsDiffuse();
-	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
-
-	//Atomkraftwerktexturen
 	m_zmAllgemeinGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
-
-	//Oelkraftwerktexturen
-	m_zmOelGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
-	m_zmOelSchranke.MakeTextureDiffuse("textures\\Powerplants\\Schranke.jpg");
-	m_zmOelZaun.MakeTextureDiffuse("textures\\Powerplants\\Holz.jpg");
-	m_zmOelGelbstahl.MakeTextureDiffuse("textures\\Powerplants\\Gelbstahl.png");
-	m_zmOelGruenstahl.MakeTextureDiffuse("textures\\Powerplants\\Gruenstahl.png");
-	m_zmOelGrund.SetTextureSpecularAsDiffuse();
-	m_zmAtomSchranke.SetTextureSpecularAsDiffuse();
-	m_zmAtomZaun.SetTextureSpecularAsDiffuse();
 	
 	//Wasserkraftwerktexturen
 	m_zmWasser.MakeTextureSprite("Textures\\animations\\Water.png");

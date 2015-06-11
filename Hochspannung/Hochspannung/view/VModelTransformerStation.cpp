@@ -13,28 +13,28 @@ VModelTransformerStation::VModelTransformerStation()
 	m_zpMain.AddPlacement(&m_zpUmspannwerk);
 
 	//Initialisierung Fundament
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON, true));
+	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON, switchedState));
 	//Initalisierung Ständer
-	m_zgStaender.Init(0.05f, 0.05f, 1.5f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, true));
+	m_zgStaender.Init(0.05f, 0.05f, 1.5f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, switchedState));
 	//Initalisierung Querstange
-	m_zgQuerstange.Init(2.0f, 0.1f, 0.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, true));
+	m_zgQuerstange.Init(2.0f, 0.1f, 0.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, switchedState));
 	//Initalisierung Isolator
-	m_zgIsolator.Init(1.0f, 1.0f, 2.5f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_ISOLATOR, true), 24);
+	m_zgIsolator.Init(1.0f, 1.0f, 2.5f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_ISOLATOR, switchedState), 24);
 	//Initalisierung Querstange2
-	m_zgQuerstange2.Init(0.1f, 0.1f, 2.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, true));
+	m_zgQuerstange2.Init(0.1f, 0.1f, 2.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, switchedState));
 	//Initialisierung Trasssen
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 	m_zTrasse3.Init();
 	//Initialisierung Generator
-	m_zgGeneratorKasten.Init(2.5f, 1.9f, 3.3f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, true));
+	m_zgGeneratorKasten.Init(2.5f, 1.9f, 3.3f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, switchedState));
 	//Initialisierung Stecka
-	m_zgStecka.Init(0.03f, 0.03f, 1.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, true));
+	m_zgStecka.Init(0.03f, 0.03f, 1.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_BETON_LIGHT, switchedState));
 	//Initialisierung Kugel
-	m_zgKugel.Init(0.05f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_ISOLATOR, true));
+	m_zgKugel.Init(0.05f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_ISOLATOR, switchedState));
 	//Initialisierung Kabel
-	m_zgKabelMitte.Init(0.01f, 0.01f, 1.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_WIRE, true));
-	m_zgKabelSeite.Init(0.01f, 0.01f, 1.6f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_WIRE, true));
+	m_zgKabelMitte.Init(0.01f, 0.01f, 1.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_WIRE, switchedState));
+	m_zgKabelSeite.Init(0.01f, 0.01f, 1.6f, VMaterialLoader::getMaterialModel(VMaterialLoader::TRANSFORMERSTATION_WIRE, switchedState));
 
 
 	//Placements

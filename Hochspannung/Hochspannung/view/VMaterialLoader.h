@@ -28,7 +28,16 @@ public:
 		TRANSFORMERSTATION_WIRE,
 		SOLAR_FLOOR,
 		SOLAR_CELL,
-		SOLAR_CELLS_LOD
+		SOLAR_CELLS_LOD,
+		NUCLEAR_FLOOR,
+		NUCLEAR_GATE,
+		NUCLEAR_FENCE,
+		NUCLEAR_REACTOR,
+		OIL_FLOOR,
+		OIL_GATE,
+		OIL_FENCE,
+		OIL_GREEN_RAY,
+		OIL_YELLOW_RAY
 	};
 
 private:
@@ -207,19 +216,6 @@ public:
 	static CMaterial m_zmWindFluegel1;
 	static CMaterial m_zmWindFluegel2;
 	static CMaterial m_zmWindFluegel3;
-
-	//Atomkraftwerktexturen
-	static CMaterial m_zmAtomGrund;
-	static CMaterial m_zmAtomSchranke;
-	static CMaterial m_zmAtomZaun;
-	static CMaterial m_zmAtomReaktor;
-
-	//Oelkraftwerktexturen
-	static CMaterial m_zmOelGrund;
-	static CMaterial m_zmOelSchranke;
-	static CMaterial m_zmOelZaun;
-	static CMaterial m_zmOelGelbstahl;
-	static CMaterial m_zmOelGruenstahl;
 
 	//Wasserkraftwerktexturen
 	static CMaterial m_zmWasser;
