@@ -75,14 +75,17 @@ void LMaster::startNewGame(const std::string& ipAddress)
 
 void LMaster::gameOver()
 {
-	vMaster.gameOver(); //todo (IP)
-	//networkService.sendGameOver();
+	vMaster.gameOver();
+
+	networkService.sendStopGame(false);
+	
 }
 
 void LMaster::gameWon()
 {
 	vMaster.gameWon();
-	//networkService.sendGameWon();
+
+	networkService.sendStopGame(true);
 }
 
 void LMaster::placeBuilding(const int buildingId, const int x, const int y, const int playerId)
@@ -210,11 +213,23 @@ void LMaster::tick(const float fTimeDelta)
 				break;
 
 			case(CTransferObject::Action::END_GAME) :
-
-				//enemy player has lost the game
-				vMaster.gameWon();
+			{
 				DEBUG_OUTPUT("Action END_GAME");
+
+				bool won = boost::lexical_cast<bool>(transferObject.getValue());
+
+				if (won)
+				{
+					//enemy won the game
+					vMaster.gameOver();
+				}
+				else
+				{
+					vMaster.gameWon();
+				}
+
 				break;
+			}
 
 			case(CTransferObject::Action::PAUSE_GAME) ://todo (IP) send 
 
@@ -337,6 +352,15 @@ void LMaster::tick(const float fTimeDelta)
 				break;
 			}
 
+			case(CTransferObject::Action::SEND_RATIO) :
+			{
+				float ratio = boost::lexical_cast<float>(transferObject.getValue());
+
+				vMaster.updateRegenerativeRatio(ratio, LPlayer::Remote);
+
+				break;
+			}
+
 			default:
 				break;
 			}
@@ -398,62 +422,48 @@ void LMaster::connect(const std::string& ip)
 
 void LMaster::sendSetObject(const int objectId, const int x, const int y, const std::string& value)
 {
-	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
-	{
-		bool b = networkService.sendSetObject(objectId, x, y, value);
-		ASSERT(b == true, "Error: sendSetObject.");
-		DEBUG_OUTPUT("----SENDSETOBJECT: Objectid: " + std::to_string(objectId) + ", x: " +std::to_string(x) + ", y:" + std::to_string(y) + ", value: " + value);
-	}
+	bool b = networkService.sendSetObject(objectId, x, y, value);
+	ASSERT(b == true, "Error: sendSetObject.");
+	DEBUG_OUTPUT("----SENDSETOBJECT: Objectid: " + std::to_string(objectId) + ", x: " +std::to_string(x) + ", y:" + std::to_string(y) + ", value: " + value);	
 }
 
 void LMaster::sendSetMapRow(const int row, std::vector<Network::FieldTransfer> rowData)
 {
-	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
+	bool b = networkService.sendSetMapRow(row, rowData);
+	ASSERT(b == true, "Error: sendSetMapRow.");
+	DEBUG_OUTPUT("----SENDSETMAPROW: row: " + std::to_string(row)+"-------");
+	for (Network::FieldTransfer ft : rowData)
 	{
-		bool b = networkService.sendSetMapRow(row, rowData);
-		ASSERT(b == true, "Error: sendSetMapRow.");
-		DEBUG_OUTPUT("----SENDSETMAPROW: row: " + std::to_string(row)+"-------");
-		for (Network::FieldTransfer ft : rowData)
-		{
-			DEBUG_OUTPUT("ObjectId: " + std::to_string(ft.iObjectID) + ", PlayerId: " + std::to_string(ft.iPlayerID) + ", FieldLevel: " + std::to_string(ft.iFieldLevel) + ", FieldType: " + std::to_string(ft.iFieldType));
-		}
-		DEBUG_OUTPUT("----------");
+		DEBUG_OUTPUT("ObjectId: " + std::to_string(ft.iObjectID) + ", PlayerId: " + std::to_string(ft.iPlayerID) + ", FieldLevel: " + std::to_string(ft.iFieldLevel) + ", FieldType: " + std::to_string(ft.iFieldType));
 	}
+	DEBUG_OUTPUT("----------");
 }
 
 void LMaster::sendDeleteObject(const int x, const int y)
 {
-	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
-	{
-		bool b = networkService.sendDeleteObject(x, y);
-		ASSERT(b == true, "Error: sendDeleteObject.");
-		DEBUG_OUTPUT("----SENDDELETEOBJECT: x: " << x << ", y: " << y);
-
-	}
+	bool b = networkService.sendDeleteObject(x, y);
+	ASSERT(b == true, "Error: sendDeleteObject.");
+	DEBUG_OUTPUT("----SENDDELETEOBJECT: x: " << x << ", y: " << y);
 }
 
 void LMaster::sendSabotage(const LSabotage::LSabotage sabotageId, const int x, const int y)
 {
-	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
-	{
-		networkService.sendSabotage(sabotageId, x, y);
-	}
+	networkService.sendSabotage(sabotageId, x, y);
 }
 
 void LMaster::sendPowerPlantSabotageEnd(const int x, const int y)
 {
-	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
-	{
-		networkService.sendEndSabotage(x, y);
-	}
+	networkService.sendEndSabotage(x, y);
 }
 
 void LMaster::sendPowerPlantSwitchState(const int x, const int y, const bool state)
 {
-	if (networkService.getConnectionState() == Network::CNode::State::CONNECTED)
-	{
-		networkService.sendSwitchState(x, y, state);
-	}
+	networkService.sendSwitchState(x, y, state);
+}
+
+void LMaster::sendRegenerativeRatio(const float ratio)
+{
+	networkService.sendRatio(ratio);
 }
 
 std::vector<Network::CGameObject> LMaster::getGameList(bool* updated)
