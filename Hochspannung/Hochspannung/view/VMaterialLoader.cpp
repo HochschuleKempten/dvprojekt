@@ -336,7 +336,6 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(SOLAR_FLOOR, "white_image.jpg");
 	setPowerPlantMaterialHelper(SOLAR_CELL, "SolarPanel.jpg");
 	setPowerPlantMaterialHelper(SOLAR_CELLS_LOD, "SolarLOD.jpg");
-	setPowerPlantMaterialHelper(WIND_GROUND, "Beton.png");
 	setPowerPlantMaterialHelper(WIND_RAD, "Metall_Fassade.jpg" );
 	setPowerPlantMaterialHelper(WIND_FLUEGEL1,"Metall_Fassade.jpg");
 	setPowerPlantMaterialHelper(WIND_FLUEGEL2,"Metall_Fassade.jpg");
@@ -355,8 +354,6 @@ void VMaterialLoader::init()
 	
 	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
-	materialsModelsSwitchedOn[WIND_GROUND].SetTextureSpecularAsDiffuse();
-	materialsModelsSwitchedOff[WIND_GROUND].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOn[BUILDING_WINDOW].MakeTextureEnvironment("textures/buildings/texture_skymap.png");
 	materialsModelsSwitchedOff[BUILDING_WINDOW].MakeTextureEnvironment("textures/buildings/texture_skymap.png");
 	materialsModelsSwitchedOn[BUILDING_WINDOW].MakeTextureSpecular("textures/buildings/texture_window_specular.png");

@@ -74,6 +74,7 @@ void VModelCity::InitBuildings() {
 
 void VModelCity::AddPlacements() {
 
+	m_zpNear.AddPlacement(&m_zpFundament);
 	m_zpNear.AddPlacement(&Building1_01_1);
 	m_zpNear.AddPlacement(&Building1_02_1);
 	m_zpNear.AddPlacement(&Building2_01_1);
@@ -90,6 +91,7 @@ void VModelCity::AddPlacements() {
 	m_zpNear.AddPlacement(&smallOffice_01_1);
 	m_zpNear.AddPlacement(&smallOffice_02_1);
 
+	m_zpMiddle.AddPlacement(&m_zpFundament);
 	m_zpMiddle.AddPlacement(&Building1_01_2);
 	m_zpMiddle.AddPlacement(&Building1_02_2);
 	m_zpMiddle.AddPlacement(&Building2_01_2);
@@ -106,6 +108,7 @@ void VModelCity::AddPlacements() {
 	m_zpMiddle.AddPlacement(&smallOffice_01_2);
 	m_zpMiddle.AddPlacement(&smallOffice_02_2);
 
+	m_zpFar.AddPlacement(&m_zpFundament);
 	m_zpFar.AddPlacement(&Building1_01_3);
 	m_zpFar.AddPlacement(&Building1_02_3);
 	m_zpFar.AddPlacement(&Building2_01_3);
@@ -179,6 +182,9 @@ void VModelCity::TranslateBuildings() {
 	smallOffice_01_3.Translate(5.0, 0, 15);
 	smallOffice_02_3.Translate(-5.0, 0, -5.0);
 
+	m_zpFundament.AddGeo(&m_zgFoundation);
+	m_zpFundament.ScaleXDelta(50.0f);
+	m_zpFundament.ScaleZDelta(50.0f);
 }
 
 float VModelCity::getWidth() {

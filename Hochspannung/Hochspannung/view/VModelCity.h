@@ -31,6 +31,8 @@ public:
 
 private:
 	
+	CPlacement m_zpFundament;
+
 	//lodstufe1
 	Building01 Building1_01_1;
 	Building01 Building1_02_1;

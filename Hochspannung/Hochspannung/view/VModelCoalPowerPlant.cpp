@@ -28,9 +28,6 @@ void VModelCoalPowerPlant::init()
 	m_zgSchiene.Init(0.04f, 0.045f, 4.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, switchedState));
 	m_zgSprosse.Init(0.7f, 0.03f, 0.15f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, switchedState));
 
-	//Initialisierung Fundament
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAllgemeinGreen);
-
 	//Mineneingang
 	m_zgEingangOben.Init(1.2f, 0.15f, 2.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, switchedState));
 	m_zgEingangSeite.Init(0.15f, 1.0f, 2.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, switchedState));
@@ -103,6 +100,8 @@ void VModelCoalPowerPlant::init()
 
 	//m_zpFundament.Translate(CHVector(-5.0f, 0.0f, -5.0f));
 	m_zpFundament.AddGeo(&m_zgFoundation);
+	m_zpFundament.ScaleXDelta(12.5f);
+	m_zpFundament.ScaleZDelta(12.5f);
 
 	m_zpBerg1.AddGeo(&m_zgBerg);
 
@@ -212,7 +211,7 @@ void VModelCoalPowerPlant::init()
 	m_zpKamin3.Translate(CHVector(2.75f, 1.5f, 0.8f));
 	m_zpKamin3.AddGeo(&m_zgKamin);
 
-
+	m_zpKohlekraftwerk.Scale(1.3f);
 	//m_zpGebaeude.Translate(CHVector(0.3f, 0.3f, 1.0f));
 }
 

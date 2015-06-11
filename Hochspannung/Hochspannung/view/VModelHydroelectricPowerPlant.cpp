@@ -65,7 +65,9 @@ void VModelHydroelectricPowerPlant::init()
 	m_zpFluss.TranslateXDelta(-2.0f);
 
 	m_zpFundament.AddGeo(&m_zgFoundation);
-
+	m_zpFundament.ScaleXDelta(16.5f);
+	m_zpFundament.ScaleZDelta(16.5f);
+	m_zpFundament.ScaleYDelta(2.0f);
 	m_zpRad.AddGeo(&m_zgRad);
 	m_zpRad.RotateZ(PI / 2);
 	m_zpRad.TranslateXDelta(-1.0f);

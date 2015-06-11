@@ -14,10 +14,6 @@ void VModelNuclearPowerPlant::init()
 	m_zpLOD[0].AddPlacement(&m_zpAtomkraftwerk);
 	m_zpLOD[1].AddPlacement(&m_zpAtomkraftwerk);
 	m_zpLOD[2].AddPlacement(&m_zpAtomkraftwerk);
-	//Initialisierung Fundament
-	//m_zgFundament.Init(10.0f, 0.3f, 10.0f, &m_zmGreen);
-
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), VMaterialLoader::getMaterialModel(VMaterialLoader::NUCLEAR_FLOOR, switchedState));
 
 	//Initialisierung Kuehlturm
 	m_zgKuehlturm.InitTubeWave(1.2f, 4.0f, 0.2f, 0.1f, 3.5f, VMaterialLoader::getMaterialModel(VMaterialLoader::NUCLEAR_FLOOR, switchedState), 0.2f, true, true);
@@ -115,6 +111,8 @@ void VModelNuclearPowerPlant::init()
 
 	//m_zpFundament.Translate(-5.0f, 0.0f, -5.0f);
 	m_zpFundament.AddGeo(&m_zgFoundation);
+	m_zpFundament.ScaleXDelta(12.5f);
+	m_zpFundament.ScaleZDelta(12.5f);
 
 	m_zpKuehlturm1.Translate(CHVector(-2.0f, 0.15f, -2.0f));
 	m_zpKuehlturm1.AddGeo(&m_zgKuehlturm);

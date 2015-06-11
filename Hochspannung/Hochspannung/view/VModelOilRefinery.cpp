@@ -14,12 +14,6 @@ void VModelOilRefinery::init()
 	m_zpLOD[0].AddPlacement(&m_zpOelkraftwerk);
 	m_zpLOD[1].AddPlacement(&m_zpOelkraftwerk);
 	m_zpLOD[2].AddPlacement(&m_zpOelkraftwerk);
-	//Initialisierung der Koerper
-
-
-	//Initialisierung Fundament
-	//m_zgFundament.Init(10.0f, 0.3f, 10.0f, &VMaterialLoader::m_zmOelGrund);
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState));
 
 	//Initialisierung Kamin
 	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState), 32, true);
@@ -164,9 +158,9 @@ void VModelOilRefinery::init()
 	m_zpGebaeudeHaelfte22.AddPlacement(Gebaeude);
 	*/
 
-	//Adding
-	//m_zpFundament.Translate(CHVector(-5.0f, 0.0f, -5.0f));
 	m_zpFundament.AddGeo(&m_zgFoundation);
+	m_zpFundament.ScaleXDelta(12.5f);
+	m_zpFundament.ScaleZDelta(12.5f);
 
 	m_zpKamin.Translate(CHVector(2.5f, 2.15f, 2.0f));
 	m_zpKamin.AddGeo(&m_zgKamin);
