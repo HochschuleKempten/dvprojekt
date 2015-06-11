@@ -213,22 +213,23 @@ void LMaster::tick(const float fTimeDelta)
 				break;
 
 			case(CTransferObject::Action::END_GAME) :
-
+			{
 				DEBUG_OUTPUT("Action END_GAME");
 
 				bool won = boost::lexical_cast<bool>(transferObject.getValue());
-				
-				if (won) 
+
+				if (won)
 				{
 					//enemy won the game
 					vMaster.gameOver();
-				} 
+				}
 				else
 				{
 					vMaster.gameWon();
 				}
 
 				break;
+			}
 
 			case(CTransferObject::Action::PAUSE_GAME) ://todo (IP) send 
 
@@ -352,12 +353,13 @@ void LMaster::tick(const float fTimeDelta)
 			}
 
 			case(CTransferObject::Action::SEND_RATIO) :
-
+			{
 				float ratio = boost::lexical_cast<float>(transferObject.getValue());
 
 				vMaster.updateRegenerativeRatio(ratio, LPlayer::Remote);
 
 				break;
+			}
 
 			default:
 				break;
