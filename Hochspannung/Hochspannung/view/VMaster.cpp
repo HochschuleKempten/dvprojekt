@@ -71,8 +71,10 @@ void VMaster::gameOver()
 	if (!informed) {
 		VSoundLoader::playSoundeffect(VSoundLoader::GAME_OVER, nullptr);
 		informed = true;
+		vUi.gameOver(false);
 	}
 	//TODO (V) do something useful here when UI is ready
+	//TODO (V) Exit the game
 }
 
 void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
@@ -178,6 +180,7 @@ void VMaster::continueGame()
 void VMaster::gameWon()
 {
 	VSoundLoader::playSoundeffect(VSoundLoader::GAME_WON, nullptr);
+	vUi.gameOver(true);
 	//todo (V) exit the game
 }
 

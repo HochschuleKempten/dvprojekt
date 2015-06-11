@@ -16,9 +16,6 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 
 	//Cursor
 
-
-
-
 	m_bigDialog = new COverlay();
 	m_bigDialog->InitFull("textures/background.png");
 	//m_viewport->AddBackground(&VMaterialLoader::materialIngameBackground);

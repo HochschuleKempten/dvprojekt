@@ -75,10 +75,14 @@ void LMaster::startNewGame(const std::string& ipAddress)
 
 void LMaster::gameOver()
 {
-	vMaster.gameOver();
+	vMaster.gameOver(); //todo (IP)
+	//networkService.sendGameOver();
+}
 
-	networkService.sendStopGame();
-	networkService.close();
+void LMaster::gameWon()
+{
+	vMaster.gameWon();
+	//networkService.sendGameWon();
 }
 
 void LMaster::placeBuilding(const int buildingId, const int x, const int y, const int playerId)

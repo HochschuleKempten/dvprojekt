@@ -5,6 +5,7 @@
 #include "IVMaster.h"
 #include "LRemoteOperation.h"
 #include "LMessageLoader.h"
+#include "LUtility.h"
 
 NAMESPACE_LOGIC_B
 
@@ -27,6 +28,11 @@ void LPlayer::tick(const float fTimeDelta)
 		if (coolDownCounterPowerLine > 0) { coolDownCounterPowerLine--; }
 		if (coolDownCounterPowerPlant > 0) { coolDownCounterPowerPlant--; }
 		if (coolDownCounterResource > 0) { coolDownCounterResource--; }
+
+		if (lMaster->getLPlayingField() != nullptr && city->getPopulation() >= 1000 && almost_equal(ratioRegenerative, 1.0F, 2))
+		{
+			lMaster->gameWon();
+		}
 
 		timeLastCheck = 0;
 	}
@@ -249,13 +255,8 @@ void LPlayer::checkRegenerativeRatio()
 
 	if (countTotalPowerPlant != 0)
 	{
-		float ratioRegenerative = CASTS<float>(countRegenerativePowerPlants) / CASTS<float>(countTotalPowerPlant);
+		ratioRegenerative = CASTS<float>(countRegenerativePowerPlants) / CASTS<float>(countTotalPowerPlant);
 		lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative, playerId);
-	}
-	else
-	{
-		int a = 2;
-		//TODO (L) GAME OVER as there are no connected powerplants ???
 	}
 }
 

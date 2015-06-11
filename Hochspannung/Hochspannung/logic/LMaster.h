@@ -36,6 +36,7 @@ public:
 
 	void startNewGame(const std::string& ipAddress = std::string());
 	void gameOver();
+	void gameWon();
 	virtual void tick(const float fTimeDelta) override;
 
 	//networking

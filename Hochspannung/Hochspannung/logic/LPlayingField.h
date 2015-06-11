@@ -246,7 +246,7 @@ public:
 	int convertIndex(const std::pair<int, int>& coordinates);
 	int convertIndex(const int x, const int y);
 	std::pair<int, int> convertIndex(const int idx);
-	bool isInitDone();
+	bool isInitDone() const;
 	bool isLocalOperation() const
 	{
 		return localOperation == 0;

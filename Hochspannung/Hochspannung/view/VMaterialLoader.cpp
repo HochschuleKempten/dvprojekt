@@ -487,7 +487,8 @@ void VMaterialLoader::init()
 	//Fonts
 	//standardFont.Init("textures/fonts/FontArialShadow.png",false);
 	//standardFont.SetTableSize(16, 16);
-	standardFont.Init("textures/fonts/OCRStandardBevel.png", true);
+	//standardFont.Init("textures/fonts/OCRStandardBevel.png", true);
+	standardFont.Init("textures/fonts/OCRBlueBevel.png", true);
 	
 	standardFont.SetTableSize(16,16);
 	/*GoldFont.Init("textures/fonts/FontArialShadowGold.png", false);
