@@ -244,9 +244,9 @@ void LPlayer::checkPowerPlants()
 
 bool LPlayer::sabotageRemove(ILBuilding* lBuilding)
 {
-	if (trySabotageAct(LSabotage::PowerPlant))
+	if (trySabotageAct(LSabotage::Remove))
 	{
-		//lBuilding->sabotageRemove();
+		lBuilding->sabotageRemove();
 		return true;
 	}
 
@@ -255,7 +255,7 @@ bool LPlayer::sabotageRemove(ILBuilding* lBuilding)
 
 bool LPlayer::sabotageDeactivate(ILPowerPlant* lPowerPlant)
 {
-	if (trySabotageAct(LSabotage::PowerPlant))
+	if (trySabotageAct(LSabotage::Deactivate))
 	{
 		lPowerPlant->sabotagePowerPlant();
 
@@ -267,7 +267,7 @@ bool LPlayer::sabotageDeactivate(ILPowerPlant* lPowerPlant)
 
 bool LPlayer::sabotageRessource(ILPowerPlant* lPowerPlant)
 {
-	if (trySabotageAct(LSabotage::PowerPlant))
+	if (trySabotageAct(LSabotage::Resource))
 	{
 		lPowerPlant->sabotageResource();
 
