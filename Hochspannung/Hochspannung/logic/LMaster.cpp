@@ -55,9 +55,9 @@ void LMaster::startNewGame(const std::string& ipAddress)
 	}
 	else if (ipAddress == "SINGLE_PLAYER")
 	{
+		singlePlayer = true;
 		lPlayingField->createFields();
 		lPlayingField->showPlayingField();
-		singlePlayer = true;
 
 		return;
 	}
