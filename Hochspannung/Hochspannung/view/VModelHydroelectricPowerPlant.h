@@ -42,11 +42,7 @@ private:
 	CGeoCube m_zgSchaufel;
 	CGeoCube m_zgFluss;
 	CGeoTube m_zgStange;
-
-	//MAterial
-	CMaterial m_zmHolz;
-	CMaterial m_zmAtomgrundGreen;
-
+	
 	Building02 Gebaeude;
 	//VModelPowerLine m_zTrasse1;
 	//VModelPowerLine m_zTrasse2;

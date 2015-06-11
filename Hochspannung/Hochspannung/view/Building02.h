@@ -30,11 +30,7 @@ private:
 	CGeoWindow m_zgWindowInlay;
 
 	CGeoWall m_zgWallFrame;
-	CMaterial m_zmWallFrame;
 	CGeoWall m_zgWallGlass;
-	CMaterial m_zmWallGlass;
-
-	CMaterial m_zm;
 
 	float fstandardwidthwall = 5.F;
 	float fstandardheightwall = 5.F;

@@ -35,11 +35,6 @@ private:
 	CGeoEllipsoid m_zgRotorblatt2;
 	CGeoEllipsoid m_zgRotorblatt3;
 
-	CMaterial m_zmWindRad;
-	CMaterial m_zmWindGrund;
-	CMaterial m_zmWindFluegel1;
-	CMaterial m_zmWindFluegel2;
-    CMaterial m_zmWindFluegel3;
 
 
 
