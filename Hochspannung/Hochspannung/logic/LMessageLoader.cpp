@@ -12,7 +12,7 @@ void LMessageLoader::init(IVMaster* vMaster)
 {
 	LMessageLoader::vMaster = vMaster;
 
-	initDone = true;
+	DEBUG_EXPRESSION(initDone = true);
 }
 
 void LMessageLoader::emitMessage(const MessageID messageId, const std::vector<std::string>& param)

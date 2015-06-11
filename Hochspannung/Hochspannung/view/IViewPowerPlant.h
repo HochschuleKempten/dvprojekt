@@ -72,7 +72,7 @@ public:
 			{
 				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), vMaster->getLMaster()->getPlayer(LPlayer::Local));
 				return remoteOperation.sabotageRessource(lPlant);
-			}			
+			}
 			case sabotageRemove:
 			{
 				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), vMaster->getLMaster()->getPlayer(LPlayer::Local));
