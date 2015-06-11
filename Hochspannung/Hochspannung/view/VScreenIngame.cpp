@@ -1069,14 +1069,14 @@ void VScreenIngame::startCooldown(const INTERACTIONS& interaction)
 	case SABOTAGE_STRIKE:
 		std::thread([this] {
 			m_CooldownStrike = true;
-		m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
-		m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOn();
-		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotagePowerPlant())); 
-		if (vrRegister->getActiveTab()->getName() == "TabSabotage")
-			m_CooldownStrike = false;
+			m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
+			m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOn();
+			std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotagePowerPlant()));
 			m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
-		m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
-		
+			m_CooldownStrike = false;
+			if (vrRegister->getActiveTab()->getName() == "TabSabotage")
+				m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
+
 		}).detach();
 		break;
 	case SABOTAGE_HALF:
