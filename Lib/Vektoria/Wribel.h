@@ -19,7 +19,7 @@ namespace Vektoria
 	{
 		friend class CWribels;
 	private:
-		void Tick(CHMat & mGlobalFather, float & fTimeDelta, bool & bTick, int & iInst);// Wird automatisch aufgefufen
+		void Tick(CHMat & mGlobalFather, float & fTimeDelta, bool & bTick);// Wird automatisch aufgefufen
 
 	public:
 		CWribel(); // Konstruktor

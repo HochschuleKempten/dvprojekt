@@ -49,9 +49,6 @@ public:
 	int m_iAllocBlock;
 	int m_iPlacements;
 
-	int * m_aiInst; // Instzanzennummer des i. Placements für den Vater
-
-
 	void SetRoot(CRoot * proot);
 	CRoot * m_proot;
 };

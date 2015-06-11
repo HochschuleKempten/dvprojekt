@@ -13,7 +13,7 @@ namespace Vektoria
 		~CPhysical();
 
 		void Init(float fMass, float fCW, bool bSolid);
-		void Tick(CHMat & m, float & fTimeDelta, bool & bTick, int & iInst);
+		void Tick(CHMat & m, float & fTimeDelta, bool & bTick);
 
 		void ApplyTorque(CHVector vDistToCenter, CHVector vForce); // Appliziert einen Drehmoment auf den Partikel, kann mehrfach angewendet werden
 		void ApplyForce(CHVector v); // Appliziert eine Kraft auf den Partikel, kann mehrfach angewendet werden

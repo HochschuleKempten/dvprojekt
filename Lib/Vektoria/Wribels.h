@@ -35,7 +35,6 @@ namespace Vektoria
 		void Draw(CCamera * pcamera, CHMat & mGlobalFather, int & itFatherIsInFrustum, bool & bTickTack);
 
 		CWribel ** m_apwribel;
-		int * m_aiInst;
 		int m_iWribelAllocs;
 		int m_iAllocBlock;
 		int m_iWribels;

@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////
+/// @file: Node.h
+/// @author: Matthias Sommer, Tobias Breiner
+/// @last change: 2013-06-15
+/// ** Copyright (c) Vektoria **
+////////////////////////////////////////////////////
 #pragma once
 
 #include "Nodes.h"

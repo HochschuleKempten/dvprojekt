@@ -1,22 +1,20 @@
-//--------------------------------------------------------------------------------------
-// Copyright (c) Tobias Breiner, Vektoria UG (haftungsbeschränkt) 
-//--------------------------------------------------------------------------------------
-
 cbuffer ObjectInfo : register( b0 )
 {
-	matrix mWorld;
-	matrix mLightView;
-	matrix mDummy;
-	matrix mProjection;
+	matrix World;
+	matrix LightView;
+	matrix dummy;
+	matrix Projection;
 }
 
 struct VS_INPUT
 {
     float4 f4Pos : POSITION;
+//	float4 f4Color : COLOR;
     float3 f3Normal : NORMAL;
     float2 f2TexCoord : TEXCOORD; 
     float3 f3Tangent : TANGENT;
     float3 f3Bitangent : BITANGENT;
+//	unsigned int iTexture : ITEXTURE;
 };
 
 struct PS_INPUT
@@ -31,9 +29,9 @@ PS_INPUT ShadowMapVS( VS_INPUT input )
 {
     PS_INPUT output;
 
-	output.f4Pos = mul(input.f4Pos, mWorld);
-	output.f4Pos = mul(output.f4Pos, mLightView);
-	output.f4Pos = mul(output.f4Pos, mProjection);
+	output.f4Pos = mul(input.f4Pos, World);
+	output.f4Pos = mul(output.f4Pos, LightView);
+	output.f4Pos = mul(output.f4Pos, Projection);
 
     return output;
 }
