@@ -178,16 +178,16 @@ int LBalanceLoader::getSurplusWarningThreshold()
 	return propertyTree.get<int>("CityProperties.SurplusWarningThreshold", 0);
 }
 
-int LBalanceLoader::getCostSabotagePowerLine()
+int LBalanceLoader::getCostSabotageRemove()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<int>("SabotageValues.DestroyPowerLineCost", 0);
+	return propertyTree.get<int>("SabotageValues.DestroyBuildingCost", 0);
 }
 
-int LBalanceLoader::getCostSabotagePowerPlant()
+int LBalanceLoader::getCostSabotageDeactivate()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<int>("SabotageValues.ShutdownPowerPlantCost", 0);
+	return propertyTree.get<int>("SabotageValues.DeactivatePowerPlantCost", 0);
 }
 
 int LBalanceLoader::getCostSabotageResource()

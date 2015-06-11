@@ -284,17 +284,17 @@ void LMaster::tick(const float fTimeDelta)
 				DEBUG_OUTPUT("Action SEND_SABOTAGE");
 				switch (objectToSabotage)
 				{
-				case(LSabotage::PowerLine) :
+				case(LSabotage::Remove) :
 				{
-					LPowerLine* powerLine = dynamic_cast<LPowerLine*>(lPlayingField->getField(x, y)->getBuilding());
-					if (powerLine != nullptr)
+					ILBuilding* building = dynamic_cast<ILBuilding*>(lPlayingField->getField(x, y)->getBuilding());
+					if (building != nullptr)
 					{
-						powerLine->sabotagePowerLine();
+						building->sabotageRemove();
 					}
 					break;
 				}
 
-				case(LSabotage::PowerPlant) :
+				case(LSabotage::Deactivate) :
 				{
 					ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 					if (powerPlant != nullptr)

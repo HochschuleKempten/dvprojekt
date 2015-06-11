@@ -18,20 +18,6 @@ LPowerLine::~LPowerLine()
 {
 }
 
-bool LPowerLine::sabotagePowerLine()
-{
-	if (this->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
-	{	//todo (L) what should happen here?
-		if (!lField->getLPlayingField()->isLocalOperation())
-		{
-			std::pair<int, int> coordinates = lField->getCoordinates();
-			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::LSabotage::PowerLine, coordinates.first, coordinates.second);
-		}
-		return true;
-	}
-	return false;
-}
-
 void LPowerLine::updatedOrientation(const int additionalOrientation)
 {
 	int newOrientation = this->orientation | additionalOrientation;

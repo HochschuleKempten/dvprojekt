@@ -263,6 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="logic\ILBuilding.cpp" />
     <ClCompile Include="logic\LBalanceLoader.cpp" />
     <ClCompile Include="logic\LCity.cpp" />
     <ClCompile Include="logic\LField.cpp" />

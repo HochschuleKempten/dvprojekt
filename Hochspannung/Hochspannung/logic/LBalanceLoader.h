@@ -111,11 +111,11 @@ public:
 	/**
 	 * @brief Cost for sabotating a powerline.
 	 */
-	static int getCostSabotagePowerLine();
+	static int getCostSabotageRemove();
 	/**
 	* @brief Cost for sabotating a powerplant.
 	*/
-	static int getCostSabotagePowerPlant();
+	static int getCostSabotageDeactivate();
 	/**
 	* @brief Cost for sabotating a resource.
 	*/

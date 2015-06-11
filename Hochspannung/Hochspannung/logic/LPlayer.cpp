@@ -27,8 +27,8 @@ void LPlayer::tick(const float fTimeDelta)
 	{
 		if (timeLastCheck > 1)
 		{
-			if (coolDownCounterPowerLine > 0) { coolDownCounterPowerLine--; }
-			if (coolDownCounterPowerPlant > 0) { coolDownCounterPowerPlant--; }
+			if (coolDownCounterRemove > 0) { coolDownCounterRemove--; }
+			if (coolDownCounterDeactivate > 0) { coolDownCounterDeactivate--; }
 			if (coolDownCounterResource > 0) { coolDownCounterResource--; }
 
 			if (lMaster->getLPlayingField() != nullptr && lMaster->getLPlayingField()->isInitDone() && city->getPopulation() >= 1000 && almost_equal(ratioRegenerative, 1.0F, 2))
@@ -67,10 +67,10 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 	{
 		switch (sabotageType)
 		{
-		case (LSabotage::PowerLine) :
-			return LBalanceLoader::getCostSabotagePowerLine();
-		case(LSabotage::PowerPlant) :
-			return LBalanceLoader::getCostSabotagePowerPlant();
+		case (LSabotage::Remove) :
+			return LBalanceLoader::getCostSabotageRemove();
+		case(LSabotage::Deactivate):
+			return LBalanceLoader::getCostSabotageDeactivate();
 		case(LSabotage::Resource) :
 			return LBalanceLoader::getCostSabotageResource();
 		default:
@@ -83,24 +83,24 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 	{
 		switch (sabotageType)
 		{
-		case (LSabotage::PowerLine) :
-			if (coolDownCounterPowerLine > 0)
+		case (LSabotage::Remove) :
+			if (coolDownCounterRemove > 0)
 			{
-				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT, { std::to_string(coolDownCounterPowerLine) });
+				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT, { std::to_string(coolDownCounterRemove) });
 				return false;
 			}
 
-			coolDownCounterPowerLine = LBalanceLoader::getCooldownTimeSabotagePowerLine();
+			coolDownCounterRemove = LBalanceLoader::getCooldownTimeSabotagePowerLine();
 			return true;
 
-		case(LSabotage::PowerPlant) :
-			if (coolDownCounterPowerPlant > 0)
+		case(LSabotage::Deactivate) :
+			if (coolDownCounterDeactivate > 0)
 			{
-				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT, { std::to_string(coolDownCounterPowerPlant) });
+				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT, { std::to_string(coolDownCounterDeactivate) });
 				return false;
 			}
 
-			coolDownCounterPowerPlant = LBalanceLoader::getCooldownTimeSabotagePowerPlant();
+			coolDownCounterDeactivate = LBalanceLoader::getCooldownTimeSabotagePowerPlant();
 			return true;
 
 		case(LSabotage::Resource) :

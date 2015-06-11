@@ -78,25 +78,18 @@ private:
 
 	//TODO (V) make rest bools also
 
-	bool sabotagePowerPlant()
+	void sabotagePowerPlant()
 	{
-		if (this->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
+		switchOff();
+		isSabotaged = true;
+
+		vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
+
+		if (!lField->getLPlayingField()->isLocalOperation())
 		{
-			switchOff();
-			isSabotaged = true;
-
-			vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
-
-			if (!lField->getLPlayingField()->isLocalOperation())
-			{
-				std::pair<int, int> coordinates = lField->getCoordinates();
-				lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::PowerPlant, coordinates.first, coordinates.second);
-			}
-
-			return true;
+			std::pair<int, int> coordinates = lField->getCoordinates();
+			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Deactivate, coordinates.first, coordinates.second);
 		}
-
-		return false;
 	}
 
 	void sabotagePowerPlantEnd()
@@ -114,22 +107,17 @@ private:
 		}
 	}
 
-	bool sabotageResource()
+	void sabotageResource()
 	{
-		if (this->getLField()->getLPlayingField()->getLMaster()->getPlayer(LPlayer::PlayerId::Local)->trySabotageAct(LSabotage::PowerPlant))
-		{
-			DEBUG_OUTPUT("Try to sabotage ressource field. Old ressource value: " << getLField()->getResources());
-			int newValue = this->getLField()->deductResources();
-			DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
+		DEBUG_OUTPUT("Try to sabotage ressource field. Old ressource value: " << getLField()->getResources());
+		int newValue = this->getLField()->deductResources();
+		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
 
-			if (!lField->getLPlayingField()->isLocalOperation())
-			{
-				std::pair<int, int> coordinates = lField->getCoordinates();
-				lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Resource, coordinates.first, coordinates.second);
-			}
-			return true;
+		if (!lField->getLPlayingField()->isLocalOperation())
+		{
+			std::pair<int, int> coordinates = lField->getCoordinates();
+			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Resource, coordinates.first, coordinates.second);
 		}
-		return false;
 	}
 
 protected:

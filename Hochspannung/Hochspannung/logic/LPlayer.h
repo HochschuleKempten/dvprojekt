@@ -25,9 +25,9 @@ public:
 private:
 	LMaster* lMaster = nullptr;
 	int money = 0;
-	int coolDownCounterPowerLine = 0;
+	int coolDownCounterRemove = 0;
 	int coolDownCounterResource = 0;
-	int coolDownCounterPowerPlant = 0;
+	int coolDownCounterDeactivate = 0;
 	int sabotageActs = LBalanceLoader::getSabotageActs();;
 	std::vector<ILPowerPlant*> powerPlants;
 	std::vector<ILPowerPlant*> prevConnectedPowerPlants;

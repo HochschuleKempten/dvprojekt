@@ -636,6 +636,9 @@
     <ClCompile Include="view\VScreenGameOver.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="logic\ILBuilding.cpp">
+      <Filter>logic\Interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders.hlsl">

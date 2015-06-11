@@ -6,8 +6,6 @@
 
 NAMESPACE_LOGIC_B
 
-class LField;
-
 class ILBuilding
 {
 	NON_COPYABLE(ILBuilding);
@@ -90,14 +88,18 @@ public:
 	{
 		return value;
 	}
+
 	void addValue(const int value)
 	{
 		this->value += value;
 	}
+
 	LField* getLField() const
 	{
 		return lField;
 	}
+
+	void sabotageRemove();
 		
 	virtual LIdentifier::LIdentifier getIdentifier() const = 0;
 };

@@ -7,9 +7,9 @@ namespace LSabotage
 {
 	enum LSabotage
 	{
-		PowerPlant = 0,
+		Deactivate = 0,
 		Resource = 1,
-		PowerLine = 2
+		Remove = 2
 	};
 }
 
