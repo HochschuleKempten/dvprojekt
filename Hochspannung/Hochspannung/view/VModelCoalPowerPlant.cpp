@@ -23,6 +23,7 @@ void VModelCoalPowerPlant::init()
 
 	//Gebirge
 	m_zgBerg.Init(2.0f, 3.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_MOUNTAIN, true), 16);
+	//m_zgBerg.Init(2.0f, 3.0f, &VMaterialLoader::materialBergTestOn, 16);
 
 	//Schiene
 	m_zgSchiene.Init(0.04f, 0.045f, 4.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, true));

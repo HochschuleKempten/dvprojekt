@@ -61,7 +61,6 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_fLineLength			= m_fArmLength * 2.0f;
 	m_fLineThickness		= m_fRingRadius * 0.8f;
 
-
 	// init geometries (foundation, pole, strut)
 	m_zgPole.Init(CHVector(m_fPoleThickness, m_fPylonHeight, m_fPoleThickness), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
 	m_zgPoleLOD3.Init(CHVector(m_fPoleDistance, fPylonHeight, m_fPoleDistance), VMaterialLoader::getMaterialModel(VMaterialLoader::POWERLINE_STRUT, true));
@@ -276,8 +275,6 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 	m_zpLOD[0].AddPlacement(&m_zpFoundation);
 	m_zpLOD[1].AddPlacement(&m_zpFoundation);
 	m_zpLOD[2].AddPlacement(&m_zpFoundation);
-
-	switchOn();
 }
 
 SHORT * VModelPowerLine::GetPosition() {

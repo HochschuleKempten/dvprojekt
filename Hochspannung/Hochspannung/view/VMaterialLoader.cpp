@@ -150,11 +150,6 @@ CMaterial VMaterialLoader::m_zmWindFluegel1;
 CMaterial VMaterialLoader::m_zmWindFluegel2;
 CMaterial VMaterialLoader::m_zmWindFluegel3;
 
-//Solarkraftwerktexturen
-CMaterial VMaterialLoader::m_zmSolarzelle;
-CMaterial VMaterialLoader::m_zmSolarGrund;
-CMaterial VMaterialLoader::m_zmSolarLOD;
-
 //Atomkraftwerktexturen
 CMaterial VMaterialLoader::m_zmAtomGrund;
 CMaterial VMaterialLoader::m_zmAtomSchranke;
@@ -228,6 +223,8 @@ CMaterial VMaterialLoader::materialAnimTransformerStationLightning;
 int VMaterialLoader::materialAnimSabotagePowerPlant_x;
 int VMaterialLoader::materialAnimSabotagePowerPlant_y;
 
+std::unordered_map<std::string, CTexture> VMaterialLoader::materialsModelsTextures;
+std::unordered_map<std::string, CImage> VMaterialLoader::materialsModelsImages;
 std::unordered_map<VMaterialLoader::Model, CMaterial> VMaterialLoader::materialsModelsSwitchedOn;
 std::unordered_map<VMaterialLoader::Model, CMaterial> VMaterialLoader::materialsModelsSwitchedOff;
 CColor VMaterialLoader::colorAmbientOn(0.0f, 0.0f, 0.0f);
@@ -260,6 +257,9 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureGlow(&textureGlow[0]);
 }
 
+CMaterial VMaterialLoader::materialBergTestOn;
+CMaterial VMaterialLoader::materialBergTestOff;
+
 void VMaterialLoader::setPowerPlantMaterialHelper(const Model materialPowerPlant, const std::string& textureName)
 {
 	//Define every texture type and its corresponding vectoria calls
@@ -267,10 +267,18 @@ void VMaterialLoader::setPowerPlantMaterialHelper(const Model materialPowerPlant
 	{
 		{ "diffuse", [materialPowerPlant] (std::string& path)
 			{
-				materialsModelsSwitchedOn[materialPowerPlant].MakeTextureDiffuse(&path[0]);
+				ASSERT(materialsModelsSwitchedOn.count(materialPowerPlant) == 0, "Can't initialize Material " << materialPowerPlant << " twice");
+				ASSERT(materialsModelsSwitchedOff.count(materialPowerPlant) == 0, "Can't initialize Material " << materialPowerPlant << " twice");
+
+				materialsModelsImages[path].Init(&path[0]);
+				materialsModelsTextures[path].Init(&materialsModelsImages[path]);
+
+				//materialsModelsSwitchedOn[materialPowerPlant].MakeTextureDiffuse(&path[0]);
+				materialsModelsSwitchedOn[materialPowerPlant].SetTextureDiffuse(&materialsModelsTextures[path]);
 				materialsModelsSwitchedOn[materialPowerPlant].SetColorAmbient(colorAmbientOn);
 
-				materialsModelsSwitchedOff[materialPowerPlant].MakeTextureDiffuse(&path[0]);
+				//materialsModelsSwitchedOff[materialPowerPlant].MakeTextureDiffuse(&path[0]);
+				materialsModelsSwitchedOff[materialPowerPlant].SetTextureDiffuse(&materialsModelsTextures[path]);
 				materialsModelsSwitchedOff[materialPowerPlant].SetColorAmbient(colorAmbientOff);
 			}
 		},
@@ -306,24 +314,26 @@ void VMaterialLoader::setPowerPlantMaterialHelper(const Model materialPowerPlant
 	//Try every texture type
 	for (auto type : textureTypes)
 	{
-		//Check texture root folder
-		path = "textures/" + basePath + "." + fileExtension;
-		file.open(path, std::ios::in);
-		if (file.is_open())		//Check if file exists
-		{
-			type.second(path);
-		}
-		file.clear();
-
 		//Check models folder (it is assumed that root textures have no type suffix (e. g. no _diffuse)
 		path = "textures/models/" + basePath + "_" + type.first + "." + fileExtension;
 		file.open(path, std::ios::in);
 		if (file.is_open())		//Check if file exists
 		{
 			type.second(path);
+			file.close();
 		}
 		file.clear();
 	}
+
+	//Check texture root folder
+	path = "textures/" + basePath + "." + fileExtension;
+	file.open(path, std::ios::in);
+	if (file.is_open())		//Check if file exists
+	{
+		textureTypes.at("diffuse")(path);
+		file.close();
+	}
+	file.clear();
 }
 
 CMaterial* VMaterialLoader::getMaterialModel(const Model materialPowerPlant, const bool switchedOn)
@@ -342,6 +352,10 @@ CMaterial* VMaterialLoader::getMaterialModel(const Model materialPowerPlant, con
 
 void VMaterialLoader::init()
 {
+	materialBergTestOn.MakeTextureDiffuse("textures/models/berg_image_diffuse.jpg");
+	materialBergTestOff.MakeTextureDiffuse("textures/models/berg_image_diffuse.jpg");
+	materialBergTestOff.SetColorAmbient(CColor(-0.2f, -0.2f, -0.2f));
+
 	//&VMaterialLoader::[^,)]+
 
 	setPowerPlantMaterialHelper(COAL_MOUNTAIN, "berg_image.jpg");
@@ -358,6 +372,9 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_BETON_LIGHT, "Beton_light.png");
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_ISOLATOR, "black_image.jpg");
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_WIRE, "grey_image.jpg");
+	setPowerPlantMaterialHelper(SOLAR_FLOOR, "white_image.jpg");
+	setPowerPlantMaterialHelper(SOLAR_CELL, "SolarPanel.jpg");
+	setPowerPlantMaterialHelper(SOLAR_CELLS_LOD, "SolarLOD.jpg");
 
 	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
@@ -507,12 +524,6 @@ void VMaterialLoader::init()
 	m_zmWindFluegel2.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
 	m_zmWindFluegel3.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
 	m_zmWindGrund.SetTextureSpecularAsDiffuse();
-
-	//Solarkraftwerktexturen
-	m_zmSolarGrund.MakeTextureDiffuse("textures\\white_image.jpg");
-	m_zmSolarzelle.MakeTextureDiffuse("textures\\buildings\\SolarPanel_diffuse.jpg");
-	m_zmSolarzelle.MakeTextureBump("textures\\buildings\\SolarPanel_bump.jpg");
-	m_zmSolarLOD.MakeTextureDiffuse("textures\\SolarLOD.jpg");
 
 	//Atomkraftwerktexturen
 	m_zmAtomGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");

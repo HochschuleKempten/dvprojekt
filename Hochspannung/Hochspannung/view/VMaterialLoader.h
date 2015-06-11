@@ -26,6 +26,9 @@ public:
 		TRANSFORMERSTATION_BETON_LIGHT,
 		TRANSFORMERSTATION_ISOLATOR,
 		TRANSFORMERSTATION_WIRE,
+		SOLAR_FLOOR,
+		SOLAR_CELL,
+		SOLAR_CELLS_LOD
 	};
 
 private:
@@ -40,6 +43,8 @@ private:
 	static void setPowerPlantMaterialHelper(const Model materialPowerPlant, const std::string& textureName);
 
 private:
+	static std::unordered_map<std::string, CTexture> materialsModelsTextures;
+	static std::unordered_map<std::string, CImage> materialsModelsImages;
 	static std::unordered_map<Model, CMaterial> materialsModelsSwitchedOn;
 	static std::unordered_map<Model, CMaterial> materialsModelsSwitchedOff;
 	static CColor colorAmbientOn;
@@ -54,6 +59,9 @@ public:
 public:
 	using FieldPair = std::pair<LField::FieldType, LField::FieldLevel>;
 	static std::map<FieldPair, CMaterial> fieldMaterials;
+
+	static CMaterial materialBergTestOn;
+	static CMaterial materialBergTestOff;
 
 	static CMaterial materialCoalPowerPlant;
 	static CMaterial materialHydroelectricPowerPlant;
@@ -204,11 +212,6 @@ public:
 	static CMaterial m_zmWindFluegel1;
 	static CMaterial m_zmWindFluegel2;
 	static CMaterial m_zmWindFluegel3;
-
-	//Solarkraftwerktexturen
-	static CMaterial m_zmSolarzelle;
-	static CMaterial m_zmSolarGrund;
-	static CMaterial m_zmSolarLOD;
 
 	//Atomkraftwerktexturen
 	static CMaterial m_zmAtomGrund;
