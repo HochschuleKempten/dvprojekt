@@ -30,6 +30,7 @@ protected:
 	float foundationHeight = 0.08f;
 	CColor colorAmbientOn;
 	CColor colorAmbientOff;
+	bool switchedState;
 
 protected:
 	void removeMaterial(CMaterial* material)
@@ -68,9 +69,10 @@ public:
 	virtual inline ~IViewModel()
 	{}
 
-	inline void initViewModel(IViewBuilding* vBuilding)
+	inline void initViewModel(IViewBuilding* vBuilding, const bool switchedOn = true)
 	{
 		this->vBuilding = vBuilding;
+		this->switchedState = switchedOn;
 
 		if (vBuilding != nullptr) {
 			foundationWidth = vBuilding->getVMaster()->getVPlayingField()->getFieldSize() * 0.2f;

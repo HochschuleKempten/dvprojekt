@@ -43,8 +43,6 @@ private:
 	static void setPowerPlantMaterialHelper(const Model materialPowerPlant, const std::string& textureName);
 
 private:
-	static std::unordered_map<std::string, CTexture> materialsModelsTextures;
-	static std::unordered_map<std::string, CImage> materialsModelsImages;
 	static std::unordered_map<Model, CMaterial> materialsModelsSwitchedOn;
 	static std::unordered_map<Model, CMaterial> materialsModelsSwitchedOff;
 	static CColor colorAmbientOn;
@@ -59,9 +57,6 @@ public:
 public:
 	using FieldPair = std::pair<LField::FieldType, LField::FieldLevel>;
 	static std::map<FieldPair, CMaterial> fieldMaterials;
-
-	static CMaterial materialBergTestOn;
-	static CMaterial materialBergTestOff;
 
 	static CMaterial materialCoalPowerPlant;
 	static CMaterial materialHydroelectricPowerPlant;

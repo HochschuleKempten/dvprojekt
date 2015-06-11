@@ -22,30 +22,28 @@ void VModelCoalPowerPlant::init()
 	m_zTrasse2.Init();
 
 	//Gebirge
-	m_zgBerg.Init(2.0f, 3.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_MOUNTAIN, true), 16);
-	//m_zgBerg.Init(2.0f, 3.0f, &VMaterialLoader::materialBergTestOn, 16);
+	m_zgBerg.Init(2.0f, 3.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_MOUNTAIN, switchedState), 16);
 
 	//Schiene
-	m_zgSchiene.Init(0.04f, 0.045f, 4.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, true));
-	m_zgSprosse.Init(0.7f, 0.03f, 0.15f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, true));
+	m_zgSchiene.Init(0.04f, 0.045f, 4.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, switchedState));
+	m_zgSprosse.Init(0.7f, 0.03f, 0.15f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, switchedState));
 
 	//Initialisierung Fundament
 	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmAllgemeinGreen);
-	//m_zgFundament.Init(10.0f, 0.3f, 10.0f, &VMaterialLoader::m_zmAllgemeinGreen);
 
 	//Mineneingang
-	m_zgEingangOben.Init(1.2f, 0.15f, 2.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, true));
-	m_zgEingangSeite.Init(0.15f, 1.0f, 2.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, true));
-	m_zgMinenschacht.Init(1.1f, 1.0f, 0.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_BLACK, true));
+	m_zgEingangOben.Init(1.2f, 0.15f, 2.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, switchedState));
+	m_zgEingangSeite.Init(0.15f, 1.0f, 2.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, switchedState));
+	m_zgMinenschacht.Init(1.1f, 1.0f, 0.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_BLACK, switchedState));
 
 	//Minenlore
-	m_zgLoreRad.Init(0.08f, 0.08f, 0.04f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, true));
-	m_zgLoreVorne.Init(0.5f, 0.5f, 0.05f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, true));
-	m_zgLoreSeite.Init(0.05f, 0.5f, 0.5f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, true));
-	m_zgLoreBoden.Init(0.48f, 0.05f, 0.48f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_STRUCTURE, true));
+	m_zgLoreRad.Init(0.08f, 0.08f, 0.04f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, switchedState));
+	m_zgLoreVorne.Init(0.5f, 0.5f, 0.05f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, switchedState));
+	m_zgLoreSeite.Init(0.05f, 0.5f, 0.5f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, switchedState));
+	m_zgLoreBoden.Init(0.48f, 0.05f, 0.48f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_STRUCTURE, switchedState));
 
 	//Kamin
-	m_zgKamin.InitStraight(0.2f, 0.3f, 3.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, true), 32, true);
+	m_zgKamin.InitStraight(0.2f, 0.3f, 3.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, switchedState), 32, true);
 
 
 	//Placements
@@ -238,38 +236,38 @@ void VModelCoalPowerPlant::moveLore(float amount)
 
 void VModelCoalPowerPlant::switchOn()
 {
-	m_zgBerg.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_MOUNTAIN, true));
-	m_zgSchiene.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, true));
-	m_zgSprosse.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, true));
-	m_zgEingangOben.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, true));
-	m_zgEingangSeite.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, true));
-	m_zgMinenschacht.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_BLACK, true));
-	m_zgLoreRad.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, true));
-	m_zgLoreVorne.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, true));
-	m_zgLoreSeite.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, true));
-	m_zgLoreBoden.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_STRUCTURE, true));
-	m_zgKamin.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, true));
+	//m_zgBerg.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_MOUNTAIN, true));
+	//m_zgSchiene.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, true));
+	//m_zgSprosse.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, true));
+	//m_zgEingangOben.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, true));
+	//m_zgEingangSeite.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, true));
+	//m_zgMinenschacht.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_BLACK, true));
+	//m_zgLoreRad.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, true));
+	//m_zgLoreVorne.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, true));
+	//m_zgLoreSeite.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, true));
+	//m_zgLoreBoden.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_STRUCTURE, true));
+	//m_zgKamin.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, true));
 
-	m_zTrasse1.switchOn();
-	m_zTrasse2.switchOn();
+	//m_zTrasse1.switchOn();
+	//m_zTrasse2.switchOn();
 }
 
 void VModelCoalPowerPlant::switchOff()
 {
-	m_zgBerg.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_MOUNTAIN, false));
-	m_zgSchiene.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, false));
-	m_zgSprosse.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, false));
-	m_zgEingangOben.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, false));
-	m_zgEingangSeite.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, false));
-	m_zgMinenschacht.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_BLACK, false));
-	m_zgLoreRad.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, false));
-	m_zgLoreVorne.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, false));
-	m_zgLoreSeite.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, false));
-	m_zgLoreBoden.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_STRUCTURE, false));
-	m_zgKamin.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, false));
+	//m_zgBerg.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_MOUNTAIN, false));
+	//m_zgSchiene.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, false));
+	//m_zgSprosse.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, false));
+	//m_zgEingangOben.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, false));
+	//m_zgEingangSeite.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WOOD, false));
+	//m_zgMinenschacht.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_BLACK, false));
+	//m_zgLoreRad.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, false));
+	//m_zgLoreVorne.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, false));
+	//m_zgLoreSeite.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_WAGON, false));
+	//m_zgLoreBoden.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_STRUCTURE, false));
+	//m_zgKamin.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, false));
 
-	m_zTrasse1.switchOff();
-	m_zTrasse2.switchOff();
+	//m_zTrasse1.switchOff();
+	//m_zTrasse2.switchOff();
 }
 
 NAMESPACE_VIEW_E

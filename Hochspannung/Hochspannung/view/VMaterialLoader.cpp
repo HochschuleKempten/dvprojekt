@@ -223,8 +223,6 @@ CMaterial VMaterialLoader::materialAnimTransformerStationLightning;
 int VMaterialLoader::materialAnimSabotagePowerPlant_x;
 int VMaterialLoader::materialAnimSabotagePowerPlant_y;
 
-std::unordered_map<std::string, CTexture> VMaterialLoader::materialsModelsTextures;
-std::unordered_map<std::string, CImage> VMaterialLoader::materialsModelsImages;
 std::unordered_map<VMaterialLoader::Model, CMaterial> VMaterialLoader::materialsModelsSwitchedOn;
 std::unordered_map<VMaterialLoader::Model, CMaterial> VMaterialLoader::materialsModelsSwitchedOff;
 CColor VMaterialLoader::colorAmbientOn(0.0f, 0.0f, 0.0f);
@@ -257,9 +255,6 @@ void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, 
 	fieldMaterials[FieldPair(fieldType, LField::LEVEL3)].MakeTextureGlow(&textureGlow[0]);
 }
 
-CMaterial VMaterialLoader::materialBergTestOn;
-CMaterial VMaterialLoader::materialBergTestOff;
-
 void VMaterialLoader::setPowerPlantMaterialHelper(const Model materialPowerPlant, const std::string& textureName)
 {
 	//Define every texture type and its corresponding vectoria calls
@@ -270,15 +265,10 @@ void VMaterialLoader::setPowerPlantMaterialHelper(const Model materialPowerPlant
 				ASSERT(materialsModelsSwitchedOn.count(materialPowerPlant) == 0, "Can't initialize Material " << materialPowerPlant << " twice");
 				ASSERT(materialsModelsSwitchedOff.count(materialPowerPlant) == 0, "Can't initialize Material " << materialPowerPlant << " twice");
 
-				materialsModelsImages[path].Init(&path[0]);
-				materialsModelsTextures[path].Init(&materialsModelsImages[path]);
-
-				//materialsModelsSwitchedOn[materialPowerPlant].MakeTextureDiffuse(&path[0]);
-				materialsModelsSwitchedOn[materialPowerPlant].SetTextureDiffuse(&materialsModelsTextures[path]);
+				materialsModelsSwitchedOn[materialPowerPlant].MakeTextureDiffuse(&path[0]);
 				materialsModelsSwitchedOn[materialPowerPlant].SetColorAmbient(colorAmbientOn);
 
-				//materialsModelsSwitchedOff[materialPowerPlant].MakeTextureDiffuse(&path[0]);
-				materialsModelsSwitchedOff[materialPowerPlant].SetTextureDiffuse(&materialsModelsTextures[path]);
+				materialsModelsSwitchedOff[materialPowerPlant].MakeTextureDiffuse(&path[0]);
 				materialsModelsSwitchedOff[materialPowerPlant].SetColorAmbient(colorAmbientOff);
 			}
 		},
@@ -352,10 +342,6 @@ CMaterial* VMaterialLoader::getMaterialModel(const Model materialPowerPlant, con
 
 void VMaterialLoader::init()
 {
-	materialBergTestOn.MakeTextureDiffuse("textures/models/berg_image_diffuse.jpg");
-	materialBergTestOff.MakeTextureDiffuse("textures/models/berg_image_diffuse.jpg");
-	materialBergTestOff.SetColorAmbient(CColor(-0.2f, -0.2f, -0.2f));
-
 	//&VMaterialLoader::[^,)]+
 
 	setPowerPlantMaterialHelper(COAL_MOUNTAIN, "berg_image.jpg");
