@@ -75,8 +75,6 @@ CMaterial VMaterialLoader::materialButtonBackHover;
 CMaterial VMaterialLoader::materialBottombarBorderTop;
 CMaterial VMaterialLoader::materialVerticalBorder;
 CMaterial VMaterialLoader::materialLobbyBigDialog;
-CMaterial VMaterialLoader::materialBuildingButton;
-CMaterial VMaterialLoader::materialBuildingButtonHover;
 
 CMaterial VMaterialLoader::materialButtonAbort;
 CMaterial VMaterialLoader::materialButtonAbortHover;
@@ -321,8 +319,6 @@ CMaterial* VMaterialLoader::getMaterialModel(const Model materialPowerPlant, con
 
 void VMaterialLoader::init()
 {
-	//&VMaterialLoader::[^,)]+
-
 	setPowerPlantMaterialHelper(COAL_MOUNTAIN, "berg_image.jpg");
 	setPowerPlantMaterialHelper(COAL_STRUCTURE, "kohle_image.jpg");
 	setPowerPlantMaterialHelper(COAL_WOOD, "holz_image.jpg");
@@ -347,13 +343,6 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(WIND_FLUEGEL3, "Metall_Fassade.jpg");
 	setPowerPlantMaterialHelper(WATER_HOLZ, "Holz.jpg");
 	setPowerPlantMaterialHelper(BUILDING_WALLFRAME, "../buildings/texture_concrete.png");
-
-
-	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
-	materialsModelsSwitchedOff[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
-	materialsModelsSwitchedOn[WIND_GROUND].SetTextureSpecularAsDiffuse();
-	materialsModelsSwitchedOff[WIND_GROUND].SetTextureSpecularAsDiffuse();
-
 	setPowerPlantMaterialHelper(NUCLEAR_FLOOR, "Beton.png");
 	setPowerPlantMaterialHelper(NUCLEAR_GATE, "Schranke.jpg");
 	setPowerPlantMaterialHelper(NUCLEAR_FENCE, "Holz.jpg");
@@ -363,6 +352,24 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(OIL_FENCE, "Holz.jpg");
 	setPowerPlantMaterialHelper(OIL_GREEN_RAY, "Gelbstahl.png");
 	setPowerPlantMaterialHelper(OIL_YELLOW_RAY, "Gruenstahl.png");
+
+	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[WIND_GROUND].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[WIND_GROUND].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[NUCLEAR_FLOOR].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[NUCLEAR_FLOOR].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[NUCLEAR_GATE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[NUCLEAR_GATE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[NUCLEAR_FENCE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[NUCLEAR_FENCE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[OIL_FLOOR].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[OIL_FLOOR].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[OIL_GATE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[OIL_GATE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[OIL_FENCE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[OIL_FENCE].SetTextureSpecularAsDiffuse();
+
 	setFieldMaterialHelper(LField::WATER, "water");
 	setFieldMaterialHelper(LField::AIR, "air");
 	setFieldMaterialHelper(LField::SOLAR, "solar");
@@ -372,6 +379,8 @@ void VMaterialLoader::init()
 	setFieldMaterialHelper(LField::CITY, "city");
 	setFieldMaterialHelper(LField::OIL, "oil");
 	setFieldMaterialHelper(LField::NUCLEAR, "atom");
+
+
 
 	materialCoalPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
 	materialHydroelectricPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
@@ -421,8 +430,6 @@ void VMaterialLoader::init()
 	materialBottombarBorderTop.MakeTextureSprite("textures\\bottombarBorderTopBlue.png");
 	materialVerticalBorder.MakeTextureSprite("textures\\VerticalBorder.png");
 	materialLobbyBigDialog.MakeTextureSprite("textures\\LobbyBigDialog.png");
-	materialBuildingButton.MakeTextureSprite("textures\\BuildingButton.png");
-	materialBuildingButtonHover.MakeTextureSprite("textures\\BuildingButtonHover.png");
 	materialIngameMenueDialogBackground.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_MenueDialog_Background.png");
 	materialWhiteGreyBackground.MakeTextureSprite("textures/gui/background/gui_background_whitegrey.png");
 

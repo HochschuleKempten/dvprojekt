@@ -109,12 +109,8 @@ public:
 	static CMaterial materialBottombarBorderTop;
 	static CMaterial materialVerticalBorder;
 	static CMaterial materialLobbyBigDialog;
-	static CMaterial materialBuildingButton;
-	static CMaterial materialBuildingButtonHover;
 
-	
 	//Credits
-
 	static CMaterial materialCreditsOrganization;
 	static CMaterial materialCreditsIntegration;
 	static CMaterial materialCreditsTextures;
@@ -124,7 +120,6 @@ public:
 	static CMaterial materialCreditsModelling;
 	static CMaterial materialCreditsModelling2;
 	static CMaterial materialCreditsVektoriaSplash;
-
 
 	//Backgrounds
 	static CMaterial materialDialogBackground;
