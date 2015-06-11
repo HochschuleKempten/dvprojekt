@@ -201,6 +201,7 @@ void VButton::switchOff()
 	m_zoNormal->SwitchOff();
 	m_zoHover->SwitchOff();
 	m_zoActive->SwitchOff();
+	m_isActive=false;
 }
 
 

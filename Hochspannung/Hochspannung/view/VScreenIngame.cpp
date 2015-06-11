@@ -273,6 +273,7 @@ void VScreenIngame::onNotify(const Event& events)
 	case SWITCH_TO_REGISTER_BUILDING:
 		if (vrRegister->getActiveTab()->getName() != "TabBuilding")
 		{
+			vUi->switchCursor(VUI::CursorType::Default);
 			SabotageTabSwitchOff();
 			m_vtTabStatistics->switchOff();
 			vrRegister->getTab("TabBuilding")->switchOn();
@@ -283,6 +284,7 @@ void VScreenIngame::onNotify(const Event& events)
 	case SWITCH_TO_REGISTER_SABOTAGE:
 		if (vrRegister->getActiveTab()->getName() != "TabSabotage")
 		{
+			vUi->switchCursor(VUI::CursorType::Default);
 			m_vtTabStatistics->switchOff();
 			vrRegister->getTab("TabBuilding")->switchOff();
 			SabotageTabSwitchOn();
@@ -292,6 +294,7 @@ void VScreenIngame::onNotify(const Event& events)
 	case SWITCH_TO_REGISTER_STATISTICS:
 		if (vrRegister->getActiveTab()->getName() != "TabStatistics")
 		{
+			vUi->switchCursor(VUI::CursorType::Default);
 			SabotageTabSwitchOff();
 			m_vtTabStatistics->switchOn();
 			vrRegister->getTab("TabBuilding")->switchOff();
