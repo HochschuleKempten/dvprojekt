@@ -23,21 +23,24 @@ LPlayer::~LPlayer()
 
 void LPlayer::tick(const float fTimeDelta)
 {
-	if (timeLastCheck > 1)
+	if (playerId == LPlayer::Local)
 	{
-		if (coolDownCounterPowerLine > 0) { coolDownCounterPowerLine--; }
-		if (coolDownCounterPowerPlant > 0) { coolDownCounterPowerPlant--; }
-		if (coolDownCounterResource > 0) { coolDownCounterResource--; }
-
-		if (lMaster->getLPlayingField() != nullptr && city->getPopulation() >= 1000 && almost_equal(ratioRegenerative, 1.0F, 2))
+		if (timeLastCheck > 1)
 		{
-			lMaster->gameWon();
+			if (coolDownCounterPowerLine > 0) { coolDownCounterPowerLine--; }
+			if (coolDownCounterPowerPlant > 0) { coolDownCounterPowerPlant--; }
+			if (coolDownCounterResource > 0) { coolDownCounterResource--; }
+
+			if (lMaster->getLPlayingField() != nullptr && city->getPopulation() >= 1000 && almost_equal(ratioRegenerative, 1.0F, 2))
+			{
+				lMaster->gameWon();
+			}
+
+			timeLastCheck = 0;
 		}
 
-		timeLastCheck = 0;
+		timeLastCheck += fTimeDelta;
 	}
-
-	timeLastCheck += fTimeDelta;
 }
 
 int LPlayer::getMoney() const
