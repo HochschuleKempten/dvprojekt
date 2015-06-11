@@ -352,11 +352,15 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(OIL_FENCE, "Holz.jpg");
 	setPowerPlantMaterialHelper(OIL_GREEN_RAY, "Gelbstahl.png");
 	setPowerPlantMaterialHelper(OIL_YELLOW_RAY, "Gruenstahl.png");
-
+	
 	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOn[WIND_GROUND].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[WIND_GROUND].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[BUILDING_WINDOW].MakeTextureEnvironment("textures/buildings/texture_skymap.png");
+	materialsModelsSwitchedOff[BUILDING_WINDOW].MakeTextureEnvironment("textures/buildings/texture_skymap.png");
+	materialsModelsSwitchedOn[BUILDING_WINDOW].MakeTextureSpecular("textures/buildings/texture_window_specular.png");
+	materialsModelsSwitchedOff[BUILDING_WINDOW].MakeTextureSpecular("textures/buildings/texture_window_specular.png");
 	materialsModelsSwitchedOn[NUCLEAR_FLOOR].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[NUCLEAR_FLOOR].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOn[NUCLEAR_GATE].SetTextureSpecularAsDiffuse();

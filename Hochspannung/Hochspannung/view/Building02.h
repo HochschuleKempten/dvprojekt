@@ -14,7 +14,6 @@ private:
 
 	CGeoWall m_zWallNorth;
 	CPlacement m_zpWallNorth;
-	CMaterial m_zmWallNorth;
 
 	CPlacement m_zpWallWest;
 	CPlacement m_zpWallEast;
@@ -24,7 +23,6 @@ private:
 
 	CGeoCube m_zgDach;
 	CPlacement m_zpDach;
-	CMaterial m_zmDach;
 		
 	CGeoWindow m_zgWindow;
 	CGeoWindow m_zgWindowInlay;
