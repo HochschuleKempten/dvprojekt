@@ -28,8 +28,6 @@ protected:
 	CGeoCube m_zgFoundation;
 	float foundationWidth = 0.4f;
 	float foundationHeight = 0.08f;
-	CColor colorAmbientOn;
-	CColor colorAmbientOff;
 	bool switchedState;
 
 protected:
@@ -42,7 +40,6 @@ protected:
 
 public:
 	inline IViewModel()
-		: colorAmbientOn(0.0f, 0.0f, 0.0f), colorAmbientOff(-0.2f, -0.2f, -0.2f)
 	{
 		const float step = 50.0f / CASTS<float>(m_zpLOD.size());
 		const float lastStep = 999.0f;

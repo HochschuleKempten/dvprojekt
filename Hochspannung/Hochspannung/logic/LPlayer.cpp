@@ -244,13 +244,13 @@ void LPlayer::checkPowerPlants()
 
 void LPlayer::checkRegenerativeRatio()
 {
-	int countTotalPowerPlant = std::count_if(prevConnectedPowerPlants.begin(), prevConnectedPowerPlants.end(), [] (ILPowerPlant* pP)
+	auto countTotalPowerPlant = std::count_if(prevConnectedPowerPlants.begin(), prevConnectedPowerPlants.end(), [] (ILPowerPlant* pP)
 	{
 		return pP->isActivated;
 	});
 
 	//calculate ratio regenerative
-	int countRegenerativePowerPlants = std::count_if(prevConnectedPowerPlants.begin(), prevConnectedPowerPlants.end(), [] (ILPowerPlant* pP)
+	auto countRegenerativePowerPlants = std::count_if(prevConnectedPowerPlants.begin(), prevConnectedPowerPlants.end(), [] (ILPowerPlant* pP)
 	{
 		return pP->isRegenerative() && pP->isActivated;
 	});
