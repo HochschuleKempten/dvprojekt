@@ -28,7 +28,13 @@ public:
 		TRANSFORMERSTATION_WIRE,
 		SOLAR_FLOOR,
 		SOLAR_CELL,
-		SOLAR_CELLS_LOD
+		SOLAR_CELLS_LOD,
+		WIND_GROUND,
+		WIND_RAD,
+		WIND_FLUEGEL1,
+		WIND_FLUEGEL2,
+		WIND_FLUEGEL3,
+		WATER_HOLZ
 	};
 
 private:
@@ -201,12 +207,8 @@ public:
 	static CWritingFont GoldFont;
 	static CWritingFont errorFont;
 
-	//Windkraftwerktexturen
-	static CMaterial m_zmWindGrund;
-	static CMaterial m_zmWindRad;
-	static CMaterial m_zmWindFluegel1;
-	static CMaterial m_zmWindFluegel2;
-	static CMaterial m_zmWindFluegel3;
+	//Wasserkraftwerk
+	static CMaterial m_zmWasser;
 
 	//Atomkraftwerktexturen
 	static CMaterial m_zmAtomGrund;
@@ -220,10 +222,6 @@ public:
 	static CMaterial m_zmOelZaun;
 	static CMaterial m_zmOelGelbstahl;
 	static CMaterial m_zmOelGruenstahl;
-
-	//Wasserkraftwerktexturen
-	static CMaterial m_zmWasser;
-	static CMaterial m_zmWasserHolz;
 
 	//PlayerColor
 	static std::unordered_map<int, CColor> colorPlayers;

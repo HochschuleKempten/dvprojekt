@@ -4,15 +4,11 @@ NAMESPACE_VIEW_B
 
 
 VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
-	: m_zmHolz(VMaterialLoader::m_zmWasserHolz),
-	  m_zmAtomgrundGreen(VMaterialLoader::m_zmAllgemeinGreen),
-	  Gebaeude(1.0f)
 {}
 
 VModelHydroelectricPowerPlant::~VModelHydroelectricPowerPlant()
 {
-	removeMaterial(&m_zmHolz);
-	removeMaterial(&m_zmAtomgrundGreen);
+
 }
 
 void VModelHydroelectricPowerPlant::init()
@@ -20,11 +16,11 @@ void VModelHydroelectricPowerPlant::init()
 	Gebaeude.initViewModel(vBuilding);
 
 	m_zgFluss.Init(CHVector(2.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmWasser);
-	m_zgRad.InitStraight(3.0f, 4.0f, 0.2f, &m_zmHolz);
-	m_zgRad2.InitStraight(3.0f, 4.0f, 0.2f, &m_zmHolz);
-	m_zgStange.InitStraight(0.05f, 0.2f, 5.0f, &m_zmHolz);
-	m_zgSchaufel.Init(CHVector(1.0f, 0.1f, 4.5f), &m_zmHolz);
-	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), &m_zmAtomgrundGreen);
+	m_zgRad.InitStraight(3.0f, 4.0f, 0.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));
+	m_zgRad2.InitStraight(3.0f, 4.0f, 0.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));
+	m_zgStange.InitStraight(0.05f, 0.2f, 5.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));
+	m_zgSchaufel.Init(CHVector(1.0f, 0.1f, 4.5f), VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));
+	m_zgFoundation.Init(CHVector(5.0f, 0.3f, 5.0f), nullptr);
 
 	//Initialisierung Trassen
 	///m_zTrasse1.Init();
@@ -105,16 +101,10 @@ void VModelHydroelectricPowerPlant::init()
 
 void VModelHydroelectricPowerPlant::switchOn() 
 {
-	m_zmHolz.SetColorAmbient(colorAmbientOn);
-	m_zmAtomgrundGreen.SetColorAmbient(colorAmbientOn);
-	Gebaeude.switchOn();
 }
 
 void VModelHydroelectricPowerPlant::switchOff()
 {
-	m_zmHolz.SetColorAmbient(colorAmbientOff);
-	m_zmAtomgrundGreen.SetColorAmbient(colorAmbientOff);
-	Gebaeude.switchOff();
 }
 
 

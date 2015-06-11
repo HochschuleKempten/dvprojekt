@@ -4,12 +4,6 @@ NAMESPACE_VIEW_B
 
 
 VModelWindmillPowerPlant::VModelWindmillPowerPlant()
-:
-m_zmWindRad(VMaterialLoader::m_zmWindRad),
-m_zmWindGrund(VMaterialLoader::m_zmWindGrund),
-m_zmWindFluegel1(VMaterialLoader::m_zmWindFluegel1),
-m_zmWindFluegel2(VMaterialLoader::m_zmWindFluegel2),
-m_zmWindFluegel3(VMaterialLoader::m_zmWindFluegel3)
 {
 	m_zpLOD[0].AddPlacement(&m_zpWindkraftwerk);
 	m_zpLOD[1].AddPlacement(&m_zpWindkraftwerk);
@@ -30,22 +24,22 @@ m_zmWindFluegel3(VMaterialLoader::m_zmWindFluegel3)
 	//Initialisierung der Koerper
 
 	//Initialisierung Turm
-	m_zgTurm.Init(0.6f, 0.2f, 8.0f, &m_zmWindRad);
+	m_zgTurm.Init(0.6f, 0.2f, 8.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::WIND_RAD, switchedState));
 
 	//Initialisierung Fundament
-	m_zgFundament.Init(2.0f, 0.3f, 2.0f, &m_zmWindGrund);
-	m_zgFoundation.Init(CHVector(2.0f, 0.3f, 2.0f), &m_zmWindGrund);
+	m_zgFundament.Init(2.0f, 0.3f, 2.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::WIND_GROUND, switchedState));
+	m_zgFoundation.Init(CHVector(2.0f, 0.3f, 2.0f), VMaterialLoader::getMaterialModel(VMaterialLoader::WIND_GROUND, switchedState));
 
 	//Initialisierung Netzanschluss
-	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, &m_zmWindRad);
+	m_zgNetzanschluss.Init(0.5f, 0.5f, 0.3f, VMaterialLoader::getMaterialModel(VMaterialLoader::WIND_RAD, switchedState));
 
 	//Initialisierung Gondel
-	m_zgGondel.Init(CHVector(0.4f, 1.0f, 0.4f), &m_zmWindRad);
+	m_zgGondel.Init(CHVector(0.4f, 1.0f, 0.4f), VMaterialLoader::getMaterialModel(VMaterialLoader::WIND_RAD, switchedState));
 
 	//Initialisierung Rotorblatt
-	m_zgRotorblatt1.Init(CHVector(0.2f, 2.0f, 0.1f), &m_zmWindFluegel1);
-	m_zgRotorblatt2.Init(CHVector(0.2f, 2.0f, 0.1f), &m_zmWindFluegel2);
-	m_zgRotorblatt3.Init(CHVector(0.2f, 2.0f, 0.1f), &m_zmWindFluegel3);
+	m_zgRotorblatt1.Init(CHVector(0.2f, 2.0f, 0.1f), VMaterialLoader::getMaterialModel(VMaterialLoader::WIND_FLUEGEL1, switchedState));
+	m_zgRotorblatt2.Init(CHVector(0.2f, 2.0f, 0.1f), VMaterialLoader::getMaterialModel(VMaterialLoader::WIND_FLUEGEL2, switchedState));
+	m_zgRotorblatt3.Init(CHVector(0.2f, 2.0f, 0.1f), VMaterialLoader::getMaterialModel(VMaterialLoader::WIND_FLUEGEL3, switchedState));
 
 	
 
@@ -77,29 +71,17 @@ m_zmWindFluegel3(VMaterialLoader::m_zmWindFluegel3)
 
 void VModelWindmillPowerPlant::switchOn()
 {
-	m_zmWindRad.SetColorAmbient(colorAmbientOn);
-	m_zmWindGrund.SetColorAmbient(colorAmbientOn);
-	m_zmWindFluegel1.SetColorAmbient(colorAmbientOn);
-	m_zmWindFluegel2.SetColorAmbient(colorAmbientOn);
-	m_zmWindFluegel3.SetColorAmbient(colorAmbientOn);
+
 }
 
 void VModelWindmillPowerPlant::switchOff()
 {
-	m_zmWindRad.SetColorAmbient(colorAmbientOff);
-	m_zmWindGrund.SetColorAmbient(colorAmbientOff);
-	m_zmWindFluegel1.SetColorAmbient(colorAmbientOff);
-	m_zmWindFluegel2.SetColorAmbient(colorAmbientOff);
-	m_zmWindFluegel3.SetColorAmbient(colorAmbientOff);
+
 }
 
 VModelWindmillPowerPlant::~VModelWindmillPowerPlant()
 {
-	removeMaterial(&m_zmWindRad);
-	removeMaterial(&m_zmWindGrund);
-	removeMaterial(&m_zmWindFluegel1);
-	removeMaterial(&m_zmWindFluegel2);
-	removeMaterial(&m_zmWindFluegel3);
+
 }
 
 

@@ -143,13 +143,6 @@ CWritingFont VMaterialLoader::standardFont;
 CWritingFont VMaterialLoader::GoldFont;
 CWritingFont VMaterialLoader::errorFont;
 
-//Windkraftwerktexturen
-CMaterial VMaterialLoader::m_zmWindGrund;
-CMaterial VMaterialLoader::m_zmWindRad;
-CMaterial VMaterialLoader::m_zmWindFluegel1;
-CMaterial VMaterialLoader::m_zmWindFluegel2;
-CMaterial VMaterialLoader::m_zmWindFluegel3;
-
 //Atomkraftwerktexturen
 CMaterial VMaterialLoader::m_zmAtomGrund;
 CMaterial VMaterialLoader::m_zmAtomSchranke;
@@ -165,7 +158,6 @@ CMaterial VMaterialLoader::m_zmOelGruenstahl;
 
 //Wasserkraftwerktexturen
 CMaterial VMaterialLoader::m_zmWasser;
-CMaterial VMaterialLoader::m_zmWasserHolz;
 
 //PlayerColor
 std::unordered_map<int, CColor> VMaterialLoader::colorPlayers;
@@ -361,9 +353,18 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(SOLAR_FLOOR, "white_image.jpg");
 	setPowerPlantMaterialHelper(SOLAR_CELL, "SolarPanel.jpg");
 	setPowerPlantMaterialHelper(SOLAR_CELLS_LOD, "SolarLOD.jpg");
+	setPowerPlantMaterialHelper(WIND_GROUND, "Beton.png");
+	setPowerPlantMaterialHelper(WIND_RAD, "Metall_Fassade.jpg" );
+	setPowerPlantMaterialHelper(WIND_FLUEGEL1,"Metall_Fassade.jpg");
+	setPowerPlantMaterialHelper(WIND_FLUEGEL2,"Metall_Fassade.jpg");
+	setPowerPlantMaterialHelper(WIND_FLUEGEL3, "Metall_Fassade.jpg");
+	setPowerPlantMaterialHelper(WATER_HOLZ, "Holz.jpg");
+
 
 	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[WIND_GROUND].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOff[WIND_GROUND].SetTextureSpecularAsDiffuse();
 
 	setFieldMaterialHelper(LField::WATER, "water");
 	setFieldMaterialHelper(LField::AIR, "air");
@@ -501,16 +502,6 @@ void VMaterialLoader::init()
 	errorFont.Init("textures/fonts/OCRError.png", true);
 	errorFont.SetTableSize(16, 16);
 
-
-
-	//Windkraftwerktexturen
-	m_zmWindGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
-	m_zmWindRad.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
-	m_zmWindFluegel1.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
-	m_zmWindFluegel2.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
-	m_zmWindFluegel3.MakeTextureDiffuse("textures\\Powerplants\\Metall_Fassade.jpg");
-	m_zmWindGrund.SetTextureSpecularAsDiffuse();
-
 	//Atomkraftwerktexturen
 	m_zmAtomGrund.MakeTextureDiffuse("textures\\Powerplants\\Beton.png");
 	m_zmAtomSchranke.MakeTextureDiffuse("textures\\Powerplants\\Schranke.jpg");
@@ -536,8 +527,7 @@ void VMaterialLoader::init()
 	//Wasserkraftwerktexturen
 	m_zmWasser.MakeTextureSprite("Textures\\animations\\Water.png");
 	m_zmWasser.SetAni(80, 2, 160.0 / 16.0);
-	m_zmWasserHolz.MakeTextureDiffuse("Textures\\Holz.JPG");
-
+	
 	//Building - Foundation
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Local), std::make_tuple(222.0f / 255.0f, 186.0f / 255.0f, 69.0f / 255.0f));
