@@ -30,6 +30,7 @@ public:
 	void setEnergy(const int energy);
 	int getEnergy() const;
 	void setPopulationTotal(const int populationTotal);
+	int getPopulation() const;
 	int getEnergySurplus() const;
 
 	virtual LIdentifier::LIdentifier getIdentifier() const override

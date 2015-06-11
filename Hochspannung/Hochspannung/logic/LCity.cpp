@@ -77,6 +77,11 @@ void LCity::setPopulationTotal(const int populationTotal)
 	}
 }
 
+int LCity::getPopulation() const
+{
+	return populationTotal;
+}
+
 int LCity::getEnergySurplus() const
 {
 	return energySurplus;

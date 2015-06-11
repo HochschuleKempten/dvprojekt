@@ -78,7 +78,7 @@ void LPlayingField::showPlayingField()
 	recalculateCityConnections();
 }
 
-bool LPlayingField::isInitDone()
+bool LPlayingField::isInitDone() const
 {
 	return initDone;
 }

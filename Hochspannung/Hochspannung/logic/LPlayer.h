@@ -35,6 +35,7 @@ private:
 	LCity* city = nullptr;
 	float timeLastCheck = 0;
 	PlayerId playerId = Local;
+	float ratioRegenerative = 0.0F;
 
 private:
 	void checkRegenerativeRatio();
