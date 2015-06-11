@@ -1043,7 +1043,7 @@ void VScreenIngame::showMessage(const std::string& messageRow1, const std::strin
 	}
 }
 
-void VScreenIngame::startCooldown(const INTERACTIONS& interaction)
+void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 {
 	
 	
@@ -1234,8 +1234,8 @@ bool VScreenIngame::trySabotage(const int x, const int y)
 	{
 		return false;
 	}
-
 	//Own building selected
+	
 	if (vbuilding->getLBuilding()->getPlayerId() != LPlayer::PlayerId::Remote)
 	{
 		return false;
@@ -1243,36 +1243,52 @@ bool VScreenIngame::trySabotage(const int x, const int y)
 
 	switch (selectedAction)
 	{
-	case IViewBuilding::sabotageDeactivate:
-		//No power plant selected
-		if (dynamic_cast<IVPowerPlant*>(vbuilding) == nullptr)
-		{
-			return false;
-		}
-
-		return vbuilding->clicked(selectedAction);
-
-	case IViewBuilding::sabotageRemove:
-		{
-			bool operationSuccessful = vbuilding->clicked(selectedAction);
-			if (operationSuccessful)
+		case IViewBuilding::sabotageDeactivate:
 			{
-				//only remove it if action was successfull
-				vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
+				//No power plant selected
+				if (dynamic_cast<IVPowerPlant*>(vbuilding) == nullptr)
+				{
+					return false;
+				}
+
+				bool operationSuccessful = vbuilding->clicked(selectedAction);
+				if (operationSuccessful)
+				{
+					startCooldown(SABOTAGE_STRIKE);
+				}
+
+				return operationSuccessful;
 			}
-			return operationSuccessful;
-		}
-	case IViewBuilding::sabotageResource:
-		// Deduct enemys resources
-		if (dynamic_cast<IViewPowerPlant*>(vbuilding) == nullptr)
-		{
+		case IViewBuilding::sabotageRemove:
+			{
+				bool operationSuccessful = vbuilding->clicked(selectedAction);
+				if (operationSuccessful)
+				{
+					//only remove it if action was successfull
+					vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
+					startCooldown(SABOTAGE_CUTPOWERLINE);
+				}
+
+				return operationSuccessful;
+			}
+		case IViewBuilding::sabotageResource:
+			{
+				// Deduct enemys resources
+				if (dynamic_cast<IViewPowerPlant*>(vbuilding) == nullptr)
+				{
+					return false;
+				}
+
+				bool operationSuccessful = vbuilding->clicked(selectedAction);
+				if (operationSuccessful)
+				{
+					startCooldown(SABOTAGE_HALF);
+				}
+
+				return operationSuccessful;
+			}
+		default:
 			return false;
-		}
-
-		return vbuilding->clicked(selectedAction);
-
-	default:
-		return false;
 	}
 }
 

@@ -75,7 +75,7 @@ public:
 	std::unordered_map<std::string, IViewGUIObject*> getObjects(IViewGUIContainer* container);
 
 	void showMessage(const std::string& messageRow1, const std::string& messageRow2, const int timeSeconds);
-	void startCooldown(const INTERACTIONS& interaction);
+	void startCooldown(const INTERACTIONS interaction);
 
 private:
 
