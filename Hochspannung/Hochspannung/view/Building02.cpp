@@ -39,7 +39,7 @@ Building02::~Building02()
 
 void Building02::InitWindows()
 {
-	m_zgWallFrame.Init(1.F, 1.F, 0.5F, &m_zmWallNorth);
+	m_zgWallFrame.Init(1.F, 1.F, 0.5F, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_WINDOW, switchedState));
 	m_zgWindow.InitRect(CFloatRect(0.2F, 0.9F, 0.2F, 0.1F), false);
 	m_zgWindow.AddGeoWall(&m_zgWallFrame);
 }
@@ -52,7 +52,7 @@ void Building02::AddWindows()
 void Building02::InitWalls()
 {
 	m_zWallNorth.Init(fstandardwidthwall / fresize, fstandardheightwall / fresize, fstandarddepthwall / fresize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_WALLFRAME, switchedState));
-	m_zgDach.Init(CHVector(fstandardwidthroof / fresize, fstandardheightroof / fresize, fstandarddepthroof / fresize, 0.F), &m_zmDach);
+	m_zgDach.Init(CHVector(fstandardwidthroof / fresize, fstandardheightroof / fresize, fstandarddepthroof / fresize, 0.F), VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_WALLFRAME, switchedState));
 }
 
 void Building02::AddPlacements()

@@ -347,12 +347,16 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(WIND_FLUEGEL3, "Metall_Fassade.jpg");
 	setPowerPlantMaterialHelper(WATER_HOLZ, "Holz.jpg");
 	setPowerPlantMaterialHelper(BUILDING_WALLFRAME, "../buildings/texture_concrete.png");
-
-
+	
 	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOn[WIND_GROUND].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[WIND_GROUND].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[BUILDING_WINDOW].MakeTextureEnvironment("textures/buildings/texture_skymap.png");
+	materialsModelsSwitchedOff[BUILDING_WINDOW].MakeTextureEnvironment("textures/buildings/texture_skymap.png");
+	materialsModelsSwitchedOn[BUILDING_WINDOW].MakeTextureSpecular("textures/buildings/texture_window_specular.png");
+	materialsModelsSwitchedOff[BUILDING_WINDOW].MakeTextureSpecular("textures/buildings/texture_window_specular.png");
+
 
 	setPowerPlantMaterialHelper(NUCLEAR_FLOOR, "Beton.png");
 	setPowerPlantMaterialHelper(NUCLEAR_GATE, "Schranke.jpg");
