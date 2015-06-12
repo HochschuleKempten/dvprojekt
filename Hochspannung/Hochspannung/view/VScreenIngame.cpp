@@ -271,26 +271,36 @@ void VScreenIngame::onNotify(const Event& events)
 	switch (events)
 	{
 	case SWITCH_TO_REGISTER_BUILDING:
-		SabotageTabSwitchOff();
-		m_vtTabStatistics->switchOff();
-		vrRegister->getTab("TabBuilding")->switchOn();
-		vrRegister->setActiveTab("TabBuilding");
+		if (vrRegister->getActiveTab()->getName() != "TabBuilding")
+		{
+			vUi->switchCursor(VUI::CursorType::Default);
+			SabotageTabSwitchOff();
+			m_vtTabStatistics->switchOff();
+			vrRegister->getTab("TabBuilding")->switchOn();
+			vrRegister->setActiveTab("TabBuilding");
+		}
 		break;
 
 	case SWITCH_TO_REGISTER_SABOTAGE:
-		
-		m_vtTabStatistics->switchOff();
-		vrRegister->getTab("TabBuilding")->switchOff();
-		SabotageTabSwitchOn();
-		vrRegister->setActiveTab("TabSabotage");
+		if (vrRegister->getActiveTab()->getName() != "TabSabotage")
+		{
+			vUi->switchCursor(VUI::CursorType::Default);
+			m_vtTabStatistics->switchOff();
+			vrRegister->getTab("TabBuilding")->switchOff();
+			SabotageTabSwitchOn();
+			vrRegister->setActiveTab("TabSabotage");
+		}
 		break;
 	case SWITCH_TO_REGISTER_STATISTICS:
-		
-		SabotageTabSwitchOff();
-		m_vtTabStatistics->switchOn();
-		vrRegister->getTab("TabBuilding")->switchOff();
-		vrRegister->setActiveTab("TabStatistics");
-		updatePowerPlants();
+		if (vrRegister->getActiveTab()->getName() != "TabStatistics")
+		{
+			vUi->switchCursor(VUI::CursorType::Default);
+			SabotageTabSwitchOff();
+			m_vtTabStatistics->switchOn();
+			vrRegister->getTab("TabBuilding")->switchOff();
+			vrRegister->setActiveTab("TabStatistics");
+			updatePowerPlants();
+		}
 		break;
 
 	case SELECT_BUILDING_WINDMILL:
@@ -469,6 +479,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	static bool enabled = true;
 	static bool iwas = true;
 	static bool iwas2 = true;
+	static bool iwas3 = true;
 
 	if (keyboard->KeyPressed(DIK_O) && iwas)
 	{
@@ -477,7 +488,10 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 		startCooldown(SABOTAGE_STRIKE);
 		startCooldown(SABOTAGE_CUTPOWERLINE);
 	}
-
+	if (keyboard->KeyPressed(DIK_Y) && iwas3)
+	{
+		startCooldown(SABOTAGE_CUTPOWERLINE);
+	}
 	if (keyboard->KeyPressed(DIK_N))
 	{
 		static bool zeug = true;
@@ -1053,9 +1067,11 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 					m_CooldownPowerLineCut = true;
 					m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOff();
 					m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOn();
+					VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 1);
+					m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
 					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Remove)));
 					m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
-
+					VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 0);
 					m_CooldownPowerLineCut = false;
 
 					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
@@ -1068,9 +1084,13 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 					m_CooldownStrike = true;
 					m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
 					m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOn();
+					VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 1);
+					m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageStrike"));
 					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate)));
 					m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
+					VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 0);
 					m_CooldownStrike = false;
+
 					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
 						m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
 				}).detach();
@@ -1082,9 +1102,13 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 					m_CooldownHalfResource = true;
 					m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
 					m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOn();
-					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Resource)));
+					VMaterialLoader::materialAnimSabotageHalfResource.SetAni(60, 2, 1);
+					m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource"));
+					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Remove)));
 					m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOff();
+					VMaterialLoader::materialAnimSabotageHalfResource.SetAni(60, 2, 0);
 					m_CooldownHalfResource = false;
+
 					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
 						m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
 				}).detach();

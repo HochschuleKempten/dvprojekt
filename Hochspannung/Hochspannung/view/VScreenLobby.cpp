@@ -138,8 +138,8 @@ void VScreenLobby::onNotify(const Event& events)
 			std::string textfieldValue = CASTD<VTextfield*>(getContainer("LobbyRunningGames")->getGuiObject("textfieldIP"))->getValue();
 			if (textfieldValue.size() > 0)
 			{
-				if (std::regex_match(textfieldValue, std::regex("((1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])\.){3}((25[0-5])|(2[0-4][0-9])|(1?[0-9][0-9]?))")))
-				{	
+				if (checkAddress(textfieldValue))
+				{
 					CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Trete Spiel bei...");
 					getContainer("WaitingDialog")->switchOn();
 
@@ -388,6 +388,51 @@ void VScreenLobby::showWaitingDialog()
 
 void VScreenLobby::resize(const int width, const int height)
 {
+}
+
+bool  VScreenLobby::checkAddress(const std::string& address) {
+	std::vector<std::string> arr;
+	int k = 0;
+	arr.push_back(std::string());
+	for (std::string::const_iterator i = address.begin(); i != address.end(); ++i) {
+		if (*i == '.') {
+			++k;
+			arr.push_back(std::string());
+			if (k == 4) {
+				//printError("too many '.'");
+			}
+			continue;
+		}
+		if (*i >= '0' && *i <= '9') {
+			arr[k] += *i;
+		}
+		else {
+			//printError("wrong character");
+			return false;
+		}
+		if (arr[k].size() > 3) {
+			//printError("size exceeded");
+			return false;
+		}
+	}
+	if (k != 3) {
+		//printError("not enough '.'");
+		return false;
+	}
+	for (int i = 0; i != 4; ++i) {
+		const char* nPtr = arr[i].c_str();
+		char* endPtr = 0;
+		const unsigned long a = ::strtoul(nPtr, &endPtr, 10);
+		if (nPtr == endPtr) {
+			//printError("invalid numeric input");
+			return false;
+		}
+		if (a > 255) {
+			//printError("out of range");
+			return false;
+		}
+	}
+	return true;
 }
 
 NAMESPACE_VIEW_E

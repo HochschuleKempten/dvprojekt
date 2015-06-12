@@ -26,6 +26,7 @@ public:
 
 	void showWaitingDialog();
 private:
+	bool checkAddress(const std::string& address);
 	CBackground* m_background;
 	COverlay* m_bigDialog;
 	std::mutex mutex;
