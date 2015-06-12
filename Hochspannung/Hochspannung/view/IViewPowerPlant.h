@@ -71,7 +71,7 @@ public:
 			case sabotageResource: 
 			{
 				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), vMaster->getLMaster()->getPlayer(LPlayer::Local));
-				return remoteOperation.sabotageRessource(lPlant);
+				return remoteOperation.sabotageResource(lPlant);
 			}
 			case sabotageRemove:
 			{
@@ -105,7 +105,7 @@ public:
 		}
 	}
 
-	virtual void sabotageRessourcesReduced() override
+	virtual void sabotageResourcesReduced() override
 	{
 		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
 	}

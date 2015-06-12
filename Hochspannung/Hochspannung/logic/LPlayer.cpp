@@ -63,21 +63,6 @@ void LPlayer::subtractMoney(const int amount)
 
 bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 {
-	auto getSabotageCost = [sabotageType] ()
-	{
-		switch (sabotageType)
-		{
-		case (LSabotage::Remove) :
-			return LBalanceLoader::getCostSabotageRemove();
-		case(LSabotage::Deactivate):
-			return LBalanceLoader::getCostSabotageDeactivate();
-		case(LSabotage::Resource) :
-			return LBalanceLoader::getCostSabotageResource();
-		default:
-			return -1;
-		}
-	};
-
 	// checks if player has to wait and if not, sets the new cooldown value
 	auto checkCooldown = [this, sabotageType]()
 	{
@@ -90,7 +75,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 				return false;
 			}
 
-			coolDownCounterRemove = LBalanceLoader::getCooldownTimeSabotagePowerLine();
+			coolDownCounterRemove = LBalanceLoader::getSabotageCooldown(sabotageType);
 			return true;
 
 		case(LSabotage::Deactivate) :
@@ -100,7 +85,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 				return false;
 			}
 
-			coolDownCounterDeactivate = LBalanceLoader::getCooldownTimeSabotagePowerPlant();
+			coolDownCounterDeactivate = LBalanceLoader::getSabotageCooldown(sabotageType);
 			return true;
 
 		case(LSabotage::Resource) :
@@ -110,7 +95,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 				return false;
 			}
 
-			coolDownCounterResource = LBalanceLoader::getCooldownTimeSabotageResource();
+			coolDownCounterResource = LBalanceLoader::getSabotageCooldown(sabotageType);
 			return true;
 
 		default:
@@ -120,7 +105,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 
 	if (sabotageActs > 0)
 	{
-		int sabotageCost = getSabotageCost();
+		int sabotageCost = LBalanceLoader::getSabotageCost(sabotageType);
 
 		if (getMoney() < sabotageCost)
 		{
@@ -265,7 +250,7 @@ bool LPlayer::sabotageDeactivate(ILPowerPlant* lPowerPlant)
 	return false;
 }
 
-bool LPlayer::sabotageRessource(ILPowerPlant* lPowerPlant)
+bool LPlayer::sabotageResource(ILPowerPlant* lPowerPlant)
 {
 	if (trySabotageAct(LSabotage::Resource))
 	{

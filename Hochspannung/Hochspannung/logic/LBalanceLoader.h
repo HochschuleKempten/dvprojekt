@@ -4,6 +4,7 @@
 #include "LField.h"
 #include "LUtility.h"
 #include "LIdentifier.h"
+#include "LSabotage.h"
 #include <unordered_map>
 #include <boost\property_tree\ptree.hpp>
 
@@ -35,7 +36,11 @@ private:
 public:
 	static void init();
 
-	template<typename T> static int getCost() { return 0; }
+	//-----Cost----
+	/**
+	 * @brief Costs for the different buildings.
+	 */
+	template<typename T> static int getCost() { return 0; } //Every other building has no costs
 	template<> static int getCost<LPowerLine>() { return propertyTree.get<int>("Cost.PowerLine", 0); }
 	template<> static int getCost<LWindmillPowerPlant>() { return propertyTree.get<int>("Cost.WindmillPowerPlant", 0); }
 	template<> static int getCost<LSolarPowerPlant>() { return propertyTree.get<int>("Cost.SolarPowerPlant", 0); }
@@ -43,19 +48,36 @@ public:
 	template<> static int getCost<LCoalPowerPlant>() { return propertyTree.get<int>("Cost.CoalPowerPlant", 0); }
 	template<> static int getCost<LOilRefinery>() { return propertyTree.get<int>("Cost.OilRefinery", 0); }
 	template<> static int getCost<LNuclearPowerPlant>() { return propertyTree.get<int>("Cost.NuclearPowerPlant", 0); }
-
-	/**
-	 * @brief Storage amount of the fossil energy ressources.
-	 */
-	static int getFieldStorage(const LField::FieldType fieldType);
-	/**
-	 * @brief Consumed ressources for a fossil field type per second.
-	 */
-	static int getConsumedResources(const LField::FieldType fieldType);
+	
+	//-----ProducedEnergy----
 	/**
 	 * @brief Produced energy for a power plant per second.
 	 */
 	static int getProducedEnergy(const LIdentifier::LIdentifier identifier);
+
+	//-----FieldStorage----
+	/**
+	 * @brief Storage amount of the fossil energy resources.
+	 */
+	static int getFieldStorage(const LField::FieldType fieldType);
+
+	//-----ConsumedResources----
+	/**
+	 * @brief Consumed resources for a fossil field type per second.
+	 */
+	static int getConsumedResources(const LField::FieldType fieldType);
+
+	//-----FieldTypeRatio----
+	/**
+	* @brief Specifies for every field type the percentage share of its total occurrence.
+	*/
+	static std::unordered_map<LField::FieldType, double> getFieldTypeRatio();
+
+	//-----FieldLevelFactor----
+	/**
+	* @brief Specifies for every field level the factor for multiplication with the resource amount.
+	*/
+	static std::unordered_map<LField::FieldLevel, double> getFieldLevelFactor();
 
 	//-----DifficultyScale----
 	/**
@@ -79,10 +101,11 @@ public:
 	 */
 	static int getFieldLength();
 
-	static std::unordered_map<LField::FieldType, double> getFieldTypeRatio();
-	static std::unordered_map<LField::FieldLevel, double> getFieldLevelFactor();
-
-	//-----City properties----
+	//-----CityProperties----
+	/**
+	 * @brief Default population of the city.
+	 */
+	static int getStartPopulation();
 	/**
 	 * @brief Growth rate of the city in number of peoples per second.
 	 */
@@ -91,10 +114,6 @@ public:
 	 * @brief Energy consumption of the city in watt per citizen.
 	 */
 	static double getConsumptionPerCitizen();
-	/**
-	 * @brief Default population of the city.
-	 */
-	static int getStartPopulation();
 	/**
 	 * @brief Maximum number of citizen in the city.
 	 */
@@ -108,43 +127,32 @@ public:
 	 */
 	static int getSurplusWarningThreshold();
 
+	//-----SabotageValues----
 	/**
-	 * @brief Cost for sabotating a powerline.
+	 * @brief Costs for the different sabotage acts.
 	 */
-	static int getCostSabotageRemove();
+	static int getSabotageCost(const LSabotage::LSabotage sabotage);
 	/**
-	* @brief Cost for sabotating a powerplant.
-	*/
-	static int getCostSabotageDeactivate();
+	 * @brief Cooldown times fot the different sabotage acts.
+	 */
+	static int getSabotageCooldown(const LSabotage::LSabotage sabotage);
 	/**
-	* @brief Cost for sabotating a resource.
-	*/
-	static int getCostSabotageResource();
-	/**
-	* @brief Cooldown after sabotating a powerline.
-	*/
-	static int getCooldownTimeSabotagePowerLine();
-	/**
-	* @brief Cooldown after sabotating a powerplant.
-	*/
-	static int getCooldownTimeSabotagePowerPlant();
-	/**
-	* @brief Cooldown after sabotating a resource.
-	*/
-	static int getCooldownTimeSabotageResource();
-
+	 * @brief Cooldown time for a sabotaged power plant (time it is deactivated).
+	 */
 	static int getCooldownTimeReactivationPowerPlant();
 	/**
-	* @brief Factor for resource sabotage.
-	*/
+	 * @brief Factor for resource sabotage.
+	 */
 	static float getFactorSabotageResource();
 	/**
-	* @brief Sabotage acts.
-	*/
+	 * @brief Amount of sabotage acts.
+	 */
 	static int getSabotageActs();
+
+	//-----GeneralSettings----
 	/**
-	*@brief Address of the adapter to use.
-	*/
+	 * @brief Address of the adapter to use for outgoing connections.
+	 */
 	static std::string getLocalIpAddress();
 };
 

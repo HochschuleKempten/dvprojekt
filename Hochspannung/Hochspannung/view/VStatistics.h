@@ -2,7 +2,7 @@
 #include "IViewGUIObject.h"
 #include "VGraph.h"
 #include "VGraphRatio.h"
-#include "VText.h";
+#include "VText.h"
 
 NAMESPACE_VIEW_B
 

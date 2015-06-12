@@ -188,11 +188,11 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	
 	m_vtTabSabotage->addOverlay(CFloatRect(0.025F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageCutPowerline, "CooldownSabotagePowerLineCut", 0.1F);
 	m_vtTabSabotage->addOverlay(CFloatRect(0.275F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageStrike, "CooldownSabotageStrike", 0.1F);
-	m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageHalfRessource, "CooldownSabotageHalfRessource", 0.1F);
+	m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageHalfResource, "CooldownSabotageHalfResource", 0.1F);
 	
 	m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
 	m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
-	m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource")->SwitchOff();
+	m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOff();
 
 	// Tab for statistics
 
@@ -1045,56 +1045,51 @@ void VScreenIngame::showMessage(const std::string& messageRow1, const std::strin
 
 void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 {
-	
-	
 	switch (interaction)
 	{
-	case SABOTAGE_CUTPOWERLINE:
-		std::thread([this] {
-			
-			m_CooldownPowerLineCut = true;
-		m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOff();
-		m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOn();
-		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotagePowerLine())); 
-		m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
-		
-		m_CooldownPowerLineCut = false;
-		
-		if(vrRegister->getActiveTab()->getName() == "TabSabotage")
-			m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOn();
-		
-		
-		}).detach();
-		break;
-	case SABOTAGE_STRIKE:
-		std::thread([this] {
-			m_CooldownStrike = true;
-			m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
-			m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOn();
-			std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotagePowerPlant()));
-			m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
-			m_CooldownStrike = false;
-			if (vrRegister->getActiveTab()->getName() == "TabSabotage")
-				m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
+		case SABOTAGE_CUTPOWERLINE:
+			std::thread([this]
+				{
+					m_CooldownPowerLineCut = true;
+					m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOff();
+					m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOn();
+					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Remove)));
+					m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
 
-		}).detach();
-		break;
-	case SABOTAGE_HALF:
-		
-		std::thread([this] {
-			m_CooldownHalfRessource = true;
-		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
-		m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource")->SwitchOn();
-		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotageResource())); 
-		m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource")->SwitchOff();
-		m_CooldownHalfRessource = false;
-		if (vrRegister->getActiveTab()->getName() == "TabSabotage")
-		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
-	
-		}).detach();
-		break;
+					m_CooldownPowerLineCut = false;
+
+					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
+						m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOn();
+				}).detach();
+			break;
+		case SABOTAGE_STRIKE:
+			std::thread([this]
+				{
+					m_CooldownStrike = true;
+					m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
+					m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOn();
+					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate)));
+					m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
+					m_CooldownStrike = false;
+					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
+						m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
+				}).detach();
+			break;
+		case SABOTAGE_HALF:
+
+			std::thread([this]
+				{
+					m_CooldownHalfResource = true;
+					m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
+					m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOn();
+					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Resource)));
+					m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOff();
+					m_CooldownHalfResource = false;
+					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
+						m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
+				}).detach();
+			break;
 	}
-
 }
 
 void VScreenIngame::clearInfofield()
@@ -1364,8 +1359,8 @@ void VScreenIngame::SabotageTabSwitchOn()
 		else
 			m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
 
-		if (m_CooldownHalfRessource)
-			m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource"));
+		if (m_CooldownHalfResource)
+			m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource"));
 	    else
 		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
 		
@@ -1390,8 +1385,8 @@ void VScreenIngame::SabotageTabSwitchOff()
 		else
 			m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
 
-		if (m_CooldownHalfRessource)
-			m_viewport->SubOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource"));
+		if (m_CooldownHalfResource)
+			m_viewport->SubOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource"));
 	    else
 			m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
 		

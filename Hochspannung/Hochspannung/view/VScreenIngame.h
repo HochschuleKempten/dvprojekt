@@ -165,7 +165,7 @@ private:
 
 	bool m_CooldownStrike=false;
 	bool m_CooldownPowerLineCut = false;
-	bool m_CooldownHalfRessource = false;
+	bool m_CooldownHalfResource = false;
 };
 
 

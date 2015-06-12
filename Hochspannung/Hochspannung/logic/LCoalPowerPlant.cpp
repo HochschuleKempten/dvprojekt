@@ -15,7 +15,7 @@ LCoalPowerPlant::LCoalPowerPlant(LField* lField, const int x, const int y, const
 
 int LCoalPowerPlant::getEnergyValue()
 {
-	return fossilRessourceCheck();
+	return fossilResourceCheck();
 }
 
 LCoalPowerPlant::~LCoalPowerPlant()

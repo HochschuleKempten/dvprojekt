@@ -4,6 +4,8 @@
 
 NAMESPACE_VIEW_B
 
+DEBUG_EXPRESSION(bool VMaterialLoader::initDone = false);
+DEBUG_EXPRESSION(static const char* const msgAssert = "VMaterialLoader is not initialized");
 
 std::map<VMaterialLoader::FieldPair, CMaterial> VMaterialLoader::fieldMaterials;
 
@@ -190,7 +192,7 @@ CMaterial VMaterialLoader::materialAnimationsVersuch;
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotageBomb;
 CMaterial VMaterialLoader::materialAnimLoadingCircle;
-CMaterial VMaterialLoader::materialAnimSabotageHalfRessource;
+CMaterial VMaterialLoader::materialAnimSabotageHalfResource;
 CMaterial VMaterialLoader::materialAnimSabotageStrike;
 CMaterial VMaterialLoader::materialAnimSabotageCutPowerline;
 
@@ -305,6 +307,7 @@ void VMaterialLoader::setPowerPlantMaterialHelper(const Model materialPowerPlant
 
 CMaterial* VMaterialLoader::getMaterialModel(const Model materialPowerPlant, const bool switchedOn)
 {
+	ASSERT(initDone, msgAssert);
 	ASSERT(materialsModelsSwitchedOn.count(materialPowerPlant) > 0, "Requested material is not available");
 
 	if (switchedOn)
@@ -605,8 +608,8 @@ void VMaterialLoader::init()
 
 	materialAnimLoadingCircle.SetTransparencyOn();
 
-	materialAnimSabotageHalfRessource.MakeTextureSprite("textures/gui/animiert/RessourceHalf.png");
-	materialAnimSabotageHalfRessource.SetAni(60, 2, 1);
+	materialAnimSabotageHalfResource.MakeTextureSprite("textures/gui/animiert/ResourceHalf.png");
+	materialAnimSabotageHalfResource.SetAni(60, 2, 1);
 
 	materialAnimSabotageStrike.MakeTextureSprite("textures/gui/animiert/Strike.png");
 	materialAnimSabotageStrike.SetAni(45, 2, 1);
@@ -654,11 +657,15 @@ void VMaterialLoader::init()
 	materialCreditsModelling.SetTransparencyOn();
 	materialCreditsModelling2.SetTransparencyOn();
 	materialCreditsVektoriaSplash.SetTransparencyOn();
+
+	DEBUG_EXPRESSION(initDone = true);
 }
 
 //Rotation adjustments
 float VMaterialLoader::getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta)
 {
+	ASSERT(initDone, msgAssert);
+
 	switch (powerPlant)
 	{
 		case VIdentifier::VCoalPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);	//Number of seconds per rotation

@@ -109,7 +109,7 @@ int LField::reduceResources(const int amount)
 		return resourceLeft - amount;
 	}
 	
-	//Enough ressources left on the field to reduce the desired amount
+	//Enough resources left on the field to reduce the desired amount
 	resourceLeft -= amount;
 	return amount;
 }

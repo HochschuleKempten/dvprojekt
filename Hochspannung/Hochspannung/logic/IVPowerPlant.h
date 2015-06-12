@@ -20,7 +20,7 @@ public:
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y) = 0;
 	virtual void switchedOn() = 0;
 	virtual void switchedOff() = 0;
-	virtual void sabotageRessourcesReduced() = 0;
+	virtual void sabotageResourcesReduced() = 0;
 	virtual void sabotagePowerPlantSwitchedOff(const int seconds) = 0;
 	virtual void sabotagePowerPlantSwitchedOn() = 0;
 

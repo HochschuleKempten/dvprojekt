@@ -55,6 +55,8 @@ private:
 	VMaterialLoader& operator=(const VMaterialLoader&&) = delete;
 	~VMaterialLoader() = delete;
 
+	DEBUG_EXPRESSION(static bool initDone);
+
 	static void setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName);
 	static void setPowerPlantMaterialHelper(const Model materialPowerPlant, const std::string& textureName);
 
@@ -247,7 +249,7 @@ public:
 	//Animierte Texturen
 	static CMaterial materialAnimSabotageBomb;
 	static CMaterial materialAnimLoadingCircle;
-	static CMaterial materialAnimSabotageHalfRessource;
+	static CMaterial materialAnimSabotageHalfResource;
 	static CMaterial materialAnimSabotageStrike;
 	static CMaterial materialAnimSabotageCutPowerline;
 
