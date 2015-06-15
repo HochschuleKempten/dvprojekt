@@ -59,9 +59,18 @@ void VField::removeBuilding()
 {
 #ifdef _DEBUG
 	bool erg = m_zp.SubPlacement(m_zViewBuilding->getPlacement());
+	if (m_zViewBuilding->getPlacementSecond() != nullptr)
+	{
+		bool ergOff = m_zp.SubPlacement(m_zViewBuilding->getPlacementSecond());
+		ASSERT(ergOff, "Unable to sub the placement");
+	}
 	ASSERT(erg, "Unable to sub the placement");
 #else
 	m_zp.SubPlacement(m_zViewBuilding->getPlacement());
+	if (m_zViewBuilding->getPlacementSecond() != nullptr)
+	{
+		m_zp.SubPlacement(m_zViewBuilding->getPlacementSecond());
+	}
 #endif
 
 	m_zViewBuilding = nullptr;

@@ -297,12 +297,9 @@ void VUI::gameOver(bool win)
 
 void VUI::tick(const float fTimeDelta)
 {
-	
 	float fTimeDeltaCopy = fTimeDelta; //Copy needed because Vektoria means to change the time variable for some reasons (prevent undefined behaviour: http://en.cppreference.com/w/cpp/language/const_cast)
 	m_zr.Tick(fTimeDeltaCopy);
 	activeScreen->tick(fTimeDelta);
-
-	
 }
 
 
