@@ -8,6 +8,7 @@
 #include "VModelOilRefinery.h"
 #include "VModelPowerLine.h"
 #include "VModelHydroelectricPowerPlant.h"
+#include "VModelCoalPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
@@ -161,6 +162,7 @@ private:
 	VModelOilRefinery modelOil;
 	VModelPowerLine modelPowerline;
 	VModelHydroelectricPowerPlant modelHydroelectric;
+	VModelCoalPowerPlant modelCoal;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
 
 	bool m_CooldownStrike=false;

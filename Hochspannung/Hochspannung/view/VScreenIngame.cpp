@@ -37,6 +37,11 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zpModels.RotateXDelta(-0.5f);
 
 	//Init models
+	modelNuclear.init();
+	modelOil.init();
+	modelHydroelectric.init();
+	modelCoal.init();
+
 	modelPowerline.Init(VModelPowerLine::NORTH | VModelPowerLine::EAST | VModelPowerLine::SOUTH | VModelPowerLine::WEST);
 	models.emplace(VIdentifier::VWindmillPowerPlant, &modelWindmill);
 	models.emplace(VIdentifier::VSolarPowerPlant, &modelSolar);
@@ -44,19 +49,22 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	models.emplace(VIdentifier::VOilRefinery, &modelOil);
 	models.emplace(VIdentifier::VPowerLine, &modelPowerline);
 	models.emplace(VIdentifier::VHydroelectricPowerPlant, &modelHydroelectric);
+	models.emplace(VIdentifier::VCoalPowerPlant, &modelCoal);
 
-	models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->TranslateZ(10);
-	models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->TranslateYDelta(5);
 
-	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateZ(12.0F);
-	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateY(2.5F);
+	//Positioning models
+	models[VIdentifier::VWindmillPowerPlant]->getMainPlacement()->TranslateYDelta(2.0f);
+	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateZ(5.0f);
+	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateYDelta(2.0f);
+	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateZ(6.0f);
+	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateYDelta(2.0f);
+	models[VIdentifier::VOilRefinery]->getMainPlacement()->TranslateYDelta(-0.8);
+	models[VIdentifier::VHydroelectricPowerPlant]->getMainPlacement()->TranslateYDelta(-0.8);
+
 
 	CHVector vector=models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->GetTranslation();
 
 	CHVector vector2 = m_zpModels.GetTranslation();
-
-	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateZ(5.0F);
-	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateYDelta(2.5F);
 
 	for (const std::pair<VIdentifier::VIdentifier, IViewModel*>& p : models)
 	{
@@ -305,12 +313,15 @@ void VScreenIngame::onNotify(const Event& events)
 
 	case SELECT_BUILDING_WINDMILL:
 		clearInfofield();
+
+		//m_zpModels.TranslateY(-2.0f);
+
 		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VWindmillPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 		setActiveButton("windmill");
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LWindmillPowerPlant)));
-
+		
 
 		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
 		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
@@ -321,6 +332,7 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 	case SELECT_BUILDING_COALPOWERPLANT:
 		clearInfofield();
+
 		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VCoalPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
@@ -964,6 +976,7 @@ void VScreenIngame::tick(const float fTimeDelta)
 	modelOil.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VOilRefinery, fTimeDelta));
 	modelSolar.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VSolarPowerPlant, fTimeDelta));
 	modelHydroelectric.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VHydroelectricPowerPlant, fTimeDelta));
+	modelCoal.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
 }
 
 std::map<int, std::vector<int>> VScreenIngame::pickElements()
