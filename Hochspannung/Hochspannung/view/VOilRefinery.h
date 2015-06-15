@@ -12,7 +12,11 @@ NAMESPACE_VIEW_B
 class VOilRefinery : public IViewPowerPlant, public IVTickObserver
 {
 private:
-	VModelOilRefinery viewModel;
+	VModelOilRefinery viewModelOn;
+	VModelOilRefinery viewModelOff;
+
+protected:
+	virtual void configViewModel(IViewModel& model, const bool switchedOn) override;
 
 public:
 	VOilRefinery(VMaster *vMaster, LOilRefinery* lPlant);
@@ -24,7 +28,8 @@ public:
 	{
 		if (isOn)
 		{
-			viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VOilRefinery, fTimeDelta));
+			viewModelOn.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VOilRefinery, fTimeDelta));
+			viewModelOff.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VOilRefinery, fTimeDelta));
 		}
 	}
 };

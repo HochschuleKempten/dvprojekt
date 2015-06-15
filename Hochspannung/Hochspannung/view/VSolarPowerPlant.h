@@ -12,7 +12,11 @@ NAMESPACE_VIEW_B
 class VSolarPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:
-	VModelSolarPowerPlant viewModel;
+	VModelSolarPowerPlant viewModelOn;
+	VModelSolarPowerPlant viewModelOff;
+
+protected:
+	virtual void configViewModel(IViewModel& model, const bool switchedOn) override;
 
 public:
 	VSolarPowerPlant(VMaster *vMaster, LSolarPowerPlant* lPlant);
@@ -24,7 +28,8 @@ public:
 	{
 		if (isOn)
 		{
-			viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VSolarPowerPlant, fTimeDelta));
+			viewModelOn.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VSolarPowerPlant, fTimeDelta));
+			viewModelOff.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VSolarPowerPlant, fTimeDelta));
 		}
 	}
 };

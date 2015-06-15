@@ -13,7 +13,11 @@ class VHydroelectricPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:
 	
-	VModelHydroelectricPowerPlant viewModel;
+	VModelHydroelectricPowerPlant viewModelOn;
+	VModelHydroelectricPowerPlant viewModelOff;
+
+protected:
+	virtual void configViewModel(IViewModel& model, const bool switchedOn) override;
 
 public:
 	
@@ -26,7 +30,8 @@ public:
 	{
 		if (isOn)
 		{
-			viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VHydroelectricPowerPlant, fTimeDelta));
+			viewModelOn.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VHydroelectricPowerPlant, fTimeDelta));
+			viewModelOff.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VHydroelectricPowerPlant, fTimeDelta));
 		}
 	}
 };
