@@ -84,8 +84,8 @@ void VModelOilRefinery::init()
 	m_zpMain.AddPlacement(&m_zpOelkraftwerk);
 	m_zpOelkraftwerk.AddPlacement(&m_zpFundament);
 	m_zpOelkraftwerk.AddPlacement(&m_zpKamin);
-	m_zpOelkraftwerk.AddPlacement(m_zTrasse1.getMainPlacement());
-	m_zpOelkraftwerk.AddPlacement(m_zTrasse2.getMainPlacement());
+	m_zpOelkraftwerk.AddPlacement(m_zTrasse1.getPlacementMain());
+	m_zpOelkraftwerk.AddPlacement(m_zTrasse2.getPlacementMain());
 	//m_zpOelkraftwerk.AddPlacement(&m_zpGebaeude1);
 	//m_zpOelkraftwerk.AddPlacement(&m_zpGebaeude2);
 	m_zpOelkraftwerk.AddPlacement(&m_zpAbsperrung);
@@ -176,8 +176,8 @@ void VModelOilRefinery::init()
 	m_zpGebaeudeHaelfte22.TranslateDelta(CHVector(-1.0f, 0.15f, -0.6f));
 	m_zpGebaeudeHaelfte22.RotateYDelta(PI);
 
-	m_zTrasse1.getMainPlacement()->Translate(CHVector(-3.0f, 0.35f, 3.5f));
-	m_zTrasse2.getMainPlacement()->Translate(CHVector(3.0f, 0.35f, 3.5f));
+	m_zTrasse1.getPlacementMain()->Translate(CHVector(-3.0f, 0.35f, 3.5f));
+	m_zTrasse2.getPlacementMain()->Translate(CHVector(3.0f, 0.35f, 3.5f));
 
 	m_zpFundamentPumpe.Translate(CHVector(0.35f, 0.3f, -2.85f));
 	m_zpFundamentPumpe.AddGeo(&m_zgFundamentPumpe);

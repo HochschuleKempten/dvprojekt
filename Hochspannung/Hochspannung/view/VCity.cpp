@@ -10,10 +10,10 @@ NAMESPACE_VIEW_B
 
 
 VCity::VCity(VMaster *vMaster, LCity* lCity)
-	: IVCity(lCity), IViewBuilding(vMaster, viewModel.getMainPlacement())
+	: IVCity(lCity), IViewBuilding(vMaster, viewModel.getPlacementMain())
 {
-	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0F));
-	viewModel.getMainPlacement()->ScaleDelta(0.1f);
+	viewModel.getPlacementMain()->RotateX(CASTS<float>(M_PI / 2.0F));
+	viewModel.getPlacementMain()->ScaleDelta(0.1f);
 }
 
 VCity::~VCity()

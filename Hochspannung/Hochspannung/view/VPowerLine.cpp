@@ -30,7 +30,7 @@ static VModelPowerLine::DIRECTION convertOrientation(const int orientation)
 }
 
 VPowerLine::VPowerLine(VMaster* vMaster, LPowerLine* lpowerLine)
-	: IVPowerLine(lpowerLine), IViewBuilding(vMaster, viewModel.getMainPlacement()),
+	: IVPowerLine(lpowerLine), IViewBuilding(vMaster, viewModel.getPlacementMain()),
 	  viewModel(vMaster->getVPlayingField()->getFieldSize())
 {}
 
@@ -41,8 +41,8 @@ void VPowerLine::initPowerLine(const std::shared_ptr<IVPowerLine>& objPtr, const
 {
 	viewModel.initViewModel(this);
 	viewModel.Init(convertOrientation(orientation));
-	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0f));
-	viewModel.getMainPlacement()->TranslateZDelta(viewModel.getHeight() / 2.0f -0.45f);
+	viewModel.getPlacementMain()->RotateX(CASTS<float>(M_PI / 2.0f));
+	viewModel.getPlacementMain()->TranslateZDelta(viewModel.getHeight() / 2.0f -0.45f);
 	
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }

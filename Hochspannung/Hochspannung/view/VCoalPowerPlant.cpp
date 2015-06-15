@@ -4,8 +4,19 @@
 NAMESPACE_VIEW_B
 
 
+void VCoalPowerPlant::configViewModel(IViewModel& model, const bool switchedOn)
+{
+	model.initViewModel(this, switchedOn);
+	model.init();
+
+	const float scale = 0.3f;
+	model.getPlacementMain()->Scale(scale);
+	model.getPlacementMain()->RotateXDelta(CASTS<float>(M_PI / 2.0));
+	model.getPlacementMain()->TranslateZDelta(model.getHeight() * 0.5f * scale - 0.6f);
+}
+
 VCoalPowerPlant::VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant)
-: IViewPowerPlant(lPlant, vMaster, viewModelOn.getMainPlacement(), &viewModelOn, &viewModelOff)
+: IViewPowerPlant(lPlant, vMaster, viewModelOn.getPlacementMain(), &viewModelOn, &viewModelOff)
 {
 	vMaster->registerObserver(this);
 }
@@ -17,28 +28,9 @@ VCoalPowerPlant::~VCoalPowerPlant()
 
 void VCoalPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y)
 {	
-	auto configViewModel = [this] (IViewModel& model, const bool switchedOn)
-	{
-		model.initViewModel(this, switchedOn);
-		model.init();
-
-		const float scale = 0.3f;
-		model.getMainPlacement()->Scale(scale);
-		model.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0));
-		model.getMainPlacement()->TranslateZDelta(model.getHeight() * 0.5f * scale - 0.6f);
-	};
-
 	configViewModel(viewModelOn, true);
 	configViewModel(viewModelOff, false);
-
-	if (isOn)
-	{
-		viewModelOff.getMainPlacement()->TranslateZDelta(-moveZOff);
-	}
-	else
-	{
-		viewModelOn.getMainPlacement()->TranslateZDelta(-moveZOff);
-	}
+	translateViewModel();
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }

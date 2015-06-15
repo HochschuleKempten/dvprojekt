@@ -92,7 +92,7 @@ public:
 	virtual void switchOff()
 	{}
 
-	inline CPlacement* getMainPlacement()
+	inline CPlacement* getPlacementMain()
 	{
 		return &m_zpMain;
 	}

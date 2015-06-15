@@ -44,8 +44,8 @@ void VModelHydroelectricPowerPlant::init()
 	m_zpWasserRad.AddPlacement(&m_zpWasserSchaufel5);
 	m_zpWasserRad.AddPlacement(&m_zpWasserSchaufel6);
 	m_zpWasserRad.AddPlacement(&m_zpStange);
-	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse1.getMainPlacement());
-	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse2.getMainPlacement());
+	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse1.getPlacementMain());
+	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse2.getPlacementMain());
 	m_zpWasserKraftwerk.AddPlacement(&m_zpGebaude);
 	m_zpGebaude.AddPlacement(&Gebaeude);
 

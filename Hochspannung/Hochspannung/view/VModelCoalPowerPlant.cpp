@@ -46,8 +46,8 @@ void VModelCoalPowerPlant::init()
 	//Placements
 
 
-	m_zpKohlekraftwerk.AddPlacement(m_zTrasse1.getMainPlacement());
-	m_zpKohlekraftwerk.AddPlacement(m_zTrasse2.getMainPlacement());
+	m_zpKohlekraftwerk.AddPlacement(m_zTrasse1.getPlacementMain());
+	m_zpKohlekraftwerk.AddPlacement(m_zTrasse2.getPlacementMain());
 	m_zpKohlekraftwerk.AddPlacement(&m_zpFundament);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpGebirge);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpGleis);
@@ -145,8 +145,8 @@ void VModelCoalPowerPlant::init()
 	m_zpSchieneRechts.AddGeo(&m_zgSchiene);
 
 	//Trassen
-	m_zTrasse1.getMainPlacement()->Translate(CHVector(-3.0f, 0.35f, 4.0f));
-	m_zTrasse2.getMainPlacement()->Translate(3.0f, 0.35f, 4.0f);
+	m_zTrasse1.getPlacementMain()->Translate(CHVector(-3.0f, 0.35f, 4.0f));
+	m_zTrasse2.getPlacementMain()->Translate(3.0f, 0.35f, 4.0f);
 
 	//Sprossen-Array
 	for (int i = 0; i < 8; i++)

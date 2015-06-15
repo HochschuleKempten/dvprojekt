@@ -45,18 +45,18 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	models.emplace(VIdentifier::VPowerLine, &modelPowerline);
 	models.emplace(VIdentifier::VHydroelectricPowerPlant, &modelHydroelectric);
 
-	models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->TranslateZ(10);
-	models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->TranslateYDelta(5);
+	models[VIdentifier::VNuclearPowerPlant]->getPlacementMain()->TranslateZ(10);
+	models[VIdentifier::VNuclearPowerPlant]->getPlacementMain()->TranslateYDelta(5);
 
-	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateZ(12.0F);
-	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateY(2.5F);
+	models[VIdentifier::VPowerLine]->getPlacementMain()->TranslateZ(12.0F);
+	models[VIdentifier::VPowerLine]->getPlacementMain()->TranslateY(2.5F);
 
-	CHVector vector=models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->GetTranslation();
+	CHVector vector=models[VIdentifier::VNuclearPowerPlant]->getPlacementMain()->GetTranslation();
 
 	CHVector vector2 = m_zpModels.GetTranslation();
 
-	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateZ(5.0F);
-	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateYDelta(2.5F);
+	models[VIdentifier::VSolarPowerPlant]->getPlacementMain()->TranslateZ(5.0F);
+	models[VIdentifier::VSolarPowerPlant]->getPlacementMain()->TranslateYDelta(2.5F);
 
 	for (const std::pair<VIdentifier::VIdentifier, IViewModel*>& p : models)
 	{
@@ -755,7 +755,7 @@ void VScreenIngame::handleInput()
 	//if (vUi->m_zkKeyboard.KeyPressed(DIK_T))
 	//{
 
-	//	viemodelPointer->getMainPlacement()->TranslateZDelta(step);
+	//	viemodelPointer->getPlacementMain()->TranslateZDelta(step);
 	//	total += step;
 	//}
 
@@ -763,7 +763,7 @@ void VScreenIngame::handleInput()
 	//if (vUi->m_zkKeyboard.KeyPressed(DIK_G))
 	//{
 
-	//	viemodelPointer->getMainPlacement()->TranslateZDelta(-step);
+	//	viemodelPointer->getPlacementMain()->TranslateZDelta(-step);
 	//	total -= step;		
 	//}
 
@@ -1355,13 +1355,13 @@ void VScreenIngame::updateModelView()
 
 	if (previousModel != nullptr)
 	{
-		m_sceneModels.SubPlacement(previousModel->getMainPlacement());
+		m_sceneModels.SubPlacement(previousModel->getPlacementMain());
 	}
 
 	if (models.count(selectedBuilding) > 0)
 	{
 		previousModel = models.at(selectedBuilding);
-		m_sceneModels.AddPlacement(previousModel->getMainPlacement());
+		m_sceneModels.AddPlacement(previousModel->getPlacementMain());
 	}
 	else
 	{ //Disable action

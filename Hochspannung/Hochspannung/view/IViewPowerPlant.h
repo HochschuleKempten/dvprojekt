@@ -12,6 +12,19 @@ NAMESPACE_VIEW_B
 
 class IViewPowerPlant : public IVPowerPlant, public IViewBuilding
 {
+private:
+	CPlacement* getPlacementActive() const
+	{
+		if (isOn)
+		{
+			return viewModelOn->getPlacementMain();
+		}
+		else
+		{
+			return viewModelOff != nullptr ? viewModelOff->getPlacementMain() : nullptr;
+		}
+	}
+
 protected:
 	bool isOn = false;
 	CGeoQuad quadForAnimation;
@@ -19,7 +32,26 @@ protected:
 	CMaterial animationMaterial = VMaterialLoader::materialAnimSabotagePowerPlant;
 	IViewModel* viewModelOn;
 	IViewModel* viewModelOff = nullptr;
-	const float moveZOff = 5.5f;
+	const float moveZOff = 1337.42f;
+
+protected:
+	virtual void configViewModel(IViewModel& model, const bool switchedOn)
+	{}//TODO (JS) pure virtual
+
+	void translateViewModel()
+	{
+		if (isOn)
+		{
+			if (viewModelOff != nullptr)
+			{
+				viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
+			}
+		}
+		else
+		{
+			viewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
+		}
+	}
 
 public:
 	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* viewModelOn, IViewModel* viewModelOff = nullptr) //TODO (JS) remove
@@ -28,7 +60,7 @@ public:
 		quadForAnimation.Init(5, 5, &animationMaterial);
 		placementForAnimation.AddGeo(&quadForAnimation);
 		placementForAnimation.TranslateY(5.0f);
-		placementForAnimation.TranslateZDelta(10.0f);
+		placementForAnimation.TranslateZDelta(5.0f);
 		placementForAnimation.RotateXDelta(PI / -4.0f);
 		animationMaterial.SwitchOff();
 	}
@@ -40,7 +72,7 @@ public:
 	{
 		if (viewModelOff != nullptr)
 		{
-			return viewModelOff->getMainPlacement();
+			return viewModelOff->getPlacementMain();
 		}
 		else
 		{
@@ -108,13 +140,13 @@ public:
 		if (viewModelOff != nullptr)
 		{
 			viewModelOff->switchOn();
-			viewModelOff->getMainPlacement()->TranslateZDelta(-moveZOff);
-			viewModelOn->getMainPlacement()->TranslateZDelta(moveZOff);
+			viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
+			viewModelOn->getPlacementMain()->TranslateZDelta(moveZOff);
 		}
 
 		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
 		{
-			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_ON, getPlacement());
+			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_ON, getPlacementActive());
 		}
 	}
 
@@ -126,19 +158,19 @@ public:
 		if (viewModelOff != nullptr)
 		{
 			viewModelOff->switchOff();
-			viewModelOff->getMainPlacement()->TranslateZDelta(moveZOff);
-			viewModelOn->getMainPlacement()->TranslateZDelta(-moveZOff);
+			viewModelOff->getPlacementMain()->TranslateZDelta(moveZOff);
+			viewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
 		}
 
 		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
 		{
-			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_OFF, getPlacement());
+			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_OFF, getPlacementActive());
 		}
 	}
 
 	virtual void sabotageResourcesReduced() override
 	{
-		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
+		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacementActive());
 	}
 
 	virtual void sabotagePowerPlantSwitchedOff(const int seconds) override
@@ -147,14 +179,14 @@ public:
 		animationMaterial.SetAni(VMaterialLoader::materialAnimSabotagePowerPlant_x,
 								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
 								 CASTS<float>(VMaterialLoader::materialAnimSabotagePowerPlant_x * VMaterialLoader::materialAnimSabotagePowerPlant_y) / CASTS<float>(seconds));
-		getPlacement()->AddPlacement(&placementForAnimation);
+		getPlacementActive()->AddPlacement(&placementForAnimation);
 		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
 	}
 
 	virtual void sabotagePowerPlantSwitchedOn() override
 	{
 		animationMaterial.SwitchOff();
-		getPlacement()->SubPlacement(&placementForAnimation);
+		getPlacementActive()->SubPlacement(&placementForAnimation);
 		animationMaterial.SetAni(VMaterialLoader::materialAnimSabotagePowerPlant_x,
 								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
 								 0.0f);

@@ -18,6 +18,9 @@ private:
 	VModelCoalPowerPlant viewModelOff;
 	float timeLastCheck = 0;
 	
+protected:
+	virtual void configViewModel(IViewModel& model, const bool switchedOn) override;
+
 public:
 	VCoalPowerPlant(VMaster* vMaster, LCoalPowerPlant* lPlant);
 	virtual ~VCoalPowerPlant();

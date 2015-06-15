@@ -58,8 +58,8 @@ void VModelNuclearPowerPlant::init()
 	m_zpAtomkraftwerk.AddPlacement(&m_zpReaktor1);
 	m_zpAtomkraftwerk.AddPlacement(&m_zpReaktor2);
 	m_zpAtomkraftwerk.AddPlacement(&m_zpKamin);
-	m_zpAtomkraftwerk.AddPlacement(m_zTrasse1.getMainPlacement());
-	m_zpAtomkraftwerk.AddPlacement(m_zTrasse2.getMainPlacement());
+	m_zpAtomkraftwerk.AddPlacement(m_zTrasse1.getPlacementMain());
+	m_zpAtomkraftwerk.AddPlacement(m_zTrasse2.getPlacementMain());
 	m_zpAtomkraftwerk.AddPlacement(&m_zpGebaeude1);
 	m_zpAtomkraftwerk.AddPlacement(&m_zpGebaeude2);
 	m_zpAtomkraftwerk.AddPlacement(&m_zpAbsperrung);
@@ -146,8 +146,8 @@ void VModelNuclearPowerPlant::init()
 	m_zpGebaeudeHaelfte22.TranslateDelta(CHVector(-1.0f, 0.15f, -0.6f));
 	m_zpGebaeudeHaelfte22.RotateYDelta(PI);
 
-	m_zTrasse1.getMainPlacement()->Translate(CHVector(3.0f, 0.35f, 2.0f));
-	m_zTrasse2.getMainPlacement()->Translate(CHVector(3.0f, 0.35f, 3.5f));
+	m_zTrasse1.getPlacementMain()->Translate(CHVector(3.0f, 0.35f, 2.0f));
+	m_zTrasse2.getPlacementMain()->Translate(CHVector(3.0f, 0.35f, 3.5f));
 
 	m_zpPfosten1.Translate(CHVector(-1.6f, 0.15f, 4.8f));
 	m_zpPfosten1.AddGeo(&m_zgPfosten);
