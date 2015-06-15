@@ -25,9 +25,11 @@ public:
 	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* viewModelOn, IViewModel* viewModelOff = nullptr) //TODO (JS) remove
 		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), viewModelOn(viewModelOn), viewModelOff(viewModelOff)
 	{
-		quadForAnimation.Init(2, 2, &animationMaterial);
+		quadForAnimation.Init(5, 5, &animationMaterial);
 		placementForAnimation.AddGeo(&quadForAnimation);
-		placementForAnimation.TranslateY(4.0);
+		placementForAnimation.TranslateY(5.0f);
+		placementForAnimation.TranslateZDelta(10.0f);
+		placementForAnimation.RotateXDelta(PI / -4.0f);
 		animationMaterial.SwitchOff();
 	}
 
