@@ -23,9 +23,11 @@ public:
 	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* ptrViewModel)
 		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), ptrViewModel(ptrViewModel)
 	{
-		quadForAnimation.Init(2, 2, &animationMaterial);
+		quadForAnimation.Init(5, 5, &animationMaterial);
 		placementForAnimation.AddGeo(&quadForAnimation);
-		placementForAnimation.TranslateY(4.0);
+		placementForAnimation.TranslateY(5.0f);
+		placementForAnimation.TranslateZDelta(10.0f);
+		placementForAnimation.RotateXDelta(PI / -4.0f);
 		animationMaterial.SwitchOff();
 	}
 
