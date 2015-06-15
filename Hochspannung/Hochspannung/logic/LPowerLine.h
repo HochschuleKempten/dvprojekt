@@ -21,7 +21,8 @@ public:
 	LPowerLine(LField* lField, const int x, const int y, const int orientation, const int playerId);
 	virtual ~LPowerLine() override;
 
-	void updatedOrientation(const int additionalOrientation);
+	void addDirection(const int direction);
+	void removeDirection(const int direction);
 
 
 	virtual LIdentifier::LIdentifier getIdentifier() const override
