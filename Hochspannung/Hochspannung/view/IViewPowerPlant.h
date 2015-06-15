@@ -35,17 +35,16 @@ protected:
 	const float moveZOff = 1337.42f;
 
 protected:
-	virtual void configViewModel(IViewModel& model, const bool switchedOn)
-	{}//TODO (JS) pure virtual
+	virtual void configViewModel(IViewModel& model, const bool switchedOn) = 0;
 
 	void translateViewModel()
 	{
+		ASSERT(viewModelOn != nullptr, "viewModelOn is not initialized");
+		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
+
 		if (isOn)
 		{
-			if (viewModelOff != nullptr)
-			{
-				viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
-			}
+			viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
 		}
 		else
 		{
@@ -54,7 +53,7 @@ protected:
 	}
 
 public:
-	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* viewModelOn, IViewModel* viewModelOff = nullptr) //TODO (JS) remove
+	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* viewModelOn, IViewModel* viewModelOff)
 		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), viewModelOn(viewModelOn), viewModelOff(viewModelOff)
 	{
 		quadForAnimation.Init(5, 5, &animationMaterial);
@@ -70,14 +69,8 @@ public:
 
 	inline CPlacement* getPlacementSecond() const override
 	{
-		if (viewModelOff != nullptr)
-		{
-			return viewModelOff->getPlacementMain();
-		}
-		else
-		{
-			return nullptr;
-		}
+		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
+		return viewModelOff->getPlacementMain();
 	}
 
 	inline virtual ILBuilding* getLBuilding() override
@@ -134,15 +127,14 @@ public:
 
 	virtual void switchedOn() override
 	{
+		ASSERT(viewModelOn != nullptr, "viewModelOn is not initialized");
+		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
+
 		isOn = true;
 		viewModelOn->switchOn();
-
-		if (viewModelOff != nullptr)
-		{
-			viewModelOff->switchOn();
-			viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
-			viewModelOn->getPlacementMain()->TranslateZDelta(moveZOff);
-		}
+		viewModelOff->switchOn();
+		viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
+		viewModelOn->getPlacementMain()->TranslateZDelta(moveZOff);
 
 		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
 		{
@@ -152,15 +144,14 @@ public:
 
 	virtual void switchedOff() override
 	{
+		ASSERT(viewModelOn != nullptr, "viewModelOn is not initialized");
+		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
+
 		isOn = false;
 		viewModelOn->switchOff();
-
-		if (viewModelOff != nullptr)
-		{
-			viewModelOff->switchOff();
-			viewModelOff->getPlacementMain()->TranslateZDelta(moveZOff);
-			viewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
-		}
+		viewModelOff->switchOff();
+		viewModelOff->getPlacementMain()->TranslateZDelta(moveZOff);
+		viewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
 
 		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
 		{
