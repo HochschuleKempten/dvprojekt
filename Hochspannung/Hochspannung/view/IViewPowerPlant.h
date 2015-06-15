@@ -30,7 +30,7 @@ protected:
 	CGeoQuad quadForAnimation;
 	CPlacement placementForAnimation;
 	CMaterial animationMaterial = VMaterialLoader::materialAnimSabotagePowerPlant;
-	IViewModel* viewModelOn;
+	IViewModel* viewModelOn = nullptr;
 	IViewModel* viewModelOff = nullptr;
 	const float moveZOff = 1337.42f;
 
