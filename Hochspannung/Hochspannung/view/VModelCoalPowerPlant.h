@@ -87,7 +87,7 @@ public:
 	VModelCoalPowerPlant();
 	virtual ~VModelCoalPowerPlant() override;
 
-	void init();
+	virtual void init() override;
 
 	void moveLore(float amount);
 

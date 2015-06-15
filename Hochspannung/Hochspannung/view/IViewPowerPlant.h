@@ -17,11 +17,13 @@ protected:
 	CGeoQuad quadForAnimation;
 	CPlacement placementForAnimation;
 	CMaterial animationMaterial = VMaterialLoader::materialAnimSabotagePowerPlant;
-	IViewModel* ptrViewModel;
+	IViewModel* viewModelOn;
+	IViewModel* viewModelOff = nullptr;
+	const float moveZOff = 5.5f;
 
 public:
-	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* ptrViewModel)
-		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), ptrViewModel(ptrViewModel)
+	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* viewModelOn, IViewModel* viewModelOff = nullptr) //TODO (JS) remove
+		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), viewModelOn(viewModelOn), viewModelOff(viewModelOff)
 	{
 		quadForAnimation.Init(2, 2, &animationMaterial);
 		placementForAnimation.AddGeo(&quadForAnimation);
@@ -31,6 +33,18 @@ public:
 
 	inline virtual ~IViewPowerPlant() override
 	{}
+
+	inline CPlacement* getPlacementSecond() const override
+	{
+		if (viewModelOff != nullptr)
+		{
+			return viewModelOff->getMainPlacement();
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
 
 	inline virtual ILBuilding* getLBuilding() override
 	{
@@ -79,14 +93,22 @@ public:
 				return remoteOperation.sabotageRemove(lPlant);
 			}
 
-			default:ASSERT("Invalid action"); return false;
+			default:
+				ASSERT("Invalid action"); return false;
 		}
 	}
 
 	virtual void switchedOn() override
 	{
 		isOn = true;
-		ptrViewModel->switchOn();
+		viewModelOn->switchOn();
+
+		if (viewModelOff != nullptr)
+		{
+			viewModelOff->switchOn();
+			viewModelOff->getMainPlacement()->TranslateZDelta(-moveZOff);
+			viewModelOn->getMainPlacement()->TranslateZDelta(moveZOff);
+		}
 
 		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
 		{
@@ -97,7 +119,14 @@ public:
 	virtual void switchedOff() override
 	{
 		isOn = false;
-		ptrViewModel->switchOff();
+		viewModelOn->switchOff();
+
+		if (viewModelOff != nullptr)
+		{
+			viewModelOff->switchOff();
+			viewModelOff->getMainPlacement()->TranslateZDelta(moveZOff);
+			viewModelOn->getMainPlacement()->TranslateZDelta(-moveZOff);
+		}
 
 		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
 		{

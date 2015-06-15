@@ -16,8 +16,8 @@ void VModelCoalPowerPlant::init()
 	m_zpLOD[2].AddPlacement(&m_zpKohlekraftwerk);
 
 	//Initialisierung der Koerper
-	m_zTrasse1.initViewModel(vBuilding);
-	m_zTrasse2.initViewModel(vBuilding);
+	m_zTrasse1.initViewModel(vBuilding, switchedState);
+	m_zTrasse2.initViewModel(vBuilding, switchedState);
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 

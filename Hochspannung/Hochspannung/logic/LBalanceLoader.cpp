@@ -44,8 +44,8 @@ int LBalanceLoader::getProducedEnergy(const LIdentifier::LIdentifier identifier)
 			default:
 				//Every other building produces no energy
 				return 0;
-		}, 	boost::property_tree::ptree_error, ASSERT(e.what())
-	)
+		}, boost::property_tree::ptree_error, ASSERT(e.what())
+	);
 }
 
 int LBalanceLoader::getFieldStorage(const LField::FieldType fieldType)
@@ -65,7 +65,7 @@ int LBalanceLoader::getFieldStorage(const LField::FieldType fieldType)
 				//Every other field has no resources
 				return 0;
 		}, boost::property_tree::ptree_error, ASSERT(e.what())
-	)
+	);
 }
 
 int LBalanceLoader::getConsumedResources(const LField::FieldType fieldType)
@@ -85,7 +85,7 @@ int LBalanceLoader::getConsumedResources(const LField::FieldType fieldType)
 				ASSERT("Requested fossil field type is not available");
 				return 0;
 		}, boost::property_tree::ptree_error, ASSERT(e.what())
-	)
+	);
 }
 
 std::unordered_map<LField::FieldType, double> LBalanceLoader::getFieldTypeRatio()
@@ -102,7 +102,7 @@ std::unordered_map<LField::FieldType, double> LBalanceLoader::getFieldTypeRatio(
 		fieldTypes[LField::OIL] = propertyTree.get<double>("FieldTypeRatio.Oil");
 		fieldTypes[LField::MOUNTAIN] = propertyTree.get<double>("FieldTypeRatio.Mountain");
 		, boost::property_tree::ptree_error, ASSERT(e.what())
-	)
+	);
 
 #ifdef _DEBUG
 	double sum = 0.0;
@@ -128,7 +128,7 @@ std::unordered_map<LField::FieldLevel, double> LBalanceLoader::getFieldLevelFact
 		fieldLevels[LField::LEVEL2] = propertyTree.get<double>("FieldLevelFactor.Level2");
 		fieldLevels[LField::LEVEL3] = propertyTree.get<double>("FieldLevelFactor.Level3");
 		, boost::property_tree::ptree_error, ASSERT(e.what())
-	)
+	);
 
 	return fieldLevels;
 }
@@ -136,25 +136,25 @@ std::unordered_map<LField::FieldLevel, double> LBalanceLoader::getFieldLevelFact
 double LBalanceLoader::getMoneyPerWatt()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<double>("DifficultyScale.MoneyPerWatt"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<double>("DifficultyScale.MoneyPerWatt"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 double LBalanceLoader::getSellRevenueConnected()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<double>("DifficultyScale.SellRevenueConnected"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<double>("DifficultyScale.SellRevenueConnected"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 double LBalanceLoader::getSellRevenueDisconnected()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<double>("DifficultyScale.SellRevenueDisconnected"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<double>("DifficultyScale.SellRevenueDisconnected"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getDefaultMoney()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<int>("DifficultyScale.DefaultMoney"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<int>("DifficultyScale.DefaultMoney"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getFieldLength()
@@ -166,37 +166,37 @@ int LBalanceLoader::getFieldLength()
 int LBalanceLoader::getStartPopulation()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<int>("CityProperties.StartPopulation"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<int>("CityProperties.StartPopulation"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getPopulationGrowth()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<int>("CityProperties.PopulationGrowth"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<int>("CityProperties.PopulationGrowth"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 double LBalanceLoader::getConsumptionPerCitizen()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<double>("CityProperties.ConsumptionPerCitizen"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<double>("CityProperties.ConsumptionPerCitizen"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getMaxPopulation()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<int>("CityProperties.MaxPopulation"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<int>("CityProperties.MaxPopulation"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getMapOffset()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<int>("CityProperties.MapOffset"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<int>("CityProperties.MapOffset"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getSurplusWarningThreshold()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<int>("CityProperties.SurplusWarningThreshold"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<int>("CityProperties.SurplusWarningThreshold"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getSabotageCost(const LSabotage::LSabotage sabotage)
@@ -211,7 +211,7 @@ int LBalanceLoader::getSabotageCost(const LSabotage::LSabotage sabotage)
 			default:
 				ASSERT("Requested sabotage is not available");
 				return 0;
-		}, boost::property_tree::ptree_error, ASSERT(e.what())
+		}, boost::property_tree::ptree_error, ASSERT(e.what());
 	)
 }
 
@@ -227,26 +227,26 @@ int LBalanceLoader::getSabotageCooldown(const LSabotage::LSabotage sabotage)
 			default:
 				ASSERT("Requested sabotage is not available");
 				return 0;
-		}, boost::property_tree::ptree_error, ASSERT(e.what())
+		}, boost::property_tree::ptree_error, ASSERT(e.what());
 	)
 }
 
 int LBalanceLoader::getCooldownTimeReactivationPowerPlant()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<int>("SabotageValues.CooldownTimeReactivationPowerPlant"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<int>("SabotageValues.CooldownTimeReactivationPowerPlant"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 float LBalanceLoader::getFactorSabotageResource()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<float>("SabotageValues.FactorSabotageResource"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<float>("SabotageValues.FactorSabotageResource"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getSabotageActs()
 {
 	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<int>("SabotageValues.SabotageActs"), boost::property_tree::ptree_error, ASSERT(e.what()))
+	CATCH(return propertyTree.get<int>("SabotageValues.SabotageActs"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 std::string LBalanceLoader::getLocalIpAddress()

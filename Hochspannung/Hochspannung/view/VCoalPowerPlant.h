@@ -14,7 +14,8 @@ NAMESPACE_VIEW_B
 class VCoalPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:
-	VModelCoalPowerPlant viewModel;
+	VModelCoalPowerPlant viewModelOn;
+	VModelCoalPowerPlant viewModelOff;
 	float timeLastCheck = 0;
 	
 public:
@@ -26,7 +27,8 @@ public:
 	{
 		if (isOn)
 		{
-			viewModel.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
+			viewModelOn.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
+			viewModelOff.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
 		}
 	}
 };

@@ -35,8 +35,8 @@ void VModelNuclearPowerPlant::init()
 	m_zgBalkenKurz.Init(3.2f, 0.1f, 0.1f, VMaterialLoader::getMaterialModel(VMaterialLoader::NUCLEAR_FENCE, switchedState));
 
 	//Initialisierung Trassen
-	m_zTrasse1.initViewModel(vBuilding);
-	m_zTrasse2.initViewModel(vBuilding);
+	m_zTrasse1.initViewModel(vBuilding, switchedState);
+	m_zTrasse2.initViewModel(vBuilding, switchedState);
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 
