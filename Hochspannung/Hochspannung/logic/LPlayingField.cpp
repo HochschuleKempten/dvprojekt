@@ -204,8 +204,6 @@ bool LPlayingField::removeBuilding(const int x, const int y)
 {
 	int playerId = getField(x, y)->getBuilding() != nullptr ? getField(x, y)->getBuilding()->getPlayerId() : -1;
 	
-	const bool removeSuccessful = false;
-
 	if (getField(x, y)->getBuildingId() != LIdentifier::LCity)
 	{
 		const bool removeSuccessful = getField(x, y)->removeBuilding([this, playerId, x, y](const ILBuilding* const building)
@@ -227,26 +225,26 @@ bool LPlayingField::removeBuilding(const int x, const int y)
 				return;
 			}
 		});
-	}
 
-	if (removeSuccessful)
-	{
-		vPlayingField->objectRemoved(x, y);
-
-		if (playerId == LPlayer::Local)
+		if (removeSuccessful)
 		{
-			//remove all outgoing edges
-			powerLineGraph.m_vertices[convertIndex(x, y)].m_out_edges.clear();
-			recalculateCityConnections();
-			recheckConnectedBuildings();
-		}
+			vPlayingField->objectRemoved(x, y);
 
-		if (!isLocalOperation())
-		{
-			lMaster->sendDeleteObject(x, y);
-		}
+			if (playerId == LPlayer::Local)
+			{
+				//remove all outgoing edges
+				powerLineGraph.m_vertices[convertIndex(x, y)].m_out_edges.clear();
+				recalculateCityConnections();
+				recheckConnectedBuildings();
+			}
 
-		return true;
+			if (!isLocalOperation())
+			{
+				lMaster->sendDeleteObject(x, y);
+			}
+
+			return true;
+		}
 	}
 
 	return false;
