@@ -116,7 +116,6 @@ void VListView::updateList(const std::unordered_map<std::string, Network::CGameO
 
 	for (std::unordered_map<std::string, Network::CGameObject>::const_iterator it = hostList.cbegin(); it != hostList.cend(); ++it)
 	{
-		m_entries.push_back(it->first);
 		addEntry(it->first, getLayer() - 0.01F);
 	}
 }
