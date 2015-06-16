@@ -22,7 +22,7 @@ public:
 	virtual ILBuilding* getLBuilding() override;
 	virtual bool clicked(action action) override;
 	virtual void sabotagePowerLineRemoved() override;
-	
+	virtual void updateValue(const int value) override;
 };
 
 

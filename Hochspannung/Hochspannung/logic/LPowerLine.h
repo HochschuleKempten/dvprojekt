@@ -24,11 +24,12 @@ public:
 	void addDirection(const int direction);
 	void removeDirection(const int direction);
 
-
 	virtual LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LPowerLine;
 	}
+
+	virtual void setConnected(bool connected) override;
 };
 
 NAMESPACE_LOGIC_E

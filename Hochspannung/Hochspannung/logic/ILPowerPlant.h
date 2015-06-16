@@ -109,6 +109,7 @@ private:
 	{
 		DEBUG_OUTPUT("Try to sabotage resource field. Old resource value: " << getLField()->getResources());
 		int newValue = this->getLField()->deductResources();
+		vPowerPlant->updateResourceValue(newValue);
 		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
 
 		if (!lField->getLPlayingField()->isLocalOperation())
@@ -167,6 +168,7 @@ public:
 	{
 		const int consumedResources = LBalanceLoader::getConsumedResources(getLField()->getFieldType());
 		const int amountReduced = lField->reduceResources(consumedResources);
+		vPowerPlant->updateResourceValue(lField->getResources());
 
 		if (amountReduced <= 0)
 		{
@@ -204,6 +206,12 @@ public:
 			default:
 				return true;
 		}
+	}
+
+	virtual void setConnected(bool connected) override
+	{
+		ILPowerPlant::setConnected(connected);
+		vPowerPlant->updateValue(getValue());
 	}
 };
 

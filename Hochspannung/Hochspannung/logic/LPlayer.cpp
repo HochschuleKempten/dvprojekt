@@ -224,6 +224,18 @@ void LPlayer::checkPowerPlants()
 
 	prevConnectedPowerPlants = currentConnectedPowerPlants;
 
+	//update sell values
+	bool connected = lMaster->getLPlayingField()->isTransformstationConnected();
+	for (ILPowerPlant* p : powerPlants)
+	{	
+		p->setConnected(connected);
+
+	}
+	for (LPowerLine* l : powerLines)
+	{
+		l->setConnected(connected);
+	}
+
 	checkRegenerativeRatio();
 }
 
@@ -287,15 +299,8 @@ void LPlayer::checkRegenerativeRatio()
 
 void LPlayer::checkDisposalValue(const ILBuilding* const building)
 {
-	//Player gets money back
-	if (lMaster->getLPlayingField()->isTransformstationConnected())
-	{
-		addMoney(CASTS<int>(LBalanceLoader::getSellRevenueConnected() * building->getValue()));
-	}
-	else
-	{
-		addMoney(CASTS<int>(LBalanceLoader::getSellRevenueDisconnected() * building->getValue()));
-	}
+	//Player gets money back (connection check is done in getValue())
+	addMoney(building->getValue());
 }
 
 NAMESPACE_LOGIC_E

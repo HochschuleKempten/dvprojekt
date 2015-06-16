@@ -23,7 +23,8 @@ public:
 	virtual void sabotageResourcesReduced() = 0;
 	virtual void sabotagePowerPlantSwitchedOff(const int seconds) = 0;
 	virtual void sabotagePowerPlantSwitchedOn() = 0;
-
+	virtual void updateValue(const int value) = 0;
+	virtual void updateResourceValue(const int value) = 0;
 };
 
 NAMESPACE_LOGIC_E

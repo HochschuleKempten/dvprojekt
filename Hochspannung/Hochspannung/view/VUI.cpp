@@ -285,9 +285,31 @@ void VUI::removeMaterialFromRoot(CMaterial* material)
 	bool erg = m_zr.SubMaterial(material);
 }
 
+
 void VUI::setSabotageNumber(const int value)
 {
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->setSabotageNumber(value);
+}
+
+void VUI::contextMenuUpdateValue(const std::pair<int, int> pos, const int value)
+{
+	//todo implement 
+}
+
+void VUI::contextMenuUpdateResourceValue(const std::pair<int, int> pos, const int resourceValue)
+{
+}
+
+void VUI::contextMenuUpdatePopulation(const std::pair<int, int> pos, const int population)
+{
+}
+
+void VUI::contextMenuUpdateEnergy(const std::pair<int, int> pos, const int energy)
+{
+}
+
+void VUI::contextMenuUpdateEnergySurplus(const std::pair<int, int> pos, const int surplus)
+{
 }
 
 void VUI::gameOver(bool win)
