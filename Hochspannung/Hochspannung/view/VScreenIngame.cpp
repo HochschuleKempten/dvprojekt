@@ -80,7 +80,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zl.Init(CHVector(0.0F, 0.35F, 0.7F),
 			  CColor(0.1F, 0.1F, 0.1F));
 
-	m_zlSpot.Init(CColor(0.6f, 0.6f, 0.6f), 0.01f, 0.07f, 0.75f);	//last param = light intensity
+	m_zlSpot.Init(CColor(0.6f, 0.6f, 0.6f), 0.01f, 0.07f, 1.75f);	//last param = light intensity
 	m_zlSpot.SetMaxDistance(2500);
 	m_zlSpot.SetMinDistance(40);
 	m_zlSpot.SetSoftShadowOn();
