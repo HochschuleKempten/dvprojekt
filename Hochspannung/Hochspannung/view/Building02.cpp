@@ -1,17 +1,10 @@
 #include "Building02.h"
 #include "VMaterialLoader.h"
+
 NAMESPACE_VIEW_B
 
 Building02::Building02()
-{
-	fresize = 1.F;
-	InitWindows();
-	AddWindows();
-	InitWalls();
-	AddPlacements();
-	TranslateAll();
-	scaleforLoDs();
-}
+{}
 
 Building02::Building02(float fResize)
 {
@@ -31,6 +24,17 @@ Building02::Building02(float fResize)
 
 Building02::~Building02()
 {
+}
+
+void Building02::init()
+{
+	fresize = 1.F;
+	InitWindows();
+	AddWindows();
+	InitWalls();
+	AddPlacements();
+	TranslateAll();
+	scaleforLoDs();
 }
 
 void Building02::InitWindows()

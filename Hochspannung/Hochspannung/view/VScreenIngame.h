@@ -165,7 +165,7 @@ private:
 	VModelCoalPowerPlant modelCoal;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
 
-	bool m_CooldownStrike=false;
+	bool m_CooldownStrike = false;
 	bool m_CooldownPowerLineCut = false;
 	bool m_CooldownHalfResource = false;
 };

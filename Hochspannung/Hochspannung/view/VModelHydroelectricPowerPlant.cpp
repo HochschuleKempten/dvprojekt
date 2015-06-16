@@ -14,6 +14,7 @@ VModelHydroelectricPowerPlant::~VModelHydroelectricPowerPlant()
 void VModelHydroelectricPowerPlant::init()
 {
 	Gebaeude.initViewModel(vBuilding, switchedState);
+	Gebaeude.init();
 
 	m_zgFluss.Init(CHVector(2.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmWasser);
 	m_zgRad.InitStraight(3.0f, 4.0f, 0.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));

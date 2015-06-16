@@ -38,11 +38,13 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	//Init models
 	modelNuclear.init();
+	modelWindmill.init();
 	modelOil.init();
 	modelHydroelectric.init();
 	modelCoal.init();
-
+	modelSolar.init();
 	modelPowerline.Init(VModelPowerLine::NORTH | VModelPowerLine::EAST | VModelPowerLine::SOUTH | VModelPowerLine::WEST);
+
 	models.emplace(VIdentifier::VWindmillPowerPlant, &modelWindmill);
 	models.emplace(VIdentifier::VSolarPowerPlant, &modelSolar);
 	models.emplace(VIdentifier::VNuclearPowerPlant, &modelNuclear);
