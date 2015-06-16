@@ -110,7 +110,7 @@ void COfficeTowerViewingDeck::InitWalls() {
 
 void COfficeTowerViewingDeck::ScaleForLod(){
 
-	this->Scale(fResize);
+	Scale(fResize);
 
 }
 

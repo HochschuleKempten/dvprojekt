@@ -43,6 +43,7 @@ void Building03::InitWindows(){
 
 	//m_zgWindowInlay.AddGeoWall(&m_zgWallGlass);
 	m_zgWallFrame.Init(1.F, 1.F, 0.5F, &VMaterialLoader::materialWindowsofBuilding);
+	//&VMaterialLoader::materialWindowsofBuilding
 	//m_zgWallGlass.Init(1.F, 1.F, 0.5F, &m_zmWallGlass);
 	
 
@@ -51,7 +52,7 @@ void Building03::InitWindows(){
 
 void Building03::AddWindows(){
 
-	m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 14, 3);
+	m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 9, 9);
 	//m_zgWallFrame.AddGeoWindow(&m_zgWindowInlay);
 }
 
