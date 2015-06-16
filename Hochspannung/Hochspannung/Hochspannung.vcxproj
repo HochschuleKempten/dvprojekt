@@ -214,6 +214,7 @@
     <ClInclude Include="view\SmallOfficeBuilding.h" />
     <ClInclude Include="view\TwistedTower.h" />
     <ClInclude Include="view\VCity.h" />
+    <ClInclude Include="view\VContextInfo.h" />
     <ClInclude Include="view\VDialog.h" />
     <ClInclude Include="view\VField.h" />
     <ClInclude Include="view\VGraph.h" />
@@ -305,6 +306,7 @@
     <ClCompile Include="view\SmallOfficeBuilding.cpp" />
     <ClCompile Include="view\TwistedTower.cpp" />
     <ClCompile Include="view\VCity.cpp" />
+    <ClCompile Include="view\VContextInfo.cpp" />
     <ClCompile Include="view\VDialog.cpp" />
     <ClCompile Include="view\VField.cpp" />
     <ClCompile Include="view\VGraph.cpp" />

@@ -290,6 +290,7 @@ void VUI::setSabotageNumber(const int value)
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->setSabotageNumber(value);
 }
 
+
 void VUI::gameOver(bool win)
 {
 	if (win)
