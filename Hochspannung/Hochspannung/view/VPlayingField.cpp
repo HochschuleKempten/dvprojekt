@@ -40,6 +40,29 @@ void VPlayingField::placeObject(const std::shared_ptr<IViewBuilding>& objPtr, co
 {
 	vFields[x][y].m_zViewBuilding = objPtr;
 	vFields[x][y].m_zp.AddPlacement(objPtr->getPlacement());
+	if (objPtr->getPlacementSecond() != nullptr)
+	{
+		vFields[x][y].m_zp.AddPlacement(objPtr->getPlacementSecond());
+	}
+}
+
+void VPlayingField::placeObject(IViewBuilding* vBuilding, const int x, const int y)
+{
+	vFields[x][y].m_zp.AddPlacement(vBuilding->getPlacement());
+	if (vBuilding->getPlacementSecond() != nullptr)
+	{
+		vFields[x][y].m_zp.AddPlacement(vBuilding->getPlacementSecond());
+	}
+}
+
+void VPlayingField::placeObject(CPlacement* placement, const int x, const int y)
+{
+	vFields[x][y].m_zp.AddPlacement(placement);
+}
+
+void VPlayingField::subObject(CPlacement* placement, const int x, const int y)
+{
+	vFields[x][y].m_zp.SubPlacement(placement);
 }
 
 void VPlayingField::hoverField(const int x, const int y)
@@ -90,9 +113,10 @@ void VPlayingField::buildPlayingField()
 
 	const float rows = CASTS<float>(vFields.getRows());
 	//TODO (V) set default pos
-	m_zp.TranslateDelta(CASTS<float>(-fieldSize * lPlayingField->getLMaster()->getPlayer(LPlayer::Remote)->getCity()->getLField()->getX()),
-						CASTS<float>(fieldSize * lPlayingField->getLMaster()->getPlayer(LPlayer::Remote)->getCity()->getLField()->getY()),
-						CASTS<float>(fieldSize * rows * 0.5));
+
+	m_zp.TranslateDelta(CASTS<float>(-fieldSize * rows), CASTS<float>(fieldSize * (rows+3)), CASTS<float>(fieldSize * rows * 0.5));
+
+
 	 
 #ifdef _DEBUG
 	for (int rowIdx = 0; rowIdx < lPlayingField->getFieldLength(); rowIdx++) {

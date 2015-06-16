@@ -37,26 +37,35 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zpModels.RotateXDelta(-0.5f);
 
 	//Init models
+	modelNuclear.init();
+	modelWindmill.init();
+	modelOil.init();
+	modelHydroelectric.init();
+	modelCoal.init();
+	modelSolar.init();
 	modelPowerline.Init(VModelPowerLine::NORTH | VModelPowerLine::EAST | VModelPowerLine::SOUTH | VModelPowerLine::WEST);
+
 	models.emplace(VIdentifier::VWindmillPowerPlant, &modelWindmill);
 	models.emplace(VIdentifier::VSolarPowerPlant, &modelSolar);
 	models.emplace(VIdentifier::VNuclearPowerPlant, &modelNuclear);
 	models.emplace(VIdentifier::VOilRefinery, &modelOil);
 	models.emplace(VIdentifier::VPowerLine, &modelPowerline);
 	models.emplace(VIdentifier::VHydroelectricPowerPlant, &modelHydroelectric);
+	models.emplace(VIdentifier::VCoalPowerPlant, &modelCoal);
 
-	models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->TranslateZ(10);
-	models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->TranslateYDelta(5);
 
-	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateZ(12.0F);
-	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateY(2.5F);
+	//Positioning models
+	models[VIdentifier::VWindmillPowerPlant]->getPlacementMain()->TranslateYDelta(2.0f);
+	models[VIdentifier::VSolarPowerPlant]->getPlacementMain()->TranslateZ(5.0f);
+	models[VIdentifier::VSolarPowerPlant]->getPlacementMain()->TranslateYDelta(2.0f);
+	models[VIdentifier::VPowerLine]->getPlacementMain()->TranslateZ(6.0f);
+	models[VIdentifier::VPowerLine]->getPlacementMain()->TranslateYDelta(2.0f);
+	models[VIdentifier::VOilRefinery]->getPlacementMain()->TranslateYDelta(-0.8);
+	models[VIdentifier::VHydroelectricPowerPlant]->getPlacementMain()->TranslateYDelta(-0.8);
 
-	CHVector vector=models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->GetTranslation();
 
+	CHVector vector=models[VIdentifier::VNuclearPowerPlant]->getPlacementMain()->GetTranslation();
 	CHVector vector2 = m_zpModels.GetTranslation();
-
-	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateZ(5.0F);
-	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateYDelta(2.5F);
 
 	for (const std::pair<VIdentifier::VIdentifier, IViewModel*>& p : models)
 	{
@@ -71,7 +80,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_zl.Init(CHVector(0.0F, 0.35F, 0.7F),
 			  CColor(0.1F, 0.1F, 0.1F));
 
-	m_zlSpot.Init(CColor(0.6f, 0.6f, 0.6f), 0.01f, 0.07f, 0.75f);	//last param = light intensity
+	m_zlSpot.Init(CColor(0.6f, 0.6f, 0.6f), 0.01f, 0.07f, 1.75f);	//last param = light intensity
 	m_zlSpot.SetMaxDistance(2500);
 	m_zlSpot.SetMinDistance(40);
 	m_zlSpot.SetSoftShadowOn();
@@ -121,7 +130,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("Topbar")->addOverlay(CFloatRect(0.05F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconPopulation, "TopPopulationIcon", 0.1F);
 	getContainer("Topbar")->addText(CFloatRect(0.151F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::standardFont, "0000", "popValue", 0.1F);
 
-	getContainer("Topbar")->addOverlay(CFloatRect(0.35F, 0.2F, 0.1F, 0.5F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon", 0.1F);
+	getContainer("Topbar")->addOverlay(CFloatRect(0.35F, 0.2F, 0.08F, 0.6F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon", 0.1F);
 	getContainer("Topbar")->addText(CFloatRect(0.451F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::GoldFont, "0000", "moneyValue", 0.1F);
 
 	getContainer("Topbar")->addText(CFloatRect(0.751F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::standardFont, "0000", "energyOverload", 0.1F);
@@ -141,7 +150,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 
 	getContainer("BottomBar")->getContainer("Infofield")->addViewport(&m_viewportModels, &m_CamModels, CFloatRect(0.1F, 0.05F, 0.75F, 0.55F), &m_zmbackgroundModels, "DetailedModels");
-	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.10F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "100", "PowerInfo", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.10F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "1000", "PowerInfo", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.10F, 0.85F, 0.5F, 0.08F), &VMaterialLoader::GoldFont, "1000", "MoneyInfo", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.70F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconEnergy, "EngergyInfoIcon", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.85F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconMoney, "MoneyInfoIcon", 0.1F);
@@ -188,11 +197,16 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	
 	m_vtTabSabotage->addOverlay(CFloatRect(0.025F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageCutPowerline, "CooldownSabotagePowerLineCut", 0.1F);
 	m_vtTabSabotage->addOverlay(CFloatRect(0.275F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageStrike, "CooldownSabotageStrike", 0.1F);
-	m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageHalfResource, "CooldownSabotageHalfResource", 0.1F);
+	m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageHalfResource, "CooldownSabotageHalfRessource", 0.1F);
+
+	m_vtTabSabotage->addText(CFloatRect(0.775F, 0.075F, 0.2F, 0.2F), &VMaterialLoader::errorFont, "Sabotage verbleibend", "HeaderSabNum", 0.1F, VText::TextMode::CENTERED);
+	m_vtTabSabotage->addText(CFloatRect(0.775F, 0.4F, 0.2F, 0.3F), &VMaterialLoader::errorFont, "3", "SabotageNumLeft", 0.1F,VText::TextMode::CENTERED);
 	
 	m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
 	m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
-	m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOff();
+	m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource")->SwitchOff();
+	m_vtTabSabotage->getGuiObject("HeaderSabNum")->switchOff();
+	m_vtTabSabotage->getGuiObject("SabotageNumLeft")->switchOff();
 
 	// Tab for statistics
 
@@ -243,19 +257,12 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	/***********************************************************Dialog******************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.35F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialLobbyRunningGamesBackground, "DialogBox", 0.3F);
 
-	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.15F), &VMaterialLoader::materialButtonGameContinue, &VMaterialLoader::materialButtonGameContinueHover, NOTHING, "MenueButtonContinue", 0.2F);
-	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.27F, 0.80F, 0.15F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "MenueButtonQuit", 0.2F);
-	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.44F, 0.80F, 0.15F), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover, NOTHING, "MenueButtonBack", 0.2F);
-
-	
-	//******** Statistics Menu *********//
-	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.25F,0.25F,0.5F,0.5F), "StatisticsMenu", 0.3F);
-
-	VStatistics* statisticsMenus = getContainer("StatisticsMenu")->addStatisticsScreen(CFloatRect(0, 0, 1, 1), &VMaterialLoader::materialLobbyRunningGamesBackground, "statisticsScreen", 0.3F);
-	statisticsMenus->addText("Du bist ein zukunftsorientierter Mensch und setzt auf Nachhaltigkeit\nAchte jedoch auf die Beduerfnisse deiner Stadtbowohner und versorge sie gut\n\nDenn nichts ist wichtiger als glueckliche Einwohner und gruener Fortschritt");
-	statisticsMenus->addText("Konfuzius sagt: Harmonie und Mitte, Gleichmut und Gleichgewicht - blubb blubb");
+	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.2F), &VMaterialLoader::materialButtonGameContinue, &VMaterialLoader::materialButtonGameContinueHover, NOTHING, "MenueButtonContinue", 0.2F);
+	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.4F, 0.80F, 0.2F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "MenueButtonQuit", 0.2F);
+	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.70F, 0.80F, 0.2F), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover, NOTHING, "MenueButtonBack", 0.2F);
 
 	getContainer("DialogBox")->switchOff();
+
 
 }
 
@@ -305,35 +312,30 @@ void VScreenIngame::onNotify(const Event& events)
 
 	case SELECT_BUILDING_WINDMILL:
 		clearInfofield();
+
+		//m_zpModels.TranslateY(-2.0f);
+
 		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VWindmillPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 		setActiveButton("windmill");
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LWindmillPowerPlant)));
-
-
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
-
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LWindmillPowerPlant>()));
+		switchOnBuildingInfo();
 		
 		break;
 	case SELECT_BUILDING_COALPOWERPLANT:
 		clearInfofield();
+
 		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VCoalPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
 		setActiveButton("coalPowerPlant");
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LCoalPowerPlant)));
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LCoalPowerPlant>()));
+		switchOnBuildingInfo();
 		
-		
-
 		break;
 	case SELECT_BUILDING_OILPOWERPLANT:
 		clearInfofield();
@@ -345,12 +347,10 @@ void VScreenIngame::onNotify(const Event& events)
 		setActiveButton("oilPowerPlant");
 		
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LOilRefinery)));
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LOilRefinery>()));
 		
-
+		switchOnBuildingInfo();
+		
 		break;
 	case SELECT_BUILDING_NUCLEARPOWERPLANT:
 		clearInfofield();
@@ -361,10 +361,8 @@ void VScreenIngame::onNotify(const Event& events)
 
 		setActiveButton("nuclearPowerPlant");
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LNuclearPowerPlant)));
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LNuclearPowerPlant>()));
+		switchOnBuildingInfo();
 		break;
 	case SELECT_BUILDING_HYDROPOWERPLANT:
 		clearInfofield();
@@ -375,10 +373,8 @@ void VScreenIngame::onNotify(const Event& events)
 
 		setActiveButton("hydroPowerPlant");
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LHydroelectricPowerPlant)));
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LHydroelectricPowerPlant>()));
+		switchOnBuildingInfo();
 		break;
 	case SELECT_BUILDING_SOLARPOWERPLANT:
 		clearInfofield();
@@ -388,10 +384,8 @@ void VScreenIngame::onNotify(const Event& events)
 		vUi->switchCursor(vUi->CursorType::Hammer);
 		setActiveButton("solarPowerPlant");
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LSolarPowerPlant)));
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LSolarPowerPlant>()));
+		switchOnBuildingInfo();
 		break;
 	case SELECT_BUILDING_POWERLINE:
 		clearInfofield();
@@ -402,12 +396,10 @@ void VScreenIngame::onNotify(const Event& events)
 
 
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LPowerLine)));
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LPowerLine>()));
 
 		setActiveButton("powerLine");
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
-		getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
+		switchOnBuildingInfo();
 		break;
 
 	case SELECT_SABOTAGE_POWERLINECUT:
@@ -755,7 +747,7 @@ void VScreenIngame::handleInput()
 	//if (vUi->m_zkKeyboard.KeyPressed(DIK_T))
 	//{
 
-	//	viemodelPointer->getMainPlacement()->TranslateZDelta(step);
+	//	viemodelPointer->getPlacementMain()->TranslateZDelta(step);
 	//	total += step;
 	//}
 
@@ -763,7 +755,7 @@ void VScreenIngame::handleInput()
 	//if (vUi->m_zkKeyboard.KeyPressed(DIK_G))
 	//{
 
-	//	viemodelPointer->getMainPlacement()->TranslateZDelta(-step);
+	//	viemodelPointer->getPlacementMain()->TranslateZDelta(-step);
 	//	total -= step;		
 	//}
 
@@ -964,6 +956,7 @@ void VScreenIngame::tick(const float fTimeDelta)
 	modelOil.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VOilRefinery, fTimeDelta));
 	modelSolar.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VSolarPowerPlant, fTimeDelta));
 	modelHydroelectric.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VHydroelectricPowerPlant, fTimeDelta));
+	modelCoal.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
 }
 
 std::map<int, std::vector<int>> VScreenIngame::pickElements()
@@ -1114,6 +1107,19 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 				}).detach();
 			break;
 	}
+}
+
+void VScreenIngame::setSabotageNumber(const int value)
+{
+	CASTD<VText*>(m_vtTabSabotage->getGuiObject("SabotageNumLeft"))->updateText(std::to_string(value));
+}
+
+void VScreenIngame::switchOnBuildingInfo()
+{
+	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
+	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
+	getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
+	getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
 }
 
 void VScreenIngame::clearInfofield()
@@ -1355,13 +1361,13 @@ void VScreenIngame::updateModelView()
 
 	if (previousModel != nullptr)
 	{
-		m_sceneModels.SubPlacement(previousModel->getMainPlacement());
+		m_sceneModels.SubPlacement(previousModel->getPlacementMain());
 	}
 
 	if (models.count(selectedBuilding) > 0)
 	{
 		previousModel = models.at(selectedBuilding);
-		m_sceneModels.AddPlacement(previousModel->getMainPlacement());
+		m_sceneModels.AddPlacement(previousModel->getPlacementMain());
 	}
 	else
 	{ //Disable action
@@ -1393,6 +1399,8 @@ void VScreenIngame::SabotageTabSwitchOn()
 	m_vtTabSabotage->getGuiObject("sabotagePowerOn")->switchOn();
 	m_vtTabSabotage->getGuiObject("sabotagePowerOff")->switchOn();
 	m_vtTabSabotage->getGuiObject("sabotageSell")->switchOn();
+	m_vtTabSabotage->getGuiObject("HeaderSabNum")->switchOn();
+	m_vtTabSabotage->getGuiObject("SabotageNumLeft")->switchOn();
 
 }
 
@@ -1419,6 +1427,8 @@ void VScreenIngame::SabotageTabSwitchOff()
 	m_vtTabSabotage->getGuiObject("sabotagePowerOn")->switchOff();
 	m_vtTabSabotage->getGuiObject("sabotagePowerOff")->switchOff();
 	m_vtTabSabotage->getGuiObject("sabotageSell")->switchOff();
+	m_vtTabSabotage->getGuiObject("HeaderSabNum")->switchOff();
+	m_vtTabSabotage->getGuiObject("SabotageNumLeft")->switchOff();
 
 }
 

@@ -183,6 +183,12 @@ void VScreenLobby::onNotify(const Event& events)
 					
 				}
 			}
+			else 
+			{
+				CASTD<VText*>(getContainer("ErrorDialog")->getGuiObject("TextErrorDialog"))->updateText("Bitte IP-Addresse angeben!");
+
+				getContainer("ErrorDialog")->switchOn();
+			}
 		}
 		else
 		{

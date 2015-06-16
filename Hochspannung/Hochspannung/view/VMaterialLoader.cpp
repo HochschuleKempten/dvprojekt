@@ -498,14 +498,15 @@ void VMaterialLoader::init()
 	//Fonts
 	//standardFont.Init("textures/fonts/FontArialShadow.png",false);
 	//standardFont.SetTableSize(16, 16);
-	//standardFont.Init("textures/fonts/OCRStandardBevel.png", true);
-	standardFont.Init("textures/fonts/OCRBlueBevel.png", true);
+	standardFont.Init("textures/fonts/OCRStandardBevel.png", true);
+	//standardFont.Init("textures/fonts/OCRBlueBevel.png", true);
 	
 	standardFont.SetTableSize(16,16);
 	/*GoldFont.Init("textures/fonts/FontArialShadowGold.png", false);
 	GoldFont.SetTableSize(16, 16);*/
 
-	GoldFont.Init("textures/fonts/OCRGold.png", true);
+	GoldFont.Init("textures/fonts/OCRStandardGold.png", true);
+	//GoldFont.Init("textures/fonts/OCRGold.png", true);
 	GoldFont.SetTableSize(16, 16);
 
 	errorFont.Init("textures/fonts/OCRError.png", true);
@@ -618,6 +619,7 @@ void VMaterialLoader::init()
 	materialAnimSabotageCutPowerline.SetAni(30, 2, 1);
 
 	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/Strike.png");
+	materialAnimSabotagePowerPlant.SetTransparencyOn();
 	materialAnimSabotagePowerPlant_x = 60;
 	materialAnimSabotagePowerPlant_y = 2;
 	

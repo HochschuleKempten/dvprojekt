@@ -22,13 +22,13 @@ public:
 	inline virtual ~IViewObject()
 	{}
 
-	inline CPlacement* getPlacement()
+	inline CPlacement* getPlacement() const
 	{
 		ASSERT(ptrPlacement != nullptr, "The placement is not initialized");
 
 		return ptrPlacement;
 	}
-	VMaster* getVMaster() const
+	inline VMaster* getVMaster() const
 	{
 		return vMaster;
 	}

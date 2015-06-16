@@ -10,7 +10,13 @@ NAMESPACE_VIEW_B
 class VNuclearPowerPlant : public IViewPowerPlant
 {
 private:
-	VModelNuclearPowerPlant viewModel;
+	VModelNuclearPowerPlant viewModelOn;
+	VModelNuclearPowerPlant viewModelOff;
+
+protected:
+	virtual void configViewModel(IViewModel& model, const bool switchedOn) override;
+
+
 
 public:
 	VNuclearPowerPlant(VMaster *vMaster, LNuclearPowerPlant* lPlant);
@@ -18,6 +24,7 @@ public:
 	{}
 
 	virtual void initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, const int x, const int y) override;
+
 };
 
 

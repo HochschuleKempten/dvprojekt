@@ -25,75 +25,84 @@ void LBalanceLoader::init()
 int LBalanceLoader::getProducedEnergy(const LIdentifier::LIdentifier identifier)
 {
 	ASSERT(initDone, msgAssert);
-
-	switch (identifier)
-	{
-		case LIdentifier::LCoalPowerPlant:
-			return propertyTree.get<int>("ProducedEnergy.CoalPowerPlant", 0);
-		case LIdentifier::LHydroelectricPowerPlant:
-			return propertyTree.get<int>("ProducedEnergy.HydroelectricPowerPlant", 0);
-		case LIdentifier::LNuclearPowerPlant:
-			return propertyTree.get<int>("ProducedEnergy.NuclearPowerPlant", 0);
-		case LIdentifier::LOilRefinery:
-			return propertyTree.get<int>("ProducedEnergy.OilRefinery", 0);
-		case LIdentifier::LSolarPowerPlant:
-			return propertyTree.get<int>("ProducedEnergy.SolarPowerPlant", 0);
-		case LIdentifier::LWindmillPowerPlant:
-			return propertyTree.get<int>("ProducedEnergy.WindmillPowerPlant", 0);
-		default:
-			//Every other building produces no energy
-			return 0;
-	}
+	CATCH
+	(
+		switch (identifier)
+		{
+			case LIdentifier::LCoalPowerPlant:
+				return propertyTree.get<int>("ProducedEnergy.CoalPowerPlant");
+			case LIdentifier::LHydroelectricPowerPlant:
+				return propertyTree.get<int>("ProducedEnergy.HydroelectricPowerPlant");
+			case LIdentifier::LNuclearPowerPlant:
+				return propertyTree.get<int>("ProducedEnergy.NuclearPowerPlant");
+			case LIdentifier::LOilRefinery:
+				return propertyTree.get<int>("ProducedEnergy.OilRefinery");
+			case LIdentifier::LSolarPowerPlant:
+				return propertyTree.get<int>("ProducedEnergy.SolarPowerPlant");
+			case LIdentifier::LWindmillPowerPlant:
+				return propertyTree.get<int>("ProducedEnergy.WindmillPowerPlant");
+			default:
+				//Every other building produces no energy
+				return 0;
+		}, boost::property_tree::ptree_error, ASSERT(e.what())
+	);
 }
 
 int LBalanceLoader::getFieldStorage(const LField::FieldType fieldType)
 {
 	ASSERT(initDone, msgAssert);
-
-	switch (fieldType)
-	{
-		case LField::COAL:
-			return propertyTree.get<int>("FieldStorage.Coal", 0);
-		case LField::OIL:
-			return propertyTree.get<int>("FieldStorage.Oil", 0);
-		case LField::NUCLEAR:
-			return propertyTree.get<int>("FieldStorage.Nuclear", 0);
-		default:
-			//Every other field has no resources
-			return 0;
-	}
+	CATCH
+	(
+		switch (fieldType)
+		{
+			case LField::COAL:
+				return propertyTree.get<int>("FieldStorage.Coal");
+			case LField::OIL:
+				return propertyTree.get<int>("FieldStorage.Oil");
+			case LField::NUCLEAR:
+				return propertyTree.get<int>("FieldStorage.Nuclear");
+			default:
+				//Every other field has no resources
+				return 0;
+		}, boost::property_tree::ptree_error, ASSERT(e.what())
+	);
 }
 
 int LBalanceLoader::getConsumedResources(const LField::FieldType fieldType)
 {
 	ASSERT(initDone, msgAssert);
-
-	switch (fieldType)
-	{
-		case LField::COAL:
-			return propertyTree.get<int>("ConsumedResources.Coal", 0);
-		case LField::OIL:
-			return propertyTree.get<int>("ConsumedResources.Oil", 0);
-		case LField::NUCLEAR:
-			return propertyTree.get<int>("ConsumedResources.Nuclear", 0);
-		default:
-			ASSERT("Requested fossil field type is not available");
-			return 0;
-	}
+	CATCH
+	(
+		switch (fieldType)
+		{
+			case LField::COAL:
+				return propertyTree.get<int>("ConsumedResources.Coal");
+			case LField::OIL:
+				return propertyTree.get<int>("ConsumedResources.Oil");
+			case LField::NUCLEAR:
+				return propertyTree.get<int>("ConsumedResources.Nuclear");
+			default:
+				ASSERT("Requested fossil field type is not available");
+				return 0;
+		}, boost::property_tree::ptree_error, ASSERT(e.what())
+	);
 }
 
 std::unordered_map<LField::FieldType, double> LBalanceLoader::getFieldTypeRatio()
 {
 	ASSERT(initDone, msgAssert);
 	std::unordered_map<LField::FieldType, double> fieldTypes;
-
-	fieldTypes[LField::SOLAR] = propertyTree.get<double>("FieldTypeRatio.Solar", 0.0);
-	fieldTypes[LField::AIR] = propertyTree.get<double>("FieldTypeRatio.Air", 0.0);
-	fieldTypes[LField::WATER] = propertyTree.get<double>("FieldTypeRatio.Water", 0.0);
-	fieldTypes[LField::COAL] = propertyTree.get<double>("FieldTypeRatio.Coal", 0.0);
-	fieldTypes[LField::NUCLEAR] = propertyTree.get<double>("FieldTypeRatio.Nuclear", 0.0);
-	fieldTypes[LField::OIL] = propertyTree.get<double>("FieldTypeRatio.Oil", 0.0);
-	fieldTypes[LField::MOUNTAIN] = propertyTree.get<double>("FieldTypeRatio.Mountain", 0.0);
+	CATCH
+	(
+		fieldTypes[LField::SOLAR] = propertyTree.get<double>("FieldTypeRatio.Solar");
+		fieldTypes[LField::AIR] = propertyTree.get<double>("FieldTypeRatio.Air");
+		fieldTypes[LField::WATER] = propertyTree.get<double>("FieldTypeRatio.Water");
+		fieldTypes[LField::COAL] = propertyTree.get<double>("FieldTypeRatio.Coal");
+		fieldTypes[LField::NUCLEAR] = propertyTree.get<double>("FieldTypeRatio.Nuclear");
+		fieldTypes[LField::OIL] = propertyTree.get<double>("FieldTypeRatio.Oil");
+		fieldTypes[LField::MOUNTAIN] = propertyTree.get<double>("FieldTypeRatio.Mountain");
+		, boost::property_tree::ptree_error, ASSERT(e.what())
+	);
 
 #ifdef _DEBUG
 	double sum = 0.0;
@@ -113,10 +122,13 @@ std::unordered_map<LField::FieldLevel, double> LBalanceLoader::getFieldLevelFact
 {
 	ASSERT(initDone, msgAssert);
 	std::unordered_map<LField::FieldLevel, double> fieldLevels;
-
-	fieldLevels[LField::LEVEL1] = propertyTree.get<double>("FieldLevelFactor.Level1", 0.0);
-	fieldLevels[LField::LEVEL2] = propertyTree.get<double>("FieldLevelFactor.Level2", 0.0);
-	fieldLevels[LField::LEVEL3] = propertyTree.get<double>("FieldLevelFactor.Level3", 0.0);
+	CATCH
+	(
+		fieldLevels[LField::LEVEL1] = propertyTree.get<double>("FieldLevelFactor.Level1");
+		fieldLevels[LField::LEVEL2] = propertyTree.get<double>("FieldLevelFactor.Level2");
+		fieldLevels[LField::LEVEL3] = propertyTree.get<double>("FieldLevelFactor.Level3");
+		, boost::property_tree::ptree_error, ASSERT(e.what())
+	);
 
 	return fieldLevels;
 }
@@ -124,109 +136,111 @@ std::unordered_map<LField::FieldLevel, double> LBalanceLoader::getFieldLevelFact
 double LBalanceLoader::getMoneyPerWatt()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<double>("DifficultyScale.MoneyPerWatt", 0.0);
+	CATCH(return propertyTree.get<double>("DifficultyScale.MoneyPerWatt"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 double LBalanceLoader::getSellRevenueConnected()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<double>("DifficultyScale.SellRevenueConnected", 0.0);
+	CATCH(return propertyTree.get<double>("DifficultyScale.SellRevenueConnected"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 double LBalanceLoader::getSellRevenueDisconnected()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<double>("DifficultyScale.SellRevenueDisconnected", 0.0);
+	CATCH(return propertyTree.get<double>("DifficultyScale.SellRevenueDisconnected"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getDefaultMoney()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<int>("DifficultyScale.DefaultMoney", 0);
+	CATCH(return propertyTree.get<int>("DifficultyScale.DefaultMoney"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getFieldLength()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<int>("DifficultyScale.FieldLength", 0);
+	CATCH(return propertyTree.get<int>("DifficultyScale.FieldLength"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getStartPopulation()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<int>("CityProperties.StartPopulation", 0);
+	CATCH(return propertyTree.get<int>("CityProperties.StartPopulation"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getPopulationGrowth()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<int>("CityProperties.PopulationGrowth", 0);
+	CATCH(return propertyTree.get<int>("CityProperties.PopulationGrowth"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 double LBalanceLoader::getConsumptionPerCitizen()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<double>("CityProperties.ConsumptionPerCitizen", 0.0);
+	CATCH(return propertyTree.get<double>("CityProperties.ConsumptionPerCitizen"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getMaxPopulation()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<int>("CityProperties.MaxPopulation", 0);
+	CATCH(return propertyTree.get<int>("CityProperties.MaxPopulation"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getMapOffset()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<int>("CityProperties.MapOffset", 0);
+	CATCH(return propertyTree.get<int>("CityProperties.MapOffset"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getSurplusWarningThreshold()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<int>("CityProperties.SurplusWarningThreshold", 0);
+	CATCH(return propertyTree.get<int>("CityProperties.SurplusWarningThreshold"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getSabotageCost(const LSabotage::LSabotage sabotage)
 {
 	ASSERT(initDone, msgAssert);
-
-	switch (sabotage)
-	{
-		case LSabotage::Deactivate: return propertyTree.get<int>("SabotageValues.CostDeactivate", 0);
-		case LSabotage::Resource: return propertyTree.get<int>("SabotageValues.CostResource", 0);
-		case LSabotage::Remove: return propertyTree.get<int>("SabotageValues.CostRemove", 0);
-		default:
-			ASSERT("Requested sabotage is not available");
-			return 0;
-	}
+	CATCH(
+		switch (sabotage)
+		{
+			case LSabotage::Deactivate: return propertyTree.get<int>("SabotageValues.CostDeactivate");
+			case LSabotage::Resource: return propertyTree.get<int>("SabotageValues.CostResource");
+			case LSabotage::Remove: return propertyTree.get<int>("SabotageValues.CostRemove");
+			default:
+				ASSERT("Requested sabotage is not available");
+				return 0;
+		}, boost::property_tree::ptree_error, ASSERT(e.what());
+	)
 }
 
 int LBalanceLoader::getSabotageCooldown(const LSabotage::LSabotage sabotage)
 {
 	ASSERT(initDone, msgAssert);
-
-	switch (sabotage)
-	{
-		case LSabotage::Deactivate: return propertyTree.get<int>("SabotageValues.CooldownTimeToNextDeactivate", 0);
-		case LSabotage::Resource: return propertyTree.get<int>("SabotageValues.CooldownTimeToNextResource", 0);
-		case LSabotage::Remove: return propertyTree.get<int>("SabotageValues.CooldownTimeToNextRemove", 0);
-		default:
-			ASSERT("Requested sabotage is not available");
-			return 0;
-	}
+	CATCH(
+		switch (sabotage)
+		{
+			case LSabotage::Deactivate: return propertyTree.get<int>("SabotageValues.CooldownTimeToNextDeactivate");
+			case LSabotage::Resource: return propertyTree.get<int>("SabotageValues.CooldownTimeToNextResource");
+			case LSabotage::Remove: return propertyTree.get<int>("SabotageValues.CooldownTimeToNextRemove");
+			default:
+				ASSERT("Requested sabotage is not available");
+				return 0;
+		}, boost::property_tree::ptree_error, ASSERT(e.what());
+	)
 }
 
 int LBalanceLoader::getCooldownTimeReactivationPowerPlant()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<int>("SabotageValues.CooldownTimeReactivationPowerPlant", 0);
+	CATCH(return propertyTree.get<int>("SabotageValues.CooldownTimeReactivationPowerPlant"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 float LBalanceLoader::getFactorSabotageResource()
 {
 	ASSERT(initDone, msgAssert);
-	return propertyTree.get<float>("SabotageValues.FactorSabotageResource", 0);
+	CATCH(return propertyTree.get<float>("SabotageValues.FactorSabotageResource"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
 int LBalanceLoader::getSabotageActs()

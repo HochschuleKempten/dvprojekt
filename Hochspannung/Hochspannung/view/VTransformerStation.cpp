@@ -9,7 +9,7 @@ NAMESPACE_VIEW_B
 
 
 VTransformerStation::VTransformerStation(VMaster *vMaster, LTransformerStation* lTransformerStation)
-	: IVTransformerStation(lTransformerStation), IViewBuilding(vMaster, viewModel.getMainPlacement())
+	: IVTransformerStation(lTransformerStation), IViewBuilding(vMaster, viewModel.getPlacementMain())
 {}
 
 VTransformerStation::~VTransformerStation()
@@ -19,14 +19,14 @@ void VTransformerStation::initTransformerStation(const std::shared_ptr<IVTransfo
 {
 	viewModel.initViewModel(this);
 	
-	viewModel.getMainPlacement()->Scale(0.4f);
-	viewModel.getMainPlacement()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
-	viewModel.getMainPlacement()->TranslateZDelta(-0.1);
+	viewModel.getPlacementMain()->Scale(0.4f);
+	viewModel.getPlacementMain()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
+	viewModel.getPlacementMain()->TranslateZDelta(-0.1);
 	
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 
-	VSoundLoader::play3DSoundLoop(VIdentifier::VTransformerStation, viewModel.getMainPlacement());
+	VSoundLoader::play3DSoundLoop(VIdentifier::VTransformerStation, viewModel.getPlacementMain());
 }
 
 ILBuilding* VTransformerStation::getLBuilding()

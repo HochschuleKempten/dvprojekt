@@ -64,6 +64,7 @@ private:
 	int localOperation = 0;
 	bool initDone = false;
 	bool cityConnectionsRecalculate = true;
+	bool isCheckInProgress = false;
 
 private:
 	template <typename T>
@@ -185,7 +186,10 @@ private:
 
 	bool hasFriendlyNeighbor(const int x, const int y);
 	void addBuildingToGraph(const int x, const int y, const int orientation);
+	//Adds orientations
 	void adjustOrientationsAround(const int x, const int y, const int orientation);
+	//Removes orientations
+	void adjustOrientationsAround(const int x, const int y);
 	void printGraph();
 
 	/**
@@ -227,6 +231,7 @@ public:
 
 	void initField(const int x, const int y, const LField::FieldType fieldType, const LField::FieldLevel fieldLevel);
 	int linkPowerlines(const int x, const int y, const int playerId);
+
 	void createFields();
 	void showPlayingField();
 

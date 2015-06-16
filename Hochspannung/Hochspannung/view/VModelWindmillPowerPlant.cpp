@@ -4,6 +4,25 @@ NAMESPACE_VIEW_B
 
 
 VModelWindmillPowerPlant::VModelWindmillPowerPlant()
+{}
+
+
+void VModelWindmillPowerPlant::switchOn()
+{
+
+}
+
+void VModelWindmillPowerPlant::switchOff()
+{
+
+}
+
+VModelWindmillPowerPlant::~VModelWindmillPowerPlant()
+{
+
+}
+
+void VModelWindmillPowerPlant::init()
 {
 	m_zpLOD[0].AddPlacement(&m_zpWindkraftwerk);
 	m_zpLOD[1].AddPlacement(&m_zpWindkraftwerk);
@@ -34,7 +53,7 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 	m_zgRotorblatt2.Init(CHVector(0.2f, 2.0f, 0.1f), VMaterialLoader::getMaterialModel(VMaterialLoader::WIND_FLUEGEL2, switchedState));
 	m_zgRotorblatt3.Init(CHVector(0.2f, 2.0f, 0.1f), VMaterialLoader::getMaterialModel(VMaterialLoader::WIND_FLUEGEL3, switchedState));
 
-	
+
 
 	m_zpTurm.Translate(CHVector(0.0f, -1.0f, 0.0f));
 	m_zpTurm.AddGeo(&m_zgTurm);
@@ -63,22 +82,5 @@ VModelWindmillPowerPlant::VModelWindmillPowerPlant()
 	m_zpBasis.TranslateDelta(CHVector(0.0f, -7.0f, 0.0f));
 	m_zpKopf.TranslateDelta(CHVector(0.0f, -7.2f, 0.0f));
 }
-
-
-void VModelWindmillPowerPlant::switchOn()
-{
-
-}
-
-void VModelWindmillPowerPlant::switchOff()
-{
-
-}
-
-VModelWindmillPowerPlant::~VModelWindmillPowerPlant()
-{
-
-}
-
 
 NAMESPACE_VIEW_E

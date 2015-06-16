@@ -138,7 +138,7 @@ void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
 
 void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
 {
-	//TODO (V) Show remaining sabotage acts
+	vUi.setSabotageNumber(remainingSabotageActs);
 }
 
 void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)

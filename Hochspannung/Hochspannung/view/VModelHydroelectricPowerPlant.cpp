@@ -13,7 +13,8 @@ VModelHydroelectricPowerPlant::~VModelHydroelectricPowerPlant()
 
 void VModelHydroelectricPowerPlant::init()
 {
-	Gebaeude.initViewModel(vBuilding);
+	Gebaeude.initViewModel(vBuilding, switchedState);
+	Gebaeude.init();
 
 	m_zgFluss.Init(CHVector(2.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmWasser);
 	m_zgRad.InitStraight(3.0f, 4.0f, 0.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));
@@ -44,8 +45,8 @@ void VModelHydroelectricPowerPlant::init()
 	m_zpWasserRad.AddPlacement(&m_zpWasserSchaufel5);
 	m_zpWasserRad.AddPlacement(&m_zpWasserSchaufel6);
 	m_zpWasserRad.AddPlacement(&m_zpStange);
-	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse1.getMainPlacement());
-	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse2.getMainPlacement());
+	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse1.getPlacementMain());
+	//m_zpWasserKraftwerk.AddPlacement(m_zTrasse2.getPlacementMain());
 	m_zpWasserKraftwerk.AddPlacement(&m_zpGebaude);
 	m_zpGebaude.AddPlacement(&Gebaeude);
 

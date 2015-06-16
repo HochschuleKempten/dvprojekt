@@ -3,6 +3,7 @@
 #include "VMaterialLoader.h"
 #include "VIdentifier.h"
 #include "../logic/LField.h"
+#include "VMountains.h"
 
 NAMESPACE_VIEW_B
 
@@ -52,6 +53,11 @@ void VField::initField(const int rowIdx, const int colIdx)
 	m_zp.TranslateX(CASTS<float>(colIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0)));
 	m_zp.TranslateYDelta(CASTS<float>(rowIdx * (vPlayingField->fieldSize * vPlayingField->fieldSize - 0.0) * -1));
 
+	if (lField->getFieldType() == LField::MOUNTAIN)
+	{
+		m_zViewBuilding = std::dynamic_pointer_cast<IViewBuilding>(std::make_shared<VMountains>(vPlayingField->vMaster, rowIdx, colIdx));
+	}
+
 	DEBUG_EXPRESSION(initDone = true);
 }
 
@@ -59,9 +65,18 @@ void VField::removeBuilding()
 {
 #ifdef _DEBUG
 	bool erg = m_zp.SubPlacement(m_zViewBuilding->getPlacement());
+	if (m_zViewBuilding->getPlacementSecond() != nullptr)
+	{
+		bool ergOff = m_zp.SubPlacement(m_zViewBuilding->getPlacementSecond());
+		ASSERT(ergOff, "Unable to sub the placement");
+	}
 	ASSERT(erg, "Unable to sub the placement");
 #else
 	m_zp.SubPlacement(m_zViewBuilding->getPlacement());
+	if (m_zViewBuilding->getPlacementSecond() != nullptr)
+	{
+		m_zp.SubPlacement(m_zViewBuilding->getPlacementSecond());
+	}
 #endif
 
 	m_zViewBuilding = nullptr;

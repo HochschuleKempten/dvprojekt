@@ -91,7 +91,7 @@ public:
 	VModelNuclearPowerPlant();
 	virtual ~VModelNuclearPowerPlant() override;
 
-	void init();
+	virtual void init() override;
 
 	virtual float getHeight() override
 	{

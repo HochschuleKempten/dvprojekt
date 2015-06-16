@@ -8,6 +8,7 @@
 #include "VModelOilRefinery.h"
 #include "VModelPowerLine.h"
 #include "VModelHydroelectricPowerPlant.h"
+#include "VModelCoalPowerPlant.h"
 
 NAMESPACE_VIEW_B
 
@@ -77,7 +78,11 @@ public:
 	void showMessage(const std::string& messageRow1, const std::string& messageRow2, const int timeSeconds);
 	void startCooldown(const INTERACTIONS interaction);
 
+	void setSabotageNumber(const int value);
+
 private:
+
+	inline void switchOnBuildingInfo();
 
 	void clearInfofield();
 
@@ -161,9 +166,10 @@ private:
 	VModelOilRefinery modelOil;
 	VModelPowerLine modelPowerline;
 	VModelHydroelectricPowerPlant modelHydroelectric;
+	VModelCoalPowerPlant modelCoal;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
 
-	bool m_CooldownStrike=false;
+	bool m_CooldownStrike = false;
 	bool m_CooldownPowerLineCut = false;
 	bool m_CooldownHalfResource = false;
 };

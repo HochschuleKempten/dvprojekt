@@ -203,42 +203,48 @@ bool LPlayingField::isTransformstationConnected()
 bool LPlayingField::removeBuilding(const int x, const int y)
 {
 	int playerId = getField(x, y)->getBuilding() != nullptr ? getField(x, y)->getBuilding()->getPlayerId() : -1;
-
-	const bool removeSuccessful = getField(x, y)->removeBuilding([this, playerId] (const ILBuilding* const building)
+	
+	if (getField(x, y)->getBuildingId() != LIdentifier::LCity)
 	{
-		const ILPowerPlant* const powerPlant = dynamic_cast<const ILPowerPlant* const>(building);
-		if (powerPlant != nullptr)
+		const bool removeSuccessful = getField(x, y)->removeBuilding([this, playerId, x, y](const ILBuilding* const building)
 		{
-			lMaster->getPlayer(playerId)->removePowerPlant(powerPlant);
-			return;
-		}
+			//Remove orientations from existing power lines
+			adjustOrientationsAround(x, y);
 
-		const LPowerLine* const powerLine = dynamic_cast<const LPowerLine* const>(building);
-		if (powerLine != nullptr)
+			const ILPowerPlant* const powerPlant = dynamic_cast<const ILPowerPlant* const>(building);
+			if (powerPlant != nullptr)
+			{
+				lMaster->getPlayer(playerId)->removePowerPlant(powerPlant);
+				return;
+			}
+
+			const LPowerLine* const powerLine = dynamic_cast<const LPowerLine* const>(building);
+			if (powerLine != nullptr)
+			{
+				lMaster->getPlayer(playerId)->removePowerLine(powerLine);
+				return;
+			}
+		});
+
+		if (removeSuccessful)
 		{
-			lMaster->getPlayer(playerId)->removePowerLine(powerLine);
-			return;
+			vPlayingField->objectRemoved(x, y);
+
+			if (playerId == LPlayer::Local)
+			{
+				//remove all outgoing edges
+				powerLineGraph.m_vertices[convertIndex(x, y)].m_out_edges.clear();
+				recalculateCityConnections();
+				recheckConnectedBuildings();
+			}
+
+			if (!isLocalOperation())
+			{
+				lMaster->sendDeleteObject(x, y);
+			}
+
+			return true;
 		}
-	});
-
-	if (removeSuccessful)
-	{
-		vPlayingField->objectRemoved(x, y);
-
-		if (playerId == LPlayer::Local)
-		{
-			//remove all outgoing edges
-			powerLineGraph.m_vertices[convertIndex(x, y)].m_out_edges.clear();
-			recalculateCityConnections();
-			recheckConnectedBuildings();
-		}
-
-		if (!isLocalOperation())
-		{
-			lMaster->sendDeleteObject(x, y);
-		}
-
-		return true;
 	}
 
 	return false;
@@ -433,8 +439,6 @@ IVPlayingField* LPlayingField::getVPlayingField()
 
 void LPlayingField::recalculateCityConnections()
 {
-	static bool isCheckInProgress = false;
-
 	//Avoid recursion
 	if (!isCheckInProgress && isInitDone())
 	{
@@ -539,11 +543,31 @@ void LPlayingField::adjustOrientationsAround(const int x, const int y, const int
 						LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
 						if (plOther != nullptr && getField(x, y)->getBuilding()->getPlayerId() == plOther->getPlayerId())
 						{
-							plOther->updatedOrientation(ILBuilding::getOpppositeOrientation(checkOrientation));
+							plOther->addDirection(ILBuilding::getOpppositeOrientation(checkOrientation));
 						}
 					}
 				}
 			};
+
+	adjustOrientation(x - 1, y, ILBuilding::NORTH);
+	adjustOrientation(x, y + 1, ILBuilding::EAST);
+	adjustOrientation(x + 1, y, ILBuilding::SOUTH);
+	adjustOrientation(x, y - 1, ILBuilding::WEST);
+}
+
+void LPlayingField::adjustOrientationsAround(const int x, const int y)
+{
+	auto adjustOrientation = [this, x, y] (const int xEnd, const int yEnd, ILBuilding::Orientation checkOrientation)
+	{
+		if (checkIndex(xEnd, yEnd))
+		{
+			LPowerLine* plOther = dynamic_cast<LPowerLine*>(getField(xEnd, yEnd)->getBuilding());
+			if (plOther != nullptr && getField(x, y)->getBuilding()->getPlayerId() == plOther->getPlayerId())
+			{
+				plOther->removeDirection(ILBuilding::getOpppositeOrientation(checkOrientation));
+			}
+		}
+	};
 
 	adjustOrientation(x - 1, y, ILBuilding::NORTH);
 	adjustOrientation(x, y + 1, ILBuilding::EAST);

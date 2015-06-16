@@ -82,7 +82,7 @@ private:
 		isSabotaged = true;
 
 		vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
-
+		LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DEACTIVATE);
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
@@ -97,6 +97,8 @@ private:
 			isSabotaged = false;
 			vPowerPlant->sabotagePowerPlantSwitchedOn();
 
+			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DEACTIVATE_OVER);
+
 			if (!lField->getLPlayingField()->isLocalOperation())
 			{
 				std::pair<int, int> coordinates = lField->getCoordinates();
@@ -109,7 +111,10 @@ private:
 	{
 		DEBUG_OUTPUT("Try to sabotage resource field. Old resource value: " << getLField()->getResources());
 		int newValue = this->getLField()->deductResources();
+		vPowerPlant->updateResourceValue(newValue);
 		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
+
+		LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_RESOURCE);
 
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
@@ -167,6 +172,7 @@ public:
 	{
 		const int consumedResources = LBalanceLoader::getConsumedResources(getLField()->getFieldType());
 		const int amountReduced = lField->reduceResources(consumedResources);
+		vPowerPlant->updateResourceValue(lField->getResources());
 
 		if (amountReduced <= 0)
 		{
@@ -204,6 +210,12 @@ public:
 			default:
 				return true;
 		}
+	}
+
+	virtual void setConnected(bool connected) override
+	{
+		ILBuilding::setConnected(connected);
+		vPowerPlant->updateValue(getValue());
 	}
 };
 

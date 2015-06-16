@@ -34,6 +34,7 @@ private:
 	CGeoWall m_zgWallGlass;
 	CMaterial m_zmWallGlass;
 
+	CMaterial m_zmstand;
 
 	//Boden
 	float fstandardwidthwall = 5.F;

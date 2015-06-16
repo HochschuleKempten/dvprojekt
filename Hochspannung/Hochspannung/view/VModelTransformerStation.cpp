@@ -65,9 +65,9 @@ VModelTransformerStation::VModelTransformerStation()
 	m_zpGenerator.AddPlacement(&m_zpKabelRechtsHinten);
 
 
-	m_zpUmspannwerk.AddPlacement(m_zTrasse1.getMainPlacement());
-	m_zpUmspannwerk.AddPlacement(m_zTrasse2.getMainPlacement());
-	m_zpUmspannwerk.AddPlacement(m_zTrasse3.getMainPlacement());
+	m_zpUmspannwerk.AddPlacement(m_zTrasse1.getPlacementMain());
+	m_zpUmspannwerk.AddPlacement(m_zTrasse2.getPlacementMain());
+	m_zpUmspannwerk.AddPlacement(m_zTrasse3.getPlacementMain());
 	m_zpUmspannwerk.AddPlacement(&m_zpFundament);
 	m_zpUmspannwerk.AddPlacement(&m_zpUmspannmast);
 	m_zpUmspannwerk.AddPlacement(&m_zpUmspannmastLinks);
@@ -163,10 +163,10 @@ VModelTransformerStation::VModelTransformerStation()
 	m_zpUmspannmastRechts.Translate(CHVector(2.5f, 0.0f, 0.0f));
 
 	//Trassen
-	m_zTrasse1.getMainPlacement()->Translate(CHVector(-4.0f, 0.35f, 0.0f));
-	m_zTrasse2.getMainPlacement()->Translate(4.0f, 0.35f, 0.0f);
-	m_zTrasse3.getMainPlacement()->RotateY(HALFPI);
-	m_zTrasse3.getMainPlacement()->TranslateDelta(0.0f, 0.35f, 4.0f);
+	m_zTrasse1.getPlacementMain()->Translate(CHVector(-4.0f, 0.35f, 0.0f));
+	m_zTrasse2.getPlacementMain()->Translate(4.0f, 0.35f, 0.0f);
+	m_zTrasse3.getPlacementMain()->RotateY(HALFPI);
+	m_zTrasse3.getPlacementMain()->TranslateDelta(0.0f, 0.35f, 4.0f);
 
 	//Generator
 	m_zpGeneratorKasten.Translate(CHVector(-1.3f, 0.0f, -1.6f));
