@@ -1136,6 +1136,11 @@ void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& picke
 			int y = pickedElements.at(VIdentifier::VPlayingField)[1];
 			bool operationSuccessful = false;
 
+			if (selectedBuilding == VIdentifier::Undefined && selectedAction == IViewBuilding::Undefined)
+			{
+				m_fieldValueStorage.at(std::make_pair(x, y)).showContextInfo();
+			}
+
 			if (selectedBuilding != VIdentifier::Undefined)
 			{
 				operationSuccessful = tryBuilding(x, y);
