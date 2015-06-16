@@ -30,7 +30,8 @@ VScreenMainMenue::VScreenMainMenue(VUI* vUi) : IViewScreen(vUi)
 	
 	m_viewport->AddOverlay(m_flash);
 	
-
+	
+	
 
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue", 0.5F);
 

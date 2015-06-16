@@ -94,6 +94,8 @@ public:
 	void showMessage(const std::string& message);
 	void removeMaterialFromRoot(CMaterial* material);
 
+	void setSabotageNumber(const int value);
+
 	void gameOver(bool win);
 };
 

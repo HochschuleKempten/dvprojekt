@@ -77,7 +77,11 @@ public:
 	void showMessage(const std::string& messageRow1, const std::string& messageRow2, const int timeSeconds);
 	void startCooldown(const INTERACTIONS interaction);
 
+	void setSabotageNumber(const int value);
+
 private:
+
+	inline void switchOnBuildingInfo();
 
 	void clearInfofield();
 
