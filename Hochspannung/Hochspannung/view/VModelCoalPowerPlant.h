@@ -3,6 +3,7 @@
 #include "VGeneral.h"
 #include "IViewModel.h"
 #include "VModelPowerLine.h"
+#include "Appartments.h"
 
 NAMESPACE_VIEW_B
 
@@ -64,7 +65,7 @@ private:
 
 	CGeoWall m_zgFundament;
 
-	//CAppartments *Gebaeude = new CAppartments(0.2f);
+	CAppartments *Gebaeude = new CAppartments(1.f);
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;
 

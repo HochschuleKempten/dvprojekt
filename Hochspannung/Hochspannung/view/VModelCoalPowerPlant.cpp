@@ -53,12 +53,12 @@ void VModelCoalPowerPlant::init()
 	m_zpKohlekraftwerk.AddPlacement(&m_zpGleis);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpMineneingang);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpMinenLore);
-	//m_zpKohlekraftwerk.AddPlacement(&m_zpGebaeude);
+	m_zpKohlekraftwerk.AddPlacement(&m_zpGebaeude);
 
-	//m_zpGebaeude.AddPlacement(Gebaeude);
-	//m_zpGebaeude.AddPlacement(&m_zpKamin1);
-	//m_zpGebaeude.AddPlacement(&m_zpKamin2);
-	//m_zpGebaeude.AddPlacement(&m_zpKamin3);
+	m_zpGebaeude.AddPlacement(Gebaeude);
+	m_zpGebaeude.AddPlacement(&m_zpKamin1);
+	m_zpGebaeude.AddPlacement(&m_zpKamin2);
+	m_zpGebaeude.AddPlacement(&m_zpKamin3);
 
 	m_zpGebirge.AddPlacement(&m_zpBerg1);
 	m_zpGebirge.AddPlacement(&m_zpBerg2);
