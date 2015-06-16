@@ -8,12 +8,15 @@
 #include "VModelOilRefinery.h"
 #include "VModelPowerLine.h"
 #include "VModelHydroelectricPowerPlant.h"
+#include "VContextInfo.h"
 
 NAMESPACE_VIEW_B
 
 
 class VScreenIngame : public IViewScreen
 {
+	friend class VContextInfo;
+
 public:
 	enum BUILDINGTYPE
 	{
@@ -31,6 +34,14 @@ public:
 		SABOTAGE_CUTPOWERLINE,
 		SABOTAGE_STRIKE,
 		SABOTAGE_HALF
+	};
+
+	enum INFOTYPE
+	{
+		CRAFTBUILDING,
+		FIELDINFO,
+		SABOTAGEINFO,
+		NOINFO
 	};
 
 	explicit VScreenIngame(VUI* vUi);
@@ -77,11 +88,14 @@ public:
 	void showMessage(const std::string& messageRow1, const std::string& messageRow2, const int timeSeconds);
 	void startCooldown(const INTERACTIONS interaction);
 
+	void setSabotageNumber(const int value);
+
+
+	void updateFieldStorageValue(std::pair<int, int> pos, const std::string& name, const std::string& wert);
+
+	void switchInfo(INFOTYPE);
+
 private:
-
-	void clearInfofield();
-
-	void hideBottomBar();
 
 	void handleInput();
 	std::map<int, std::vector<int>> pickElements();
@@ -101,6 +115,8 @@ private:
 
 
 	VButton* activeButton = nullptr;
+
+	IViewGUIContainer* activeInfo = nullptr;
 
 	CScene m_scene;
 	CCamera m_zc;
@@ -164,6 +180,9 @@ private:
 	VModelPowerLine modelPowerline;
 	VModelHydroelectricPowerPlant modelHydroelectric;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
+
+	std::unordered_map<std::pair<int, int>, VContextInfo,LPlayingFieldHasher> m_fieldValueStorage;
+
 
 	bool m_CooldownStrike=false;
 	bool m_CooldownPowerLineCut = false;
