@@ -37,7 +37,7 @@ void LMessageLoader::emitMessage(const MessageID messageId, const std::vector<st
 			break;
 		case BUILD_NO_MONEY:
 			text = std::string("Kraftwerk ") + param[0] + std::string(" kann nicht gebaut werden, da nur ") +
-				   param[1] + std::string(" EUR zur Verfügung stehen, es werden jedoch ") +
+				   param[1] + std::string(" EUR zur Verfuegung stehen, es werden jedoch ") +
 				   param[2] + std::string(" benoetigt.");
 			break;
 		case BUILD_FIELD_OCCUPIED:
@@ -48,6 +48,9 @@ void LMessageLoader::emitMessage(const MessageID messageId, const std::vector<st
 			break;
 		case NETWORK_CONNECTION_LOST:
 			text = "Verbindung verloren.";
+			break;
+		case SURPLUS_LOW:
+			text = "Achtung! Der aktuelle Energieueberschuss ist sehr gering. Wenn die Bevoelkerung nicht mit Energie versorgt werden kann, ist das Spiel verloren.";
 			break;
 		default: break;
 	}
