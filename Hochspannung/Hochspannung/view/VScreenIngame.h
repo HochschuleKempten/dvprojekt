@@ -143,6 +143,8 @@ private:
 	VIdentifier::VIdentifier selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
 
+	std::map<BUILDINGTYPE, int> statPlacedBuildingsOwn;
+	std::map<BUILDINGTYPE, int> statPlacedBuildingsEnemy;
 	std::map<BUILDINGTYPE, int> statPlacedBuildings;
 	std::map<BUILDINGTYPE, std::string> m_powerPlantsNameMapping;
 
