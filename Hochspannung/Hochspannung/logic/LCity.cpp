@@ -51,10 +51,7 @@ void LCity::setEnergy(const int energy)
 {
 	this->energy = energy;
 
-	if (playerId & LPlayer::Local)
-	{
-		vCity->updateEnergy(energy);
-	}
+	vCity->updateEnergy(energy);
 }
 
 int LCity::getEnergy() const
@@ -72,10 +69,7 @@ void LCity::setPopulationTotal(const int populationTotal)
 
 	this->populationTotal = populationTotal;
 
-	if (playerId & LPlayer::Local)
-	{
-		vCity->updatePopulation(populationTotal);
-	}
+	vCity->updatePopulation(populationTotal);
 }
 
 int LCity::getPopulation() const
@@ -92,16 +86,18 @@ void LCity::setEnergySurplus(const int surplus)
 {
 	this->energySurplus = surplus;
 
-	if (energySurplus >= 0 && energySurplus < LBalanceLoader::getSurplusWarningThreshold())
+	if (playerId & LPlayer::Local)
 	{
-		vCity->energyLow(energySurplus);
-		LMessageLoader::emitMessage(LMessageLoader::SURPLUS_LOW);
-	}
-	else if (energySurplus < 0)
-	{
-		//Player has lost
-		lField->getLPlayingField()->getLMaster()->gameOver();
-		return;
+		if (energySurplus >= 0 && energySurplus < LBalanceLoader::getSurplusWarningThreshold())
+		{
+			vCity->energyLow(energySurplus);
+			LMessageLoader::emitMessage(LMessageLoader::SURPLUS_LOW);
+		}
+		else if (energySurplus < 0)
+			//Player has lost
+			lField->getLPlayingField()->getLMaster()->gameOver();
+			return;
+		}
 	}
 
 	vCity->updateEnergySurplus(energySurplus);

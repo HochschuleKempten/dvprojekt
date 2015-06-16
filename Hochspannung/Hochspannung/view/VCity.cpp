@@ -27,22 +27,36 @@ void VCity::initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const i
 
 void VCity::updatePopulation(const int population)
 {
-	vMaster->getVUi()->updatePopulation(population);
+	if (this->lCity->getPlayerId() & LPlayer::Local)
+	{
+		vMaster->getVUi()->updatePopulation(population);
+	}
+
+	std::pair<int, int> position = std::make_pair(lCity->getLField()->getX(), lCity->getLField()->getY());
+	vMaster->getVUi()->contextMenuUpdatePopulation(position, population);
 }
 
 void VCity::updateEnergy(const int energy)
 {
-	//todo (L)
+	//todo (V) what should happen here?
+	std::pair<int, int> position = std::make_pair(lCity->getLField()->getX(), lCity->getLField()->getY());
+	vMaster->getVUi()->contextMenuUpdateEnergy(position, energy);
 }
 
 void VCity::updateEnergySurplus(const int surplus)
 {
-	vMaster->getVUi()->updateEnergySurplus(surplus);
+	if (this->lCity->getPlayerId() & LPlayer::Local)
+	{
+		vMaster->getVUi()->updateEnergySurplus(surplus);
+	}
+
+	std::pair<int, int> position = std::make_pair(lCity->getLField()->getX(), lCity->getLField()->getY());
+	vMaster->getVUi()->contextMenuUpdateEnergySurplus(position, surplus);
 }
 
 void VCity::energyLow(const int surplus)
 {
-	//TODO (V) inform gui about surplus
+	vMaster->getVUi()->showMessage("Energy low!");
 	VSoundLoader::playSoundeffect(VSoundLoader::ENERGY_LOW, getPlacement());
 }
 

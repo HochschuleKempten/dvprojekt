@@ -42,4 +42,10 @@ void LPowerLine::removeDirection(const int direction)
 	}
 }
 
+void LPowerLine::setConnected(bool connected)
+{
+	ILBuilding::setConnected(connected);
+	vPowerLine->updateValue(getValue());
+}
+
 NAMESPACE_LOGIC_E

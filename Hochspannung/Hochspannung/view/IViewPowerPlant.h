@@ -182,6 +182,18 @@ public:
 								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
 								 0.0f);
 	}
+
+	virtual void updateValue(const int value) override
+	{
+		std::pair<int, int> position = std::make_pair(this->lPlant->getLField()->getX(), this->lPlant->getLField()->getY());
+		vMaster->getVUi()->contextMenuUpdateValue(position, value);
+	}
+
+	virtual void updateResourceValue(const int value) override
+	{
+		std::pair<int, int> position = std::make_pair(this->lPlant->getLField()->getX(), this->lPlant->getLField()->getY());
+		vMaster->getVUi()->contextMenuUpdateResourceValue(position, value);
+	}
 };
 
 

@@ -77,5 +77,10 @@ void VPowerLine::sabotagePowerLineRemoved()
 	VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
 }
 
+void VPowerLine::updateValue(const int value)
+{
+	std::pair<int, int> position = std::make_pair(lPowerLine->getLField()->getX(), lPowerLine->getLField()->getY());
+	vMaster->getVUi()->contextMenuUpdateValue(position, value);
+}
 
 NAMESPACE_VIEW_E
