@@ -44,6 +44,7 @@ public:
 	Building02();
 	Building02(float fResize);
 	~Building02();
+	virtual void init() override;
 
 	void InitWindows();
 	void AddWindows();

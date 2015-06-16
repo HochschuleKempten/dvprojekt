@@ -16,8 +16,8 @@ void VModelCoalPowerPlant::init()
 	m_zpLOD[2].AddPlacement(&m_zpKohlekraftwerk);
 
 	//Initialisierung der Koerper
-	m_zTrasse1.initViewModel(vBuilding);
-	m_zTrasse2.initViewModel(vBuilding);
+	m_zTrasse1.initViewModel(vBuilding, switchedState);
+	m_zTrasse2.initViewModel(vBuilding, switchedState);
 	m_zTrasse1.Init();
 	m_zTrasse2.Init();
 
@@ -46,19 +46,19 @@ void VModelCoalPowerPlant::init()
 	//Placements
 
 
-	m_zpKohlekraftwerk.AddPlacement(m_zTrasse1.getMainPlacement());
-	m_zpKohlekraftwerk.AddPlacement(m_zTrasse2.getMainPlacement());
+	m_zpKohlekraftwerk.AddPlacement(m_zTrasse1.getPlacementMain());
+	m_zpKohlekraftwerk.AddPlacement(m_zTrasse2.getPlacementMain());
 	m_zpKohlekraftwerk.AddPlacement(&m_zpFundament);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpGebirge);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpGleis);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpMineneingang);
 	m_zpKohlekraftwerk.AddPlacement(&m_zpMinenLore);
-	//m_zpKohlekraftwerk.AddPlacement(&m_zpGebaeude);
+	m_zpKohlekraftwerk.AddPlacement(&m_zpGebaeude);
 
-	//m_zpGebaeude.AddPlacement(Gebaeude);
-	//m_zpGebaeude.AddPlacement(&m_zpKamin1);
-	//m_zpGebaeude.AddPlacement(&m_zpKamin2);
-	//m_zpGebaeude.AddPlacement(&m_zpKamin3);
+	m_zpGebaeude.AddPlacement(Gebaeude);
+	m_zpGebaeude.AddPlacement(&m_zpKamin1);
+	m_zpGebaeude.AddPlacement(&m_zpKamin2);
+	m_zpGebaeude.AddPlacement(&m_zpKamin3);
 
 	m_zpGebirge.AddPlacement(&m_zpBerg1);
 	m_zpGebirge.AddPlacement(&m_zpBerg2);
@@ -145,8 +145,8 @@ void VModelCoalPowerPlant::init()
 	m_zpSchieneRechts.AddGeo(&m_zgSchiene);
 
 	//Trassen
-	m_zTrasse1.getMainPlacement()->Translate(CHVector(-3.0f, 0.35f, 4.0f));
-	m_zTrasse2.getMainPlacement()->Translate(3.0f, 0.35f, 4.0f);
+	m_zTrasse1.getPlacementMain()->Translate(CHVector(-3.0f, 0.35f, 4.0f));
+	m_zTrasse2.getPlacementMain()->Translate(3.0f, 0.35f, 4.0f);
 
 	//Sprossen-Array
 	for (int i = 0; i < 8; i++)

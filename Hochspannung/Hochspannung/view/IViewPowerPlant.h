@@ -12,25 +12,66 @@ NAMESPACE_VIEW_B
 
 class IViewPowerPlant : public IVPowerPlant, public IViewBuilding
 {
+private:
+	CPlacement* getPlacementActive() const
+	{
+		if (isOn)
+		{
+			return viewModelOn->getPlacementMain();
+		}
+		else
+		{
+			return viewModelOff != nullptr ? viewModelOff->getPlacementMain() : nullptr;
+		}
+	}
+
 protected:
 	bool isOn = false;
 	CGeoQuad quadForAnimation;
 	CPlacement placementForAnimation;
 	CMaterial animationMaterial = VMaterialLoader::materialAnimSabotagePowerPlant;
-	IViewModel* ptrViewModel;
+	IViewModel* viewModelOn = nullptr;
+	IViewModel* viewModelOff = nullptr;
+	const float moveZOff = 1337.42f;
+
+protected:
+	virtual void configViewModel(IViewModel& model, const bool switchedOn) = 0;
+
+	void translateViewModel()
+	{
+		ASSERT(viewModelOn != nullptr, "viewModelOn is not initialized");
+		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
+
+		if (isOn)
+		{
+			viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
+		}
+		else
+		{
+			viewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
+		}
+	}
 
 public:
-	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* ptrViewModel)
-		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), ptrViewModel(ptrViewModel)
+	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* viewModelOn, IViewModel* viewModelOff)
+		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), viewModelOn(viewModelOn), viewModelOff(viewModelOff)
 	{
-		quadForAnimation.Init(2, 2, &animationMaterial);
+		quadForAnimation.Init(5, 5, &animationMaterial);
 		placementForAnimation.AddGeo(&quadForAnimation);
-		placementForAnimation.TranslateY(4.0);
+		placementForAnimation.TranslateY(5.0f);
+		placementForAnimation.TranslateZDelta(5.0f);
+		placementForAnimation.RotateXDelta(PI / -4.0f);
 		animationMaterial.SwitchOff();
 	}
 
 	inline virtual ~IViewPowerPlant() override
 	{}
+
+	inline CPlacement* getPlacementSecond() const override
+	{
+		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
+		return viewModelOff->getPlacementMain();
+	}
 
 	inline virtual ILBuilding* getLBuilding() override
 	{
@@ -71,7 +112,7 @@ public:
 			case sabotageResource: 
 			{
 				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), vMaster->getLMaster()->getPlayer(LPlayer::Local));
-				return remoteOperation.sabotageRessource(lPlant);
+				return remoteOperation.sabotageResource(lPlant);
 			}
 			case sabotageRemove:
 			{
@@ -79,35 +120,48 @@ public:
 				return remoteOperation.sabotageRemove(lPlant);
 			}
 
-			default:ASSERT("Invalid action"); return false;
+			default:
+				ASSERT("Invalid action"); return false;
 		}
 	}
 
 	virtual void switchedOn() override
 	{
+		ASSERT(viewModelOn != nullptr, "viewModelOn is not initialized");
+		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
+
 		isOn = true;
-		ptrViewModel->switchOn();
+		viewModelOn->switchOn();
+		viewModelOff->switchOn();
+		viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
+		viewModelOn->getPlacementMain()->TranslateZDelta(moveZOff);
 
 		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
 		{
-			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_ON, getPlacement());
+			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_ON, getPlacementActive());
 		}
 	}
 
 	virtual void switchedOff() override
 	{
+		ASSERT(viewModelOn != nullptr, "viewModelOn is not initialized");
+		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
+
 		isOn = false;
-		ptrViewModel->switchOff();
+		viewModelOn->switchOff();
+		viewModelOff->switchOff();
+		viewModelOff->getPlacementMain()->TranslateZDelta(moveZOff);
+		viewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
 
 		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
 		{
-			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_OFF, getPlacement());
+			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_OFF, getPlacementActive());
 		}
 	}
 
-	virtual void sabotageRessourcesReduced() override
+	virtual void sabotageResourcesReduced() override
 	{
-		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
+		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacementActive());
 	}
 
 	virtual void sabotagePowerPlantSwitchedOff(const int seconds) override
@@ -116,17 +170,30 @@ public:
 		animationMaterial.SetAni(VMaterialLoader::materialAnimSabotagePowerPlant_x,
 								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
 								 CASTS<float>(VMaterialLoader::materialAnimSabotagePowerPlant_x * VMaterialLoader::materialAnimSabotagePowerPlant_y) / CASTS<float>(seconds));
-		getPlacement()->AddPlacement(&placementForAnimation);
+
+		vMaster->getVPlayingField()->placeObject(&placementForAnimation, lPlant->getLField()->getX(), lPlant->getLField()->getY());
 		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
 	}
 
 	virtual void sabotagePowerPlantSwitchedOn() override
 	{
 		animationMaterial.SwitchOff();
-		getPlacement()->SubPlacement(&placementForAnimation);
+		vMaster->getVPlayingField()->subObject(&placementForAnimation, lPlant->getLField()->getX(), lPlant->getLField()->getY());
 		animationMaterial.SetAni(VMaterialLoader::materialAnimSabotagePowerPlant_x,
 								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
 								 0.0f);
+	}
+
+	virtual void updateValue(const int value) override
+	{
+		std::pair<int, int> position = std::make_pair(this->lPlant->getLField()->getX(), this->lPlant->getLField()->getY());
+		vMaster->getVUi()->contextMenuUpdateValue(position, value);
+	}
+
+	virtual void updateResourceValue(const int value) override
+	{
+		std::pair<int, int> position = std::make_pair(this->lPlant->getLField()->getX(), this->lPlant->getLField()->getY());
+		vMaster->getVUi()->contextMenuUpdateResourceValue(position, value);
 	}
 };
 

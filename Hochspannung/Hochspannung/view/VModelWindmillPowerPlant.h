@@ -41,6 +41,7 @@ private:
 public:
 	VModelWindmillPowerPlant();
 	virtual ~VModelWindmillPowerPlant() override;
+	virtual void init() override;
 
 	virtual float getHeight() override
 	{

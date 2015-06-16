@@ -117,7 +117,8 @@ private:
 public:
 	VModelSolarPowerPlant();
 	virtual ~VModelSolarPowerPlant() override;
-
+	virtual void init() override;
+	
 	virtual float getHeight() override
 	{
 		return 0.35f;

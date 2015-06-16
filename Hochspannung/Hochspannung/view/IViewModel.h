@@ -81,6 +81,9 @@ public:
 		}
 	}
 
+	virtual void init()
+	{}
+
 	virtual float getHeight() = 0;
 	virtual float getWidth() = 0;
 
@@ -89,7 +92,7 @@ public:
 	virtual void switchOff()
 	{}
 
-	inline CPlacement* getMainPlacement()
+	inline CPlacement* getPlacementMain()
 	{
 		return &m_zpMain;
 	}

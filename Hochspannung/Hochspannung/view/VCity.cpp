@@ -10,11 +10,10 @@ NAMESPACE_VIEW_B
 
 
 VCity::VCity(VMaster *vMaster, LCity* lCity)
-	: IVCity(lCity), IViewBuilding(vMaster, viewModel.getMainPlacement())
+	: IVCity(lCity), IViewBuilding(vMaster, viewModel.getPlacementMain())
 {
-	viewModel.getMainPlacement()->RotateX(CASTS<float>(M_PI / 2.0F));
-	viewModel.getMainPlacement()->ScaleDelta(0.1f);
-	//viewModel.getMainPlacement()->TranslateZDelta(0.5f);
+	viewModel.getPlacementMain()->RotateX(CASTS<float>(M_PI / 2.0F));
+	viewModel.getPlacementMain()->ScaleDelta(0.1f);
 }
 
 VCity::~VCity()
@@ -28,22 +27,35 @@ void VCity::initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const i
 
 void VCity::updatePopulation(const int population)
 {
-	vMaster->getVUi()->updatePopulation(population);
+	if (this->lCity->getPlayerId() & LPlayer::Local)
+	{
+		vMaster->getVUi()->updatePopulation(population);
+	}
+
+	std::pair<int, int> position = std::make_pair(lCity->getLField()->getX(), lCity->getLField()->getY());
+	vMaster->getVUi()->contextMenuUpdatePopulation(position, population);
 }
 
 void VCity::updateEnergy(const int energy)
 {
-	//todo (L)
+	//todo (V) what should happen here?
+	std::pair<int, int> position = std::make_pair(lCity->getLField()->getX(), lCity->getLField()->getY());
+	vMaster->getVUi()->contextMenuUpdateEnergy(position, energy);
 }
 
 void VCity::updateEnergySurplus(const int surplus)
 {
-	vMaster->getVUi()->updateEnergySurplus(surplus);
+	if (this->lCity->getPlayerId() & LPlayer::Local)
+	{
+		vMaster->getVUi()->updateEnergySurplus(surplus);
+	}
+
+	std::pair<int, int> position = std::make_pair(lCity->getLField()->getX(), lCity->getLField()->getY());
+	vMaster->getVUi()->contextMenuUpdateEnergySurplus(position, surplus);
 }
 
 void VCity::energyLow(const int surplus)
 {
-	//TODO (V) inform gui about surplus
 	VSoundLoader::playSoundeffect(VSoundLoader::ENERGY_LOW, getPlacement());
 }
 

@@ -53,7 +53,7 @@ public:
 	//LPlayer methods
 	bool sabotageRemove(ILBuilding* lBuilding);
 	bool sabotageDeactivate(ILPowerPlant* lPowerPlant);
-	bool sabotageRessource(ILPowerPlant* lPowerPlant);
+	bool sabotageResource(ILPowerPlant* lPowerPlant);
 
 public:
 	static void sendStoredNetworkCalls();

@@ -140,7 +140,7 @@ void CSmallOfficeBuilding::TranslateAll() {
 
 void CSmallOfficeBuilding::ScaleForLod(){
 
-	this->Scale(fResize);
+	Scale(fResize);
 
 }
 

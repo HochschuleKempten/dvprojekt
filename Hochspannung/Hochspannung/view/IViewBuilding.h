@@ -30,6 +30,11 @@ public:
 	inline virtual ~IViewBuilding()
 	{}
 
+	virtual CPlacement* getPlacementSecond() const
+	{
+		return nullptr;
+	}
+
 	virtual ILBuilding* getLBuilding() = 0;
 
 	virtual bool clicked(action action) = 0;

@@ -116,7 +116,7 @@ public:
 	VModelOilRefinery();
 	virtual ~VModelOilRefinery() override;
 
-	void init();
+	virtual void init() override;
 
 	virtual float getHeight() override
 	{

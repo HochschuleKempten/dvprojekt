@@ -1,17 +1,10 @@
 #include "Building02.h"
 #include "VMaterialLoader.h"
+
 NAMESPACE_VIEW_B
 
 Building02::Building02()
-{
-	fresize = 1.F;
-	InitWindows();
-	AddWindows();
-	InitWalls();
-	AddPlacements();
-	TranslateAll();
-	scaleforLoDs();
-}
+{}
 
 Building02::Building02(float fResize)
 {
@@ -33,6 +26,17 @@ Building02::~Building02()
 {
 }
 
+void Building02::init()
+{
+	fresize = 1.F;
+	InitWindows();
+	AddWindows();
+	InitWalls();
+	AddPlacements();
+	TranslateAll();
+	scaleforLoDs();
+}
+
 void Building02::InitWindows()
 {
 	m_zgWallFrame.Init(1.F, 1.F, 0.5F, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_WINDOW, switchedState));
@@ -42,7 +46,7 @@ void Building02::InitWindows()
 
 void Building02::AddWindows()
 {
-	m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 4, 5);
+	m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 5, 6);
 }
 
 void Building02::InitWalls()

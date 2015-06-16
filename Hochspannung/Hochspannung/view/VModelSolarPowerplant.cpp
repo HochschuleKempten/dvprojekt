@@ -4,6 +4,12 @@ NAMESPACE_VIEW_B
 
 
 VModelSolarPowerPlant::VModelSolarPowerPlant()
+{}
+
+VModelSolarPowerPlant::~VModelSolarPowerPlant()
+{}
+
+void VModelSolarPowerPlant::init()
 {
 	m_zpLOD[0].AddPlacement(&m_zpSolarPowerplant);
 	m_zpLOD[1].AddPlacement(&m_zpSolarPowerplant);
@@ -59,7 +65,7 @@ VModelSolarPowerPlant::VModelSolarPowerPlant()
 
 	m_zpGrundflaeche.AddPlacement(&m_zpStabilisierung);
 
-	
+
 
 
 	m_zgStabilisierung.Init(CHVector(1.8, 0.05, 0.1), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, switchedState));
@@ -233,112 +239,10 @@ VModelSolarPowerPlant::VModelSolarPowerPlant()
 	m_zpGrundflaeche.RotateDelta(1, 0, 0, 0.5);
 }
 
-VModelSolarPowerPlant::~VModelSolarPowerPlant()
-{
-}
-
 void VModelSolarPowerPlant::switchOn()
-{
-	//m_zgStabilisierung.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, true));
-	//m_zgSenkrechte.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, true));
-	//m_zgGrundflaeche.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, true));
-	//m_zgSockel.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, true));
-	//m_zgFoundation.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, true));
-	//m_zgSolarzelle1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle4.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle5.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle6.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle7.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle8.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle9.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle10.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle11.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle12.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle13.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle14.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle15.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle16.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle17.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle18.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle19.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle20.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle21.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle22.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle23.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle24.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle25.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle26.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle27.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle28.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle29.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle30.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle31.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle32.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle33.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle34.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle35.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle36.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle37.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle38.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle39.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle40.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle41.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgSolarzelle42.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, true));
-	//m_zgGrundflaeche2.Init(CHVector(2, 0.05, 1.5), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELLS_LOD, true));
-}
+{}
 
 void VModelSolarPowerPlant::switchOff()
-{
-	//m_zgStabilisierung.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, false));
-	//m_zgSenkrechte.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, false));
-	//m_zgGrundflaeche.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, false));
-	//m_zgSockel.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, false));
-	//m_zgFoundation.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, false));
-	//m_zgSolarzelle1.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle2.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle3.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle4.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle5.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle6.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle7.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle8.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle9.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle10.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle11.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle12.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle13.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle14.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle15.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle16.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle17.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle18.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle19.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle20.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle21.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle22.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle23.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle24.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle25.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle26.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle27.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle28.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle29.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle30.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle31.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle32.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle33.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle34.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle35.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle36.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle37.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle38.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle39.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle40.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle41.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgSolarzelle42.SetMaterial(VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, false));
-	//m_zgGrundflaeche2.Init(CHVector(2, 0.05, 1.5), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELLS_LOD, false));
-}
+{}
 
 NAMESPACE_VIEW_E

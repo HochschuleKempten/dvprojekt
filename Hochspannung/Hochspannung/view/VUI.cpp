@@ -242,17 +242,17 @@ void VUI::showMessage(const std::string& message)
 	auto splitMessage = [] (const std::string& text)
 	{
 		const int numberOfCharactersPerLine = 80;
-		
+
 		if (numberOfCharactersPerLine - 1 > text.size())
 		{
 			//Single line
 			return std::vector<std::string>();
 		}
 
-		std::string splitName = text.substr(numberOfCharactersPerLine - 1);
+		std::string splitName = text.substr(numberOfCharactersPerLine);
 
 		//Split on word boundaries
-		std::regex txt_regex("^\\w+\\b");
+		std::regex txt_regex("^(\\w+\\b\\s?|\\s+\\b)");
 		std::smatch base_match;
 
 		if (!std::regex_search(splitName, base_match, txt_regex))
@@ -285,11 +285,32 @@ void VUI::removeMaterialFromRoot(CMaterial* material)
 	bool erg = m_zr.SubMaterial(material);
 }
 
+
 void VUI::setSabotageNumber(const int value)
 {
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->setSabotageNumber(value);
 }
 
+void VUI::contextMenuUpdateValue(const std::pair<int, int> pos, const int value)
+{
+	//todo implement 
+}
+
+void VUI::contextMenuUpdateResourceValue(const std::pair<int, int> pos, const int resourceValue)
+{
+}
+
+void VUI::contextMenuUpdatePopulation(const std::pair<int, int> pos, const int population)
+{
+}
+
+void VUI::contextMenuUpdateEnergy(const std::pair<int, int> pos, const int energy)
+{
+}
+
+void VUI::contextMenuUpdateEnergySurplus(const std::pair<int, int> pos, const int surplus)
+{
+}
 
 void VUI::gameOver(bool win)
 {
@@ -303,12 +324,9 @@ void VUI::gameOver(bool win)
 
 void VUI::tick(const float fTimeDelta)
 {
-	
 	float fTimeDeltaCopy = fTimeDelta; //Copy needed because Vektoria means to change the time variable for some reasons (prevent undefined behaviour: http://en.cppreference.com/w/cpp/language/const_cast)
 	m_zr.Tick(fTimeDeltaCopy);
 	activeScreen->tick(fTimeDelta);
-
-	
 }
 
 

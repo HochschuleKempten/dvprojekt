@@ -63,21 +63,6 @@ void LPlayer::subtractMoney(const int amount)
 
 bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 {
-	auto getSabotageCost = [sabotageType] ()
-	{
-		switch (sabotageType)
-		{
-		case (LSabotage::Remove) :
-			return LBalanceLoader::getCostSabotageRemove();
-		case(LSabotage::Deactivate):
-			return LBalanceLoader::getCostSabotageDeactivate();
-		case(LSabotage::Resource) :
-			return LBalanceLoader::getCostSabotageResource();
-		default:
-			return -1;
-		}
-	};
-
 	// checks if player has to wait and if not, sets the new cooldown value
 	auto checkCooldown = [this, sabotageType]()
 	{
@@ -90,7 +75,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 				return false;
 			}
 
-			coolDownCounterRemove = LBalanceLoader::getCooldownTimeSabotagePowerLine();
+			coolDownCounterRemove = LBalanceLoader::getSabotageCooldown(sabotageType);
 			return true;
 
 		case(LSabotage::Deactivate) :
@@ -100,7 +85,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 				return false;
 			}
 
-			coolDownCounterDeactivate = LBalanceLoader::getCooldownTimeSabotagePowerPlant();
+			coolDownCounterDeactivate = LBalanceLoader::getSabotageCooldown(sabotageType);
 			return true;
 
 		case(LSabotage::Resource) :
@@ -110,7 +95,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 				return false;
 			}
 
-			coolDownCounterResource = LBalanceLoader::getCooldownTimeSabotageResource();
+			coolDownCounterResource = LBalanceLoader::getSabotageCooldown(sabotageType);
 			return true;
 
 		default:
@@ -120,7 +105,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 
 	if (sabotageActs > 0)
 	{
-		int sabotageCost = getSabotageCost();
+		int sabotageCost = LBalanceLoader::getSabotageCost(sabotageType);
 
 		if (getMoney() < sabotageCost)
 		{
@@ -163,7 +148,7 @@ void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
 	ASSERT(playerId == powerPlant->getPlayerId(), "Tried to remove a power plant from player " << powerPlant->getPlayerId() << " to player " << playerId);
 
 	powerPlants.erase(std::remove(powerPlants.begin(), powerPlants.end(), powerPlant), powerPlants.end());
-	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier(), playerId);
+	lMaster->getVMaster()->updateRemovedPowerPlant(powerPlant->getIdentifier(), playerId);
 	
 	checkDisposalValue(powerPlant);
 }
@@ -239,6 +224,18 @@ void LPlayer::checkPowerPlants()
 
 	prevConnectedPowerPlants = currentConnectedPowerPlants;
 
+	//update sell values
+	bool connected = lMaster->getLPlayingField()->isTransformstationConnected();
+	for (ILPowerPlant* p : powerPlants)
+	{	
+		p->setConnected(connected);
+
+	}
+	for (LPowerLine* l : powerLines)
+	{
+		l->setConnected(connected);
+	}
+
 	checkRegenerativeRatio();
 }
 
@@ -265,7 +262,7 @@ bool LPlayer::sabotageDeactivate(ILPowerPlant* lPowerPlant)
 	return false;
 }
 
-bool LPlayer::sabotageRessource(ILPowerPlant* lPowerPlant)
+bool LPlayer::sabotageResource(ILPowerPlant* lPowerPlant)
 {
 	if (trySabotageAct(LSabotage::Resource))
 	{
@@ -302,15 +299,8 @@ void LPlayer::checkRegenerativeRatio()
 
 void LPlayer::checkDisposalValue(const ILBuilding* const building)
 {
-	//Player gets money back
-	if (lMaster->getLPlayingField()->isTransformstationConnected())
-	{
-		addMoney(CASTS<int>(LBalanceLoader::getSellRevenueConnected() * building->getValue()));
-	}
-	else
-	{
-		addMoney(CASTS<int>(LBalanceLoader::getSellRevenueDisconnected() * building->getValue()));
-	}
+	//Player gets money back (connection check is done in getValue())
+	addMoney(building->getValue());
 }
 
 NAMESPACE_LOGIC_E

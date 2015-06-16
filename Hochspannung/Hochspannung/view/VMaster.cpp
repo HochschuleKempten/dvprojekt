@@ -73,8 +73,6 @@ void VMaster::gameOver()
 		informed = true;
 		vUi.gameOver(false);
 	}
-	//TODO (V) do something useful here when UI is ready
-	//TODO (V) Exit the game
 }
 
 void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
@@ -140,7 +138,7 @@ void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
 
 void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
 {
-	//TODO (V) Show remaining sabotage acts
+	vUi.setSabotageNumber(remainingSabotageActs);
 }
 
 void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
@@ -181,7 +179,6 @@ void VMaster::gameWon()
 {
 	VSoundLoader::playSoundeffect(VSoundLoader::GAME_WON, nullptr);
 	vUi.gameOver(true);
-	//todo (V) exit the game
 }
 
 

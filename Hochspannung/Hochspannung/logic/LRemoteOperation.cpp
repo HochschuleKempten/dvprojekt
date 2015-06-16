@@ -83,10 +83,10 @@ bool LRemoteOperation::sabotageDeactivate(ILPowerPlant* lPowerPlant)
 	return lPlayer->sabotageDeactivate(lPowerPlant);
 }
 
-bool LRemoteOperation::sabotageRessource(ILPowerPlant* lPowerPlant)
+bool LRemoteOperation::sabotageResource(ILPowerPlant* lPowerPlant)
 {
 	ASSERT(lPlayer != nullptr, "lPlayer is not initialized");
-	return lPlayer->sabotageRessource(lPowerPlant);
+	return lPlayer->sabotageResource(lPowerPlant);
 }
 
 void LRemoteOperation::sendStoredNetworkCalls()

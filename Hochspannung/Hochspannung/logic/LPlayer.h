@@ -31,7 +31,7 @@ private:
 	int coolDownCounterRemove = 0;
 	int coolDownCounterResource = 0;
 	int coolDownCounterDeactivate = 0;
-	int sabotageActs = LBalanceLoader::getSabotageActs();;
+	int sabotageActs = LBalanceLoader::getSabotageActs();
 	std::vector<ILPowerPlant*> powerPlants;
 	std::vector<ILPowerPlant*> prevConnectedPowerPlants;
 	std::vector<LPowerLine*> powerLines;
@@ -45,7 +45,7 @@ private:
 	void checkDisposalValue(const ILBuilding* const building);
 	bool sabotageRemove(ILBuilding* lBuilding);
 	bool sabotageDeactivate(ILPowerPlant* lPowerPlant);	//TODO (L) Rename ILPowerPlant
-	bool sabotageRessource(ILPowerPlant* lPowerPlant);
+	bool sabotageResource(ILPowerPlant* lPowerPlant);
 
 public:
 	LPlayer()

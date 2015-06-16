@@ -10,7 +10,11 @@ NAMESPACE_VIEW_B
 class VWindmillPowerPlant : public IViewPowerPlant, public IVTickObserver
 {
 private:
-	VModelWindmillPowerPlant viewModel;
+	VModelWindmillPowerPlant viewModelOn;
+	VModelWindmillPowerPlant viewModelOff;
+
+protected:
+	virtual void configViewModel(IViewModel& model, const bool switchedOn) override;
 
 public:
 	VWindmillPowerPlant(VMaster *vMaster, LWindmillPowerPlant* lPlant);
@@ -22,7 +26,8 @@ public:
 	{
 		if (isOn)
 		{
-			viewModel.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VWindmillPowerPlant, fTimeDelta));
+			viewModelOn.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VWindmillPowerPlant, fTimeDelta));
+			viewModelOff.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VWindmillPowerPlant, fTimeDelta));
 		}
 	}
 };

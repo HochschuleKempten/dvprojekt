@@ -21,13 +21,15 @@ public:
 	LPowerLine(LField* lField, const int x, const int y, const int orientation, const int playerId);
 	virtual ~LPowerLine() override;
 
-	void updatedOrientation(const int additionalOrientation);
-
+	void addDirection(const int direction);
+	void removeDirection(const int direction);
 
 	virtual LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LPowerLine;
 	}
+
+	virtual void setConnected(bool connected) override;
 };
 
 NAMESPACE_LOGIC_E

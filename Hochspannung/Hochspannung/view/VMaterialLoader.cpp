@@ -4,6 +4,8 @@
 
 NAMESPACE_VIEW_B
 
+DEBUG_EXPRESSION(bool VMaterialLoader::initDone = false);
+DEBUG_EXPRESSION(static const char* const msgAssert = "VMaterialLoader is not initialized");
 
 std::map<VMaterialLoader::FieldPair, CMaterial> VMaterialLoader::fieldMaterials;
 
@@ -190,7 +192,7 @@ CMaterial VMaterialLoader::materialAnimationsVersuch;
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotageBomb;
 CMaterial VMaterialLoader::materialAnimLoadingCircle;
-CMaterial VMaterialLoader::materialAnimSabotageHalfRessource;
+CMaterial VMaterialLoader::materialAnimSabotageHalfResource;
 CMaterial VMaterialLoader::materialAnimSabotageStrike;
 CMaterial VMaterialLoader::materialAnimSabotageCutPowerline;
 
@@ -305,6 +307,7 @@ void VMaterialLoader::setPowerPlantMaterialHelper(const Model materialPowerPlant
 
 CMaterial* VMaterialLoader::getMaterialModel(const Model materialPowerPlant, const bool switchedOn)
 {
+	ASSERT(initDone, msgAssert);
 	ASSERT(materialsModelsSwitchedOn.count(materialPowerPlant) > 0, "Requested material is not available");
 
 	if (switchedOn)
@@ -328,7 +331,7 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(POWERLINE_STRUT, "strommast.png");
 	setPowerPlantMaterialHelper(POWERLINE_ISOLATOR, "black_image.jpg");
 	setPowerPlantMaterialHelper(POWERLINE_RING, "black_image.jpg");
-	setPowerPlantMaterialHelper(POWERLINE_CABLE, "white_image.jpg");
+	setPowerPlantMaterialHelper(POWERLINE_CABLE, "strommast_cable.png");
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_BETON, "Beton.png");
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_BETON_LIGHT, "Beton_light.png");
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_ISOLATOR, "black_image.jpg");
@@ -337,15 +340,15 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(SOLAR_CELL, "SolarPanel.jpg");
 	setPowerPlantMaterialHelper(SOLAR_CELLS_LOD, "SolarLOD.jpg");
 	setPowerPlantMaterialHelper(WIND_RAD, "Metall_Fassade.jpg" );
-	setPowerPlantMaterialHelper(WIND_FLUEGEL1,"Metall_Fassade.jpg");
-	setPowerPlantMaterialHelper(WIND_FLUEGEL2,"Metall_Fassade.jpg");
-	setPowerPlantMaterialHelper(WIND_FLUEGEL3, "Metall_Fassade.jpg");
+	setPowerPlantMaterialHelper(WIND_FLUEGEL1,"Windradfluegel.png");
+	setPowerPlantMaterialHelper(WIND_FLUEGEL2,"Windradfluegel.png");
+	setPowerPlantMaterialHelper(WIND_FLUEGEL3, "Windradfluegel.png");
 	setPowerPlantMaterialHelper(WATER_HOLZ, "Holz.jpg");
 	setPowerPlantMaterialHelper(BUILDING_WALLFRAME, "../buildings/texture_concrete.png");
 	setPowerPlantMaterialHelper(NUCLEAR_FLOOR, "Beton.png");
 	setPowerPlantMaterialHelper(NUCLEAR_GATE, "Schranke.jpg");
 	setPowerPlantMaterialHelper(NUCLEAR_FENCE, "Holz.jpg");
-	setPowerPlantMaterialHelper(NUCLEAR_REACTOR, "white_image.jpg");
+	setPowerPlantMaterialHelper(NUCLEAR_REACTOR, "reactor.png");
 	setPowerPlantMaterialHelper(OIL_FLOOR, "Beton.png");
 	setPowerPlantMaterialHelper(OIL_GATE, "Schranke.jpg");
 	setPowerPlantMaterialHelper(OIL_FENCE, "Holz.jpg");
@@ -370,7 +373,7 @@ void VMaterialLoader::init()
 	materialsModelsSwitchedOff[OIL_GATE].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOn[OIL_FENCE].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[OIL_FENCE].SetTextureSpecularAsDiffuse();
-
+	
 	setFieldMaterialHelper(LField::WATER, "water");
 	setFieldMaterialHelper(LField::AIR, "air");
 	setFieldMaterialHelper(LField::SOLAR, "solar");
@@ -606,8 +609,8 @@ void VMaterialLoader::init()
 
 	materialAnimLoadingCircle.SetTransparencyOn();
 
-	materialAnimSabotageHalfRessource.MakeTextureSprite("textures/gui/animiert/RessourceHalf.png");
-	materialAnimSabotageHalfRessource.SetAni(60, 2, 1);
+	materialAnimSabotageHalfResource.MakeTextureSprite("textures/gui/animiert/ResourceHalf.png");
+	materialAnimSabotageHalfResource.SetAni(60, 2, 1);
 
 	materialAnimSabotageStrike.MakeTextureSprite("textures/gui/animiert/Strike.png");
 	materialAnimSabotageStrike.SetAni(45, 2, 1);
@@ -616,6 +619,7 @@ void VMaterialLoader::init()
 	materialAnimSabotageCutPowerline.SetAni(30, 2, 1);
 
 	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/Strike.png");
+	materialAnimSabotagePowerPlant.SetTransparencyOn();
 	materialAnimSabotagePowerPlant_x = 60;
 	materialAnimSabotagePowerPlant_y = 2;
 	
@@ -655,11 +659,15 @@ void VMaterialLoader::init()
 	materialCreditsModelling.SetTransparencyOn();
 	materialCreditsModelling2.SetTransparencyOn();
 	materialCreditsVektoriaSplash.SetTransparencyOn();
+
+	DEBUG_EXPRESSION(initDone = true);
 }
 
 //Rotation adjustments
 float VMaterialLoader::getRotationPerTick(const VIdentifier::VIdentifier powerPlant, const float fTimeDelta)
 {
+	ASSERT(initDone, msgAssert);
+
 	switch (powerPlant)
 	{
 		case VIdentifier::VCoalPowerPlant: return CASTS<float>((2.0 * M_PI / 8.0) * fTimeDelta);	//Number of seconds per rotation

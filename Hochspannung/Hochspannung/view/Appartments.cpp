@@ -22,7 +22,7 @@ CAppartments::CAppartments()
 
 
 
-	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
+	//m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
 
 
 	//Placements
@@ -47,8 +47,8 @@ CAppartments::CAppartments(float fResize)
 
 
 	if (fResize == 1){
-		void InitWindows();
-		void AddWindows();
+		InitWindows();
+		AddWindows();
 	}
 
 
@@ -146,7 +146,7 @@ void CAppartments::TranslateAll() {
 
 void CAppartments::ScaleForLod(){
 
-	this->Scale(fResize);
+	Scale(fResize);
 
 }
 

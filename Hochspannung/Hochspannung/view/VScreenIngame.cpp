@@ -41,26 +41,35 @@ activeInfo(nullptr)
 	m_zpModels.RotateXDelta(-0.5f);
 
 	//Init models
+	modelNuclear.init();
+	modelWindmill.init();
+	modelOil.init();
+	modelHydroelectric.init();
+	modelCoal.init();
+	modelSolar.init();
 	modelPowerline.Init(VModelPowerLine::NORTH | VModelPowerLine::EAST | VModelPowerLine::SOUTH | VModelPowerLine::WEST);
+
 	models.emplace(VIdentifier::VWindmillPowerPlant, &modelWindmill);
 	models.emplace(VIdentifier::VSolarPowerPlant, &modelSolar);
 	models.emplace(VIdentifier::VNuclearPowerPlant, &modelNuclear);
 	models.emplace(VIdentifier::VOilRefinery, &modelOil);
 	models.emplace(VIdentifier::VPowerLine, &modelPowerline);
 	models.emplace(VIdentifier::VHydroelectricPowerPlant, &modelHydroelectric);
+	models.emplace(VIdentifier::VCoalPowerPlant, &modelCoal);
 
-	models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->TranslateZ(10);
-	models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->TranslateYDelta(5);
 
-	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateZ(12.0F);
-	models[VIdentifier::VPowerLine]->getMainPlacement()->TranslateY(2.5F);
+	//Positioning models
+	models[VIdentifier::VWindmillPowerPlant]->getPlacementMain()->TranslateYDelta(2.0f);
+	models[VIdentifier::VSolarPowerPlant]->getPlacementMain()->TranslateZ(5.0f);
+	models[VIdentifier::VSolarPowerPlant]->getPlacementMain()->TranslateYDelta(2.0f);
+	models[VIdentifier::VPowerLine]->getPlacementMain()->TranslateZ(6.0f);
+	models[VIdentifier::VPowerLine]->getPlacementMain()->TranslateYDelta(2.0f);
+	models[VIdentifier::VOilRefinery]->getPlacementMain()->TranslateYDelta(-0.8);
+	models[VIdentifier::VHydroelectricPowerPlant]->getPlacementMain()->TranslateYDelta(-0.8);
 
-	CHVector vector=models[VIdentifier::VNuclearPowerPlant]->getMainPlacement()->GetTranslation();
 
+	CHVector vector=models[VIdentifier::VNuclearPowerPlant]->getPlacementMain()->GetTranslation();
 	CHVector vector2 = m_zpModels.GetTranslation();
-
-	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateZ(5.0F);
-	models[VIdentifier::VSolarPowerPlant]->getMainPlacement()->TranslateYDelta(2.5F);
 
 	for (const std::pair<VIdentifier::VIdentifier, IViewModel*>& p : models)
 	{
@@ -71,7 +80,7 @@ activeInfo(nullptr)
 	m_zl.Init(CHVector(0.0F, 0.35F, 0.7F),
 			  CColor(0.1F, 0.1F, 0.1F));
 
-	m_zlSpot.Init(CColor(0.6f, 0.6f, 0.6f), 0.01f, 0.07f, 0.75f);	//last param = light intensity
+	m_zlSpot.Init(CColor(0.6f, 0.6f, 0.6f), 0.01f, 0.07f, 1.75f);	//last param = light intensity
 	m_zlSpot.SetMaxDistance(2500);
 	m_zlSpot.SetMinDistance(40);
 	m_zlSpot.SetSoftShadowOn();
@@ -193,7 +202,7 @@ activeInfo(nullptr)
 	
 	m_vtTabSabotage->addOverlay(CFloatRect(0.025F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageCutPowerline, "CooldownSabotagePowerLineCut", 0.1F);
 	m_vtTabSabotage->addOverlay(CFloatRect(0.275F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageStrike, "CooldownSabotageStrike", 0.1F);
-	m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageHalfRessource, "CooldownSabotageHalfRessource", 0.1F);
+	m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageHalfResource, "CooldownSabotageHalfRessource", 0.1F);
 
 	m_vtTabSabotage->addText(CFloatRect(0.775F, 0.075F, 0.2F, 0.2F), &VMaterialLoader::errorFont, "Sabotage verbleibend", "HeaderSabNum", 0.1F, VText::TextMode::CENTERED);
 	m_vtTabSabotage->addText(CFloatRect(0.775F, 0.4F, 0.2F, 0.3F), &VMaterialLoader::errorFont, "3", "SabotageNumLeft", 0.1F,VText::TextMode::CENTERED);
@@ -311,7 +320,7 @@ void VScreenIngame::onNotify(const Event& events)
 		break;
 
 	case SELECT_BUILDING_WINDMILL:
-		
+
 		selectedBuilding = VIdentifier::VWindmillPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 		setActiveButton("windmill");
@@ -321,7 +330,7 @@ void VScreenIngame::onNotify(const Event& events)
 		switchInfo(CRAFTBUILDING);
 		break;
 	case SELECT_BUILDING_COALPOWERPLANT:
-		
+
 		selectedBuilding = VIdentifier::VCoalPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
@@ -715,7 +724,7 @@ void VScreenIngame::handleInput()
 	//if (vUi->m_zkKeyboard.KeyPressed(DIK_T))
 	//{
 
-	//	viemodelPointer->getMainPlacement()->TranslateZDelta(step);
+	//	viemodelPointer->getPlacementMain()->TranslateZDelta(step);
 	//	total += step;
 	//}
 
@@ -723,7 +732,7 @@ void VScreenIngame::handleInput()
 	//if (vUi->m_zkKeyboard.KeyPressed(DIK_G))
 	//{
 
-	//	viemodelPointer->getMainPlacement()->TranslateZDelta(-step);
+	//	viemodelPointer->getPlacementMain()->TranslateZDelta(-step);
 	//	total -= step;		
 	//}
 
@@ -924,6 +933,7 @@ void VScreenIngame::tick(const float fTimeDelta)
 	modelOil.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VOilRefinery, fTimeDelta));
 	modelSolar.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VSolarPowerPlant, fTimeDelta));
 	modelHydroelectric.rotate(VMaterialLoader::getRotationPerTick(VIdentifier::VHydroelectricPowerPlant, fTimeDelta));
+	modelCoal.moveLore(VMaterialLoader::getRotationPerTick(VIdentifier::VCoalPowerPlant, fTimeDelta));
 }
 
 std::map<int, std::vector<int>> VScreenIngame::pickElements()
@@ -1019,66 +1029,61 @@ void VScreenIngame::showMessage(const std::string& messageRow1, const std::strin
 
 void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 {
-	
-	
 	switch (interaction)
 	{
-	case SABOTAGE_CUTPOWERLINE:
-		std::thread([this] {
-			
-			m_CooldownPowerLineCut = true;
-		m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOff();
-		m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOn();
-		VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 1);
-		m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
-		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotagePowerLine())); 
-		m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
-		VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 0);
-		m_CooldownPowerLineCut = false;
-		
-		if(vrRegister->getActiveTab()->getName() == "TabSabotage")
-			m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOn();
-		
-		
-		}).detach();
-		break;
-	case SABOTAGE_STRIKE:
-		std::thread([this] {
-			m_CooldownStrike = true;
-			m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
-			m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOn();
-			VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 1);
-			m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageStrike"));
-			std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotagePowerPlant()));
-			m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
-			VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 0);
-			m_CooldownStrike = false;
-			
-			if (vrRegister->getActiveTab()->getName() == "TabSabotage")
-				m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
+		case SABOTAGE_CUTPOWERLINE:
+			std::thread([this]
+				{
+					m_CooldownPowerLineCut = true;
+					m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOff();
+					m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOn();
+					VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 1);
+					m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
+					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Remove)));
+					m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
+					VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 0);
+					m_CooldownPowerLineCut = false;
 
-		}).detach();
-		break;
-	case SABOTAGE_HALF:
-		
-		std::thread([this] {
-			m_CooldownHalfRessource = true;
-		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
-		m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource")->SwitchOn();
-		VMaterialLoader::materialAnimSabotageHalfRessource.SetAni(60, 2, 1);
-		m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource"));
-		std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getCooldownTimeSabotageResource())); 
-		m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource")->SwitchOff();
-		VMaterialLoader::materialAnimSabotageHalfRessource.SetAni(60, 2, 0);
-		m_CooldownHalfRessource = false;
+					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
+						m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOn();
+				}).detach();
+			break;
+		case SABOTAGE_STRIKE:
+			std::thread([this]
+				{
+					m_CooldownStrike = true;
+					m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
+					m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOn();
+					VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 1);
+					m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageStrike"));
+					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate)));
+					m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
+					VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 0);
+					m_CooldownStrike = false;
 
-		if (vrRegister->getActiveTab()->getName() == "TabSabotage")
-		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
-	
-		}).detach();
-		break;
+					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
+						m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
+				}).detach();
+			break;
+		case SABOTAGE_HALF:
+
+			std::thread([this]
+				{
+					m_CooldownHalfResource = true;
+					m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
+					m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOn();
+					VMaterialLoader::materialAnimSabotageHalfResource.SetAni(60, 2, 1);
+					m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource"));
+					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Remove)));
+					m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOff();
+					VMaterialLoader::materialAnimSabotageHalfResource.SetAni(60, 2, 0);
+					m_CooldownHalfResource = false;
+
+					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
+						m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
+				}).detach();
+			break;
 	}
-
 }
 
 void VScreenIngame::setSabotageNumber(const int value)
@@ -1299,13 +1304,13 @@ void VScreenIngame::updateModelView()
 
 	if (previousModel != nullptr)
 	{
-		m_sceneModels.SubPlacement(previousModel->getMainPlacement());
+		m_sceneModels.SubPlacement(previousModel->getPlacementMain());
 	}
 
 	if (models.count(selectedBuilding) > 0)
 	{
 		previousModel = models.at(selectedBuilding);
-		m_sceneModels.AddPlacement(previousModel->getMainPlacement());
+		m_sceneModels.AddPlacement(previousModel->getPlacementMain());
 	}
 	else
 	{ //Disable action
@@ -1327,8 +1332,8 @@ void VScreenIngame::SabotageTabSwitchOn()
 		else
 			m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
 
-		if (m_CooldownHalfRessource)
-			m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource"));
+		if (m_CooldownHalfResource)
+			m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource"));
 	    else
 		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
 		
@@ -1355,8 +1360,8 @@ void VScreenIngame::SabotageTabSwitchOff()
 		else
 			m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
 
-		if (m_CooldownHalfRessource)
-			m_viewport->SubOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource"));
+		if (m_CooldownHalfResource)
+			m_viewport->SubOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource"));
 	    else
 			m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
 		

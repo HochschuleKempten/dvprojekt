@@ -82,7 +82,7 @@ private:
 		isSabotaged = true;
 
 		vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
-
+		LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DEACTIVATE);
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
@@ -97,6 +97,8 @@ private:
 			isSabotaged = false;
 			vPowerPlant->sabotagePowerPlantSwitchedOn();
 
+			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DEACTIVATE_OVER);
+
 			if (!lField->getLPlayingField()->isLocalOperation())
 			{
 				std::pair<int, int> coordinates = lField->getCoordinates();
@@ -107,9 +109,12 @@ private:
 
 	void sabotageResource()
 	{
-		DEBUG_OUTPUT("Try to sabotage ressource field. Old ressource value: " << getLField()->getResources());
+		DEBUG_OUTPUT("Try to sabotage resource field. Old resource value: " << getLField()->getResources());
 		int newValue = this->getLField()->deductResources();
+		vPowerPlant->updateResourceValue(newValue);
 		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
+
+		LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_RESOURCE);
 
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
@@ -122,7 +127,7 @@ protected:
 	std::shared_ptr<IVPowerPlant> vPowerPlant;
 	bool isActivated = false;
 	bool isSabotaged = false;
-	DEBUG_EXPRESSION(bool lastRessourcesUsed = false);
+	DEBUG_EXPRESSION(bool lastResourcesUsed = false);
 
 public:
 	inline ILPowerPlant(LField* lField, const int playerId, std::shared_ptr<IVPowerPlant> vPowerPlant)
@@ -163,28 +168,29 @@ public:
 		}
 	};
 
-	int fossilRessourceCheck()
+	int fossilResourceCheck()
 	{
-		const int consumedRessources = LBalanceLoader::getConsumedResources(getLField()->getFieldType());
-		const int amountReduced = lField->reduceResources(consumedRessources);
+		const int consumedResources = LBalanceLoader::getConsumedResources(getLField()->getFieldType());
+		const int amountReduced = lField->reduceResources(consumedResources);
+		vPowerPlant->updateResourceValue(lField->getResources());
 
 		if (amountReduced <= 0)
 		{
-			//No ressources left
+			//No resources left
 			return 0;
 		}
 
-		if (amountReduced < consumedRessources)
+		if (amountReduced < consumedResources)
 		{
-			ASSERT(!lastRessourcesUsed, "Last ressources of field are used twice");
-			DEBUG_EXPRESSION(lastRessourcesUsed = true);
+			ASSERT(!lastResourcesUsed, "Last resources of field are used twice");
+			DEBUG_EXPRESSION(lastResourcesUsed = true);
 
-			//No more ressources are left, so switch the power plant off
+			//No more resources are left, so switch the power plant off
 			LRemoteOperation remoteOperation(lField->getLPlayingField(), this);
 			remoteOperation.switchOff();
 
-			//Last step returns proportionally ressources
-			return LBalanceLoader::getProducedEnergy(this->getIdentifier()) * amountReduced / consumedRessources;
+			//Last step returns proportionally resources
+			return LBalanceLoader::getProducedEnergy(this->getIdentifier()) * amountReduced / consumedResources;
 		}
 
 		//Normal energy value was reduced
@@ -204,6 +210,12 @@ public:
 			default:
 				return true;
 		}
+	}
+
+	virtual void setConnected(bool connected) override
+	{
+		ILBuilding::setConnected(connected);
+		vPowerPlant->updateValue(getValue());
 	}
 };
 

@@ -225,6 +225,7 @@
     <ClInclude Include="view\VModelCity.h" />
     <ClInclude Include="view\VModelCoalPowerPlant.h" />
     <ClInclude Include="view\VModelHydroelectricPowerPlant.h" />
+    <ClInclude Include="view\VModelMountains.h" />
     <ClInclude Include="view\VModelNuclearPowerPlant.h" />
     <ClInclude Include="view\VModelOilRefinery.h" />
     <ClInclude Include="view\VModelPowerLine.h" />
@@ -238,6 +239,7 @@
     <ClInclude Include="view\VModelSolarPowerplant.h" />
     <ClInclude Include="view\VModelTransformerStation.h" />
     <ClInclude Include="view\VModelWindmillPowerPlant.h" />
+    <ClInclude Include="view\VMountains.h" />
     <ClInclude Include="view\VNuclearPowerPlant.h" />
     <ClInclude Include="view\VOilRefinery.h" />
     <ClInclude Include="view\VPlayingField.h" />
@@ -317,6 +319,7 @@
     <ClCompile Include="view\VModelCity.cpp" />
     <ClCompile Include="view\VModelCoalPowerPlant.cpp" />
     <ClCompile Include="view\VModelHydroelectricPowerPlant.cpp" />
+    <ClCompile Include="view\VModelMountains.cpp" />
     <ClCompile Include="view\VModelNuclearPowerPlant.cpp" />
     <ClCompile Include="view\VModelOilRefinery.cpp" />
     <ClCompile Include="view\VModelPowerLine.cpp" />
@@ -328,6 +331,7 @@
     <ClCompile Include="view\VModelSolarPowerplant.cpp" />
     <ClCompile Include="view\VModelTransformerStation.cpp" />
     <ClCompile Include="view\VModelWindmillPowerPlant.cpp" />
+    <ClCompile Include="view\VMountains.cpp" />
     <ClCompile Include="view\VNuclearPowerPlant.cpp" />
     <ClCompile Include="view\VOilRefinery.cpp" />
     <ClCompile Include="view\VPlayingField.cpp" />

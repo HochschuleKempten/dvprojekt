@@ -104,6 +104,12 @@ inline std::string getFileBase(const std::string &str)
 #endif //_DEBUG
 
 #ifdef _DEBUG
+#define CATCH(tryExpr, error, catchExpr) try { tryExpr; } catch (const error& e) { catchExpr; }
+#else
+#define CATCH(tryExpr, error, catchExpr) tryExpr
+#endif
+
+#ifdef _DEBUG
 /*
 * @def ASSERT1(msgExpr)
 * This macro always fails and throws an exception with the given message. Use it when you want to prohibit that certain code is reached.

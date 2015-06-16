@@ -9,6 +9,8 @@
 #include "VModelPowerLine.h"
 #include "VModelHydroelectricPowerPlant.h"
 #include "VContextInfo.h"
+#include "VModelCoalPowerPlant.h"
+
 
 NAMESPACE_VIEW_B
 
@@ -177,14 +179,15 @@ private:
 	VModelOilRefinery modelOil;
 	VModelPowerLine modelPowerline;
 	VModelHydroelectricPowerPlant modelHydroelectric;
+	VModelCoalPowerPlant modelCoal;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
 
 	std::unordered_map<std::pair<int, int>, VContextInfo,LPlayingFieldHasher> m_fieldValueStorage;
 
+	bool m_CooldownStrike = false;
 
-	bool m_CooldownStrike=false;
 	bool m_CooldownPowerLineCut = false;
-	bool m_CooldownHalfRessource = false;
+	bool m_CooldownHalfResource = false;
 };
 
 

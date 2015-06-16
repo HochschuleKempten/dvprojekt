@@ -132,7 +132,8 @@ void VTextfield::switchOff()
 
 void VTextfield::AddChar(const char character)
 {
-	if (m_sInputtext.length() < m_iMaxChars)
+	// ignore numpad input 
+	if (character != 0 && m_sInputtext.length() < m_iMaxChars)
 	{
 		m_sInputtext += character;
 
