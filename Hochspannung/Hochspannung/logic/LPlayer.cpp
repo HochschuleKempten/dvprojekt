@@ -148,7 +148,7 @@ void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
 	ASSERT(playerId == powerPlant->getPlayerId(), "Tried to remove a power plant from player " << powerPlant->getPlayerId() << " to player " << playerId);
 
 	powerPlants.erase(std::remove(powerPlants.begin(), powerPlants.end(), powerPlant), powerPlants.end());
-	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier(), playerId);
+	lMaster->getVMaster()->updateRemovedPowerPlant(powerPlant->getIdentifier(), playerId);
 	
 	checkDisposalValue(powerPlant);
 }
