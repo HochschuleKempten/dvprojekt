@@ -224,6 +224,7 @@
     <ClInclude Include="view\VModelCity.h" />
     <ClInclude Include="view\VModelCoalPowerPlant.h" />
     <ClInclude Include="view\VModelHydroelectricPowerPlant.h" />
+    <ClInclude Include="view\VModelMountains.h" />
     <ClInclude Include="view\VModelNuclearPowerPlant.h" />
     <ClInclude Include="view\VModelOilRefinery.h" />
     <ClInclude Include="view\VModelPowerLine.h" />
@@ -315,6 +316,7 @@
     <ClCompile Include="view\VModelCity.cpp" />
     <ClCompile Include="view\VModelCoalPowerPlant.cpp" />
     <ClCompile Include="view\VModelHydroelectricPowerPlant.cpp" />
+    <ClCompile Include="view\VModelMountains.cpp" />
     <ClCompile Include="view\VModelNuclearPowerPlant.cpp" />
     <ClCompile Include="view\VModelOilRefinery.cpp" />
     <ClCompile Include="view\VModelPowerLine.cpp" />
