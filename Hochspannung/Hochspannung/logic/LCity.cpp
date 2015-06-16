@@ -94,6 +94,7 @@ void LCity::setEnergySurplus(const int surplus)
 			LMessageLoader::emitMessage(LMessageLoader::SURPLUS_LOW);
 		}
 		else if (energySurplus < 0)
+		{
 			//Player has lost
 			lField->getLPlayingField()->getLMaster()->gameOver();
 			return;

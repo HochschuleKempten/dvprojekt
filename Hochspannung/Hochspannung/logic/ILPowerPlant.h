@@ -210,7 +210,7 @@ public:
 
 	virtual void setConnected(bool connected) override
 	{
-		ILPowerPlant::setConnected(connected);
+		ILBuilding::setConnected(connected);
 		vPowerPlant->updateValue(getValue());
 	}
 };
