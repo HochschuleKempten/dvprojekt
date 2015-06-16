@@ -54,7 +54,7 @@ void Building01::AddWindows(){
 
 	
 	//m_zWallFrame.AddGeoWindow(&m_zWindowInlay);
-	m_zWall.AddGeoWindows(&m_zWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 7, 7);
+	m_zWall.AddGeoWindows(&m_zWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 10, 10);
 	
 	
 }
@@ -63,7 +63,7 @@ void Building01::InitWalls(){
 
 	//StandardSizeofBuildingLod1
 	m_zWall.InitTube((fstandardradius/fresize), fstandardheight/fresize, fstandardthickness/fresize, &VMaterialLoader::materialBuilding01,1.0);
-	m_zWallKuppel.InitDome((fstandardradius / fresize), fstandardthickness / fresize, &VMaterialLoader::materialBuilding01, 1.0);
+	m_zWallKuppel.InitDome(2*(fstandardradius / fresize), fstandardthickness / fresize, &VMaterialLoader::materialBuilding01, 1.0);
 
 }
 void Building01::AddPlacements(){
@@ -80,7 +80,8 @@ void Building01::AddPlacements(){
 void Building01::TranslateAll(){
 
 	m_zpWall.Translate(0.F, 0.F, 0.F);
-	m_zpWallKuppel.Translate(0.F, fstandardheight / fresize, 0.F);
+	m_zpWallKuppel.Translate(0.F, 2*(fstandardheight / fresize), 0.F);
+	m_zpWallKuppel.ScaleDelta(0.5);
 }
 
 void Building01::scaleforLoDs(){

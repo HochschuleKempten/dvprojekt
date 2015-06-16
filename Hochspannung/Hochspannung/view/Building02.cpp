@@ -42,7 +42,7 @@ void Building02::InitWindows()
 
 void Building02::AddWindows()
 {
-	m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 4, 5);
+	m_zWallNorth.AddGeoWindows(&m_zgWindow, CFloatRect(0.F, 0.1F, 1.F, 0.8F), 5, 6);
 }
 
 void Building02::InitWalls()
