@@ -46,6 +46,15 @@ void VPlayingField::placeObject(const std::shared_ptr<IViewBuilding>& objPtr, co
 	}
 }
 
+void VPlayingField::placeObject(IViewBuilding* vBuilding, const int x, const int y)
+{
+	vFields[x][y].m_zp.AddPlacement(vBuilding->getPlacement());
+	if (vBuilding->getPlacementSecond() != nullptr)
+	{
+		vFields[x][y].m_zp.AddPlacement(vBuilding->getPlacementSecond());
+	}
+}
+
 void VPlayingField::hoverField(const int x, const int y)
 {
 	static std::pair<int, int> previousHover(x, y);

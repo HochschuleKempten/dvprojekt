@@ -85,6 +85,7 @@ public:
 	}
 
 	void placeObject(const std::shared_ptr<IViewBuilding>& objPtr, const int x, const int y);
+	void placeObject(IViewBuilding* vBuilding, const int x, const int y);
 	void hoverField(const int x, const int y);
 	IViewBuilding * getBuilding(const int x, const int y);
 

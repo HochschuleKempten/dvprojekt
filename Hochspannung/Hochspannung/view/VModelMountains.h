@@ -40,7 +40,7 @@ public:
 	VModelMountains();
 	virtual ~VModelMountains() override;
 
-	void init();
+	virtual void init() override;
 
 	virtual float getHeight() override
 	{
