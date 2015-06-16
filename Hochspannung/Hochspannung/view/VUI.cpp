@@ -242,17 +242,17 @@ void VUI::showMessage(const std::string& message)
 	auto splitMessage = [] (const std::string& text)
 	{
 		const int numberOfCharactersPerLine = 80;
-		
+
 		if (numberOfCharactersPerLine - 1 > text.size())
 		{
 			//Single line
 			return std::vector<std::string>();
 		}
 
-		std::string splitName = text.substr(numberOfCharactersPerLine - 1);
+		std::string splitName = text.substr(numberOfCharactersPerLine);
 
 		//Split on word boundaries
-		std::regex txt_regex("^\\w+\\b");
+		std::regex txt_regex("^(\\w+\\b\\s?|\\s+\\b)");
 		std::smatch base_match;
 
 		if (!std::regex_search(splitName, base_match, txt_regex))

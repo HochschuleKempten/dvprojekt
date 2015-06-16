@@ -95,6 +95,7 @@ void LCity::setEnergySurplus(const int surplus)
 	if (energySurplus >= 0 && energySurplus < LBalanceLoader::getSurplusWarningThreshold())
 	{
 		vCity->energyLow(energySurplus);
+		LMessageLoader::emitMessage(LMessageLoader::SURPLUS_LOW);
 	}
 	else if (energySurplus < 0)
 	{
