@@ -619,6 +619,7 @@ void VMaterialLoader::init()
 	materialAnimSabotageCutPowerline.SetAni(30, 2, 1);
 
 	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/Strike.png");
+	materialAnimSabotagePowerPlant.SetTransparencyOn();
 	materialAnimSabotagePowerPlant_x = 60;
 	materialAnimSabotagePowerPlant_y = 2;
 	

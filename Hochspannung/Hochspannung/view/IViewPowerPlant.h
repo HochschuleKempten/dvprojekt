@@ -170,14 +170,15 @@ public:
 		animationMaterial.SetAni(VMaterialLoader::materialAnimSabotagePowerPlant_x,
 								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
 								 CASTS<float>(VMaterialLoader::materialAnimSabotagePowerPlant_x * VMaterialLoader::materialAnimSabotagePowerPlant_y) / CASTS<float>(seconds));
-		getPlacementActive()->AddPlacement(&placementForAnimation);
+
+		vMaster->getVPlayingField()->placeObject(&placementForAnimation, lPlant->getLField()->getX(), lPlant->getLField()->getY());
 		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
 	}
 
 	virtual void sabotagePowerPlantSwitchedOn() override
 	{
 		animationMaterial.SwitchOff();
-		getPlacementActive()->SubPlacement(&placementForAnimation);
+		vMaster->getVPlayingField()->subObject(&placementForAnimation, lPlant->getLField()->getX(), lPlant->getLField()->getY());
 		animationMaterial.SetAni(VMaterialLoader::materialAnimSabotagePowerPlant_x,
 								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
 								 0.0f);

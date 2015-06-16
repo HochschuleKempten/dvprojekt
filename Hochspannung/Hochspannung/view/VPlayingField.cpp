@@ -55,6 +55,16 @@ void VPlayingField::placeObject(IViewBuilding* vBuilding, const int x, const int
 	}
 }
 
+void VPlayingField::placeObject(CPlacement* placement, const int x, const int y)
+{
+	vFields[x][y].m_zp.AddPlacement(placement);
+}
+
+void VPlayingField::subObject(CPlacement* placement, const int x, const int y)
+{
+	vFields[x][y].m_zp.SubPlacement(placement);
+}
+
 void VPlayingField::hoverField(const int x, const int y)
 {
 	static std::pair<int, int> previousHover(x, y);
