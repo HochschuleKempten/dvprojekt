@@ -47,7 +47,7 @@ public:
 	virtual void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) = 0;
 	virtual void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId) = 0;
 	virtual void updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId) = 0;
-	virtual void updateGameList(const std::vector<Network::CGameObject>& gameList) = 0;
+	virtual void updateGameList(const std::unordered_map<std::string, Network::CGameObject>& gameList) = 0;
 	virtual void updateRegenerativeRatio(const float ratio, const LPlayer::PlayerId playerId) = 0;
 	virtual void pauseGame() = 0;
 	virtual void continueGame() = 0;

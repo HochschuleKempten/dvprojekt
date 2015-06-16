@@ -87,7 +87,7 @@ public:
 	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id);
 	void updateNumberPowerLines(const int newNumberPowerLines);
 	void updateEnergySurplus(const int surplusRatio);
-	void updateGameList(const std::vector<Network::CGameObject>& gameList);
+	void updateGameList(const std::unordered_map<std::string, Network::CGameObject>& gameList);
 	void updateRegenerativeRatioLocal(float ratio);
 	void updateRegenerativeRatioRemote(float ratio);
 	void switchCursor(const CursorType& cursorType);

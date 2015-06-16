@@ -22,7 +22,7 @@ public:
 	void setLayer(float layer) override;
 
 	void addEntry(const std::string& sName, const float layer);
-	void updateList(const std::vector<Network::CGameObject>& hostList);
+	void updateList(const std::unordered_map<std::string, Network::CGameObject>& hostList);
 	void onNotifyExt(const Event& evente, const std::string& sName) override;
 
 	IViewGUIObject* getSelectedItem();

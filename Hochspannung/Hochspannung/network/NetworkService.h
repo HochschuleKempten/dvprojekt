@@ -59,7 +59,7 @@ public:
 	 * @brief Returns a list of found games in the local network.
 	 * @return the list containing information of every hosted game found in the network.
 	 */
-	std::vector<CGameObject> getGameList();
+	std::unordered_map<std::string, CGameObject> getGameList();
 
 	/**
 	 * @brief Close the active server or connection.

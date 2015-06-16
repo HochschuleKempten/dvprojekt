@@ -1,6 +1,7 @@
 #pragma once
 #include "Node.h"
 #include "GameObject.h"
+#include <unordered_map>
 
 using namespace boost::asio;
 
@@ -51,7 +52,7 @@ public:
 	 * @brief Returns a list of found games in the local network.
 	 * @return the list containing information of every hosted game found in the network.
 	 */
-	std::vector<CGameObject>& getGameList();
+	const std::unordered_map<std::string, CGameObject>& getGameList();
 
 private:
 	/**
@@ -109,7 +110,7 @@ private:
 	ip::tcp::endpoint m_remoteEndpointTcp;
 	bool m_bEndpointValid;
 
-	std::vector<CGameObject> m_gameList;
+	std::unordered_map<std::string, CGameObject> m_gameList;
 };
 
 }

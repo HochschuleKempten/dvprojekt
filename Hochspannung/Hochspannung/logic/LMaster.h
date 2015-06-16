@@ -28,14 +28,17 @@ private:
 private:
 	void placeBuilding(const int buildingId, const int x, const int y, const int playerId);
 	//networking
-	void host();
+	void host(std::string gameName);
 	void connect(const std::string& ip);
 
 public:
 	explicit LMaster(IVMaster& vMaster);
 	~LMaster();
 
-	void startNewGame(const std::string& ipAddress = std::string());
+	void hostGame(std::string gameName);
+	void startSinglePlayerGame();
+	void joinGame(const std::string& ipAddress);
+
 	void gameOver();
 	void gameWon();
 	virtual void tick(const float fTimeDelta) override;
@@ -48,7 +51,7 @@ public:
 	void sendPowerPlantSabotageEnd(const int x, const int y);
 	void sendPowerPlantSwitchState(const int x, const int y, const bool state);
 	void sendRegenerativeRatio(const float ratio);
-	std::vector<Network::CGameObject> getGameList(bool* updated = nullptr);
+	const std::unordered_map<std::string, Network::CGameObject>& getGameList(bool* updated = nullptr);
 	void searchGames();
 
 	LPlayingField* getLPlayingField();
