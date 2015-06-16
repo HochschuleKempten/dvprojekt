@@ -66,6 +66,7 @@ void LCity::setPopulationTotal(const int populationTotal)
 {
 	if (populationTotal > LBalanceLoader::getMaxPopulation())
 	{
+		this->populationTotal = LBalanceLoader::getMaxPopulation();
 		return;
 	}
 
