@@ -56,7 +56,6 @@ void VCity::updateEnergySurplus(const int surplus)
 
 void VCity::energyLow(const int surplus)
 {
-	vMaster->getVUi()->showMessage("Energy low!");
 	VSoundLoader::playSoundeffect(VSoundLoader::ENERGY_LOW, getPlacement());
 }
 

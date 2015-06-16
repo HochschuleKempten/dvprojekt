@@ -35,6 +35,18 @@ void LMessageLoader::emitMessage(const MessageID messageId, const std::vector<st
 		case SABOTAGE_NO_MONEY:
 			text = "Nicht genuegend Geld für die Sabotageaktion vorhanden.";
 			break;
+		case SABOTAGE_RESOURCE:
+			text = "Die Ressourcen eines Kraftwerks wurden halbiert!";
+			break;
+		case SABOTAGE_DESTROY:
+			text = "Ein Kraftwerk/Trasse wurde zerstoert!";
+			break;
+		case SABOTAGE_DEACTIVATE:
+			text = "Ein Kraftwerk wurde deaktiviert!";
+			break;
+		case SABOTAGE_DEACTIVATE_OVER:
+			text = "Kraftwerk wieder aktiv!";
+			break;
 		case BUILD_NO_MONEY:
 			text = std::string("Kraftwerk ") + param[0] + std::string(" kann nicht gebaut werden, da nur ") +
 				   param[1] + std::string(" EUR zur Verfuegung stehen, es werden jedoch ") +
