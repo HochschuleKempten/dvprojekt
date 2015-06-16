@@ -133,6 +133,13 @@ CMaterial VMaterialLoader::materialSabotageButtonPowerOnHover;
 CMaterial VMaterialLoader::materialSabotageButtonPowerOffHover;
 CMaterial VMaterialLoader::materialSabotageButtonSellHover;
 
+//Statistics
+CMaterial VMaterialLoader::materialFossile;
+CMaterial VMaterialLoader::materialLeaf;
+CMaterial VMaterialLoader::materialBattery;
+CMaterial VMaterialLoader::materialLeaffossileOwn;
+CMaterial VMaterialLoader::materialLeaffossileEnemy;
+
 //Icons
 CMaterial VMaterialLoader::materialIngameIconPopulation;
 CMaterial VMaterialLoader::materialIngameIconMoney;
@@ -482,6 +489,13 @@ void VMaterialLoader::init()
 	materialSabotageButtonPowerOnHover.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_poweronhover.png");
 	materialSabotageButtonPowerOffHover.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_poweroffhover.png");
 	materialSabotageButtonSellHover.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_sellhover.png");
+
+	//Statistics
+	materialFossile.MakeTextureSprite("textures/gui/interface/fossil.png");
+	materialLeaf.MakeTextureSprite("textures/gui/interface/leaf.png");
+	materialBattery.MakeTextureSprite("textures/gui/interface/battery.png");
+	materialLeaffossileOwn.MakeTextureSprite("textures/gui/interface/texture_ingame_statistic_own.png");
+	materialLeaffossileEnemy.MakeTextureSprite("textures/gui/interface/texture_ingame_statistic_enemy.png");
 
 	//Test
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
