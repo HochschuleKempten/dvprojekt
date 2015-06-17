@@ -1,6 +1,5 @@
 #include "VCity.h"
 #include "VPlayingField.h"
-#include "VIdentifier.h"
 #include "VMaster.h"
 #include "../logic/LCity.h"
 #include "VUI.h"
@@ -54,7 +53,7 @@ void VCity::updateEnergySurplus(const int surplus)
 	vMaster->getVUi()->contextMenuUpdateEnergySurplus(position, surplus);
 }
 
-void VCity::energyLow(const int surplus)
+void VCity::energyLow(const int /*surplus*/)
 {
 	VSoundLoader::playSoundeffect(VSoundLoader::ENERGY_LOW, getPlacement());
 }
@@ -64,12 +63,10 @@ ILBuilding* VCity::getLBuilding()
 	return CASTD<ILBuilding*>(lCity);
 }
 
-bool VCity::clicked(action action) 
+bool VCity::clicked(action /*action*/) 
 {
-	switch (action)
-	{
-	default:ASSERT("Invalid action"); return false;
-	}
+	ASSERT("No click action in VCity available");
+	return false;
 }
 
 

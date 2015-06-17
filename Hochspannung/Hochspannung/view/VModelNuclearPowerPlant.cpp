@@ -46,6 +46,18 @@ void VModelNuclearPowerPlant::init()
 	//Initialisierung Schranke
 	m_zgSchranke.Init(2.65f, 0.2f, 0.04f, VMaterialLoader::getMaterialModel(VMaterialLoader::NUCLEAR_GATE, switchedState));
 
+	//Initialisierung Smoke
+	if (switchedState)
+	{
+		quadAnimationSmokeFast.Init(2.0f, 2.0f, &VMaterialLoader::materialAnimSmokeFast);
+		quadAnimationSmokeSlow.Init(1.9f, 2.0f, &VMaterialLoader::materialAnimSmokeSlow);
+		placementAnimationSmokeFast.AddGeo(&quadAnimationSmokeFast);
+		placementAnimationSmokeSlow.AddGeo(&quadAnimationSmokeSlow);
+		placementAnimationSmoke.AddPlacement(&placementAnimationSmokeFast);
+		placementAnimationSmoke.AddPlacement(&placementAnimationSmokeSlow);
+		placementAnimationSmokeSlow.TranslateZ(-0.3f);
+		placementAnimationSmoke.TranslateY(5.5f);
+	}
 
 	//Placements
 	m_zpLOD[0].AddPlacement(&m_zpAtomkraftwerk);
@@ -119,6 +131,12 @@ void VModelNuclearPowerPlant::init()
 
 	m_zpKuehlturm2.Translate(CHVector(2.0f, 0.15f, -2.0f));
 	m_zpKuehlturm2.AddGeo(&m_zgKuehlturm);
+
+	if (switchedState)
+	{
+		m_zpKuehlturm1.AddPlacement(&placementAnimationSmoke);
+		m_zpKuehlturm2.AddPlacement(&placementAnimationSmoke);
+	}
 
 	m_zpReaktorTurm1.Translate(CHVector(-0.9f, 0.85f, 3.0f));
 	m_zpReaktorTurm1.AddGeo(&m_zgReaktorTurm);

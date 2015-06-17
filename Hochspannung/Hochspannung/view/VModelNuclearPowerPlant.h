@@ -85,7 +85,12 @@ private:
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;
 
-
+	//Smoke
+	CGeoQuad quadAnimationSmokeFast;
+	CGeoQuad quadAnimationSmokeSlow;
+	CPlacement placementAnimationSmoke;
+	CPlacement placementAnimationSmokeSlow;
+	CPlacement placementAnimationSmokeFast;
 
 public:
 	VModelNuclearPowerPlant();

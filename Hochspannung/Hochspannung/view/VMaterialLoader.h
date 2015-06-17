@@ -252,6 +252,8 @@ public:
 	static CMaterial materialAnimSabotageHalfResource;
 	static CMaterial materialAnimSabotageStrike;
 	static CMaterial materialAnimSabotageCutPowerline;
+	static CMaterial materialAnimSmokeFast;
+	static CMaterial materialAnimSmokeSlow;
 
 
 	// Animiert Textur für Sabotage Cooldown Infoanzeige

@@ -95,6 +95,7 @@ public:
 	void removeMaterialFromRoot(CMaterial* material);
 	void setSabotageNumber(const int value);
 	
+	//Sell value
 	void contextMenuUpdateValue(const std::pair<int, int> pos, const int value);
 	void contextMenuUpdateResourceValue(const std::pair<int, int> pos, const int resourceValue);
 	void contextMenuUpdatePopulation(const std::pair<int, int> pos, const int population);
