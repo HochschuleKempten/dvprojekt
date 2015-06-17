@@ -324,7 +324,7 @@ CMaterial* VMaterialLoader::getMaterialModel(const Model materialPowerPlant, con
 
 void VMaterialLoader::init()
 {
-	setPowerPlantMaterialHelper(COAL_MOUNTAIN, "berg_image.jpg");
+	setPowerPlantMaterialHelper(COAL_MOUNTAIN, "mountain.png");
 	setPowerPlantMaterialHelper(COAL_STRUCTURE, "kohle_image.jpg");
 	setPowerPlantMaterialHelper(COAL_WOOD, "holz_image.jpg");
 	setPowerPlantMaterialHelper(COAL_WAGON, "lore_image.jpg");
