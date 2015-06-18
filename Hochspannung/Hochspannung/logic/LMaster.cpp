@@ -358,6 +358,16 @@ void LMaster::tick(const float fTimeDelta)
 				float ratio = boost::lexical_cast<float>(transferObject.getValue());
 
 				vMaster.updateRegenerativeRatio(ratio, LPlayer::Remote);
+				DEBUG_OUTPUT("Action SEND_RATIO");
+				break;
+			}
+
+			case(CTransferObject::Action::SEND_POPULATION) :
+			{
+				int population = boost::lexical_cast<int>(transferObject.getValue());
+				getPlayer(LPlayer::Remote)->getCity()->setPopulationTotal(population);
+
+				DEBUG_OUTPUT("Action SEND_POPULATION);
 
 				break;
 			}
@@ -506,6 +516,15 @@ void LMaster::sendRegenerativeRatio(const float ratio)
 	{
 		bool b = networkService.sendRatio(ratio);
 		ASSERT(b == true, "Error: sendRegenerativeRatio");
+	}
+}
+
+void LMaster::sendCityPopulation(const int population)
+{
+	if (!isSinglePlayer())
+	{
+		bool b = networkService.sendCityPopulation(population);
+		ASSERT(b == true, "Error: sendCityPopulation");
 	}
 }
 

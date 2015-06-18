@@ -52,6 +52,7 @@ public:
 	void sendPowerPlantSabotageEnd(const int x, const int y);
 	void sendPowerPlantSwitchState(const int x, const int y, const bool state);
 	void sendRegenerativeRatio(const float ratio);
+	void sendCityPopulation(const int population);
 	const std::unordered_map<std::string, Network::CGameObject>& getGameList(bool* updated = nullptr);
 	void searchGames();
 
