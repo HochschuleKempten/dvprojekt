@@ -12,7 +12,9 @@ VGraphRatio::VGraphRatio(CViewport* viewport, CFloatRect& rect, CMaterial* norma
 	m_bar = new Bar(viewport, normalMaterial, CFloatRect(0, 0, 1, 1), 0.3F);
 	updateValue(0.3f);
 
-	disabled.Init("textures//lightgrey_image.png", m_bar->getRectangle());
+	disabled.Init("textures//lightgrey_image.png", getRectangle());
+	viewport->AddOverlay(&disabled);
+
 }
 
 VGraphRatio::~VGraphRatio()
