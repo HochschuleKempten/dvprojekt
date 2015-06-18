@@ -695,6 +695,14 @@ void VScreenIngame::updateEnergyOverload(int overload)
 
 void VScreenIngame::updateOwnGraphRatio(float fRatio)
 {
+	if (fRatio == 0)
+	{
+		m_vgGraphEnergyRatioOwn->disable();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("ownGraphTextTop"))->updateText("0%");
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("ownGraphTextBottom"))->updateText("0%");
+		return;
+	}
+
 	int regenerative = (fRatio) * 100;
 	int fossile = 100 - fRatio * 100;
 
@@ -704,6 +712,13 @@ void VScreenIngame::updateOwnGraphRatio(float fRatio)
 }
 
 void VScreenIngame::updateEnemyGraphRatio(float fRatio) {
+	if (fRatio == 0)
+	{
+		m_vgGraphEnergyRatioEnemy->disable();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("enemyGraphTextTop"))->updateText("0%");
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("enemyGraphTextBottom"))->updateText("0%");
+		return;
+	}
 	int regenerative = (fRatio)* 100;
 	int fossile = 100 - fRatio * 100;
 

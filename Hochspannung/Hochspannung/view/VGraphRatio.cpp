@@ -11,6 +11,8 @@ VGraphRatio::VGraphRatio(CViewport* viewport, CFloatRect& rect, CMaterial* norma
 
 	m_bar = new Bar(viewport, normalMaterial, CFloatRect(0, 0, 1, 1), 0.3F);
 	updateValue(0.3f);
+
+	disabled.Init("textures//lightgrey_image.png", m_bar->getRectangle());
 }
 
 VGraphRatio::~VGraphRatio()
@@ -92,6 +94,17 @@ void VGraphRatio::switchHorizontal()
 {
 	m_bVertical = false;
 	recalcRectangles();
+}
+void VGraphRatio::disable()
+{
+	m_bar->switchOff();
+	disabled.SwitchOn();
+}
+
+void VGraphRatio::enable()
+{
+	m_bar->switchOn();
+	disabled.SwitchOff();
 }
 
 NAMESPACE_VIEW_E
