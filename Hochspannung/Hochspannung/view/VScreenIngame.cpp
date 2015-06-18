@@ -618,6 +618,8 @@ void VScreenIngame::updateAddedPowerPlant(const LIdentifier::LIdentifier id, con
 		break;
 	default: break;
 	}
+
+	updatePowerPlants();
 }
 
 void VScreenIngame::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
@@ -647,6 +649,8 @@ void VScreenIngame::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, c
 		break;
 	default: break;
 	}
+
+	updatePowerPlants();
 }
 
 
@@ -702,6 +706,7 @@ void VScreenIngame::updateOwnGraphRatio(float fRatio)
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("ownGraphTextBottom"))->updateText("0%");
 		return;
 	}
+	m_vgGraphEnergyRatioOwn->enable();
 
 	int regenerative = (fRatio) * 100;
 	int fossile = 100 - fRatio * 100;
@@ -719,6 +724,8 @@ void VScreenIngame::updateEnemyGraphRatio(float fRatio) {
 		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("enemyGraphTextBottom"))->updateText("0%");
 		return;
 	}
+	m_vgGraphEnergyRatioEnemy->enable();
+
 	int regenerative = (fRatio)* 100;
 	int fossile = 100 - fRatio * 100;
 
