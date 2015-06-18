@@ -8,8 +8,9 @@ void HighVoltage::ILBuilding::sabotageRemove()
 	if (!lField->getLPlayingField()->isLocalOperation())
 	{
 		std::pair<int, int> coordinates = lField->getCoordinates();
-		lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::LSabotage::Remove, coordinates.first, coordinates.second);
-	} else
+		lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Remove, coordinates.first, coordinates.second);
+	} 
+	else
 	{
 		LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DESTROY);
 	}
