@@ -618,6 +618,8 @@ void VScreenIngame::updateAddedPowerPlant(const LIdentifier::LIdentifier id, con
 		break;
 	default: break;
 	}
+
+	updatePowerPlants();
 }
 
 void VScreenIngame::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
@@ -647,6 +649,8 @@ void VScreenIngame::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, c
 		break;
 	default: break;
 	}
+
+	updatePowerPlants();
 }
 
 
@@ -693,8 +697,30 @@ void VScreenIngame::updateEnergyOverload(int overload)
 	CASTD<VText*>(m_vtTopbar->getGuiObject("energyOverload"))->updateText(std::to_string(overload));
 }
 
+int VScreenIngame::getNumberofBuildings(const LPlayer::PlayerId playerId)
+{
+	int count = 0;
+	for (const std::pair<BUILDINGTYPE, int>& plant : (playerId == LPlayer::Local) ? statPlacedBuildings : statPlacedBuildingsEnemy)
+	{
+		if (plant.first != BUILDING_POWERLINE) {
+			if (plant.second > 0)
+				count++;
+		}
+	}
+	return count;
+}
+
 void VScreenIngame::updateOwnGraphRatio(float fRatio)
 {
+	if (fRatio == 0 && getNumberofBuildings(LPlayer::Local) == 0)
+	{
+		m_vgGraphEnergyRatioOwn->disable();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("ownGraphTextTop"))->updateText("0%");
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("ownGraphTextBottom"))->updateText("0%");
+		return;
+	}
+	m_vgGraphEnergyRatioOwn->enable();
+
 	int regenerative = (fRatio) * 100;
 	int fossile = 100 - fRatio * 100;
 
@@ -704,6 +730,15 @@ void VScreenIngame::updateOwnGraphRatio(float fRatio)
 }
 
 void VScreenIngame::updateEnemyGraphRatio(float fRatio) {
+	if (fRatio == 0 && getNumberofBuildings(LPlayer::Remote) == 0)
+	{
+		m_vgGraphEnergyRatioEnemy->disable();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("enemyGraphTextTop"))->updateText("0%");
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("enemyGraphTextBottom"))->updateText("0%");
+		return;
+	}
+	m_vgGraphEnergyRatioEnemy->enable();
+
 	int regenerative = (fRatio)* 100;
 	int fossile = 100 - fRatio * 100;
 

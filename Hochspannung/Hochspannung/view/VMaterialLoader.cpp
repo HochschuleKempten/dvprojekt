@@ -499,6 +499,8 @@ void VMaterialLoader::init()
 	materialLeaffossileOwn.MakeTextureSprite("textures/gui/interface/texture_ingame_statistic_own.png");
 	materialLeaffossileEnemy.MakeTextureSprite("textures/gui/interface/texture_ingame_statistic_enemy.png");
 
+	materialBattery.SetTransparencyOn();
+
 	//Test
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
 	materialBlue.MakeTextureSprite("textures\\blue_image.jpg");
