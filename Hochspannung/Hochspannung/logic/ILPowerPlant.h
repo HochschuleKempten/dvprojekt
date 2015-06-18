@@ -35,7 +35,6 @@ private:
 		{
 			isActivated = true;
 			vPowerPlant->switchedOn();
-			DEBUG_OUTPUT("Powerplant ON");
 
 			if (!lField->getLPlayingField()->isLocalOperation())
 			{
@@ -61,7 +60,6 @@ private:
 		{
 			isActivated = false;
 			vPowerPlant->switchedOff();
-			DEBUG_OUTPUT("Powerplant OFF");
 
 			if (!lField->getLPlayingField()->isLocalOperation())
 			{
@@ -82,11 +80,15 @@ private:
 		isSabotaged = true;
 
 		vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
-		LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DEACTIVATE);
+
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
 			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Deactivate, coordinates.first, coordinates.second);
+		} 
+		else
+		{
+			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DEACTIVATE);
 		}
 	}
 
@@ -97,12 +99,11 @@ private:
 			isSabotaged = false;
 			vPowerPlant->sabotagePowerPlantSwitchedOn();
 
-			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DEACTIVATE_OVER);
-
 			if (!lField->getLPlayingField()->isLocalOperation())
 			{
 				std::pair<int, int> coordinates = lField->getCoordinates();
 				lField->getLPlayingField()->getLMaster()->sendPowerPlantSabotageEnd(coordinates.first, coordinates.second);
+				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DEACTIVATE_OVER);
 			}
 		}
 	}
@@ -114,12 +115,14 @@ private:
 		vPowerPlant->updateResourceValue(newValue);
 		DEBUG_OUTPUT("Resource sabotated, new Value:  " << newValue);
 
-		LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_RESOURCE);
-
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
 			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Resource, coordinates.first, coordinates.second);
+		} 
+		else
+		{
+			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_RESOURCE);
 		}
 	}
 
