@@ -53,7 +53,7 @@ bool CClient::searchGames() {
 	}
 }
 
-std::vector<CGameObject>& CClient::getGameList() {
+const std::unordered_map<std::string, CGameObject>& CClient::getGameList() {
 	return m_gameList;
 }
 
@@ -160,12 +160,12 @@ void CClient::udpDataRecievedHandler(const boost::system::error_code& error, std
 		boost::property_tree::ptree jsonTree;
 		try {
 			m_udpMessage.commit(bytesTransferred);
-			boost::property_tree::read_json(std::istream(&m_udpMessage), jsonTree);
+			read_json(std::istream(&m_udpMessage), jsonTree);
 
 			std::string stName = jsonTree.get<std::string>("name", "");
 
 			if (stName != "?") {
-				m_gameList.push_back(CGameObject(m_remoteEndpointUdp.address(), m_usPortTcp, stName));
+				m_gameList.emplace(m_remoteEndpointUdp.address().to_string(), CGameObject(m_remoteEndpointUdp.address(), m_usPortTcp, stName));
 			}
 		} catch (boost::property_tree::ptree_error /*error*/) {
 			// received message is invalid -> ignore it

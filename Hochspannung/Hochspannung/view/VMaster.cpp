@@ -75,7 +75,7 @@ void VMaster::gameOver()
 	}
 }
 
-void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
+void VMaster::updateGameList(const std::unordered_map<std::string, Network::CGameObject>& gameList)
 {
 	vUi.updateGameList(gameList);
 }
@@ -108,19 +108,19 @@ void VMaster::resize(int width, int height)
 	vUi.resize(width, height);
 }
 
-void VMaster::hostGame()
+void VMaster::hostGame(const std::string & gameName)
 {
-	lMaster->startNewGame();
+	lMaster->hostGame(gameName);
 }
 
 void VMaster::startSinglePlayerGame()
 {
-	lMaster->startNewGame("SINGLE_PLAYER");
+	lMaster->startSinglePlayerGame();
 }
 
 void VMaster::joinGame(const std::string& ipAddress)
 {
-	lMaster->startNewGame(ipAddress);
+	lMaster->joinGame(ipAddress);
 }
 
 void VMaster::startBuildingPlayingField()

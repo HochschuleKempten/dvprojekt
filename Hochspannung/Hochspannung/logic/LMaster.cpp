@@ -41,37 +41,37 @@ LMaster::~LMaster()
 	networkService.close();
 }
 
-void LMaster::startNewGame(const std::string& ipAddress)
-{
-	if (lPlayingField == nullptr)
-	{
+void LMaster::hostGame(const std::string & gameName) {
+	if (lPlayingField == nullptr) {
 		lPlayingField = new LPlayingField(this);
 	}
 
-	if (ipAddress.empty())
-	{
-		host();
-		while (networkService.getConnectionState() != Network::CNode::State::CONNECTED);
-	}
-	else if (ipAddress == "SINGLE_PLAYER")
-	{
-		singlePlayer = true;
-		lPlayingField->createFields();
-		lPlayingField->showPlayingField();
-
-		return;
-	}
-	else
-	{
-		connect(ipAddress);
-	}
+	host(gameName);
+	while (networkService.getConnectionState() != Network::CNode::State::CONNECTED);
 
 	vMaster.startBuildingPlayingField();
 
-	if (networkService.getType() != Network::CNode::Type::CLIENT)
-	{
-		lPlayingField->createFields();
+	lPlayingField->createFields();
+}
+
+void LMaster::startSinglePlayerGame() {
+	if (lPlayingField == nullptr) {
+		lPlayingField = new LPlayingField(this);
 	}
+
+	singlePlayer = true;
+	lPlayingField->createFields();
+	lPlayingField->showPlayingField();
+}
+
+void LMaster::joinGame(const std::string& ipAddress) {
+	if (lPlayingField == nullptr) {
+		lPlayingField = new LPlayingField(this);
+	}
+
+	connect(ipAddress);
+
+	vMaster.startBuildingPlayingField();
 }
 
 void LMaster::gameOver()
@@ -138,7 +138,7 @@ void LMaster::tick(const float fTimeDelta)
 	if (timeLastCheck > 3.0F && lPlayingField == nullptr)
 	{
 		bool updated = false;
-		std::vector<CGameObject> gameList = getGameList(&updated);
+		const std::unordered_map<std::string, CGameObject>& gameList = getGameList(&updated);
 
 		if (updated)
 		{
@@ -381,12 +381,12 @@ void LMaster::tick(const float fTimeDelta)
 	timeLastCheck += fTimeDelta;
 }
 
-void LMaster::host()
+void LMaster::host(std::string gameName)
 {
 	int reconnectCounter = 0;
 	bool connected = false;
 
-	while (reconnectCounter < 10 && !(connected = networkService.host()))
+	while (reconnectCounter < 10 && !(connected = networkService.host(gameName)))
 	{
 		reconnectCounter++;
 	}
@@ -419,6 +419,23 @@ void LMaster::connect(const std::string& ip)
 	{
 		DEBUG_OUTPUT("Connecting to server failed.");
 	}
+}
+
+void LMaster::sendDefaultIPs() const
+{
+	std::vector<std::string> defaultIPs = LBalanceLoader::getDefaultRemoteAddresses();
+
+	//Exclude own ip
+	defaultIPs.erase(std::remove(defaultIPs.begin(), defaultIPs.end(), LBalanceLoader::getLocalIpAddress()), defaultIPs.end());
+
+	std::unordered_map<std::string, Network::CGameObject> gameList;
+
+	for (const std::string& ip : defaultIPs)
+	{
+		gameList.emplace(ip, Network::CGameObject(ip::address_v4::from_string(ip), 0, "Default"));
+	}
+
+	vMaster.updateGameList(gameList);
 }
 
 void LMaster::sendSetObject(const int objectId, const int x, const int y, const std::string& value)
@@ -492,14 +509,14 @@ void LMaster::sendRegenerativeRatio(const float ratio)
 	}
 }
 
-std::vector<Network::CGameObject> LMaster::getGameList(bool* updated)
+const std::unordered_map<std::string, Network::CGameObject>& LMaster::getGameList(bool* updated)
 {
-	static std::vector<Network::CGameObject> prevGameList;
-	std::vector<Network::CGameObject> newGameList = networkService.getGameList();
+	static std::unordered_map<std::string, Network::CGameObject> prevGameList;
+	std::unordered_map<std::string, Network::CGameObject> newGameList = networkService.getGameList();
 
 	if (newGameList != prevGameList)
 	{
-		newGameList = prevGameList;
+		prevGameList = newGameList;
 
 		if (updated != nullptr)
 		{
@@ -514,7 +531,7 @@ std::vector<Network::CGameObject> LMaster::getGameList(bool* updated)
 		}
 	}
 
-	return newGameList;
+	return prevGameList;
 }
 
 void LMaster::searchGames()

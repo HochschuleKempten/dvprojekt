@@ -41,6 +41,9 @@ void VSoundLoader::init(CScene* scene)
 	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VHydroelectricPowerPlant), std::make_tuple("sounds/WaterWheelLoop.wav", 0.2f));
 	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VWindmillPowerPlant), std::make_tuple("sounds/AirPowerPlantLoop.wav", 0.8f));
 	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VOilRefinery), std::make_tuple("sounds/OilRefineryLoop.wav", 0.3f));
+	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VNuclearPowerPlant), std::make_tuple("sounds/SteamLoop.wav", 0.9f));
+	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VCoalPowerPlant), std::make_tuple("sounds/CoalPowerPlantLoop.wav", 1.2f));
+	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VCity), std::make_tuple("sounds/CityLoop.wav", 0.5f));
 
 	setSoundEffectHelper(BUILDING_PLACED, "createObject");
 	setSoundEffectHelper(TRASSE_PLACED, "createTrasse");

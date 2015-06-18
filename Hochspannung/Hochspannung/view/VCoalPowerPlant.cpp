@@ -32,6 +32,8 @@ void VCoalPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr
 	configViewModel(viewModelOff, false);
 	translateViewModel();
 
+	VSoundLoader::play3DSoundLoop(VIdentifier::VCoalPowerPlant, viewModelOn.getPlacementMain());
+
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }
 

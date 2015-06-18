@@ -88,7 +88,7 @@ public:
 	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId);
 	void updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId);
 	void updateEnergySurplus(const int surplusRatio);
-	void updateGameList(const std::vector<Network::CGameObject>& gameList);
+	void updateGameList(const std::unordered_map<std::string, Network::CGameObject>& gameList);
 	void updateRegenerativeRatioLocal(float ratio);
 	void updateRegenerativeRatioRemote(float ratio);
 	void switchCursor(const CursorType& cursorType);
@@ -96,6 +96,7 @@ public:
 	void removeMaterialFromRoot(CMaterial* material);
 	void setSabotageNumber(const int value);
 	
+	//Sell value
 	void contextMenuUpdateValue(const std::pair<int, int> pos, const int value);
 	void contextMenuUpdateResourceValue(const std::pair<int, int> pos, const int resourceValue);
 	void contextMenuUpdatePopulation(const std::pair<int, int> pos, const int population);

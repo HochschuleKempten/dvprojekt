@@ -43,9 +43,9 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	m_zs.AddPlacement(&m_zpCameraFront);
 
 	
-	m_zpnuclearpowerplant.getMainPlacement()->Translate(CHVector(2.0f, -2.0f, 3.0f));
+	m_zpnuclearpowerplant.getPlacementMain()->Translate(CHVector(2.0f, -2.0f, 3.0f));
 
-	m_zs.AddPlacement(m_zpnuclearpowerplant.getMainPlacement());
+	m_zs.AddPlacement(m_zpnuclearpowerplant.getPlacementMain());
 
 
 	//Adding

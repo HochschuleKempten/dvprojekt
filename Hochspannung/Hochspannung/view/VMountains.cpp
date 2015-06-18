@@ -17,12 +17,10 @@ VMountains::VMountains(VMaster* vMaster, const int x, const int y)
 VMountains::~VMountains()
 {}
 
-bool VMountains::clicked(action action)
+bool VMountains::clicked(action /*action*/)
 {
-	switch (action)
-	{
-		default:ASSERT("Invalid action"); return false;
-	}
+	ASSERT("Invalid action");
+	return false;
 }
 
 ILBuilding* VMountains::getLBuilding()

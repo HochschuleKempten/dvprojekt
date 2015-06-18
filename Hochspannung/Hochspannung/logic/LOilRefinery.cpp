@@ -15,7 +15,13 @@ LOilRefinery::LOilRefinery(LField* lField, const int x, const int y, const int p
 
 int LOilRefinery::getEnergyValue()
 {
-	return fossilResourceCheck();
+	if (isActivated)
+	{
+		return fossilResourceCheck();
+
+	}
+
+	return 0;
 }
 
 LOilRefinery::~LOilRefinery()

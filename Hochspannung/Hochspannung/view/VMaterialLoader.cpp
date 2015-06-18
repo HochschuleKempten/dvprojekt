@@ -202,6 +202,8 @@ CMaterial VMaterialLoader::materialAnimLoadingCircle;
 CMaterial VMaterialLoader::materialAnimSabotageHalfResource;
 CMaterial VMaterialLoader::materialAnimSabotageStrike;
 CMaterial VMaterialLoader::materialAnimSabotageCutPowerline;
+CMaterial VMaterialLoader::materialAnimSmokeFast;
+CMaterial VMaterialLoader::materialAnimSmokeSlow;
 
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotagePowerPlant;
@@ -329,7 +331,7 @@ CMaterial* VMaterialLoader::getMaterialModel(const Model materialPowerPlant, con
 
 void VMaterialLoader::init()
 {
-	setPowerPlantMaterialHelper(COAL_MOUNTAIN, "berg_image.jpg");
+	setPowerPlantMaterialHelper(COAL_MOUNTAIN, "mountain.png");
 	setPowerPlantMaterialHelper(COAL_STRUCTURE, "kohle_image.jpg");
 	setPowerPlantMaterialHelper(COAL_WOOD, "holz_image.jpg");
 	setPowerPlantMaterialHelper(COAL_WAGON, "lore_image.jpg");
@@ -639,6 +641,13 @@ void VMaterialLoader::init()
 	
 	materialAnimTransformerStationLightning.MakeTextureSprite("textures/animations/Lightning.png");
 	materialAnimTransformerStationLightning.SetAni(15, 2, 30.0f / 5.0f);
+
+	materialAnimSmokeFast.MakeTextureSprite("textures/animations/Smoke2.png");
+	materialAnimSmokeFast.SetAni(50, 2, 100.0f / 5.0f);
+	materialAnimSmokeFast.SetTransparencyOn();
+	materialAnimSmokeSlow.MakeTextureSprite("textures/animations/Smoke2.png");
+	materialAnimSmokeSlow.SetAni(50, 2, 100.0f / 6.0f);
+	materialAnimSmokeSlow.SetTransparencyOn();
 
 	//Background
 	materialLobbyRunningGamesBackground.MakeTextureSprite("textures/gui/background/gui_lobby_RunningGamesBackround.png");

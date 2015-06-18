@@ -71,6 +71,7 @@ void VUI::onNotify(const Event& evente)
 
 		case SWITCH_TO_LOBBY:
 			switchScreen("Lobby");
+			vMaster->lMaster->sendDefaultIPs();
 			break;
 		case SWITCH_TO_MAINMENUE:
 			switchScreen("MainMenue");
@@ -185,7 +186,7 @@ void VUI::updateEnergySurplus(const int surplus)
 	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateEnergyOverload(surplus);
 }
 
-void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
+void VUI::updateGameList(const std::unordered_map<std::string, Network::CGameObject>& gameList)
 {
 	CASTD<VScreenLobby*>(m_screens["Lobby"])->updateHostList(gameList);
 }

@@ -25,6 +25,8 @@ void VNuclearPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& obj
 	configViewModel(viewModelOff, false);
 	translateViewModel();
 
+	VSoundLoader::play3DSoundLoop(VIdentifier::VNuclearPowerPlant, viewModelOn.getPlacementMain());
+
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }
 
