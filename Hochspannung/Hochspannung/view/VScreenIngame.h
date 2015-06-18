@@ -55,12 +55,12 @@ public:
 	void checkSpecialEvent(CDeviceCursor* cursor) override;
 
 	//Schnittstellenmethoden
-	void updateMoney(const int wert);
+	void updateMoney(const int wert, const LPlayer::PlayerId playerId);
 	void updatePopulation(const int wert);
 	void updateInfofield(const std::string& neuerText);
-	void updateAddedPowerPlant(const LIdentifier::LIdentifier id);
-	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id);
-	void updateNumberPowerLines(const int newNumberPowerLines);
+	void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId);
+	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId);
+	void updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId);
 	void updatePowerPlants();
 	void updateGraphProdNeeded(float fProduced, float fNeeded);
 	void updateEnergyOverload(int overload);
@@ -108,6 +108,8 @@ private:
 	bool tryBuilding(const int x, const int y);
 	bool trySabotage(const int x, const int y);
 	bool tryBuildingInteraction(const int x, const int y);
+
+	int getNumberofBuildings(const LPlayer::PlayerId playerId);
 
 	void updateModelView();
 

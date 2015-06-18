@@ -71,6 +71,7 @@ void VUI::onNotify(const Event& evente)
 
 		case SWITCH_TO_LOBBY:
 			switchScreen("Lobby");
+			vMaster->lMaster->sendDefaultIPs();
 			break;
 		case SWITCH_TO_MAINMENUE:
 			switchScreen("MainMenue");
@@ -151,12 +152,12 @@ IViewScreen* VUI::getScreen(const std::string& sName)
 	return m_screens[sName];
 }
 
-void VUI::updateMoney(const int wert)
+void VUI::updateMoney(const int wert, const LPlayer::PlayerId playerId)
 {
 	//Only update if UI is ready
 	if (m_screens.count("Ingame") > 0)
 	{
-		CASTD<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert);
+		CASTD<VScreenIngame*>(m_screens["Ingame"])->updateMoney(wert, playerId);
 	}
 }
 
@@ -165,19 +166,19 @@ void VUI::updatePopulation(const int wert)
 	CASTD<VScreenIngame*>(m_screens["Ingame"])->updatePopulation(wert);
 }
 
-void VUI::updateAddedPowerPlant(const LIdentifier::LIdentifier id)
+void VUI::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateAddedPowerPlant(id);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateAddedPowerPlant(id, playerId);
 }
 
-void VUI::updateRemovedPowerPlant(const LIdentifier::LIdentifier id)
+void VUI::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateRemovedPowerPlant(id);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateRemovedPowerPlant(id, playerId);
 }
 
-void VUI::updateNumberPowerLines(const int newNumberPowerLines)
+void VUI::updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId)
 {
-	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateNumberPowerLines(newNumberPowerLines);
+	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateNumberPowerLines(newNumberPowerLines, playerId);
 }
 
 void VUI::updateEnergySurplus(const int surplus)
@@ -185,7 +186,7 @@ void VUI::updateEnergySurplus(const int surplus)
 	CASTD<VScreenIngame*>(m_screens["Ingame"])->updateEnergyOverload(surplus);
 }
 
-void VUI::updateGameList(const std::vector<Network::CGameObject>& gameList)
+void VUI::updateGameList(const std::unordered_map<std::string, Network::CGameObject>& gameList)
 {
 	CASTD<VScreenLobby*>(m_screens["Lobby"])->updateHostList(gameList);
 }

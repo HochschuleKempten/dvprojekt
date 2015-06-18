@@ -31,8 +31,8 @@ private:
 	const float fieldDepth = 0.5f;
 	const CHVector size = CHVector(fieldSize, fieldSize, fieldDepth);
 
-	std::vector<CPlacement> m_zpPlacementHolders;	
 	DynArray2D<VField> vFields;
+	std::vector<CPlacement> m_zpPlacementHolders;	
 	CPlacement m_zp;
 
 public:

@@ -39,7 +39,7 @@ public:
 	void resize(int width, int height);
 
 	void startSinglePlayerGame();
-	void hostGame();
+	void hostGame(const std::string & gameName);
 	void joinGame(const std::string& ipAddress);
 
 	virtual void startBuildingPlayingField() override;
@@ -52,7 +52,7 @@ public:
 	virtual void continueGame() override;
 	virtual void gameWon() override;
 	virtual void gameOver() override;
-	virtual void updateGameList(const std::vector<Network::CGameObject>& gameList) override;
+	virtual void updateGameList(const std::unordered_map<std::string, Network::CGameObject>& gameList) override;
 	virtual void showMessage(const std::string& message, const LMessageLoader::MessageID id) override;
 	virtual IVFactory* getFactory() override;
 	virtual void updateRegenerativeRatio(const float ratio, const LPlayer::PlayerId playerId) override;

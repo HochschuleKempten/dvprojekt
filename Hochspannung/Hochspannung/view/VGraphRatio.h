@@ -27,11 +27,13 @@ public:
 	void toggleType();
 	void switchVertical();
 	void switchHorizontal();
-
+	void disable();
+	void enable();
 private:
 	void recalcRectangles();
 	CViewport* m_viewport;
 	Bar* m_bar;
+	COverlay disabled;
 	bool m_bVertical;
 };
 

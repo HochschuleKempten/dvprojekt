@@ -20,7 +20,7 @@ public:
 	void StartEvent() override;
 	void EndEvent() override;
 
-	void updateHostList(const std::vector<Network::CGameObject>& hostList);
+	void updateHostList(const std::unordered_map<std::string, Network::CGameObject>& hostList);
 
 	void foundPlayer();
 

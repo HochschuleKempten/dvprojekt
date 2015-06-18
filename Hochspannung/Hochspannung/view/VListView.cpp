@@ -105,7 +105,7 @@ void VListView::addEntry(const std::string& sName, const float layer)
 	calcEntrySize();
 }
 
-void VListView::updateList(const std::vector<Network::CGameObject>& hostList)
+void VListView::updateList(const std::unordered_map<std::string, Network::CGameObject>& hostList)
 {
 	for (const std::string& key : m_entries)
 	{
@@ -114,10 +114,9 @@ void VListView::updateList(const std::vector<Network::CGameObject>& hostList)
 	}
 	m_entries.clear();
 
-	for (const Network::CGameObject& go : hostList)
+	for (std::unordered_map<std::string, Network::CGameObject>::const_iterator it = hostList.cbegin(); it != hostList.cend(); ++it)
 	{
-		m_entries.push_back(go.getServerIP());
-		addEntry(go.getServerIP(), getLayer() - 0.01F);
+		addEntry(it->first, getLayer() - 0.01F);
 	}
 }
 

@@ -69,11 +69,11 @@ bool CNetworkService::searchGames() {
 	return static_cast<CClient*>(m_pNode)->searchGames();
 }
 
-std::vector<CGameObject> CNetworkService::getGameList() {
+std::unordered_map<std::string, CGameObject> CNetworkService::getGameList() {
 	if (m_pNode != nullptr && getType() == CNode::Type::CLIENT) {
 		return static_cast<CClient*>(m_pNode)->getGameList();
 	} else {
-		return std::vector<CGameObject>();
+		return std::unordered_map<std::string, CGameObject>();
 	}
 }
 

@@ -15,7 +15,13 @@ LNuclearPowerPlant::LNuclearPowerPlant(LField* lField, const int x, const int y,
 
 int LNuclearPowerPlant::getEnergyValue()
 {
-	return fossilResourceCheck();
+	if (isActivated)
+	{
+		return fossilResourceCheck();
+
+	}
+
+	return 0;
 }
 
 LNuclearPowerPlant::~LNuclearPowerPlant()

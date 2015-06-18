@@ -29,11 +29,6 @@ private:
 	CPlacement m_zpBerg8;
 
 	//Geo-Objects --------------------------------------------------------------------------
-
-	CMaterial m_zmBerg;
-
-	CDeviceKeyboard m_zdk;
-
 	CGeoCone m_zgBerg;
 	
 public:

@@ -31,14 +31,24 @@ void LCity::tick(const float fTimeDelta)
 		{
 			int seconds = CASTS<int>(timeLastCheck);
 
-			//Increase population
-			setPopulationTotal(populationTotal + seconds * LBalanceLoader::getPopulationGrowth());
-
 			//Calculate energy value
 			lField->getLPlayingField()->calculateEnergyValueCity();
 
 			//Check energy storage
-			setEnergySurplus(CASTS<int>(energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen())));
+			int surplus = CASTS<int>(energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen()));
+			setEnergySurplus(surplus);
+
+			//Avoid jumping around the borders
+			if (surplus > LBalanceLoader::getConsumptionPerCitizen())
+			{
+				//Increase population
+				setPopulationTotal(populationTotal + seconds * LBalanceLoader::getPopulationGrowth());
+			}
+			else if (surplus < -LBalanceLoader::getConsumptionPerCitizen())
+			{
+				//Decrease population
+				setPopulationTotal(populationTotal - seconds * LBalanceLoader::getPopulationGrowth());
+			}
 
 			timeLastCheck = 0;
 		}
@@ -82,22 +92,21 @@ int LCity::getEnergySurplus() const
 	return energySurplus;
 }
 
+bool LCity::checkSell() const
+{
+	return false;
+}
+
 void LCity::setEnergySurplus(const int surplus)
 {
 	this->energySurplus = surplus;
 
 	if (playerId & LPlayer::Local)
 	{
-		if (energySurplus >= 0 && energySurplus < LBalanceLoader::getSurplusWarningThreshold())
+		if (energySurplus < LBalanceLoader::getSurplusWarningThreshold())
 		{
 			vCity->energyLow(energySurplus);
 			LMessageLoader::emitMessage(LMessageLoader::SURPLUS_LOW);
-		}
-		else if (energySurplus < 0)
-		{
-			//Player has lost
-			lField->getLPlayingField()->getLMaster()->gameOver();
-			return;
 		}
 	}
 
