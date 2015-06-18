@@ -150,7 +150,10 @@ void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
 	powerPlants.erase(std::remove(powerPlants.begin(), powerPlants.end(), powerPlant), powerPlants.end());
 	lMaster->getVMaster()->updateRemovedPowerPlant(powerPlant->getIdentifier(), playerId);
 	
-	checkDisposalValue(powerPlant);
+	if (playerId == LPlayer::Local && !lMaster->getLPlayingField()->isLocalOperation())
+	{
+		checkDisposalValue(powerPlant);
+	}
 }
 
 void LPlayer::addPowerLine(LPowerLine* powerLine)
@@ -168,7 +171,10 @@ void LPlayer::removePowerLine(const LPowerLine* const powerLine)
 	powerLines.erase(std::remove(powerLines.begin(), powerLines.end(), powerLine), powerLines.end());
 	lMaster->getVMaster()->updateNumberPowerLines(CASTS<int>(powerLines.size()), playerId);
 
-	checkDisposalValue(powerLine);
+	if (playerId == LPlayer::Local && !lMaster->getLPlayingField()->isLocalOperation())
+	{
+		checkDisposalValue(powerLine);
+	}
 }
 
 void LPlayer::checkPowerPlants()
