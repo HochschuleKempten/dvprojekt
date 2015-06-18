@@ -56,11 +56,11 @@ public:
 	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* viewModelOn, IViewModel* viewModelOff)
 		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), viewModelOn(viewModelOn), viewModelOff(viewModelOff)
 	{
-		quadForAnimation.Init(5, 5, &animationMaterial);
+		quadForAnimation.Init(2, 2, &animationMaterial);
 		placementForAnimation.AddGeo(&quadForAnimation);
-		placementForAnimation.TranslateY(5.0f);
-		placementForAnimation.TranslateZDelta(5.0f);
-		placementForAnimation.RotateXDelta(PI / -4.0f);
+		placementForAnimation.TranslateY(2.0f);
+		placementForAnimation.TranslateZDelta(4.0f);
+		placementForAnimation.RotateXDelta(PI / 4.0f);
 		animationMaterial.SwitchOff();
 	}
 
@@ -178,7 +178,7 @@ public:
 								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
 								 CASTS<float>(VMaterialLoader::materialAnimSabotagePowerPlant_x * VMaterialLoader::materialAnimSabotagePowerPlant_y) / CASTS<float>(seconds));
 
-		vMaster->getVPlayingField()->placeObject(&placementForAnimation, lPlant->getLField()->getX(), lPlant->getLField()->getY());
+	    vMaster->getVPlayingField()->placeObject(&placementForAnimation, lPlant->getLField()->getX(), lPlant->getLField()->getY());
 
 		if (getLBuilding()->getPlayerId() == LPlayer::Local)
 		{
