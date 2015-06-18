@@ -4,6 +4,7 @@
 #include "IViewUIObserver.h"
 #include "IViewScreen.h"
 #include "../logic/IVTickObserver.h"
+#include "../logic/LPlayer.h"
 #include <mutex>
 
 NAMESPACE_VIEW_B
@@ -81,11 +82,11 @@ public:
 	void initUI(HWND hwnd, CSplash* psplash);
 
 	void resize(int width, int height);
-	void updateMoney(const int wert);
+	void updateMoney(const int wert, const LPlayer::PlayerId playerId);
 	void updatePopulation(const int wert);
-	void updateAddedPowerPlant(const LIdentifier::LIdentifier id);
-	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id);
-	void updateNumberPowerLines(const int newNumberPowerLines);
+	void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId);
+	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId);
+	void updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId);
 	void updateEnergySurplus(const int surplusRatio);
 	void updateGameList(const std::vector<Network::CGameObject>& gameList);
 	void updateRegenerativeRatioLocal(float ratio);

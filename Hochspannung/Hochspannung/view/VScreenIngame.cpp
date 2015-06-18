@@ -214,9 +214,9 @@ activeInfo(nullptr)
 	m_vtTabSabotage->getGuiObject("HeaderSabNum")->switchOff();
 	m_vtTabSabotage->getGuiObject("SabotageNumLeft")->switchOff();
 
-	// Tab for statistics
+	// Tab for own statistics
 
-	m_vtTabStatistics->addText(CFloatRect(0.05f, 0.04f, 0.2f, 0.2f), &VMaterialLoader::standardFont, "Gebaeude", "buildingText", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.05f, 0.04f, 0.4f, 0.2f), &VMaterialLoader::standardFont, "Gebaeude Selbst", "buildingText", 0.1F);
 
 	m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.25f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonWindmill, "statisticWind",0.1F);
 	m_vtTabStatistics->addText(CFloatRect(0.1f, 0.28f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_WINDMILL],0.1F);
@@ -235,6 +235,28 @@ activeInfo(nullptr)
 
 	m_vtTabStatistics->addOverlay(CFloatRect(0.22f, 0.75f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOil", 0.1F);
 	m_vtTabStatistics->addText(CFloatRect(0.27f, 0.78f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT], 0.1F);
+
+	// Tab for enemy statistics
+
+	m_vtTabStatistics->addText(CFloatRect(0.55f, 0.04f, 0.4f, 0.2f), &VMaterialLoader::standardFont, "Gebaeude Gegner", "buildingTextEnemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.55f, 0.25f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonWindmill, "statisticWindEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.6f, 0.28f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_WINDMILL]+"enemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.55f, 0.50f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, "statisticHydroEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.6f, 0.53f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_HYDROPOWERPLANT] + "enemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.55f, 0.75f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, "statisticSolarEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.6f, 0.78f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_SOLARPOWERPLANT] + "enemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.72f, 0.25f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, "statisticNuclearEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.77f, 0.28f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_NUCLEARPOWERPLANT] + "enemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.72f, 0.50f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, "statisticCoalEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.77f, 0.53f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_COALPOWERPLANT] + "enemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.72f, 0.75f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOilEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.77f, 0.78f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT] + "enemy", 0.1F);
 
 	//vrRegister->SwitchToTab("TabBuilding");
 
@@ -261,6 +283,7 @@ activeInfo(nullptr)
 	getContainer("BottomBar")->getContainer("Bars")->addOverlay(CFloatRect(fBarEnemyPosX, 0.095f, fBarIconSizeX, 0.2F), &VMaterialLoader::materialLeaffossileEnemy, "enemyHeadlineFossile", 0.1F);
 	getContainer("BottomBar")->getContainer("Bars")->addText(CFloatRect(fBarEnemyPosX, 0.35F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "enemyGraphTextTop", 0.1F);
 	getContainer("BottomBar")->getContainer("Bars")->addText(CFloatRect(fBarEnemyPosX, 0.85F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "enemyGraphTextBottom", 0.1F);
+
 
 	/***********************************************************Dialog******************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.35F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialLobbyRunningGamesBackground, "DialogBox", 0.3F);
@@ -550,9 +573,12 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 	}
 }
 
-void VScreenIngame::updateMoney(const int wert)
+void VScreenIngame::updateMoney(const int wert, LPlayer::PlayerId playerId)
 {
-	CASTD<VText*>(getContainer("Topbar")->getGuiObject("moneyValue"))->updateText(std::to_string(wert));
+	if (playerId == LPlayer::Local)
+		CASTD<VText*>(getContainer("Topbar")->getGuiObject("moneyValue"))->updateText(std::to_string(wert));
+	else
+		CASTD<VText*>(getContainer("Topbar")->getGuiObject("moneyValueEnemy"))->updateText(std::to_string(wert));
 }
 
 void VScreenIngame::updatePopulation(const int wert)
@@ -565,54 +591,71 @@ void VScreenIngame::updateInfofield(const std::string& neuerText)
 	//CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
 }
 
-void VScreenIngame::updateAddedPowerPlant(const LIdentifier::LIdentifier id)
+void VScreenIngame::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
 	switch (id)
 	{
-	case LIdentifier::LCoalPowerPlant: statPlacedBuildings[BUILDING_COALPOWERPLANT]++;
+	case LIdentifier::LCoalPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_COALPOWERPLANT]++ : statPlacedBuildingsEnemy[BUILDING_COALPOWERPLANT]++;
 		break;
-	case LIdentifier::LHydroelectricPowerPlant: statPlacedBuildings[BUILDING_HYDROPOWERPLANT]++;
+	case LIdentifier::LHydroelectricPowerPlant: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_HYDROPOWERPLANT]++ : statPlacedBuildingsEnemy[BUILDING_HYDROPOWERPLANT]++;
 		break;
-	case LIdentifier::LNuclearPowerPlant: statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]++;
+	case LIdentifier::LNuclearPowerPlant: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]++ : statPlacedBuildingsEnemy[BUILDING_NUCLEARPOWERPLANT]++;
 		break;
-	case LIdentifier::LOilRefinery: statPlacedBuildings[BUILDING_OILPOWERPLANT]++;
+	case LIdentifier::LOilRefinery: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_OILPOWERPLANT]++ : statPlacedBuildingsEnemy[BUILDING_OILPOWERPLANT]++;
 		break;
-	case LIdentifier::LSolarPowerPlant: statPlacedBuildings[BUILDING_SOLARPOWERPLANT]++;
+	case LIdentifier::LSolarPowerPlant: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_SOLARPOWERPLANT]++ : statPlacedBuildingsEnemy[BUILDING_SOLARPOWERPLANT]++;
 		break;
-	case LIdentifier::LWindmillPowerPlant: statPlacedBuildings[BUILDING_WINDMILL]++;
+	case LIdentifier::LWindmillPowerPlant: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_WINDMILL]++ : statPlacedBuildingsEnemy[BUILDING_WINDMILL]++;
 		break;
-	case LIdentifier::LPowerLine: statPlacedBuildings[BUILDING_POWERLINE]++;
+	case LIdentifier::LPowerLine: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_POWERLINE]++ : statPlacedBuildingsEnemy[BUILDING_POWERLINE]++;
 		break;
 	default: break;
 	}
 }
 
-void VScreenIngame::updateRemovedPowerPlant(const LIdentifier::LIdentifier id)
+void VScreenIngame::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
 	switch (id)
 	{
-	case LIdentifier::LCoalPowerPlant: statPlacedBuildings[BUILDING_COALPOWERPLANT]--;
+	case LIdentifier::LCoalPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_COALPOWERPLANT]-- : statPlacedBuildingsEnemy[BUILDING_COALPOWERPLANT]--;
 		break;
-	case LIdentifier::LHydroelectricPowerPlant: statPlacedBuildings[BUILDING_HYDROPOWERPLANT]--;
+	case LIdentifier::LHydroelectricPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_HYDROPOWERPLANT]-- : statPlacedBuildingsEnemy[BUILDING_HYDROPOWERPLANT]--;
 		break;
-	case LIdentifier::LNuclearPowerPlant: statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]--;
+	case LIdentifier::LNuclearPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]-- : statPlacedBuildingsEnemy[BUILDING_NUCLEARPOWERPLANT]--;
 		break;
-	case LIdentifier::LOilRefinery: statPlacedBuildings[BUILDING_OILPOWERPLANT]--;
+	case LIdentifier::LOilRefinery:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_OILPOWERPLANT]-- : statPlacedBuildingsEnemy[BUILDING_OILPOWERPLANT]--;
 		break;
-	case LIdentifier::LSolarPowerPlant: statPlacedBuildings[BUILDING_SOLARPOWERPLANT]--;
+	case LIdentifier::LSolarPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_SOLARPOWERPLANT]-- : statPlacedBuildingsEnemy[BUILDING_SOLARPOWERPLANT]--;
 		break;
-	case LIdentifier::LWindmillPowerPlant: statPlacedBuildings[BUILDING_WINDMILL]--;
+	case LIdentifier::LWindmillPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_WINDMILL]-- : statPlacedBuildingsEnemy[BUILDING_WINDMILL]--;
 		break;
-	case LIdentifier::LPowerLine: statPlacedBuildings[BUILDING_POWERLINE]--;
+	case LIdentifier::LPowerLine:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_POWERLINE]-- : statPlacedBuildingsEnemy[BUILDING_POWERLINE]--;
 		break;
 	default: break;
 	}
 }
 
 
-void VScreenIngame::updateNumberPowerLines(const int newNumberPowerLines)
+void VScreenIngame::updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId)
 {
-	statPlacedBuildings[BUILDING_POWERLINE] = newNumberPowerLines;
+	if (playerId == LPlayer::Local)
+		statPlacedBuildings[BUILDING_POWERLINE] = newNumberPowerLines;
+	else
+		statPlacedBuildingsEnemy[BUILDING_POWERLINE] = newNumberPowerLines;
 }
 
 void VScreenIngame::updatePowerPlants()
@@ -623,8 +666,18 @@ void VScreenIngame::updatePowerPlants()
 		if (plant.first != BUILDING_POWERLINE) {
 			if (plant.second < 10)
 				CASTD<VText*>(m_vtTabStatistics->getGuiObject(m_powerPlantsNameMapping[plant.first]))->updateText("0" + std::to_string(plant.second));
-			else 
+			else
 				CASTD<VText*>(m_vtTabStatistics->getGuiObject(m_powerPlantsNameMapping[plant.first]))->updateText(std::to_string(plant.second));
+		}
+	}
+
+	for (const std::pair<BUILDINGTYPE, int>& plant : statPlacedBuildingsEnemy)
+	{
+		if (plant.first != BUILDING_POWERLINE) {
+			if (plant.second < 10)
+				CASTD<VText*>(m_vtTabStatistics->getGuiObject(m_powerPlantsNameMapping[plant.first]+"enemy"))->updateText("0" + std::to_string(plant.second));
+			else
+				CASTD<VText*>(m_vtTabStatistics->getGuiObject(m_powerPlantsNameMapping[plant.first]+"enemy"))->updateText(std::to_string(plant.second));
 		}
 	}
 }

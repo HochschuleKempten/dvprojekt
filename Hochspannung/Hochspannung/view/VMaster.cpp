@@ -132,7 +132,7 @@ void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
 {
 	if (playerId == LPlayer::Local)
 	{
-		vUi.updateMoney(money);
+		vUi.updateMoney(money, playerId);
 	}
 }
 
@@ -145,7 +145,7 @@ void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPl
 {
 	if (playerId == LPlayer::Local)
 	{
-		vUi.updateAddedPowerPlant(id);
+		vUi.updateAddedPowerPlant(id, playerId);
 	}
 }
 
@@ -153,7 +153,7 @@ void VMaster::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const L
 {
 	if (playerId == LPlayer::Local)
 	{
-		vUi.updateRemovedPowerPlant(id);
+		vUi.updateRemovedPowerPlant(id, playerId);
 	}
 }
 
@@ -161,7 +161,7 @@ void VMaster::updateNumberPowerLines(const int newNumberPowerLines, const LPlaye
 {
 	if (playerId == LPlayer::Local)
 	{
-		vUi.updateNumberPowerLines(newNumberPowerLines);
+		vUi.updateNumberPowerLines(newNumberPowerLines, playerId);
 	}
 }
 
