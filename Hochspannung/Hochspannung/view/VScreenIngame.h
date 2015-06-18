@@ -109,6 +109,8 @@ private:
 	bool trySabotage(const int x, const int y);
 	bool tryBuildingInteraction(const int x, const int y);
 
+	int getNumberofBuildings(const LPlayer::PlayerId playerId);
+
 	void updateModelView();
 
 	void SabotageTabSwitchOn();
