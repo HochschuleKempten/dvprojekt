@@ -394,6 +394,8 @@
     <ClInclude Include="view\VScreenGameOver.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="view\VContextInfo.h">
+    </ClInclude>
     <ClInclude Include="view\VModelMountains.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -644,6 +646,8 @@
     </ClCompile>
     <ClCompile Include="logic\ILBuilding.cpp">
       <Filter>logic\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VContextInfo.cpp">
     </ClCompile>
     <ClCompile Include="view\VModelMountains.cpp">
       <Filter>view\Quelldateien</Filter>

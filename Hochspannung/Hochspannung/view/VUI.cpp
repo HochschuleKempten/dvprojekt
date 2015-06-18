@@ -293,7 +293,7 @@ void VUI::setSabotageNumber(const int value)
 
 void VUI::contextMenuUpdateValue(const std::pair<int, int> pos, const int value)
 {
-	//todo implement 
+	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "SellPrice", std::to_string(value));
 }
 
 void VUI::contextMenuUpdateResourceValue(const std::pair<int, int> pos, const int resourceValue)
