@@ -81,7 +81,7 @@ private:
 	CGeoCylinder m_zgDrehelement;
 	CGeoWall m_zgSchranke;
 
-	//CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(0.2f);
+	CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(1.0f);
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;
 

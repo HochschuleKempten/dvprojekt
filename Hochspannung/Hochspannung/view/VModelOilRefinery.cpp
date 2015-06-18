@@ -86,8 +86,8 @@ void VModelOilRefinery::init()
 	m_zpOelkraftwerk.AddPlacement(&m_zpKamin);
 	m_zpOelkraftwerk.AddPlacement(m_zTrasse1.getPlacementMain());
 	m_zpOelkraftwerk.AddPlacement(m_zTrasse2.getPlacementMain());
-	//m_zpOelkraftwerk.AddPlacement(&m_zpGebaeude1);
-	//m_zpOelkraftwerk.AddPlacement(&m_zpGebaeude2);
+	m_zpOelkraftwerk.AddPlacement(&m_zpGebaeude1);
+	m_zpOelkraftwerk.AddPlacement(&m_zpGebaeude2);
 	m_zpOelkraftwerk.AddPlacement(&m_zpAbsperrung);
 	m_zpOelkraftwerk.AddPlacement(&m_zpPumpe);
 
@@ -147,16 +147,17 @@ void VModelOilRefinery::init()
 	m_zpAbsperrung.AddPlacement(&m_zpDrehelement);
 	m_zpAbsperrung.AddPlacement(&m_zpSchranke);
 
-	/*
+	
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte11);
-	//	m_zpGebaeudeHaelfte11.AddPlacement(Gebaeude);
+	m_zpGebaeudeHaelfte11.AddPlacement(Gebaeude);
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte12);
-	//m_zpGebaeudeHaelfte12.AddPlacement(Gebaeude);
+	m_zpGebaeudeHaelfte12.AddPlacement(Gebaeude);
 	m_zpGebaeude2.AddPlacement(&m_zpGebaeudeHaelfte21);
-	//m_zpGebaeudeHaelfte21.AddPlacement(Gebaeude);
+	m_zpGebaeudeHaelfte21.AddPlacement(Gebaeude);
 	m_zpGebaeude2.AddPlacement(&m_zpGebaeudeHaelfte22);
 	m_zpGebaeudeHaelfte22.AddPlacement(Gebaeude);
-	*/
+	Gebaeude->Scale(0.2f);
+	
 
 	m_zpFundament.AddGeo(&m_zgFoundation);
 	m_zpFundament.ScaleXDelta(12.5f);
@@ -170,7 +171,7 @@ void VModelOilRefinery::init()
 	m_zpGebaeudeHaelfte12.TranslateDelta(CHVector(-1.0f, 0.15f, -1.0f));
 	m_zpGebaeudeHaelfte12.RotateYDelta(PI);
 
-	m_zpGebaeude2.Translate(CHVector(-2.8f, 0.15f, -3.8f));
+	m_zpGebaeude2.Translate(CHVector(-1.8f, 0.15f, -3.8f));
 	m_zpGebaeude2.RotateYDelta(0.5 * PI);
 	m_zpGebaeudeHaelfte21.Translate(CHVector(1.0f, 0.15f, 1.6f));
 	m_zpGebaeudeHaelfte22.TranslateDelta(CHVector(-1.0f, 0.15f, -0.6f));
