@@ -1146,7 +1146,6 @@ void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& picke
 				{
 					m_fieldValueStorage.emplace(std::piecewise_construct, std::make_tuple(std::make_pair(x, y)), std::make_tuple(this));
 				}
-				
 			}
 
 			if (selectedBuilding != VIdentifier::Undefined)
