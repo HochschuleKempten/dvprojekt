@@ -25,7 +25,6 @@ bool VMountains::clicked(action /*action*/)
 
 ILBuilding* VMountains::getLBuilding()
 {
-	ASSERT("This method should not be called");
 	return nullptr;
 }
 

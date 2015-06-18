@@ -92,6 +92,11 @@ int LCity::getEnergySurplus() const
 	return energySurplus;
 }
 
+bool LCity::checkSell() const
+{
+	return false;
+}
+
 void LCity::setEnergySurplus(const int surplus)
 {
 	this->energySurplus = surplus;

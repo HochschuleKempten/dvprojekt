@@ -1214,7 +1214,6 @@ void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& picke
 				{
 					m_fieldValueStorage.emplace(std::piecewise_construct, std::make_tuple(std::make_pair(x, y)), std::make_tuple(this));
 				}
-				
 			}
 
 			if (selectedBuilding != VIdentifier::Undefined)
@@ -1291,7 +1290,7 @@ bool VScreenIngame::trySabotage(const int x, const int y)
 	}
 	//Own building selected
 	
-	if (vbuilding->getLBuilding()->getPlayerId() != LPlayer::PlayerId::Remote)
+	if (vbuilding->getLBuilding() == nullptr || vbuilding->getLBuilding()->getPlayerId() != LPlayer::PlayerId::Remote)
 	{
 		return false;
 	}
@@ -1358,7 +1357,7 @@ bool VScreenIngame::tryBuildingInteraction(const int x, const int y)
 	}
 
 	//Remote building selected
-	if (vbuilding->getLBuilding()->getPlayerId() != LPlayer::PlayerId::Local)
+	if (vbuilding->getLBuilding() == nullptr || vbuilding->getLBuilding()->getPlayerId() != LPlayer::PlayerId::Local)
 	{
 		return false;
 	}
@@ -1376,9 +1375,13 @@ bool VScreenIngame::tryBuildingInteraction(const int x, const int y)
 			return vbuilding->clicked(selectedAction);
 		
 		case IViewBuilding::sell:
-			//Currently the sell action does not perform any checks, so remove immediatly
-			vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
-			return true;
+			if (vbuilding->clicked(selectedAction))
+			{
+				vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
+				return true;
+			}
+
+			return false;
 
 		default:
 			return false;

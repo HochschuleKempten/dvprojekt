@@ -66,6 +66,10 @@ bool VPowerLine::clicked(action action)
 				LRemoteOperation remoteOperation(lPowerLine->getLField()->getLPlayingField(), vMaster->getLMaster()->getPlayer(LPlayer::Local));
 				return remoteOperation.sabotageRemove(lPowerLine);
 			}
+		case sell:
+			{
+				return lPowerLine->checkSell();
+			}
 
 		default: ASSERT("Invalid action");
 			return false;

@@ -92,7 +92,7 @@ public:
 
 	int getValue() const
 	{
-		return value * CASTS<int>(connected ? LBalanceLoader::getSellRevenueConnected() : LBalanceLoader::getSellRevenueDisconnected());
+		return CASTS<int>(value * (connected ? LBalanceLoader::getSellRevenueConnected() : LBalanceLoader::getSellRevenueDisconnected()));
 	}
 
 	void addValue(const int value)
@@ -106,6 +106,8 @@ public:
 	}
 
 	void sabotageRemove();
+
+	virtual bool checkSell() const = 0;
 		
 	virtual LIdentifier::LIdentifier getIdentifier() const = 0;
 };

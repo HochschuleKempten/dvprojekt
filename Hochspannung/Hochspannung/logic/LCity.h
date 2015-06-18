@@ -33,6 +33,8 @@ public:
 	int getPopulation() const;
 	int getEnergySurplus() const;
 
+	virtual bool checkSell() const override;
+
 	virtual LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LCity;

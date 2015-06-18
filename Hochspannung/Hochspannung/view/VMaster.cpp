@@ -130,10 +130,7 @@ void VMaster::startBuildingPlayingField()
 
 void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
 {
-	if (playerId == LPlayer::Local)
-	{
-		vUi.updateMoney(money, playerId);
-	}
+	vUi.updateMoney(money, playerId);
 }
 
 void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
@@ -143,26 +140,17 @@ void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
 
 void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
-	if (playerId == LPlayer::Local)
-	{
-		vUi.updateAddedPowerPlant(id, playerId);
-	}
+	vUi.updateAddedPowerPlant(id, playerId);
 }
 
 void VMaster::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
-	if (playerId == LPlayer::Local)
-	{
-		vUi.updateRemovedPowerPlant(id, playerId);
-	}
+	vUi.updateRemovedPowerPlant(id, playerId);
 }
 
 void VMaster::updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId)
 {
-	if (playerId == LPlayer::Local)
-	{
-		vUi.updateNumberPowerLines(newNumberPowerLines, playerId);
-	}
+	vUi.updateNumberPowerLines(newNumberPowerLines, playerId);
 }
 
 void VMaster::pauseGame()

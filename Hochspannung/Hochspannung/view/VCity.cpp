@@ -68,7 +68,6 @@ ILBuilding* VCity::getLBuilding()
 
 bool VCity::clicked(action /*action*/) 
 {
-	ASSERT("No click action in VCity available");
 	return false;
 }
 

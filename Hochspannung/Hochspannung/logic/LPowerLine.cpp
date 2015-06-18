@@ -42,6 +42,12 @@ void LPowerLine::removeDirection(const int direction)
 	}
 }
 
+bool LPowerLine::checkSell() const
+{
+	//Power lines can always be selled
+	return true;
+}
+
 void LPowerLine::setConnected(bool connected)
 {
 	ILBuilding::setConnected(connected);
