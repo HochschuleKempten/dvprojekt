@@ -299,10 +299,12 @@ void VUI::contextMenuUpdateValue(const std::pair<int, int> pos, const int value)
 
 void VUI::contextMenuUpdateResourceValue(const std::pair<int, int> pos, const int resourceValue)
 {
+	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "Resource", std::to_string(resourceValue));
 }
 
 void VUI::contextMenuUpdatePopulation(const std::pair<int, int> pos, const int population)
 {
+	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "Population", std::to_string(population));
 }
 
 void VUI::contextMenuUpdateEnergy(const std::pair<int, int> pos, const int energy)

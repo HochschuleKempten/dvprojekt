@@ -156,15 +156,17 @@ activeInfo(nullptr)
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->addOverlay(CFloatRect(0.65F, 0.70F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconEnergy, "EngergyInfoIcon", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->addOverlay(CFloatRect(0.65F, 0.85F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconMoney, "MoneyInfoIcon", 0.1F);
 
-	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addText(CFloatRect(0.10F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "1000", "RessourceInfo", 0.1F);
-	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addText(CFloatRect(0.10F, 0.85F, 0.5F, 0.08F), &VMaterialLoader::GoldFont, "1000", "SellInfo", 0.1F);
-	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.70F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconEnergy, "RessourceInfoIcon", 0.1F);
-	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.85F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconMoney, "SellInfoIcon", 0.1F);
-
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addText(CFloatRect(0.10F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "1000", "PopulationInfo", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addText(CFloatRect(0.10F, 0.80F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "1000", "ResourceInfo", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addText(CFloatRect(0.10F, 0.90F, 0.5F, 0.08F), &VMaterialLoader::GoldFont, "1000", "SellInfo", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.70F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconPopulation, "PopulationInfoIcon", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.80F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconEnergy, "ResourceInfoIcon", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.90F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconMoney, "SellInfoIcon", 0.1F);
 
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->switchOff();
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->switchOff();
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->switchOff();
+	
 	
 	vUi->m_zf.AddViewport(&m_viewportModels);
 
