@@ -1138,7 +1138,15 @@ void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& picke
 
 			if (selectedBuilding == VIdentifier::Undefined && selectedAction == IViewBuilding::Undefined)
 			{
-				m_fieldValueStorage.at(std::make_pair(x, y)).showContextInfo();
+				if (m_fieldValueStorage.count(std::make_pair(x, y)) > 0)
+				{
+					m_fieldValueStorage.at(std::make_pair(x, y)).showContextInfo();
+				}
+				else
+				{
+					m_fieldValueStorage.emplace(std::piecewise_construct, std::make_tuple(std::make_pair(x, y)), std::make_tuple(this));
+				}
+				
 			}
 
 			if (selectedBuilding != VIdentifier::Undefined)
