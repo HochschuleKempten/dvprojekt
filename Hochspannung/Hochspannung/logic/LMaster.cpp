@@ -41,14 +41,13 @@ LMaster::~LMaster()
 	networkService.close();
 }
 
-void LMaster::hostGame(std::string gameName) {
+void LMaster::hostGame(const std::string & gameName) {
 	if (lPlayingField == nullptr) {
 		lPlayingField = new LPlayingField(this);
 	}
 
 	host(gameName);
-	while (networkService.getConnectionState() != Network::CNode::State::CONNECTED)
-		;
+	while (networkService.getConnectionState() != Network::CNode::State::CONNECTED);
 
 	vMaster.startBuildingPlayingField();
 
@@ -420,6 +419,23 @@ void LMaster::connect(const std::string& ip)
 	{
 		DEBUG_OUTPUT("Connecting to server failed.");
 	}
+}
+
+void LMaster::sendDefaultIPs() const
+{
+	std::vector<std::string> defaultIPs = LBalanceLoader::getDefaultRemoteAddresses();
+
+	//Exclude own ip
+	defaultIPs.erase(std::remove(defaultIPs.begin(), defaultIPs.end(), LBalanceLoader::getLocalIpAddress()), defaultIPs.end());
+
+	std::unordered_map<std::string, Network::CGameObject> gameList;
+
+	for (const std::string& ip : defaultIPs)
+	{
+		gameList.emplace(ip, Network::CGameObject(ip::address_v4::from_string(ip), 0, "Default"));
+	}
+
+	vMaster.updateGameList(gameList);
 }
 
 void LMaster::sendSetObject(const int objectId, const int x, const int y, const std::string& value)

@@ -154,6 +154,10 @@ public:
 	 * @brief Address of the adapter to use for outgoing connections.
 	 */
 	static std::string getLocalIpAddress();
+	/**
+	 * @brief Returns default addresses which will be shown in the list of remote addresses.
+	 */
+	static std::vector<std::string> getDefaultRemoteAddresses();
 };
 
 NAMESPACE_LOGIC_E

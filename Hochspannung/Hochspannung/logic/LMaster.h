@@ -35,13 +35,14 @@ public:
 	explicit LMaster(IVMaster& vMaster);
 	~LMaster();
 
-	void hostGame(std::string gameName);
+	void hostGame(const std::string & gameName);
 	void startSinglePlayerGame();
 	void joinGame(const std::string& ipAddress);
 
 	void gameOver();
 	void gameWon();
 	virtual void tick(const float fTimeDelta) override;
+	void sendDefaultIPs() const;
 
 	//networking
 	void sendSetObject(const int objectId, const int x, const int y, const std::string& value);

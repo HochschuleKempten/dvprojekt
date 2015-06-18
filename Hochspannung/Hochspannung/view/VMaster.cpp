@@ -108,7 +108,7 @@ void VMaster::resize(int width, int height)
 	vUi.resize(width, height);
 }
 
-void VMaster::hostGame(std::string gameName)
+void VMaster::hostGame(const std::string & gameName)
 {
 	lMaster->hostGame(gameName);
 }

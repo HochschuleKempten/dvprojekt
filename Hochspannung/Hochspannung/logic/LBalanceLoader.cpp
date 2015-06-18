@@ -255,4 +255,12 @@ std::string LBalanceLoader::getLocalIpAddress()
 	return propertyTree.get<std::string>("GeneralSettings.LocalIpAddress", "0.0.0.0");
 }
 
+std::vector<std::string> LBalanceLoader::getDefaultRemoteAddresses()
+{
+	ASSERT(initDone, msgAssert);
+
+	std::string addresses = propertyTree.get<std::string>("GeneralSettings.DefaultRemoteAddresses", "");
+	return split(addresses, ';');
+}
+
 NAMESPACE_LOGIC_E

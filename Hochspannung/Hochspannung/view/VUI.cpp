@@ -71,6 +71,7 @@ void VUI::onNotify(const Event& evente)
 
 		case SWITCH_TO_LOBBY:
 			switchScreen("Lobby");
+			vMaster->lMaster->sendDefaultIPs();
 			break;
 		case SWITCH_TO_MAINMENUE:
 			switchScreen("MainMenue");

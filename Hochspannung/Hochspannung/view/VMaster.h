@@ -39,7 +39,7 @@ public:
 	void resize(int width, int height);
 
 	void startSinglePlayerGame();
-	void hostGame(std::string gameName);
+	void hostGame(const std::string & gameName);
 	void joinGame(const std::string& ipAddress);
 
 	virtual void startBuildingPlayingField() override;
