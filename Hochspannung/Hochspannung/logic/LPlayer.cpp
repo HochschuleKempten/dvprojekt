@@ -291,10 +291,15 @@ void LPlayer::checkRegenerativeRatio()
 	if (countTotalPowerPlant != 0)
 	{
 		ratioRegenerative = CASTS<float>(countRegenerativePowerPlants) / CASTS<float>(countTotalPowerPlant);
-		lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative, playerId);
-
-		lMaster->sendRegenerativeRatio(ratioRegenerative);
+	} 
+	else
+	{
+		ratioRegenerative = 0;
 	}
+
+	lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative, playerId);
+
+	lMaster->sendRegenerativeRatio(ratioRegenerative);
 }
 
 void LPlayer::checkDisposalValue(const ILBuilding* const building)
