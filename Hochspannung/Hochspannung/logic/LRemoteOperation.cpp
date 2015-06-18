@@ -22,6 +22,12 @@ LRemoteOperation::LRemoteOperation(LPlayingField* lPlayingField, LPlayer* lPlaye
 	lPlayingField->beginRemoteOperation();
 }
 
+LRemoteOperation::LRemoteOperation(LPlayingField* lPlayingField, LCity* lCity)
+	: lPlayingField(lPlayingField), lCity(lCity)
+{
+	lPlayingField->beginRemoteOperation();
+}
+
 LRemoteOperation::~LRemoteOperation()
 {
 	lPlayingField->endRemoteOperation();
@@ -87,6 +93,12 @@ bool LRemoteOperation::sabotageResource(ILPowerPlant* lPowerPlant)
 {
 	ASSERT(lPlayer != nullptr, "lPlayer is not initialized");
 	return lPlayer->sabotageResource(lPowerPlant);
+}
+
+void LRemoteOperation::setPopulationTotal(const int populationTotal)
+{
+	ASSERT(lCity != nullptr, "lCity is not initialized");
+	lCity->setPopulationTotal(populationTotal);
 }
 
 void LRemoteOperation::sendStoredNetworkCalls()

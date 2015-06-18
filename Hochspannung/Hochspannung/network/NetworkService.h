@@ -190,6 +190,14 @@ public:
 	bool sendRatio(float fRatio, bool bApprovalNeeded = false);
 
 	/**
+	 * @brief Send the city population.
+	 * @param iPopulation the city population.
+	 * @param bApprovalNeeded set true, if the command shall be send as a request.
+	 * @return true if message could be sent, false otherwise.
+	 */
+	bool sendCityPopulation(int iPopulation, bool bApprovalNeeded = false);
+
+	/**
 	 * @brief Send the command back as an answer.
 	 * @param type The type of the answer: only REFUSAL or APPROVAL.
 	 * @param transferObject the command, which shall be approved.

@@ -793,8 +793,6 @@ void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 	checkGUIObjects(tempGuicontainer);
 	for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainerMap)
 	{
-		checkGUIObjects(ContainerPair.second);
-
 		if (tempGuicontainer->getGuiContainerMap().size() > 0)
 		{
 			checkGUIContainer(ContainerPair.second);

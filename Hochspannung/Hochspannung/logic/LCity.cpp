@@ -4,6 +4,7 @@
 #include "IVMaster.h"
 #include "IVFactory.h"
 #include "IVCity.h"
+#include "LRemoteOperation.h"
 
 NAMESPACE_LOGIC_B
 
@@ -38,16 +39,19 @@ void LCity::tick(const float fTimeDelta)
 			int surplus = CASTS<int>(energy - (populationTotal * LBalanceLoader::getConsumptionPerCitizen()));
 			setEnergySurplus(surplus);
 
+			LRemoteOperation remoteOperation(getLField()->getLPlayingField(), this);
+
 			//Avoid jumping around the borders
 			if (surplus > LBalanceLoader::getConsumptionPerCitizen())
 			{
 				//Increase population
-				setPopulationTotal(populationTotal + seconds * LBalanceLoader::getPopulationGrowth());
+				remoteOperation.setPopulationTotal(populationTotal + seconds * LBalanceLoader::getPopulationGrowth());
+
 			}
 			else if (surplus < -LBalanceLoader::getConsumptionPerCitizen())
 			{
 				//Decrease population
-				setPopulationTotal(populationTotal - seconds * LBalanceLoader::getPopulationGrowth());
+				remoteOperation.setPopulationTotal(populationTotal - seconds * LBalanceLoader::getPopulationGrowth());
 			}
 
 			timeLastCheck = 0;
@@ -74,12 +78,18 @@ void LCity::setPopulationTotal(const int populationTotal)
 	if (populationTotal > LBalanceLoader::getMaxPopulation())
 	{
 		this->populationTotal = LBalanceLoader::getMaxPopulation();
-		return;
+	} 
+	else
+	{
+		this->populationTotal = populationTotal;
 	}
 
-	this->populationTotal = populationTotal;
-
 	vCity->updatePopulation(populationTotal);
+
+	if (!getLField()->getLPlayingField()->isLocalOperation())
+	{
+		getLField()->getLPlayingField()->getLMaster()->sendCityPopulation(this->populationTotal);
+	}
 }
 
 int LCity::getPopulation() const

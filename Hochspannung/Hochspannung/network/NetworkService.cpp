@@ -237,6 +237,16 @@ bool CNetworkService::sendRatio(float fRatio, bool bApprovalNeeded) {
 	}
 }
 
+
+bool CNetworkService::sendCityPopulation(int iPopulation, bool bApprovalNeeded) {
+	if (getConnectionState() == CNode::State::CONNECTED) {
+		sendAsMessage(bApprovalNeeded, CTransferObject::Action::SEND_POPULATION, -1, -1, -1, boost::lexical_cast<std::string>(iPopulation));
+		return true;
+	} else {
+		return false;
+	}
+}
+
 bool CNetworkService::sendAnswer(CTransferObject::Type type, CTransferObject& transferObject) {
 	if (getConnectionState() == CNode::State::CONNECTED && 
 		(type == CTransferObject::Type::REFUSAL || type == CTransferObject::Type::APPROVAL)) {
