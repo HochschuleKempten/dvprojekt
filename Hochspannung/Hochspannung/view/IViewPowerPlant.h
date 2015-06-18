@@ -140,7 +140,7 @@ public:
 		viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
 		viewModelOn->getPlacementMain()->TranslateZDelta(moveZOff);
 
-		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
+		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone() && getLBuilding()->getPlayerId() == LPlayer::Local)
 		{
 			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_ON, getPlacementActive());
 		}
@@ -157,7 +157,7 @@ public:
 		viewModelOff->getPlacementMain()->TranslateZDelta(moveZOff);
 		viewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
 
-		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
+		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone() && getLBuilding()->getPlayerId() == LPlayer::Local)
 		{
 			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_OFF, getPlacementActive());
 		}
@@ -165,7 +165,10 @@ public:
 
 	virtual void sabotageResourcesReduced() override
 	{
-		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacementActive());
+		if (getLBuilding()->getPlayerId() == LPlayer::Local)
+		{
+			VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacementActive());
+		}
 	}
 
 	virtual void sabotagePowerPlantSwitchedOff(const int seconds) override
@@ -176,7 +179,11 @@ public:
 								 CASTS<float>(VMaterialLoader::materialAnimSabotagePowerPlant_x * VMaterialLoader::materialAnimSabotagePowerPlant_y) / CASTS<float>(seconds));
 
 		vMaster->getVPlayingField()->placeObject(&placementForAnimation, lPlant->getLField()->getX(), lPlant->getLField()->getY());
-		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
+
+		if (getLBuilding()->getPlayerId() == LPlayer::Local)
+		{
+			VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
+		}
 	}
 
 	virtual void sabotagePowerPlantSwitchedOn() override
