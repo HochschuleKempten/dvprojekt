@@ -104,6 +104,10 @@ public:
 				remoteOperation.switchOff();
 				return true;
 			}
+			case sell:
+			{
+				return lPlant->checkSell();
+			}
 			case sabotageDeactivate:
 			{
 				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), vMaster->getLMaster()->getPlayer(LPlayer::Local));

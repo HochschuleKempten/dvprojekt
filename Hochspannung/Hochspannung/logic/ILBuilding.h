@@ -106,6 +106,8 @@ public:
 	}
 
 	void sabotageRemove();
+
+	virtual bool checkSell() const = 0;
 		
 	virtual LIdentifier::LIdentifier getIdentifier() const = 0;
 };

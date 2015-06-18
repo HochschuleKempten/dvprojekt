@@ -22,6 +22,7 @@ public:
 
 	void performDisposal();
 
+	virtual bool checkSell() const override;
 	virtual LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LTransformerStation;

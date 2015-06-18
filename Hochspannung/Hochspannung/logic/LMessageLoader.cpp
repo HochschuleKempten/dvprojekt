@@ -64,7 +64,11 @@ void LMessageLoader::emitMessage(const MessageID messageId, const std::vector<st
 		case SURPLUS_LOW:
 			text = "Achtung! Der aktuelle Energieueberschuss ist sehr gering. Wenn die Bevoelkerung nicht mit Energie versorgt werden kann, verlassen die Bewohner die Stadt.";
 			break;
-		default: break;
+		case SELL_CHECK_IS_SABOTAGED:
+			text = "Ein Kraftwerk kann nicht verkauft werden, solang es sabotiert wird.";
+			break;
+		default:
+			break;
 	}
 
 	vMaster->showMessage(text, messageId);

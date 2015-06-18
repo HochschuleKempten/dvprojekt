@@ -24,6 +24,7 @@ public:
 	void addDirection(const int direction);
 	void removeDirection(const int direction);
 
+	virtual bool checkSell() const override;
 	virtual LIdentifier::LIdentifier getIdentifier() const override
 	{
 		return LIdentifier::LPowerLine;

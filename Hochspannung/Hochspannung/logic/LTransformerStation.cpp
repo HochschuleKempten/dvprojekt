@@ -47,6 +47,10 @@ void LTransformerStation::performDisposal()
 	}
 }
 
+bool LTransformerStation::checkSell() const
+{
+	return false;
+}
 
 
 NAMESPACE_LOGIC_E

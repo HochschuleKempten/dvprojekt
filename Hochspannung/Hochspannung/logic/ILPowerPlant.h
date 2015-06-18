@@ -217,6 +217,17 @@ public:
 		ILBuilding::setConnected(connected);
 		vPowerPlant->updateValue(getValue());
 	}
+
+	virtual bool checkSell() const override
+	{
+		if (isSabotaged)
+		{
+			LMessageLoader::emitMessage(LMessageLoader::SELL_CHECK_IS_SABOTAGED);
+			return false;
+		}
+
+		return true;
+	}
 };
 
 
