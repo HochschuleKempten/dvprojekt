@@ -367,7 +367,7 @@ void LMaster::tick(const float fTimeDelta)
 				int population = boost::lexical_cast<int>(transferObject.getValue());
 				getPlayer(LPlayer::Remote)->getCity()->setPopulationTotal(population);
 
-				DEBUG_OUTPUT("Action SEND_POPULATION);
+				DEBUG_OUTPUT("Action SEND_POPULATION");
 
 				break;
 			}
