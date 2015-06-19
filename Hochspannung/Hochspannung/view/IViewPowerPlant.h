@@ -56,11 +56,11 @@ public:
 	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* viewModelOn, IViewModel* viewModelOff)
 		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), viewModelOn(viewModelOn), viewModelOff(viewModelOff)
 	{
-		quadForAnimation.Init(5, 5, &animationMaterial);
+		quadForAnimation.Init(2, 2, &animationMaterial);
 		placementForAnimation.AddGeo(&quadForAnimation);
-		placementForAnimation.TranslateY(5.0f);
-		placementForAnimation.TranslateZDelta(5.0f);
-		placementForAnimation.RotateXDelta(PI / -4.0f);
+		placementForAnimation.TranslateY(2.0f);
+		placementForAnimation.TranslateZDelta(4.0f);
+		placementForAnimation.RotateXDelta(PI / 4.0f);
 		animationMaterial.SwitchOff();
 	}
 
@@ -104,6 +104,10 @@ public:
 				remoteOperation.switchOff();
 				return true;
 			}
+			case sell:
+			{
+				return lPlant->checkSell();
+			}
 			case sabotageDeactivate:
 			{
 				LRemoteOperation remoteOperation(lPlant->getLField()->getLPlayingField(), vMaster->getLMaster()->getPlayer(LPlayer::Local));
@@ -136,7 +140,7 @@ public:
 		viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
 		viewModelOn->getPlacementMain()->TranslateZDelta(moveZOff);
 
-		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
+		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone() && getLBuilding()->getPlayerId() == LPlayer::Local)
 		{
 			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_ON, getPlacementActive());
 		}
@@ -153,7 +157,7 @@ public:
 		viewModelOff->getPlacementMain()->TranslateZDelta(moveZOff);
 		viewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
 
-		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone())
+		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone() && getLBuilding()->getPlayerId() == LPlayer::Local)
 		{
 			VSoundLoader::playSoundeffect(VSoundLoader::POWERPLANT_SWITCH_OFF, getPlacementActive());
 		}
@@ -161,7 +165,10 @@ public:
 
 	virtual void sabotageResourcesReduced() override
 	{
-		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacementActive());
+		if (getLBuilding()->getPlayerId() == LPlayer::Local)
+		{
+			VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacementActive());
+		}
 	}
 
 	virtual void sabotagePowerPlantSwitchedOff(const int seconds) override
@@ -170,17 +177,34 @@ public:
 		animationMaterial.SetAni(VMaterialLoader::materialAnimSabotagePowerPlant_x,
 								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
 								 CASTS<float>(VMaterialLoader::materialAnimSabotagePowerPlant_x * VMaterialLoader::materialAnimSabotagePowerPlant_y) / CASTS<float>(seconds));
-		getPlacementActive()->AddPlacement(&placementForAnimation);
-		VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
+
+	    vMaster->getVPlayingField()->placeObject(&placementForAnimation, lPlant->getLField()->getX(), lPlant->getLField()->getY());
+
+		if (getLBuilding()->getPlayerId() == LPlayer::Local)
+		{
+			VSoundLoader::playSoundeffect(VSoundLoader::SABOTAGE_RECEIVED, getPlacement());
+		}
 	}
 
 	virtual void sabotagePowerPlantSwitchedOn() override
 	{
 		animationMaterial.SwitchOff();
-		getPlacementActive()->SubPlacement(&placementForAnimation);
+		vMaster->getVPlayingField()->subObject(&placementForAnimation, lPlant->getLField()->getX(), lPlant->getLField()->getY());
 		animationMaterial.SetAni(VMaterialLoader::materialAnimSabotagePowerPlant_x,
 								 VMaterialLoader::materialAnimSabotagePowerPlant_y,
 								 0.0f);
+	}
+
+	virtual void updateValue(const int value) override
+	{
+		std::pair<int, int> position = std::make_pair(this->lPlant->getLField()->getX(), this->lPlant->getLField()->getY());
+		vMaster->getVUi()->contextMenuUpdateValue(position, value);
+	}
+
+	virtual void updateResourceValue(const int value) override
+	{
+		std::pair<int, int> position = std::make_pair(this->lPlant->getLField()->getX(), this->lPlant->getLField()->getY());
+		vMaster->getVUi()->contextMenuUpdateResourceValue(position, value);
 	}
 };
 

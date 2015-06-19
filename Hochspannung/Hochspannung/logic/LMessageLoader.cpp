@@ -35,6 +35,18 @@ void LMessageLoader::emitMessage(const MessageID messageId, const std::vector<st
 		case SABOTAGE_NO_MONEY:
 			text = "Nicht genuegend Geld für die Sabotageaktion vorhanden.";
 			break;
+		case SABOTAGE_RESOURCE:
+			text = "Die Ressourcen eines Kraftwerks wurden halbiert!";
+			break;
+		case SABOTAGE_DESTROY:
+			text = "Ein Kraftwerk/Trasse wurde zerstoert!";
+			break;
+		case SABOTAGE_DEACTIVATE:
+			text = "Ein Kraftwerk wurde deaktiviert!";
+			break;
+		case SABOTAGE_DEACTIVATE_OVER:
+			text = "Kraftwerk wieder aktiv!";
+			break;
 		case BUILD_NO_MONEY:
 			text = std::string("Kraftwerk ") + param[0] + std::string(" kann nicht gebaut werden, da nur ") +
 				   param[1] + std::string(" EUR zur Verfuegung stehen, es werden jedoch ") +
@@ -50,9 +62,13 @@ void LMessageLoader::emitMessage(const MessageID messageId, const std::vector<st
 			text = "Verbindung verloren.";
 			break;
 		case SURPLUS_LOW:
-			text = "Achtung! Der aktuelle Energieueberschuss ist sehr gering. Wenn die Bevoelkerung nicht mit Energie versorgt werden kann, ist das Spiel verloren.";
+			text = "Achtung! Der aktuelle Energieueberschuss ist sehr gering. Wenn die Bevoelkerung nicht mit Energie versorgt werden kann, verlassen die Bewohner die Stadt.";
 			break;
-		default: break;
+		case SELL_CHECK_IS_SABOTAGED:
+			text = "Ein Kraftwerk kann nicht verkauft werden, solang es sabotiert wird.";
+			break;
+		default:
+			break;
 	}
 
 	vMaster->showMessage(text, messageId);

@@ -9,11 +9,11 @@ CGeos VPlayingField::geosField;
 VPlayingField::VPlayingField(VMaster* vMaster, LPlayingField* lPlayingField)
 	: IViewObject(vMaster, &m_zp),
 	  IVPlayingField(lPlayingField),
-	  m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25),
 	  vFields(lPlayingField->getFieldLength(), lPlayingField->getFieldLength(), [this] (VField& vField)
-	  {
-		  vField.vPlayingField = this;
-	  })
+	          {
+		          vField.vPlayingField = this;
+	          }),
+	  m_zpPlacementHolders(lPlayingField->getFieldLength()*lPlayingField->getFieldLength() / 25)
 {}
 
 VPlayingField::~VPlayingField()
@@ -53,6 +53,16 @@ void VPlayingField::placeObject(IViewBuilding* vBuilding, const int x, const int
 	{
 		vFields[x][y].m_zp.AddPlacement(vBuilding->getPlacementSecond());
 	}
+}
+
+void VPlayingField::placeObject(CPlacement* placement, const int x, const int y)
+{
+	vFields[x][y].m_zp.AddPlacement(placement);
+}
+
+void VPlayingField::subObject(CPlacement* placement, const int x, const int y)
+{
+	vFields[x][y].m_zp.SubPlacement(placement);
 }
 
 void VPlayingField::hoverField(const int x, const int y)

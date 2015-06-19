@@ -69,11 +69,11 @@ bool CNetworkService::searchGames() {
 	return static_cast<CClient*>(m_pNode)->searchGames();
 }
 
-std::vector<CGameObject> CNetworkService::getGameList() {
+std::unordered_map<std::string, CGameObject> CNetworkService::getGameList() {
 	if (m_pNode != nullptr && getType() == CNode::Type::CLIENT) {
 		return static_cast<CClient*>(m_pNode)->getGameList();
 	} else {
-		return std::vector<CGameObject>();
+		return std::unordered_map<std::string, CGameObject>();
 	}
 }
 
@@ -231,6 +231,16 @@ bool CNetworkService::sendSwitchState(int iCoordX, int iCoordY, bool bStateOn, b
 bool CNetworkService::sendRatio(float fRatio, bool bApprovalNeeded) {
 	if (getConnectionState() == CNode::State::CONNECTED) {
 		sendAsMessage(bApprovalNeeded, CTransferObject::Action::SEND_RATIO, -1, -1, -1, boost::lexical_cast<std::string>(fRatio));
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+bool CNetworkService::sendCityPopulation(int iPopulation, bool bApprovalNeeded) {
+	if (getConnectionState() == CNode::State::CONNECTED) {
+		sendAsMessage(bApprovalNeeded, CTransferObject::Action::SEND_POPULATION, -1, -1, -1, boost::lexical_cast<std::string>(iPopulation));
 		return true;
 	} else {
 		return false;

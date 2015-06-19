@@ -185,6 +185,13 @@ public:
 	static CMaterial materialSabotageButtonPowerOffHover;
 	static CMaterial materialSabotageButtonSellHover;
 
+	//Statistics
+	static CMaterial VMaterialLoader::materialFossile;
+	static CMaterial VMaterialLoader::materialLeaf;
+	static CMaterial VMaterialLoader::materialBattery;
+	static CMaterial VMaterialLoader::materialLeaffossileOwn;
+	static CMaterial VMaterialLoader::materialLeaffossileEnemy;
+
 	//Infofield
 	static CMaterial materialInfofieldBackground;
 
@@ -252,6 +259,8 @@ public:
 	static CMaterial materialAnimSabotageHalfResource;
 	static CMaterial materialAnimSabotageStrike;
 	static CMaterial materialAnimSabotageCutPowerline;
+	static CMaterial materialAnimSmokeFast;
+	static CMaterial materialAnimSmokeSlow;
 
 
 	// Animiert Textur für Sabotage Cooldown Infoanzeige

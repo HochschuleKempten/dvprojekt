@@ -15,7 +15,6 @@ void VWindmillPowerPlant::configViewModel(IViewModel& model, const bool switched
 	model.getPlacementMain()->Scale(scale);
 	model.getPlacementMain()->RotateXDelta(CASTS<float>(M_PI / 2.0));
 	model.getPlacementMain()->TranslateZDelta(model.getHeight() * scale - 0.1);
-	VSoundLoader::play3DSoundLoop(VIdentifier::VWindmillPowerPlant, model.getPlacementMain());
 }
 
 VWindmillPowerPlant::VWindmillPowerPlant(VMaster* vMaster, LWindmillPowerPlant* lPlant)
@@ -34,6 +33,8 @@ void VWindmillPowerPlant::initPowerPlant(const std::shared_ptr<IVPowerPlant>& ob
 	configViewModel(viewModelOn, true);
 	configViewModel(viewModelOff, false);
 	translateViewModel();
+
+	VSoundLoader::play3DSoundLoop(VIdentifier::VWindmillPowerPlant, viewModelOn.getPlacementMain());
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }

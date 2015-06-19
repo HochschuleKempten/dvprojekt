@@ -22,6 +22,7 @@ private:
 	LPlayingField* lPlayingField = nullptr;
 	ILPowerPlant* lPowerPlant = nullptr;
 	LPlayer* lPlayer = nullptr;
+	LCity* lCity = nullptr;
 	DEBUG_EXPRESSION(const char* const msglPowerPlantNotInitialized = "lPowerPlant is not initialized. Make sure you pass a valid pointer to ILPowerPlant in the constructor");
 
 private:
@@ -34,6 +35,7 @@ public:
 	explicit LRemoteOperation(LPlayingField* lPlayingField);
 	LRemoteOperation(LPlayingField* lPlayingField, ILPowerPlant* lPowerPlant);
 	LRemoteOperation(LPlayingField* lPlayingField, LPlayer* lPlayer);
+	LRemoteOperation(LPlayingField* lPlayingField, LCity* lCity);
 	~LRemoteOperation();
 
 	//LPlayingField methods
@@ -54,6 +56,9 @@ public:
 	bool sabotageRemove(ILBuilding* lBuilding);
 	bool sabotageDeactivate(ILPowerPlant* lPowerPlant);
 	bool sabotageResource(ILPowerPlant* lPowerPlant);
+
+	//LCity methods
+	void setPopulationTotal(const int populationTotal);
 
 public:
 	static void sendStoredNetworkCalls();

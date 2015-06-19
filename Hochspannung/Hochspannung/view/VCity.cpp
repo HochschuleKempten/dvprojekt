@@ -1,6 +1,5 @@
 #include "VCity.h"
 #include "VPlayingField.h"
-#include "VIdentifier.h"
 #include "VMaster.h"
 #include "../logic/LCity.h"
 #include "VUI.h"
@@ -22,27 +21,43 @@ VCity::~VCity()
 void VCity::initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const int y)
 {
 	viewModel.initViewModel(this);
+
+	VSoundLoader::play3DSoundLoop(VIdentifier::VCity, viewModel.getPlacementMain());
+
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }
 
 void VCity::updatePopulation(const int population)
 {
-	vMaster->getVUi()->updatePopulation(population);
+	if (this->lCity->getPlayerId() & LPlayer::Local)
+	{
+		vMaster->getVUi()->updatePopulation(population);
+	}
+
+	std::pair<int, int> position = std::make_pair(lCity->getLField()->getX(), lCity->getLField()->getY());
+	vMaster->getVUi()->contextMenuUpdatePopulation(position, population);
 }
 
 void VCity::updateEnergy(const int energy)
 {
-	//todo (L)
+	//todo (V) what should happen here?
+	std::pair<int, int> position = std::make_pair(lCity->getLField()->getX(), lCity->getLField()->getY());
+	vMaster->getVUi()->contextMenuUpdateEnergy(position, energy);
 }
 
 void VCity::updateEnergySurplus(const int surplus)
 {
-	vMaster->getVUi()->updateEnergySurplus(surplus);
+	if (this->lCity->getPlayerId() & LPlayer::Local)
+	{
+		vMaster->getVUi()->updateEnergySurplus(surplus);
+	}
+
+	std::pair<int, int> position = std::make_pair(lCity->getLField()->getX(), lCity->getLField()->getY());
+	vMaster->getVUi()->contextMenuUpdateEnergySurplus(position, surplus);
 }
 
-void VCity::energyLow(const int surplus)
+void VCity::energyLow(const int /*surplus*/)
 {
-	//TODO (V) inform gui about surplus
 	VSoundLoader::playSoundeffect(VSoundLoader::ENERGY_LOW, getPlacement());
 }
 
@@ -51,12 +66,9 @@ ILBuilding* VCity::getLBuilding()
 	return CASTD<ILBuilding*>(lCity);
 }
 
-bool VCity::clicked(action action) 
+bool VCity::clicked(action /*action*/) 
 {
-	switch (action)
-	{
-	default:ASSERT("Invalid action"); return false;
-	}
+	return false;
 }
 
 

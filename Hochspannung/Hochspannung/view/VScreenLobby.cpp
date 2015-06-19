@@ -37,8 +37,6 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 	//ListView
 	getContainer("LobbyRunningGames")->addContainer(IViewGUIContainer::ContainerType::ListView, CFloatRect(0.1, 0.3, 0.8, 0.6), &VMaterialLoader::materialLobbyGamelistBackground, "HostList", 0.4F);
 	getContainer("LobbyRunningGames")->getContainer("HostList")->addButton(CFloatRect(0.85F, 0.05F, 0.1F, 0.1F), &VMaterialLoader::materialButtonRefresh, &VMaterialLoader::materialButtonRefreshHover, REFRESH_GAME_LIST, "buttonRefresh", 0.3F);
-	CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->addEntry("192.168.178.35", 0.1F);
-	CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->addEntry("203.172.188.35", 0.1F);
 	
 
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue", 0.6F);
@@ -117,7 +115,7 @@ void VScreenLobby::onNotify(const Event& events)
 
 		//std::thread([this] { this->vUi->vMaster->hostGame(); this->vUi->switchScreen("Ingame"); }).detach();
 
-		this->vUi->vMaster->hostGame(); this->vUi->switchScreen("Ingame");
+		this->vUi->vMaster->hostGame(CASTD<VTextfield*>(getContainer("HostDialog")->getGuiObject("textfieldGameName"))->getValue()); this->vUi->switchScreen("Ingame");
 
 		//notify(LOBBY_HOST_GAME);
 		break;
@@ -204,9 +202,9 @@ void VScreenLobby::onNotify(const Event& events)
 					m_JoinReady = false;
 				}).detach();*/
 
-				//vUi->vMaster->joinGame(CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName());
+				vUi->vMaster->joinGame(CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName());
 				//m_JoinReady = true;
-				//vUi->switchScreen("Ingame");
+				vUi->switchScreen("Ingame");
 			}
 		
 		break;
@@ -339,8 +337,6 @@ void VScreenLobby::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 	checkGUIObjects(tempGuicontainer);
 	for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainerMap)
 	{
-		checkGUIObjects(ContainerPair.second);
-
 		if (tempGuicontainer->getGuiContainerMap().size() > 0)
 		{
 			checkGUIContainer(ContainerPair.second);
@@ -360,7 +356,7 @@ void VScreenLobby::EndEvent()
 {
 }
 
-void VScreenLobby::updateHostList(const std::vector<Network::CGameObject>& hostList)
+void VScreenLobby::updateHostList(const std::unordered_map<std::string, Network::CGameObject>& hostList)
 {
 	CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->updateList(hostList);
 }

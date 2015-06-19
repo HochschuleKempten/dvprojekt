@@ -133,6 +133,13 @@ CMaterial VMaterialLoader::materialSabotageButtonPowerOnHover;
 CMaterial VMaterialLoader::materialSabotageButtonPowerOffHover;
 CMaterial VMaterialLoader::materialSabotageButtonSellHover;
 
+//Statistics
+CMaterial VMaterialLoader::materialFossile;
+CMaterial VMaterialLoader::materialLeaf;
+CMaterial VMaterialLoader::materialBattery;
+CMaterial VMaterialLoader::materialLeaffossileOwn;
+CMaterial VMaterialLoader::materialLeaffossileEnemy;
+
 //Icons
 CMaterial VMaterialLoader::materialIngameIconPopulation;
 CMaterial VMaterialLoader::materialIngameIconMoney;
@@ -195,6 +202,8 @@ CMaterial VMaterialLoader::materialAnimLoadingCircle;
 CMaterial VMaterialLoader::materialAnimSabotageHalfResource;
 CMaterial VMaterialLoader::materialAnimSabotageStrike;
 CMaterial VMaterialLoader::materialAnimSabotageCutPowerline;
+CMaterial VMaterialLoader::materialAnimSmokeFast;
+CMaterial VMaterialLoader::materialAnimSmokeSlow;
 
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotagePowerPlant;
@@ -322,7 +331,7 @@ CMaterial* VMaterialLoader::getMaterialModel(const Model materialPowerPlant, con
 
 void VMaterialLoader::init()
 {
-	setPowerPlantMaterialHelper(COAL_MOUNTAIN, "berg_image.jpg");
+	setPowerPlantMaterialHelper(COAL_MOUNTAIN, "mountain.png");
 	setPowerPlantMaterialHelper(COAL_STRUCTURE, "kohle_image.jpg");
 	setPowerPlantMaterialHelper(COAL_WOOD, "holz_image.jpg");
 	setPowerPlantMaterialHelper(COAL_WAGON, "lore_image.jpg");
@@ -331,7 +340,7 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(POWERLINE_STRUT, "strommast.png");
 	setPowerPlantMaterialHelper(POWERLINE_ISOLATOR, "black_image.jpg");
 	setPowerPlantMaterialHelper(POWERLINE_RING, "black_image.jpg");
-	setPowerPlantMaterialHelper(POWERLINE_CABLE, "white_image.jpg");
+	setPowerPlantMaterialHelper(POWERLINE_CABLE, "strommast_cable.png");
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_BETON, "Beton.png");
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_BETON_LIGHT, "Beton_light.png");
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_ISOLATOR, "black_image.jpg");
@@ -340,15 +349,15 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(SOLAR_CELL, "SolarPanel.jpg");
 	setPowerPlantMaterialHelper(SOLAR_CELLS_LOD, "SolarLOD.jpg");
 	setPowerPlantMaterialHelper(WIND_RAD, "Metall_Fassade.jpg" );
-	setPowerPlantMaterialHelper(WIND_FLUEGEL1,"Metall_Fassade.jpg");
-	setPowerPlantMaterialHelper(WIND_FLUEGEL2,"Metall_Fassade.jpg");
-	setPowerPlantMaterialHelper(WIND_FLUEGEL3, "Metall_Fassade.jpg");
+	setPowerPlantMaterialHelper(WIND_FLUEGEL1,"Windradfluegel.png");
+	setPowerPlantMaterialHelper(WIND_FLUEGEL2,"Windradfluegel.png");
+	setPowerPlantMaterialHelper(WIND_FLUEGEL3, "Windradfluegel.png");
 	setPowerPlantMaterialHelper(WATER_HOLZ, "Holz.jpg");
 	setPowerPlantMaterialHelper(BUILDING_WALLFRAME, "../buildings/texture_concrete.png");
 	setPowerPlantMaterialHelper(NUCLEAR_FLOOR, "Beton.png");
 	setPowerPlantMaterialHelper(NUCLEAR_GATE, "Schranke.jpg");
 	setPowerPlantMaterialHelper(NUCLEAR_FENCE, "Holz.jpg");
-	setPowerPlantMaterialHelper(NUCLEAR_REACTOR, "white_image.jpg");
+	setPowerPlantMaterialHelper(NUCLEAR_REACTOR, "reactor.png");
 	setPowerPlantMaterialHelper(OIL_FLOOR, "Beton.png");
 	setPowerPlantMaterialHelper(OIL_GATE, "Schranke.jpg");
 	setPowerPlantMaterialHelper(OIL_FENCE, "Holz.jpg");
@@ -373,7 +382,7 @@ void VMaterialLoader::init()
 	materialsModelsSwitchedOff[OIL_GATE].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOn[OIL_FENCE].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[OIL_FENCE].SetTextureSpecularAsDiffuse();
-
+	
 	setFieldMaterialHelper(LField::WATER, "water");
 	setFieldMaterialHelper(LField::AIR, "air");
 	setFieldMaterialHelper(LField::SOLAR, "solar");
@@ -482,6 +491,15 @@ void VMaterialLoader::init()
 	materialSabotageButtonPowerOnHover.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_poweronhover.png");
 	materialSabotageButtonPowerOffHover.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_poweroffhover.png");
 	materialSabotageButtonSellHover.MakeTextureSprite("Textures/gui/Buttons/gui_ingame_sellhover.png");
+
+	//Statistics
+	materialFossile.MakeTextureSprite("textures/gui/interface/fossil.png");
+	materialLeaf.MakeTextureSprite("textures/gui/interface/leaf.png");
+	materialBattery.MakeTextureSprite("textures/gui/interface/battery.png");
+	materialLeaffossileOwn.MakeTextureSprite("textures/gui/interface/texture_ingame_statistic_own.png");
+	materialLeaffossileEnemy.MakeTextureSprite("textures/gui/interface/texture_ingame_statistic_enemy.png");
+
+	materialBattery.SetTransparencyOn();
 
 	//Test
 	materialRed.MakeTextureSprite("textures\\red_image.jpg");
@@ -619,11 +637,19 @@ void VMaterialLoader::init()
 	materialAnimSabotageCutPowerline.SetAni(30, 2, 1);
 
 	materialAnimSabotagePowerPlant.MakeTextureSprite("textures/animations/Strike.png");
+	materialAnimSabotagePowerPlant.SetTransparencyOn();
 	materialAnimSabotagePowerPlant_x = 60;
 	materialAnimSabotagePowerPlant_y = 2;
 	
 	materialAnimTransformerStationLightning.MakeTextureSprite("textures/animations/Lightning.png");
 	materialAnimTransformerStationLightning.SetAni(15, 2, 30.0f / 5.0f);
+
+	materialAnimSmokeFast.MakeTextureSprite("textures/animations/Smoke2.png");
+	materialAnimSmokeFast.SetAni(50, 2, 100.0f / 5.0f);
+	materialAnimSmokeFast.SetTransparencyOn();
+	materialAnimSmokeSlow.MakeTextureSprite("textures/animations/Smoke2.png");
+	materialAnimSmokeSlow.SetAni(50, 2, 100.0f / 6.0f);
+	materialAnimSmokeSlow.SetTransparencyOn();
 
 	//Background
 	materialLobbyRunningGamesBackground.MakeTextureSprite("textures/gui/background/gui_lobby_RunningGamesBackround.png");

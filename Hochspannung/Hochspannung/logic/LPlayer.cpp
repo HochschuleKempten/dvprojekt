@@ -150,7 +150,10 @@ void LPlayer::removePowerPlant(const ILPowerPlant* const powerPlant)
 	powerPlants.erase(std::remove(powerPlants.begin(), powerPlants.end(), powerPlant), powerPlants.end());
 	lMaster->getVMaster()->updateRemovedPowerPlant(powerPlant->getIdentifier(), playerId);
 	
-	checkDisposalValue(powerPlant);
+	if (playerId == LPlayer::Local && !lMaster->getLPlayingField()->isLocalOperation())
+	{
+		checkDisposalValue(powerPlant);
+	}
 }
 
 void LPlayer::addPowerLine(LPowerLine* powerLine)
@@ -168,7 +171,10 @@ void LPlayer::removePowerLine(const LPowerLine* const powerLine)
 	powerLines.erase(std::remove(powerLines.begin(), powerLines.end(), powerLine), powerLines.end());
 	lMaster->getVMaster()->updateNumberPowerLines(CASTS<int>(powerLines.size()), playerId);
 
-	checkDisposalValue(powerLine);
+	if (playerId == LPlayer::Local && !lMaster->getLPlayingField()->isLocalOperation())
+	{
+		checkDisposalValue(powerLine);
+	}
 }
 
 void LPlayer::checkPowerPlants()
@@ -224,6 +230,18 @@ void LPlayer::checkPowerPlants()
 
 	prevConnectedPowerPlants = currentConnectedPowerPlants;
 
+	//update sell values
+	bool connected = lMaster->getLPlayingField()->isTransformstationConnected();
+	for (ILPowerPlant* p : powerPlants)
+	{	
+		p->setConnected(connected);
+
+	}
+	for (LPowerLine* l : powerLines)
+	{
+		l->setConnected(connected);
+	}
+
 	checkRegenerativeRatio();
 }
 
@@ -278,24 +296,22 @@ void LPlayer::checkRegenerativeRatio()
 
 	if (countTotalPowerPlant != 0)
 	{
-		ratioRegenerative = CASTS<float>(countRegenerativePowerPlants) / CASTS<float>(countTotalPowerPlant); //todo (IP) send 
-		lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative, playerId);
-
-		lMaster->sendRegenerativeRatio(ratioRegenerative);
+		ratioRegenerative = CASTS<float>(countRegenerativePowerPlants) / CASTS<float>(countTotalPowerPlant);
+	} 
+	else
+	{
+		ratioRegenerative = 0;
 	}
+
+	lMaster->getVMaster()->updateRegenerativeRatio(ratioRegenerative, playerId);
+
+	lMaster->sendRegenerativeRatio(ratioRegenerative);
 }
 
 void LPlayer::checkDisposalValue(const ILBuilding* const building)
 {
-	//Player gets money back
-	if (lMaster->getLPlayingField()->isTransformstationConnected())
-	{
-		addMoney(CASTS<int>(LBalanceLoader::getSellRevenueConnected() * building->getValue()));
-	}
-	else
-	{
-		addMoney(CASTS<int>(LBalanceLoader::getSellRevenueDisconnected() * building->getValue()));
-	}
+	//Player gets money back (connection check is done in getValue())
+	addMoney(building->getValue());
 }
 
 NAMESPACE_LOGIC_E

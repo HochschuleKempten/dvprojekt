@@ -14,13 +14,17 @@
 #include "VSoundLoader.h"
 #include "VPowerLine.h"
 #include "IViewPowerPlant.h"
+#include "../logic/LBalanceLoader.h"
+#include "../logic/LPlayingField.h"
 #include <thread>
 
 NAMESPACE_VIEW_B
 
 
 VScreenIngame::VScreenIngame(VUI* vUi)
-	: IViewScreen(vUi)
+: IViewScreen(vUi),
+m_fieldValueStorage(LBalanceLoader::getFieldLength()* LBalanceLoader::getFieldLength(), LPlayingFieldHasher(LBalanceLoader::getFieldLength())),
+activeInfo(nullptr)
 {
 	m_viewport = new CViewport();
 	
@@ -73,14 +77,10 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	}
 
 
-	//m_zl.Init(CHVector(0.1F, -0.3F, 0.7F),
-	//          CColor(0.7F, 0.7F, 0.7F));
-
-
 	m_zl.Init(CHVector(0.0F, 0.35F, 0.7F),
 			  CColor(0.1F, 0.1F, 0.1F));
 
-	m_zlSpot.Init(CColor(0.6f, 0.6f, 0.6f), 0.01f, 0.07f, 0.75f);	//last param = light intensity
+	m_zlSpot.Init(CColor(0.6f, 0.6f, 0.6f), 0.01f, 0.07f, 1.75f);	//last param = light intensity
 	m_zlSpot.SetMaxDistance(2500);
 	m_zlSpot.SetMinDistance(40);
 	m_zlSpot.SetSoftShadowOn();
@@ -107,8 +107,6 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	m_zpCamera.RotateXDelta(0.20F * PI);
 
-	//m_zpCamera.RotateXDelta(0.40F * PI);
-
 
 	VSoundLoader::init(&m_scene);
 	VSoundLoader::playBackgroundMusicIngame();
@@ -133,6 +131,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	getContainer("Topbar")->addOverlay(CFloatRect(0.35F, 0.2F, 0.08F, 0.6F), &VMaterialLoader::materialIngameIconMoney, "TopMoneyIcon", 0.1F);
 	getContainer("Topbar")->addText(CFloatRect(0.451F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::GoldFont, "0000", "moneyValue", 0.1F);
 
+	getContainer("Topbar")->addOverlay(CFloatRect(0.65F, 0.2F, 0.1F, 0.8F), &VMaterialLoader::materialBattery, "energyOverloadIcon", 0.1F);
 	getContainer("Topbar")->addText(CFloatRect(0.751F, 0.2F, 0.2F, 0.6F), &VMaterialLoader::standardFont, "0000", "energyOverload", 0.1F);
 	/********************************************************TOP MESSAGE AREA***************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::GUIArea, CFloatRect(0.1F, 0.1F, 0.8F, 0.13F), &VMaterialLoader::materialErrorBackground, "MessageArea", 0.3F);
@@ -147,19 +146,26 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	/********************************************************Infofield AREA*************************************************************/
 	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.00F, 0.00F, 0.22F, 1.0F), &VMaterialLoader::materialInfofieldBackground, "Infofield", 0.3F);
+	getContainer("BottomBar")->getContainer("Infofield")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.10F, 0.0F, 0.8F, 1.0F), "BuildingCraftInfo", 0.2F);
+	getContainer("BottomBar")->getContainer("Infofield")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.10F, 0.0F, 0.8F, 1.0F), "FieldInfo", 0.2F);
+	getContainer("BottomBar")->getContainer("Infofield")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.10F, 0.0F, 0.8F, 1.0F), "SabotageInfo", 0.2F);
+
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->addViewport(&m_viewportModels, &m_CamModels, CFloatRect(0.1F, 0.05F, 0.75F, 0.55F), &m_zmbackgroundModels, "DetailedModels");
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->addText(CFloatRect(0.10F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "1000", "PowerInfo", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->addText(CFloatRect(0.10F, 0.85F, 0.5F, 0.08F), &VMaterialLoader::GoldFont, "1000", "MoneyInfo", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->addOverlay(CFloatRect(0.65F, 0.70F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconEnergy, "EngergyInfoIcon", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->addOverlay(CFloatRect(0.65F, 0.85F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconMoney, "MoneyInfoIcon", 0.1F);
+
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addText(CFloatRect(0.10F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "1000", "RessourceInfo", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addText(CFloatRect(0.10F, 0.85F, 0.5F, 0.08F), &VMaterialLoader::GoldFont, "1000", "SellInfo", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.70F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconEnergy, "RessourceInfoIcon", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.85F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconMoney, "SellInfoIcon", 0.1F);
 
 
-	getContainer("BottomBar")->getContainer("Infofield")->addViewport(&m_viewportModels, &m_CamModels, CFloatRect(0.1F, 0.05F, 0.75F, 0.55F), &m_zmbackgroundModels, "DetailedModels");
-	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.10F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::standardFont, "1000", "PowerInfo", 0.1F);
-	getContainer("BottomBar")->getContainer("Infofield")->addText(CFloatRect(0.10F, 0.85F, 0.5F, 0.08F), &VMaterialLoader::GoldFont, "1000", "MoneyInfo", 0.1F);
-	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.70F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconEnergy, "EngergyInfoIcon", 0.1F);
-	getContainer("BottomBar")->getContainer("Infofield")->addOverlay(CFloatRect(0.65F, 0.85F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconMoney, "MoneyInfoIcon", 0.1F);
-
-
-	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOff();
-	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOff();
-	getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOff();
-	getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOff();
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->switchOff();
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->switchOff();
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->switchOff();
+	
 	vUi->m_zf.AddViewport(&m_viewportModels);
 
 	/********************************************************Baumenu AREA*************************************************************/
@@ -208,9 +214,9 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vtTabSabotage->getGuiObject("HeaderSabNum")->switchOff();
 	m_vtTabSabotage->getGuiObject("SabotageNumLeft")->switchOff();
 
-	// Tab for statistics
+	// Tab for own statistics
 
-	m_vtTabStatistics->addText(CFloatRect(0.05f, 0, 0.2f, 0.2f), &VMaterialLoader::standardFont, "Gebaeude", "buildingText", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.05f, 0.04f, 0.4f, 0.2f), &VMaterialLoader::standardFont, "Gebaeude Selbst", "buildingText", 0.1F);
 
 	m_vtTabStatistics->addOverlay(CFloatRect(0.05f, 0.25f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonWindmill, "statisticWind",0.1F);
 	m_vtTabStatistics->addText(CFloatRect(0.1f, 0.28f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_WINDMILL],0.1F);
@@ -230,18 +236,27 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vtTabStatistics->addOverlay(CFloatRect(0.22f, 0.75f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOil", 0.1F);
 	m_vtTabStatistics->addText(CFloatRect(0.27f, 0.78f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT], 0.1F);
 
-	// Renewable / fossil energy Statistics
-	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.575F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialFossil, "RenFosEnergyContainerOwn", 0.199F);
-	m_vgGraphEnergyRatioOwn = m_vtTabStatistics->getContainer("RenFosEnergyContainerOwn")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialRegenerative);
-	m_vtTabStatistics->addText(CFloatRect(0.475F, 0, 0.2F, 0.2F), &VMaterialLoader::standardFont, "Placeholder", "ownHeadlineFossile", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.485F, 0.285F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "ownGraphTextLeft", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.485F, 0.805F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "ownGraphTextRight", 0.1F);
+	// Tab for enemy statistics
 
-	m_vtTabStatistics->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.825F, 0.275F, 0.1F, 0.6F), &VMaterialLoader::materialFossil, "RenFosEnergyContainerEnemy", 0.199F);
-	m_vgGraphEnergyRatioEnemy = m_vtTabStatistics->getContainer("RenFosEnergyContainerEnemy")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatioEnemy", &VMaterialLoader::materialRegenerative);
-	m_vtTabStatistics->addText(CFloatRect(0.725F, 0, 0.2F, 0.2F), &VMaterialLoader::standardFont, "Placeholder", "enemyHeadlineFossile", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.735F, 0.285F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "enemyGraphTextTop", 0.1F);
-	m_vtTabStatistics->addText(CFloatRect(0.735F, 0.805F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "enemyGraphTextBottom", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.55f, 0.04f, 0.4f, 0.2f), &VMaterialLoader::standardFont, "Gebaeude Gegner", "buildingTextEnemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.55f, 0.25f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonWindmill, "statisticWindEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.6f, 0.28f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_WINDMILL]+"enemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.55f, 0.50f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonHydroPowerplant, "statisticHydroEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.6f, 0.53f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_HYDROPOWERPLANT] + "enemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.55f, 0.75f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonSolarPowerplant, "statisticSolarEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.6f, 0.78f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_SOLARPOWERPLANT] + "enemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.72f, 0.25f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonNuclearPowerplant, "statisticNuclearEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.77f, 0.28f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_NUCLEARPOWERPLANT] + "enemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.72f, 0.50f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonCoalPowerplant, "statisticCoalEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.77f, 0.53f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_COALPOWERPLANT] + "enemy", 0.1F);
+
+	m_vtTabStatistics->addOverlay(CFloatRect(0.72f, 0.75f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOilEnemy", 0.1F);
+	m_vtTabStatistics->addText(CFloatRect(0.77f, 0.78f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT] + "enemy", 0.1F);
 
 	//vrRegister->SwitchToTab("TabBuilding");
 
@@ -251,7 +266,23 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	vrRegister->setActiveTab("TabBuilding");
 
 	/********************************************************Minimap AREA*************************************************************/
-	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.73F, 0.00F, 0.27F, 1.0F), &VMaterialLoader::materialMinimapBackground, "Minimap", 0.3F);
+	float fBarIconPosX = 0.2F;
+	float fBarIconSizeX = 0.2F;
+	float fBarDistance = 0.1F;
+	float fBarEnemyPosX = fBarIconPosX + fBarIconSizeX + fBarDistance;
+
+	getContainer("BottomBar")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.73F, 0.00F, 0.27F, 1.0F), &VMaterialLoader::materialMinimapBackground, "Bars", 0.3F);
+	getContainer("BottomBar")->getContainer("Bars")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(fBarIconPosX + 0.1F, 0.33F, 0.1F, 0.6F), &VMaterialLoader::materialFossil, "RenFosEnergyContainerOwn", 0.199F);
+	m_vgGraphEnergyRatioOwn = getContainer("BottomBar")->getContainer("Bars")->getContainer("RenFosEnergyContainerOwn")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatio", &VMaterialLoader::materialRegenerative);
+	getContainer("BottomBar")->getContainer("Bars")->addOverlay(CFloatRect(fBarIconPosX, 0.095f, fBarIconSizeX, 0.2F), &VMaterialLoader::materialLeaffossileOwn, "ownHeadlineFossile", 0.1F);
+	getContainer("BottomBar")->getContainer("Bars")->addText(CFloatRect(fBarIconPosX, 0.35F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "ownGraphTextTop", 0.1F);
+	getContainer("BottomBar")->getContainer("Bars")->addText(CFloatRect(fBarIconPosX, 0.85F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "ownGraphTextBottom", 0.1F);
+
+	getContainer("BottomBar")->getContainer("Bars")->addContainer(IViewGUIContainer::ContainerType::GUIArea, CFloatRect(fBarEnemyPosX + 0.1F, 0.33F, 0.1F, 0.6F), &VMaterialLoader::materialFossil, "RenFosEnergyContainerEnemy", 0.199F);
+	m_vgGraphEnergyRatioEnemy = getContainer("BottomBar")->getContainer("Bars")->getContainer("RenFosEnergyContainerEnemy")->addGraphRatio(CFloatRect(0, 0, 1, 1), "renfosRatioEnemy", &VMaterialLoader::materialRegenerative);
+	getContainer("BottomBar")->getContainer("Bars")->addOverlay(CFloatRect(fBarEnemyPosX, 0.095f, fBarIconSizeX, 0.2F), &VMaterialLoader::materialLeaffossileEnemy, "enemyHeadlineFossile", 0.1F);
+	getContainer("BottomBar")->getContainer("Bars")->addText(CFloatRect(fBarEnemyPosX, 0.35F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "enemyGraphTextTop", 0.1F);
+	getContainer("BottomBar")->getContainer("Bars")->addText(CFloatRect(fBarEnemyPosX, 0.85F, 0.08F, 0.08F), &VMaterialLoader::standardFont, "000%", "enemyGraphTextBottom", 0.1F);
 
 
 	/***********************************************************Dialog******************************************************************/
@@ -263,6 +294,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	getContainer("DialogBox")->switchOff();
 
+	
 
 }
 
@@ -285,6 +317,7 @@ void VScreenIngame::onNotify(const Event& events)
 			m_vtTabStatistics->switchOff();
 			vrRegister->getTab("TabBuilding")->switchOn();
 			vrRegister->setActiveTab("TabBuilding");
+			switchInfo(NOINFO);
 		}
 		break;
 
@@ -296,6 +329,7 @@ void VScreenIngame::onNotify(const Event& events)
 			vrRegister->getTab("TabBuilding")->switchOff();
 			SabotageTabSwitchOn();
 			vrRegister->setActiveTab("TabSabotage");
+			switchInfo(NOINFO);
 		}
 		break;
 	case SWITCH_TO_REGISTER_STATISTICS:
@@ -307,137 +341,124 @@ void VScreenIngame::onNotify(const Event& events)
 			vrRegister->getTab("TabBuilding")->switchOff();
 			vrRegister->setActiveTab("TabStatistics");
 			updatePowerPlants();
+			switchInfo(NOINFO);
 		}
 		break;
 
 	case SELECT_BUILDING_WINDMILL:
-		clearInfofield();
 
-		//m_zpModels.TranslateY(-2.0f);
-
-		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VWindmillPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 		setActiveButton("windmill");
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LWindmillPowerPlant)));
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LWindmillPowerPlant>()));
-		switchOnBuildingInfo();
-		
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LWindmillPowerPlant)));
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LWindmillPowerPlant>()));
+	
+		switchInfo(CRAFTBUILDING);
 		break;
 	case SELECT_BUILDING_COALPOWERPLANT:
-		clearInfofield();
 
-		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VCoalPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
 		setActiveButton("coalPowerPlant");
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LCoalPowerPlant)));
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LCoalPowerPlant>()));
-		switchOnBuildingInfo();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LCoalPowerPlant)));
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LCoalPowerPlant>()));
 		
+		switchInfo(CRAFTBUILDING);
 		break;
 	case SELECT_BUILDING_OILPOWERPLANT:
-		clearInfofield();
 		
-		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VOilRefinery;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
 		setActiveButton("oilPowerPlant");
 		
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LOilRefinery)));
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LOilRefinery>()));
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LOilRefinery)));
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LOilRefinery>()));
 		
-		switchOnBuildingInfo();
-		
+		switchInfo(CRAFTBUILDING);
 		break;
 	case SELECT_BUILDING_NUCLEARPOWERPLANT:
-		clearInfofield();
 		
-		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VNuclearPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
 		setActiveButton("nuclearPowerPlant");
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LNuclearPowerPlant)));
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LNuclearPowerPlant>()));
-		switchOnBuildingInfo();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LNuclearPowerPlant)));
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LNuclearPowerPlant>()));
+		
+		switchInfo(CRAFTBUILDING);
 		break;
 	case SELECT_BUILDING_HYDROPOWERPLANT:
-		clearInfofield();
 		
-		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VHydroelectricPowerPlant;
 		vUi->switchCursor(vUi->CursorType::Hammer);
 
 		setActiveButton("hydroPowerPlant");
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LHydroelectricPowerPlant)));
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LHydroelectricPowerPlant>()));
-		switchOnBuildingInfo();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LHydroelectricPowerPlant)));
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LHydroelectricPowerPlant>()));
+		
+		switchInfo(CRAFTBUILDING);
 		break;
 	case SELECT_BUILDING_SOLARPOWERPLANT:
-		clearInfofield();
+		
 		selectedBuilding = VIdentifier::VSolarPowerPlant;
-		m_viewportModels.SwitchOn();
-
+		
 		vUi->switchCursor(vUi->CursorType::Hammer);
 		setActiveButton("solarPowerPlant");
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LSolarPowerPlant)));
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LSolarPowerPlant>()));
-		switchOnBuildingInfo();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LSolarPowerPlant)));
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LSolarPowerPlant>()));
+		
+		switchInfo(CRAFTBUILDING);
 		break;
 	case SELECT_BUILDING_POWERLINE:
-		clearInfofield();
 		
-		m_viewportModels.SwitchOn();
 		selectedBuilding = VIdentifier::VPowerLine;
 		vUi->switchCursor(vUi->CursorType::Hammer);
-
-
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LPowerLine)));
-		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LPowerLine>()));
+		
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("PowerInfo"))->updateText(std::to_string(LBalanceLoader::getProducedEnergy(LIdentifier::LPowerLine)));
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->getGuiObject("MoneyInfo"))->updateText(std::to_string(LBalanceLoader::getCost<LPowerLine>()));
 
 		setActiveButton("powerLine");
-		switchOnBuildingInfo();
+		switchInfo(CRAFTBUILDING);
 		break;
 
 	case SELECT_SABOTAGE_POWERLINECUT:
-		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotagePowerlineCut");
 		selectedAction = IViewBuilding::sabotageRemove;
+		switchInfo(SABOTAGEINFO);
 		break;
 	case SELECT_SABOTAGE_STRIKE:
-		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotageStrike");
 		selectedAction = IViewBuilding::sabotageDeactivate;
+		switchInfo(SABOTAGEINFO);
 		break;
 	case SELECT_SABOTAGE_HALF:
-		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotageHalf");
 		selectedAction = IViewBuilding::sabotageResource;
+		switchInfo(SABOTAGEINFO);
 		break;
 
 	case SELECT_SABOTAGE_POWERON:
-		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::PowerOn);
 		setActiveButton("sabotagePowerOn");
 		selectedAction = IViewBuilding::switchOn;
+		switchInfo(SABOTAGEINFO);
 		break;
 	case SELECT_SABOTAGE_POWEROFF:
-		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::PowerOff);
 		setActiveButton("sabotagePowerOff");
 		selectedAction = IViewBuilding::switchOff;
+		switchInfo(SABOTAGEINFO);
 		break;
 	case SELECT_SABOTAGE_SELL:
-		clearInfofield();
 		vUi->switchCursor(vUi->CursorType::Sell);
 		setActiveButton("sabotageSell");
 		selectedAction = IViewBuilding::sell;
+		switchInfo(SABOTAGEINFO);
 		break;
 
 	default:
@@ -502,12 +523,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 			}
 	}
 
-	if (keyboard->KeyPressed(DIK_SPACE) && iwas2)
-	{
-		iwas2 = false;
-		hideBottomBar();
-	}
-
+	
 	if (keyboard->KeyPressed(DIK_V))
 	{
 		vUi->gameOver(false);
@@ -534,20 +550,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 }
 
 void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
-{/*
-		static std::string hover = "Hover Windmill";
-		static std::string standard = "infofeld";
-		float curPosX;
-		float curPosY;
-		cursor->GetFractional(curPosX, curPosY);
-		if (CASTD<VRegister*>(getContainer("BottomBar")->getContainer("Register"))->getTab("TabBuilding")->getGuiObject("windmill")->checkHover(curPosX, curPosY))
-		{
-			
-			updateInfofield(hover);
-		}
-		else
-			updateInfofield(standard);*/
-
+{
 	if (vUi->m_zkCursor.ButtonPressedRight())
 	{
 		if (activeButton != nullptr)
@@ -556,7 +559,7 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 			activeButton->setActive(false);
 
 
-			clearInfofield();
+			switchInfo(NOINFO);
 
 			if (selectedBuilding != VIdentifier::Undefined)
 
@@ -570,9 +573,12 @@ void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
 	}
 }
 
-void VScreenIngame::updateMoney(const int wert)
+void VScreenIngame::updateMoney(const int wert, LPlayer::PlayerId playerId)
 {
-	CASTD<VText*>(getContainer("Topbar")->getGuiObject("moneyValue"))->updateText(std::to_string(wert));
+	if (playerId == LPlayer::Local)
+		CASTD<VText*>(getContainer("Topbar")->getGuiObject("moneyValue"))->updateText(std::to_string(wert));
+	else
+		CASTD<VText*>(getContainer("Topbar")->getGuiObject("moneyValueEnemy"))->updateText(std::to_string(wert));
 }
 
 void VScreenIngame::updatePopulation(const int wert)
@@ -585,54 +591,75 @@ void VScreenIngame::updateInfofield(const std::string& neuerText)
 	//CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
 }
 
-void VScreenIngame::updateAddedPowerPlant(const LIdentifier::LIdentifier id)
+void VScreenIngame::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
 	switch (id)
 	{
-	case LIdentifier::LCoalPowerPlant: statPlacedBuildings[BUILDING_COALPOWERPLANT]++;
+	case LIdentifier::LCoalPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_COALPOWERPLANT]++ : statPlacedBuildingsEnemy[BUILDING_COALPOWERPLANT]++;
 		break;
-	case LIdentifier::LHydroelectricPowerPlant: statPlacedBuildings[BUILDING_HYDROPOWERPLANT]++;
+	case LIdentifier::LHydroelectricPowerPlant: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_HYDROPOWERPLANT]++ : statPlacedBuildingsEnemy[BUILDING_HYDROPOWERPLANT]++;
 		break;
-	case LIdentifier::LNuclearPowerPlant: statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]++;
+	case LIdentifier::LNuclearPowerPlant: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]++ : statPlacedBuildingsEnemy[BUILDING_NUCLEARPOWERPLANT]++;
 		break;
-	case LIdentifier::LOilRefinery: statPlacedBuildings[BUILDING_OILPOWERPLANT]++;
+	case LIdentifier::LOilRefinery: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_OILPOWERPLANT]++ : statPlacedBuildingsEnemy[BUILDING_OILPOWERPLANT]++;
 		break;
-	case LIdentifier::LSolarPowerPlant: statPlacedBuildings[BUILDING_SOLARPOWERPLANT]++;
+	case LIdentifier::LSolarPowerPlant: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_SOLARPOWERPLANT]++ : statPlacedBuildingsEnemy[BUILDING_SOLARPOWERPLANT]++;
 		break;
-	case LIdentifier::LWindmillPowerPlant: statPlacedBuildings[BUILDING_WINDMILL]++;
+	case LIdentifier::LWindmillPowerPlant: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_WINDMILL]++ : statPlacedBuildingsEnemy[BUILDING_WINDMILL]++;
 		break;
-	case LIdentifier::LPowerLine: statPlacedBuildings[BUILDING_POWERLINE]++;
+	case LIdentifier::LPowerLine: 
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_POWERLINE]++ : statPlacedBuildingsEnemy[BUILDING_POWERLINE]++;
 		break;
 	default: break;
 	}
+
+	updatePowerPlants();
 }
 
-void VScreenIngame::updateRemovedPowerPlant(const LIdentifier::LIdentifier id)
+void VScreenIngame::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
 	switch (id)
 	{
-	case LIdentifier::LCoalPowerPlant: statPlacedBuildings[BUILDING_COALPOWERPLANT]--;
+	case LIdentifier::LCoalPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_COALPOWERPLANT]-- : statPlacedBuildingsEnemy[BUILDING_COALPOWERPLANT]--;
 		break;
-	case LIdentifier::LHydroelectricPowerPlant: statPlacedBuildings[BUILDING_HYDROPOWERPLANT]--;
+	case LIdentifier::LHydroelectricPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_HYDROPOWERPLANT]-- : statPlacedBuildingsEnemy[BUILDING_HYDROPOWERPLANT]--;
 		break;
-	case LIdentifier::LNuclearPowerPlant: statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]--;
+	case LIdentifier::LNuclearPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_NUCLEARPOWERPLANT]-- : statPlacedBuildingsEnemy[BUILDING_NUCLEARPOWERPLANT]--;
 		break;
-	case LIdentifier::LOilRefinery: statPlacedBuildings[BUILDING_OILPOWERPLANT]--;
+	case LIdentifier::LOilRefinery:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_OILPOWERPLANT]-- : statPlacedBuildingsEnemy[BUILDING_OILPOWERPLANT]--;
 		break;
-	case LIdentifier::LSolarPowerPlant: statPlacedBuildings[BUILDING_SOLARPOWERPLANT]--;
+	case LIdentifier::LSolarPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_SOLARPOWERPLANT]-- : statPlacedBuildingsEnemy[BUILDING_SOLARPOWERPLANT]--;
 		break;
-	case LIdentifier::LWindmillPowerPlant: statPlacedBuildings[BUILDING_WINDMILL]--;
+	case LIdentifier::LWindmillPowerPlant:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_WINDMILL]-- : statPlacedBuildingsEnemy[BUILDING_WINDMILL]--;
 		break;
-	case LIdentifier::LPowerLine: statPlacedBuildings[BUILDING_POWERLINE]--;
+	case LIdentifier::LPowerLine:
+		playerId == LPlayer::PlayerId::Local ? statPlacedBuildings[BUILDING_POWERLINE]-- : statPlacedBuildingsEnemy[BUILDING_POWERLINE]--;
 		break;
 	default: break;
 	}
+
+	updatePowerPlants();
 }
 
 
-void VScreenIngame::updateNumberPowerLines(const int newNumberPowerLines)
+void VScreenIngame::updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId)
 {
-	statPlacedBuildings[BUILDING_POWERLINE] = newNumberPowerLines;
+	if (playerId == LPlayer::Local)
+		statPlacedBuildings[BUILDING_POWERLINE] = newNumberPowerLines;
+	else
+		statPlacedBuildingsEnemy[BUILDING_POWERLINE] = newNumberPowerLines;
 }
 
 void VScreenIngame::updatePowerPlants()
@@ -643,8 +670,18 @@ void VScreenIngame::updatePowerPlants()
 		if (plant.first != BUILDING_POWERLINE) {
 			if (plant.second < 10)
 				CASTD<VText*>(m_vtTabStatistics->getGuiObject(m_powerPlantsNameMapping[plant.first]))->updateText("0" + std::to_string(plant.second));
-			else 
+			else
 				CASTD<VText*>(m_vtTabStatistics->getGuiObject(m_powerPlantsNameMapping[plant.first]))->updateText(std::to_string(plant.second));
+		}
+	}
+
+	for (const std::pair<BUILDINGTYPE, int>& plant : statPlacedBuildingsEnemy)
+	{
+		if (plant.first != BUILDING_POWERLINE) {
+			if (plant.second < 10)
+				CASTD<VText*>(m_vtTabStatistics->getGuiObject(m_powerPlantsNameMapping[plant.first]+"enemy"))->updateText("0" + std::to_string(plant.second));
+			else
+				CASTD<VText*>(m_vtTabStatistics->getGuiObject(m_powerPlantsNameMapping[plant.first]+"enemy"))->updateText(std::to_string(plant.second));
 		}
 	}
 }
@@ -660,20 +697,54 @@ void VScreenIngame::updateEnergyOverload(int overload)
 	CASTD<VText*>(m_vtTopbar->getGuiObject("energyOverload"))->updateText(std::to_string(overload));
 }
 
+int VScreenIngame::getNumberofBuildings(const LPlayer::PlayerId playerId)
+{
+	int count = 0;
+	for (const std::pair<BUILDINGTYPE, int>& plant : (playerId == LPlayer::Local) ? statPlacedBuildings : statPlacedBuildingsEnemy)
+	{
+		if (plant.first != BUILDING_POWERLINE) {
+			if (plant.second > 0)
+				count++;
+		}
+	}
+	return count;
+}
+
 void VScreenIngame::updateOwnGraphRatio(float fRatio)
 {
-	m_vgGraphEnergyRatioOwn->updateValue(fRatio);
-	CASTD<VText*>(m_vtTabStatistics->getGuiObject("ownGraphTextLeft"))->updateText(std::to_string(CASTS<int>(fRatio) * 100) + "%");
-	CASTD<VText*>(m_vtTabStatistics->getGuiObject("ownGraphTextRight"))->updateText(std::to_string(100 - (CASTS<int>(fRatio) * 100)) + "%");
+	if (fRatio == 0 && getNumberofBuildings(LPlayer::Local) == 0)
+	{
+		m_vgGraphEnergyRatioOwn->disable();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("ownGraphTextTop"))->updateText("0%");
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("ownGraphTextBottom"))->updateText("0%");
+		return;
+	}
+	m_vgGraphEnergyRatioOwn->enable();
 
-	float x = fRatio * 100, y = 100 - fRatio;
+	int regenerative = (fRatio) * 100;
+	int fossile = 100 - fRatio * 100;
+
+	m_vgGraphEnergyRatioOwn->updateValue(fRatio);
+	CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("ownGraphTextTop"))->updateText(std::to_string(regenerative) + "%");
+	CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("ownGraphTextBottom"))->updateText(std::to_string(fossile) + "%");
 }
 
 void VScreenIngame::updateEnemyGraphRatio(float fRatio) {
-	
+	if (fRatio == 0 && getNumberofBuildings(LPlayer::Remote) == 0)
+	{
+		m_vgGraphEnergyRatioEnemy->disable();
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("enemyGraphTextTop"))->updateText("0%");
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("enemyGraphTextBottom"))->updateText("0%");
+		return;
+	}
+	m_vgGraphEnergyRatioEnemy->enable();
+
+	int regenerative = (fRatio)* 100;
+	int fossile = 100 - fRatio * 100;
+
 	m_vgGraphEnergyRatioEnemy->updateValue(fRatio);
-	CASTD<VText*>(m_vtTabStatistics->getGuiObject("enemyGraphTextTop"))->updateText(std::to_string(CASTS<int>(fRatio) * 100) + "%");
-	CASTD<VText*>(m_vtTabStatistics->getGuiObject("enemyGraphTextBottom"))->updateText(std::to_string(100 - (CASTS<int>(fRatio) * 100)) + "%");
+	CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("enemyGraphTextTop"))->updateText(std::to_string(regenerative) + "%");
+	CASTD<VText*>(getContainer("BottomBar")->getContainer("Bars")->getGuiObject("enemyGraphTextBottom"))->updateText(std::to_string(fossile) + "%");
 }
 
 CFloatRect VScreenIngame::getTopSpace()
@@ -720,8 +791,6 @@ void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 	checkGUIObjects(tempGuicontainer);
 	for (const std::pair<std::string, IViewGUIContainer*>& ContainerPair : tempGuiContainerMap)
 	{
-		checkGUIObjects(ContainerPair.second);
-
 		if (tempGuicontainer->getGuiContainerMap().size() > 0)
 		{
 			checkGUIContainer(ContainerPair.second);
@@ -1114,38 +1183,6 @@ void VScreenIngame::setSabotageNumber(const int value)
 	CASTD<VText*>(m_vtTabSabotage->getGuiObject("SabotageNumLeft"))->updateText(std::to_string(value));
 }
 
-void VScreenIngame::switchOnBuildingInfo()
-{
-	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("PowerInfo")->switchOn();
-	getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("MoneyInfo")->switchOn();
-	getContainer("BottomBar")->getContainer("Infofield")->getOverlay("EngergyInfoIcon")->SwitchOn();
-	getContainer("BottomBar")->getContainer("Infofield")->getOverlay("MoneyInfoIcon")->SwitchOn();
-}
-
-void VScreenIngame::clearInfofield()
-{
-	for(std::pair<std::string,IViewGUIObject*> obj : getContainer("BottomBar")->getContainer("Infofield")->getGuiObjectList())
-	{
-		obj.second->switchOff();
-	}
-	for (std::pair<std::string, COverlay*> overlay : getContainer("BottomBar")->getContainer("Infofield")->getOverlayMap())
-	{
-		overlay.second->SwitchOff();
-	}
-
-	m_viewportModels.SwitchOff();
-}
-
-void VScreenIngame::hideBottomBar()
-{
-	std::thread([this] {
-		while (getContainer("BottomBar")->getRectangle().GetYPos() > 0.0F)
-		{
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-			getContainer("BottomBar")->slideDown(-0.01F);
-		}
-	}).detach();
-}
 
 void VScreenIngame::setActiveButton(const std::string& sName)
 {
@@ -1167,8 +1204,6 @@ CFloatRect VScreenIngame::getRectForPixel(const int iPosX, const int iPosY, cons
 
 	ASSERT((((iPosX + iSizeX) <= iFensterBreite) && ((iPosY + iSizeY) <= iFensterHöhe)), "Angegebener Bereich liegt außerhalb des Fensters");
 
-	/* iFensterBreite/100% = iPosX/X% => iFensterbreite=(iPosX*100%)/x =>x=(iPosX*100%)/iFensterBreite */
-
 	tempRectangle.SetXPos(iPosX / CASTS<float>(iFensterBreite));
 	tempRectangle.SetYPos(iPosY / CASTS<float>(iFensterHöhe));
 	tempRectangle.SetXSize(iSizeX / CASTS<float>(iFensterBreite));
@@ -1186,6 +1221,18 @@ void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& picke
 			int x = pickedElements.at(VIdentifier::VPlayingField)[0];
 			int y = pickedElements.at(VIdentifier::VPlayingField)[1];
 			bool operationSuccessful = false;
+
+			if (selectedBuilding == VIdentifier::Undefined && selectedAction == IViewBuilding::Undefined)
+			{
+				if (m_fieldValueStorage.count(std::make_pair(x, y)) > 0)
+				{
+					m_fieldValueStorage.at(std::make_pair(x, y)).showContextInfo();
+				}
+				else
+				{
+					m_fieldValueStorage.emplace(std::piecewise_construct, std::make_tuple(std::make_pair(x, y)), std::make_tuple(this));
+				}
+			}
 
 			if (selectedBuilding != VIdentifier::Undefined)
 			{
@@ -1261,7 +1308,7 @@ bool VScreenIngame::trySabotage(const int x, const int y)
 	}
 	//Own building selected
 	
-	if (vbuilding->getLBuilding()->getPlayerId() != LPlayer::PlayerId::Remote)
+	if (vbuilding->getLBuilding() == nullptr || vbuilding->getLBuilding()->getPlayerId() != LPlayer::PlayerId::Remote)
 	{
 		return false;
 	}
@@ -1328,7 +1375,7 @@ bool VScreenIngame::tryBuildingInteraction(const int x, const int y)
 	}
 
 	//Remote building selected
-	if (vbuilding->getLBuilding()->getPlayerId() != LPlayer::PlayerId::Local)
+	if (vbuilding->getLBuilding() == nullptr || vbuilding->getLBuilding()->getPlayerId() != LPlayer::PlayerId::Local)
 	{
 		return false;
 	}
@@ -1346,9 +1393,13 @@ bool VScreenIngame::tryBuildingInteraction(const int x, const int y)
 			return vbuilding->clicked(selectedAction);
 		
 		case IViewBuilding::sell:
-			//Currently the sell action does not perform any checks, so remove immediatly
-			vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
-			return true;
+			if (vbuilding->clicked(selectedAction))
+			{
+				vUi->vMaster->getVPlayingField()->tryRemoveObject(x, y);
+				return true;
+			}
+
+			return false;
 
 		default:
 			return false;
@@ -1430,6 +1481,45 @@ void VScreenIngame::SabotageTabSwitchOff()
 	m_vtTabSabotage->getGuiObject("HeaderSabNum")->switchOff();
 	m_vtTabSabotage->getGuiObject("SabotageNumLeft")->switchOff();
 
+}
+
+void VScreenIngame::updateFieldStorageValue(std::pair<int, int> pos, const std::string& name, const std::string& wert)
+{
+	if(m_fieldValueStorage.count(pos)>0)
+	{
+		m_fieldValueStorage.at(pos).updateValue(name, wert);
+	}
+	else
+	{
+		m_fieldValueStorage.emplace(std::piecewise_construct, std::make_tuple(pos), std::make_tuple(this));
+		m_fieldValueStorage.at(pos).updateValue(name, wert);
+	}
+}
+
+void VScreenIngame::switchInfo(INFOTYPE infoType)
+{
+	if (activeInfo != nullptr)
+		activeInfo->switchOff();
+	switch (infoType)
+	{
+
+	case CRAFTBUILDING:
+		activeInfo = getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo");
+		activeInfo->switchOn();
+		break;
+	case FIELDINFO:
+		activeInfo = getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo");
+		activeInfo->switchOn();
+		break;
+	case SABOTAGEINFO:
+		activeInfo = getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo");
+		activeInfo->switchOn();
+		break;
+	case NOINFO:
+		activeInfo = nullptr;
+		break;
+
+	}
 }
 
 void VScreenIngame::addToScene(CPlacement* placement)

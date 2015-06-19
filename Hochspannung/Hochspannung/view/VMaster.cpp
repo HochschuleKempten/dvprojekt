@@ -75,7 +75,7 @@ void VMaster::gameOver()
 	}
 }
 
-void VMaster::updateGameList(const std::vector<Network::CGameObject>& gameList)
+void VMaster::updateGameList(const std::unordered_map<std::string, Network::CGameObject>& gameList)
 {
 	vUi.updateGameList(gameList);
 }
@@ -108,19 +108,19 @@ void VMaster::resize(int width, int height)
 	vUi.resize(width, height);
 }
 
-void VMaster::hostGame()
+void VMaster::hostGame(const std::string & gameName)
 {
-	lMaster->startNewGame();
+	lMaster->hostGame(gameName);
 }
 
 void VMaster::startSinglePlayerGame()
 {
-	lMaster->startNewGame("SINGLE_PLAYER");
+	lMaster->startSinglePlayerGame();
 }
 
 void VMaster::joinGame(const std::string& ipAddress)
 {
-	lMaster->startNewGame(ipAddress);
+	lMaster->joinGame(ipAddress);
 }
 
 void VMaster::startBuildingPlayingField()
@@ -130,10 +130,7 @@ void VMaster::startBuildingPlayingField()
 
 void VMaster::updateMoney(const int money, const LPlayer::PlayerId playerId)
 {
-	if (playerId == LPlayer::Local)
-	{
-		vUi.updateMoney(money);
-	}
+	vUi.updateMoney(money, playerId);
 }
 
 void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
@@ -143,26 +140,17 @@ void VMaster::updateRemainingSabotageActs(const int remainingSabotageActs)
 
 void VMaster::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
-	if (playerId == LPlayer::Local)
-	{
-		vUi.updateAddedPowerPlant(id);
-	}
+	vUi.updateAddedPowerPlant(id, playerId);
 }
 
 void VMaster::updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
 {
-	if (playerId == LPlayer::Local)
-	{
-		vUi.updateRemovedPowerPlant(id);
-	}
+	vUi.updateRemovedPowerPlant(id, playerId);
 }
 
 void VMaster::updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId)
 {
-	if (playerId == LPlayer::Local)
-	{
-		vUi.updateNumberPowerLines(newNumberPowerLines);
-	}
+	vUi.updateNumberPowerLines(newNumberPowerLines, playerId);
 }
 
 void VMaster::pauseGame()

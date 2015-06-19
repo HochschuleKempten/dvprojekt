@@ -31,8 +31,8 @@ private:
 	const float fieldDepth = 0.5f;
 	const CHVector size = CHVector(fieldSize, fieldSize, fieldDepth);
 
-	std::vector<CPlacement> m_zpPlacementHolders;	
 	DynArray2D<VField> vFields;
+	std::vector<CPlacement> m_zpPlacementHolders;	
 	CPlacement m_zp;
 
 public:
@@ -86,6 +86,8 @@ public:
 
 	void placeObject(const std::shared_ptr<IViewBuilding>& objPtr, const int x, const int y);
 	void placeObject(IViewBuilding* vBuilding, const int x, const int y);
+	void placeObject(CPlacement* placement, const int x, const int y);
+	void subObject(CPlacement* placement, const int x, const int y);
 	void hoverField(const int x, const int y);
 	IViewBuilding * getBuilding(const int x, const int y);
 

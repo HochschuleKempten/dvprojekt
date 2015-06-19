@@ -51,6 +51,8 @@ public:
 
 		return name;
 	}
+private:
+	bool connected = false;
 
 protected:
 	LField* lField = nullptr;
@@ -70,7 +72,6 @@ public:
 	virtual ~ILBuilding()
 	{}
 
-	//todo (L) implement this in the buildings that can be upgraded
 	virtual void upgrade()
 	{}
 
@@ -84,9 +85,14 @@ public:
 		return playerId;
 	}
 
+	virtual void setConnected(bool connected)
+	{
+		this->connected = connected;
+	}
+
 	int getValue() const
 	{
-		return value;
+		return CASTS<int>(value * (connected ? LBalanceLoader::getSellRevenueConnected() : LBalanceLoader::getSellRevenueDisconnected()));
 	}
 
 	void addValue(const int value)
@@ -100,6 +106,8 @@ public:
 	}
 
 	void sabotageRemove();
+
+	virtual bool checkSell() const = 0;
 		
 	virtual LIdentifier::LIdentifier getIdentifier() const = 0;
 };

@@ -8,13 +8,17 @@
 #include "VModelOilRefinery.h"
 #include "VModelPowerLine.h"
 #include "VModelHydroelectricPowerPlant.h"
+#include "VContextInfo.h"
 #include "VModelCoalPowerPlant.h"
+
 
 NAMESPACE_VIEW_B
 
 
 class VScreenIngame : public IViewScreen
 {
+	friend class VContextInfo;
+
 public:
 	enum BUILDINGTYPE
 	{
@@ -34,6 +38,14 @@ public:
 		SABOTAGE_HALF
 	};
 
+	enum INFOTYPE
+	{
+		CRAFTBUILDING,
+		FIELDINFO,
+		SABOTAGEINFO,
+		NOINFO
+	};
+
 	explicit VScreenIngame(VUI* vUi);
 	virtual ~VScreenIngame();
 	void onNotify(const Event& events) override;
@@ -43,12 +55,12 @@ public:
 	void checkSpecialEvent(CDeviceCursor* cursor) override;
 
 	//Schnittstellenmethoden
-	void updateMoney(const int wert);
+	void updateMoney(const int wert, const LPlayer::PlayerId playerId);
 	void updatePopulation(const int wert);
 	void updateInfofield(const std::string& neuerText);
-	void updateAddedPowerPlant(const LIdentifier::LIdentifier id);
-	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id);
-	void updateNumberPowerLines(const int newNumberPowerLines);
+	void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId);
+	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId);
+	void updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId);
 	void updatePowerPlants();
 	void updateGraphProdNeeded(float fProduced, float fNeeded);
 	void updateEnergyOverload(int overload);
@@ -80,13 +92,12 @@ public:
 
 	void setSabotageNumber(const int value);
 
+
+	void updateFieldStorageValue(std::pair<int, int> pos, const std::string& name, const std::string& wert);
+
+	void switchInfo(INFOTYPE);
+
 private:
-
-	inline void switchOnBuildingInfo();
-
-	void clearInfofield();
-
-	void hideBottomBar();
 
 	void handleInput();
 	std::map<int, std::vector<int>> pickElements();
@@ -98,6 +109,8 @@ private:
 	bool trySabotage(const int x, const int y);
 	bool tryBuildingInteraction(const int x, const int y);
 
+	int getNumberofBuildings(const LPlayer::PlayerId playerId);
+
 	void updateModelView();
 
 	void SabotageTabSwitchOn();
@@ -106,6 +119,8 @@ private:
 
 
 	VButton* activeButton = nullptr;
+
+	IViewGUIContainer* activeInfo = nullptr;
 
 	CScene m_scene;
 	CCamera m_zc;
@@ -148,6 +163,8 @@ private:
 	VIdentifier::VIdentifier selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
 
+	std::map<BUILDINGTYPE, int> statPlacedBuildingsOwn;
+	std::map<BUILDINGTYPE, int> statPlacedBuildingsEnemy;
 	std::map<BUILDINGTYPE, int> statPlacedBuildings;
 	std::map<BUILDINGTYPE, std::string> m_powerPlantsNameMapping;
 
@@ -169,7 +186,10 @@ private:
 	VModelCoalPowerPlant modelCoal;
 	std::unordered_map<VIdentifier::VIdentifier, IViewModel*> models;
 
+	std::unordered_map<std::pair<int, int>, VContextInfo,LPlayingFieldHasher> m_fieldValueStorage;
+
 	bool m_CooldownStrike = false;
+
 	bool m_CooldownPowerLineCut = false;
 	bool m_CooldownHalfResource = false;
 };

@@ -59,7 +59,7 @@ public:
 	 * @brief Returns a list of found games in the local network.
 	 * @return the list containing information of every hosted game found in the network.
 	 */
-	std::vector<CGameObject> getGameList();
+	std::unordered_map<std::string, CGameObject> getGameList();
 
 	/**
 	 * @brief Close the active server or connection.
@@ -188,6 +188,14 @@ public:
 	 * @return true if message could be sent, false otherwise.
 	 */
 	bool sendRatio(float fRatio, bool bApprovalNeeded = false);
+
+	/**
+	 * @brief Send the city population.
+	 * @param iPopulation the city population.
+	 * @param bApprovalNeeded set true, if the command shall be send as a request.
+	 * @return true if message could be sent, false otherwise.
+	 */
+	bool sendCityPopulation(int iPopulation, bool bApprovalNeeded = false);
 
 	/**
 	 * @brief Send the command back as an answer.

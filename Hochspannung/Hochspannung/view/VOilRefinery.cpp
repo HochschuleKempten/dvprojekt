@@ -14,7 +14,6 @@ void VOilRefinery::configViewModel(IViewModel& model, const bool switchedOn)
 	const float scale = 0.4f;
 	model.getPlacementMain()->Scale(scale);
 	model.getPlacementMain()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
-	VSoundLoader::play3DSoundLoop(VIdentifier::VOilRefinery, model.getPlacementMain());
 }
 
 VOilRefinery::VOilRefinery(VMaster* vMaster, LOilRefinery* lPlant)
@@ -33,6 +32,8 @@ void VOilRefinery::initPowerPlant(const std::shared_ptr<IVPowerPlant>& objPtr, c
 	configViewModel(viewModelOn, true);
 	configViewModel(viewModelOff, false);
 	translateViewModel();
+
+	VSoundLoader::play3DSoundLoop(VIdentifier::VOilRefinery, viewModelOn.getPlacementMain());
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
 }
