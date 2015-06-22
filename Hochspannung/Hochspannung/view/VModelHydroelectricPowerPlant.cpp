@@ -16,7 +16,7 @@ void VModelHydroelectricPowerPlant::init()
 	Gebaeude.initViewModel(vBuilding, switchedState);
 	Gebaeude.init();
 
-	m_zgFluss.Init(CHVector(2.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmWasser);
+	m_zgFluss.Init(CHVector(4.0f, 0.3f, 5.0f), &VMaterialLoader::m_zmWasser);
 	m_zgRad.InitStraight(3.0f, 4.0f, 0.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));
 	m_zgRad2.InitStraight(3.0f, 4.0f, 0.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));
 	m_zgStange.InitStraight(0.05f, 0.2f, 5.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::WATER_HOLZ, switchedState));
@@ -54,7 +54,9 @@ void VModelHydroelectricPowerPlant::init()
 
 	//Adding
 
+	Gebaeude.Scale(0.9f);
 	Gebaeude.TranslateZDelta(2.0f);
+	Gebaeude.TranslateXDelta(1.7f);
 
 	m_zpStange.AddGeo(&m_zgStange);
 	m_zpStange.RotateZ(PI / 2);
@@ -62,7 +64,7 @@ void VModelHydroelectricPowerPlant::init()
 
 	m_zpFluss.AddGeo(&m_zgFluss);
 	m_zpFluss.TranslateY(0.01f);
-	m_zpFluss.TranslateXDelta(-2.0f);
+	m_zpFluss.TranslateXDelta(-2.5f);
 
 	m_zpFundament.AddGeo(&m_zgFoundation);
 	m_zpFundament.ScaleXDelta(16.5f);
@@ -78,7 +80,7 @@ void VModelHydroelectricPowerPlant::init()
 
 	m_zpWasserRad.ScaleDelta(0.7f);
 	m_zpWasserRad.TranslateYDelta(2.0f);
-	m_zpWasserRad.TranslateXDelta(-1.5f);
+	//m_zpWasserRad.TranslateXDelta(-1.5f);
 
 
 	m_zpWasserSchaufel1.AddGeo(&m_zgSchaufel);
