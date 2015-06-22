@@ -408,7 +408,7 @@ void VMaterialLoader::init()
 
 	materialDialogBackground.MakeTextureSprite("textures\\MainMenueBackground.png");
 
-	materialIngameBorder.Init(CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68), CColor(0.0, 0.44, 0.68));
+	materialIngameBorder.Init(CColor(0.0f, 0.44f, 0.68f), CColor(0.0f, 0.44f, 0.68f), CColor(0.0f, 0.44f, 0.68f));
 
 
 	//Main menu - Buttons
@@ -549,8 +549,8 @@ void VMaterialLoader::init()
 	m_zmAllgemeinGreen.MakeTextureDiffuse("Textures\\green_image.jpg");
 	
 	//Wasserkraftwerktexturen
-	m_zmWasser.MakeTextureSprite("Textures\\animations\\Water.png");
-	m_zmWasser.SetAni(80, 2, 160.0 / 16.0);
+	m_zmWasser.MakeTextureSprite("Textures\\animations\\water.png");
+	m_zmWasser.SetAni(51, 2, 102.0 / 16.0);
 	
 	//Building - Foundation
 	colorPlayers.emplace(std::piecewise_construct, std::make_tuple(LPlayer::Remote), std::make_tuple(196.0f / 255.0f, 51.0f / 255.0f, 66.0f / 255.0f));
@@ -720,7 +720,9 @@ float VMaterialLoader::getRotationPerTick(const VIdentifier::VIdentifier powerPl
 		//case VIdentifier::VNuclearPowerPlant: break;
 		default:
 			ASSERT("No Rotation for this power plant available");
+#ifndef _DEBUG
 			return 1.0;
+#endif
 	}
 }
 
