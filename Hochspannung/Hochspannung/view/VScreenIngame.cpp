@@ -65,7 +65,11 @@ activeInfo(nullptr)
 	models[VIdentifier::VPowerLine]->getPlacementMain()->TranslateZ(6.0f);
 	models[VIdentifier::VPowerLine]->getPlacementMain()->TranslateYDelta(2.0f);
 	models[VIdentifier::VOilRefinery]->getPlacementMain()->TranslateYDelta(-0.8);
-	models[VIdentifier::VHydroelectricPowerPlant]->getPlacementMain()->TranslateYDelta(-0.8);
+	models[VIdentifier::VHydroelectricPowerPlant]->getPlacementMain()->TranslateYDelta(-2.0);
+	models[VIdentifier::VHydroelectricPowerPlant]->getPlacementMain()->TranslateZDelta(-2.8);
+	models[VIdentifier::VNuclearPowerPlant]->getPlacementMain()->TranslateYDelta(-0.8);
+	models[VIdentifier::VCoalPowerPlant]->getPlacementMain()->TranslateYDelta(-2.3);
+	models[VIdentifier::VCoalPowerPlant]->getPlacementMain()->TranslateZDelta(-2.8);
 
 
 	CHVector vector=models[VIdentifier::VNuclearPowerPlant]->getPlacementMain()->GetTranslation();

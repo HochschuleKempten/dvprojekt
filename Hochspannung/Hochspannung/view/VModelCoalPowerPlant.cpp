@@ -40,7 +40,7 @@ void VModelCoalPowerPlant::init()
 	m_zgLoreBoden.Init(0.48f, 0.05f, 0.48f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_STRUCTURE, switchedState));
 
 	//Kamin
-	m_zgKamin.InitStraight(0.2f, 0.3f, 3.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, switchedState), 32, true);
+	m_zgKamin.InitStraight(0.2f, 0.25f, 2.8f, VMaterialLoader::getMaterialModel(VMaterialLoader::COAL_GREY, switchedState), 32, true);
 
 
 	//Placements
@@ -59,6 +59,7 @@ void VModelCoalPowerPlant::init()
 	m_zpGebaeude.AddPlacement(&m_zpKamin1);
 	m_zpGebaeude.AddPlacement(&m_zpKamin2);
 	m_zpGebaeude.AddPlacement(&m_zpKamin3);
+
 
 	m_zpGebirge.AddPlacement(&m_zpBerg1);
 	m_zpGebirge.AddPlacement(&m_zpBerg2);
@@ -204,15 +205,17 @@ void VModelCoalPowerPlant::init()
 	m_zpMinenLore.Translate(CHVector(-1.98f, 0.025f, -0.5f));
 
 	//Gebaeude->ScaleZDelta(3.0f);
-	m_zpKamin1.Translate(CHVector(0.75f, 1.5f, 0.8f));
+	m_zpKamin1.Translate(CHVector(0.6f, 1.5f, 0.5f));
 	m_zpKamin1.AddGeo(&m_zgKamin);
-	m_zpKamin2.Translate(CHVector(1.75f, 1.5f, 0.8f));
+	m_zpKamin2.Translate(CHVector(1.75f, 1.5f, 0.5f));
 	m_zpKamin2.AddGeo(&m_zgKamin);
-	m_zpKamin3.Translate(CHVector(2.75f, 1.5f, 0.8f));
+	m_zpKamin3.Translate(CHVector(2.9f, 1.5f, 0.5f));
 	m_zpKamin3.AddGeo(&m_zgKamin);
 
 	m_zpKohlekraftwerk.Scale(1.3f);
-	//m_zpGebaeude.Translate(CHVector(0.3f, 0.3f, 1.0f));
+	Gebaeude->Scale(0.2f);
+	Gebaeude->ScaleZDelta(1.8f);
+	m_zpGebaeude.Translate(CHVector(0.3f, 0.3f, 1.5f));
 }
 
 void VModelCoalPowerPlant::moveLore(float amount)
