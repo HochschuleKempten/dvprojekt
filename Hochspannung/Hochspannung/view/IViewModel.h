@@ -84,8 +84,14 @@ public:
 	virtual void init()
 	{}
 
-	virtual float getHeight() = 0;
-	virtual float getWidth() = 0;
+	virtual float getHeight()
+	{
+		return 0.0f;
+	}
+	virtual float getWidth()
+	{
+		return 0.0f;
+	}
 
 	virtual void switchOn()
 	{}

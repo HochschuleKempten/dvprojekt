@@ -60,9 +60,6 @@ private:
 
 	//Combinations
 
-	CMaterial m_zm;
-
-
 };
 
 

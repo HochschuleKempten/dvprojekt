@@ -16,9 +16,6 @@ CSmallOfficeBuilding::CSmallOfficeBuilding()
 	InitWalls();
 
 
-	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
-
-
 	//Placements
 	AddPlacements();
 
@@ -46,9 +43,6 @@ CSmallOfficeBuilding::CSmallOfficeBuilding(float fResize)
 	}
 
 	InitWalls();
-
-
-	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
 
 
 	//Placements

@@ -18,6 +18,7 @@ class VModelCity : public IViewModel
 public:
 	VModelCity(void);
 	virtual ~VModelCity(void) override;
+	virtual void init() override;
 
 	void TranslateBuildings();
 	void InitBuildings();

@@ -48,9 +48,6 @@ private:
 	//Windows
 	CGeoWindow m_zgWindow;
 
-	CMaterial m_zm;
-	
-
 };
 
 

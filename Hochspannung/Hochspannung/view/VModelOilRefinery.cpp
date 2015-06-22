@@ -4,6 +4,7 @@ NAMESPACE_VIEW_B
 
 
 VModelOilRefinery::VModelOilRefinery()
+	: Gebaeude(1.0f)
 {}
 
 VModelOilRefinery::~VModelOilRefinery()
@@ -11,6 +12,9 @@ VModelOilRefinery::~VModelOilRefinery()
 
 void VModelOilRefinery::init()
 {
+	Gebaeude.initViewModel(vBuilding, switchedState);
+	Gebaeude.init();
+
 	m_zpLOD[0].AddPlacement(&m_zpOelkraftwerk);
 	m_zpLOD[1].AddPlacement(&m_zpOelkraftwerk);
 	m_zpLOD[2].AddPlacement(&m_zpOelkraftwerk);
@@ -149,14 +153,14 @@ void VModelOilRefinery::init()
 
 	
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte11);
-	m_zpGebaeudeHaelfte11.AddPlacement(Gebaeude);
+	m_zpGebaeudeHaelfte11.AddPlacement(&Gebaeude);
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte12);
-	m_zpGebaeudeHaelfte12.AddPlacement(Gebaeude);
+	m_zpGebaeudeHaelfte12.AddPlacement(&Gebaeude);
 	m_zpGebaeude2.AddPlacement(&m_zpGebaeudeHaelfte21);
-	m_zpGebaeudeHaelfte21.AddPlacement(Gebaeude);
+	m_zpGebaeudeHaelfte21.AddPlacement(&Gebaeude);
 	m_zpGebaeude2.AddPlacement(&m_zpGebaeudeHaelfte22);
-	m_zpGebaeudeHaelfte22.AddPlacement(Gebaeude);
-	Gebaeude->Scale(0.2f);
+	m_zpGebaeudeHaelfte22.AddPlacement(&Gebaeude);
+	Gebaeude.Scale(0.2f);
 	
 
 	m_zpFundament.AddGeo(&m_zgFoundation);

@@ -31,7 +31,7 @@ void LPlayer::tick(const float fTimeDelta)
 			if (coolDownCounterDeactivate > 0) { coolDownCounterDeactivate--; }
 			if (coolDownCounterResource > 0) { coolDownCounterResource--; }
 
-			if (lMaster->getLPlayingField() != nullptr && lMaster->getLPlayingField()->isInitDone() && city->getPopulation() >= 1000 && almost_equal(ratioRegenerative, 1.0F, 2))
+			if (lMaster->getLPlayingField() != nullptr && lMaster->getLPlayingField()->isInitDone() && city->getPopulation() >= LBalanceLoader::getMaxPopulation() && almost_equal(ratioRegenerative, 1.0F, 2))
 			{
 				lMaster->gameWon();
 			}

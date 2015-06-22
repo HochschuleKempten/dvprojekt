@@ -21,6 +21,7 @@ VCity::~VCity()
 void VCity::initCity(const std::shared_ptr<IVCity>& objPtr, const int x, const int y)
 {
 	viewModel.initViewModel(this);
+	viewModel.init();
 
 	VSoundLoader::play3DSoundLoop(VIdentifier::VCity, viewModel.getPlacementMain());
 

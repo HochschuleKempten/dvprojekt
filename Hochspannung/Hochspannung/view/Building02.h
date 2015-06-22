@@ -41,8 +41,7 @@ private:
 	float fresize;
 
 public:
-	Building02();
-	Building02(float fResize);
+	explicit Building02(float fResize);
 	~Building02();
 	virtual void init() override;
 

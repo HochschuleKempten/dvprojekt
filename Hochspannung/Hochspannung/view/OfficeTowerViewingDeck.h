@@ -60,9 +60,6 @@ private:
 	//Frame
 	CGeoWall m_zgFrame;
 
-	CMaterial m_zm;
-	
-
 };
 
 
