@@ -4,6 +4,7 @@ NAMESPACE_VIEW_B
 
 
 VModelHydroelectricPowerPlant::VModelHydroelectricPowerPlant()
+	: Gebaeude(1.0f)
 {}
 
 VModelHydroelectricPowerPlant::~VModelHydroelectricPowerPlant()

@@ -44,7 +44,8 @@ public:
 		OIL_GREEN_RAY,
 		OIL_YELLOW_RAY,
 		BUILDING_WALLFRAME,
-		BUILDING_WINDOW
+		BUILDING_WINDOW,
+		BUILDING_BROWN_WALL
 	};
 
 private:
@@ -232,9 +233,7 @@ public:
 
 	//MaterialBuildings
 	static CMaterial materialBuilding01;
-	static CMaterial materialBuilding02;
 	static CMaterial materialBuilding03;
-	static CMaterial materialLargeOfficeBuilding;
 	static CMaterial materialAppartments;
 	static CMaterial materialOfficTowerViewingDeck;
 	static CMaterial materialTwistedTower;

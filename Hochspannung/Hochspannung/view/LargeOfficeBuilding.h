@@ -1,21 +1,17 @@
 #pragma once
 
-
-
-
-
 #include "VGeneral.h"
-#include "VMaterialLoader.h"
+#include "IViewModel.h"
 
 NAMESPACE_VIEW_B
 
 
-class CLargeOfficeBuilding : public CPlacement
+class CLargeOfficeBuilding : public CPlacement, public IViewModel
 {
 public:
-	CLargeOfficeBuilding();
 	CLargeOfficeBuilding(float fResize);
 	~CLargeOfficeBuilding(void);
+	virtual void init() override;
 
 
 	void InitWindows();
@@ -86,11 +82,7 @@ private:
 	CGeoWall m_zgFrame;
 	CGeoWall m_zgFrameHigh;
 
-	
-	CMaterial m_zm;
-	
 };
-
 
 
 NAMESPACE_VIEW_E

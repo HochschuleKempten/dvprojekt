@@ -1,86 +1,47 @@
-
 #include "Appartments.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
+
+
 CAppartments::CAppartments()
 {
-
 	this->fResize = 1.0F;
-
-
-	//Initialize Windows
-	InitWindows();
-
-
-	//Add Windows
-	AddWindows();
-
-
-
-	//Init Walls
-	InitWalls();
-
-
-
-	//m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
-
-
-	//Placements
-	AddPlacements();
-
-	//Rotations
-	RotateAll();
-
-	//Translations
-	TranslateAll();
-
-	//Resize for Lods
-	ScaleForLod();
-
 }
 
 
 CAppartments::CAppartments(float fResize)
 {
-
 	this->fResize = fResize;
-
-
-	if (fResize == 1){
-		InitWindows();
-		AddWindows();
-	}
-
-
-
-	//Init Walls
-	InitWalls();
-
-
-
-	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
-
-
-	//Placements
-	AddPlacements();
-
-	//Rotations
-	RotateAll();
-
-	//Translations
-	TranslateAll();
-
-	//Resize for Lods
-	ScaleForLod();
-
 }
 
 CAppartments::~CAppartments(void)
 {
 }
 
-//todo Dach Round
+void CAppartments::init()
+{
+	if (fResize == 1)
+	{
+		InitWindows();
+		AddWindows();
+	}
 
+	//Init Walls
+	InitWalls();
+
+	//Placements
+	AddPlacements();
+
+	//Rotations
+	RotateAll();
+
+	//Translations
+	TranslateAll();
+
+	//Resize for Lods
+	ScaleForLod();
+}
 
 void CAppartments::InitWindows() {
 	m_zgWindow.InitRect(CFloatRect(1.0F / fResize, 1.0F / fResize, 0.5F / fResize, 1.0F / fResize), true);
@@ -93,19 +54,18 @@ void CAppartments::AddWindows() {
 	m_zgWallSouth.AddGeoWindows(&m_zgWindow, CFloatRect(0.5F / fResize, 1.0F / fResize, 17.0F / fResize, 8.0F / fResize), 12, 6);
 	m_zgWallEast.AddGeoWindows(&m_zgWindow, CFloatRect(0.1F / fResize, 1.0F / fResize, 2.9F / fResize, 8.0F / fResize), 3, 6);
 	m_zgWallWest.AddGeoWindows(&m_zgWindow, CFloatRect(0.1F / fResize, 1.0F / fResize, 2.9F / fResize, 8.0F / fResize), 3, 6);
-
 }
 
 void CAppartments::InitWalls(){
 
-	m_zgFrame.Init(1.0F, 1.0F, 0.1F, &VMaterialLoader::materialWindowsofBuilding);
+	m_zgFrame.Init(1.0F, 1.0F, 0.1F, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_WINDOW, switchedState));
 
-	m_zgWallNorth.Init(17.5F / fResize, 9.0F / fResize, .1F / fResize, &VMaterialLoader::materialAppartments);
-	m_zgWallWest.Init(3.0F / fResize, 9.0F / fResize, .1F / fResize, &VMaterialLoader::materialAppartments);
-	m_zgWallSouth.Init(17.5F / fResize, 9.0F / fResize, .1F / fResize, &VMaterialLoader::materialAppartments);
-	m_zgWallEast.Init(3.0F / fResize, 9.0F / fResize, .1F / fResize, &VMaterialLoader::materialAppartments);
+	m_zgWallNorth.Init(17.5F / fResize, 9.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
+	m_zgWallWest.Init(3.0F / fResize, 9.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
+	m_zgWallSouth.Init(17.5F / fResize, 9.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
+	m_zgWallEast.Init(3.0F / fResize, 9.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
 
-	m_zgRoof.Init(17.5F / fResize, 0.1F / fResize, 3.0F / fResize, &VMaterialLoader::materialAppartments);
+	m_zgRoof.Init(17.5F / fResize, 0.1F / fResize, 3.0F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
 	
 }
 
@@ -147,7 +107,7 @@ void CAppartments::TranslateAll() {
 void CAppartments::ScaleForLod(){
 
 	Scale(fResize);
-
 }
+
 
 NAMESPACE_VIEW_E

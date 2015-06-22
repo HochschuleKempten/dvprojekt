@@ -105,7 +105,7 @@ private:
 	CGeoCylinder m_zgKanal;
 	CGeoCylinder m_zgKanalrahmen;
 
-	CLargeOfficeBuilding *Gebaeude = new CLargeOfficeBuilding(1.0f);
+	CLargeOfficeBuilding Gebaeude;
 	VModelPowerLine m_zTrasse1;
 	VModelPowerLine m_zTrasse2;
 

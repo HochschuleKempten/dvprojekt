@@ -13,12 +13,12 @@ VModelCity::VModelCity(void)
 , appartment_01_1(1.0F)
 , appartment_02_1(1.0F)
 , appartment_03_1(1.0F)
+, largeOfficeBuilding_01_1(1.0F)
 , largeOfficeBuilding_02_1(1.0F)
 , officeTower_01_1(1.0F)
 , officeTower_02_1(1.0F)
 , smallOffice_01_1(1.0F)
 , smallOffice_02_1(1.0F)
-, largeOfficeBuilding_01_1(1.0F)
 
 , Building1_01_2(2.0F)
 , Building1_02_2(2.0F)
@@ -29,12 +29,12 @@ VModelCity::VModelCity(void)
 , appartment_01_2(2.0F)
 , appartment_02_2(2.0F)
 , appartment_03_2(2.0F)
+, largeOfficeBuilding_01_2(2.0F)
 , largeOfficeBuilding_02_2(2.0F)
 , officeTower_01_2(2.0F)
 , officeTower_02_2(2.0F)
 , smallOffice_01_2(2.0F)
 , smallOffice_02_2(2.0F)
-, largeOfficeBuilding_01_2(2.0F)
 
 
 //Bei Lod stufe 3 werden ein paar Gebäude ausgeblendet
@@ -47,15 +47,14 @@ VModelCity::VModelCity(void)
 , appartment_01_3(3.0F)
 , appartment_02_3(3.0F)
 , appartment_03_3(3.0F)
+, largeOfficeBuilding_01_3(3.0F)
 , largeOfficeBuilding_02_3(3.0F)
 , officeTower_01_3(3.0F)
 , officeTower_02_3(3.0F)
 , smallOffice_01_3(3.0F)
 , smallOffice_02_3(3.0F)
-, largeOfficeBuilding_01_3(3.0F)
 
 {
-	
 	//InitBuildings();
 	
 	AddPlacements();
@@ -67,6 +66,60 @@ VModelCity::VModelCity(void)
 VModelCity::~VModelCity(void)
 {
 	
+}
+
+void VModelCity::init()
+{
+	Building2_01_1.initViewModel(vBuilding, switchedState);
+	Building2_01_1.Init();
+	Building2_02_1.initViewModel(vBuilding, switchedState);
+	Building2_02_1.Init();
+
+	Building2_01_2.initViewModel(vBuilding, switchedState);
+	Building2_01_2.Init();
+	Building2_02_2.initViewModel(vBuilding, switchedState);
+	Building2_02_2.Init();
+
+	Building2_01_3.initViewModel(vBuilding, switchedState);
+	Building2_01_3.Init();
+	Building2_02_3.initViewModel(vBuilding, switchedState);
+	Building2_02_3.Init();
+
+	appartment_01_1.initViewModel(vBuilding, switchedState);
+	appartment_01_1.Init();
+	appartment_02_1.initViewModel(vBuilding, switchedState);
+	appartment_02_1.Init();
+	appartment_03_1.initViewModel(vBuilding, switchedState);
+	appartment_03_1.Init();
+
+	appartment_01_2.initViewModel(vBuilding, switchedState);
+	appartment_01_2.Init();
+	appartment_02_2.initViewModel(vBuilding, switchedState);
+	appartment_02_2.Init();
+	appartment_03_2.initViewModel(vBuilding, switchedState);
+	appartment_03_2.Init();
+
+	appartment_01_3.initViewModel(vBuilding, switchedState);
+	appartment_01_3.Init();
+	appartment_02_3.initViewModel(vBuilding, switchedState);
+	appartment_02_3.Init();
+	appartment_03_3.initViewModel(vBuilding, switchedState);
+	appartment_03_3.Init();
+
+	largeOfficeBuilding_01_1.initViewModel(vBuilding, switchedState);
+	largeOfficeBuilding_01_1.Init();
+	largeOfficeBuilding_02_1.initViewModel(vBuilding, switchedState);
+	largeOfficeBuilding_02_1.Init();
+
+	largeOfficeBuilding_01_2.initViewModel(vBuilding, switchedState);
+	largeOfficeBuilding_01_2.Init();
+	largeOfficeBuilding_02_2.initViewModel(vBuilding, switchedState);
+	largeOfficeBuilding_02_2.Init();
+
+	largeOfficeBuilding_01_3.initViewModel(vBuilding, switchedState);
+	largeOfficeBuilding_01_3.Init();
+	largeOfficeBuilding_02_3.initViewModel(vBuilding, switchedState);
+	largeOfficeBuilding_02_3.Init();
 }
 
 void VModelCity::InitBuildings() {
