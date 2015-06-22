@@ -112,23 +112,12 @@ public:
 
 	//Ingame
 	static CMaterial materialIngameCraft;
-	static CMaterial materialIngameBorder;
 	static CMaterial materialTopbar;
-	static CMaterial materialBottombarBorderTop;
-	static CMaterial materialVerticalBorder;
 	static CMaterial materialLobbyBigDialog;
 
 	//Credits
 	static CMaterial materialCredits;
-	static CMaterial materialCreditsOrganization;
-	static CMaterial materialCreditsIntegration;
-	static CMaterial materialCreditsTextures;
-	static CMaterial materialCreditsNetwork;
-	static CMaterial materialCreditsLogic;
-	static CMaterial materialCreditsUI;
-	static CMaterial materialCreditsModelling;
-	static CMaterial materialCreditsModelling2;
-	static CMaterial materialCreditsVektoriaSplash;
+	
 
 	//Backgrounds
 	static CMaterial materialDialogBackground;

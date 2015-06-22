@@ -57,7 +57,6 @@ public:
 	//Schnittstellenmethoden
 	void updateMoney(const int wert, const LPlayer::PlayerId playerId);
 	void updatePopulation(const int wert);
-	void updateInfofield(const std::string& neuerText);
 	void updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId);
 	void updateRemovedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId);
 	void updateNumberPowerLines(const int newNumberPowerLines, const LPlayer::PlayerId playerId);
@@ -145,16 +144,6 @@ private:
 	VGraphRatio *m_vgGraphEnergyRatioOwn;
 	VGraphRatio *m_vgGraphEnergyRatioEnemy;
 
-
-	COverlay m_bottomBar;
-	COverlay m_topBar;
-	COverlay m_bottomBarBorderTop;
-	COverlay m_bottomBarBorderBottom;
-	COverlay m_bottomBarBorderLeft;
-	COverlay m_bottomBarBorderRight;
-	COverlay m_bottomBarSeperatorMenueInfofeld;
-	COverlay m_bottomBarSeperatorMenueMinimap;
-	COverlay m_bottomBarSeperatorMenueEnergy;
 
 	//bool bK = false;
 	float mouseWheelPosition = 0.0F;

@@ -160,6 +160,7 @@ activeInfo(nullptr)
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->addOverlay(CFloatRect(0.65F, 0.70F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconEnergy, "PowerInfoIcon", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->addOverlay(CFloatRect(0.65F, 0.85F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconMoney, "MoneyInfoIcon", 0.1F);
 
+	//getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addViewport(&m_viewportModels, &m_CamModels, CFloatRect(0.1F, 0.05F, 0.75F, 0.55F), &m_zmbackgroundModels, "ContextModels");
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addText(CFloatRect(0.10F, 0.61F, 0.5F, 0.05F), &VMaterialLoader::standardFont, "1000", "PopulationInfo", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addText(CFloatRect(0.10F, 0.71F, 0.5F, 0.05F), &VMaterialLoader::standardFont, "1000", "EnergyInfo", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addText(CFloatRect(0.10F, 0.81F, 0.5F, 0.05F), &VMaterialLoader::standardFont, "1000", "ResourceInfo", 0.1F);
@@ -297,9 +298,9 @@ activeInfo(nullptr)
 	/***********************************************************Dialog******************************************************************/
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Dialog, CFloatRect(0.35F, 0.10F, 0.30F, 0.55F), &VMaterialLoader::materialLobbyRunningGamesBackground, "DialogBox", 0.3F);
 
-	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.2F), &VMaterialLoader::materialButtonGameContinue, &VMaterialLoader::materialButtonGameContinueHover, NOTHING, "MenueButtonContinue", 0.2F);
+	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.10F, 0.80F, 0.2F), &VMaterialLoader::materialButtonGameContinue, &VMaterialLoader::materialButtonGameContinueHover, INGAME_MENU_CLOSE, "MenueButtonContinue", 0.2F);
 	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.4F, 0.80F, 0.2F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "MenueButtonQuit", 0.2F);
-	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.70F, 0.80F, 0.2F), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover, NOTHING, "MenueButtonBack", 0.2F);
+	getContainer("DialogBox")->addButton(CFloatRect(0.10F, 0.70F, 0.80F, 0.2F), &VMaterialLoader::materialButtonAbort, &VMaterialLoader::materialButtonAbortHover, INGAME_MENU_CLOSE, "MenueButtonBack", 0.2F);
 
 	getContainer("DialogBox")->switchOff();
 
@@ -473,6 +474,14 @@ void VScreenIngame::onNotify(const Event& events)
 		switchInfo(SABOTAGEINFO);
 		break;
 
+	case INGAME_MENU_OPEN:
+		getContainer("DialogBox")->switchOn();
+		break;
+
+	case INGAME_MENU_CLOSE:
+		getContainer("DialogBox")->switchOff();
+		break;
+
 	default:
 		notify(events);
 		break;
@@ -501,47 +510,6 @@ void VScreenIngame::switchOff()
 void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 {
 	static bool bK = false;
-	static bool enabled = true;
-	static bool iwas = true;
-	static bool iwas2 = true;
-	static bool iwas3 = true;
-
-	if (keyboard->KeyPressed(DIK_O) && iwas)
-	{
-		iwas = false;
-		startCooldown(SABOTAGE_HALF);
-		startCooldown(SABOTAGE_STRIKE);
-		startCooldown(SABOTAGE_CUTPOWERLINE);
-	}
-	if (keyboard->KeyPressed(DIK_Y) && iwas3)
-	{
-		startCooldown(SABOTAGE_CUTPOWERLINE);
-	}
-	if (keyboard->KeyPressed(DIK_N))
-	{
-		static bool zeug = true;
-		if (zeug)
-		{
-			m_viewport->SubOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
-		}
-	}
-
-	if (keyboard->KeyPressed(DIK_M))
-	{
-		static bool zeug2 = true;
-			if (zeug2)
-			{
-				m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
-			}
-	}
-
-	
-	if (keyboard->KeyPressed(DIK_V))
-	{
-		vUi->gameOver(false);
-	}
-
-	
 	
 	if (!keyboard->KeyPressed(DIK_ESCAPE))
 	{
@@ -596,11 +564,6 @@ void VScreenIngame::updateMoney(const int wert, LPlayer::PlayerId playerId)
 void VScreenIngame::updatePopulation(const int wert)
 {
 	CASTD<VText*>(getContainer("Topbar")->getGuiObject("popValue"))->updateText(std::to_string(wert));
-}
-
-void VScreenIngame::updateInfofield(const std::string& neuerText)
-{
-	//CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getGuiObject("infoText"))->updateText(neuerText);
 }
 
 void VScreenIngame::updateAddedPowerPlant(const LIdentifier::LIdentifier id, const LPlayer::PlayerId playerId)
