@@ -391,9 +391,6 @@
     <ClInclude Include="view\VStatistics.h">
       <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="view\VScreenGameOver.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="view\VModelMountains.h">
       <Filter>view\Headerdateien</Filter>
     </ClInclude>
@@ -401,6 +398,15 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="view\VContextInfo.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenControls.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenHelp.h">
+      <Filter>GUI\Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="view\VScreenGameOver.h">
       <Filter>GUI\Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -642,9 +648,6 @@
     <ClCompile Include="view\VStatistics.cpp">
       <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="view\VScreenGameOver.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="logic\ILBuilding.cpp">
       <Filter>logic\Interfaces</Filter>
     </ClCompile>
@@ -655,6 +658,15 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="view\VContextInfo.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenHelp.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenGameOver.cpp">
+      <Filter>GUI\Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="view\VScreenControls.cpp">
       <Filter>GUI\Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

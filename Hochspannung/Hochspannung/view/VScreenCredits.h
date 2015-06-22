@@ -25,17 +25,22 @@ public:
 private:
 
 	bool animationReady = false;
+	bool animationStop = false;
 
 	CFloatRect rect;
 
 	CBackground* m_background;
 	COverlay* overlay;
 	COverlay* topBorder;
+	COverlay* bottomBorder;
+
+	VText* escapeText;
+
 
 
 	//Credits
-
-	COverlay* materialCreditsOrganization;
+	COverlay* materialCredits;
+	/*COverlay* materialCreditsOrganization;
 	COverlay* materialCreditsIntegration;
 	COverlay* materialCreditsTextures;
 	COverlay* materialCreditsNetwork;
@@ -43,7 +48,7 @@ private:
 	COverlay* materialCreditsUI;
 	COverlay* materialCreditsModelling;
 	COverlay* materialCreditsModelling2;
-	COverlay* materialCreditsVektoriaSplash;
+	COverlay* materialCreditsVektoriaSplash;*/
 
 
 	CFloatRect getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY);

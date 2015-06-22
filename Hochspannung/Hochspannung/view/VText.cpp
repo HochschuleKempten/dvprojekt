@@ -100,4 +100,14 @@ void VText::centerText()
 	}
 }
 
+CWritingFont* VText::getWritingfont()
+{
+	return m_writingFont;
+}
+
+std::string VText::getText()
+{
+	return m_text;
+}
+
 NAMESPACE_VIEW_E

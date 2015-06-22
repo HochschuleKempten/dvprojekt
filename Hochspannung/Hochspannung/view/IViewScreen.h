@@ -46,6 +46,8 @@ public:
 	{
 		MainMenue,
 		Options,
+		Help,
+		Controls,
 		Credits,
 		Ingame,
 		Lobby,

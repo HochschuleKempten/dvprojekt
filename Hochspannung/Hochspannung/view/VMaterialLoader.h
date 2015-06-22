@@ -103,6 +103,12 @@ public:
 	static CMaterial materialButtonRefreshHover;
 	static CMaterial materialButtonGameContinue;
 	static CMaterial materialButtonGameContinueHover;
+	static CMaterial materialButtonMainMenueControls;
+	static CMaterial materialButtonMainMenueControlsHover;
+	static CMaterial materialButtonMainMenueHelp;
+	static CMaterial materialButtonMainMenueHelpHover;
+	static CMaterial materialButtonMainMenueHowTo;
+	static CMaterial materialButtonMainMenueHowToHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
@@ -113,6 +119,7 @@ public:
 	static CMaterial materialLobbyBigDialog;
 
 	//Credits
+	static CMaterial materialCredits;
 	static CMaterial materialCreditsOrganization;
 	static CMaterial materialCreditsIntegration;
 	static CMaterial materialCreditsTextures;

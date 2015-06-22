@@ -7,6 +7,8 @@
 #include "VScreenCredits.h"
 #include "VScreenOptions.h"
 #include "VScreenGameOver.h"
+#include "VScreenHelp.h"
+#include "VScreenControls.h"
 
 NAMESPACE_VIEW_B
 
@@ -46,6 +48,8 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 	addScreen("Lobby", IViewScreen::Lobby);
 	addScreen("Credits", IViewScreen::Credits);
 	addScreen("Options", IViewScreen::Options);
+	addScreen("Help", IViewScreen::Help);
+	addScreen("Controls", IViewScreen::Controls);
 	addScreen("Ingame", IViewScreen::Ingame);
 	addScreen("GameOver", IViewScreen::GameOver);
 
@@ -82,6 +86,12 @@ void VUI::onNotify(const Event& evente)
 		case SWITCH_TO_OPTIONS:
 			switchScreen("Options");
 			break;
+		case SWITCH_TO_HELP:
+			switchScreen("Help");
+			break;
+		case SWITCH_TO_CONTROLS:
+			switchScreen("Controls");
+			break;
 		default:
 			break;
 	}
@@ -117,6 +127,14 @@ void VUI::addScreen(const std::string& sName, const IViewScreen::ScreenType scre
 			break;
 		case IViewScreen::Options:
 			m_screens[sName] = new VScreenOptions(this);
+			m_screens[sName]->addObserver(this);
+			break;
+		case IViewScreen::Help:
+			m_screens[sName] = new VScreenHelp(this);
+			m_screens[sName]->addObserver(this);
+			break;
+		case IViewScreen::Controls:
+			m_screens[sName] = new VScreenControls(this);
 			m_screens[sName]->addObserver(this);
 			break;
 		case IViewScreen::Credits:
@@ -309,6 +327,7 @@ void VUI::contextMenuUpdatePopulation(const std::pair<int, int> pos, const int p
 
 void VUI::contextMenuUpdateEnergy(const std::pair<int, int> pos, const int energy)
 {
+	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "Energy", std::to_string(energy));
 }
 
 void VUI::contextMenuUpdateEnergySurplus(const std::pair<int, int> pos, const int surplus)
