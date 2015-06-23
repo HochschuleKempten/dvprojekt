@@ -20,7 +20,7 @@ void VModelOilRefinery::init()
 	m_zpLOD[2].AddPlacement(&m_zpOelkraftwerk);
 
 	//Initialisierung Kamin
-	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FLOOR, switchedState), 32, true);
+	m_zgKamin.InitStraight(0.2f, 0.3f, 4.0f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_CHIMNEY, switchedState), 32, true);
 
 	//Initialisierung Pfosten
 	m_zgPfosten.Init(0.2f, 1.1f, 0.2f, VMaterialLoader::getMaterialModel(VMaterialLoader::OIL_FENCE, switchedState));

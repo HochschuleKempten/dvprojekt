@@ -186,9 +186,6 @@ CBackground VMaterialLoader::materialIngameBackground;
 //Allgemein
 CMaterial VMaterialLoader::m_zmAllgemeinGreen;
 
-//Test
-CMaterial VMaterialLoader::materialAnimationsVersuch;
-
 //Animierte Texturen
 CMaterial VMaterialLoader::materialAnimSabotageBomb;
 CMaterial VMaterialLoader::materialAnimLoadingCircle;
@@ -325,9 +322,9 @@ CMaterial* VMaterialLoader::getMaterialModel(const Model materialPowerPlant, con
 void VMaterialLoader::init()
 {
 	setPowerPlantMaterialHelper(COAL_MOUNTAIN, "mountain.png");
-	setPowerPlantMaterialHelper(COAL_STRUCTURE, "kohle_image.jpg");
-	setPowerPlantMaterialHelper(COAL_WOOD, "holz_image.jpg");
-	setPowerPlantMaterialHelper(COAL_WAGON, "lore_image.jpg");
+	setPowerPlantMaterialHelper(COAL_STRUCTURE, "kohle_image.png");
+	setPowerPlantMaterialHelper(COAL_WOOD, "Holz.png");
+	setPowerPlantMaterialHelper(COAL_WAGON, "Metall_Fassade.jpg");
 	setPowerPlantMaterialHelper(COAL_BLACK, "black_image.jpg");
 	setPowerPlantMaterialHelper(COAL_GREY, "grey_image.jpg");
 	setPowerPlantMaterialHelper(POWERLINE_STRUT, "strommast.png");
@@ -335,7 +332,7 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(POWERLINE_RING, "black_image.jpg");
 	setPowerPlantMaterialHelper(POWERLINE_CABLE, "strommast_cable.png");
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_BETON, "Beton.png");
-	setPowerPlantMaterialHelper(TRANSFORMERSTATION_BETON_LIGHT, "Beton_light.png");
+	setPowerPlantMaterialHelper(TRANSFORMERSTATION_BETON_LIGHT, "Beton.png");
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_ISOLATOR, "black_image.jpg");
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_WIRE, "grey_image.jpg");
 	setPowerPlantMaterialHelper(SOLAR_FLOOR, "white_image.jpg");
@@ -345,17 +342,18 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(WIND_FLUEGEL1,"Windradfluegel.png");
 	setPowerPlantMaterialHelper(WIND_FLUEGEL2,"Windradfluegel.png");
 	setPowerPlantMaterialHelper(WIND_FLUEGEL3, "Windradfluegel.png");
-	setPowerPlantMaterialHelper(WATER_HOLZ, "Holz.jpg");
+	setPowerPlantMaterialHelper(WATER_HOLZ, "Holz.png");
 	setPowerPlantMaterialHelper(BUILDING_WALLFRAME, "../buildings/texture_concrete.png");
-	setPowerPlantMaterialHelper(NUCLEAR_FLOOR, "Beton.png");
-	setPowerPlantMaterialHelper(NUCLEAR_GATE, "Schranke.jpg");
-	setPowerPlantMaterialHelper(NUCLEAR_FENCE, "Holz.jpg");
+	setPowerPlantMaterialHelper(NUCLEAR_FLOOR, "../buildings/texture_concrete.png");
+	setPowerPlantMaterialHelper(NUCLEAR_GATE, "Schranke.png");
+	setPowerPlantMaterialHelper(NUCLEAR_FENCE, "Holz.png");
 	setPowerPlantMaterialHelper(NUCLEAR_REACTOR, "reactor.png");
 	setPowerPlantMaterialHelper(OIL_FLOOR, "Beton.png");
-	setPowerPlantMaterialHelper(OIL_GATE, "Schranke.jpg");
-	setPowerPlantMaterialHelper(OIL_FENCE, "Holz.jpg");
+	setPowerPlantMaterialHelper(OIL_GATE, "Schranke.png");
+	setPowerPlantMaterialHelper(OIL_FENCE, "Holz.png");
 	setPowerPlantMaterialHelper(OIL_GREEN_RAY, "Gelbstahl.png");
 	setPowerPlantMaterialHelper(OIL_YELLOW_RAY, "Gruenstahl.png");
+	setPowerPlantMaterialHelper(OIL_CHIMNEY, "../buildings/texture_concrete.png");
 	setPowerPlantMaterialHelper(BUILDING_BROWN_WALL, "../buildings/Hauswand_2.png");
 	
 	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
@@ -510,21 +508,12 @@ void VMaterialLoader::init()
 	materialFossil.MakeTextureSprite("textures\\fossil_stats.png");
 	materialRegenerative.MakeTextureSprite("textures\\regenerative_stats.png");
 
-	materialAnimationsVersuch.MakeTextureSprite("textures/fonts/FontArialShadow.png");
-	materialAnimationsVersuch.SetAni(16, 16, 0.5);
-
 	//Fonts
-	//standardFont.Init("textures/fonts/FontArialShadow.png",false);
-	//standardFont.SetTableSize(16, 16);
 	standardFont.Init("textures/fonts/OCRStandardBevel.png", true);
-	//standardFont.Init("textures/fonts/OCRBlueBevel.png", true);
 	
 	standardFont.SetTableSize(16,16);
-	/*GoldFont.Init("textures/fonts/FontArialShadowGold.png", false);
-	GoldFont.SetTableSize(16, 16);*/
 
 	GoldFont.Init("textures/fonts/OCRStandardGold.png", true);
-	//GoldFont.Init("textures/fonts/OCRGold.png", true);
 	GoldFont.SetTableSize(16, 16);
 
 	errorFont.Init("textures/fonts/OCRError.png", true);
