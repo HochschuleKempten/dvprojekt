@@ -97,7 +97,7 @@ public:
 
 private:
 
-	void handleInput();
+	void handleInput(const float fTimeDelta);
 	std::map<int, std::vector<int>> pickElements();
 
 	CFloatRect getRectForPixel(const int iPosX, const int iPosY, const int iSizeX, const int iSizeY);
