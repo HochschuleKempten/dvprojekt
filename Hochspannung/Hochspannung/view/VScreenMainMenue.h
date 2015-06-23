@@ -19,12 +19,14 @@ public:
 	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
 	void startAnimation() override;
 	void slideIn();
-
+	void switchOn() override;
+	void switchOff() override;
 	void StartEvent() override;
 	void EndEvent() override;
 
 private:
 	COverlay* m_flash;
+	CScene* scene;
 	CBackground* m_background;
 	COverlay* m_headline;
 	bool startUp = true;
