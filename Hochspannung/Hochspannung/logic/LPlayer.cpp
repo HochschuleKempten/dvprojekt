@@ -216,9 +216,12 @@ void LPlayer::checkPowerPlants()
 
 	for (ILPowerPlant* p : differencesPrevCurrent)
 	{
-		//The check is only done by the player itself, so this is always a remote operation
-		LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
-		remoteOperation.switchOff();
+		if (std::find(powerPlants.begin(), powerPlants.end(), p) != powerPlants.end())
+		{
+			//The check is only done by the player itself, so this is always a remote operation
+			LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
+			remoteOperation.switchOff();
+		}
 	}
 
 	for (ILPowerPlant* p : differencesCurrentPrev)
