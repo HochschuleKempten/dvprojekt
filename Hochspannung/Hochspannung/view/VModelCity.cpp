@@ -55,12 +55,6 @@ VModelCity::VModelCity(void)
 , smallOffice_02_3(3.0F)
 
 {
-	//InitBuildings();
-	
-	AddPlacements();
-	TranslateBuildings();
-
-	fillLODArray();
 }
 
 VModelCity::~VModelCity(void)
@@ -71,55 +65,62 @@ VModelCity::~VModelCity(void)
 void VModelCity::init()
 {
 	Building2_01_1.initViewModel(vBuilding, switchedState);
-	Building2_01_1.Init();
+	Building2_01_1.init();
 	Building2_02_1.initViewModel(vBuilding, switchedState);
-	Building2_02_1.Init();
+	Building2_02_1.init();
 
 	Building2_01_2.initViewModel(vBuilding, switchedState);
-	Building2_01_2.Init();
+	Building2_01_2.init();
 	Building2_02_2.initViewModel(vBuilding, switchedState);
-	Building2_02_2.Init();
+	Building2_02_2.init();
 
 	Building2_01_3.initViewModel(vBuilding, switchedState);
-	Building2_01_3.Init();
+	Building2_01_3.init();
 	Building2_02_3.initViewModel(vBuilding, switchedState);
-	Building2_02_3.Init();
+	Building2_02_3.init();
 
 	appartment_01_1.initViewModel(vBuilding, switchedState);
-	appartment_01_1.Init();
+	appartment_01_1.init();
 	appartment_02_1.initViewModel(vBuilding, switchedState);
-	appartment_02_1.Init();
+	appartment_02_1.init();
 	appartment_03_1.initViewModel(vBuilding, switchedState);
-	appartment_03_1.Init();
+	appartment_03_1.init();
 
 	appartment_01_2.initViewModel(vBuilding, switchedState);
-	appartment_01_2.Init();
+	appartment_01_2.init();
 	appartment_02_2.initViewModel(vBuilding, switchedState);
-	appartment_02_2.Init();
+	appartment_02_2.init();
 	appartment_03_2.initViewModel(vBuilding, switchedState);
-	appartment_03_2.Init();
+	appartment_03_2.init();
 
 	appartment_01_3.initViewModel(vBuilding, switchedState);
-	appartment_01_3.Init();
+	appartment_01_3.init();
 	appartment_02_3.initViewModel(vBuilding, switchedState);
-	appartment_02_3.Init();
+	appartment_02_3.init();
 	appartment_03_3.initViewModel(vBuilding, switchedState);
-	appartment_03_3.Init();
+	appartment_03_3.init();
 
 	largeOfficeBuilding_01_1.initViewModel(vBuilding, switchedState);
-	largeOfficeBuilding_01_1.Init();
+	largeOfficeBuilding_01_1.init();
 	largeOfficeBuilding_02_1.initViewModel(vBuilding, switchedState);
-	largeOfficeBuilding_02_1.Init();
+	largeOfficeBuilding_02_1.init();
 
 	largeOfficeBuilding_01_2.initViewModel(vBuilding, switchedState);
-	largeOfficeBuilding_01_2.Init();
+	largeOfficeBuilding_01_2.init();
 	largeOfficeBuilding_02_2.initViewModel(vBuilding, switchedState);
-	largeOfficeBuilding_02_2.Init();
+	largeOfficeBuilding_02_2.init();
 
 	largeOfficeBuilding_01_3.initViewModel(vBuilding, switchedState);
-	largeOfficeBuilding_01_3.Init();
+	largeOfficeBuilding_01_3.init();
 	largeOfficeBuilding_02_3.initViewModel(vBuilding, switchedState);
-	largeOfficeBuilding_02_3.Init();
+	largeOfficeBuilding_02_3.init();
+
+	//InitBuildings();
+
+	AddPlacements();
+	TranslateBuildings();
+
+	fillLODArray();
 }
 
 void VModelCity::InitBuildings() {
