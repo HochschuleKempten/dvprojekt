@@ -90,43 +90,17 @@ void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* pl
 {
 	ASSERT(initDone, assertMsg);
 
-	////If no placement is given, add to scene
-	//if (placement == nullptr)
-	//{
-		static SoundEffect previousSoundEffect = CASTS<SoundEffect>(-1);
+	static SoundEffect previousSoundEffect = CASTS<SoundEffect>(-1);
 
-		//Sub previous soundeffect from scene
-		if (previousSoundEffect != -1)
-		{
-			scene->SubAudio(&soundeffects[previousSoundEffect]);
-		}
-
-		scene->AddAudio(&soundeffects[soundEffect]);
-		soundeffects[soundEffect].Start();
-		previousSoundEffect = soundEffect;
-	//}
-	//else
-	//{
-	//	//Sub Audio from previous placement
-	//	if (soundeffectsLastPlacements[soundEffect] != nullptr)
-	//	{
-	//		soundeffectsLastPlacements[soundEffect]->SubAudio(&soundeffects[soundEffect]);
-	//	}
-
-	//	placement->AddAudio(&soundeffects[soundEffect]);
-	//	soundeffects[soundEffect].Start();
-	//	soundeffectsLastPlacements[soundEffect] = placement;
-	//}
-}
-
-void VSoundLoader::playRadioMessage(const LMessageLoader::MessageID messageId)
-{
-	ASSERT(initDone, assertMsg);
-
-	if (radioMessages.count(messageId) > 0)
+	//Sub previous soundeffect from scene
+	if (previousSoundEffect != -1)
 	{
-		radioMessages[messageId].Start();
+		scene->SubAudio(&soundeffects[previousSoundEffect]);
 	}
+
+	scene->AddAudio(&soundeffects[soundEffect]);
+	soundeffects[soundEffect].Start();
+	previousSoundEffect = soundEffect;
 }
 
 void VSoundLoader::initMainMenueSound(CScene* TheScene)

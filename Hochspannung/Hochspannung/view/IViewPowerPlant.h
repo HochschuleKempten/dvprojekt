@@ -59,7 +59,7 @@ public:
 		quadForAnimation.Init(2, 2, &animationMaterial);
 		placementForAnimation.AddGeo(&quadForAnimation);
 		placementForAnimation.TranslateY(2.0f);
-		placementForAnimation.TranslateZDelta(4.0f);
+		placementForAnimation.TranslateZDelta(2.0f);
 		placementForAnimation.RotateXDelta(PI / 4.0f);
 		animationMaterial.SwitchOff();
 	}

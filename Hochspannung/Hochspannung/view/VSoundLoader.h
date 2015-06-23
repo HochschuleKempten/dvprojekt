@@ -53,8 +53,6 @@ public:
 	static void playBackgroundMusicIngame();
 	static void play3DSoundLoop(const VIdentifier::VIdentifier building, CPlacement* placement);
 	static void playSoundeffect(const SoundEffect soundEffect, CPlacement* placement);
-	static void playRadioMessage(const LMessageLoader::MessageID messageId);
-
 	
 	static void initMainMenueSound(CScene* scene);
 	static void playMainMenueSound(CScene* scene);
