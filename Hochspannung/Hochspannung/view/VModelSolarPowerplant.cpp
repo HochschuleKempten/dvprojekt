@@ -73,7 +73,6 @@ void VModelSolarPowerPlant::init()
 	m_zgSenkrechte.Init(0.2, 0.2, 1.08, VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, switchedState));
 	m_zgGrundflaeche.Init(CHVector(2, 0.05, 1.5), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, switchedState));
 	m_zgSockel.Init(CHVector(1, 0.05, 1), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, switchedState));
-	m_zgFoundation.Init(CHVector(1, 0.05, 1), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_FLOOR, switchedState));
 	m_zgSolarzelle1.Init(CHVector(0.3, 0.05, 0.2), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, switchedState));
 	m_zgSolarzelle2.Init(CHVector(0.3, 0.05, 0.2), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, switchedState));
 	m_zgSolarzelle3.Init(CHVector(0.3, 0.05, 0.2), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, switchedState));
@@ -117,6 +116,8 @@ void VModelSolarPowerPlant::init()
 	m_zgSolarzelle41.Init(CHVector(0.3, 0.05, 0.2), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, switchedState));
 	m_zgSolarzelle42.Init(CHVector(0.3, 0.05, 0.2), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELL, switchedState));
 
+	m_zpSockel.ScaleX(1.5f);
+	m_zpSockel.ScaleZDelta(1.5f);
 
 	m_zpStabilisierung.AddGeo(&m_zgStabilisierung);
 	m_zpGrundflaeche.AddGeo(&m_zgGrundflaeche);
