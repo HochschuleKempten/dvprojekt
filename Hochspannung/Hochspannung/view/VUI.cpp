@@ -60,6 +60,17 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 
 	activeScreen = getScreen("MainMenue");
 	switchScreen("MainMenue");
+
+	m_MainMenueMusic = new CScene();
+	m_mainMenuAudio = new CAudio();
+	m_mainMenuAudio->Init("sounds/menu-02-loop.wav");
+	m_zr.AddScene(m_MainMenueMusic);
+	m_mainMenuAudio->SetVolume(0.9F);
+	m_MainMenueMusic->AddAudio(m_mainMenuAudio);
+	//((VSoundLoader::initMainMenueSound(m_MainMenueMusic);
+	//VSoundLoader::playMainMenueSound(m_MainMenueMusic);
+	
+	m_mainMenuAudio->Loop();
 }
 
 void VUI::onNotify(const Event& evente)
@@ -160,7 +171,10 @@ void VUI::switchScreen(const std::string& switchTo)
 	activeScreen = m_screens[switchTo];
 	activeScreen->switchOn();
 	activeScreen->StartEvent();
-
+	if (m_screens["Ingame"]->isOn())
+		m_mainMenuAudio->Stop();
+	
+		
 	m_screenChanged = true;
 }
 

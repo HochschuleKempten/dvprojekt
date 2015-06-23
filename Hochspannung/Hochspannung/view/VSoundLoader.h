@@ -36,6 +36,8 @@ private:
 	static void setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename);
 	static void setRadioMessageHelper(const LMessageLoader::MessageID soundEffect, const std::string& filename);
 
+	
+	
 private:
 	DEBUG_EXPRESSION(static bool initDone);
 	static CScene* scene;		//Background music needs to be added to scene
@@ -45,13 +47,18 @@ private:
 	static std::unordered_map<SoundEffect, CAudio> soundeffects;
 	static std::unordered_map<SoundEffect, CPlacement*> soundeffectsLastPlacements;
 	static std::unordered_map<LMessageLoader::MessageID, CAudio> radioMessages;
-
+	static CAudio m_mainMenuSound;
 public:
-	static void init(CScene* scene);
+	static void init(CScene* TheScene);
 	static void playBackgroundMusicIngame();
 	static void play3DSoundLoop(const VIdentifier::VIdentifier building, CPlacement* placement);
 	static void playSoundeffect(const SoundEffect soundEffect, CPlacement* placement);
 	static void playRadioMessage(const LMessageLoader::MessageID messageId);
+
+	
+	static void initMainMenueSound(CScene* scene);
+	static void playMainMenueSound(CScene* scene);
+	static void stopMainMenueSound(CScene* scene);
 };
 
 
