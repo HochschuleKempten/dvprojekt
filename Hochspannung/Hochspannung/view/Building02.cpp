@@ -3,24 +3,11 @@
 
 NAMESPACE_VIEW_B
 
-Building02::Building02()
-{}
 
 Building02::Building02(float fResize)
 {
 	fresize = fResize;
-
-	if (fresize == 1)
-	{
-		InitWindows();
-		AddWindows();
-	}
-	InitWalls();
-	AddPlacements();
-	TranslateAll();
-	scaleforLoDs();
 }
-
 
 Building02::~Building02()
 {
@@ -29,8 +16,11 @@ Building02::~Building02()
 void Building02::init()
 {
 	fresize = 1.F;
-	InitWindows();
-	AddWindows();
+	if (fresize == 1)
+	{
+		InitWindows();
+		AddWindows();
+	}
 	InitWalls();
 	AddPlacements();
 	TranslateAll();

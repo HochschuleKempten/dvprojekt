@@ -15,9 +15,6 @@ COfficeTowerViewingDeck::COfficeTowerViewingDeck()
 	//Walls
 	InitWalls();
 
-	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
-
-
 	AddPlacements();
 
 	TranslateAll();
@@ -40,9 +37,6 @@ COfficeTowerViewingDeck::COfficeTowerViewingDeck(float fResize)
 
 	//Walls
 	InitWalls();
-
-	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
-
 
 	AddPlacements();
 

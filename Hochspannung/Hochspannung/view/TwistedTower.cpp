@@ -22,9 +22,6 @@ CTwistedTower::CTwistedTower(void)
 	InitWalls();
 
 
-	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
-
-
 	//Placements
 	AddPlacements();
 

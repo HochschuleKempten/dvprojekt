@@ -31,7 +31,7 @@ void LPlayer::tick(const float fTimeDelta)
 			if (coolDownCounterDeactivate > 0) { coolDownCounterDeactivate--; }
 			if (coolDownCounterResource > 0) { coolDownCounterResource--; }
 
-			if (lMaster->getLPlayingField() != nullptr && lMaster->getLPlayingField()->isInitDone() && city->getPopulation() >= 1000 && almost_equal(ratioRegenerative, 1.0F, 2))
+			if (lMaster->getLPlayingField() != nullptr && lMaster->getLPlayingField()->isInitDone() && city->getPopulation() >= LBalanceLoader::getMaxPopulation() && almost_equal(ratioRegenerative, 1.0F, 2))
 			{
 				lMaster->gameWon();
 			}
@@ -216,9 +216,12 @@ void LPlayer::checkPowerPlants()
 
 	for (ILPowerPlant* p : differencesPrevCurrent)
 	{
-		//The check is only done by the player itself, so this is always a remote operation
-		LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
-		remoteOperation.switchOff();
+		if (std::find(powerPlants.begin(), powerPlants.end(), p) != powerPlants.end())
+		{
+			//The check is only done by the player itself, so this is always a remote operation
+			LRemoteOperation remoteOperation(lMaster->getLPlayingField(), p);
+			remoteOperation.switchOff();
+		}
 	}
 
 	for (ILPowerPlant* p : differencesCurrentPrev)

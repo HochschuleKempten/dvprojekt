@@ -1,22 +1,18 @@
 #pragma once
 
-
-
-
 #include "VGeneral.h"
-#include "VMaterialLoader.h"
+#include "IViewModel.h"
 
 NAMESPACE_VIEW_B
 
 
-
-
-class CAppartments : public CPlacement
+class CAppartments : public CPlacement, public IViewModel
 {
 public:
 	CAppartments();
 	CAppartments(float fResize);
 	~CAppartments(void);
+	virtual void init() override;
 
 	void InitWindows();
 	void InitWalls();
@@ -59,10 +55,6 @@ private:
 
 	//Frame
 	CGeoWall m_zgFrame;
-
-
-	CMaterial m_zm;
-
 
 };
 

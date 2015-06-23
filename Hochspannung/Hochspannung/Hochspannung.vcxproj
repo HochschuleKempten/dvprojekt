@@ -247,8 +247,10 @@
     <ClInclude Include="view\VCoalPowerPlant.h" />
     <ClInclude Include="view\VPowerLine.h" />
     <ClInclude Include="view\VRegister.h" />
+    <ClInclude Include="view\VScreenControls.h" />
     <ClInclude Include="view\VScreenCredits.h" />
     <ClInclude Include="view\VScreenGameOver.h" />
+    <ClInclude Include="view\VScreenHelp.h" />
     <ClInclude Include="view\VScreenIngame.h" />
     <ClInclude Include="view\VScreenLobby.h" />
     <ClInclude Include="view\VScreenMainMenue.h" />
@@ -339,8 +341,10 @@
     <ClCompile Include="view\VCoalPowerPlant.cpp" />
     <ClCompile Include="view\VPowerLine.cpp" />
     <ClCompile Include="view\VRegister.cpp" />
+    <ClCompile Include="view\VScreenControls.cpp" />
     <ClCompile Include="view\VScreenCredits.cpp" />
     <ClCompile Include="view\VScreenGameOver.cpp" />
+    <ClCompile Include="view\VScreenHelp.cpp" />
     <ClCompile Include="view\VScreenIngame.cpp" />
     <ClCompile Include="view\VScreenLobby.cpp" />
     <ClCompile Include="view\VScreenMainMenue.cpp" />

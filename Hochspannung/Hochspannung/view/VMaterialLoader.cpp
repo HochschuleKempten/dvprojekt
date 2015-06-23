@@ -18,7 +18,6 @@ CMaterial VMaterialLoader::materialMainMenue;
 CMaterial VMaterialLoader::materialMainMenueHover;
 CMaterial VMaterialLoader::materialIngameCraft;
 CMaterial VMaterialLoader::materialDialogBackground;
-CMaterial VMaterialLoader::materialIngameBorder;
 CMaterial VMaterialLoader::materialTopbar;
 
 CMaterial VMaterialLoader::materialRed;
@@ -30,16 +29,7 @@ CMaterial VMaterialLoader::materialFossil;
 CMaterial VMaterialLoader::materialRegenerative;
 
 //Credits
-CMaterial VMaterialLoader::materialCreditsOrganization;
-CMaterial VMaterialLoader::materialCreditsIntegration;
-CMaterial VMaterialLoader::materialCreditsTextures;
-CMaterial VMaterialLoader::materialCreditsNetwork;
-CMaterial VMaterialLoader::materialCreditsLogic;
-CMaterial VMaterialLoader::materialCreditsUI;
-CMaterial VMaterialLoader::materialCreditsModelling;
-CMaterial VMaterialLoader::materialCreditsModelling2;
-CMaterial VMaterialLoader::materialCreditsVektoriaSplash;
-
+CMaterial VMaterialLoader::materialCredits;
 
 //Infofield
 CMaterial VMaterialLoader::materialInfofieldBackground;
@@ -74,8 +64,6 @@ CMaterial VMaterialLoader::materialButtonGameContinueHover;
 
 CMaterial VMaterialLoader::materialButtonBack;
 CMaterial VMaterialLoader::materialButtonBackHover;
-CMaterial VMaterialLoader::materialBottombarBorderTop;
-CMaterial VMaterialLoader::materialVerticalBorder;
 CMaterial VMaterialLoader::materialLobbyBigDialog;
 
 CMaterial VMaterialLoader::materialButtonAbort;
@@ -83,6 +71,13 @@ CMaterial VMaterialLoader::materialButtonAbortHover;
 
 CMaterial VMaterialLoader::materialButtonOk;
 CMaterial VMaterialLoader::materialButtonOkHover;
+
+CMaterial VMaterialLoader::materialButtonMainMenueControls;
+CMaterial VMaterialLoader::materialButtonMainMenueControlsHover;
+CMaterial VMaterialLoader::materialButtonMainMenueHelp;
+CMaterial VMaterialLoader::materialButtonMainMenueHelpHover;
+CMaterial VMaterialLoader::materialButtonMainMenueHowTo;
+CMaterial VMaterialLoader::materialButtonMainMenueHowToHover;
 
 
 //Ingame
@@ -168,9 +163,7 @@ CMaterial VMaterialLoader::m_zmCraftMenueBackground;
 
 //MaterialBuilding
 CMaterial VMaterialLoader::materialBuilding01;
-CMaterial VMaterialLoader::materialBuilding02;
 CMaterial VMaterialLoader::materialBuilding03;
-CMaterial VMaterialLoader::materialLargeOfficeBuilding;
 CMaterial VMaterialLoader::materialAppartments;
 CMaterial VMaterialLoader::materialOfficTowerViewingDeck;
 CMaterial VMaterialLoader::materialTwistedTower;
@@ -363,6 +356,7 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(OIL_FENCE, "Holz.jpg");
 	setPowerPlantMaterialHelper(OIL_GREEN_RAY, "Gelbstahl.png");
 	setPowerPlantMaterialHelper(OIL_YELLOW_RAY, "Gruenstahl.png");
+	setPowerPlantMaterialHelper(BUILDING_BROWN_WALL, "../buildings/Hauswand_2.png");
 	
 	materialsModelsSwitchedOn[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[TRANSFORMERSTATION_BETON].SetTextureSpecularAsDiffuse();
@@ -382,6 +376,10 @@ void VMaterialLoader::init()
 	materialsModelsSwitchedOff[OIL_GATE].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOn[OIL_FENCE].SetTextureSpecularAsDiffuse();
 	materialsModelsSwitchedOff[OIL_FENCE].SetTextureSpecularAsDiffuse();
+	materialsModelsSwitchedOn[BUILDING_BROWN_WALL].MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
+	materialsModelsSwitchedOn[BUILDING_BROWN_WALL].MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
+	materialsModelsSwitchedOff[BUILDING_BROWN_WALL].MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
+	materialsModelsSwitchedOff[BUILDING_BROWN_WALL].MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 	
 	setFieldMaterialHelper(LField::WATER, "water");
 	setFieldMaterialHelper(LField::AIR, "air");
@@ -399,9 +397,6 @@ void VMaterialLoader::init()
 	materialHydroelectricPowerPlant.MakeTextureDiffuse("textures\\_original.jpg");
 
 	materialDialogBackground.MakeTextureSprite("textures\\MainMenueBackground.png");
-
-	materialIngameBorder.Init(CColor(0.0f, 0.44f, 0.68f), CColor(0.0f, 0.44f, 0.68f), CColor(0.0f, 0.44f, 0.68f));
-
 
 	//Main menu - Buttons
 	materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_newgame.png");
@@ -423,6 +418,13 @@ void VMaterialLoader::init()
 	materialButtonGameContinue.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue.png");
 	materialButtonGameContinueHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue_hover.png");
 
+	materialButtonMainMenueControls.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_controls.png");
+	materialButtonMainMenueControlsHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_controlsHover.png");
+	materialButtonMainMenueHelp.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_help.png");
+	materialButtonMainMenueHelpHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_helpHover.png");
+	materialButtonMainMenueHowTo.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_howtoplay.png");
+	materialButtonMainMenueHowToHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_howtoplayHover.png");
+
 	materialButtonMainMenueNeuesSpiel.SetTransparencyOn();
 	materialButtonMainMenueNeuesSpielHover.SetTransparencyOn();
 
@@ -440,8 +442,6 @@ void VMaterialLoader::init()
 
 	//Interface - Background
 	materialTopbar.MakeTextureSprite("textures\\topbar.png");
-	materialBottombarBorderTop.MakeTextureSprite("textures\\bottombarBorderTopBlue.png");
-	materialVerticalBorder.MakeTextureSprite("textures\\VerticalBorder.png");
 	materialLobbyBigDialog.MakeTextureSprite("textures\\LobbyBigDialog.png");
 	materialIngameMenueDialogBackground.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_MenueDialog_Background.png");
 	materialWhiteGreyBackground.MakeTextureSprite("textures/gui/background/gui_background_whitegrey.png");
@@ -584,20 +584,10 @@ void VMaterialLoader::init()
 	materialBuilding01.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
 	materialBuilding01.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
-	materialBuilding02.MakeTextureDiffuse("textures\\buildings\\texture_concrete_diffuse.png");
-	materialBuilding02.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
-	materialBuilding02.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
-
 	materialBuilding03.MakeTextureDiffuse("textures\\buildings\\Hauswand_4.png");
 	materialBuilding03.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
 	materialBuilding03.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
-	
-	materialAppartments.MakeTextureDiffuse("textures\\buildings\\Hauswand_2.png");
-	materialAppartments.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
-	materialAppartments.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
-	materialLargeOfficeBuilding.MakeTextureDiffuse("textures\\buildings\\Hauswand_2.png");
-	materialLargeOfficeBuilding.MakeTextureBump("textures\\buildings\\texture_concrete_bump.png");
 	materialBuilding03.MakeTextureSpecular("textures\\buildings\\texture_concrete_specular.png");
 
 	materialOfficTowerViewingDeck.MakeTextureDiffuse("textures\\buildings\\Hauswand_1.png");
@@ -665,25 +655,10 @@ void VMaterialLoader::init()
 
 	//Credits
 
-	materialCreditsOrganization.MakeTextureSprite("textures/gui/Credits/Organisation.png");
-	materialCreditsIntegration.MakeTextureSprite("textures/gui/Credits/Integration.png");
-	materialCreditsTextures.MakeTextureSprite("textures/gui/Credits/TexturenSound.png");
-	materialCreditsNetwork.MakeTextureSprite("textures/gui/Credits/Netzwerk.png");
-	materialCreditsLogic.MakeTextureSprite("textures/gui/Credits/Spiellogik.png");
-	materialCreditsUI.MakeTextureSprite("textures/gui/Credits/UI.png");
-	materialCreditsModelling.MakeTextureSprite("textures/gui/Credits/Modellierung.png");
-	materialCreditsModelling2.MakeTextureSprite("textures/gui/Credits/Modellierung2.png");
-	materialCreditsVektoriaSplash.MakeTextureSprite("textures/gui/Credits/VektoriaSplash.png");
-
-	materialCreditsOrganization.SetTransparencyOn();
-	materialCreditsIntegration.SetTransparencyOn();
-	materialCreditsTextures.SetTransparencyOn();
-	materialCreditsNetwork.SetTransparencyOn();
-	materialCreditsLogic.SetTransparencyOn();
-	materialCreditsUI.SetTransparencyOn();
-	materialCreditsModelling.SetTransparencyOn();
-	materialCreditsModelling2.SetTransparencyOn();
-	materialCreditsVektoriaSplash.SetTransparencyOn();
+	materialCredits.MakeTextureSprite("textures/gui/Credits/Credits.png");
+	
+	materialCredits.SetTransparencyOn();
+	
 
 	DEBUG_EXPRESSION(initDone = true);
 }

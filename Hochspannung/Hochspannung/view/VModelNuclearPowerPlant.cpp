@@ -111,13 +111,14 @@ void VModelNuclearPowerPlant::init()
 	m_zpReaktor2.AddPlacement(&m_zpReaktorKopf2);
 
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte11);
-	//m_zpGebaeudeHaelfte11.AddPlacement(Gebaeude);
+	m_zpGebaeudeHaelfte11.AddPlacement(Gebaeude);
 	m_zpGebaeude1.AddPlacement(&m_zpGebaeudeHaelfte12);
-	//m_zpGebaeudeHaelfte12.AddPlacement(Gebaeude);
+	m_zpGebaeudeHaelfte12.AddPlacement(Gebaeude);
 	m_zpGebaeude2.AddPlacement(&m_zpGebaeudeHaelfte21);
-	//m_zpGebaeudeHaelfte21.AddPlacement(Gebaeude);
+	m_zpGebaeudeHaelfte21.AddPlacement(Gebaeude);
 	m_zpGebaeude2.AddPlacement(&m_zpGebaeudeHaelfte22);
-	//m_zpGebaeudeHaelfte22.AddPlacement(Gebaeude);
+	m_zpGebaeudeHaelfte22.AddPlacement(Gebaeude);
+	Gebaeude->Scale(0.3f);
 
 	//Adding
 
@@ -155,13 +156,13 @@ void VModelNuclearPowerPlant::init()
 
 	m_zpGebaeude1.Translate(CHVector(0.0f, 0.15f, -0.7f));
 	m_zpGebaeudeHaelfte11.Translate(CHVector(1.0f, 0.15f, 2.0f));
-	m_zpGebaeudeHaelfte12.TranslateDelta(CHVector(-1.0f, 0.15f, -1.0f));
+	m_zpGebaeudeHaelfte12.TranslateDelta(CHVector(-1.0f, 0.15f, -0.5f));
 	m_zpGebaeudeHaelfte12.RotateYDelta(PI);
 
 	m_zpGebaeude2.Translate(CHVector(-2.8f, 0.15f, -3.8f));
 	m_zpGebaeude2.RotateYDelta(0.5 * PI);
-	m_zpGebaeudeHaelfte21.Translate(CHVector(1.0f, 0.15f, 1.6f));
-	m_zpGebaeudeHaelfte22.TranslateDelta(CHVector(-1.0f, 0.15f, -0.6f));
+	m_zpGebaeudeHaelfte21.Translate(CHVector(1.0f, 0.15f, 1.2f));//F
+	m_zpGebaeudeHaelfte22.TranslateDelta(CHVector(-1.0f, 0.15f, 0.3f));
 	m_zpGebaeudeHaelfte22.RotateYDelta(PI);
 
 	m_zTrasse1.getPlacementMain()->Translate(CHVector(3.0f, 0.35f, 2.0f));

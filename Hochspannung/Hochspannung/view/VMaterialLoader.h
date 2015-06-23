@@ -44,7 +44,8 @@ public:
 		OIL_GREEN_RAY,
 		OIL_YELLOW_RAY,
 		BUILDING_WALLFRAME,
-		BUILDING_WINDOW
+		BUILDING_WINDOW,
+		BUILDING_BROWN_WALL
 	};
 
 private:
@@ -103,25 +104,21 @@ public:
 	static CMaterial materialButtonRefreshHover;
 	static CMaterial materialButtonGameContinue;
 	static CMaterial materialButtonGameContinueHover;
+	static CMaterial materialButtonMainMenueControls;
+	static CMaterial materialButtonMainMenueControlsHover;
+	static CMaterial materialButtonMainMenueHelp;
+	static CMaterial materialButtonMainMenueHelpHover;
+	static CMaterial materialButtonMainMenueHowTo;
+	static CMaterial materialButtonMainMenueHowToHover;
 
 	//Ingame
 	static CMaterial materialIngameCraft;
-	static CMaterial materialIngameBorder;
 	static CMaterial materialTopbar;
-	static CMaterial materialBottombarBorderTop;
-	static CMaterial materialVerticalBorder;
 	static CMaterial materialLobbyBigDialog;
 
 	//Credits
-	static CMaterial materialCreditsOrganization;
-	static CMaterial materialCreditsIntegration;
-	static CMaterial materialCreditsTextures;
-	static CMaterial materialCreditsNetwork;
-	static CMaterial materialCreditsLogic;
-	static CMaterial materialCreditsUI;
-	static CMaterial materialCreditsModelling;
-	static CMaterial materialCreditsModelling2;
-	static CMaterial materialCreditsVektoriaSplash;
+	static CMaterial materialCredits;
+	
 
 	//Backgrounds
 	static CMaterial materialDialogBackground;
@@ -232,9 +229,7 @@ public:
 
 	//MaterialBuildings
 	static CMaterial materialBuilding01;
-	static CMaterial materialBuilding02;
 	static CMaterial materialBuilding03;
-	static CMaterial materialLargeOfficeBuilding;
 	static CMaterial materialAppartments;
 	static CMaterial materialOfficTowerViewingDeck;
 	static CMaterial materialTwistedTower;

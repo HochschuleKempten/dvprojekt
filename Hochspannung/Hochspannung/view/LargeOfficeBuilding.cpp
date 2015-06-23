@@ -1,46 +1,21 @@
-
 #include "LargeOfficeBuilding.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
-CLargeOfficeBuilding::CLargeOfficeBuilding()
-{
 
-	this->fResize = 1.0F;
-
-	//window 
-	InitWindows();
-
-	//Add Windows
-	AddWindows();
-
-
-	//Walls
-	InitWalls();
-
-	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
-
-
-	AddPlacements();
-
-
-
-	//Rotations
-	RotateAll();
-
-	//Translations
-	TranslateAll();
-
-	//Resize for Lods
-	scaleForLod();
-
-}
 
 CLargeOfficeBuilding::CLargeOfficeBuilding(float fResize)
 {
-	
 	this->fResize = fResize;
+}
 
-	if (fResize == 1){
+CLargeOfficeBuilding::~CLargeOfficeBuilding(void)
+{}
+
+void CLargeOfficeBuilding::init()
+{
+	if (fResize == 1)
+	{
 		InitWindows();
 		AddWindows();
 	}
@@ -48,12 +23,7 @@ CLargeOfficeBuilding::CLargeOfficeBuilding(float fResize)
 	//Walls
 	InitWalls();
 
-	m_zm.MakeTextureDiffuse("textures\\white_image.jpg");
-
-
 	AddPlacements();
-
-
 
 	//Rotations
 	RotateAll();
@@ -63,17 +33,7 @@ CLargeOfficeBuilding::CLargeOfficeBuilding(float fResize)
 
 	//Resize for Lods
 	scaleForLod();
-
 }
-
-CLargeOfficeBuilding::~CLargeOfficeBuilding(void)
-{
-}
-
-
-
-
-
 
 void CLargeOfficeBuilding::InitWindows() {
 
@@ -113,26 +73,23 @@ void CLargeOfficeBuilding::InitWalls() {
 	
 	m_zgFrame.Init(1.0F, 1.0F, .25F, &VMaterialLoader::materialWindowsofBuilding);
 
-	m_zgWallNorth0.Init(3.1F / fResize, 8.0F / fResize, .1F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
-	m_zgWallNorth1.Init(1.1F / fResize, 6.0F / fResize, .1F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
-	m_zgWallNorth2.Init(1.1F / fResize, 4.0F / fResize, .1F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgWallNorth0.Init(3.1F / fResize, 8.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
+	m_zgWallNorth1.Init(1.1F / fResize, 6.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
+	m_zgWallNorth2.Init(1.1F / fResize, 4.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
 
-	m_zgWallWest.Init(5.0F / fResize, 8.0F / fResize, .1F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgWallWest.Init(5.0F / fResize, 8.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
 
-	m_zgWallSouth0.Init(3.1F / fResize, 8.0F / fResize, .1F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
-	m_zgWallSouth1.Init(1.1F / fResize, 6.0F / fResize, .1F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
-	m_zgWallSouth2.Init(1.1F / fResize, 4.0F / fResize, .1F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgWallSouth0.Init(3.1F / fResize, 8.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
+	m_zgWallSouth1.Init(1.1F / fResize, 6.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
+	m_zgWallSouth2.Init(1.1F / fResize, 4.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
 
-	m_zgWallEast0.Init(5.0F / fResize, 2.0F / fResize, .1F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
-	m_zgWallEast1.Init(5.0F / fResize, 2.0F / fResize, .1F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
-	m_zgWallEast2.Init(5.0F / fResize, 4.0F / fResize, .1F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
+	m_zgWallEast0.Init(5.0F / fResize, 2.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
+	m_zgWallEast1.Init(5.0F / fResize, 2.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
+	m_zgWallEast2.Init(5.0F / fResize, 4.0F / fResize, .1F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
 
-	m_zgRoof0.Init(3.0F / fResize, 0.1F / fResize, 5.0F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
-	m_zgRoof1.Init(1.0F / fResize, 0.1F / fResize, 5.0F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
-	m_zgRoof2.Init(1.0F / fResize, 0.1F / fResize, 5.0F / fResize, &VMaterialLoader::materialLargeOfficeBuilding);
-
-	
-
+	m_zgRoof0.Init(3.0F / fResize, 0.1F / fResize, 5.0F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
+	m_zgRoof1.Init(1.0F / fResize, 0.1F / fResize, 5.0F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
+	m_zgRoof2.Init(1.0F / fResize, 0.1F / fResize, 5.0F / fResize, VMaterialLoader::getMaterialModel(VMaterialLoader::BUILDING_BROWN_WALL, switchedState));
 }
 
 void CLargeOfficeBuilding::AddPlacements() {
