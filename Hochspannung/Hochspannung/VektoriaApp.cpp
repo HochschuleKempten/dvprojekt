@@ -133,7 +133,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CTimer timer;
 	timer.SwitchFrameRateCalculationOn();
 	double dStartTime = timer.GetElapsedTime();
-	double dLastTime = dStartTime;
 
 	float fTimeDelta;
 	float fTime;

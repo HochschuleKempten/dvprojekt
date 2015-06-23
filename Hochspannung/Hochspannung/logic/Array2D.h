@@ -23,7 +23,7 @@ private:
 			: row(row), cols(cols)
 		{}
 #else
-		inline DynArray1D(TT* row)
+		inline explicit DynArray1D(TT* row)
 			: row(row)
 		{}
 #endif

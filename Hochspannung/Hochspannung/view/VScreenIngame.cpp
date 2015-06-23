@@ -788,7 +788,6 @@ void VScreenIngame::resize(const int width, const int height)
 
 void VScreenIngame::handleInput(const float fTimeDelta)
 {
-	static bool keyPressed = false;
 	float direction = 1.0f;
 
 	//TODO (MBR) remove when we get the final models (This is used to place them in the right hight)

@@ -14,7 +14,7 @@ void LBalanceLoader::init()
 	{
 		boost::property_tree::read_ini("logic\\Balancing.ini", propertyTree);
 	}
-	catch (boost::property_tree::ptree_error error)
+	catch (const boost::property_tree::ptree_error& error)
 	{
 		ASSERT("Can't read ini file" << error.what())
 	}

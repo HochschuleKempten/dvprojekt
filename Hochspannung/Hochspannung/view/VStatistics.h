@@ -31,10 +31,10 @@ public:
 private:
 	CViewport* m_viewport;
 	COverlay* m_background;
-	COverlay* m_text;
+	COverlay* m_text = nullptr;
 	bool m_hasBackground;
-	bool m_hasText;
-	bool m_bShown;
+	bool m_hasText = false;
+	bool m_bShown = false;
 	std::vector<VText*> m_texts;
 };
 

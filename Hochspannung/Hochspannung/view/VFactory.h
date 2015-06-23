@@ -16,7 +16,7 @@ private:
 	VMaster* vMaster;
 
 public:
-	VFactory(VMaster* vMaster);
+	explicit VFactory(VMaster* vMaster);
 	virtual ~VFactory();
 
 	virtual std::shared_ptr<IVPlayingField> createPlayingField(LPlayingField* field) override;

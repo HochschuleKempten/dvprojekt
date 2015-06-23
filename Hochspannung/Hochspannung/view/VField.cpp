@@ -19,6 +19,12 @@ VField::~VField()
 	//Sub view object placement if it exists
 	if (m_zViewBuilding != nullptr) {
 		m_zp.SubPlacement(m_zViewBuilding->getPlacement());
+
+		//Sub second placement, if it exists
+		if (m_zViewBuilding->getPlacementSecond() != nullptr)
+		{
+			m_zp.SubPlacement(m_zViewBuilding->getPlacementSecond());
+		}
 	}
 }
 

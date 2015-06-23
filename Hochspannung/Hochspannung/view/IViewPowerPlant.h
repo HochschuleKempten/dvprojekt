@@ -17,11 +17,11 @@ private:
 	{
 		if (isOn)
 		{
-			return viewModelOn->getPlacementMain();
+			return ptrViewModelOn->getPlacementMain();
 		}
 		else
 		{
-			return viewModelOff != nullptr ? viewModelOff->getPlacementMain() : nullptr;
+			return ptrViewModelOff != nullptr ? ptrViewModelOff->getPlacementMain() : nullptr;
 		}
 	}
 
@@ -30,8 +30,8 @@ protected:
 	CGeoQuad quadForAnimation;
 	CPlacement placementForAnimation;
 	CMaterial animationMaterial = VMaterialLoader::materialAnimSabotagePowerPlant;
-	IViewModel* viewModelOn = nullptr;
-	IViewModel* viewModelOff = nullptr;
+	IViewModel* ptrViewModelOn = nullptr;
+	IViewModel* ptrViewModelOff = nullptr;
 	const float moveZOff = 1337.42f;
 
 protected:
@@ -39,22 +39,22 @@ protected:
 
 	void translateViewModel()
 	{
-		ASSERT(viewModelOn != nullptr, "viewModelOn is not initialized");
-		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
+		ASSERT(ptrViewModelOn != nullptr, "ptrViewModelOn is not initialized");
+		ASSERT(ptrViewModelOff != nullptr, "ptrViewModelOff is not initialized");
 
 		if (isOn)
 		{
-			viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
+			ptrViewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
 		}
 		else
 		{
-			viewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
+			ptrViewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
 		}
 	}
 
 public:
 	inline IViewPowerPlant(ILPowerPlant* lPlant, VMaster* vMaster, CPlacement* m_zp, IViewModel* viewModelOn, IViewModel* viewModelOff)
-		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), viewModelOn(viewModelOn), viewModelOff(viewModelOff)
+		: IVPowerPlant(lPlant), IViewBuilding(vMaster, m_zp), ptrViewModelOn(viewModelOn), ptrViewModelOff(viewModelOff)
 	{
 		quadForAnimation.Init(2, 2, &animationMaterial);
 		placementForAnimation.AddGeo(&quadForAnimation);
@@ -69,8 +69,8 @@ public:
 
 	inline CPlacement* getPlacementSecond() const override
 	{
-		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
-		return viewModelOff->getPlacementMain();
+		ASSERT(ptrViewModelOff != nullptr, "ptrViewModelOff is not initialized");
+		return ptrViewModelOff->getPlacementMain();
 	}
 
 	inline virtual ILBuilding* getLBuilding() override
@@ -131,14 +131,14 @@ public:
 
 	virtual void switchedOn() override
 	{
-		ASSERT(viewModelOn != nullptr, "viewModelOn is not initialized");
-		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
+		ASSERT(ptrViewModelOn != nullptr, "ptrViewModelOn is not initialized");
+		ASSERT(ptrViewModelOff != nullptr, "ptrViewModelOff is not initialized");
 
 		isOn = true;
-		viewModelOn->switchOn();
-		viewModelOff->switchOn();
-		viewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
-		viewModelOn->getPlacementMain()->TranslateZDelta(moveZOff);
+		ptrViewModelOn->switchOn();
+		ptrViewModelOff->switchOn();
+		ptrViewModelOff->getPlacementMain()->TranslateZDelta(-moveZOff);
+		ptrViewModelOn->getPlacementMain()->TranslateZDelta(moveZOff);
 
 		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone() && getLBuilding()->getPlayerId() == LPlayer::Local)
 		{
@@ -148,14 +148,14 @@ public:
 
 	virtual void switchedOff() override
 	{
-		ASSERT(viewModelOn != nullptr, "viewModelOn is not initialized");
-		ASSERT(viewModelOff != nullptr, "viewModelOff is not initialized");
+		ASSERT(ptrViewModelOn != nullptr, "ptrViewModelOn is not initialized");
+		ASSERT(ptrViewModelOff != nullptr, "ptrViewModelOff is not initialized");
 
 		isOn = false;
-		viewModelOn->switchOff();
-		viewModelOff->switchOff();
-		viewModelOff->getPlacementMain()->TranslateZDelta(moveZOff);
-		viewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
+		ptrViewModelOn->switchOff();
+		ptrViewModelOff->switchOff();
+		ptrViewModelOff->getPlacementMain()->TranslateZDelta(moveZOff);
+		ptrViewModelOn->getPlacementMain()->TranslateZDelta(-moveZOff);
 
 		if (getLBuilding()->getLField()->getLPlayingField()->isInitDone() && getLBuilding()->getPlayerId() == LPlayer::Local)
 		{

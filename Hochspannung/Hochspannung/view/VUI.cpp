@@ -324,27 +324,27 @@ void VUI::setSabotageNumber(const int value)
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->setSabotageNumber(value);
 }
 
-void VUI::contextMenuUpdateValue(const std::pair<int, int> pos, const int value)
+void VUI::contextMenuUpdateValue(const std::pair<int, int> & pos, const int value)
 {
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "SellPrice", std::to_string(value));
 }
 
-void VUI::contextMenuUpdateResourceValue(const std::pair<int, int> pos, const int resourceValue)
+void VUI::contextMenuUpdateResourceValue(const std::pair<int, int> & pos, const int resourceValue)
 {
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "Resource", std::to_string(resourceValue));
 }
 
-void VUI::contextMenuUpdatePopulation(const std::pair<int, int> pos, const int population)
+void VUI::contextMenuUpdatePopulation(const std::pair<int, int> & pos, const int population)
 {
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "Population", std::to_string(population));
 }
 
-void VUI::contextMenuUpdateEnergy(const std::pair<int, int> pos, const int energy)
+void VUI::contextMenuUpdateEnergy(const std::pair<int, int> & pos, const int energy)
 {
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "Energy", std::to_string(energy));
 }
 
-void VUI::contextMenuUpdateEnergySurplus(const std::pair<int, int> pos, const int surplus)
+void VUI::contextMenuUpdateEnergySurplus(const std::pair<int, int> & pos, const int surplus)
 {
 }
 
