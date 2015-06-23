@@ -38,6 +38,7 @@ public:
 	void hostGame(const std::string & gameName);
 	void startSinglePlayerGame();
 	void joinGame(const std::string& ipAddress);
+	void cancelGameStartup();
 
 	void gameOver();
 	void gameWon();

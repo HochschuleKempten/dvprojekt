@@ -52,6 +52,7 @@ public:
 	virtual void pauseGame() = 0;
 	virtual void continueGame() = 0;
 	virtual void showMessage(const std::string& message, const LMessageLoader::MessageID id) = 0;
+	virtual void switchIngame() = 0;
 };
 
 NAMESPACE_LOGIC_E

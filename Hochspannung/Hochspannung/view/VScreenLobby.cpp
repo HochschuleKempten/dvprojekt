@@ -115,7 +115,12 @@ void VScreenLobby::onNotify(const Event& events)
 
 		//std::thread([this] { this->vUi->vMaster->hostGame(); this->vUi->switchScreen("Ingame"); }).detach();
 
-		this->vUi->vMaster->hostGame(CASTD<VTextfield*>(getContainer("HostDialog")->getGuiObject("textfieldGameName"))->getValue()); this->vUi->switchScreen("Ingame");
+		this->vUi->vMaster->hostGame(CASTD<VTextfield*>(getContainer("HostDialog")->getGuiObject("textfieldGameName"))->getValue());
+
+		getContainer("HostDialog")->switchOff();
+		getContainer("LobbyRunningGames")->getContainer("HostList")->switchOn();
+		CASTD<VText*>(getContainer("WaitingDialog")->getGuiObject("TextWaitingDialog"))->updateText("Warte auf Spieler...");
+		getContainer("WaitingDialog")->switchOn();
 
 		//notify(LOBBY_HOST_GAME);
 		break;
@@ -165,7 +170,6 @@ void VScreenLobby::onNotify(const Event& events)
 						//vUi->switchScreen("Ingame");
 
 					vUi->vMaster->joinGame(textfieldValue);
-					vUi->switchScreen("Ingame");
 				
 				}
 				else
@@ -204,7 +208,6 @@ void VScreenLobby::onNotify(const Event& events)
 
 				vUi->vMaster->joinGame(CASTD<VListView*>(getContainer("LobbyRunningGames")->getContainer("HostList"))->getSelectedItem()->getName());
 				//m_JoinReady = true;
-				vUi->switchScreen("Ingame");
 			}
 		
 		break;
@@ -254,6 +257,8 @@ void VScreenLobby::onNotify(const Event& events)
 		m_startReady = true;
 		if (!m_JoinReady)
 		m_JoinReady = true;
+
+		vUi->vMaster->cancelGameStartup();
 
 	default:
 		notify(events);

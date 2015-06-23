@@ -47,11 +47,6 @@ void LMaster::hostGame(const std::string & gameName) {
 	}
 
 	host(gameName);
-	while (networkService.getConnectionState() != Network::CNode::State::CONNECTED);
-
-	vMaster.startBuildingPlayingField();
-
-	lPlayingField->createFields();
 }
 
 void LMaster::startSinglePlayerGame() {
@@ -73,6 +68,11 @@ void LMaster::joinGame(const std::string& ipAddress) {
 
 	vMaster.startBuildingPlayingField();
 }
+
+void LMaster::cancelGameStartup() {
+	networkService.close();
+}
+
 
 void LMaster::gameOver()
 {
@@ -151,11 +151,19 @@ void LMaster::tick(const float fTimeDelta)
 
 	if (networkService.getConnectionState() == CNode::State::CONNECTED)
 	{
+		if (!firstConnectDone) {
+
+			if (networkService.getType() == CNode::SERVER) {
+				vMaster.startBuildingPlayingField();
+				lPlayingField->createFields();
+			}
+
+			vMaster.switchIngame();
+			firstConnectDone = true;
+		}
 
 		if (timeLastCheck > 0.25F && networkService.isActionAvailable())
 		{
-			firstConnectDone = true;
-
 			CTransferObject transferObject = networkService.getNextActionToExecute();
 			int objectId = transferObject.getTransObjectID();
 			int x = transferObject.getCoordX();

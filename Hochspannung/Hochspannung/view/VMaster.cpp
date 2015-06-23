@@ -85,6 +85,11 @@ void VMaster::showMessage(const std::string& message, const LMessageLoader::Mess
 	vUi.showMessage(message);
 }
 
+void VMaster::switchIngame() 
+{
+	vUi.switchScreen("Ingame");
+}
+
 VUI* VMaster::getVUi()
 {
 	return &vUi;
@@ -120,6 +125,10 @@ void VMaster::startSinglePlayerGame()
 void VMaster::joinGame(const std::string& ipAddress)
 {
 	lMaster->joinGame(ipAddress);
+}
+
+void VMaster::cancelGameStartup() {
+	lMaster->cancelGameStartup();
 }
 
 void VMaster::startBuildingPlayingField()

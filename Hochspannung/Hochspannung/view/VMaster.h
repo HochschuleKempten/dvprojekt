@@ -41,6 +41,7 @@ public:
 	void startSinglePlayerGame();
 	void hostGame(const std::string & gameName);
 	void joinGame(const std::string& ipAddress);
+	void cancelGameStartup();
 
 	virtual void startBuildingPlayingField() override;
 	virtual void updateMoney(const int money, const LPlayer::PlayerId playerId) override;
@@ -54,6 +55,7 @@ public:
 	virtual void gameOver() override;
 	virtual void updateGameList(const std::unordered_map<std::string, Network::CGameObject>& gameList) override;
 	virtual void showMessage(const std::string& message, const LMessageLoader::MessageID id) override;
+	virtual void switchIngame() override;
 	virtual IVFactory* getFactory() override;
 	virtual void updateRegenerativeRatio(const float ratio, const LPlayer::PlayerId playerId) override;
 
