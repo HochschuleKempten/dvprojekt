@@ -33,7 +33,7 @@ void LMessageLoader::emitMessage(const MessageID messageId, const std::vector<st
 			text = std::string("Es muss noch ") + param[0] + std::string(" Sekunden gewartet werden, bevor die naechste Sabotageaktion durchgefuehrt werden kann.");
 			break;
 		case SABOTAGE_NO_MONEY:
-			text = "Nicht genuegend Geld für die Sabotageaktion vorhanden.";
+			text = "Nicht genuegend Geld fuer die Sabotageaktion vorhanden.";
 			break;
 		case SABOTAGE_RESOURCE:
 			text = "Die Ressourcen eines Kraftwerks wurden halbiert!";
