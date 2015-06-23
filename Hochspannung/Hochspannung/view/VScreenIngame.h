@@ -11,7 +11,6 @@
 #include "VContextInfo.h"
 #include "VModelCoalPowerPlant.h"
 
-
 NAMESPACE_VIEW_B
 
 
