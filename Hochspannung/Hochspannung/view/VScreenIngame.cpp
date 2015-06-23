@@ -810,7 +810,7 @@ void VScreenIngame::resize(const int width, const int height)
 	m_viewport->ReSize();
 }
 
-void VScreenIngame::handleInput()
+void VScreenIngame::handleInput(const float fTimeDelta)
 {
 	static bool keyPressed = false;
 	float direction = 1.0f;
@@ -851,7 +851,7 @@ void VScreenIngame::handleInput()
 		m_zpModels.TranslateZDelta(0.1f * direction);
 	}
 
-	const float cameraStength = 1.0f;
+	float cameraStength = 20.0f * fTimeDelta;
 	//Left + Right:
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_A))
 	{
@@ -914,13 +914,15 @@ void VScreenIngame::handleInput()
 		}
 	}
 
+	const float flipStrength = 1.0f;
+
 	//Flip View
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_E))
 	{
 		if (cameraAngle < 5)
 		{
-			m_zpCamera.RotateZDelta(cameraStength / 10.0f);
-			cameraAngle += (int)cameraStength;
+			m_zpCamera.RotateZDelta(flipStrength / 10.0f);
+			cameraAngle += (int) flipStrength;
 		}
 	}
 
@@ -928,8 +930,8 @@ void VScreenIngame::handleInput()
 	{
 		if (cameraAngle > -5)
 		{
-			m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
-			cameraAngle -= (int)cameraStength;
+			m_zpCamera.RotateZDelta(-flipStrength / 10.0f);
+			cameraAngle -= (int) flipStrength;
 		}
 	}
 
@@ -941,15 +943,15 @@ void VScreenIngame::handleInput()
 
 			if (cameraAngle < 0)
 			{
-				m_zpCamera.RotateZDelta(cameraStength / 10.0f);
-				cameraAngle += (int)cameraStength;
+				m_zpCamera.RotateZDelta(flipStrength / 10.0f);
+				cameraAngle += (int) flipStrength;
 			}
 
 
 			 if (cameraAngle > 0)
 		   	{
-				m_zpCamera.RotateZDelta(-cameraStength / 10.0f);
-				cameraAngle -= (int)cameraStength;
+				m_zpCamera.RotateZDelta(-flipStrength / 10.0f);
+				cameraAngle -= (int) flipStrength;
 			}
 		}
 	
@@ -1009,7 +1011,7 @@ void VScreenIngame::tick(const float fTimeDelta)
 		vUi->m_BlockCursorLeftPressed = false;
 	}
 
-	handleInput();
+	handleInput(fTimeDelta);
 
 	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
 
