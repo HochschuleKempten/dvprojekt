@@ -18,7 +18,6 @@ CMaterial VMaterialLoader::materialMainMenue;
 CMaterial VMaterialLoader::materialMainMenueHover;
 CMaterial VMaterialLoader::materialIngameCraft;
 CMaterial VMaterialLoader::materialDialogBackground;
-CMaterial VMaterialLoader::materialIngameBorder;
 CMaterial VMaterialLoader::materialTopbar;
 
 CMaterial VMaterialLoader::materialRed;
@@ -30,16 +29,7 @@ CMaterial VMaterialLoader::materialFossil;
 CMaterial VMaterialLoader::materialRegenerative;
 
 //Credits
-CMaterial VMaterialLoader::materialCreditsOrganization;
-CMaterial VMaterialLoader::materialCreditsIntegration;
-CMaterial VMaterialLoader::materialCreditsTextures;
-CMaterial VMaterialLoader::materialCreditsNetwork;
-CMaterial VMaterialLoader::materialCreditsLogic;
-CMaterial VMaterialLoader::materialCreditsUI;
-CMaterial VMaterialLoader::materialCreditsModelling;
-CMaterial VMaterialLoader::materialCreditsModelling2;
-CMaterial VMaterialLoader::materialCreditsVektoriaSplash;
-
+CMaterial VMaterialLoader::materialCredits;
 
 //Infofield
 CMaterial VMaterialLoader::materialInfofieldBackground;
@@ -74,8 +64,6 @@ CMaterial VMaterialLoader::materialButtonGameContinueHover;
 
 CMaterial VMaterialLoader::materialButtonBack;
 CMaterial VMaterialLoader::materialButtonBackHover;
-CMaterial VMaterialLoader::materialBottombarBorderTop;
-CMaterial VMaterialLoader::materialVerticalBorder;
 CMaterial VMaterialLoader::materialLobbyBigDialog;
 
 CMaterial VMaterialLoader::materialButtonAbort;
@@ -83,6 +71,13 @@ CMaterial VMaterialLoader::materialButtonAbortHover;
 
 CMaterial VMaterialLoader::materialButtonOk;
 CMaterial VMaterialLoader::materialButtonOkHover;
+
+CMaterial VMaterialLoader::materialButtonMainMenueControls;
+CMaterial VMaterialLoader::materialButtonMainMenueControlsHover;
+CMaterial VMaterialLoader::materialButtonMainMenueHelp;
+CMaterial VMaterialLoader::materialButtonMainMenueHelpHover;
+CMaterial VMaterialLoader::materialButtonMainMenueHowTo;
+CMaterial VMaterialLoader::materialButtonMainMenueHowToHover;
 
 
 //Ingame
@@ -403,9 +398,6 @@ void VMaterialLoader::init()
 
 	materialDialogBackground.MakeTextureSprite("textures\\MainMenueBackground.png");
 
-	materialIngameBorder.Init(CColor(0.0f, 0.44f, 0.68f), CColor(0.0f, 0.44f, 0.68f), CColor(0.0f, 0.44f, 0.68f));
-
-
 	//Main menu - Buttons
 	materialButtonMainMenueNeuesSpiel.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_newgame.png");
 	materialButtonMainMenueNeuesSpielHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_newgame_hover.png");
@@ -426,6 +418,13 @@ void VMaterialLoader::init()
 	materialButtonGameContinue.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue.png");
 	materialButtonGameContinueHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_continue_hover.png");
 
+	materialButtonMainMenueControls.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_controls.png");
+	materialButtonMainMenueControlsHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_controlsHover.png");
+	materialButtonMainMenueHelp.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_help.png");
+	materialButtonMainMenueHelpHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_helpHover.png");
+	materialButtonMainMenueHowTo.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_howtoplay.png");
+	materialButtonMainMenueHowToHover.MakeTextureSprite("textures/gui/menu/texture_gui_menubutton_howtoplayHover.png");
+
 	materialButtonMainMenueNeuesSpiel.SetTransparencyOn();
 	materialButtonMainMenueNeuesSpielHover.SetTransparencyOn();
 
@@ -443,8 +442,6 @@ void VMaterialLoader::init()
 
 	//Interface - Background
 	materialTopbar.MakeTextureSprite("textures\\topbar.png");
-	materialBottombarBorderTop.MakeTextureSprite("textures\\bottombarBorderTopBlue.png");
-	materialVerticalBorder.MakeTextureSprite("textures\\VerticalBorder.png");
 	materialLobbyBigDialog.MakeTextureSprite("textures\\LobbyBigDialog.png");
 	materialIngameMenueDialogBackground.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_MenueDialog_Background.png");
 	materialWhiteGreyBackground.MakeTextureSprite("textures/gui/background/gui_background_whitegrey.png");
@@ -658,25 +655,10 @@ void VMaterialLoader::init()
 
 	//Credits
 
-	materialCreditsOrganization.MakeTextureSprite("textures/gui/Credits/Organisation.png");
-	materialCreditsIntegration.MakeTextureSprite("textures/gui/Credits/Integration.png");
-	materialCreditsTextures.MakeTextureSprite("textures/gui/Credits/TexturenSound.png");
-	materialCreditsNetwork.MakeTextureSprite("textures/gui/Credits/Netzwerk.png");
-	materialCreditsLogic.MakeTextureSprite("textures/gui/Credits/Spiellogik.png");
-	materialCreditsUI.MakeTextureSprite("textures/gui/Credits/UI.png");
-	materialCreditsModelling.MakeTextureSprite("textures/gui/Credits/Modellierung.png");
-	materialCreditsModelling2.MakeTextureSprite("textures/gui/Credits/Modellierung2.png");
-	materialCreditsVektoriaSplash.MakeTextureSprite("textures/gui/Credits/VektoriaSplash.png");
-
-	materialCreditsOrganization.SetTransparencyOn();
-	materialCreditsIntegration.SetTransparencyOn();
-	materialCreditsTextures.SetTransparencyOn();
-	materialCreditsNetwork.SetTransparencyOn();
-	materialCreditsLogic.SetTransparencyOn();
-	materialCreditsUI.SetTransparencyOn();
-	materialCreditsModelling.SetTransparencyOn();
-	materialCreditsModelling2.SetTransparencyOn();
-	materialCreditsVektoriaSplash.SetTransparencyOn();
+	materialCredits.MakeTextureSprite("textures/gui/Credits/Credits.png");
+	
+	materialCredits.SetTransparencyOn();
+	
 
 	DEBUG_EXPRESSION(initDone = true);
 }

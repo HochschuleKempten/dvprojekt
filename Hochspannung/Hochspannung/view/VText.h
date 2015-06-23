@@ -32,6 +32,10 @@ public:
 
 	void centerText();
 
+	CWritingFont* getWritingfont();
+
+	std::string getText();
+
 private:
 
 	CWritingFont* m_writingFont;

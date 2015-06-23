@@ -21,16 +21,12 @@ VScreenOptions::VScreenOptions(VUI* vUi) : IViewScreen(vUi)
 
 	m_viewport->AddBackground(m_background);
 
+	
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue", 0.5F);
-	getContainer("Menue")->addButton(CFloatRect(0.65F, 0.83F, 0.30F, 0.12F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "buttonBackMainMenue", 0.3F);
 
-	//******** Statistics Menu *********//
-	addContainer(m_viewport, IViewGUIContainer::ContainerType::GUIArea, CFloatRect(0.25F, 0.25F, 0.5F, 0.5F), "StatisticsMenu", 0.3F);
-
-	VStatistics* statisticsMenus = getContainer("StatisticsMenu")->addStatisticsScreen(CFloatRect(0, 0, 1, 1), &VMaterialLoader::materialLobbyRunningGamesBackground, "statisticsScreen", 0.3F);
-	statisticsMenus->addText("Du bist ein zukunftsorientierter Mensch und setzt auf Nachhaltigkeit\nAchte jedoch auf die Beduerfnisse deiner Stadtbowohner und versorge sie gut\n\nDenn nichts ist wichtiger als glueckliche Einwohner und gruener Fortschritt");
-	statisticsMenus->addText("Konfuzius sagt: Harmonie und Mitte, Gleichmut und Gleichgewicht - blubb blubb");
-
+	getContainer("Menue")->addButton(CFloatRect(0.33F, 0.27F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueHelp, &VMaterialLoader::materialButtonMainMenueHelpHover, SWITCH_TO_HELP, "buttonSwitchToHelp", 0.3F);
+	getContainer("Menue")->addButton(CFloatRect(0.33F, 0.42F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueControls, &VMaterialLoader::materialButtonMainMenueControlsHover, SWITCH_TO_CONTROLS, "buttonSwitchToControls", 0.3F);
+	getContainer("Menue")->addButton(CFloatRect(0.75F, 0.87F, 0.20F, 0.09F), &VMaterialLoader::materialButtonBack, &VMaterialLoader::materialButtonBackHover, SWITCH_TO_MAINMENUE, "buttonSwitchToMainMenue", 0.3F);
 }
 
 VScreenOptions::~VScreenOptions()

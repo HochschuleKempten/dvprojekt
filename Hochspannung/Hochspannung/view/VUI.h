@@ -14,6 +14,8 @@ class VMaster;
 class VScreenIngame;
 class VScreenMainMenue;
 class VScreenOptions;
+class VScreenHelp;
+class VScreenControls;
 class VScreenCredits;
 class VScreenLobby;
 
@@ -27,9 +29,12 @@ class VUI : public IVTickObserver, public IViewUIObserver
 	friend class VScreenIngame;
 	friend class VScreenMainMenue;
 	friend class VScreenOptions;
+	friend class VScreenHelp;
+	friend class VScreenControls;
 	friend class VScreenCredits;
 	friend class VScreenLobby;
 	friend class VScreenGameOver;
+	
 
 	enum CursorType
 	{
