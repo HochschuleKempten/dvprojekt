@@ -887,18 +887,18 @@ void VScreenIngame::handleInput(const float fTimeDelta)
 	//Flip View
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_E))
 	{
-		if (cameraAngle < 5)
+		if (cameraAngle < 10)
 		{
-			m_zpCamera.RotateZDelta(flipStrength / 10.0f);
+			m_zpCamera.RotateZDelta(flipStrength / 20.0f);
 			cameraAngle += (int) flipStrength;
 		}
 	}
 
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_Q))
 	{
-		if (cameraAngle > -5)
+		if (cameraAngle > -10)
 		{
-			m_zpCamera.RotateZDelta(-flipStrength / 10.0f);
+			m_zpCamera.RotateZDelta(-flipStrength / 20.0f);
 			cameraAngle -= (int) flipStrength;
 		}
 	}
@@ -911,14 +911,14 @@ void VScreenIngame::handleInput(const float fTimeDelta)
 
 			if (cameraAngle < 0)
 			{
-				m_zpCamera.RotateZDelta(flipStrength / 10.0f);
-				cameraAngle += (int) flipStrength;
+				m_zpCamera.RotateZDelta( flipStrength/ 20.0f);
+				cameraAngle += (int)flipStrength;
 			}
 
 
 			 if (cameraAngle > 0)
 		   	{
-				m_zpCamera.RotateZDelta(-flipStrength / 10.0f);
+				m_zpCamera.RotateZDelta(-flipStrength / 20.0f);
 				cameraAngle -= (int) flipStrength;
 			}
 		}
