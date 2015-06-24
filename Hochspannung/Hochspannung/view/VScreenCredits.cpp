@@ -94,7 +94,7 @@ void VScreenCredits::checkShortcut(CDeviceKeyboard* keyboard)
 	}
 }
 
-void VScreenCredits::checkSpecialEvent(CDeviceCursor* cursor)
+void VScreenCredits::checkSpecialEvent()
 {
 }
 
@@ -113,7 +113,7 @@ void VScreenCredits::tick(const float fTimeDelta)
 	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
 
 	checkShortcut(&vUi->m_zkKeyboard);
-	checkSpecialEvent(&vUi->m_zkCursor);
+	checkSpecialEvent();
 	tempGuiContainer = getGuiContainerMap();
 
 	//For all containers in the screen

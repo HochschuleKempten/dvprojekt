@@ -51,7 +51,7 @@ public:
 	void switchOn() override;
 	void switchOff() override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
-	void checkSpecialEvent(CDeviceCursor* cursor) override;
+	void checkSpecialEvent() override;
 
 	//Schnittstellenmethoden
 	void updateMoney(const int wert, const LPlayer::PlayerId playerId);

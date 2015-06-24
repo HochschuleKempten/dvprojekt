@@ -19,7 +19,7 @@ public:
 	void onMouseOut() override;
 	void onMouseClickLeft() override;
 	void onMouseClickRight() override;
-	void setLayer(float layer) override;
+	void setLayer(const float layer) override;
 	void updateRectangle(CFloatRect rect) override;
 
 	void slideToggle();

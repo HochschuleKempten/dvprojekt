@@ -3,9 +3,10 @@
 #include "VMaster.h"
 #include <thread>
 #include "../logic/LMaster.h"
-#include <regex>
 #include <future>
+
 NAMESPACE_VIEW_B
+
 
 VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 {
@@ -71,7 +72,6 @@ VScreenLobby::VScreenLobby(VUI* vUi): IViewScreen(vUi)
 
 VScreenLobby::~VScreenLobby()
 {
-	//delete m_background;
 	delete m_bigDialog;
 }
 
@@ -277,11 +277,11 @@ void VScreenLobby::checkShortcut(CDeviceKeyboard* keyboard)
 	}
 }
 
-void VScreenLobby::checkSpecialEvent(CDeviceCursor* cursor)
+void VScreenLobby::checkSpecialEvent()
 {
 }
 
-void VScreenLobby::tick(const float fTimeDelta)
+void VScreenLobby::tick(const float /*fTimeDelta*/)
 {
 	std::lock_guard<std::mutex> lock(mutex);
 	if (!vUi->m_zkCursor.ButtonPressedLeft())
@@ -291,7 +291,7 @@ void VScreenLobby::tick(const float fTimeDelta)
 
 
 	checkShortcut(&vUi->m_zkKeyboard);
-	checkSpecialEvent(&vUi->m_zkCursor);
+	checkSpecialEvent();
 	const std::unordered_map<std::string, IViewGUIContainer*>& tempGuiContainer = getGuiContainerMap();
 
 	//For all containers in the screen

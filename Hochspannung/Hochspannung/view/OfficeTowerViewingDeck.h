@@ -13,7 +13,7 @@ class COfficeTowerViewingDeck : public CPlacement
 {
 public:
 	COfficeTowerViewingDeck();
-	COfficeTowerViewingDeck(float fResize);
+	explicit COfficeTowerViewingDeck(float fResize);
 	~COfficeTowerViewingDeck(void);
 	void InitWindows();
 	void AddWindows();

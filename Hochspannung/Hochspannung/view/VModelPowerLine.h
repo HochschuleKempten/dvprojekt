@@ -26,7 +26,7 @@ public:
 	friend VModelPowerLine::DIRECTION operator|(VModelPowerLine::DIRECTION a, VModelPowerLine::DIRECTION b);
 	VModelPowerLine::DIRECTION Direction();
 	VModelPowerLine(void);
-	VModelPowerLine(float fFieldSize);
+	explicit VModelPowerLine(float fFieldSize);
 	virtual ~VModelPowerLine(void) override;
 
 	void Init(VModelPowerLine::DIRECTION eDirection = DIRECTION::NONE, float fPylonHeight = 1.0f);
@@ -83,14 +83,14 @@ private:
 	CPlacement m_zpRoofLOD2[4];
 	CPlacement m_zpStruts[80];
 
-	CTriangleList *m_zpTriangleIsolatorLoD1;
-	CTriangleList *m_zpTriangleIsolatorLoD2;
-	CTriangleList *m_zpTriangleIsolatorLoD3;
-	CTriangleList *m_zpTriangleRingLoD1;
-	CTriangleList *m_zpTriangleRingLoD2;
-	CTriangleList *m_zpTriangleRingLoD3;
+	CTriangleList *m_zpTriangleIsolatorLoD1 = nullptr;
+	CTriangleList *m_zpTriangleIsolatorLoD2 = nullptr;
+	CTriangleList *m_zpTriangleIsolatorLoD3 = nullptr;
+	CTriangleList *m_zpTriangleRingLoD1 = nullptr;
+	CTriangleList *m_zpTriangleRingLoD2 = nullptr;
+	CTriangleList *m_zpTriangleRingLoD3 = nullptr;
 
-	SHORT m_saGridPosition[2];
+	std::array<SHORT, 2> m_saGridPosition;
 
 	SHORT m_iArmPosition		                         = 8;
 	SHORT m_iStrutsCount		                         = 0;

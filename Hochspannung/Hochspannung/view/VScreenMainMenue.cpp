@@ -76,7 +76,7 @@ void VScreenMainMenue::checkShortcut(CDeviceKeyboard* keyboard)
 	}
 }
 
-void VScreenMainMenue::checkSpecialEvent(CDeviceCursor* cursor)
+void VScreenMainMenue::checkSpecialEvent()
 {
 }
 
@@ -96,7 +96,7 @@ void VScreenMainMenue::tick(const float fTimeDelta)
 
 
 	checkShortcut(&vUi->m_zkKeyboard);
-	checkSpecialEvent(&vUi->m_zkCursor);
+	checkSpecialEvent();
 	tempGuiContainer = getGuiContainerMap();
 
 	//For all containers in the screen

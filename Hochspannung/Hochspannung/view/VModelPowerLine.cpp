@@ -11,6 +11,7 @@ inline VModelPowerLine::DIRECTION operator|(VModelPowerLine::DIRECTION a, VModel
 }
 
 VModelPowerLine::VModelPowerLine(void)
+	: m_saGridPosition({0, 0})
 {}
 
 VModelPowerLine::VModelPowerLine(float fFieldSize)
@@ -278,7 +279,7 @@ void VModelPowerLine::Init(DIRECTION eDirection, float fPylonHeight)
 }
 
 SHORT * VModelPowerLine::GetPosition() {
-	return m_saGridPosition;
+	return m_saGridPosition.data();
 }
 
 void VModelPowerLine::SetDirection(VModelPowerLine::DIRECTION eDirection) {

@@ -11,7 +11,7 @@ public:
 	~VScreenLobby();
 	void onNotify(const Event& events) override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
-	void checkSpecialEvent(CDeviceCursor* cursor) override;
+	void checkSpecialEvent() override;
 	void tick(const float fTimeDelta) override;
 	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);
 	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
@@ -27,7 +27,6 @@ public:
 	void showWaitingDialog();
 private:
 	bool checkAddress(const std::string& address);
-	CBackground* m_background;
 	COverlay* m_bigDialog;
 	std::mutex mutex;
 	bool m_startReady = false;

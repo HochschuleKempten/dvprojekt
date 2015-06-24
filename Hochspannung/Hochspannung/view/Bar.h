@@ -37,7 +37,7 @@ public:
 	}
 
 	void onMouseClickRight() override;
-	void setLayer(float layer) override;
+	void setLayer(const float layer) override;
 	void updateRectangle(CFloatRect rect) override;
 
 private:

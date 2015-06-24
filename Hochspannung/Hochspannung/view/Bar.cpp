@@ -38,7 +38,7 @@ void Bar::onMouseClickRight()
 {
 }
 
-void Bar::setLayer(float layer)
+void Bar::setLayer(const float /*layer*/)
 {
 }
 

@@ -315,7 +315,7 @@ void VUI::showMessage(const std::string& message)
 
 void VUI::removeMaterialFromRoot(CMaterial* material)
 {
-	bool erg = m_zr.SubMaterial(material);
+	m_zr.SubMaterial(material);
 }
 
 

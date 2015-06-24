@@ -537,7 +537,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	}
 }
 
-void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
+void VScreenIngame::checkSpecialEvent()
 {
 	if (vUi->m_zkCursor.ButtonPressedRight())
 	{
@@ -781,7 +781,7 @@ void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 	}
 }
 
-void VScreenIngame::resize(const int width, const int height)
+void VScreenIngame::resize(const int /*width*/, const int /*height*/)
 {
 	m_viewport->ReSize();
 }
@@ -991,7 +991,7 @@ void VScreenIngame::tick(const float fTimeDelta)
 	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
 
 	checkShortcut(&vUi->m_zkKeyboard);
-	checkSpecialEvent(&vUi->m_zkCursor);
+	checkSpecialEvent();
 	tempGuiContainer = getGuiContainerMap();
 
 	//For all containers in the screen
@@ -1055,7 +1055,7 @@ std::unordered_map<std::string, IViewGUIObject*> VScreenIngame::getScreenObjects
 	for (std::pair<std::string, IViewGUIContainer*> container : m_Guicontainer)
 	{
 		std::unordered_map<std::string, IViewGUIObject*> tempMap = getObjects(container.second);
-		if (tempMap.size() != 0)
+		if (!tempMap.empty())
 			resultObjectList.insert(tempMap.begin(), tempMap.end());
 	}
 

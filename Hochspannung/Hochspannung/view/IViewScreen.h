@@ -145,7 +145,7 @@ public:
 	}
 
 	virtual void checkShortcut(CDeviceKeyboard* keyboard) =0;
-	virtual void checkSpecialEvent(CDeviceCursor* cursor) = 0;
+	virtual void checkSpecialEvent() = 0;
 	virtual void tick(const float fTimeDelta) = 0;
 	virtual void resize(const int width, const int height) = 0;
 

@@ -26,7 +26,7 @@ private:
 
 
 
-	float fResize;
+	float fResize = 1.0f;
 
 
 

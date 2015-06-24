@@ -13,7 +13,7 @@ VGraph::~VGraph()
 {
 }
 
-void VGraph::checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)
+void VGraph::checkEvent(CDeviceCursor* /*cursor*/, CDeviceKeyboard* keyboard)
 {
 }
 
@@ -41,7 +41,7 @@ void VGraph::onMouseClickRight()
 {
 }
 
-void VGraph::setLayer(float layer)
+void VGraph::setLayer(const float /*layer*/)
 {
 }
 
@@ -105,7 +105,7 @@ void VGraph::calcHeight()
 void VGraph::recalcRectangles()
 {
 	float fMaxValue = 0;
-	float fNewWidthPart = (m_bars.size() > 0) ? m_zfrRect.GetXSize() / m_bars.size() : 0;
+	float fNewWidthPart = (!m_bars.empty()) ? m_zfrRect.GetXSize() / m_bars.size() : 0;
 	float part = 0;
 	int i = 0;
 	CFloatRect tempRect;

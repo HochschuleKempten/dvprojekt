@@ -51,7 +51,7 @@ private:
 public:
 
 	Building03();
-	Building03(float fResize);
+	explicit Building03(float fResize);
 	~Building03();
 
 	void InitWindows();

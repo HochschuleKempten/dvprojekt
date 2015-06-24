@@ -70,7 +70,7 @@ public:
 		}
 	}
 
-	virtual void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)
+	virtual void checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* /*keyboard*/)
 	{
 		float fPosX;
 		float fPosY;

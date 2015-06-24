@@ -68,7 +68,7 @@ void HighVoltage::VStatistics::addText(const std::string& text)
 	m_hasText = true;
 }
 
-void VStatistics::setLayer(float layer)
+void VStatistics::setLayer(const float layer)
 {
 	if (m_hasBackground)
 		m_background->SetLayer(layer);

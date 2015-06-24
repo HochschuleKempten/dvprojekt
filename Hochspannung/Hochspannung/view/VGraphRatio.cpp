@@ -22,7 +22,7 @@ VGraphRatio::~VGraphRatio()
 
 }
 
-void VGraphRatio::checkEvent(CDeviceCursor* cursor, CDeviceKeyboard* keyboard)
+void VGraphRatio::checkEvent(CDeviceCursor* /*cursor*/, CDeviceKeyboard* keyboard)
 {
 }
 
@@ -52,7 +52,7 @@ void VGraphRatio::onMouseClickRight()
 {
 }
 
-void VGraphRatio::setLayer(float layer)
+void VGraphRatio::setLayer(const float /*layer*/)
 {
 }
 

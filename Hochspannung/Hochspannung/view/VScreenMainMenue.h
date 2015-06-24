@@ -12,7 +12,7 @@ public:
 
 	void onNotify(const Event& events) override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
-	void checkSpecialEvent(CDeviceCursor* cursor) override;
+	void checkSpecialEvent() override;
 	void checkGUIContainer(IViewGUIContainer* tempGuicontainer);
 	void resize(const int width, const int height) override;
 	void tick(const float fTimeDelta) override;
@@ -26,7 +26,7 @@ public:
 
 private:
 	COverlay* m_flash;
-	CScene* scene;
+	//CScene* scene;
 	CBackground* m_background;
 	COverlay* m_headline;
 	bool startUp = true;

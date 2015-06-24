@@ -9,7 +9,7 @@ NAMESPACE_VIEW_B
 class CLargeOfficeBuilding : public CPlacement, public IViewModel
 {
 public:
-	CLargeOfficeBuilding(float fResize);
+	explicit CLargeOfficeBuilding(float fResize);
 	~CLargeOfficeBuilding(void);
 	virtual void init() override;
 
