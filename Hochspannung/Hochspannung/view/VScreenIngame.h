@@ -150,6 +150,7 @@ private:
 
 	VIdentifier::VIdentifier selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
+	std::pair<int, int> lastClickPosition = std::make_pair(0, 0);
 
 	std::map<BUILDINGTYPE, int> statPlacedBuildingsOwn;
 	std::map<BUILDINGTYPE, int> statPlacedBuildingsEnemy;

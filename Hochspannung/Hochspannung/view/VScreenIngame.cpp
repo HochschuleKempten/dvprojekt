@@ -1202,6 +1202,7 @@ void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& picke
 			int x = pickedElements.at(VIdentifier::VPlayingField)[0];
 			int y = pickedElements.at(VIdentifier::VPlayingField)[1];
 			bool operationSuccessful = false;
+			lastClickPosition = std::make_pair(x, y);
 
 			if (selectedBuilding == VIdentifier::Undefined && selectedAction == IViewBuilding::Undefined)
 			{
@@ -1474,6 +1475,19 @@ void VScreenIngame::updateFieldStorageValue(std::pair<int, int> pos, const std::
 	{
 		m_fieldValueStorage.emplace(std::piecewise_construct, std::make_tuple(pos), std::make_tuple(this));
 		m_fieldValueStorage.at(pos).updateValue(name, wert);
+	}
+
+	//update context menu when building is still selected
+	if (pos == lastClickPosition)
+	{
+		if (m_fieldValueStorage.count(pos) > 0)
+		{
+			m_fieldValueStorage.at(pos).showContextInfo();
+		}
+		else
+		{
+			m_fieldValueStorage.emplace(std::piecewise_construct, std::make_tuple(pos), std::make_tuple(this));
+		}
 	}
 }
 
