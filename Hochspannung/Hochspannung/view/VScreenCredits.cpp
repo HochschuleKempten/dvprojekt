@@ -60,12 +60,11 @@ void VScreenCredits::startAnimation()
 
 void VScreenCredits::StartEvent()
 {
-	std::thread([this] {
-
-		MoveText(materialCredits);
-		animationReady = true;
-}).detach();
-
+		std::thread([this] {
+			std::this_thread::sleep_for(std::chrono::seconds(2));
+			MoveText(materialCredits);
+			animationReady = true;
+		}).detach();
 }
 
 void VScreenCredits::EndEvent()
@@ -107,8 +106,10 @@ void VScreenCredits::tick(const float fTimeDelta)
 
 	if (animationReady)
 	{
-		vUi->switchScreen("MainMenue");
 		animationReady = false;
+		vUi->switchScreen("MainMenue");
+		return;
+		
 	}
 	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
 
@@ -181,7 +182,7 @@ void VScreenCredits::MoveText(COverlay* overlay)
 			if (animationStop)
 			{
 				animationStop = false;
-				break;
+				return;
 			}
 			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 			CFloatRect tempRect = overlay->GetRect();

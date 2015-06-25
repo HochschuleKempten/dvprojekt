@@ -110,7 +110,6 @@ public:
 	void contextMenuUpdatePopulation(const std::pair<int, int> pos, const int population);
 	void contextMenuUpdateEnergy(const std::pair<int, int> pos, const int energy);
 	void contextMenuUpdateEnergySurplus(const std::pair<int, int> pos, const int surplus);
-
 	void gameOver(bool win);
 };
 

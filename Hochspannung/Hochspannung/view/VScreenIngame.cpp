@@ -1422,7 +1422,7 @@ void VScreenIngame::SabotageTabSwitchOn()
 			m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
 
 		if (m_CooldownHalfResource)
-			m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource"));
+			m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource"));
 	    else
 		m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
 		
