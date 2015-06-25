@@ -80,7 +80,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	wcex.cbWndExtra = 0;
 	wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);  /* Use Windows's default colour as the background of the window */
 
-
 	/* Register the window class, and if it fails quit the program */
 	if (!RegisterClassEx(&wcex))  {
 		MessageBox(NULL, _T("Call to RegisterClassEx failed!"), _T("VektoriaV9App"), NULL);
@@ -124,8 +123,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	VSoundLoader::stopSound();
 
+	// Init splash image
+	RECT clientRect;
+	GetClientRect(hWnd, &clientRect);
+	HBITMAP hStartupBmp = static_cast<HBITMAP>(LoadImage(hInstance, "textures\\HochspannungSplash.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE));
+	HDC hdcMem = CreateCompatibleDC(nullptr);
+	HBITMAP hBmpOld = static_cast<HBITMAP>(SelectObject(hdcMem, hStartupBmp));
+	PAINTSTRUCT ps;
+
 	// display the window on the screen
 	ShowWindow(hWnd, nCmdShow);
+
+	// Show own splash image
+	HDC hdcScreen = BeginPaint(hWnd, &ps);
+	StretchBlt(hdcScreen, 0, 0, clientRect.right, clientRect.bottom, hdcMem, 0, 0, 1920, 1200, SRCCOPY);
+	EndPaint(hWnd, &ps);
 
 	// Game Init
 	g_pgame = new CGame();
@@ -185,6 +197,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	}
 	catch (...)
 	{}
+
+	// Cleanup startup image
+	if (hdcMem) {
+		SelectObject(hdcMem, hBmpOld);
+		DeleteObject(hStartupBmp);
+		DeleteDC(hdcMem);
+	}
 
 	/* The program return-value is 0 - The value that PostQuitMessage() gave */
 	return ERROR_SUCCESS;
