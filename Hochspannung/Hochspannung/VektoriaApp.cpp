@@ -12,6 +12,7 @@
 #include "Vektoria\Splash.h"
 #include "Mmsystem.h"
 #include "wtypes.h"
+#include <QtWidgets/QApplication>
 
 #pragma comment(lib, "winmm.lib")
 #include "view/VSoundLoader.h"
@@ -70,6 +71,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	wcex.hCursor = nullptr;
 	SetCursor(static_cast<HCURSOR>(LoadImage(hInstance, "textures\\gui\\Cursor\\default_zeiger.cur", IMAGE_CURSOR, 0, 0, LR_LOADTRANSPARENT | LR_LOADFROMFILE)));
 	
+	char* appName[] = { "Hochspannung" };
+	int appNameSize = 1;
+	QApplication a(appNameSize, appName);
 
 	LPRECT rectangle=nullptr;
 	GetWindowRect(hWnd, rectangle);
@@ -147,6 +151,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			if (msg.message == WM_QUIT)
 			{
 				bQuit = TRUE;
+				exit(0);
 			}
 			else
 			{
@@ -180,13 +185,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_pgame->Fini();
 	try
 	{
+		//Vektoria objects can crash on delete...
 		delete g_pgame;
 	}
 	catch (...)
 	{}
 
+	return a.exec();
 	/* The program return-value is 0 - The value that PostQuitMessage() gave */
-	return ERROR_SUCCESS;
+	//return ERROR_SUCCESS;
 }
 
 

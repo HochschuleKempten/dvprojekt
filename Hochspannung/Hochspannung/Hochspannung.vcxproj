@@ -67,6 +67,7 @@
     <Import Project="..\WarningImprovements.props" />
     <Import Project="..\BoostSettings.props" />
     <Import Project="..\MulticoreBuild.props" />
+    <Import Project="..\QtSettingsd.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -83,6 +84,7 @@
     <Import Project="..\WarningImprovements.props" />
     <Import Project="..\BoostSettings.props" />
     <Import Project="..\MulticoreBuild.props" />
+    <Import Project="..\QtSettings.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />

@@ -4,23 +4,19 @@
 
 NAMESPACE_VIEW_B
 
-
 CScene* VSoundLoader::scene = nullptr;
 DEBUG_EXPRESSION(bool VSoundLoader::initDone = false);
 DEBUG_EXPRESSION(static const char* const assertMsg = "SoundLoader is not initialized");
 
 std::list<CAudio> VSoundLoader::sound3DLoop;
 std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> VSoundLoader::sound3DLoopData;
-std::unordered_map<VSoundLoader::SoundEffect, CAudio> VSoundLoader::soundeffects;
-std::unordered_map<VSoundLoader::SoundEffect, CPlacement*> VSoundLoader::soundeffectsLastPlacements;
+std::unordered_map<VSoundLoader::SoundEffect, QSoundEffect> VSoundLoader::soundeffects;
 std::unordered_map<LMessageLoader::MessageID, CAudio> VSoundLoader::radioMessages;
 
 void VSoundLoader::setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename)
 {
-	soundeffects[soundEffect].Init(&(std::string("sounds/") + filename + std::string(".wav"))[0]);
-	soundeffects[soundEffect].SetVolume(1.0f);
-	scene->AddAudio(&soundeffects[soundEffect]);
-	soundeffectsLastPlacements[soundEffect] = nullptr;
+	soundeffects[soundEffect].setSource(QUrl::fromLocalFile(QString::fromStdString(std::string("sounds/") + filename + ".wav")));
+	soundeffects[soundEffect].setVolume(1.0);
 }
 
 void VSoundLoader::setRadioMessageHelper(const LMessageLoader::MessageID soundEffect, const std::string& filename)
@@ -85,18 +81,9 @@ void VSoundLoader::play3DSoundLoop(const VIdentifier::VIdentifier building, CPla
 void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* placement)
 {
 	ASSERT(initDone, assertMsg);
+	ASSERT(soundeffects.count(soundEffect) > 0, "Requested sound effect is not available");
 
-	static SoundEffect previousSoundEffect = CASTS<SoundEffect>(-1);
-
-	//Sub previous soundeffect from scene
-	if (previousSoundEffect != -1)
-	{
-		scene->SubAudio(&soundeffects[previousSoundEffect]);
-	}
-
-	scene->AddAudio(&soundeffects[soundEffect]);
-	soundeffects[soundEffect].Start();
-	previousSoundEffect = soundEffect;
+	soundeffects[soundEffect].play();
 }
 
 void VSoundLoader::stopSound()
