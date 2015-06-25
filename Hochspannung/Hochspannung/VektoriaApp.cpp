@@ -14,6 +14,7 @@
 #include "wtypes.h"
 
 #pragma comment(lib, "winmm.lib")
+#include "view/VSoundLoader.h"
 
 //--------------------------------------------------------------------------------------
 // Global variables
@@ -120,6 +121,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	splash.Init(hWnd, hInstance);
 	splash.Show();
 
+	VSoundLoader::stopSound();
 
 	// display the window on the screen
 	ShowWindow(hWnd, nCmdShow);

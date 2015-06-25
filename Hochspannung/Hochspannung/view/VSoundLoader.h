@@ -39,7 +39,6 @@ private:
 private:
 	DEBUG_EXPRESSION(static bool initDone);
 	static CScene* scene;		//Background music needs to be added to scene
-	static CAudio backgroundMusicIngameStart;
 	static std::list<CAudio> sound3DLoop;
 	static std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> sound3DLoopData;	//pair = (path, radius)
 	static std::unordered_map<SoundEffect, CAudio> soundeffects;
@@ -49,8 +48,10 @@ private:
 public:
 	static void init(CScene* scene);
 	static void playBackgroundMusicIngame();
+	static void playBackgroundMusicMainMenu();
 	static void play3DSoundLoop(const VIdentifier::VIdentifier building, CPlacement* placement);
 	static void playSoundeffect(const SoundEffect soundEffect, CPlacement* placement);
+	static void stopSound();
 };
 
 

@@ -113,7 +113,6 @@ activeInfo(nullptr)
 
 
 	VSoundLoader::init(&m_scene);
-	VSoundLoader::playBackgroundMusicIngame();
 
 	// initialize statistics constants and string mappings for power plants
 	m_powerPlantsNameMapping[BUILDING_HYDROPOWERPLANT] = "countHydro";
@@ -505,6 +504,8 @@ void VScreenIngame::switchOn()
 	m_viewport->SwitchOn();
 	m_scene.SwitchOn();
 	m_isOn = true;
+
+	VSoundLoader::playBackgroundMusicIngame();
 }
 
 void VScreenIngame::switchOff()

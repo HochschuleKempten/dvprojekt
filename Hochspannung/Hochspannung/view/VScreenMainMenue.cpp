@@ -3,6 +3,7 @@
 #include "VUI.h"
 #include <future>
 #include "VMaster.h"
+#include "VSoundLoader.h"
 
 NAMESPACE_VIEW_B
 
@@ -39,6 +40,8 @@ VScreenMainMenue::VScreenMainMenue(VUI* vUi) : IViewScreen(vUi)
 	getContainer("Menue")->addButton(CFloatRect(0.33F, 0.42F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueHowTo, &VMaterialLoader::materialButtonMainMenueHowToHover, SWITCH_TO_OPTIONS, "buttonSwitchToOptions", 0.3F);
 	getContainer("Menue")->addButton(CFloatRect(0.33F, 0.57F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, SWITCH_TO_CREDITS, "buttonSwitchToCredits", 0.3F);
 	getContainer("Menue")->addButton(CFloatRect(0.33F, 0.72F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "buttonQuitGame", 0.3F);
+
+	VSoundLoader::playBackgroundMusicMainMenu();
 }
 
 

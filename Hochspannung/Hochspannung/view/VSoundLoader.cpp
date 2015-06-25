@@ -1,4 +1,6 @@
 #include "VSoundLoader.h"
+#include <windows.h>
+#include <mmsystem.h>
 
 NAMESPACE_VIEW_B
 
@@ -7,7 +9,6 @@ CScene* VSoundLoader::scene = nullptr;
 DEBUG_EXPRESSION(bool VSoundLoader::initDone = false);
 DEBUG_EXPRESSION(static const char* const assertMsg = "SoundLoader is not initialized");
 
-CAudio VSoundLoader::backgroundMusicIngameStart;
 std::list<CAudio> VSoundLoader::sound3DLoop;
 std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> VSoundLoader::sound3DLoopData;
 std::unordered_map<VSoundLoader::SoundEffect, CAudio> VSoundLoader::soundeffects;
@@ -33,10 +34,6 @@ void VSoundLoader::init(CScene* scene)
 {
 	VSoundLoader::scene = scene;
 
-	backgroundMusicIngameStart.Init("sounds/ambient-02-vip.wav");
-	backgroundMusicIngameStart.SetVolume(0.8f);
-	scene->AddAudio(&backgroundMusicIngameStart);
-	
 	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VTransformerStation), std::make_tuple("sounds/bruitelectrique.wav", 0.15f));
 	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VHydroelectricPowerPlant), std::make_tuple("sounds/WaterWheelLoop.wav", 0.2f));
 	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VWindmillPowerPlant), std::make_tuple("sounds/AirPowerPlantLoop.wav", 0.8f));
@@ -64,9 +61,12 @@ void VSoundLoader::init(CScene* scene)
 
 void VSoundLoader::playBackgroundMusicIngame()
 {
-	ASSERT(initDone, assertMsg);
+	PlaySound((LPCSTR) "sounds/ambient-02-vip.wav", NULL, SND_FILENAME | SND_ASYNC);
+}
 
-	backgroundMusicIngameStart.Loop();
+void VSoundLoader::playBackgroundMusicMainMenu()
+{
+	PlaySound((LPCSTR) "sounds/menu-02-loop.wav", NULL, SND_FILENAME | SND_ASYNC);
 }
 
 void VSoundLoader::play3DSoundLoop(const VIdentifier::VIdentifier building, CPlacement* placement)
@@ -99,5 +99,9 @@ void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* pl
 	previousSoundEffect = soundEffect;
 }
 
+void VSoundLoader::stopSound()
+{
+	PlaySound((LPCSTR) NULL, NULL, SND_FILENAME | SND_ASYNC);
+}
 
 NAMESPACE_VIEW_E
