@@ -35,7 +35,6 @@ private:
 	~VSoundLoader() = delete;
 
 	static void setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename);
-	static void setRadioMessageHelper(const LMessageLoader::MessageID soundEffect, const std::string& filename);
 
 private:
 	DEBUG_EXPRESSION(static bool initDone);
@@ -43,7 +42,6 @@ private:
 	static std::list<CAudio> sound3DLoop;
 	static std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> sound3DLoopData;	//pair = (path, radius)
 	static std::unordered_map<SoundEffect, QSoundEffect> soundeffects;
-	static std::unordered_map<LMessageLoader::MessageID, CAudio> radioMessages;
 
 public:
 	static void init(CScene* scene);

@@ -11,19 +11,11 @@ DEBUG_EXPRESSION(static const char* const assertMsg = "SoundLoader is not initia
 std::list<CAudio> VSoundLoader::sound3DLoop;
 std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> VSoundLoader::sound3DLoopData;
 std::unordered_map<VSoundLoader::SoundEffect, QSoundEffect> VSoundLoader::soundeffects;
-std::unordered_map<LMessageLoader::MessageID, CAudio> VSoundLoader::radioMessages;
 
 void VSoundLoader::setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename)
 {
 	soundeffects[soundEffect].setSource(QUrl::fromLocalFile(QString::fromStdString(std::string("sounds/") + filename + ".wav")));
-	soundeffects[soundEffect].setVolume(1.0);
-}
-
-void VSoundLoader::setRadioMessageHelper(const LMessageLoader::MessageID soundEffect, const std::string& filename)
-{
-	radioMessages[soundEffect].Init(&(std::string("sounds/radio/") + filename + std::string(".wav"))[0]);
-	radioMessages[soundEffect].SetVolume(1.0f);
-	scene->AddAudio(&radioMessages[soundEffect]);
+	soundeffects[soundEffect].setVolume(0.6);
 }
 
 void VSoundLoader::init(CScene* scene)
@@ -49,8 +41,6 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(ENERGY_LOW, "lowEnergy");
 	setSoundEffectHelper(GAME_OVER, "game_lose");
 	setSoundEffectHelper(GAME_WON, "game_win");
-
-	setRadioMessageHelper(LMessageLoader::SABOTAGE_EMITTED, "remainingSabotageActs");
 
 	DEBUG_EXPRESSION(initDone = true);
 }

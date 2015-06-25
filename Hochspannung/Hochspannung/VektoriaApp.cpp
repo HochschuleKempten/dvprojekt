@@ -152,6 +152,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			if (msg.message == WM_QUIT)
 			{
 				bQuit = TRUE;
+				try
+				{
+					//Vektoria objects can crash on delete...
+					delete g_pgame;
+				}
+				catch (...)
+				{
+				}
 				exit(0);
 			}
 			else
