@@ -125,7 +125,7 @@ private:
 	CPlacement m_zpCamera;
 
 
-	VRegister* vrRegister;
+	VRegister* vrRegister = nullptr;
 
 	//Lightning
 	CParallelLight m_zl;
@@ -133,15 +133,15 @@ private:
 	CPlacement m_zpSpot;
 	CHVector m_PointingSpot;
 
-	IViewGUIContainer* m_vtTopbar;
-	VTab* m_vtTabStatistics;
-	VTab* m_vtTabSabotage;
-	VTab* m_vtTabBuilding;
+	IViewGUIContainer* m_vtTopbar = nullptr;
+	VTab* m_vtTabStatistics = nullptr;
+	VTab* m_vtTabSabotage = nullptr;
+	VTab* m_vtTabBuilding = nullptr;
 
 
-	VGraph *m_vgGraphEnergy;
-	VGraphRatio *m_vgGraphEnergyRatioOwn;
-	VGraphRatio *m_vgGraphEnergyRatioEnemy;
+	VGraph *m_vgGraphEnergy = nullptr;
+	VGraphRatio *m_vgGraphEnergyRatioOwn = nullptr;
+	VGraphRatio *m_vgGraphEnergyRatioEnemy = nullptr;
 
 
 	//bool bK = false;
