@@ -171,6 +171,11 @@ activeInfo(nullptr)
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.81F, 0.25, 0.05F), &VMaterialLoader::materialIngameIconEnergy, "ResourceInfoIcon", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.91F, 0.25, 0.05F), &VMaterialLoader::materialIngameIconMoney, "SellPriceInfoIcon", 0.1F);
 
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->addText(CFloatRect(0.10F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::GoldFont, "1000", "CostInfo", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->addOverlay(CFloatRect(0.65F, 0.70F, 0.25, 0.08F), &VMaterialLoader::materialIngameIconMoney, "CostInfoIcon", 0.1F);
+	
+
+	
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("BuildingCraftInfo")->switchOff();
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->switchOff();
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->switchOff();
@@ -440,18 +445,21 @@ void VScreenIngame::onNotify(const Event& events)
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotagePowerlineCut");
 		selectedAction = IViewBuilding::sabotageRemove;
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->getGuiObject("CostInfo"))->updateText(std::to_string(LBalanceLoader::getSabotageCost(LSabotage::Remove)));
 		switchInfo(SABOTAGEINFO);
 		break;
 	case SELECT_SABOTAGE_STRIKE:
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotageStrike");
 		selectedAction = IViewBuilding::sabotageDeactivate;
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->getGuiObject("CostInfo"))->updateText(std::to_string(LBalanceLoader::getSabotageCost(LSabotage::Deactivate)));
 		switchInfo(SABOTAGEINFO);
 		break;
 	case SELECT_SABOTAGE_HALF:
 		vUi->switchCursor(vUi->CursorType::Sabotage);
 		setActiveButton("sabotageHalf");
 		selectedAction = IViewBuilding::sabotageResource;
+		CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->getGuiObject("CostInfo"))->updateText(std::to_string(LBalanceLoader::getSabotageCost(LSabotage::Resource)));
 		switchInfo(SABOTAGEINFO);
 		break;
 
@@ -459,19 +467,19 @@ void VScreenIngame::onNotify(const Event& events)
 		vUi->switchCursor(vUi->CursorType::PowerOn);
 		setActiveButton("sabotagePowerOn");
 		selectedAction = IViewBuilding::switchOn;
-		switchInfo(SABOTAGEINFO);
+		switchInfo(INFOTYPE::NOINFO);
 		break;
 	case SELECT_SABOTAGE_POWEROFF:
 		vUi->switchCursor(vUi->CursorType::PowerOff);
 		setActiveButton("sabotagePowerOff");
 		selectedAction = IViewBuilding::switchOff;
-		switchInfo(SABOTAGEINFO);
+		switchInfo(INFOTYPE::NOINFO);
 		break;
 	case SELECT_SABOTAGE_SELL:
 		vUi->switchCursor(vUi->CursorType::Sell);
 		setActiveButton("sabotageSell");
 		selectedAction = IViewBuilding::sell;
-		switchInfo(SABOTAGEINFO);
+		switchInfo(INFOTYPE::NOINFO);
 		break;
 
 	case INGAME_MENU_OPEN:
