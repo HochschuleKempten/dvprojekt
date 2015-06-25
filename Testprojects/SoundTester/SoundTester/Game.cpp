@@ -36,31 +36,15 @@ void CGame::Init(HWND hwnd, CSplash * psplash)
 	// Viewport an den Frame anhängen
 	m_frame.AddViewport(&m_viewport);
 	// Szene an Root anhängen
-	
+
 	//Sound tests
 	m_audio0.Init("sounds/CollectCoin.wav");
 	m_audio0.SetVolume(1);
-	//m_placeSound0.AddAudio(&m_audio0);
-	m_scene.SubAudio(&m_audio0);
+	m_placeSound0.AddAudio(&m_audio0);
+	//m_scene.AddAudio(&m_audio0);
+	m_scene.AddPlacement(&m_placeSound0);
 	m_audio0.Loop();
-	m_scene.AddAudio(&m_audio0);
-	
-	m_scene.SubAudio(&m_audio0);
-	m_scene.AddAudio(&m_audio0);
-	//m_scene.SubAudio(&m_audio0);
-	
-
-	//m_scene.AddPlacement(&m_placeSound0);
-	//m_audio0.Loop();
-	//m_audio0.Stop();
-	//m_audio0.SubChild();
-	//m_audio0.SwitchOff();
-	//m_audio0.SwitchOn();
-	//m_audio0.Loop();
-	//m_audio0.Init("sounds/CollectCoin.wav");
-	//m_audio0.SwitchOn();
-	//m_audio0.Start();
-	//m_audio0.Start();
+	m_audio0.Start();
 
 	//m_audio1.Init3D("res/Vektoria.wav", 1);
 	//m_audio1.SetVolume(1.0f);

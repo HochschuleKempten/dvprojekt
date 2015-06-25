@@ -72,9 +72,6 @@ private:
 	HCURSOR m_Sell_Cursor;
 
 	std::mutex mutex;
-
-	CScene* m_MainMenueMusic;
-	CAudio* m_mainMenuAudio;
 public:
 	explicit VUI(VMaster* vMaster);
 	virtual ~VUI() override;

@@ -8,7 +8,6 @@ DEBUG_EXPRESSION(bool VSoundLoader::initDone = false);
 DEBUG_EXPRESSION(static const char* const assertMsg = "SoundLoader is not initialized");
 
 CAudio VSoundLoader::backgroundMusicIngameStart;
-CAudio VSoundLoader::m_mainMenuSound;
 std::list<CAudio> VSoundLoader::sound3DLoop;
 std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> VSoundLoader::sound3DLoopData;
 std::unordered_map<VSoundLoader::SoundEffect, CAudio> VSoundLoader::soundeffects;
@@ -35,7 +34,7 @@ void VSoundLoader::init(CScene* scene)
 	VSoundLoader::scene = scene;
 
 	backgroundMusicIngameStart.Init("sounds/ambient-02-vip.wav");
-	backgroundMusicIngameStart.SetVolume(0.9f);
+	backgroundMusicIngameStart.SetVolume(0.8f);
 	scene->AddAudio(&backgroundMusicIngameStart);
 	
 	sound3DLoopData.emplace(std::piecewise_construct, std::make_tuple(VIdentifier::VTransformerStation), std::make_tuple("sounds/bruitelectrique.wav", 0.15f));
@@ -59,9 +58,6 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(GAME_WON, "game_win");
 
 	setRadioMessageHelper(LMessageLoader::SABOTAGE_EMITTED, "remainingSabotageActs");
-
-	m_mainMenuSound.Init("sounds/menu-02-loop.wav");
-	
 
 	DEBUG_EXPRESSION(initDone = true);
 }
@@ -103,21 +99,5 @@ void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* pl
 	previousSoundEffect = soundEffect;
 }
 
-void VSoundLoader::initMainMenueSound(CScene* TheScene)
-{
-//	TheScene->AddAudio(&m_mainMenuSound);
-	m_mainMenuSound.Loop();
-	
-}
-
-void VSoundLoader::playMainMenueSound(CScene* TheScene)
-{
-	TheScene->AddAudio(&m_mainMenuSound);
-}
-
-void VSoundLoader::stopMainMenueSound(CScene* TheScene)
-{
-	TheScene->SubAudio(&m_mainMenuSound);
-}
 
 NAMESPACE_VIEW_E
