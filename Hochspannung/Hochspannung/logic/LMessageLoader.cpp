@@ -47,6 +47,12 @@ void LMessageLoader::emitMessage(const MessageID messageId, const std::vector<st
 		case SABOTAGE_DEACTIVATE_OVER:
 			text = "Kraftwerk wieder aktiv!";
 			break;
+		case SABOTAGE_NOT_ACTIVATED:
+			text = "Sabotage kann nicht durchgefuehrt werden, da das Kraftwerk deaktiviert ist.";
+			break;
+		case SABOTAGE_ALREADY_SABOTAGED:
+			text = "Sabotage kann nicht durchgefuehrt werden, da das Kraftwerk bereits sabotiert ist.";
+			break;
 		case BUILD_NO_MONEY:
 			text = std::string("Kraftwerk ") + param[0] + std::string(" kann nicht gebaut werden, da nur ") +
 				   param[1] + std::string(" EUR zur Verfuegung stehen, es werden jedoch ") +

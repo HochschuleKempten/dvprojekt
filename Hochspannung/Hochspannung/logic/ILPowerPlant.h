@@ -231,6 +231,23 @@ public:
 
 		return true;
 	}
+
+	virtual bool sabotageRemove() override
+	{
+		if (isSabotaged)
+		{
+			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_ALREADY_SABOTAGED);
+			return false;
+		}
+
+		if (!isActivated)
+		{
+			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_NOT_ACTIVATED);
+			return false;
+		}
+
+		return ILBuilding::sabotageRemove();
+	}
 };
 
 
