@@ -1403,6 +1403,11 @@ void VScreenIngame::updateModelView()
 
 void VScreenIngame::SabotageTabSwitchOn()
 {
+	if (m_vtTabSabotage == nullptr)
+	{
+		return;
+	}
+
 	if (m_CooldownPowerLineCut)
 		m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
 	else
@@ -1433,6 +1438,7 @@ void VScreenIngame::SabotageTabSwitchOff()
 	{
 		return;
 	}
+
 	if (m_CooldownPowerLineCut)
 		m_viewport->SubOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
 	else

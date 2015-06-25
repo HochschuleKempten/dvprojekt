@@ -47,12 +47,12 @@ void VSoundLoader::init(CScene* scene)
 
 void VSoundLoader::playBackgroundMusicIngame()
 {
-	PlaySound((LPCSTR) "sounds/ambient-02-vip.wav", NULL, SND_FILENAME | SND_ASYNC);
+	PlaySound((LPCSTR) "sounds/ambient-02-vip.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
 void VSoundLoader::playBackgroundMusicMainMenu()
 {
-	PlaySound((LPCSTR) "sounds/menu-02-loop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	PlaySound((LPCSTR) "sounds/menu-02-loop.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
 void VSoundLoader::play3DSoundLoop(const VIdentifier::VIdentifier building, CPlacement* placement)
