@@ -31,6 +31,12 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 ############
+##  Qt   ###
+############
+This program uses Qt in Version 5.4.2 using the licence GNU Lesser General Public License (LGPL) version 3
+A copy of the licence can be found here: http://www.gnu.org/licenses/lgpl-3.0.html
+
+############
 ## Sounds ###
 ############
 

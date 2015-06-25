@@ -73,7 +73,10 @@ void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* pl
 	ASSERT(initDone, assertMsg);
 	ASSERT(soundeffects.count(soundEffect) > 0, "Requested sound effect is not available");
 
-	soundeffects[soundEffect].play();
+	if (!soundeffects[soundEffect].isPlaying())
+	{
+		soundeffects[soundEffect].play();
+	}
 }
 
 void VSoundLoader::stopSound()
