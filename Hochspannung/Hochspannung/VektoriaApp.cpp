@@ -78,7 +78,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	wcex.lpszMenuName = NULL;
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
-	wcex.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);  /* Use Windows's default colour as the background of the window */
+	wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);  /* Use Windows's default colour as the background of the window */
 
 
 	/* Register the window class, and if it fails quit the program */
@@ -120,6 +120,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CSplash splash;
 	splash.Init(hWnd, hInstance);
 	splash.Show();
+	splash.Hide();
 
 	VSoundLoader::stopSound();
 
