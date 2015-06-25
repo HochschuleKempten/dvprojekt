@@ -1477,16 +1477,19 @@ void VScreenIngame::updateFieldStorageValue(std::pair<int, int> pos, const std::
 		m_fieldValueStorage.at(pos).updateValue(name, wert);
 	}
 
-	//update context menu when building is still selected
-	if (pos == lastClickPosition)
+	if (selectedBuilding == VIdentifier::Undefined && selectedAction == IViewBuilding::Undefined)
 	{
-		if (m_fieldValueStorage.count(pos) > 0)
+		//update context menu when building is still selected
+		if (pos == lastClickPosition)
 		{
-			m_fieldValueStorage.at(pos).showContextInfo();
-		}
-		else
-		{
-			m_fieldValueStorage.emplace(std::piecewise_construct, std::make_tuple(pos), std::make_tuple(this));
+			if (m_fieldValueStorage.count(pos) > 0)
+			{
+				m_fieldValueStorage.at(pos).showContextInfo();
+			}
+			else
+			{
+				m_fieldValueStorage.emplace(std::piecewise_construct, std::make_tuple(pos), std::make_tuple(this));
+			}
 		}
 	}
 }
