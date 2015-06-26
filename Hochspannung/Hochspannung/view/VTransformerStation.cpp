@@ -21,7 +21,7 @@ void VTransformerStation::initTransformerStation(const std::shared_ptr<IVTransfo
 	
 	viewModel.getPlacementMain()->Scale(0.4f);
 	viewModel.getPlacementMain()->RotateXDelta(CASTS<float>(M_PI / 2.0f));
-	viewModel.getPlacementMain()->TranslateZDelta(-0.1);
+	viewModel.getPlacementMain()->TranslateZDelta(-0.1f);
 	
 
 	vMaster->getVPlayingField()->placeObject(std::dynamic_pointer_cast<IViewBuilding>(objPtr), x, y);
@@ -37,7 +37,9 @@ ILBuilding* VTransformerStation::getLBuilding()
 bool VTransformerStation::clicked(action /*action*/)
 {
 	ASSERT("Invalid action");
+#ifndef _DEBUG
 	return false;
+#endif
 }
 
 NAMESPACE_VIEW_E

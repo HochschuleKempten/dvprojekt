@@ -145,7 +145,9 @@ private:
 
 
 	//bool bK = false;
-	float mouseWheelPosition = 0.0F;
+	float cameraZoomPosition = 0.0f;
+	float cameraMovementPositionLeftRight = 0.0f;
+	float cameraMovementPositionBackForward= 0.0f;
 	int cameraAngle = 0;
 
 	VIdentifier::VIdentifier selectedBuilding = VIdentifier::Undefined;

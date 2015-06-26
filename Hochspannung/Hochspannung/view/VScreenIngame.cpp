@@ -787,30 +787,8 @@ void VScreenIngame::resize(const int /*width*/, const int /*height*/)
 
 void VScreenIngame::handleInput(const float fTimeDelta)
 {
+	//Models view
 	float direction = 1.0f;
-
-	//TODO (MBR) remove when we get the final models (This is used to place them in the right hight)
-	//float step = 0.05f;
-	//static float total = 0.0f;
-	//extern IViewModel *viemodelPointer;
-	////Model UP
-	//if (vUi->m_zkKeyboard.KeyPressed(DIK_T))
-	//{
-
-	//	viemodelPointer->getPlacementMain()->TranslateZDelta(step);
-	//	total += step;
-	//}
-
-	////Model Down
-	//if (vUi->m_zkKeyboard.KeyPressed(DIK_G))
-	//{
-
-	//	viemodelPointer->getPlacementMain()->TranslateZDelta(-step);
-	//	total -= step;		
-	//}
-
-	//DEBUG_OUTPUT("Total" << total);
-
 
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
 	{
@@ -825,72 +803,132 @@ void VScreenIngame::handleInput(const float fTimeDelta)
 		m_zpModels.TranslateZDelta(0.1f * direction);
 	}
 
-	float cameraStength = 20.0f * fTimeDelta;
+	const float cameraSlower_ctrl = 4.0f;
+	float cameraStrength = 20.0f * fTimeDelta;
+
+	//Normal movement
+	const float cameraMovementLeftRightMin = -40.0f;
+	const float cameraMovementLeftRightMax = 40.0f;
+	const float cameraMovementBackForwardMin = -5.0f;
+	const float cameraMovementBackForwardMax = 80.0f;
+	float cameraMovementLeftRight = 0.0f;
+	float cameraMovementBackForward = 0.0f;
+
 	//Left + Right:
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_A))
 	{
-		m_zpCamera.TranslateXDelta(-cameraStength);
+		cameraMovementLeftRight = -cameraStrength;
 	}
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_D))
+	else if (vUi->m_zkKeyboard.KeyPressed(DIK_D))
 	{
-		m_zpCamera.TranslateXDelta(cameraStength);
+		cameraMovementLeftRight = cameraStrength;
 	}
 
 	//Back + Forward
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_S))
 	{
-		m_zpCamera.TranslateYDelta(-cameraStength);
+		cameraMovementBackForward = -cameraStrength;
 	}
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_W))
+	else if (vUi->m_zkKeyboard.KeyPressed(DIK_W))
 	{
-		m_zpCamera.TranslateYDelta(cameraStength);
+		cameraMovementBackForward = cameraStrength;
 	}
+
+	//Slower movement on left ctrl
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
+	{
+		cameraMovementLeftRight /= cameraSlower_ctrl;
+		cameraMovementBackForward /= cameraSlower_ctrl;
+	}
+
+	//Check boundaries
+	if (cameraMovementLeftRight < 0 && cameraMovementPositionLeftRight + cameraMovementLeftRight < cameraMovementLeftRightMin)
+	{
+		cameraMovementLeftRight = cameraMovementLeftRightMin - cameraMovementPositionLeftRight;
+	}
+	else if (cameraMovementLeftRight > 0 && cameraMovementPositionLeftRight + cameraMovementLeftRight > cameraMovementLeftRightMax)
+	{
+		cameraMovementLeftRight = cameraMovementLeftRightMax - cameraMovementPositionLeftRight;
+	}
+
+	if (cameraMovementBackForward < 0 && cameraMovementPositionBackForward + cameraMovementBackForward < cameraMovementBackForwardMin)
+	{
+		cameraMovementBackForward = cameraMovementBackForwardMin - cameraMovementPositionBackForward;
+	}
+	else if (cameraMovementBackForward > 0 && cameraMovementPositionBackForward + cameraMovementBackForward > cameraMovementBackForwardMax)
+	{
+		cameraMovementBackForward = cameraMovementBackForwardMax - cameraMovementPositionBackForward;
+	}
+
+	//Apply movement
+	m_zpCamera.TranslateXDelta(cameraMovementLeftRight);
+	m_zpCamera.TranslateYDelta(cameraMovementBackForward);
+	cameraMovementPositionLeftRight += cameraMovementLeftRight;
+	cameraMovementPositionBackForward += cameraMovementBackForward;
 
 	//Zoom In + Out
-	const float mouseWheelPositionMin = -24.0f;
-	const float mouseWheelPositionMax = 10.0f;
-	float zoomFactor = 20.0f * fTimeDelta;
+	const float cameraZoomMin = -26.0f;
+	const float cameraZoomMax = 10.0f;
+	const float cameraZoomFactor = 2.0f;
+	float cameraZoom = 0.0f;
 
+	//Calculate the zoom value
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_UP))
 	{
-		if (mouseWheelPosition > mouseWheelPositionMin)
+		if (cameraZoomPosition > cameraZoomMin)
 		{
-			m_zpCamera.TranslateZDelta(-cameraStength * zoomFactor);
-			mouseWheelPosition += -cameraStength * zoomFactor;
+			cameraZoom = -cameraStrength * cameraZoomFactor;
 		}
 	}
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_DOWN))
+	else if (vUi->m_zkKeyboard.KeyPressed(DIK_DOWN))
 	{
-		if (mouseWheelPosition < mouseWheelPositionMax)
+		if (cameraZoomPosition < cameraZoomMax)
 		{
-			m_zpCamera.TranslateZDelta(cameraStength * zoomFactor);
-			mouseWheelPosition += cameraStength * zoomFactor;
+			cameraZoom = cameraStrength * cameraZoomFactor;
 		}
 	}
-
-	if (vUi->m_zkMouse.GetRelativeZ() != 0.0f)
+	else if (vUi->m_zkMouse.GetRelativeZ() != 0.0f)
 	{
 		if (vUi->m_zkMouse.GetRelativeZ() > 0.0f)
 		{
-			if (mouseWheelPosition > mouseWheelPositionMin)
+			if (cameraZoomPosition > cameraZoomMin)
 			{
-				m_zpCamera.TranslateZDelta(-cameraStength * zoomFactor);
-				mouseWheelPosition += -cameraStength * zoomFactor;
+				cameraZoom = -cameraStrength * cameraZoomFactor;
 			}
 		}
 		else
 		{
-			if (mouseWheelPosition < mouseWheelPositionMax)
+			if (cameraZoomPosition < cameraZoomMax)
 			{
-				m_zpCamera.TranslateZDelta(cameraStength * zoomFactor);
-				mouseWheelPosition += cameraStength * zoomFactor;
+				cameraZoom = cameraStrength * cameraZoomFactor;
 			}
 		}
 	}
 
-	const float flipStrength = 1.0f;
+	//Slower zoom on left ctrl
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
+	{
+		cameraZoom /= cameraSlower_ctrl * cameraSlower_ctrl;
+	}
+
+	//Check if scroll would pass the boundaries
+	if (cameraZoom > 0 && cameraZoomPosition + cameraZoom > cameraZoomMax)
+	{
+		cameraZoom = cameraZoomMax - cameraZoomPosition;	//e. g. cameraZoomPosition = 8; cameraZoomMax = 10; cameraZoom = 4 => 10 - 8 = 2
+	}
+	else if (cameraZoom < 0 && cameraZoomPosition + cameraZoom < cameraZoomMin)
+	{
+		cameraZoom = cameraZoomMin - cameraZoomPosition;	//e. g. cameraZoomPosition = -20; cameraZoomMin = -24 cameraZoom = -5 => -24 - -20 = -4
+	}
+
+	//Apply the camera zoom
+	m_zpCamera.TranslateZDelta(cameraZoom);
+	cameraZoomPosition += cameraZoom;
+
 
 	//Flip View
+	const float flipStrength = 1.0f;
+
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_E))
 	{
 		if (cameraAngle < 10)
