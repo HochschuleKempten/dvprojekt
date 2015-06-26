@@ -14,7 +14,7 @@ class CSmallOfficeBuilding : public CPlacement
 {
 public:
 	CSmallOfficeBuilding();
-	CSmallOfficeBuilding(float fResize);
+	explicit CSmallOfficeBuilding(float fResize);
 	~CSmallOfficeBuilding(void);
 
 	void InitWindows();

@@ -9,6 +9,7 @@
 #include "VRegister.h"
 #include "VGUIArea.h"
 #include "VListView.h"
+
 NAMESPACE_VIEW_B
 
 
@@ -57,12 +58,16 @@ public:
 
 	virtual void switchOn()
 	{
+		ASSERT(m_viewport != nullptr, "Viewport is not initialized");
+
 		m_viewport->SwitchOn();
 		m_isOn = true;
 	}
 
 	virtual void switchOff()
 	{
+		ASSERT(m_viewport != nullptr, "Viewport is not initialized");
+
 		m_viewport->SwitchOff();
 		m_isOn = false;
 	}
@@ -140,7 +145,7 @@ public:
 	}
 
 	virtual void checkShortcut(CDeviceKeyboard* keyboard) =0;
-	virtual void checkSpecialEvent(CDeviceCursor* cursor) = 0;
+	virtual void checkSpecialEvent() = 0;
 	virtual void tick(const float fTimeDelta) = 0;
 	virtual void resize(const int width, const int height) = 0;
 
@@ -167,9 +172,9 @@ protected:
 	std::unordered_map<std::string, IViewGUIContainer*> m_Guicontainer;
 
 	VUI* vUi;
-	CViewport* m_viewport;
+	CViewport* m_viewport = nullptr;
 	CCamera m_camera;
-	ScreenType m_screenType;
+	ScreenType m_screenType = CASTS<ScreenType>(-1);
 	COverlay* m_pCursorImage = nullptr;
 
 	bool m_isOn = false;

@@ -60,17 +60,6 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 
 	activeScreen = getScreen("MainMenue");
 	switchScreen("MainMenue");
-
-	m_MainMenueMusic = new CScene();
-	m_mainMenuAudio = new CAudio();
-	m_mainMenuAudio->Init("sounds/menu-02-loop.wav");
-	m_zr.AddScene(m_MainMenueMusic);
-	m_mainMenuAudio->SetVolume(0.9F);
-	m_MainMenueMusic->AddAudio(m_mainMenuAudio);
-	//((VSoundLoader::initMainMenueSound(m_MainMenueMusic);
-	//VSoundLoader::playMainMenueSound(m_MainMenueMusic);
-	
-	m_mainMenuAudio->Loop();
 }
 
 void VUI::onNotify(const Event& evente)
@@ -171,10 +160,7 @@ void VUI::switchScreen(const std::string& switchTo)
 	activeScreen = m_screens[switchTo];
 	activeScreen->switchOn();
 	activeScreen->StartEvent();
-	if (m_screens["Ingame"]->isOn())
-		m_mainMenuAudio->Stop();
-	
-		
+
 	m_screenChanged = true;
 }
 
@@ -315,7 +301,7 @@ void VUI::showMessage(const std::string& message)
 
 void VUI::removeMaterialFromRoot(CMaterial* material)
 {
-	bool erg = m_zr.SubMaterial(material);
+	m_zr.SubMaterial(material);
 }
 
 
@@ -324,27 +310,27 @@ void VUI::setSabotageNumber(const int value)
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->setSabotageNumber(value);
 }
 
-void VUI::contextMenuUpdateValue(const std::pair<int, int> pos, const int value)
+void VUI::contextMenuUpdateValue(const std::pair<int, int> & pos, const int value)
 {
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "SellPrice", std::to_string(value));
 }
 
-void VUI::contextMenuUpdateResourceValue(const std::pair<int, int> pos, const int resourceValue)
+void VUI::contextMenuUpdateResourceValue(const std::pair<int, int> & pos, const int resourceValue)
 {
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "Resource", std::to_string(resourceValue));
 }
 
-void VUI::contextMenuUpdatePopulation(const std::pair<int, int> pos, const int population)
+void VUI::contextMenuUpdatePopulation(const std::pair<int, int> & pos, const int population)
 {
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "Population", std::to_string(population));
 }
 
-void VUI::contextMenuUpdateEnergy(const std::pair<int, int> pos, const int energy)
+void VUI::contextMenuUpdateEnergy(const std::pair<int, int> & pos, const int energy)
 {
 	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateFieldStorageValue(pos, "Energy", std::to_string(energy));
 }
 
-void VUI::contextMenuUpdateEnergySurplus(const std::pair<int, int> pos, const int surplus)
+void VUI::contextMenuUpdateEnergySurplus(const std::pair<int, int> & pos, const int surplus)
 {
 }
 

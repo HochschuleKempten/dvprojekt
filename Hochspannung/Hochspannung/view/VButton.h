@@ -46,15 +46,15 @@ public:
 
 private:
 
-	COverlay* m_zoNormal;
-	COverlay* m_zoHover;
-	COverlay* m_zoActive;
+	COverlay* m_zoNormal = nullptr;
+	COverlay* m_zoHover = nullptr;
+	COverlay* m_zoActive = nullptr;
 
 	bool m_bHasHover;
 	bool m_isActive = false;
 	bool isActive();
 
-	IViewUIObserver::Event action;
+	IViewUIObserver::Event action = IViewUIObserver::Event::NOTHING;
 };
 
 NAMESPACE_VIEW_E

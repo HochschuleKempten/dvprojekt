@@ -22,8 +22,6 @@ VScreenMainMenue::VScreenMainMenue(VUI* vUi) : IViewScreen(vUi)
 	m_background = new CBackground();
 	m_headline = new COverlay();
 
-	//scene = new CScene();
-	//vUi->m_zr.AddScene(scene);
 	//m_flash->Init(&VMaterialLoader::materialAnimLoadingCircle, CFloatRect(0.2F, 0.2, 0.2F, 0.2 * 1.77F));
 
 	m_background->InitFull(&VMaterialLoader::materialMainMenueBackground);
@@ -43,8 +41,7 @@ VScreenMainMenue::VScreenMainMenue(VUI* vUi) : IViewScreen(vUi)
 	getContainer("Menue")->addButton(CFloatRect(0.33F, 0.57F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueCredits, &VMaterialLoader::materialButtonMainMenueCreditsHover, SWITCH_TO_CREDITS, "buttonSwitchToCredits", 0.3F);
 	getContainer("Menue")->addButton(CFloatRect(0.33F, 0.72F, 0.30F, 0.12F), &VMaterialLoader::materialButtonMainMenueSpielBeenden, &VMaterialLoader::materialButtonMainMenueSpielBeendenHover, QUIT_GAME, "buttonQuitGame", 0.3F);
 
-	//VSoundLoader::initMainMenueSound(scene);
-	
+	VSoundLoader::playBackgroundMusicMainMenu();
 }
 
 
@@ -76,7 +73,7 @@ void VScreenMainMenue::checkShortcut(CDeviceKeyboard* keyboard)
 	}
 }
 
-void VScreenMainMenue::checkSpecialEvent(CDeviceCursor* cursor)
+void VScreenMainMenue::checkSpecialEvent()
 {
 }
 
@@ -96,7 +93,7 @@ void VScreenMainMenue::tick(const float fTimeDelta)
 
 
 	checkShortcut(&vUi->m_zkKeyboard);
-	checkSpecialEvent(&vUi->m_zkCursor);
+	checkSpecialEvent();
 	tempGuiContainer = getGuiContainerMap();
 
 	//For all containers in the screen
@@ -218,25 +215,6 @@ void VScreenMainMenue::slideIn()
 		is_running = false;
 		return;
 	}
-}
-
-void VScreenMainMenue::switchOn()
-{
-	if (isOn())
-		return;
-	m_viewport->SwitchOn();
-	//scene->SwitchOn();
-	//VSoundLoader::playMainMenueSound(scene);
-	m_isOn = true;
-}
-
-void VScreenMainMenue::switchOff()
-{
-	if (!isOn()) return;
-	m_viewport->SwitchOff();
-	//VSoundLoader::stopMainMenueSound(scene);
-	//scene->SwitchOff();
-	m_isOn = false;
 }
 
 void VScreenMainMenue::StartEvent()

@@ -7,11 +7,10 @@ VText::VText()
 }
 
 VText::VText(CViewport* viewport, CFloatRect rect, CWritingFont* writingFont, const std::string& text, const float layer, const TextMode& textmode)
+	: m_text(text), m_textmode(textmode)
 {
-	m_textmode = textmode;
 	m_ObjectType = TEXT;
 	m_zfrRect = rect;
-	m_text = text;
 	m_writing = new CWriting();
 	m_writing->Init(m_zfrRect, m_text.length(), writingFont);
 

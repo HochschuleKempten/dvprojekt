@@ -93,7 +93,7 @@ void VListView::addContainer(const ContainerType& containerType, CFloatRect& flo
 }
 
 
-void VListView::setLayer(float layer)
+void VListView::setLayer(const float /*layer*/)
 {
 }
 

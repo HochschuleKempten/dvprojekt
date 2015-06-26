@@ -113,7 +113,6 @@ activeInfo(nullptr)
 
 
 	VSoundLoader::init(&m_scene);
-	VSoundLoader::playBackgroundMusicIngame();
 
 	// initialize statistics constants and string mappings for power plants
 	m_powerPlantsNameMapping[BUILDING_HYDROPOWERPLANT] = "countHydro";
@@ -505,6 +504,8 @@ void VScreenIngame::switchOn()
 	m_viewport->SwitchOn();
 	m_scene.SwitchOn();
 	m_isOn = true;
+
+	VSoundLoader::playBackgroundMusicIngame();
 }
 
 void VScreenIngame::switchOff()
@@ -537,7 +538,7 @@ void VScreenIngame::checkShortcut(CDeviceKeyboard* keyboard)
 	}
 }
 
-void VScreenIngame::checkSpecialEvent(CDeviceCursor* cursor)
+void VScreenIngame::checkSpecialEvent()
 {
 	if (vUi->m_zkCursor.ButtonPressedRight())
 	{
@@ -781,14 +782,13 @@ void VScreenIngame::checkGUIContainer(IViewGUIContainer* tempGuicontainer)
 	}
 }
 
-void VScreenIngame::resize(const int width, const int height)
+void VScreenIngame::resize(const int /*width*/, const int /*height*/)
 {
 	m_viewport->ReSize();
 }
 
 void VScreenIngame::handleInput(const float fTimeDelta)
 {
-	static bool keyPressed = false;
 	float direction = 1.0f;
 
 	//TODO (MBR) remove when we get the final models (This is used to place them in the right hight)
@@ -992,7 +992,7 @@ void VScreenIngame::tick(const float fTimeDelta)
 	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
 
 	checkShortcut(&vUi->m_zkKeyboard);
-	checkSpecialEvent(&vUi->m_zkCursor);
+	checkSpecialEvent();
 	tempGuiContainer = getGuiContainerMap();
 
 	//For all containers in the screen
@@ -1056,7 +1056,7 @@ std::unordered_map<std::string, IViewGUIObject*> VScreenIngame::getScreenObjects
 	for (std::pair<std::string, IViewGUIContainer*> container : m_Guicontainer)
 	{
 		std::unordered_map<std::string, IViewGUIObject*> tempMap = getObjects(container.second);
-		if (tempMap.size() != 0)
+		if (!tempMap.empty())
 			resultObjectList.insert(tempMap.begin(), tempMap.end());
 	}
 
@@ -1202,6 +1202,7 @@ void VScreenIngame::handleLeftClick(const std::map<int, std::vector<int>>& picke
 			int x = pickedElements.at(VIdentifier::VPlayingField)[0];
 			int y = pickedElements.at(VIdentifier::VPlayingField)[1];
 			bool operationSuccessful = false;
+			lastClickPosition = std::make_pair(x, y);
 
 			if (selectedBuilding == VIdentifier::Undefined && selectedAction == IViewBuilding::Undefined)
 			{
@@ -1474,6 +1475,19 @@ void VScreenIngame::updateFieldStorageValue(std::pair<int, int> pos, const std::
 	{
 		m_fieldValueStorage.emplace(std::piecewise_construct, std::make_tuple(pos), std::make_tuple(this));
 		m_fieldValueStorage.at(pos).updateValue(name, wert);
+	}
+
+	//update context menu when building is still selected
+	if (pos == lastClickPosition)
+	{
+		if (m_fieldValueStorage.count(pos) > 0)
+		{
+			m_fieldValueStorage.at(pos).showContextInfo();
+		}
+		else
+		{
+			m_fieldValueStorage.emplace(std::piecewise_construct, std::make_tuple(pos), std::make_tuple(this));
+		}
 	}
 }
 

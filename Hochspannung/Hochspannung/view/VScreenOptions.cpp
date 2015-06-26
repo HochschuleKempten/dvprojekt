@@ -51,7 +51,7 @@ void VScreenOptions::checkShortcut(CDeviceKeyboard* keyboard)
 	}
 }
 
-void VScreenOptions::checkSpecialEvent(CDeviceCursor* cursor)
+void VScreenOptions::checkSpecialEvent()
 {
 }
 
@@ -66,7 +66,7 @@ void VScreenOptions::tick(const float fTimeDelta)
 	std::unordered_map<std::string, IViewGUIContainer*> tempGuiContainer;
 
 	checkShortcut(&vUi->m_zkKeyboard);
-	checkSpecialEvent(&vUi->m_zkCursor);
+	checkSpecialEvent();
 	tempGuiContainer = getGuiContainerMap();
 
 	//For all containers in the screen

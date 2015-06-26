@@ -12,7 +12,7 @@ public:
 	~VScreenOptions();
 	void onNotify(const Event& events) override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
-	void checkSpecialEvent(CDeviceCursor* cursor) override;
+	void checkSpecialEvent() override;
 
 	void tick(const float fTimeDelta) override;
 	void checkGUIObjects(IViewGUIContainer* tempGuicontainer);

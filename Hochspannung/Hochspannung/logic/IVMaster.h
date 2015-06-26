@@ -25,7 +25,7 @@ protected:
 public:
 	inline virtual ~IVMaster()
 	{
-		ASSERT(observer.size() == 0, "Not every observer unregistered himself");
+		ASSERT(observer.empty(), "Not every observer unregistered himself");
 	}
 
 	inline void registerObserver(IVTickObserver* observer)

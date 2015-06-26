@@ -19,7 +19,7 @@ public:
 	void addContainer(const ContainerType& containerType, CFloatRect& floatRect, CMaterial* MaterialNormal, const std::basic_string<char>& sName, const float layer) override;
 
 
-	void setLayer(float layer) override;
+	void setLayer(const float layer) override;
 
 	void addEntry(const std::string& sName, const float layer);
 	void updateList(const std::unordered_map<std::string, Network::CGameObject>& hostList);

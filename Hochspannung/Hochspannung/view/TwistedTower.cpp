@@ -5,9 +5,6 @@ NAMESPACE_VIEW_B
 
 CTwistedTower::CTwistedTower(void)
 {
-
-	this->fResize = fResize;
-
 	//Window 
 	InitWindows();
 

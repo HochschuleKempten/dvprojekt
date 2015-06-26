@@ -45,7 +45,6 @@ private:
 	std::string m_sInputtext;
 	bool pressedBefore = false;
 	unsigned int m_iMaxChars;
-	bool hasPlaceholder;
 	std::string m_sPlaceholder;
 private:
 	void setActive(const bool wert);

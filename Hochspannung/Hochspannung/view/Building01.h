@@ -1,10 +1,9 @@
 #pragma once
 
-
 #include "VGeneral.h"
-#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
+
 
 class Building01 : public CPlacement
 {
@@ -45,8 +44,8 @@ private:
 public:
 
 	Building01();
-	Building01(float fResize);
-	~Building01();
+	explicit Building01(float fResize);
+	virtual ~Building01();
 	void InitWindows();
 	void AddWindows();
 	void InitWalls();
@@ -56,8 +55,6 @@ public:
 
 		
 };
-
-
 
 
 NAMESPACE_VIEW_E

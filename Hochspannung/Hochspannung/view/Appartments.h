@@ -10,7 +10,7 @@ class CAppartments : public CPlacement, public IViewModel
 {
 public:
 	CAppartments();
-	CAppartments(float fResize);
+	explicit CAppartments(float fResize);
 	~CAppartments(void);
 	virtual void init() override;
 

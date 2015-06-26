@@ -51,7 +51,7 @@ public:
 	void switchOn() override;
 	void switchOff() override;
 	void checkShortcut(CDeviceKeyboard* keyboard) override;
-	void checkSpecialEvent(CDeviceCursor* cursor) override;
+	void checkSpecialEvent() override;
 
 	//Schnittstellenmethoden
 	void updateMoney(const int wert, const LPlayer::PlayerId playerId);
@@ -150,6 +150,7 @@ private:
 
 	VIdentifier::VIdentifier selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
+	std::pair<int, int> lastClickPosition = std::make_pair(0, 0);
 
 	std::map<BUILDINGTYPE, int> statPlacedBuildingsOwn;
 	std::map<BUILDINGTYPE, int> statPlacedBuildingsEnemy;

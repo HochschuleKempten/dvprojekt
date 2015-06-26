@@ -1,6 +1,9 @@
 #include "Building01.h"
+#include "VMaterialLoader.h"
 
 NAMESPACE_VIEW_B
+
+
 Building01::Building01()
 {
 	
@@ -89,5 +92,6 @@ void Building01::scaleforLoDs(){
 	m_zpbuilding01.Scale(fresize);
 
 }
+
 
 NAMESPACE_VIEW_E

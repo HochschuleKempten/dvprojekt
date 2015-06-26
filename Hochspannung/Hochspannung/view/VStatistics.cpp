@@ -52,8 +52,6 @@ void VStatistics::slideOut()
 
 void HighVoltage::VStatistics::addText(const std::string& text)
 {
-	std::vector<std::string> lines;
-
 	float fTextHeight = m_zfrRect.GetYSize() * 0.05F;
 	float fXPos = m_zfrRect.GetXPos() + m_zfrRect.GetXSize () * 0.05F;
 
@@ -70,7 +68,7 @@ void HighVoltage::VStatistics::addText(const std::string& text)
 	m_hasText = true;
 }
 
-void VStatistics::setLayer(float layer)
+void VStatistics::setLayer(const float layer)
 {
 	if (m_hasBackground)
 		m_background->SetLayer(layer);

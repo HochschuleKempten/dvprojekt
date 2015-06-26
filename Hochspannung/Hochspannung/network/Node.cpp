@@ -16,7 +16,7 @@ m_connectionTimer(m_ioService), m_iLatestLatency(-1) {
 	m_thread = boost::thread([this]() {
 		try {
 			m_ioService.run();
-		} catch (boost::system::system_error error) {
+		} catch (const boost::system::system_error& error) {
 			std::cout << "Unexpected Exception occurred while running io_service: " << error.what() << std::endl;
 		}
 	});

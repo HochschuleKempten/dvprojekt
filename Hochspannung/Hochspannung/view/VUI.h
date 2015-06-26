@@ -72,9 +72,6 @@ private:
 	HCURSOR m_Sell_Cursor;
 
 	std::mutex mutex;
-
-	CScene* m_MainMenueMusic;
-	CAudio* m_mainMenuAudio;
 public:
 	explicit VUI(VMaster* vMaster);
 	virtual ~VUI() override;
@@ -105,11 +102,13 @@ public:
 	void setSabotageNumber(const int value);
 	
 	//Sell value
-	void contextMenuUpdateValue(const std::pair<int, int> pos, const int value);
-	void contextMenuUpdateResourceValue(const std::pair<int, int> pos, const int resourceValue);
-	void contextMenuUpdatePopulation(const std::pair<int, int> pos, const int population);
-	void contextMenuUpdateEnergy(const std::pair<int, int> pos, const int energy);
-	void contextMenuUpdateEnergySurplus(const std::pair<int, int> pos, const int surplus);
+
+	void contextMenuUpdateValue(const std::pair<int, int> & pos, const int value);
+	void contextMenuUpdateResourceValue(const std::pair<int, int> & pos, const int resourceValue);
+	void contextMenuUpdatePopulation(const std::pair<int, int> & pos, const int population);
+	void contextMenuUpdateEnergy(const std::pair<int, int> & pos, const int energy);
+	void contextMenuUpdateEnergySurplus(const std::pair<int, int> & pos, const int surplus);
+
 	void gameOver(bool win);
 };
 
