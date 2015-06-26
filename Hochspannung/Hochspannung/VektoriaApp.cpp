@@ -220,7 +220,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		DeleteDC(hdcMem);
 	}
 
-
 	return a.exec();
 
 	/* The program return-value is 0 - The value that PostQuitMessage() gave */
