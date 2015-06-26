@@ -36,7 +36,7 @@ private:
 
 	VText* escapeText;
 
-
+	bool firststart = true;
 
 	//Credits
 	COverlay* materialCredits;

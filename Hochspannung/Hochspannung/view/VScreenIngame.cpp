@@ -216,14 +216,14 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	m_vtTabSabotage->addOverlay(CFloatRect(0.025F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageCutPowerline, "CooldownSabotagePowerLineCut", 0.1F);
 	m_vtTabSabotage->addOverlay(CFloatRect(0.275F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageStrike, "CooldownSabotageStrike", 0.1F);
-	m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageHalfResource, "CooldownSabotageHalfRessource", 0.1F);
+	m_vtTabSabotage->addOverlay(CFloatRect(0.525F, 0.075F, 0.2F, 0.4F), &VMaterialLoader::materialAnimSabotageHalfResource, "CooldownSabotageHalfResource", 0.1F);
 
 	m_vtTabSabotage->addText(CFloatRect(0.775F, 0.075F, 0.2F, 0.2F), &VMaterialLoader::errorFont, "Sabotage verbleibend", "HeaderSabNum", 0.1F, VText::TextMode::CENTERED);
 	m_vtTabSabotage->addText(CFloatRect(0.775F, 0.4F, 0.2F, 0.3F), &VMaterialLoader::errorFont, std::to_string(LBalanceLoader::getSabotageActs()), "SabotageNumLeft", 0.1F, VText::TextMode::CENTERED);
 
 	m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
 	m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
-	m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource")->SwitchOff();
+	m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOff();
 	m_vtTabSabotage->getGuiObject("HeaderSabNum")->switchOff();
 	m_vtTabSabotage->getGuiObject("SabotageNumLeft")->switchOff();
 
@@ -1138,10 +1138,10 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 				{
 					m_CooldownHalfResource = true;
 					m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
-					m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource")->SwitchOn();
+					m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOn();
 					VMaterialLoader::materialAnimSabotageHalfResource.SetAni(60, 2, 120.0f / LBalanceLoader::getSabotageCooldown(LSabotage::Resource));
 					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Resource)));
-					m_vtTabSabotage->getOverlay("CooldownSabotageHalfRessource")->SwitchOff();
+					m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOff();
 					VMaterialLoader::materialAnimSabotageHalfResource.SetAni(60, 2, 0);
 					m_CooldownHalfResource = false;
 
@@ -1412,7 +1412,6 @@ void VScreenIngame::SabotageTabSwitchOn()
 		m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
 	else
 		m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOn();
-
 
 	if (m_CooldownStrike)
 		m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageStrike"));
