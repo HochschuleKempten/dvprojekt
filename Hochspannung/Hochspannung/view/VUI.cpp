@@ -37,7 +37,11 @@ void VUI::initUI(HWND hwnd, CSplash* psplash)
 
 
 	m_zr.Init(psplash);
+#ifdef _DEBUG
 	m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50_Basic, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
+#else
+	m_zf.Init(hwnd, eApiRender_DirectX11_Shadermodel50, eApiInput_DirectInput, eApiSound_DirectSound, eShaderCreation_ForceCompile, eShaderAutoRecompilation_Disabled);
+#endif
 	m_zr.AddFrameHere(&m_zf);
 
 	m_zf.AddDeviceKeyboard(&m_zkKeyboard);
