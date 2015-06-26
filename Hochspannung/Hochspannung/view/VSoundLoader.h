@@ -3,6 +3,7 @@
 #include "VGeneral.h"
 #include "VIdentifier.h"
 #include "../logic/LMessageLoader.h"
+#include <QtMultimedia/QSoundEffect>
 
 NAMESPACE_VIEW_B
 
@@ -34,16 +35,13 @@ private:
 	~VSoundLoader() = delete;
 
 	static void setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename);
-	static void setRadioMessageHelper(const LMessageLoader::MessageID soundEffect, const std::string& filename);
 
 private:
 	DEBUG_EXPRESSION(static bool initDone);
 	static CScene* scene;		//Background music needs to be added to scene
 	static std::list<CAudio> sound3DLoop;
 	static std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> sound3DLoopData;	//pair = (path, radius)
-	static std::unordered_map<SoundEffect, CAudio> soundeffects;
-	static std::unordered_map<SoundEffect, CPlacement*> soundeffectsLastPlacements;
-	static std::unordered_map<LMessageLoader::MessageID, CAudio> radioMessages;
+	static std::unordered_map<SoundEffect, QSoundEffect> soundeffects;
 
 public:
 	static void init(CScene* scene);

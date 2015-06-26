@@ -252,8 +252,7 @@ bool LPlayer::sabotageRemove(ILBuilding* lBuilding)
 {
 	if (trySabotageAct(LSabotage::Remove))
 	{
-		lBuilding->sabotageRemove();
-		return true;
+		return lBuilding->sabotageRemove();
 	}
 
 	return false;

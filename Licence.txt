@@ -31,6 +31,12 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 ############
+##  Qt   ###
+############
+This program uses Qt in Version 5.4.2 using the licence GNU Lesser General Public License (LGPL) version 3
+A copy of the licence can be found here: http://www.gnu.org/licenses/lgpl-3.0.html
+
+############
 ## Sounds ###
 ############
 
@@ -87,7 +93,11 @@ Lizenz: http://www.bildburg.de/nutzungsbestimmungen.html#5396109a39106ff05
 //This game uses textures from http://www.cgtextures.com/
 //WoodFine0007 (Texture: #14285) 
 http://www.cgtextures.com/texview.php?id=14285&PHPSESSID=geofmg15f3mandreqljhke61k3
-//Stripes0034 (Texture: #10043) http://www.cgtextures.com/texview.php?id=10043&PHPSESSID=geofmg15f3mandreqljhke61k3 	//BronzeCopper0049 (Texture: #70569) 								http://www.cgtextures.com/texview.php?id=70569&PHPSESSID=geofmg15f3mandreqljhke61k3	//Gravel0177 (Texture: #77829) 									http://www.cgtextures.com/texview.php?id=77829&PHPSESSID=geofmg15f3mandreqljhke61k3	//ConcreteBare0348 (Texture: #64762) 								http://www.cgtextures.com/texview.php?id=64762&PHPSESSID=geofmg15f3mandreqljhke61k3	//Lizenz: http://www.cgtextures.com/content.php?action=license
+//Stripes0034 (Texture: #10043) http://www.cgtextures.com/texview.php?id=10043&PHPSESSID=geofmg15f3mandreqljhke61k3
+//BronzeCopper0049 (Texture: #70569) http://www.cgtextures.com/texview.php?id=70569&PHPSESSID=geofmg15f3mandreqljhke61k3
+//Gravel0177 (Texture: #77829) http://www.cgtextures.com/texview.php?id=77829&PHPSESSID=geofmg15f3mandreqljhke61k3
+//ConcreteBare0348 (Texture: #64762) http://www.cgtextures.com/texview.php?id=64762&PHPSESSID=geofmg15f3mandreqljhke61k3
+//Lizenz: http://www.cgtextures.com/content.php?action=license
 
 
 //This game uses textures from http://texturelib.com/

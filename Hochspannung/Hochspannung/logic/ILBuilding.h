@@ -105,7 +105,7 @@ public:
 		return lField;
 	}
 
-	void sabotageRemove();
+	virtual bool sabotageRemove();
 
 	virtual bool checkSell() const = 0;
 		

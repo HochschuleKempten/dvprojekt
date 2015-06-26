@@ -4,30 +4,18 @@
 
 NAMESPACE_VIEW_B
 
-
 CScene* VSoundLoader::scene = nullptr;
 DEBUG_EXPRESSION(bool VSoundLoader::initDone = false);
 DEBUG_EXPRESSION(static const char* const assertMsg = "SoundLoader is not initialized");
 
 std::list<CAudio> VSoundLoader::sound3DLoop;
 std::unordered_map<VIdentifier::VIdentifier, std::pair<std::string, float>> VSoundLoader::sound3DLoopData;
-std::unordered_map<VSoundLoader::SoundEffect, CAudio> VSoundLoader::soundeffects;
-std::unordered_map<VSoundLoader::SoundEffect, CPlacement*> VSoundLoader::soundeffectsLastPlacements;
-std::unordered_map<LMessageLoader::MessageID, CAudio> VSoundLoader::radioMessages;
+std::unordered_map<VSoundLoader::SoundEffect, QSoundEffect> VSoundLoader::soundeffects;
 
 void VSoundLoader::setSoundEffectHelper(const SoundEffect soundEffect, const std::string& filename)
 {
-	soundeffects[soundEffect].Init(&(std::string("sounds/") + filename + std::string(".wav"))[0]);
-	soundeffects[soundEffect].SetVolume(1.0f);
-	scene->AddAudio(&soundeffects[soundEffect]);
-	soundeffectsLastPlacements[soundEffect] = nullptr;
-}
-
-void VSoundLoader::setRadioMessageHelper(const LMessageLoader::MessageID soundEffect, const std::string& filename)
-{
-	radioMessages[soundEffect].Init(&(std::string("sounds/radio/") + filename + std::string(".wav"))[0]);
-	radioMessages[soundEffect].SetVolume(1.0f);
-	scene->AddAudio(&radioMessages[soundEffect]);
+	soundeffects[soundEffect].setSource(QUrl::fromLocalFile(QString::fromStdString(std::string("sounds/") + filename + ".wav")));
+	soundeffects[soundEffect].setVolume(0.6);
 }
 
 void VSoundLoader::init(CScene* scene)
@@ -54,19 +42,17 @@ void VSoundLoader::init(CScene* scene)
 	setSoundEffectHelper(GAME_OVER, "game_lose");
 	setSoundEffectHelper(GAME_WON, "game_win");
 
-	setRadioMessageHelper(LMessageLoader::SABOTAGE_EMITTED, "remainingSabotageActs");
-
 	DEBUG_EXPRESSION(initDone = true);
 }
 
 void VSoundLoader::playBackgroundMusicIngame()
 {
-	PlaySound((LPCSTR) "sounds/ambient-02-vip.wav", NULL, SND_FILENAME | SND_ASYNC);
+	PlaySound((LPCSTR) "sounds/ambient-02-vip.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
 void VSoundLoader::playBackgroundMusicMainMenu()
 {
-	PlaySound((LPCSTR) "sounds/menu-02-loop.wav", NULL, SND_FILENAME | SND_ASYNC);
+	PlaySound((LPCSTR) "sounds/menu-02-loop.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 }
 
 void VSoundLoader::play3DSoundLoop(const VIdentifier::VIdentifier building, CPlacement* placement)
@@ -85,18 +71,12 @@ void VSoundLoader::play3DSoundLoop(const VIdentifier::VIdentifier building, CPla
 void VSoundLoader::playSoundeffect(const SoundEffect soundEffect, CPlacement* placement)
 {
 	ASSERT(initDone, assertMsg);
+	ASSERT(soundeffects.count(soundEffect) > 0, "Requested sound effect is not available");
 
-	static SoundEffect previousSoundEffect = CASTS<SoundEffect>(-1);
-
-	//Sub previous soundeffect from scene
-	if (previousSoundEffect != -1)
+	if (!soundeffects[soundEffect].isPlaying())
 	{
-		scene->SubAudio(&soundeffects[previousSoundEffect]);
+		soundeffects[soundEffect].play();
 	}
-
-	scene->AddAudio(&soundeffects[soundEffect]);
-	soundeffects[soundEffect].Start();
-	previousSoundEffect = soundEffect;
 }
 
 void VSoundLoader::stopSound()

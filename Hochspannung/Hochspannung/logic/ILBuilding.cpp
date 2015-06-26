@@ -3,7 +3,7 @@
 #include "LPlayingField.h"
 
 
-void HighVoltage::ILBuilding::sabotageRemove()
+bool HighVoltage::ILBuilding::sabotageRemove()
 {
 	if (!lField->getLPlayingField()->isLocalOperation())
 	{
@@ -14,4 +14,6 @@ void HighVoltage::ILBuilding::sabotageRemove()
 	{
 		LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DESTROY);
 	}
+
+	return true;
 }
