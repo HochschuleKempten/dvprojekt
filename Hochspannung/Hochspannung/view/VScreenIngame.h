@@ -148,7 +148,7 @@ private:
 	float cameraZoomPosition = 0.0f;
 	float cameraMovementPositionLeftRight = 0.0f;
 	float cameraMovementPositionBackForward= 0.0f;
-	int cameraAngle = 0;
+	float cameraFlipPosition = 0;
 
 	VIdentifier::VIdentifier selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;

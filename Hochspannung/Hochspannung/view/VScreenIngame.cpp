@@ -925,47 +925,72 @@ void VScreenIngame::handleInput(const float fTimeDelta)
 	m_zpCamera.TranslateZDelta(cameraZoom);
 	cameraZoomPosition += cameraZoom;
 
-
 	//Flip View
-	const float flipStrength = 1.0f;
+	const float cameraFlipAngleMax = 1.0f;
+	const float cameraFlipAngleMin = -1.0f;
+	const float cameraFlipFactor = 0.1f;
+	float cameraFlip = 0.0f;
 
 	if (vUi->m_zkKeyboard.KeyPressed(DIK_E))
 	{
-		if (cameraAngle < 10)
+		if (cameraFlipPosition < cameraFlipAngleMax)
 		{
-			m_zpCamera.RotateZDelta(flipStrength / 20.0f);
-			cameraAngle += (int) flipStrength;
+			cameraFlip = cameraStrength * cameraFlipFactor;
 		}
 	}
-
-	if (vUi->m_zkKeyboard.KeyPressed(DIK_Q))
+	else if (vUi->m_zkKeyboard.KeyPressed(DIK_Q))
 	{
-		if (cameraAngle > -10)
+		if (cameraFlipPosition > cameraFlipAngleMin)
 		{
-			m_zpCamera.RotateZDelta(-flipStrength / 20.0f);
-			cameraAngle -= (int) flipStrength;
+			cameraFlip = -cameraStrength * cameraFlipFactor;
 		}
 	}
-
-	//Return to Default View 
-	if (!vUi->m_zkKeyboard.KeyPressed(DIK_Q) && !vUi->m_zkKeyboard.KeyPressed(DIK_E))
+	else
 	{
-		if (cameraAngle != 0)
+		//Move back
+		if (cameraFlipPosition < 0)
 		{
-			if (cameraAngle < 0)
-			{
-				m_zpCamera.RotateZDelta(flipStrength / 20.0f);
-				cameraAngle += (int)flipStrength;
-			}
+			cameraFlip = cameraStrength * cameraFlipFactor;
 
-
-			if (cameraAngle > 0)
+			if (cameraFlipPosition + cameraFlip > 0)
 			{
-				m_zpCamera.RotateZDelta(-flipStrength / 20.0f);
-				cameraAngle -= (int) flipStrength;
+				cameraFlip = -cameraFlipPosition;
 			}
 		}
+		else if (cameraFlipPosition > 0)
+		{
+			cameraFlip = -cameraStrength * cameraFlipFactor;
+
+			if (cameraFlipPosition + cameraFlip < 0)
+			{
+				cameraFlip = -cameraFlipPosition;
+			}
+		}
 	}
+
+	//Slower flip on left ctrl
+	if (vUi->m_zkKeyboard.KeyPressed(DIK_LCONTROL))
+	{
+		cameraFlip /= cameraSlower_ctrl * cameraSlower_ctrl;
+	}
+
+	//Check if flip would pass the boundaries
+	if (cameraFlip > 0 && cameraFlipPosition + cameraFlip > cameraFlipAngleMax)
+	{
+		cameraFlip = cameraFlipAngleMax - cameraFlipPosition;
+	}
+	else if (cameraFlip < 0 && cameraFlipPosition + cameraFlip < cameraFlipAngleMin)
+	{
+		cameraFlip = cameraFlipAngleMin - cameraFlipPosition;
+	}
+
+	//Apply the flip
+	m_zpCamera.TranslateXDelta(-cameraMovementPositionLeftRight);
+	m_zpCamera.TranslateYDelta(-cameraMovementPositionBackForward);
+	m_zpCamera.RotateZDelta(cameraFlip);
+	m_zpCamera.TranslateYDelta(cameraMovementPositionBackForward);
+	m_zpCamera.TranslateXDelta(cameraMovementPositionLeftRight);
+	cameraFlipPosition += cameraFlip;
 
 	CFloatRect topSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getTopSpace();
 	CFloatRect bottomSpace = CASTD<VScreenIngame*>(vUi->m_screens["Ingame"])->getBottomSpace();

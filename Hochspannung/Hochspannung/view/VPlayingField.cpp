@@ -101,23 +101,10 @@ void VPlayingField::buildPlayingField()
 		}
 	}
 
-	//for (int rowIdx = 0; rowIdx < lPlayingField->getFieldLength(); rowIdx++) {
-	//	for (int colIdx = 0; colIdx < lPlayingField->getFieldLength(); colIdx++) {
-	//		vFields[rowIdx][colIdx].initField(rowIdx, colIdx);
-	//		m_zp.AddPlacement(&vFields[rowIdx][colIdx].m_zp);
-	//		//m_zpPlacementHolders[holder].AddPlacement(&vFields[rowIdx][colIdx].m_zp);
-	//		//m_zpPlacementHolders[holder].Fasten();
-	//		//m_zpPlacementHolders[holder].SetFrustumCullingOn();
-	//	}
-	//}
-
 	const float rows = CASTS<float>(vFields.getRows());
-	//TODO (V) set default pos
 
 	m_zp.TranslateDelta(CASTS<float>(-fieldSize * rows), CASTS<float>(fieldSize * (rows+3)), CASTS<float>(fieldSize * rows * 0.5));
 
-
-	 
 #ifdef _DEBUG
 	for (int rowIdx = 0; rowIdx < lPlayingField->getFieldLength(); rowIdx++) {
 		for (int colIdx = 0; colIdx < lPlayingField->getFieldLength(); colIdx++) {
