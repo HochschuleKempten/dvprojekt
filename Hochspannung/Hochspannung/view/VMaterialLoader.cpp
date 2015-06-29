@@ -139,6 +139,7 @@ CMaterial VMaterialLoader::materialLeaffossileEnemy;
 CMaterial VMaterialLoader::materialIngameIconPopulation;
 CMaterial VMaterialLoader::materialIngameIconMoney;
 CMaterial VMaterialLoader::materialIngameIconEnergy;
+CMaterial VMaterialLoader::materialIngameIconResource;
 
 //WritingFont
 CWritingFont VMaterialLoader::standardFont;
@@ -561,6 +562,7 @@ void VMaterialLoader::init()
 	materialIngameIconPopulation.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Population.png");
 	materialIngameIconMoney.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Money.png");
 	materialIngameIconEnergy.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Energy.png");
+	materialIngameIconResource.MakeTextureSprite("textures/gui/interface/texture_gui_ingame_Icon_Resource.png");
 
 	materialIngameIconPopulation.SetTransparencyOn();
 	materialIngameIconMoney.SetTransparencyOn();

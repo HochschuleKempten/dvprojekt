@@ -139,6 +139,7 @@ public:
 	static CMaterial materialIngameIconPopulation;
 	static CMaterial materialIngameIconMoney;
 	static CMaterial materialIngameIconEnergy;
+	static CMaterial materialIngameIconResource;
 	
 
 	//Buttons

@@ -167,7 +167,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.61F, 0.25, 0.05F), &VMaterialLoader::materialIngameIconPopulation, "PopulationInfoIcon", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.71F, 0.25, 0.05F), &VMaterialLoader::materialIngameIconEnergy, "EnergyInfoIcon", 0.1F);
-	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.81F, 0.25, 0.05F), &VMaterialLoader::materialIngameIconEnergy, "ResourceInfoIcon", 0.1F);
+	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.81F, 0.25, 0.05F), &VMaterialLoader::materialIngameIconResource, "ResourceInfoIcon", 0.1F);
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->addOverlay(CFloatRect(0.65F, 0.91F, 0.25, 0.05F), &VMaterialLoader::materialIngameIconMoney, "SellPriceInfoIcon", 0.1F);
 
 	getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->addText(CFloatRect(0.10F, 0.70F, 0.5F, 0.08F), &VMaterialLoader::GoldFont, "1000", "CostInfo", 0.1F);
