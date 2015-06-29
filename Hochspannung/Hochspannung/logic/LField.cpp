@@ -104,9 +104,9 @@ int LField::reduceResources(const int amount)
 	if (resourceLeft - amount <= 0)
 	{
 		//Can't reduce all, reduce what is possible
+		int amountReduced = resourceLeft - amount;
 		resourceLeft = 0;
-
-		return resourceLeft - amount;
+		return amountReduced;
 	}
 	
 	//Enough resources left on the field to reduce the desired amount

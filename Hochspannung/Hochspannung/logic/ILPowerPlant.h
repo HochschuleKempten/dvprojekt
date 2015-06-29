@@ -207,9 +207,8 @@ public:
 		const int amountReduced = lField->reduceResources(consumedResources);
 		vPowerPlant->updateResourceValue(lField->getResources());
 
-		if (amountReduced <= 0)
+		if (amountReduced < 0)
 		{
-			//No resources left
 			return 0;
 		}
 
