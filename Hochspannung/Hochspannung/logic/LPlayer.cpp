@@ -135,6 +135,10 @@ void LPlayer::addPowerPlant(ILPowerPlant* powerPlant)
 	{
 		LRemoteOperation remoteOperation(lMaster->getLPlayingField(), powerPlant);
 		remoteOperation.switchOn();
+	} 
+	else if (playerId == LPlayer::Remote)
+	{
+		powerPlant->switchOn();
 	}
 
 	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier(), playerId);

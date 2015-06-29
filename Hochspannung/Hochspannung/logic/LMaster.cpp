@@ -245,7 +245,7 @@ void LMaster::tick(const float fTimeDelta)
 				break;
 			}
 
-			case(CTransferObject::Action::PAUSE_GAME) ://todo (IP) send 
+			case(CTransferObject::Action::PAUSE_GAME) :
 
 				vMaster.pauseGame();
 
@@ -253,7 +253,7 @@ void LMaster::tick(const float fTimeDelta)
 				DEBUG_OUTPUT("Action PAUSE_GAME");
 				break;
 
-			case(CTransferObject::Action::CONTINUE_GAME) ://todo (IP) send 
+			case(CTransferObject::Action::CONTINUE_GAME) :
 
 				vMaster.continueGame();
 
