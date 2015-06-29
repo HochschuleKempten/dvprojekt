@@ -131,8 +131,11 @@ void LPlayer::addPowerPlant(ILPowerPlant* powerPlant)
 
 	powerPlants.emplace_back(powerPlant);
 
-	LRemoteOperation remoteOperation(lMaster->getLPlayingField(), powerPlant);
-	remoteOperation.switchOn();
+	if (playerId == LPlayer::Local)
+	{
+		LRemoteOperation remoteOperation(lMaster->getLPlayingField(), powerPlant);
+		remoteOperation.switchOn();
+	}
 
 	lMaster->getVMaster()->updateAddedPowerPlant(powerPlant->getIdentifier(), playerId);
 }
