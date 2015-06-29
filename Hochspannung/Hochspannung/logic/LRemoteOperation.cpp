@@ -74,7 +74,7 @@ void LRemoteOperation::switchOff()
 void LRemoteOperation::sabotagePowerPlantEnd()
 {
 	ASSERT(lPowerPlant != nullptr, msglPowerPlantNotInitialized);
-	lPowerPlant->sabotagePowerPlantEnd();
+	lPowerPlant->sabotageDeactivateEnd();
 }
 
 bool LRemoteOperation::sabotageRemove(ILBuilding* lBuilding)

@@ -46,6 +46,8 @@ private:
 	bool sabotageRemove(ILBuilding* lBuilding);
 	bool sabotageDeactivate(ILPowerPlant* lPowerPlant);	//TODO (L) Rename ILPowerPlant
 	bool sabotageResource(ILPowerPlant* lPowerPlant);
+	bool isSabotagePossible(const LSabotage::LSabotage sabotageType) const;
+	void performSabotage(const LSabotage::LSabotage sabotageType);
 
 public:
 	LPlayer()
@@ -56,7 +58,6 @@ public:
 	int getMoney() const;
 	void addMoney(const int amount);
 	void subtractMoney(const int amount);
-	bool trySabotageAct(const LSabotage::LSabotage sabotageType);
 	void addPowerPlant(ILPowerPlant* powerPlant);
 	void removePowerPlant(const ILPowerPlant* const powerPlant);
 	void addPowerLine(LPowerLine* powerLine);

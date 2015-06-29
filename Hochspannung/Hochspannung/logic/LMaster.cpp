@@ -307,7 +307,7 @@ void LMaster::tick(const float fTimeDelta)
 					ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 					if (powerPlant != nullptr)
 					{
-						powerPlant->sabotagePowerPlant();
+						powerPlant->sabotageDeactivate();
 					}
 
 					break;
@@ -336,7 +336,7 @@ void LMaster::tick(const float fTimeDelta)
 				ILPowerPlant* powerPlant = dynamic_cast<ILPowerPlant*>(lPlayingField->getField(x, y)->getBuilding());
 				if (powerPlant != nullptr)
 				{
-					powerPlant->sabotagePowerPlantEnd();
+					powerPlant->sabotageDeactivateEnd();
 				}
 				DEBUG_OUTPUT("Action SEND_END_SABOTAGE");
 				break;

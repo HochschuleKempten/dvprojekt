@@ -914,11 +914,11 @@ void VScreenIngame::handleInput(const float fTimeDelta)
 	//Check if scroll would pass the boundaries
 	if (cameraZoom > 0 && cameraZoomPosition + cameraZoom > cameraZoomMax)
 	{
-		cameraZoom = cameraZoomMax - cameraZoomPosition;	//e. g. cameraZoomPosition = 8; cameraZoomMax = 10; cameraZoom = 4 => 10 - 8 = 2
+		cameraZoom = cameraZoomMax - cameraZoomPosition; //e. g. cameraZoomPosition = 8; cameraZoomMax = 10; cameraZoom = 4 => 10 - 8 = 2
 	}
 	else if (cameraZoom < 0 && cameraZoomPosition + cameraZoom < cameraZoomMin)
 	{
-		cameraZoom = cameraZoomMin - cameraZoomPosition;	//e. g. cameraZoomPosition = -20; cameraZoomMin = -24 cameraZoom = -5 => -24 - -20 = -4
+		cameraZoom = cameraZoomMin - cameraZoomPosition; //e. g. cameraZoomPosition = -20; cameraZoomMin = -24 cameraZoom = -5 => -24 - -20 = -4
 	}
 
 	//Apply the camera zoom
@@ -1041,6 +1041,31 @@ void VScreenIngame::handleInput(const float fTimeDelta)
 
 void VScreenIngame::tick(const float fTimeDelta)
 {
+	if (m_CooldownPowerLineCut)
+	{
+		cooldownRemove += fTimeDelta;
+		if (cooldownRemove > LBalanceLoader::getSabotageCooldown(LSabotage::Remove))
+		{
+			stopCooldown(INTERACTIONS::SABOTAGE_CUTPOWERLINE);
+		}
+	}
+	if (m_CooldownStrike)
+	{
+		cooldownDeactivate += fTimeDelta;
+		if (cooldownDeactivate > LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate))
+		{
+			stopCooldown(INTERACTIONS::SABOTAGE_STRIKE);
+		}
+	}
+	if (m_CooldownHalfResource)
+	{
+		cooldownResource += fTimeDelta;
+		if (cooldownResource > LBalanceLoader::getSabotageCooldown(LSabotage::Resource))
+		{
+			stopCooldown(INTERACTIONS::SABOTAGE_HALF);
+		}
+	}
+
 	if (!vUi->m_zkCursor.ButtonPressedLeft())
 	{
 		vUi->m_BlockCursorLeftPressed = false;
@@ -1160,63 +1185,67 @@ void VScreenIngame::showMessage(const std::string& messageRow1, const std::strin
 	}
 }
 
+void VScreenIngame::stopCooldown(const INTERACTIONS interaction)
+{
+	switch (interaction)
+	{
+		case SABOTAGE_CUTPOWERLINE:
+			m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
+			VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 0);
+			m_CooldownPowerLineCut = false;
+
+			if (vrRegister->getActiveTab()->getName() == "TabSabotage")
+				m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOn();
+			break;
+		case SABOTAGE_STRIKE:
+			m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
+			VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 0);
+			m_CooldownStrike = false;
+
+			if (vrRegister->getActiveTab()->getName() == "TabSabotage")
+				m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
+			break;
+		case SABOTAGE_HALF:
+			m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOff();
+			VMaterialLoader::materialAnimSabotageHalfResource.SetAni(60, 2, 0);
+			m_CooldownHalfResource = false;
+
+			if (vrRegister->getActiveTab()->getName() == "TabSabotage")
+				m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
+			break;
+	}
+}
+
 void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 {
 	switch (interaction)
 	{
 		case SABOTAGE_CUTPOWERLINE:
-			std::thread([this]
-				{
-					m_CooldownPowerLineCut = true;
-					m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOff();
-					if (!m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->IsNode2D())
-						m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
-					m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOn();
-					VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 60.0f / LBalanceLoader::getSabotageCooldown(LSabotage::Remove));
-					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Remove)));
-					m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOff();
-					VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 0);
-					m_CooldownPowerLineCut = false;
-
-					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
-						m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOn();
-				}).detach();
+			m_CooldownPowerLineCut = true;
+			cooldownRemove = 0.0f;
+			m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOff();
+			if (!m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->IsNode2D())
+				m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
+			m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOn();
+			VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 60.0f / LBalanceLoader::getSabotageCooldown(LSabotage::Remove));
 			break;
 		case SABOTAGE_STRIKE:
-			std::thread([this]
-				{
-					m_CooldownStrike = true;
-					m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
-					if (!m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->IsNode2D())
-						m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageStrike"));
-					m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOn();
-					VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 90.0f / LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate));
-					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate)));
-					m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOff();
-					VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 0);
-					m_CooldownStrike = false;
-
-					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
-						m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOn();
-				}).detach();
+			m_CooldownStrike = true;
+			cooldownDeactivate = 0.0f;
+			m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
+			if (!m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->IsNode2D())
+				m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageStrike"));
+			m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOn();
+			VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 90.0f / LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate));
 			break;
 		case SABOTAGE_HALF:
-			std::thread([this]
-				{
-					m_CooldownHalfResource = true;
-					m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
-					if (!m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->IsNode2D())
-						m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource"));
-					m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOn();
-					VMaterialLoader::materialAnimSabotageHalfResource.SetAni(60, 2, 120.0f / LBalanceLoader::getSabotageCooldown(LSabotage::Resource));
-					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Resource)));
-					m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOff();
-					VMaterialLoader::materialAnimSabotageHalfResource.SetAni(60, 2, 0);
-					m_CooldownHalfResource = false;
-
-					if (vrRegister->getActiveTab()->getName() == "TabSabotage")
-						m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOn();
-				}).detach();
+			m_CooldownHalfResource = true;
+			cooldownResource = 0.0f;
+			m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
+			if (!m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->IsNode2D())
+				m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource"));
+			m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOn();
+			VMaterialLoader::materialAnimSabotageHalfResource.SetAni(60, 2, 120.0f / LBalanceLoader::getSabotageCooldown(LSabotage::Resource));
 			break;
 	}
 }
