@@ -94,6 +94,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	int height = 720;
 	GetDesktopResolution(width, height);
 
+	
+
 	/* The class is registered, let's create the program*/
 	hWnd = CreateWindowEx(
 		0,                      /* Extended possibilites for variation */
@@ -116,9 +118,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		MessageBox(NULL, _T("Call to CreateWindow failed!"), _T("VektoriaV9App"), NULL);
 		return 1;
 	}
-	
-	//g_bFullscreen = true;
-	//ChangeDisplay(hWnd);
+
+#ifndef _DEBUG
+	//Set fullscreen on start
+	g_bFullscreen = true;
+	ChangeDisplay(hWnd);
+#endif
 
 	CSplash splash;
 	splash.Init(hWnd, hInstance);
@@ -308,3 +313,4 @@ static void ChangeDisplay(HWND hWnd)
 
 	return;
 }
+
