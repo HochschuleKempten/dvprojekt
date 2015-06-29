@@ -65,7 +65,7 @@ private:
 	bool initDone = false;
 	bool cityConnectionsRecalculate = true;
 	bool isCheckInProgress = false;
-	bool firstConnected = false; //true if local player already reached the transformer station
+	bool firstCheckTransformerStationConnectedDone = false;
 
 private:
 	template <typename T>
@@ -260,12 +260,7 @@ public:
 
 	bool isFirstConnected() const
 	{
-		return firstConnected;
-	}
-
-	void setFirstConnected()
-	{
-		firstConnected = true;
+		return firstCheckTransformerStationConnectedDone;
 	}
 
 	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);

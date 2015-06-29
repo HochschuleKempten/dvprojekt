@@ -340,7 +340,7 @@ void VUI::contextMenuUpdateEnergySurplus(const std::pair<int, int> & pos, const 
 
 void VUI::sabotageCostChanged(const int cost, const LSabotage::LSabotage sabotage)
 {
-	
+	CASTD<VScreenIngame*>(getScreen("Ingame"))->updateSabotageCost(sabotage, cost);
 }
 
 void VUI::gameOver(bool win)

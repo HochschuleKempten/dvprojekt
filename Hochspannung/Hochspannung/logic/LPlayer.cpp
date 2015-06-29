@@ -14,10 +14,6 @@ LPlayer::LPlayer(LMaster* lMaster, const PlayerId playerId)
 	: lMaster(lMaster), playerId(playerId)
 {
 	lMaster->getVMaster()->registerObserver(this);
-
-	setSabotageCostsRemove(LBalanceLoader::getSabotageCost(LSabotage::Remove));
-	sabotageCostsResource(LBalanceLoader::getSabotageCost(LSabotage::Resource));
-	sabotageCostsDeactivate(LBalanceLoader::getSabotageCost(LSabotage::Deactivate));
 }
 
 LPlayer::~LPlayer()
@@ -240,11 +236,6 @@ void LPlayer::checkPowerPlants()
 
 	//update sell values
 	bool connected = lMaster->getLPlayingField()->isTransformstationConnected();
-
-	if (!this->lMaster->getLPlayingField()->isFirstConnected())
-	{
-		this->lMaster->getLPlayingField()->setFirstConnected(); // player reached the transformer station
-	}
 
 	for (ILPowerPlant* p : powerPlants)
 	{	

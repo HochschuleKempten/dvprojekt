@@ -197,7 +197,14 @@ bool LPlayingField::checkConnectionBuildings(const ILBuilding* b1, const ILBuild
 
 bool LPlayingField::isTransformstationConnected()
 {
-	return checkConnectionBuildings(lMaster->getPlayer(LPlayer::Local)->getCity(), transformerStation);
+	bool retVal = checkConnectionBuildings(lMaster->getPlayer(LPlayer::Local)->getCity(), transformerStation);
+
+	if (retVal && !firstCheckTransformerStationConnectedDone)
+	{
+		firstCheckTransformerStationConnectedDone = true;
+	}
+
+	return retVal;
 }
 
 bool LPlayingField::removeBuilding(const int x, const int y)
@@ -234,8 +241,8 @@ bool LPlayingField::removeBuilding(const int x, const int y)
 			{
 				//remove all outgoing edges
 				powerLineGraph.m_vertices[convertIndex(x, y)].m_out_edges.clear();
-				recalculateCityConnections();
 				recheckConnectedBuildings();
+				recalculateCityConnections();
 			}
 
 			if (!isLocalOperation())
