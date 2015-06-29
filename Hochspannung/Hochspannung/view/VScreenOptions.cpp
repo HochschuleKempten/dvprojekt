@@ -13,13 +13,13 @@ VScreenOptions::VScreenOptions(VUI* vUi) : IViewScreen(vUi)
 	vUi->m_zf.AddViewport(m_viewport);
 
 	//Cursor
+	m_backgroundOverlay = new COverlay();
+	//Cursor
+	m_backgroundOverlay->InitFull(&VMaterialLoader::materialMainMenueBackground);
+	m_backgroundOverlay->SetLayer(0.999F);
 
 
-	m_background = new CBackground();
-
-	m_background->InitFull(&VMaterialLoader::materialDefaultBackground);
-
-	m_viewport->AddBackground(m_background);
+	m_viewport->AddOverlay(m_backgroundOverlay);
 
 	
 	addContainer(m_viewport, IViewGUIContainer::ContainerType::Group, CFloatRect(0.0F, 0.7F, 1.0F, 0.3F), "Menue", 0.5F);
@@ -31,6 +31,7 @@ VScreenOptions::VScreenOptions(VUI* vUi) : IViewScreen(vUi)
 
 VScreenOptions::~VScreenOptions()
 {
+	delete m_backgroundOverlay;
 }
 
 void VScreenOptions::onNotify(const Event& events)

@@ -24,7 +24,7 @@ public:
 	void StartEvent() override;
 	void EndEvent() override;
 private:
-	CBackground* m_background;
+	COverlay* m_backgroundOverlay;
 };
 
 NAMESPACE_VIEW_E
