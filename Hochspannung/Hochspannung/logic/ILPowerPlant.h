@@ -95,7 +95,7 @@ private:
 
 		//Turn power plant off after sabotage is sent
 		switchOff();
-		vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
+		vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate));
 		
 		return true;
 	}
@@ -191,7 +191,7 @@ public:
 	{
 		if (isSabotaged && this->getPlayerId() == LPlayer::Local)
 		{	
-			if (timeLastCheck > LBalanceLoader::getCooldownTimeReactivationPowerPlant())
+			if (timeLastCheck > LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate))
 			{
 				LRemoteOperation remoteOperation(lField->getLPlayingField(), this);
 				remoteOperation.sabotagePowerPlantEnd();

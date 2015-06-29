@@ -137,10 +137,6 @@ public:
 	 */
 	static int getSabotageCooldown(const LSabotage::LSabotage sabotage);
 	/**
-	 * @brief Cooldown time for a sabotaged power plant (time it is deactivated).
-	 */
-	static int getCooldownTimeReactivationPowerPlant();
-	/**
 	 * @brief Factor for resource sabotage.
 	 */
 	static float getFactorSabotageResource();

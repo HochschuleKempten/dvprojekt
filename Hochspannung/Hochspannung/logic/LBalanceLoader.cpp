@@ -231,12 +231,6 @@ int LBalanceLoader::getSabotageCooldown(const LSabotage::LSabotage sabotage)
 	)
 }
 
-int LBalanceLoader::getCooldownTimeReactivationPowerPlant()
-{
-	ASSERT(initDone, msgAssert);
-	CATCH(return propertyTree.get<int>("SabotageValues.CooldownTimeReactivationPowerPlant"), boost::property_tree::ptree_error, ASSERT(e.what()));
-}
-
 float LBalanceLoader::getFactorSabotageResource()
 {
 	ASSERT(initDone, msgAssert);
