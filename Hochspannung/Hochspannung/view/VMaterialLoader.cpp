@@ -567,6 +567,7 @@ void VMaterialLoader::init()
 	materialIngameIconPopulation.SetTransparencyOn();
 	materialIngameIconMoney.SetTransparencyOn();
 	materialIngameIconEnergy.SetTransparencyOn();
+	materialIngameIconResource.SetTransparencyOn();
 	//Default Background
 	materialDefaultBackground.MakeTextureSprite("textures/gui/background/texture_gui_background_grey.png");
 	materialDefaultBackground.SetTransparencyOn();
