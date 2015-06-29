@@ -1169,6 +1169,8 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 				{
 					m_CooldownPowerLineCut = true;
 					m_vtTabSabotage->getGuiObject("sabotagePowerlineCut")->switchOff();
+					if (!m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->IsNode2D())
+						m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut"));
 					m_vtTabSabotage->getOverlay("CooldownSabotagePowerLineCut")->SwitchOn();
 					VMaterialLoader::materialAnimSabotageCutPowerline.SetAni(30, 2, 60.0f / LBalanceLoader::getSabotageCooldown(LSabotage::Remove));
 					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Remove)));
@@ -1185,6 +1187,8 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 				{
 					m_CooldownStrike = true;
 					m_vtTabSabotage->getGuiObject("sabotageStrike")->switchOff();
+					if (!m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->IsNode2D())
+						m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageStrike"));
 					m_vtTabSabotage->getOverlay("CooldownSabotageStrike")->SwitchOn();
 					VMaterialLoader::materialAnimSabotageStrike.SetAni(45, 2, 90.0f / LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate));
 					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate)));
@@ -1201,6 +1205,8 @@ void VScreenIngame::startCooldown(const INTERACTIONS interaction)
 				{
 					m_CooldownHalfResource = true;
 					m_vtTabSabotage->getGuiObject("sabotageHalf")->switchOff();
+					if (!m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->IsNode2D())
+						m_viewport->AddOverlay(m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource"));
 					m_vtTabSabotage->getOverlay("CooldownSabotageHalfResource")->SwitchOn();
 					VMaterialLoader::materialAnimSabotageHalfResource.SetAni(60, 2, 120.0f / LBalanceLoader::getSabotageCooldown(LSabotage::Resource));
 					std::this_thread::sleep_for(std::chrono::seconds(LBalanceLoader::getSabotageCooldown(LSabotage::Resource)));
