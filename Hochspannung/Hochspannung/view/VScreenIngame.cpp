@@ -1626,8 +1626,6 @@ void VScreenIngame::updateSabotageCost(LSabotage::LSabotage sabotageType, const 
 		m_RemoveCost = value;
 		break;
 	}
-
-	m_RemoveCost = value;
 }
 
 void VScreenIngame::addToScene(CPlacement* placement)
