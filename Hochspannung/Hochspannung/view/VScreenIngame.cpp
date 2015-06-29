@@ -271,7 +271,7 @@ VScreenIngame::VScreenIngame(VUI* vUi)
 	m_vtTabStatistics->addOverlay(CFloatRect(0.72f, 0.75f, 0.05f, 0.15f), &VMaterialLoader::materialCraftmenuButtonOilPowerplant, "statisticOilEnemy", 0.1F);
 	m_vtTabStatistics->addText(CFloatRect(0.77f, 0.78f, 0.1f, 0.1f), &VMaterialLoader::standardFont, "00", m_powerPlantsNameMapping[BUILDING_OILPOWERPLANT] + "enemy", 0.1F);
 
-	//vrRegister->SwitchToTab("TabBuilding");
+	
 
 	SabotageTabSwitchOff();
 	m_vtTabStatistics->switchOff();
@@ -439,21 +439,21 @@ void VScreenIngame::onNotify(const Event& events)
 			vUi->switchCursor(vUi->CursorType::Sabotage);
 			setActiveButton("sabotagePowerlineCut");
 			selectedAction = IViewBuilding::sabotageRemove;
-			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->getGuiObject("CostInfo"))->updateText(std::to_string(LBalanceLoader::getSabotageCost(LSabotage::Remove)));
+			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->getGuiObject("CostInfo"))->updateText(std::to_string(m_RemoveCost));
 			switchInfo(SABOTAGEINFO);
 			break;
 		case SELECT_SABOTAGE_STRIKE:
 			vUi->switchCursor(vUi->CursorType::Sabotage);
 			setActiveButton("sabotageStrike");
 			selectedAction = IViewBuilding::sabotageDeactivate;
-			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->getGuiObject("CostInfo"))->updateText(std::to_string(LBalanceLoader::getSabotageCost(LSabotage::Deactivate)));
+			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->getGuiObject("CostInfo"))->updateText(std::to_string(m_DeactivateCost));
 			switchInfo(SABOTAGEINFO);
 			break;
 		case SELECT_SABOTAGE_HALF:
 			vUi->switchCursor(vUi->CursorType::Sabotage);
 			setActiveButton("sabotageHalf");
 			selectedAction = IViewBuilding::sabotageResource;
-			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->getGuiObject("CostInfo"))->updateText(std::to_string(LBalanceLoader::getSabotageCost(LSabotage::Resource)));
+			CASTD<VText*>(getContainer("BottomBar")->getContainer("Infofield")->getContainer("SabotageInfo")->getGuiObject("CostInfo"))->updateText(std::to_string(m_ResourceCost));
 			switchInfo(SABOTAGEINFO);
 			break;
 
@@ -1610,6 +1610,24 @@ void VScreenIngame::switchInfo(INFOTYPE infoType)
 			activeInfo = nullptr;
 			break;
 	}
+}
+
+void VScreenIngame::updateSabotageCost(LSabotage::LSabotage sabotageType, const int value)
+{
+	switch (sabotageType)
+	{
+	case LSabotage::LSabotage::Deactivate :
+		m_DeactivateCost = value;
+		break;
+	case LSabotage::LSabotage::Resource:
+		m_ResourceCost = value;
+		break;
+	case LSabotage::LSabotage::Remove:
+		m_RemoveCost = value;
+		break;
+	}
+
+	m_RemoveCost = value;
 }
 
 void VScreenIngame::addToScene(CPlacement* placement)

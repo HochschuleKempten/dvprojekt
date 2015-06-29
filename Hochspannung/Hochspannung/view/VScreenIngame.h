@@ -45,6 +45,7 @@ public:
 		NOINFO
 	};
 
+
 	explicit VScreenIngame(VUI* vUi);
 	virtual ~VScreenIngame();
 	void onNotify(const Event& events) override;
@@ -95,6 +96,8 @@ public:
 	void updateFieldStorageValue(std::pair<int, int> pos, const std::string& name, const std::string& wert);
 
 	void switchInfo(INFOTYPE);
+
+	void updateSabotageCost(LSabotage::LSabotage sabotageType, const int value);
 
 private:
 
@@ -187,6 +190,10 @@ private:
 	float cooldownRemove = 0.0f;
 	float cooldownDeactivate = 0.0f;
 	float cooldownResource = 0.0f;
+
+	int m_RemoveCost = 0;
+	int m_ResourceCost = 0;
+	int m_DeactivateCost = 0;
 };
 
 
