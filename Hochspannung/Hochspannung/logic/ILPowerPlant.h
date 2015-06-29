@@ -81,22 +81,20 @@ private:
 			return false;
 		}
 
+		switchOff();
+		vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate));
 		isSabotaged = true;
 
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
 			std::pair<int, int> coordinates = lField->getCoordinates();
 			lField->getLPlayingField()->getLMaster()->sendSabotage(LSabotage::Deactivate, coordinates.first, coordinates.second);
-		} 
+		}
 		else
 		{
 			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DEACTIVATE);
 		}
 
-		//Turn power plant off after sabotage is sent
-		switchOff();
-		vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getSabotageCooldown(LSabotage::Deactivate));
-		
 		return true;
 	}
 
