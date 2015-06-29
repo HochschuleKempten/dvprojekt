@@ -74,8 +74,13 @@ private:
 		}
 	}
 
-	void sabotagePowerPlant()
+	bool sabotageDeactivate()
 	{
+		if (!isSabotagePossible())
+		{
+			return false;
+		}
+
 		switchOff();
 		isSabotaged = true;
 
@@ -90,9 +95,11 @@ private:
 		{
 			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DEACTIVATE);
 		}
+
+		return true;
 	}
 
-	void sabotagePowerPlantEnd()
+	void sabotageDeactivateEnd()
 	{
 		if (isSabotaged)
 		{
@@ -108,8 +115,13 @@ private:
 		}
 	}
 
-	void sabotageResource()
+	bool sabotageResource()
 	{
+		if (!isSabotagePossible())
+		{
+			return false;
+		}
+
 		DEBUG_OUTPUT("Try to sabotage resource field. Old resource value: " << getLField()->getResources());
 		int newValue = this->getLField()->deductResources();
 		vPowerPlant->updateResourceValue(newValue);
@@ -124,6 +136,25 @@ private:
 		{
 			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_RESOURCE);
 		}
+
+		return true;
+	}
+
+	bool isSabotagePossible()
+	{
+		if (isSabotaged)
+		{
+			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_ALREADY_SABOTAGED);
+			return false;
+		}
+
+		if (!isActivated)
+		{
+			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_NOT_ACTIVATED);
+			return false;
+		}
+
+		return true;
 	}
 
 protected:
@@ -234,15 +265,8 @@ public:
 
 	virtual bool sabotageRemove() override
 	{
-		if (isSabotaged)
+		if (!isSabotagePossible())
 		{
-			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_ALREADY_SABOTAGED);
-			return false;
-		}
-
-		if (!isActivated)
-		{
-			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_NOT_ACTIVATED);
 			return false;
 		}
 

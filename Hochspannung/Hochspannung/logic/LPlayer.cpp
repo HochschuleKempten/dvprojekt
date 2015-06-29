@@ -61,7 +61,7 @@ void LPlayer::subtractMoney(const int amount)
 	ASSERT(money >= 0, "The player has not enough money");
 }
 
-bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
+bool LPlayer::isSabotagePossible(const LSabotage::LSabotage sabotageType) const
 {
 	// checks if player has to wait and if not, sets the new cooldown value
 	auto checkCooldown = [this, sabotageType]()
@@ -74,8 +74,7 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 				LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_WAIT, { std::to_string(coolDownCounterRemove) });
 				return false;
 			}
-
-			coolDownCounterRemove = LBalanceLoader::getSabotageCooldown(sabotageType);
+			
 			return true;
 
 		case(LSabotage::Deactivate) :
@@ -85,7 +84,6 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 				return false;
 			}
 
-			coolDownCounterDeactivate = LBalanceLoader::getSabotageCooldown(sabotageType);
 			return true;
 
 		case(LSabotage::Resource) :
@@ -95,7 +93,6 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 				return false;
 			}
 
-			coolDownCounterResource = LBalanceLoader::getSabotageCooldown(sabotageType);
 			return true;
 
 		default:
@@ -117,12 +114,6 @@ bool LPlayer::trySabotageAct(const LSabotage::LSabotage sabotageType)
 		{
 			return false;
 		}
-
-		//Everything fine at this point
-		sabotageActs--;
-		subtractMoney(sabotageCost);
-		lMaster->getVMaster()->updateRemainingSabotageActs(sabotageActs);
-		LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_EMITTED, { std::to_string(sabotageActs) });
 		
 		return true;
 	}
@@ -250,9 +241,11 @@ void LPlayer::checkPowerPlants()
 
 bool LPlayer::sabotageRemove(ILBuilding* lBuilding)
 {
-	if (trySabotageAct(LSabotage::Remove))
+	if (isSabotagePossible(LSabotage::Remove) && lBuilding->sabotageRemove())
 	{
-		return lBuilding->sabotageRemove();
+		performSabotage(LSabotage::Remove);
+		
+		return true;
 	}
 
 	return false;
@@ -260,10 +253,10 @@ bool LPlayer::sabotageRemove(ILBuilding* lBuilding)
 
 bool LPlayer::sabotageDeactivate(ILPowerPlant* lPowerPlant)
 {
-	if (trySabotageAct(LSabotage::Deactivate))
+	if (isSabotagePossible(LSabotage::Deactivate) && lPowerPlant->sabotageDeactivate())
 	{
-		lPowerPlant->sabotagePowerPlant();
-
+		performSabotage(LSabotage::Deactivate);
+		
 		return true;
 	}
 
@@ -272,14 +265,41 @@ bool LPlayer::sabotageDeactivate(ILPowerPlant* lPowerPlant)
 
 bool LPlayer::sabotageResource(ILPowerPlant* lPowerPlant)
 {
-	if (trySabotageAct(LSabotage::Resource))
+	if (isSabotagePossible(LSabotage::Resource) && lPowerPlant->sabotageResource())
 	{
-		lPowerPlant->sabotageResource();
-
+		performSabotage(LSabotage::Resource);
+		
 		return true;
 	}
 
 	return false;
+}
+
+void LPlayer::performSabotage(const LSabotage::LSabotage sabotageType)
+{
+	switch (sabotageType)
+	{
+		case LSabotage::Deactivate:
+			coolDownCounterDeactivate = LBalanceLoader::getSabotageCooldown(sabotageType);
+			break;
+
+		case LSabotage::Resource:
+			coolDownCounterResource = LBalanceLoader::getSabotageCooldown(sabotageType);
+			break;
+
+		case LSabotage::Remove:
+			coolDownCounterRemove = LBalanceLoader::getSabotageCooldown(sabotageType);
+			break;
+
+		default: break;
+	}
+	
+	sabotageActs--;
+
+	subtractMoney(LBalanceLoader::getSabotageCost(sabotageType));
+
+	lMaster->getVMaster()->updateRemainingSabotageActs(sabotageActs);
+	LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_EMITTED, { std::to_string(sabotageActs) });
 }
 
 void LPlayer::checkRegenerativeRatio()

@@ -86,6 +86,7 @@ public:
 	std::unordered_map<std::string, IViewGUIObject*> getObjects(IViewGUIContainer* container);
 
 	void showMessage(const std::string& messageRow1, const std::string& messageRow2, const int timeSeconds);
+	void stopCooldown(const INTERACTIONS interaction);
 	void startCooldown(const INTERACTIONS interaction);
 
 	void setSabotageNumber(const int value);
@@ -150,6 +151,7 @@ private:
 	float cameraMovementPositionBackForward= 0.0f;
 	float cameraFlipPosition = 0;
 
+
 	VIdentifier::VIdentifier selectedBuilding = VIdentifier::Undefined;
 	bool clickActive = false;
 	std::pair<int, int> lastClickPosition = std::make_pair(0, 0);
@@ -179,10 +181,12 @@ private:
 
 	std::unordered_map<std::pair<int, int>, VContextInfo,LPlayingFieldHasher> m_fieldValueStorage;
 
-	bool m_CooldownStrike = false;
-
 	bool m_CooldownPowerLineCut = false;
+	bool m_CooldownStrike = false;
 	bool m_CooldownHalfResource = false;
+	float cooldownRemove = 0.0f;
+	float cooldownDeactivate = 0.0f;
+	float cooldownResource = 0.0f;
 };
 
 
