@@ -205,7 +205,7 @@ int VMaterialLoader::materialAnimSabotagePowerPlant_y;
 std::unordered_map<VMaterialLoader::Model, CMaterial> VMaterialLoader::materialsModelsSwitchedOn;
 std::unordered_map<VMaterialLoader::Model, CMaterial> VMaterialLoader::materialsModelsSwitchedOff;
 CColor VMaterialLoader::colorAmbientOn(0.0f, 0.0f, 0.0f);
-CColor VMaterialLoader::colorAmbientOff(-0.2f, -0.2f, -0.2f);
+CColor VMaterialLoader::colorAmbientOff(-0.3f, -0.3f, -0.3f);
 
 void VMaterialLoader::setFieldMaterialHelper(const LField::FieldType fieldType, const std::string& textureName)
 {
