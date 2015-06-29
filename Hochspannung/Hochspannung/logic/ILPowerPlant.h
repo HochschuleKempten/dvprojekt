@@ -31,6 +31,11 @@ private:
 			return;
 		}
 
+		if (!isRegenerative() && lField->getResources() < 1) //prevents activating when there are no resources left
+		{
+			return;
+		}
+
 		if (!isSabotaged)
 		{
 			isActivated = true;
