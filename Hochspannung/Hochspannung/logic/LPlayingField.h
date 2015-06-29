@@ -65,6 +65,7 @@ private:
 	bool initDone = false;
 	bool cityConnectionsRecalculate = true;
 	bool isCheckInProgress = false;
+	bool firstConnected = false; //true if local player already reached the transformer station
 
 private:
 	template <typename T>
@@ -256,6 +257,17 @@ public:
 	{
 		return localOperation == 0;
 	}
+
+	bool isFirstConnected() const
+	{
+		return firstConnected;
+	}
+
+	void setFirstConnected()
+	{
+		firstConnected = true;
+	}
+
 	std::unordered_map<ILBuilding::Orientation, LField*> getFieldNeighbors(const int x, const int y);
 	LField* getField(const int x, const int y);
 	LField* getField(const std::pair<int, int>& coordinates);

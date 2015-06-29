@@ -236,6 +236,12 @@ void LPlayer::checkPowerPlants()
 
 	//update sell values
 	bool connected = lMaster->getLPlayingField()->isTransformstationConnected();
+
+	if (!this->lMaster->getLPlayingField()->isFirstConnected())
+	{
+		this->lMaster->getLPlayingField()->setFirstConnected(); // player reached the transformer station
+	}
+
 	for (ILPowerPlant* p : powerPlants)
 	{	
 		p->setConnected(connected);
