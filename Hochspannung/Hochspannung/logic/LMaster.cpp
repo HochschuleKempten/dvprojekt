@@ -89,43 +89,43 @@ void LMaster::gameWon()
 	networkService.sendStopGame(true);
 }
 
-void LMaster::placeBuilding(const int buildingId, const int x, const int y, const int playerId)
+bool LMaster::placeBuilding(const int buildingId, const int x, const int y, const int playerId)
 {
 	if (buildingId == LIdentifier::LCoalPowerPlant)
 	{
-		lPlayingField->placeBuilding<LCoalPowerPlant>(x, y, playerId);
+		return lPlayingField->placeBuilding<LCoalPowerPlant>(x, y, playerId);
 	}
 	else if (buildingId == LIdentifier::LHydroelectricPowerPlant)
 	{
-		lPlayingField->placeBuilding<LHydroelectricPowerPlant>(x, y, playerId);
+		return lPlayingField->placeBuilding<LHydroelectricPowerPlant>(x, y, playerId);
 	}
 	else if (buildingId == LIdentifier::LNuclearPowerPlant)
 	{
-		lPlayingField->placeBuilding<LNuclearPowerPlant>(x, y, playerId);
+		return lPlayingField->placeBuilding<LNuclearPowerPlant>(x, y, playerId);
 	}
 	else if (buildingId == LIdentifier::LOilRefinery)
 	{
-		lPlayingField->placeBuilding<LOilRefinery>(x, y, playerId);
+		return lPlayingField->placeBuilding<LOilRefinery>(x, y, playerId);
 	}
 	else if (buildingId == LIdentifier::LSolarPowerPlant)
 	{
-		lPlayingField->placeBuilding<LSolarPowerPlant>(x, y, playerId);
+		return lPlayingField->placeBuilding<LSolarPowerPlant>(x, y, playerId);
 	}
 	else if (buildingId == LIdentifier::LWindmillPowerPlant)
 	{
-		lPlayingField->placeBuilding<LWindmillPowerPlant>(x, y, playerId);
+		return lPlayingField->placeBuilding<LWindmillPowerPlant>(x, y, playerId);
 	}
 	else if (buildingId == LIdentifier::LCity)
 	{
-		lPlayingField->placeBuilding<LCity>(x, y, playerId);
+		return lPlayingField->placeBuilding<LCity>(x, y, playerId);
 	}
 	else if (buildingId == LIdentifier::LPowerLine)
 	{
-		lPlayingField->placeBuilding<LPowerLine>(x, y, playerId);
+		return lPlayingField->placeBuilding<LPowerLine>(x, y, playerId);
 	}
 	else if (buildingId == LIdentifier::LTransformerStation)
 	{
-		lPlayingField->placeBuilding<LTransformerStation>(x, y, playerId);
+		return lPlayingField->placeBuilding<LTransformerStation>(x, y, playerId);
 	}
 }
 
@@ -190,8 +190,13 @@ void LMaster::tick(const float fTimeDelta)
 				//buildings
 				if (objectId >= 100 && objectId < 109)
 				{
-					//TODO (L) handle race condition? --> remove building?
-					placeBuilding(objectId, x, y, playerId);
+					if (!placeBuilding(objectId, x, y, playerId))
+					{
+						//Remove building when race condition occurs
+						LRemoteOperation remoteOperation(lPlayingField);
+						remoteOperation.removeBuilding(x, y);
+						DEBUG_OUTPUT("Removed building after race condition");
+					}
 				}
 				else if (objectId == -666) //= end of fieldcreation
 				{

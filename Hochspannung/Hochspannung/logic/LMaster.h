@@ -26,7 +26,7 @@ private:
 	Network::CNetworkService& networkService;
 
 private:
-	void placeBuilding(const int buildingId, const int x, const int y, const int playerId);
+	bool placeBuilding(const int buildingId, const int x, const int y, const int playerId);
 	//networking
 	void host(std::string gameName);
 	void connect(const std::string& ip);

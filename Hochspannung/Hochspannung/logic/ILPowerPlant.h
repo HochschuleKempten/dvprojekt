@@ -76,15 +76,12 @@ private:
 
 	bool sabotageDeactivate()
 	{
-		if (!isSabotagePossible())
+		if (!isSabotagePossible() && !lField->getLPlayingField()->isLocalOperation())
 		{
 			return false;
 		}
 
-		switchOff();
 		isSabotaged = true;
-
-		vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
 
 		if (!lField->getLPlayingField()->isLocalOperation())
 		{
@@ -96,6 +93,10 @@ private:
 			LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_DEACTIVATE);
 		}
 
+		//Turn power plant off after sabotage is sent
+		switchOff();
+		vPowerPlant->sabotagePowerPlantSwitchedOff(LBalanceLoader::getCooldownTimeReactivationPowerPlant());
+		
 		return true;
 	}
 
@@ -117,7 +118,7 @@ private:
 
 	bool sabotageResource()
 	{
-		if (!isSabotagePossible())
+		if (!isSabotagePossible() && !lField->getLPlayingField()->isLocalOperation())
 		{
 			return false;
 		}
