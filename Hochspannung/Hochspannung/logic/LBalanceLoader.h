@@ -100,6 +100,10 @@ public:
 	 * @brief Number of fields in one row. The number of power plants will be derived from this value (fieldLength*fieldLength / 8).
 	 */
 	static int getFieldLength();
+	/**
+	 * @brief Discount for the sabotage costs when player is not connected to transformer station.
+	 */
+	static double getSabotageDiscountDisconnected();
 
 	//-----CityProperties----
 	/**

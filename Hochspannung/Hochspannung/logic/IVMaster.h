@@ -53,6 +53,7 @@ public:
 	virtual void continueGame() = 0;
 	virtual void showMessage(const std::string& message, const LMessageLoader::MessageID id) = 0;
 	virtual void switchIngame() = 0;
+	virtual void sabotageCostChanged(const int cost, const LSabotage::LSabotage sabotage) = 0;
 };
 
 NAMESPACE_LOGIC_E

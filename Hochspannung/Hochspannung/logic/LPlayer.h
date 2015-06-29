@@ -31,6 +31,9 @@ private:
 	int coolDownCounterRemove = 0;
 	int coolDownCounterResource = 0;
 	int coolDownCounterDeactivate = 0;
+	int sabotageCostsRemove = 0;
+	int sabotageCostsResource = 0;
+	int sabotageCostsDeactivate = 0;
 	int sabotageActs = LBalanceLoader::getSabotageActs();
 	std::vector<ILPowerPlant*> powerPlants;
 	std::vector<ILPowerPlant*> prevConnectedPowerPlants;
@@ -63,6 +66,10 @@ public:
 	void addPowerLine(LPowerLine* powerLine);
 	void removePowerLine(const LPowerLine* const powerLine);
 	void checkPowerPlants();
+
+	void setSabotageCostsRemove(int sabotageCostsRemove1);
+	void setSabotageCostsResource(int sabotageCostsResource1);
+	void setSabotageCostsDeactivate(int sabotageCostsDeactivate1);
 
 	LCity* getCity() const
 	{

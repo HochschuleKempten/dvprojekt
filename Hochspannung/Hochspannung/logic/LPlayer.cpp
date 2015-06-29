@@ -14,6 +14,10 @@ LPlayer::LPlayer(LMaster* lMaster, const PlayerId playerId)
 	: lMaster(lMaster), playerId(playerId)
 {
 	lMaster->getVMaster()->registerObserver(this);
+
+	setSabotageCostsRemove(LBalanceLoader::getSabotageCost(LSabotage::Remove));
+	sabotageCostsResource(LBalanceLoader::getSabotageCost(LSabotage::Resource));
+	sabotageCostsDeactivate(LBalanceLoader::getSabotageCost(LSabotage::Deactivate));
 }
 
 LPlayer::~LPlayer()
@@ -253,6 +257,27 @@ void LPlayer::checkPowerPlants()
 	}
 
 	checkRegenerativeRatio();
+
+	//Update sabotage costs
+	if (!lMaster->getLPlayingField()->isFirstConnected())
+	{
+		double disconnectedFactor = LBalanceLoader::getSabotageDiscountDisconnected();
+		setSabotageCostsRemove(CASTS<int>(LBalanceLoader::getSabotageCost(LSabotage::Remove) * 1.0 / disconnectedFactor));
+		setSabotageCostsResource(CASTS<int>(LBalanceLoader::getSabotageCost(LSabotage::Resource) * 1.0 / disconnectedFactor));
+		setSabotageCostsDeactivate(CASTS<int>(LBalanceLoader::getSabotageCost(LSabotage::Deactivate) * 1.0 / disconnectedFactor));
+	}
+	else if (!lMaster->getLPlayingField()->isTransformstationConnected())
+	{
+		setSabotageCostsRemove(CASTS<int>(LBalanceLoader::getSabotageCost(LSabotage::Remove) * LBalanceLoader::getSabotageDiscountDisconnected()));
+		setSabotageCostsResource(CASTS<int>(LBalanceLoader::getSabotageCost(LSabotage::Resource) * LBalanceLoader::getSabotageDiscountDisconnected()));
+		setSabotageCostsDeactivate(CASTS<int>(LBalanceLoader::getSabotageCost(LSabotage::Deactivate) * LBalanceLoader::getSabotageDiscountDisconnected()));
+	}
+	else
+	{
+		setSabotageCostsRemove(LBalanceLoader::getSabotageCost(LSabotage::Remove));
+		setSabotageCostsResource(LBalanceLoader::getSabotageCost(LSabotage::Resource));
+		setSabotageCostsDeactivate(LBalanceLoader::getSabotageCost(LSabotage::Deactivate));
+	}
 }
 
 bool LPlayer::sabotageRemove(ILBuilding* lBuilding)
@@ -316,6 +341,33 @@ void LPlayer::performSabotage(const LSabotage::LSabotage sabotageType)
 
 	lMaster->getVMaster()->updateRemainingSabotageActs(sabotageActs);
 	LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_EMITTED, { std::to_string(sabotageActs) });
+}
+
+void LPlayer::setSabotageCostsRemove(int sabotageCostsRemove1)
+{
+	if (sabotageCostsRemove != sabotageCostsRemove1)
+	{
+		sabotageCostsRemove = sabotageCostsRemove1;
+		lMaster->getVMaster()->sabotageCostChanged(sabotageCostsRemove, LSabotage::Remove);
+	}
+}
+
+void LPlayer::setSabotageCostsResource(int sabotageCostsResource1)
+{
+	if (sabotageCostsResource != sabotageCostsResource1)
+	{
+		sabotageCostsResource = sabotageCostsResource1;
+		lMaster->getVMaster()->sabotageCostChanged(sabotageCostsResource, LSabotage::Resource);
+	}
+}
+
+void LPlayer::setSabotageCostsDeactivate(int sabotageCostsDeactivate1)
+{
+	if (sabotageCostsDeactivate != sabotageCostsDeactivate1)
+	{
+		sabotageCostsDeactivate = sabotageCostsDeactivate1;
+		lMaster->getVMaster()->sabotageCostChanged(sabotageCostsDeactivate, LSabotage::Deactivate);
+	}
 }
 
 void LPlayer::checkRegenerativeRatio()

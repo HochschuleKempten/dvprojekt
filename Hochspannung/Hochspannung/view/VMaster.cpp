@@ -65,6 +65,11 @@ void VMaster::updateRegenerativeRatio(const float ratio, const LPlayer::PlayerId
 	}
 }
 
+void VMaster::sabotageCostChanged(const int cost, const LSabotage::LSabotage sabotage)
+{
+	vUi.sabotageCostChanged(cost, sabotage);
+}
+
 void VMaster::gameOver()
 {
 	static bool informed = false;

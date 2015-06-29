@@ -58,6 +58,7 @@ public:
 	virtual void switchIngame() override;
 	virtual IVFactory* getFactory() override;
 	virtual void updateRegenerativeRatio(const float ratio, const LPlayer::PlayerId playerId) override;
+	virtual void sabotageCostChanged(const int cost, const LSabotage::LSabotage sabotage) override;
 
 	inline VPlayingField* getVPlayingField()
 	{

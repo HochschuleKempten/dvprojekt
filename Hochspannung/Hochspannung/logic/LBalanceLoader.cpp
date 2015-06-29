@@ -163,6 +163,12 @@ int LBalanceLoader::getFieldLength()
 	CATCH(return propertyTree.get<int>("DifficultyScale.FieldLength"), boost::property_tree::ptree_error, ASSERT(e.what()));
 }
 
+double LBalanceLoader::getSabotageDiscountDisconnected()
+{
+	ASSERT(initDone, msgAssert);
+	CATCH(return propertyTree.get<double>("CityProperties.SabotageDiscountDisconnected"), boost::property_tree::ptree_error, ASSERT(e.what()));
+}
+
 int LBalanceLoader::getStartPopulation()
 {
 	ASSERT(initDone, msgAssert);
