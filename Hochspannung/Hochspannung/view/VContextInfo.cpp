@@ -35,28 +35,28 @@ void VContextInfo::showContextInfo()
 	if (m_infoValues.count("Population") > 0)
 	{
 		CASTD<VText*>(m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("PopulationInfo"))->updateText(m_infoValues.at("Population"));
-		CASTD<VText*>(m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("PopulationInfo"))->switchOn();
+		m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("PopulationInfo")->switchOn();
 		m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getOverlay("PopulationInfoIcon")->SwitchOn();
 	}
 	
 	if (m_infoValues.count("Resource")>0)
 	{
 		CASTD<VText*>(m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("ResourceInfo"))->updateText(m_infoValues.at("Resource"));
-		CASTD<VText*>(m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("ResourceInfo"))->switchOn();
+		m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("ResourceInfo")->switchOn();
 		m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getOverlay("ResourceInfoIcon")->SwitchOn();
 	}
 	
 	if (m_infoValues.count("Energy")>0)
 	{
 		CASTD<VText*>(m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("EnergyInfo"))->updateText(m_infoValues.at("Energy"));
-		CASTD<VText*>(m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("EnergyInfo"))->switchOn();
+		m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("EnergyInfo")->switchOn();
 		m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getOverlay("EnergyInfoIcon")->SwitchOn();
 	}
 	
 	if (m_infoValues.count("SellPrice") > 0)
 	{
 		CASTD<VText*>(m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("SellPriceInfo"))->updateText(m_infoValues.at("SellPrice"));
-		CASTD<VText*>(m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("SellPriceInfo"))->switchOn();
+		m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getGuiObject("SellPriceInfo")->switchOn();
 		m_vScreenIngame->getContainer("BottomBar")->getContainer("Infofield")->getContainer("FieldInfo")->getOverlay("SellPriceInfoIcon")->SwitchOn();
 	}
 	
