@@ -338,7 +338,6 @@ void VMaterialLoader::init()
 	setPowerPlantMaterialHelper(TRANSFORMERSTATION_WIRE, "grey_image.jpg");
 	setPowerPlantMaterialHelper(SOLAR_FLOOR, "white_image.jpg");
 	setPowerPlantMaterialHelper(SOLAR_CELL, "SolarPanel.jpg");
-	setPowerPlantMaterialHelper(SOLAR_CELLS_LOD, "SolarLOD.jpg");
 	setPowerPlantMaterialHelper(WIND_RAD, "Metall_Fassade.jpg" );
 	setPowerPlantMaterialHelper(WIND_FLUEGEL1,"Windradfluegel.png");
 	setPowerPlantMaterialHelper(WIND_FLUEGEL2,"Windradfluegel.png");

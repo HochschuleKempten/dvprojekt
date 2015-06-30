@@ -109,11 +109,6 @@ private:
 	CGeoCube m_zgSolarzelle41;
 	CGeoCube m_zgSolarzelle42;
 
-	//Placements LOD 2
-	CPlacement m_zpSolarPowerplant2;
-	CPlacement m_zpGrundflaeche2;
-	CGeoCube m_zgGrundflaeche2;
-
 public:
 	VModelSolarPowerPlant();
 	virtual ~VModelSolarPowerPlant() override;
@@ -130,7 +125,6 @@ public:
 	inline void rotate(const float angle)
 	{
 		m_zpGrundflaeche.RotateYDelta(angle);
-		m_zpGrundflaeche2.RotateYDelta(angle);
 	}
 	virtual void switchOn() override;
 	virtual void switchOff() override;

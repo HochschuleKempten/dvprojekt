@@ -13,7 +13,7 @@ void VModelSolarPowerPlant::init()
 {
 	m_zpLOD[0].AddPlacement(&m_zpSolarPowerplant);
 	m_zpLOD[1].AddPlacement(&m_zpSolarPowerplant);
-	m_zpLOD[2].AddPlacement(&m_zpSolarPowerplant2);
+	m_zpLOD[2].AddPlacement(&m_zpSolarPowerplant);
 	//LOD 0 Placement
 	m_zpMain.AddPlacement(&m_zpSolarPowerplant);
 	m_zpSolarPowerplant.AddPlacement(&m_zpGrundflaeche);
@@ -165,20 +165,6 @@ void VModelSolarPowerPlant::init()
 	m_zpZelle40.AddGeo(&m_zgSolarzelle40);
 	m_zpZelle41.AddGeo(&m_zgSolarzelle41);
 	m_zpZelle42.AddGeo(&m_zgSolarzelle42);
-
-
-	//LOD 2 Placement
-	m_zpSolarPowerplant2.AddPlacement(&m_zpGrundflaeche2);
-	m_zgGrundflaeche2.Init(CHVector(2, 0.05, 1.5), VMaterialLoader::getMaterialModel(VMaterialLoader::SOLAR_CELLS_LOD, true));
-	m_zpGrundflaeche2.AddGeo(&m_zgGrundflaeche2);
-	m_zpSolarPowerplant2.AddPlacement(&m_zpSockel);
-	m_zpSolarPowerplant2.AddPlacement(&m_zpSenkrechte);
-	m_zpGrundflaeche2.Translate(0, 1.0f, -1);
-	m_zpGrundflaeche2.RotateDelta(1, 0, 0, 0.5);
-
-
-
-
 
 
 	m_zpGrundflaeche.Translate(0, 1.0f, -1);
