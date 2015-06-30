@@ -105,7 +105,20 @@ bool LPlayer::isSabotagePossible(const LSabotage::LSabotage sabotageType) const
 
 	if (sabotageActs > 0)
 	{
-		int sabotageCost = LBalanceLoader::getSabotageCost(sabotageType);
+		int sabotageCost = 0;
+		switch (sabotageType)
+		{
+			case LSabotage::Deactivate:
+				sabotageCost = sabotageCostsDeactivate;
+				break;
+			case LSabotage::Resource:
+				sabotageCost = sabotageCostsResource;
+				break;
+			case LSabotage::Remove:
+				sabotageCost = sabotageCostsRemove;
+				break;
+			default: break;
+		}
 
 		if (getMoney() < sabotageCost)
 		{
