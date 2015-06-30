@@ -313,22 +313,25 @@ void LPlayer::performSabotage(const LSabotage::LSabotage sabotageType)
 	{
 		case LSabotage::Deactivate:
 			coolDownCounterDeactivate = LBalanceLoader::getSabotageCooldown(sabotageType);
+			subtractMoney(sabotageCostsDeactivate);
 			break;
 
 		case LSabotage::Resource:
 			coolDownCounterResource = LBalanceLoader::getSabotageCooldown(sabotageType);
+			subtractMoney(sabotageCostsResource);
+
 			break;
 
 		case LSabotage::Remove:
 			coolDownCounterRemove = LBalanceLoader::getSabotageCooldown(sabotageType);
+			subtractMoney(sabotageCostsRemove);
+
 			break;
 
 		default: break;
 	}
 	
 	sabotageActs--;
-
-	subtractMoney(LBalanceLoader::getSabotageCost(sabotageType));
 
 	lMaster->getVMaster()->updateRemainingSabotageActs(sabotageActs);
 	LMessageLoader::emitMessage(LMessageLoader::SABOTAGE_EMITTED, { std::to_string(sabotageActs) });
