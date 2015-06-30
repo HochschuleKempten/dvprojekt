@@ -195,6 +195,7 @@ void LMaster::tick(const float fTimeDelta)
 						//Remove building when race condition occurs
 						LRemoteOperation remoteOperation(lPlayingField);
 						remoteOperation.removeBuilding(x, y);
+						//lPlayingField->removeBuilding(x, y);
 						DEBUG_OUTPUT("Removed building after race condition");
 					}
 				}
